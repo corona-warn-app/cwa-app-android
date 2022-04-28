@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Lara"
@@ -57,11 +56,29 @@
                     android:layout_margin="@dimen/spacing_small"
                     android:focusable="true"
                     android:importantForAccessibility="yes"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/family_member_name"
                     app:test_result_section_headline="@string/test_result_card_headline" />
 
+                <de.rki.coronawarnapp.ui.view.NegativeRapidTestResultView
+                    android:id="@+id/personal_rapid_test_result_negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:focusable="true"
+                    android:importantForAccessibility="yes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
+                    />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/test_certificate_card"
@@ -72,7 +89,7 @@
                     android:background="@drawable/card_with_outline_ripple"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section">
+                    app:layout_constraintTop_toBottomOf="@id/barrier">
 
                     <ImageView
                         android:id="@+id/certificate_bg"
@@ -182,7 +199,7 @@
 
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_negative_steps_added"
+                    android:id="@+id/test_result_steps_test_added"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
@@ -197,41 +214,41 @@
                     app:step_entry_icon="@drawable/ic_test_result_step_done" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_negative_steps_negative_result"
+                    android:id="@+id/test_result_steps_negative_result"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_added"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_steps_test_added"
                     app:simple_step_entry_text="@string/submission_test_result_negative_steps_negative_body"
                     app:simple_step_entry_title="@string/submission_test_result_negative_steps_negative_heading"
                     app:step_entry_final="false"
                     app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_negative_steps_remove_test"
+                    android:id="@+id/test_result_steps_remove_test"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_negative_steps_negative_result"
+                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_negative_result"
                     app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
                     app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
                     app:step_entry_final="false"
                     app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_negative_steps_certificate"
+                    android:id="@+id/test_result_steps_test_certificate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/test_result_negative_steps_negative_result"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_remove_test"
+                    app:layout_constraintStart_toStartOf="@+id/test_result_steps_negative_result"
+                    app:layout_constraintTop_toBottomOf="@+id/test_result_steps_remove_test"
                     app:simple_step_entry_text="@string/coronatest_negative_result_certificate_info_body"
                     app:simple_step_entry_title="@string/coronatest_negative_result_certificate_info_title"
                     app:step_entry_final="true"
@@ -244,7 +261,7 @@
                     android:background="@color/colorSurface2"
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_normal"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_negative_steps_certificate">
+                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_test_certificate">
 
                     <TextView
                         android:id="@+id/further_info_title"

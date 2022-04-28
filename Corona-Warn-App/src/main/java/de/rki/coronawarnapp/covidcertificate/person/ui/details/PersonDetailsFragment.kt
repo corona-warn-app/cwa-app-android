@@ -181,8 +181,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
 
                         binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
                         binding.europaImage.requestLayout()
-                        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
+                    binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })
     }

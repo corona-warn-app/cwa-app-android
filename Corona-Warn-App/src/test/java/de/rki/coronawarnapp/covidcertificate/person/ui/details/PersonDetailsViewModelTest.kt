@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
@@ -24,6 +23,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -55,7 +55,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var certificateProvider: CertificateProvider
+    @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var viewModel: PersonDetailsViewModel
     @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
@@ -165,7 +165,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         dccValidationRepository = dccValidationRepository,
         personCertificatesProvider = personCertificatesProvider,
         personCertificatesSettings = personCertificatesSettings,
-        certificateProvider = certificateProvider,
+        recycledCertificatesProvider = recycledCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
         format = CclTextFormatter(cclJsonFunctions, mapper)
