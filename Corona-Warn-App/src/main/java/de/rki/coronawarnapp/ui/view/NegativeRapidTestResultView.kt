@@ -64,7 +64,7 @@ constructor(
     private fun formatTestResultTimestampText(test: RACoronaTest?): String {
         val localTime = test?.testTakenAt?.toUserTimeZone() ?: return ""
         return context.getString(
-            R.string.coronatest_negative_antigen_result_time_date_placeholder,
+            R.string.coronatest_negative_rapid_test_result_time_date_placeholder,
             localTime.toDayFormat(),
             localTime.toShortTimeFormat()
         )

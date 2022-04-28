@@ -111,7 +111,7 @@
                 android:layout_marginTop="@dimen/spacing_tiny"
                 android:layout_marginBottom="@dimen/spacing_tiny"
                 android:gravity="center"
-                tools:text="@string/coronatest_negative_antigen_result_time_date_placeholder"
+                tools:text="@string/coronatest_negative_rapid_test_result_time_date_placeholder"
                 android:textColor="@color/colorTextPrimary1InvertedStable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
