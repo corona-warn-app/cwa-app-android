@@ -45,7 +45,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     fun recycleRecoveryCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Recovery Certificate=$containerId")
         recoveryCertificateRepository.recycleCertificate(containerId)
-        events.postValue(RecoveryCertificateDetailsNavigation.Back)
+        events.postValue(RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }
 
     fun startValidationRulesDownload() = launch {
