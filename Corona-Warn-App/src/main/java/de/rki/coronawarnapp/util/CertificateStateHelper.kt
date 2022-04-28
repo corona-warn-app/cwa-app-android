@@ -40,11 +40,13 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     val context = root.context
     covpassInfoTitle.isVisible = valid
     covpassInfoButton.isVisible = valid
-    covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
+    covpassInfoButton.setOnClickListener { onC      ovPassInfoAction() }
 
     val isActualQrCodeVisible = valid || certificate.state is Blocked
     invalidOverlay.isGone = isActualQrCodeVisible
     image.isEnabled = isActualQrCodeVisible // Disable Qr-Code full-screen mode
+
+    statusGroup.isGone = certificate.displayedState() is Valid
 
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
@@ -80,12 +82,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
                 messageForScreenedCert(certificate)
             )
         }
-
-        is Valid -> {
-            statusIcon.isVisible = false
-            statusTitle.isVisible = false
-            statusBody.isVisible = false
-        }
+        is Valid,
         CwaCovidCertificate.State.Recycled -> Unit
     }
 }
