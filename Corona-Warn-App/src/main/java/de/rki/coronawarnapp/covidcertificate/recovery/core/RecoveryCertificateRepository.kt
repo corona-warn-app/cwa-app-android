@@ -98,11 +98,10 @@ class RecoveryCertificateRepository @Inject constructor(
 
         certMap.values.forEach {
             when {
-                it.isNotRecycled -> certificates += it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
-                it.isRecycled -> recycledCertificates += it.toRecoveryCertificate(
-                    valueSet = valueSets,
-                    certificateState = CwaCovidCertificate.State.Recycled
-                )
+                it.isNotRecycled -> it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
+                    ?.let { rc -> certificates += rc }
+                it.isRecycled -> it.toRecoveryCertificateOrNull(valueSets, CwaCovidCertificate.State.Recycled)
+                    ?.let { rc -> recycledCertificates += rc }
             }
         }
 
@@ -320,21 +319,38 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
+    private fun RecoveryCertificateContainer.toRecoveryCertificateOrNull(
+        valueSet: VaccinationValueSets?,
+        certificateState: CwaCovidCertificate.State
+    ): RecoveryCertificate? {
+        try {
+            return toRecoveryCertificate(valueSet, certificateState)
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificate failed")
+        }
+        return null
+    }
+
     private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
         valueSets: VaccinationValueSets,
         dccValidityMeasures: DccValidityMeasures
-    ): RecoveryCertificateWrapper {
-        val state = dccState(
-            dccData = certificateData,
-            qrCodeHash = qrCodeHash,
-            dccValidityMeasures = dccValidityMeasures
-        )
+    ): RecoveryCertificateWrapper? {
+        try {
+            val state = dccState(
+                dccData = certificateData,
+                qrCodeHash = qrCodeHash,
+                dccValidityMeasures = dccValidityMeasures
+            )
 
-        return RecoveryCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state
-        )
+            return RecoveryCertificateWrapper(
+                valueSets = valueSets,
+                container = this,
+                certificateState = state
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificateWrapper failed")
+        }
+        return null
     }
 
     companion object {
