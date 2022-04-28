@@ -46,7 +46,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with (binding) {
+        with(binding) {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
@@ -57,9 +57,9 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         viewModel.testResult.observe2(this) { uiState ->
             val coronaTest = uiState.coronaTest
             showTestResult(coronaTest)
-            with (binding) {
+            with(binding) {
                 when (coronaTest) {
-                    is FamilyCoronaTest-> {
+                    is FamilyCoronaTest -> {
                         familyMemberName.isVisible = true
                         familyMemberName.text = coronaTest.personName
                         toolbar.title = getText(R.string.submission_test_result_headline)
@@ -184,7 +184,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
     private fun showTestResult(test: BaseCoronaTest) {
         with(binding) {
             when {
-                test is RACoronaTest && test.testResult == CoronaTestResult.RAT_NEGATIVE-> {
+                test is RACoronaTest && test.testResult == CoronaTestResult.RAT_NEGATIVE -> {
                     submissionTestResultSection.isVisible = false
 
                     personalRapidTestResultNegative.isVisible = true

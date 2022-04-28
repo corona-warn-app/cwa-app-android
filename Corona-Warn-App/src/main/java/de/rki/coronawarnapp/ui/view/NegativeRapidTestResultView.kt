@@ -39,7 +39,7 @@ constructor(
         }
     }
 
-    private fun formatPatientInfo(test: RACoronaTest?) : SpannedString {
+    private fun formatPatientInfo(test: RACoronaTest?): SpannedString {
         val patientName = context.getString(
             R.string.submission_test_result_antigen_patient_name_placeholder,
             test?.firstName ?: "",
