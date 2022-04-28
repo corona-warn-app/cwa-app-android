@@ -17,12 +17,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Schnelltestprofile für Familie</item>
+        <item>Schnelltest-Profile für Familie</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt Schnelltestprofile für die Mitglieder Ihrer Familie anlegen. Sie können damit die Registrierung an einer Teststelle beschleunigen. Für die Erfasssung der persönlichen Daten muss dann nur der jeweilige QR-Code des Schnelltestprofils gescannt werden.</item>
+        <item>Sie können jetzt Schnelltest-Profile für die Mitglieder Ihrer Familie anlegen. Sie können damit die Registrierung an einer Teststelle beschleunigen. Für die Erfasssung der persönlichen Daten muss dann nur der jeweilige QR-Code des Schnelltest-Profils gescannt werden.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

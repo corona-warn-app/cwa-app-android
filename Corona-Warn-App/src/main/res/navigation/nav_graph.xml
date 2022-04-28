@@ -915,26 +915,17 @@
         <action
             android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"
             app:destination="@id/testRegistrationSelectionFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_pendingTestResult"
             app:destination="@id/submissionTestResultPendingFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
-
-        <action
-            android:id="@+id/action_universalScanner_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
@@ -943,26 +934,22 @@
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultNegativeFragment"
             app:destination="@id/submissionTestResultNegativeFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionResultPositiveOtherWarningNoConsentFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
     </fragment>
 
     <fragment

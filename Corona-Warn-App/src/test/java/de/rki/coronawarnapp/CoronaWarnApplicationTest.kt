@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
-import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdateScheduler
+import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationUpdateScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -94,7 +94,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
     @MockK lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
     @MockK lateinit var dccValidityStateChangeObserver: DccValidityStateChangeObserver
-    @MockK lateinit var revocationUpdateScheduler: RevocationUpdateScheduler
+    @MockK lateinit var dccRevocationUpdateScheduler: DccRevocationUpdateScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -162,7 +162,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
                 app.familyTestResultRetrievalScheduler = familyTestResultRetrievalScheduler
                 app.dccValidityStateChangeObserver = dccValidityStateChangeObserver
-                app.revocationUpdateScheduler = revocationUpdateScheduler
+                app.dccRevocationUpdateScheduler = dccRevocationUpdateScheduler
             }
         }
     }
@@ -204,7 +204,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             recycleBinCleanUpScheduler.setup()
             cclConfigurationUpdateScheduler.setup()
             dccValidityStateChangeObserver.setup()
-            revocationUpdateScheduler.setup()
+            dccRevocationUpdateScheduler.setup()
         }
     }
 }
