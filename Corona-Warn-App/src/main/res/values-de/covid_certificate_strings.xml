@@ -291,7 +291,7 @@
     <!-- XHED: PDF Export: Not possible dialog body -->
     <string name="certificate_export_error_dialog_body">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat nicht in Deutschland ausgestellt wurde.</string>
     <!-- XBUT: PDF Export: Not possible dialog faq button -->
-    <string name="certificate_export_error_dialog_faq_button">faq zur druckversion</string>
+    <string name="certificate_export_error_dialog_faq_button">FAQ zur Druckversion</string>
 
     <!-- XBUT: PDF Export: Not possible dialog ok button -->
     <string name="certificate_export_error_dialog_ok_button">OK</string>
