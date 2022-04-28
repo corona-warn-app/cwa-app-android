@@ -101,7 +101,7 @@
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
     <string name="submission_test_result_antigen_patient_birth_date_placeholder">"geboren %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Ausgestellt: %1$s, %2$s Uhr"</string>
+    <string name="coronatest_negative_antigen_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
@@ -109,7 +109,7 @@
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Um den hier angezeigten Befund überprüfbar nachzuweisen, ist ein Digitales Testzertifikat der EU notwendig. Wenn Sie bei der Registrierung des Tests ein Digitales Testzertifikat angefordert haben und die Teststelle deren Ausstellung unterstützt, können Sie Ihr Digitales Testzertifikat anhand des oben angegebenen Links anzeigen. Sie finden das Zertifikat außerdem im Bereich „Zertifikate“. \nInformieren Sie sich diesbezüglich bitte auch über die Kriterien zur Anerkennung und Gültigkeit von Test-Zertifikaten in Bezug auf den Zweck für den Sie den Nachweis benötigen."</string>
     <!-- XHED: submission result antigen negative result counter title -->
-    <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
+    <string name="submission_test_result_antigen_negative_counter_title">"Ausgestellt"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->

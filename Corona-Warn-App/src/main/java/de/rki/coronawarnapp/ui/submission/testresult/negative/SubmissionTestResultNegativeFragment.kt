@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
@@ -53,50 +56,55 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
         viewModel.testResult.observe2(this) { uiState ->
             val coronaTest = uiState.coronaTest
-            binding.apply {
-                submissionTestResultSection.setTestResultSection(coronaTest)
-                if (coronaTest is FamilyCoronaTest) {
-                    familyMemberName.isVisible = true
-                    familyMemberName.text = coronaTest.personName
-                    toolbar.title = getText(R.string.submission_test_result_headline)
-                    testResultNegativeStepsRemoveTest.isVisible = false
-                    testResultNegativeStepsCertificate.setEntryTitle(
-                        getText(
-                            R.string.submission_family_test_result_pending_steps_certificate_heading
+            showTestResult(coronaTest)
+            with (binding) {
+                when (coronaTest) {
+                    is FamilyCoronaTest-> {
+                        familyMemberName.isVisible = true
+                        familyMemberName.text = coronaTest.personName
+                        toolbar.title = getText(R.string.submission_test_result_headline)
+                        testResultNegativeStepsRemoveTest.isVisible = false
+                        testResultNegativeStepsCertificate.setEntryTitle(
+                            getText(
+                                R.string.submission_family_test_result_pending_steps_certificate_heading
+                            )
                         )
-                    )
-                    testResultNegativeStepsCertificate.setEntryText(
-                        getText(
-                            R.string.submission_family_test_result_negative_steps_certificate_text
+                        testResultNegativeStepsCertificate.setEntryText(
+                            getText(
+                                R.string.submission_family_test_result_negative_steps_certificate_text
+                            )
                         )
-                    )
-                    when (coronaTest.type) {
-                        BaseCoronaTest.Type.PCR -> {
-                            testResultNegativeStepsAdded.setEntryTitle(
-                                getText(
-                                    R.string.submission_family_test_result_steps_added_pcr_heading
+                        when (coronaTest.type) {
+                            BaseCoronaTest.Type.PCR -> {
+                                testResultNegativeStepsAdded.setEntryTitle(
+                                    getText(
+                                        R.string.submission_family_test_result_steps_added_pcr_heading
+                                    )
                                 )
-                            )
-                            testResultNegativeStepsAdded.setEntryText("")
-                            testResultNegativeStepsNegativeResult.setEntryText(
-                                getText(
-                                    R.string.submission_test_result_negative_steps_negative_body
+                                testResultNegativeStepsAdded.setEntryText("")
+                                testResultNegativeStepsNegativeResult.setEntryText(
+                                    getText(
+                                        R.string.submission_test_result_negative_steps_negative_body
+                                    )
                                 )
-                            )
+                            }
+                            BaseCoronaTest.Type.RAPID_ANTIGEN -> {
+                                testResultNegativeStepsAdded.setEntryTitle(
+                                    getText(
+                                        R.string.submission_family_test_result_steps_added_rat_heading
+                                    )
+                                )
+                                testResultNegativeStepsAdded.setEntryText("")
+                                testResultNegativeStepsNegativeResult.setEntryText(
+                                    getText(
+                                        R.string.coronatest_negative_antigen_result_second_info_body
+                                    )
+                                )
+                            }
                         }
-                        BaseCoronaTest.Type.RAPID_ANTIGEN -> {
-                            testResultNegativeStepsAdded.setEntryTitle(
-                                getText(
-                                    R.string.submission_family_test_result_steps_added_rat_heading
-                                )
-                            )
-                            testResultNegativeStepsAdded.setEntryText("")
-                            testResultNegativeStepsNegativeResult.setEntryText(
-                                getText(
-                                    R.string.coronatest_negative_antigen_result_second_info_body
-                                )
-                            )
-                        }
+                    }
+                    is PersonalCoronaTest -> {
+                        familyMemberName.isVisible = false
                     }
                 }
 
@@ -166,5 +174,24 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             fragment = this,
             positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
         )
+    }
+
+    private fun showTestResult(test: BaseCoronaTest) {
+        with(binding) {
+            when {
+                test is RACoronaTest && test.testResult == CoronaTestResult.RAT_NEGATIVE-> {
+                    submissionTestResultSection.isVisible = false
+
+                    personalRapidTestResultNegative.isVisible = true
+                    personalRapidTestResultNegative.setTestResultSection(test)
+                }
+                else -> {
+                    personalRapidTestResultNegative.isVisible = false
+
+                    submissionTestResultSection.isVisible = true
+                    submissionTestResultSection.setTestResultSection(test)
+                }
+            }
+        }
     }
 }

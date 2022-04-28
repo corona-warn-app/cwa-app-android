@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <corners android:topLeftRadius="@dimen/radius_card" android:topRightRadius="@dimen/radius_card" />
+            <corners android:radius="@dimen/radius_card"/>
             <solid android:color="@color/colorSemanticLowRisk" />
         </shape>
     </item>

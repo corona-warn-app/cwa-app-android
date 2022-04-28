@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
-                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Lara"
@@ -57,11 +56,29 @@
                     android:layout_margin="@dimen/spacing_small"
                     android:focusable="true"
                     android:importantForAccessibility="yes"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/family_member_name"
                     app:test_result_section_headline="@string/test_result_card_headline" />
 
+                <de.rki.coronawarnapp.ui.view.NegativeRapidTestResultView
+                    android:id="@+id/personal_rapid_test_result_negative"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:focusable="true"
+                    android:importantForAccessibility="yes"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
+                    />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/test_certificate_card"
@@ -72,7 +89,7 @@
                     android:background="@drawable/card_with_outline_ripple"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section">
+                    app:layout_constraintTop_toBottomOf="@id/barrier">
 
                     <ImageView
                         android:id="@+id/certificate_bg"
