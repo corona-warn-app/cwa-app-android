@@ -22,6 +22,7 @@ class ProfileModule {
         factory: ProfileDatabase.Factory
     ): ProfileDao = factory.create().profileDao()
 
+    @Singleton
     @ProfileDataStore
     @Provides
     fun profileDataStore(

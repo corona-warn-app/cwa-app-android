@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rapid_test_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:padding="@dimen/spacing_normal"
+        android:background="@drawable/card_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/rapid_test_card_title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:text="@string/submission_test_result_antigen_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_subtitle"
+            style="@style/subtitleMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/submission_result_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_title" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_virus_name"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/test_result_card_virus_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_subtitle" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_diagnosis"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_negative"
+            android:textColor="@color/colorTextSemanticGreen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_virus_name"
+            tools:text="@string/submission_test_result_negative" />
+
+        <TextView
+            android:id="@+id/patient_info"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_diagnosis"
+            tools:text="Max Mustermann, geboren 14.03.1987" />
+
+        <TextView
+            android:id="@+id/rapid_test_card_negative_result_message"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:text="@string/submission_test_result_negative_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patient_info" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:padding="@dimen/guideline_card"
+            android:background="@drawable/card_counter_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rapid_test_card_negative_result_message"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/result_time"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/submission_test_result_antigen_negative_counter_title"
+                android:textColor="@color/colorTextPrimary1InvertedStable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/time_info"
+                style="@style/headline4Bold"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:gravity="center"
+                tools:text="@string/coronatest_negative_rapid_test_result_time_date_placeholder"
+                android:textColor="@color/colorTextPrimary1InvertedStable"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/result_time"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>
