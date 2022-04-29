@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 // Shows the list of certificates for one person
@@ -147,7 +148,10 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
             ).also { viewModel.dismissAdmissionStateBadge() }
-            Back -> popBackStack()
+            Back -> {
+                removeGlobalLayoutListener()
+                popBackStack()
+            }
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
                     .also { viewModel.dismissAdmissionStateBadge() }
@@ -163,27 +167,35 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         )
     }
 
+    private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        try {
+            if (binding.recyclerViewCertificatesList.childCount > 0) {
+                removeGlobalLayoutListener()
+                val firstElement = binding.recyclerViewCertificatesList[0]
+                val emptySpaceToTop =
+                    firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                val overlap = (firstElement.height / 2) + emptySpaceToTop
+
+                val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
+                    binding.recyclerViewCertificatesList.layoutParams
+                        as (CoordinatorLayout.LayoutParams)
+                val behavior: AppBarLayout.ScrollingViewBehavior =
+                    layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+                behavior.overlayTop = overlap
+
+                binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                binding.europaImage.requestLayout()
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "PersonDetailsFragment can't update toolbar height")
+        }
+    }
+
+    private fun removeGlobalLayoutListener() {
+        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+    }
+
     private fun setToolbarOverlay() {
-        binding.recyclerViewCertificatesList.viewTreeObserver
-            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (binding.recyclerViewCertificatesList.childCount > 0) {
-                        val firstElement = binding.recyclerViewCertificatesList[0]
-                        val emptySpaceToTop = firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
-                        val overlap = (firstElement.height / 2) + emptySpaceToTop
-
-                        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
-                            binding.recyclerViewCertificatesList.layoutParams
-                                as (CoordinatorLayout.LayoutParams)
-                        val behavior: AppBarLayout.ScrollingViewBehavior =
-                            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-                        behavior.overlayTop = overlap
-
-                        binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
-                        binding.europaImage.requestLayout()
-                    }
-                    binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
+        binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
     }
 }
