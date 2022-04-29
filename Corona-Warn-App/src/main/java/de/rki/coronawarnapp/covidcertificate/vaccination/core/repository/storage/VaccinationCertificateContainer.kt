@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -26,6 +27,9 @@ data class VaccinationCertificateContainer(
     private val qrCodeExtractor: DccQrCodeExtractor,
 ) : CertificateRepoContainer {
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     internal val certificateData: DccData<VaccinationDccV1> by lazy {
         runBlocking {
             data.vaccinationQrCode.let {
