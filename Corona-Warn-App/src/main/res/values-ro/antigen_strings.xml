@@ -100,7 +100,7 @@
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
     <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Născut(ă) pe %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Emis la: %1$s, %2$s"</string>
+    <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"Emis la: %1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"Nu ați fost diagnosticat cu virusul SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
@@ -134,7 +134,7 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Profil de test rapid"</string>
+    <string name="rat_profile_open_card_title">"Profiluri de test rapid"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">"Profilul de test rapid cu datele dvs. personale, pe care îl puteți trimite la orice punct de testare participant prin intermediul codului QR."</string>
     <!-- XHED: Create RAT profile title -->
@@ -187,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Născut(ă) pe %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Continuare"</string>
+    <string name="rat_qr_code_profile_next_button">"Scanare test"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Ștergerea profilului de test rapid"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

@@ -46,6 +46,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     invalidOverlay.isGone = isActualQrCodeVisible
     image.isEnabled = isActualQrCodeVisible // Disable Qr-Code full-screen mode
 
+    statusGroup.isGone = certificate.displayedState() is Valid
+
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
             statusIcon.constraintLayoutParams.verticalBias = 0f
@@ -80,12 +82,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
                 messageForScreenedCert(certificate)
             )
         }
-
-        is Valid -> {
-            statusIcon.isVisible = false
-            statusTitle.isVisible = false
-            statusBody.isVisible = false
-        }
+        is Valid,
         CwaCovidCertificate.State.Recycled -> Unit
     }
 }

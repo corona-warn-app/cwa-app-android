@@ -113,8 +113,6 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">"ЗіВ для сертифікатів"</string>
 
-    <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_in_blocklist_message">"Сертифікат було відкликано органом, який його видав. Отримайте новий цифровий сертифікат."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Сертифікат недійсний"</string>
 
@@ -125,6 +123,11 @@
 
     <!-- XTXT: Test Certificate QR code new text-->
     <string name="test_certificate_qr_new">"Новий"</string>
+
+    <!-- XTXT: DCC Revoked DE error message-->
+    <string name="dcc_screened_de_message">"RKI деактивував сертифікат в результаті постанови уряду. Отримайте новий цифровий сертифікат."</string>
+    <!-- XTXT: DCC Revoked foreign error message-->
+    <string name="dcc_screened_foreign_message">"Орган, який видав свідоцтво, деактивував сертифікат внаслідок адміністративного рішення. Отримайте новий цифровий сертифікат."</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW

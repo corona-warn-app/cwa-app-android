@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -43,6 +44,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -80,7 +82,15 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.covidCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+        viewModel.covidCertificate.observe(viewLifecycleOwner) {
+            when (it != null) {
+                true -> onCertificateReady(it)
+                false -> {
+                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
+                    goBack()
+                }
+            }
+        }
 
         viewModel.exportError.observe(viewLifecycleOwner) {
             CertificateExportErrorDialog.showDialog(
@@ -180,7 +190,15 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
-            TestCertificateDetailsNavigation.Back -> popBackStack()
+            TestCertificateDetailsNavigation.Back -> goBack()
+            TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
+                if (args.numberOfCertificates == 1) {
+                    doNavigate(
+                        TestCertificateDetailsFragmentDirections
+                            .actionTestCertificateDetailsFragmentToPersonOverviewFragment()
+                    )
+                } else goBack()
+            }
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
@@ -207,6 +225,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 )
         }
     }
+
+    private fun goBack() = popBackStack()
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
@@ -246,6 +266,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     companion object {
+        private val TAG = tag<TestCertificateDetailsFragment>()
+
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
             return "cwa://test-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()
