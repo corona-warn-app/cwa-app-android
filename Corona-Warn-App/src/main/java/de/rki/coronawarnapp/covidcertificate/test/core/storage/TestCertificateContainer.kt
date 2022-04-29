@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -73,6 +74,9 @@ data class TestCertificateContainer(
     override val qrCodeHash: String
         get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
         certificateState: State,
