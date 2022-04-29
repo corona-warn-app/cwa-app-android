@@ -191,6 +191,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
             TestCertificateDetailsNavigation.Back -> goBack()
+            TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
+                if (args.numberOfCertificates == 1) {
+                    doNavigate(
+                        TestCertificateDetailsFragmentDirections
+                            .actionTestCertificateDetailsFragmentToPersonOverviewFragment()
+                    )
+                } else goBack()
+            }
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),

@@ -133,6 +133,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
                     VaccinationDetailsNavigation.Back -> goBack()
+                    VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
+                        if (args.numberOfCertificates == 1) {
+                            doNavigate(
+                                VaccinationDetailsFragmentDirections
+                                    .actionVaccinationDetailsFragmentToPersonOverviewFragment()
+                            )
+                        } else goBack()
+                    }
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
                         QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
