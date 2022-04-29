@@ -54,7 +54,6 @@ open class InvalidHealthCertificateException(
         HC_DSC_OID_MISMATCH_RC("Recovery certificate OID mismatch."),
         HC_DSC_NOT_YET_VALID("DSC is not valid yet."),
         HC_DSC_EXPIRED("DSC expired."),
-        HC_DCC_BLOCKED("DSC blocked."),
     }
 
     val isCertificateInvalid: Boolean get() = errorCode in codesCertificateInvalid
@@ -88,8 +87,6 @@ open class InvalidHealthCertificateException(
 
     val isAlreadyRegistered: Boolean get() = errorCode == ErrorCode.ALREADY_REGISTERED
 
-    val isBlocked: Boolean get() = errorCode == ErrorCode.HC_DCC_BLOCKED
-
     open val errorMessage: LazyString
         get() = when (errorCode) {
             ErrorCode.STORING_FAILED -> CachedString { context ->
@@ -97,9 +94,6 @@ open class InvalidHealthCertificateException(
             }
             ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
-            }
-            ErrorCode.HC_DCC_BLOCKED -> CachedString { context ->
-                context.getString(ERROR_MESSAGE_CERT_BLOCKED_MESSAGE)
             }
             in codesCertificateInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)
@@ -123,4 +117,3 @@ private const val ERROR_MESSAGE_SIGNATURE_INVALID = R.string.dcc_signature_valid
 private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_dcc_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered
-private const val ERROR_MESSAGE_CERT_BLOCKED_MESSAGE = R.string.error_dcc_in_blocklist_message

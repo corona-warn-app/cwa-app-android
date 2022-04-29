@@ -9,10 +9,10 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationReset
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -62,8 +63,8 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
-    private var contactDiaryPreferences: ContactDiaryPreferences,
-    private var traceLocationPreferences: TraceLocationPreferences,
+    private val contactDiaryPreferences: ContactDiaryPreferences,
+    private val traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
     private val localStatisticsProvider: LocalStatisticsProvider,
@@ -79,7 +80,7 @@ class DataReset @Inject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
     private val coronaTestRepository: CoronaTestRepository,
-    private val ratProfileSettings: RATProfileSettingsDataStore,
+    private val profileSettings: ProfileSettingsDataStore,
     private val valueSetsRepository: ValueSetsRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
     private val vaccinationCertificateRepository: VaccinationCertificateRepository,
@@ -96,6 +97,7 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
+    private val revocationReset: DccRevocationReset,
     private val profileRepository: ProfileRepository,
 ) {
 
@@ -141,7 +143,7 @@ class DataReset @Inject constructor(
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
         coronaTestRepository.clear()
-        ratProfileSettings.clear()
+        profileSettings.clear()
 
         valueSetsRepository.clear()
 
@@ -168,6 +170,8 @@ class DataReset @Inject constructor(
         familyTestRepository.clear()
 
         profileRepository.clear()
+
+        revocationReset.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

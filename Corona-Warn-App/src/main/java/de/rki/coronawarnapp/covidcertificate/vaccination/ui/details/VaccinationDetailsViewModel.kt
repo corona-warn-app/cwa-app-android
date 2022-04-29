@@ -50,7 +50,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
         vaccinationCertificateRepository.recycleCertificate(containerId)
-        events.postValue(VaccinationDetailsNavigation.Back)
+        events.postValue(VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }
 
     fun startValidationRulesDownload() = launch {

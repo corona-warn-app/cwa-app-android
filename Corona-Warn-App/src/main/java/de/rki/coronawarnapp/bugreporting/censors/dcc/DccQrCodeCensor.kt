@@ -17,51 +17,45 @@ import javax.inject.Singleton
 @Singleton
 class DccQrCodeCensor @Inject constructor() : BugCensor {
 
-    private val qrCodes = MutableStateFlow<Set<String>>(value = emptySet())
-    private val names = MutableStateFlow<Set<String>>(value = emptySet())
-    private val dates = MutableStateFlow<Set<String>>(value = emptySet())
-    private val countries = MutableStateFlow<Set<String>>(value = emptySet())
-    private val identifiers = MutableStateFlow<Set<String>>(value = emptySet())
-    private val issuers = MutableStateFlow<Set<String>>(value = emptySet())
-    private val testDetails = MutableStateFlow<Set<String>>(value = emptySet())
+    private val state = MutableStateFlow(Data())
 
     override suspend fun checkLog(message: String): CensorContainer? {
         var container = CensorContainer(message)
 
-        qrCodes.first().forEach {
-            container = container.censor(it, "#qrCode" + it.takeLast(4))
-        }
-        identifiers.first().forEach {
-            container = container.censor(it, "#identifier")
-        }
-        names.first().forEach {
-            container = container.censor(it, "#name")
-        }
-        dates.first().forEach {
-            container = container.censor(it, "#date")
-        }
-        countries.first().forEach {
-            container = container.censor(" $it ", "#country")
-            container = container.censor("\"${it}\"", "#country")
-        }
-        testDetails.first().forEach {
-            container = container.censor(it, "#testDetail")
-        }
-        issuers.first().forEach {
-            container = container.censor(it, "#issuer")
+        with(state.first()) {
+            qrCodes.forEach {
+                container = container.censor(it, "#qrCode" + it.takeLast(4))
+            }
+            identifiers.forEach {
+                container = container.censor(it, "#identifier")
+            }
+            names.forEach {
+                container = container.censor(it, "#name")
+            }
+            dates.forEach {
+                container = container.censor(it, "#date")
+            }
+            countries.forEach {
+                container = container.censor(" $it ", "#country")
+                container = container.censor("\"${it}\"", "#country")
+            }
+            testDetails.forEach {
+                container = container.censor(it, "#testDetail")
+            }
+            issuers.forEach {
+                container = container.censor(it, "#issuer")
+            }
         }
 
         return container.nullIfEmpty()
     }
 
-    fun addQRCodeStringToCensor(rawString: String) = qrCodes.update {
-        it.plus(rawString)
+    fun addQRCodeStringToCensor(rawString: String) = state.edit {
+        qrCodes += rawString
     }
 
-    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) {
-        dates.update {
-            it.plus(cert.certificate.dateOfBirthFormatted)
-        }
+    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = state.edit {
+        dates += cert.certificate.dateOfBirthFormatted
 
         addNameData(cert.certificate.nameData)
 
@@ -72,151 +66,101 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         }
     }
 
-    private fun addRecoveryData(
-        data: DccV1.RecoveryCertificateData
-    ) {
+    private fun MutableData.addRecoveryData(data: DccV1.RecoveryCertificateData) = with(data) {
+        issuers += certificateIssuer
+        identifiers += uniqueCertificateIdentifier
+        countries += certificateCountry
 
-        issuers.update {
-            it.plus(data.certificateIssuer)
-        }
+        dates += testedPositiveOnFormatted
+        dates += validFromFormatted
+        dates += validUntilFormatted
 
-        identifiers.update {
-            it.plus(data.uniqueCertificateIdentifier)
-        }
-
-        countries.update {
-            it.plus(data.certificateCountry)
-        }
-
-        dates.update {
-            it
-                .plus(data.testedPositiveOnFormatted)
-                .plus(data.validFromFormatted)
-                .plus(data.validUntilFormatted)
-        }
-
-        data.validUntil?.toShortDayFormat()?.let { validUntil ->
-            dates.update {
-                it.plus(validUntil)
-            }
+        validUntil?.let {
+            dates += it.toShortDayFormat()
         }
     }
 
-    private fun addVaccinationData(
-        data: DccV1.VaccinationData,
-    ) {
-        issuers.update {
-            it.plus(data.certificateIssuer)
-        }
+    private fun MutableData.addVaccinationData(data: DccV1.VaccinationData) = with(data) {
+        issuers += certificateIssuer
+        countries += certificateCountry
 
-        identifiers.update {
-            it.plus(data.uniqueCertificateIdentifier)
-        }
+        identifiers += uniqueCertificateIdentifier
+        identifiers += marketAuthorizationHolderId
+        identifiers += medicalProductId
+        identifiers += targetId
+        identifiers += vaccineId
 
-        countries.update {
-            it.plus(data.certificateCountry)
-        }
-
-        identifiers.update {
-            it.plus(data.marketAuthorizationHolderId)
-        }
-
-        identifiers.update {
-            it.plus(data.medicalProductId)
-        }
-
-        identifiers.update {
-            it.plus(data.targetId)
-        }
-
-        identifiers.update {
-            it.plus(
-                data.vaccineId
-            )
-        }
-
-        dates.update {
-            it.plus(data.vaccinatedOnFormatted).plus(data.dt)
-        }
+        dates += vaccinatedOnFormatted
+        dates += dt
     }
 
-    private fun addTestData(
-        data: DccV1.TestCertificateData,
-    ) {
+    private fun MutableData.addTestData(data: DccV1.TestCertificateData) = with(data) {
+        issuers += certificateIssuer
+        countries += certificateCountry
 
-        issuers.update {
-            it.plus(data.certificateIssuer)
+        dates += sampleCollectedAtFormatted
+        sampleCollectedAt?.let {
+            dates += it.toShortDayFormat()
         }
 
-        identifiers.update {
-            it.plus(data.uniqueCertificateIdentifier)
-        }
+        identifiers += uniqueCertificateIdentifier
+        identifiers += targetId
 
-        countries.update {
-            it.plus(data.certificateCountry)
-        }
-
-        dates.update {
-            it.plus(
-                data.sampleCollectedAtFormatted,
-            )
-        }
-
-        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
-            dates.update {
-                it.plus(
-                    sampleCollectedAt,
-                )
-            }
-        }
-
-        identifiers.update {
-            it.plus(data.targetId)
-        }
-
-        data.testCenter?.let {
-            testDetails.update {
-                it.plus(data.testCenter)
-            }
-        }
-
-        testDetails.update {
-            it.plus(data.testResult).plus(data.testType)
-        }
-
-        data.testName?.let {
-            testDetails.update {
-                it.plus(
-                    data.testName
-                )
-            }
-        }
-
-        data.testNameAndManufacturer?.let {
-            testDetails.update {
-                it.plus(data.testNameAndManufacturer)
-            }
-        }
+        testCenter?.let { testDetails += it }
+        testDetails += testResult
+        testDetails += testType
+        testName?.let { testDetails += it }
+        testNameAndManufacturer?.let { testDetails += it }
     }
 
-    private fun addNameData(nameData: DccV1.NameData) {
-        nameData.familyName?.let { name ->
-            names.update {
-                it.plus(name)
-            }
-        }
-        names.update {
-            it.plus(nameData.familyNameStandardized)
-        }
-        nameData.givenName?.let { name ->
-            names.update {
-                it.plus(name)
-            }
-        }
-        nameData.givenNameStandardized?.let { name ->
-            names.update {
-                it.plus(name)
-            }
-        }
+    private fun MutableData.addNameData(nameData: DccV1.NameData) = with(nameData) {
+        names += familyNameStandardized
+        familyName?.let { names += it }
+        givenName?.let { names += it }
+        givenNameStandardized?.let { names += it }
     }
+}
+
+private data class Data(
+    val qrCodes: Set<String> = emptySet(),
+    val names: Set<String> = emptySet(),
+    val dates: Set<String> = emptySet(),
+    val countries: Set<String> = emptySet(),
+    val identifiers: Set<String> = emptySet(),
+    val issuers: Set<String> = emptySet(),
+    val testDetails: Set<String> = emptySet()
+)
+
+private data class MutableData(
+    val qrCodes: MutableSet<String>,
+    val names: MutableSet<String>,
+    val dates: MutableSet<String>,
+    val countries: MutableSet<String>,
+    val identifiers: MutableSet<String>,
+    val issuers: MutableSet<String>,
+    val testDetails: MutableSet<String>
+)
+
+private fun Data.toMutableData() = MutableData(
+    qrCodes = qrCodes.toMutableSet(),
+    names = names.toMutableSet(),
+    dates = dates.toMutableSet(),
+    countries = countries.toMutableSet(),
+    identifiers = identifiers.toMutableSet(),
+    issuers = issuers.toMutableSet(),
+    testDetails = testDetails.toMutableSet()
+)
+
+private fun MutableData.toData() = Data(
+    qrCodes = qrCodes,
+    names = names,
+    dates = dates,
+    countries = countries,
+    identifiers = identifiers,
+    issuers = issuers,
+    testDetails = testDetails
+)
+
+private fun MutableStateFlow<Data>.edit(transform: MutableData.() -> Unit) = update {
+    it.toMutableData().apply { transform(this) }.toData()
 }

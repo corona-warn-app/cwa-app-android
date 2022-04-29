@@ -24,7 +24,11 @@ class TestCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Type
             drawTextIntoRectangle(certificate.testType, paint, TextArea(476.20f, 515.79f, 112.75f))
             drawTextIntoRectangle(certificate.testName ?: "", paint, TextArea(314.27f, 581.76f, 236.89f))
             drawTextIntoRectangle(certificate.testNameAndManufacturer ?: "", paint, TextArea(314.27f, 628.54f, 236.89f))
-            drawTextIntoRectangle(certificate.sampleCollectedAtFormatted, paint, TextArea(476.20f, 675.32f, 112.75f))
+            drawTextIntoRectangle(
+                certificate.sampleCollectedAt?.toString() ?: "",
+                paint,
+                TextArea(476.20f, 675.32f, 112.75f)
+            )
             drawTextIntoRectangle(certificate.testResult, paint, TextArea(476.20f, 712.50f, 112.75f))
             drawTextIntoRectangle(certificate.testCenter ?: "", paint, TextArea(476.20f, 741.29f, 112.75f))
             drawTextIntoRectangle(

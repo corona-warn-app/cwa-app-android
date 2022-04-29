@@ -9,4 +9,5 @@ sealed class TestCertificateDetailsNavigation {
     data class ValidationStart(val containerId: CertificateContainerId) : TestCertificateDetailsNavigation()
     data class Export(val containerId: CertificateContainerId) : TestCertificateDetailsNavigation()
     object OpenCovPassInfo : TestCertificateDetailsNavigation()
+    object ReturnToPersonDetailsAfterRecycling : TestCertificateDetailsNavigation()
 }

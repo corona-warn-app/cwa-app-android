@@ -8,10 +8,10 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationReset
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -76,7 +77,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
+    @MockK lateinit var profileSettings: ProfileSettingsDataStore
     @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
@@ -93,6 +94,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
+    @MockK lateinit var revocationReset: DccRevocationReset
     @MockK lateinit var profileRepository: ProfileRepository
 
     @BeforeEach
@@ -125,7 +127,7 @@ internal class DataResetTest : BaseTest() {
         traceLocationSettings = traceLocationSettings,
         traceWarningRepository = traceWarningRepository,
         coronaTestRepository = coronaTestRepository,
-        ratProfileSettings = ratProfileSettings,
+        profileSettings = profileSettings,
         covidCertificateSettings = covidCertificateSettings,
         vaccinationCertificateRepository = vaccinationCertificateRepository,
         valueSetsRepository = valueSetsRepository,
@@ -142,7 +144,8 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
-        profileRepository = profileRepository
+        profileRepository = profileRepository,
+        revocationReset = revocationReset,
     )
 
     @Test
@@ -175,7 +178,7 @@ internal class DataResetTest : BaseTest() {
             traceLocationRepository.deleteAllTraceLocations()
             checkInRepository.clear()
             coronaTestRepository.clear()
-            ratProfileSettings.clear()
+            profileSettings.clear()
             vaccinationCertificateRepository.clear()
             covidCertificateSettings.clear()
             valueSetsRepository.clear()
@@ -191,6 +194,7 @@ internal class DataResetTest : BaseTest() {
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
             profileRepository.clear()
+            revocationReset.clear()
         }
     }
 }

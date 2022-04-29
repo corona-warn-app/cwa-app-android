@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.familytest.ui.consent
 
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
@@ -7,6 +10,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -35,6 +39,16 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
         coronaTestQrCode = request
     ).toBundle()
 
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        UiThreadStatement.runOnUiThread {
+            setViewModelStore(ViewModelStore())
+            setGraph(R.navigation.nav_graph)
+            setCurrentDestination(R.id.familyTestConsentFragment)
+        }
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -60,7 +74,10 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchFragmentInContainer2<FamilyTestConsentFragment>(fragmentArgs = fragmentArgs)
+        launchFragmentInContainer2<FamilyTestConsentFragment>(
+            fragmentArgs = fragmentArgs,
+            testNavHostController = navController
+        )
         takeScreenshot<FamilyTestConsentFragment>("no_data")
 
         onView(withId(R.id.name_input_edit))

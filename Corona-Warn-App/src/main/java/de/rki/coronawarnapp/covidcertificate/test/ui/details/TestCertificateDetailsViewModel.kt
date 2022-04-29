@@ -46,7 +46,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     fun recycleTestCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Test Certificate=$containerId")
         testCertificateRepository.recycleCertificate(containerId)
-        events.postValue(TestCertificateDetailsNavigation.Back)
+        events.postValue(TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }
 
     fun startValidationRulesDownload() = launch {

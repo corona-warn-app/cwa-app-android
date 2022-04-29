@@ -113,8 +113,6 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">"FAQ for Certificates"</string>
 
-    <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_in_blocklist_message">"The certificate has been recalled by the issuing authority. Please get a new digital certificate."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Certificate Invalid"</string>
 
@@ -125,6 +123,11 @@
 
     <!-- XTXT: Test Certificate QR code new text-->
     <string name="test_certificate_qr_new">"New"</string>
+
+    <!-- XTXT: DCC Revoked DE error message-->
+    <string name="dcc_screened_de_message">"The RKI has disabled the certificate as the result of a government decree. Please get a new digital certificate."</string>
+    <!-- XTXT: DCC Revoked foreign error message-->
+    <string name="dcc_screened_foreign_message">"The issuing authority has disabled the certificate as the result of an administrative decision. Please get a new digital certificate."</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW

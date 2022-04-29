@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.util.qrcode.QrCodeOptions
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import java.util.Locale
 import java.util.Locale.GERMAN
 
@@ -16,7 +17,7 @@ fun CwaCovidCertificate.getValidQrCode(locale: Locale = Locale.getDefault(), sho
     }.let { CoilQrCode(it, QrCodeOptions(correctionLevel = ErrorCorrectionLevel.M)) }
 
     return when {
-        (getState() is Invalid) || (getState() is Blocked && !showBlocked) -> getInvalidQrCode()
+        state is Invalid || (state is Blocked && !showBlocked) || state is Revoked -> getInvalidQrCode()
         else -> qrCodeToDisplay
     }
 }
