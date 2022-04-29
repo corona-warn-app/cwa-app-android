@@ -333,7 +333,7 @@ class VaccinationCertificateRepository @Inject constructor(
     ): VaccinationCertificate? {
         try {
             return toVaccinationCertificate(valueSet, certificateState).also {
-                // read value from dcc data to throws an exception early if the DccQrCodeExtractor is not able to parse
+                // read value from dcc data to throw an exception early if the DccQrCodeExtractor is not able to parse
                 // the certificate
                 it.personIdentifier
             }
