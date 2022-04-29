@@ -325,6 +325,8 @@ class RecoveryCertificateRepository @Inject constructor(
     ): RecoveryCertificate? {
         try {
             return toRecoveryCertificate(valueSet, certificateState)
+            // read value from dcc data to throw an exception early if the DccQrCodeExtractor is not able to parse
+            // the certificate
         } catch (e: Exception) {
             Timber.e(e, "Creating RecoveryCertificate failed")
         }
