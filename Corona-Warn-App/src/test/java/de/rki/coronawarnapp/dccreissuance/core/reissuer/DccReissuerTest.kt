@@ -5,28 +5,35 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
-import de.rki.coronawarnapp.dccreissuance.core.processor.DccReissuanceProcessor
+import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
 
 internal class DccReissuerTest : BaseTest() {
-    @MockK lateinit var dccSwapper: DccSwapper
-    @MockK lateinit var dccReissuanceProcessor: DccReissuanceProcessor
+
+    @MockK lateinit var dccReissuanceServer: DccReissuanceServer
+    @MockK lateinit var dccQrCodeExtractor: DccQrCodeExtractor
+    @MockK lateinit var vcRepo: VaccinationCertificateRepository
+    @MockK lateinit var tcRepo: TestCertificateRepository
+    @MockK lateinit var rcRepo: RecoveryCertificateRepository
 
     private val certificateReissuance = CertificateReissuance(
         reissuanceDivision = ReissuanceDivision(
@@ -65,9 +72,7 @@ internal class DccReissuerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-
-        coEvery { dccSwapper.swap(any(), any()) } just Runs
-        coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
+        coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } returns DccReissuanceResponse(
             dccReissuances = emptyList()
         )
     }
@@ -77,8 +82,6 @@ internal class DccReissuerTest : BaseTest() {
         shouldThrow<DccReissuanceException> {
             dccReissuer().startReissuance(dccReissuanceDescriptor = certificateReissuance)
         }.errorCode shouldBe DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION
-
-        coVerify(exactly = 0) { dccSwapper.swap(any(), any()) }
     }
 
     @Test
@@ -175,8 +178,74 @@ internal class DccReissuerTest : BaseTest() {
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
     }
 
+    private val testCertificateToReissue = Certificate(
+        certificateRef = CertificateRef(
+            barcodeData = "HC1:6789...",
+        )
+    )
+
+    private val testAccompanyingCertificate1 = Certificate(
+        certificateRef = CertificateRef(
+            barcodeData = "HC1:1235....",
+        )
+    )
+
+    private val testAccompanyingCertificate2 = Certificate(
+        certificateRef = CertificateRef(
+            barcodeData = "HC1:ABCD...",
+        )
+    )
+
+    private val dccReissuanceDescriptor: CertificateReissuance = mockk {
+        every { certificateToReissue } returns testCertificateToReissue
+        every { accompanyingCertificates } returns listOf(
+            testAccompanyingCertificate1,
+            testAccompanyingCertificate2
+        )
+    }
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
+
+    @Test
+    fun `maps input correctly and forwards response`() = runBlockingTest {
+        val response = DccReissuanceResponse(dccReissuances = emptyList())
+
+        coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } returns response
+
+        dccReissuer().startReissuance(dccReissuanceDescriptor = dccReissuanceDescriptor) shouldBe response
+
+        coVerify {
+            dccReissuanceServer.requestDccReissuance(
+                action = "renew",
+                certificates = listOf(
+                    testCertificateToReissue.certificateRef.barcodeData,
+                    testAccompanyingCertificate1.certificateRef.barcodeData,
+                    testAccompanyingCertificate2.certificateRef.barcodeData
+                )
+            )
+        }
+    }
+
+    @Test
+    fun `forwards errors`() = runBlockingTest {
+        val errorCode = DccReissuanceException.ErrorCode.DCC_RI_400
+        coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } throws DccReissuanceException(
+            errorCode = errorCode
+        )
+
+        shouldThrow<DccReissuanceException> {
+            dccReissuer().startReissuance(dccReissuanceDescriptor = dccReissuanceDescriptor)
+        }.errorCode shouldBe errorCode
+    }
+
     private fun dccReissuer() = DccReissuer(
-        dccSwapper = dccSwapper,
-        dccReissuanceProcessor = dccReissuanceProcessor
+        dccReissuanceServer = dccReissuanceServer,
+        dccQrCodeExtractor,
+        vcRepo,
+        tcRepo,
+        rcRepo,
     )
 }

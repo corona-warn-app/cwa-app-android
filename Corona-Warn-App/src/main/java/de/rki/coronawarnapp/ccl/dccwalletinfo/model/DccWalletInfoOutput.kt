@@ -259,11 +259,28 @@ data class CertificateReissuance(
     @JsonProperty("reissuanceDivision")
     val reissuanceDivision: ReissuanceDivision,
 
+    @Deprecated("use certificates instead")
+    @JsonProperty("certificateToReissue")
+    val certificateToReissue: Certificate?,
+
+    @Deprecated("use certificates instead")
+    @JsonProperty("accompanyingCertificates")
+    val accompanyingCertificates: List<Certificate>?,
+
+    @JsonProperty("certificates")
+    val certificates: List<CertificateReissuanceItem>?,
+)
+
+data class CertificateReissuanceItem(
+
     @JsonProperty("certificateToReissue")
     val certificateToReissue: Certificate,
 
     @JsonProperty("accompanyingCertificates")
-    val accompanyingCertificates: List<Certificate>
+    val accompanyingCertificates: List<Certificate>,
+
+    @JsonProperty("action")
+    val action: String,
 )
 
 data class ReissuanceDivision(

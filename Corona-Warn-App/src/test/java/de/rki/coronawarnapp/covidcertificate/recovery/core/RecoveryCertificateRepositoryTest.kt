@@ -5,9 +5,9 @@ import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
@@ -291,87 +291,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 CwaCovidCertificate.State.Valid(Instant.EPOCH),
                 Instant.EPOCH
             )
-        }
-    }
-
-    @Test
-    fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
-        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
-        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as
-                RecoveryCertificateQRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode1)
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode2)
-        }
-    }
-
-    @Test
-    fun `replace certificate works  if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf()
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as
-                RecoveryCertificateQRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode1)
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 0
-        }
-    }
-
-    @Test
-    fun `replace certificate works if new certificate already exists`() = runBlockingTest2(ignoreActive = true) {
-        val storedRecoveryCertificate1 = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode1)
-        val storedRecoveryCertificate2 = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
-        coEvery { storage.load() } returns setOf(storedRecoveryCertificate1, storedRecoveryCertificate2)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode1),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode2) as
-                RecoveryCertificateQRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode2)
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode1)
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate is already recycled`() = runBlockingTest2(ignoreActive = true) {
-        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode1)
-        val storedRecoveryCertificate2 = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
-            .copy(recycledAt = nowUTC)
-        coEvery { storage.load() } returns setOf(storedRecoveryCertificate, storedRecoveryCertificate2)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode1),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode2) as
-                RecoveryCertificateQRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode2)
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode1)
         }
     }
 }

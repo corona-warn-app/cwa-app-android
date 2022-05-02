@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -268,90 +268,6 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         coVerify {
             storage.loadLegacyData()
             storage.save(any())
-        }
-    }
-
-    @Test
-    fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
-        storage.apply {
-            coEvery { load() } returns setOf(vaccinationTestData.personAVac1StoredCertificateData)
-        }
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
-            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
-        storage.apply {
-            coEvery { load() } returns setOf()
-        }
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
-            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 0
-        }
-    }
-
-    @Test
-    fun `replace certificate works if new certificate already exists`() = runBlockingTest2(ignoreActive = true) {
-        storage.apply {
-            coEvery { load() } returns setOf(
-                vaccinationTestData.personAVac1StoredCertificateData,
-                vaccinationTestData.personAVac2StoredCertificateData
-            )
-        }
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
-            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate is already recycled`() = runBlockingTest2(ignoreActive = true) {
-        storage.apply {
-            coEvery { load() } returns setOf(
-                vaccinationTestData.personAVac1StoredCertificateData.copy(recycledAt = nowUTC)
-            )
-        }
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
-            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
         }
     }
 
