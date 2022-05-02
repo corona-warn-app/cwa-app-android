@@ -83,13 +83,16 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                 }
                 is TestRegistrationStateProcessor.State.TestRegistered -> when {
                     state.test.isPositive ->
-                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                            testIdentifier = state.test.identifier
-                        ).run { findNavController().navigate(this, navOptions) }
-                    else ->
+                        doNavigate(
+                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                                testIdentifier = state.test.identifier
+                            )
+                        )
+                    else -> doNavigate(
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(
                             testIdentifier = state.test.identifier
-                        ).run { findNavController().navigate(this, navOptions) }
+                        )
+                    )
                 }
             }
         }
