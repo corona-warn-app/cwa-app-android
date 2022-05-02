@@ -69,13 +69,10 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             val isWorking = state is TestRegistrationStateProcessor.State.Working
             binding.apply {
                 progressSpinner.isVisible = isWorking
-                consentButton.isEnabled = !isWorking && viewModel.isValid.value ?: false
             }
             when (state) {
                 TestRegistrationStateProcessor.State.Idle,
-                TestRegistrationStateProcessor.State.Working -> {
-                    // Handled above
-                }
+                TestRegistrationStateProcessor.State.Working -> Unit
                 is TestRegistrationStateProcessor.State.Error -> {
                     val dialog = state.getDialogBuilder(requireContext())
                     dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
@@ -104,7 +101,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             nameInputEdit.setOnEditorActionListener { _, actionId, _ ->
                 return@setOnEditorActionListener when (actionId) {
                     EditorInfo.IME_ACTION_DONE -> {
-                        if (viewModel.isValid.value == true) {
+                        if (viewModel.isSubmittable.value == true) {
                             binding.consentButton.performClick()
                         }
                         false
@@ -124,7 +121,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             }
         }
 
-        viewModel.isValid.observe2(this) {
+        viewModel.isSubmittable.observe2(this) {
             binding.consentButton.isEnabled = it
         }
     }

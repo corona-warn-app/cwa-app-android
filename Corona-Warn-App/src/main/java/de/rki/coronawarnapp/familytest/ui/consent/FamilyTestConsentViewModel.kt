@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.familytest.ui.consent
 
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -13,7 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import de.rki.coronawarnapp.util.flow.combine
 
 class FamilyTestConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -27,9 +28,9 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
 
     private val personName = MutableStateFlow("")
 
-    val isValid = personName
-        .map { it.isNotEmpty() }
-        .asLiveData()
+    val isSubmittable = combine(personName, registrationState.asFlow()) { name, state ->
+        name.isNotEmpty() && state !is TestRegistrationStateProcessor.State.Working
+    }.asLiveData()
 
     fun nameChanged(value: String) {
         personName.value = value
@@ -54,8 +55,9 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
                     consentGiven = true,
                     allowReplacement = false,
                     personName = personName
-                ).run { routeToScreen.postValue(this) }
-            } else -> {
+                ).also { routeToScreen.postValue(it) }
+            }
+            else -> {
                 registrationStateProcessor.startFamilyTestRegistration(
                     request = coronaTestQRCode,
                     personName = personName
