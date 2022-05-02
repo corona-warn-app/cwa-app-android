@@ -46,6 +46,7 @@
         android:hyphenationFrequency="normal"
         android:paddingStart="@dimen/spacing_normal"
         android:paddingEnd="0dp"
+        android:layout_marginTop="3dp"
         android:src="@drawable/ic_contact_diary_right_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
