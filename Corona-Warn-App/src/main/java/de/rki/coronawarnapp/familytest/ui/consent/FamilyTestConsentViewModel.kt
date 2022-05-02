@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,9 +19,11 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val coronaTestQRCode: CoronaTestQRCode,
     private val familyTestCensor: FamilyTestCensor,
+    private val registrationStateProcessor: TestRegistrationStateProcessor
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<FamilyTestConsentNavigationEvents>()
+    val registrationState = registrationStateProcessor.state.asLiveData2()
 
     private val personName = MutableStateFlow("")
 
@@ -43,12 +46,22 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
     fun onConsentButtonClick() = launch {
         val personName = personName.first()
         familyTestCensor.addName(personName)
-        FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
-            coronaTestQRCode = coronaTestQRCode,
-            consentGiven = true,
-            allowReplacement = false,
-            personName = personName
-        ).run { routeToScreen.postValue(this) }
+
+        when {
+            coronaTestQRCode.isDccSupportedByPoc -> {
+                FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
+                    coronaTestQRCode = coronaTestQRCode,
+                    consentGiven = true,
+                    allowReplacement = false,
+                    personName = personName
+                ).run { routeToScreen.postValue(this) }
+            } else -> {
+                registrationStateProcessor.startFamilyTestRegistration(
+                    request = coronaTestQRCode,
+                    personName = personName
+                )
+            }
+        }
     }
 
     @AssistedFactory
