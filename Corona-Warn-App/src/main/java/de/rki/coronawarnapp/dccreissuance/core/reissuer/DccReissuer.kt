@@ -53,7 +53,7 @@ class DccReissuer @Inject constructor(
 
     private suspend fun moveToBin(qrCodeString: QrCodeString) {
         val qrCode = qrCodeString.extract()
-        dccQrCodeHandler.moveToBin(qrCode)
+        dccQrCodeHandler.moveToRecycleBin(qrCode)
     }
 
     private suspend fun register(qrCodeString: QrCodeString) {

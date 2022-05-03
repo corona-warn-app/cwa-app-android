@@ -87,7 +87,7 @@ class DccReissuerTest : BaseTest() {
             dccQrCodeHandler.register(any())
         } returns VaccinationCertificateContainerId("hash")
         coEvery {
-            dccQrCodeHandler.moveToBin(any())
+            dccQrCodeHandler.moveToRecycleBin(any())
         } just Runs
     }
 
@@ -118,7 +118,7 @@ class DccReissuerTest : BaseTest() {
                 )
             )
             dccQrCodeHandler.register(any())
-            dccQrCodeHandler.moveToBin(any())
+            dccQrCodeHandler.moveToRecycleBin(any())
         }
     }
 
