@@ -144,7 +144,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     @Test
     fun `test data person A check`() = runBlockingTest {
         val extracted = extractor.extract(
-            vaccinationTestData.personAVac1QRCodeString,
+            VaccinationTestData.personAVac1QRCodeString,
             parserMode = Mode.CERT_VAC_STRICT
         )
         extracted shouldBe vaccinationTestData.personAVac1QRCode

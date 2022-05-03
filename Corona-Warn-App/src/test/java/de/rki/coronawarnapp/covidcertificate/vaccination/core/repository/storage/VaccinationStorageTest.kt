@@ -80,7 +80,7 @@ class VaccinationStorageTest : BaseTest() {
             json.toComparableJsonPretty() shouldBe """
                 [
                     {
-                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "vaccinationQrCode": "${VaccinationTestData.personAVac1QRCodeString}",
                       "scannedAt": 1620062834471,
                       "lastSeenStateChange": {
                         "expiresAt": 1620062834471,
@@ -90,7 +90,7 @@ class VaccinationStorageTest : BaseTest() {
                       "certificateSeenByUser": true
                     },
                     {
-                      "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
+                      "vaccinationQrCode": "${VaccinationTestData.personAVac2QRCodeString}",
                       "scannedAt": 1620069934471,
                       "notifiedExpiresSoonAt": 1234000,
                       "notifiedExpiredAt": 1234000,

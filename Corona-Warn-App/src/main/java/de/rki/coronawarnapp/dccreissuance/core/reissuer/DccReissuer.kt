@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccReissuer @Inject constructor(
@@ -23,8 +24,8 @@ class DccReissuer @Inject constructor(
         DccReissuanceException::class,
         InvalidHealthCertificateException::class
     )
-    suspend fun startReissuance(dccReissuanceDescriptor: CertificateReissuance) {
-        dccReissuanceDescriptor.certificates?.forEach {
+    suspend fun startReissuance(certificateReissuance: CertificateReissuance) {
+        certificateReissuance.certificates?.forEach {
             reissue(it)
         }
     }
@@ -40,12 +41,12 @@ class DccReissuer @Inject constructor(
             register(issuance.certificate)
             issuance.relations.filter { relation ->
                 relation.action == "replace"
-            }.ifEmpty {
-                throw DccReissuanceException(DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION)
             }.forEach {
-                moveToBin(
-                    allQrCodes[it.index].certificateRef.barcodeData,
-                )
+                try {
+                    moveToBin(allQrCodes[it.index].certificateRef.barcodeData)
+                } catch (e: IndexOutOfBoundsException) {
+                    Timber.d("No certificate at index ${it.index} in response")
+                }
             }
         }
     }
