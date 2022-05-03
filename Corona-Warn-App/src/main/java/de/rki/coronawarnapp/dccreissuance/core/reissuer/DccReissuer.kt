@@ -18,7 +18,7 @@ class DccReissuer @Inject constructor(
 ) {
 
     /**
-     * Requests new certificate from the server and replaces the old one in the holder's wallet
+     * Requests a new certificate, registers it and moves certificates into the recycle bin as indicated
      */
     @Throws(
         DccReissuanceException::class,
@@ -28,8 +28,8 @@ class DccReissuer @Inject constructor(
         certificateReissuance.certificateToReissue?.let {
             CertificateReissuanceItem(
                 certificateToReissue = it,
-                accompanyingCertificates = certificateReissuance.accompanyingCertificates  ?: emptyList(),
-                action = "renew"
+                accompanyingCertificates = certificateReissuance.accompanyingCertificates ?: emptyList(),
+                action = ACTION_RENEW
             ).apply {
                 reissue(this)
             }
@@ -49,12 +49,12 @@ class DccReissuer @Inject constructor(
         response.dccReissuances.forEach { issuance ->
             register(issuance.certificate)
             issuance.relations.filter { relation ->
-                relation.action == "replace"
+                relation.action == ACTION_REPLACE
             }.forEach {
                 try {
                     moveToBin(allQrCodes[it.index].certificateRef.barcodeData)
                 } catch (e: IndexOutOfBoundsException) {
-                    Timber.d("No certificate at index ${it.index} in response")
+                    Timber.d(e, "No certificate at index ${it.index}. Size is ${allQrCodes.size}")
                 }
             }
         }
@@ -72,3 +72,6 @@ class DccReissuer @Inject constructor(
 
     private suspend fun QrCodeString.extract() = dccQrCodeExtractor.extract(this)
 }
+
+internal const val ACTION_RENEW = "renew"
+internal const val ACTION_REPLACE = "replace"

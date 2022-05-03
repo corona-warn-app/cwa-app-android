@@ -164,6 +164,3 @@ class DccReissuerTest : BaseTest() {
         dccQrCodeHandler = dccQrCodeHandler
     )
 }
-
-private const val ACTION_RENEW = "renew"
-private const val ACTION_REPLACE = "replace"
