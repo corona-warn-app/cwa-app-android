@@ -259,11 +259,11 @@ data class CertificateReissuance(
     @JsonProperty("reissuanceDivision")
     val reissuanceDivision: ReissuanceDivision,
 
-    @Deprecated("use certificates instead")
+    // legacy from CCL config-v2
     @JsonProperty("certificateToReissue")
     val certificateToReissue: Certificate? = null,
 
-    @Deprecated("use certificates instead")
+    // legacy from CCL config-v2
     @JsonProperty("accompanyingCertificates")
     val accompanyingCertificates: List<Certificate>? = null,
 
