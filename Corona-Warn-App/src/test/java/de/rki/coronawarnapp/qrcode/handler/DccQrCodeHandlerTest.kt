@@ -60,7 +60,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe vaccinationCertID
+        handler().validateAndRegister(dccQrCode) shouldBe vaccinationCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationCertificateRepository.registerCertificate(any())
@@ -72,7 +72,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe testCertID
+        handler().validateAndRegister(dccQrCode) shouldBe testCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
@@ -84,7 +84,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe recoveryCertID
+        handler().validateAndRegister(dccQrCode) shouldBe recoveryCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())

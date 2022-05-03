@@ -5,26 +5,15 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.hash
-import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
+import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import javax.inject.Inject
 
 class DccReissuer @Inject constructor(
     private val dccReissuanceServer: DccReissuanceServer,
+    private val dccQrCodeHandler: DccQrCodeHandler,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val vcRepo: VaccinationCertificateRepository,
-    private val tcRepo: TestCertificateRepository,
-    private val rcRepo: RecoveryCertificateRepository,
 ) {
 
     /**
@@ -48,7 +37,7 @@ class DccReissuer @Inject constructor(
         )
 
         response.dccReissuances.forEach { issuance ->
-            addNew(issuance.certificate)
+            register(issuance.certificate)
             issuance.relations.filter { relation ->
                 relation.action == "replace"
             }.forEach {
@@ -60,32 +49,13 @@ class DccReissuer @Inject constructor(
     }
 
     private suspend fun moveToBin(qrCodeString: QrCodeString) {
-        val hash = qrCodeString.hash()
-        when (qrCodeString.extract()) {
-            is RecoveryCertificateQRCode -> rcRepo.recycleCertificate(
-                RecoveryCertificateContainerId(hash)
-            )
-            is VaccinationCertificateQRCode -> vcRepo.recycleCertificate(
-                VaccinationCertificateContainerId(hash)
-            )
-            is TestCertificateQRCode -> tcRepo.recycleCertificate(
-                TestCertificateContainerId(hash)
-            )
-        }
+        val qrCode = qrCodeString.extract()
+        dccQrCodeHandler.moveToBin(qrCode)
     }
 
-    private suspend fun addNew(qrCodeString: QrCodeString) {
-        when (val qrCode = qrCodeString.extract()) {
-            is RecoveryCertificateQRCode -> rcRepo.registerCertificate(
-                qrCode
-            )
-            is VaccinationCertificateQRCode -> vcRepo.registerCertificate(
-                qrCode
-            )
-            is TestCertificateQRCode -> tcRepo.registerCertificate(
-                qrCode
-            )
-        }
+    private suspend fun register(qrCodeString: QrCodeString) {
+        val qrCode = qrCodeString.extract()
+        dccQrCodeHandler.register(qrCode)
     }
 
     private suspend fun QrCodeString.extract() = dccQrCodeExtractor.extract(this)

@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccreissuance.core.reissuer
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -55,16 +56,22 @@ internal class DccReissuerTest : BaseTest() {
             ),
             faqAnchor = "dcc_admission_state"
         ),
-        certificateToReissue = Certificate(
-            certificateRef = CertificateRef(
-                barcodeData = "HC1:6BFOXN...",
-            )
-        ),
-        accompanyingCertificates = listOf(
-            Certificate(
-                certificateRef = CertificateRef(
-                    barcodeData = "HC1:6BFOXN..."
-                )
+
+        certificates = listOf(
+            CertificateReissuanceItem(
+                certificateToReissue = Certificate(
+                    certificateRef = CertificateRef(
+                        barcodeData = "HC1:6BFOXN...",
+                    )
+                ),
+                accompanyingCertificates = listOf(
+                    Certificate(
+                        certificateRef = CertificateRef(
+                            barcodeData = "HC1:6BFOXN..."
+                        )
+                    )
+                ),
+                action = "renew"
             )
         )
     )
@@ -86,7 +93,7 @@ internal class DccReissuerTest : BaseTest() {
 
     @Test
     fun `startReissuance throws DCC_RI_NO_RELATION if no relation index`() = runBlockingTest {
-        coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
+        coEvery { dccReissuanceServer.requestDccReissuance("renew", any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(
                 DccReissuanceResponse.DccReissuance(
                     certificate = "HC1:6BFOXN...",
@@ -102,13 +109,11 @@ internal class DccReissuerTest : BaseTest() {
         shouldThrow<DccReissuanceException> {
             dccReissuer().startReissuance(dccReissuanceDescriptor = certificateReissuance)
         }.errorCode shouldBe DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION
-
-        coVerify(exactly = 0) { dccSwapper.swap(any(), any()) }
     }
 
     @Test
     fun `startReissuance throws DCC_RI_NO_RELATION if no relation action`() = runBlockingTest {
-        coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
+        coEvery { dccReissuanceServer.requestDccReissuance("renew", any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(
                 DccReissuanceResponse.DccReissuance(
                     certificate = "HC1:6BFOXN...",
@@ -124,8 +129,6 @@ internal class DccReissuerTest : BaseTest() {
         shouldThrow<DccReissuanceException> {
             dccReissuer().startReissuance(dccReissuanceDescriptor = certificateReissuance)
         }.errorCode shouldBe DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION
-
-        coVerify(exactly = 0) { dccSwapper.swap(any(), any()) }
     }
 
     @Test
@@ -139,7 +142,7 @@ internal class DccReissuerTest : BaseTest() {
                 )
             )
         )
-        coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
+        coEvery { dccReissuanceServer.requestDccReissuance("renew", any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(dccReissuance)
         )
         shouldNotThrow<DccReissuanceException> {
@@ -147,10 +150,11 @@ internal class DccReissuerTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            dccSwapper.swap(
-                dccReissuance,
-                certificateReissuance.certificateToReissue
-            )
+ //           vcRepo.recycleCertificate()
+//            dccSwapper.swap(
+//                dccReissuance,
+//                certificateReissuance.certificateToReissue
+//            )
         }
     }
 
@@ -165,14 +169,14 @@ internal class DccReissuerTest : BaseTest() {
                 )
             )
         )
-        coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
+        coEvery { dccReissuanceServer.requestDccReissuance("renew", any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(dccReissuance)
         )
 
-        coEvery { dccSwapper.swap(dccReissuance, certificateReissuance.certificateToReissue) } throws
-            InvalidHealthCertificateException(
-                errorCode = InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
-            )
+//        coEvery { dccSwapper.swap(dccReissuance, certificateReissuance.certificateToReissue) } throws
+//            InvalidHealthCertificateException(
+//                errorCode = InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
+//            )
         shouldThrow<InvalidHealthCertificateException> {
             dccReissuer().startReissuance(dccReissuanceDescriptor = certificateReissuance)
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_BASE45_DECODING_FAILED
