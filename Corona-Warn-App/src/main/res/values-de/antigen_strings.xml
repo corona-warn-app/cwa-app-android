@@ -194,7 +194,7 @@
     <!-- XTXT: Create RAT Qr code profile edit item-->
     <string name="rat_qr_code_profile_edit_item">Schnelltest-Profil bearbeiten</string>
     <!-- XTXT: Create RAT Qr code profile information item-->
-    <string name="rat_qr_code_profile_information_item">Information</string>
+    <string name="rat_qr_code_profile_information_item">Informationen</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
     <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil löschen?</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
