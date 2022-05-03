@@ -40,6 +40,8 @@ class DccReissuer @Inject constructor(
             register(issuance.certificate)
             issuance.relations.filter { relation ->
                 relation.action == "replace"
+            }.ifEmpty {
+                throw DccReissuanceException(DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION)
             }.forEach {
                 moveToBin(
                     allQrCodes[it.index].certificateRef.barcodeData,
