@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -18,13 +19,14 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsS
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [AnalyticsModule.BindsModule::class])
 class AnalyticsModule {
 
     @Reusable
@@ -79,4 +81,12 @@ class AnalyticsModule {
     @Provides
     @Singleton
     fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger = logger
+
+    @Module
+    internal interface BindsModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettable(resettable: Analytics): Resettable
+    }
 }

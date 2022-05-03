@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.sync.Mutex
@@ -39,7 +40,7 @@ class Analytics @Inject constructor(
     private val logger: LastAnalyticsSubmissionLogger,
     private val timeStamper: TimeStamper,
     private val onboardingSettings: OnboardingSettings
-) {
+): Resettable {
     private val submissionLockoutMutex = Mutex()
 
     private suspend fun trySubmission(analyticsConfig: AnalyticsConfig, ppaData: PpaData.PPADataAndroid): Result {
@@ -226,6 +227,11 @@ class Analytics @Inject constructor(
         if (!enabled) {
             deleteAllData()
         }
+    }
+
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
+        setAnalyticsEnabled(false)
     }
 
     fun isAnalyticsEnabledFlow(): Flow<Boolean> =

@@ -110,7 +110,6 @@ class DataReset @Inject constructor(
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Triggers deletion of all analytics contributed data
-        analytics.setAnalyticsEnabled(false)
         exposureWindowsSettings.clear()
 
         // Reset the current states stored in LiveData
