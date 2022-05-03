@@ -45,7 +45,7 @@ class DccQrCodeHandler @Inject constructor(
     }
 
     suspend fun moveToBin(dccQrCode: DccQrCode) {
-        when (dccQrCode)  {
+        when (dccQrCode) {
             is RecoveryCertificateQRCode -> recoveryCertificateRepository.recycleCertificate(
                 RecoveryCertificateContainerId(dccQrCode.hash)
             )

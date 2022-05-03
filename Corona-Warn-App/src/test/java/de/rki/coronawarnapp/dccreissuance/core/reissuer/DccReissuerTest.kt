@@ -165,5 +165,5 @@ class DccReissuerTest : BaseTest() {
     )
 }
 
-private  const val ACTION_RENEW = "renew"
-private  const val ACTION_REPLACE = "replace"
+private const val ACTION_RENEW = "renew"
+private const val ACTION_REPLACE = "replace"
