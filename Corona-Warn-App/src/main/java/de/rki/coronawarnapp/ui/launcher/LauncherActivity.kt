@@ -45,6 +45,7 @@ class LauncherActivity : AppCompatActivity() {
                 is LauncherEvent.ForceUpdate -> it.forceUpdate(this)
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
+                LauncherEvent.RestartApp -> restartApp()
             }
         }
     }
@@ -65,24 +66,29 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun checkEnvSetup() {
-        if (CWADebug.buildFlavor != CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
-            Timber.w("Tried to change currentEnvironment in PRODUCTION mode.")
-            return
-        }
-        if (intent.extras?.containsKey(ENVIRONMENT_KEY) == true) {
-            intent.extras?.getString(ENVIRONMENT_KEY)?.let {
-                viewModel.setEnvironment(it)
-                restartApp()
-            }
-        } else if (intent.extras?.containsKey(ENVIRONMENT_BASE64_KEY) == true) {
-            intent.extras?.getString(ENVIRONMENT_BASE64_KEY)?.let {
-                viewModel.setEnvironmentData(it)
-                restartApp()
-            }
+        when (val parameter = intent.getEnvironmentParameters()) {
+            is LauncherParameter.Base64Environment -> viewModel.setEnvironment(parameter)
+            is LauncherParameter.EnvironmentKey -> viewModel.setEnvironment(parameter)
+            null -> viewModel.initialization()
         }
     }
 
+    private fun Intent.getEnvironmentParameters(): LauncherParameter? {
+        if (CWADebug.buildFlavor == CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
+            extras?.getString(ENVIRONMENT_KEY)?.let {
+                Timber.d("App started with parameter $ENVIRONMENT_KEY = $it")
+                return LauncherParameter.EnvironmentKey(it)
+            }
+            extras?.getString(ENVIRONMENT_BASE64_KEY)?.let {
+                Timber.d("App started with parameter $ENVIRONMENT_BASE64_KEY = $it")
+                return LauncherParameter.Base64Environment(it)
+            }
+        }
+        return null
+    }
+
     private fun restartApp() {
+        Timber.d("App will be restarted")
         val intent = applicationContext.packageManager.getLaunchIntentForPackage(applicationContext.packageName)
         val componentName = intent?.component
         val mainIntent = Intent.makeRestartActivityTask(componentName)

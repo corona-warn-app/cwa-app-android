@@ -41,7 +41,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<LauncherEvent>()
 
-    init {
+    fun initialization() {
         Timber.tag(TAG).d("init()")
         checkForRoot()
     }
@@ -113,28 +113,33 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }.let { events.postValue(it) }
     }
 
-    fun setEnvironment(env: String) {
+    fun setEnvironment(environment: LauncherParameter.EnvironmentKey) {
         try {
             envSetup.launchEnvironment = null
-            envSetup.currentEnvironment = env.uppercase().toEnvironmentType()
-            launch {
-                dscRepository.clear()
-            }
+            envSetup.currentEnvironment = environment.value.uppercase().toEnvironmentType()
+            clearAndRestart()
         } catch (e: Exception) {
-            Timber.e(e, "Setting environment to $env failed")
+            Timber.e(e, "Can't set environment data using $environment")
+            events.postValue(LauncherEvent.RestartApp)
         }
     }
 
-    fun setEnvironmentData(base64env: String) {
+    fun setEnvironment(environment: LauncherParameter.Base64Environment) {
         try {
-            base64env.decodeBase64()?.toByteArray()?.let {
+            environment.value.decodeBase64()?.toByteArray()?.let {
                 envSetup.launchEnvironment = objectMapper.readTree(it)
             }
-            launch {
-                dscRepository.clear()
-            }
+            clearAndRestart()
         } catch (e: Exception) {
-            Timber.e(e, "Can't set environment data $base64env")
+            Timber.e(e, "Can't set environment data using $environment")
+            events.postValue(LauncherEvent.RestartApp)
+        }
+    }
+
+    private fun clearAndRestart() {
+        launch {
+            dscRepository.clear()
+            events.postValue(LauncherEvent.RestartApp)
         }
     }
 

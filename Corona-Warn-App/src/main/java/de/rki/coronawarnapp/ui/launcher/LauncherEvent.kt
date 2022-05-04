@@ -12,4 +12,6 @@ sealed class LauncherEvent {
     object ShowUpdateDialog : LauncherEvent()
 
     object ShowRootedDialog : LauncherEvent()
+
+    object RestartApp : LauncherEvent()
 }
