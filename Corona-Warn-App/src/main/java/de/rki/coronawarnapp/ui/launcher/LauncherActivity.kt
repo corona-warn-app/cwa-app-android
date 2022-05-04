@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.launcher
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
