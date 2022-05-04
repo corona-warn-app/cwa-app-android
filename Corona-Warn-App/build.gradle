@@ -337,7 +337,7 @@ dependencies {
 
     implementation "org.bouncycastle:bcpkix-jdk15on:1.69"
     // KOTLIN
-    def coroutineVersion = "1.5.0"
+    def coroutineVersion = "1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
