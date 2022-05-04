@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.fasterxml.jackson.databind.ObjectMapper
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -17,11 +18,13 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationModule
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
@@ -34,10 +37,11 @@ import dgca.verifier.app.engine.DefaultJsonLogicValidator
         DccValidationModule::class,
         DscServerModule::class,
         ExportCertificateModule::class,
-        DccRevocationModule::class
+        DccRevocationModule::class,
+        DigitalCovidCertificateModule.BindsModule::class
     ]
 )
-class DigitalCovidCertificateModule {
+object DigitalCovidCertificateModule {
     @Provides
     @Reusable
     fun providesDefaultCertLogicEngine(
@@ -70,6 +74,14 @@ class DigitalCovidCertificateModule {
         )
     ) {
         context.preferencesDataStoreFile(PERSON_SETTINGS_NAME)
+    }
+
+    @Module
+    internal interface BindsModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableDscRepository(resettable: DscRepository): Resettable
     }
 }
 
