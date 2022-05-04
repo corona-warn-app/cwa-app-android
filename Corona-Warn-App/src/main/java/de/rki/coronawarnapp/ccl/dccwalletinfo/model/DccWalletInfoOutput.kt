@@ -307,7 +307,6 @@ data class ReissuanceDivision(
 
     @JsonProperty("consentSubtitleText")
     val consentSubtitleText: CclText? = null,
-
 )
 
 data class CertificatesRevokedByInvalidationRules(

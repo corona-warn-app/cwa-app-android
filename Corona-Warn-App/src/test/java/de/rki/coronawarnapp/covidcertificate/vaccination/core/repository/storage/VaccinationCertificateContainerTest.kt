@@ -185,7 +185,9 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
         container.certificateData shouldNotBe null
 
-        coVerify { extractor.extract(VaccinationTestData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
+        coVerify {
+            extractor.extract(VaccinationTestData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT)
+        }
     }
 
     @Test
