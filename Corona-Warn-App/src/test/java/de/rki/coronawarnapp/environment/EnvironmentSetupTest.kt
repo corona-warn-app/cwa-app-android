@@ -41,7 +41,7 @@ class EnvironmentSetupTest : BaseTest() {
 
     private fun createEnvSetup() = EnvironmentSetup(
         context = context,
-        gson = SerializationModule().baseGson()
+        objectMapper = SerializationModule().jacksonObjectMapper()
     )
 
     @Test
