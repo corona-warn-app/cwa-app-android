@@ -14,7 +14,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
@@ -81,7 +81,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `Happy path`() = runBlockingTest {
+    fun `Happy path`() = runTest {
         instance.requestDccReissuance() shouldBe testResponse
 
         coVerify {
@@ -96,7 +96,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `forwards server certification validator errors`() = runBlockingTest {
+    fun `forwards server certification validator errors`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_PIN_MISMATCH
         val testError = Exception("Test error")
 
@@ -114,7 +114,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `throws on failed response with corresponding error code`() = runBlockingTest {
+    fun `throws on failed response with corresponding error code`() = runTest {
         checkStatusToErrorCodeMapping(statusCode = 400, errorCode = DccReissuanceException.ErrorCode.DCC_RI_400)
         checkStatusToErrorCodeMapping(statusCode = 401, errorCode = DccReissuanceException.ErrorCode.DCC_RI_401)
         checkStatusToErrorCodeMapping(statusCode = 403, errorCode = DccReissuanceException.ErrorCode.DCC_RI_403)
@@ -126,14 +126,14 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `throws DCC_RI_NO_NETWORK on no network`() = runBlockingTest {
+    fun `throws DCC_RI_NO_NETWORK on no network`() = runTest {
         checkNetworkErrorMapping(error = UnknownHostException("Test error"))
         checkNetworkErrorMapping(error = SocketTimeoutException("Test error"))
         checkNetworkErrorMapping(error = NetworkReadTimeoutException("Test error"))
     }
 
     @Test
-    fun `blames the server if something else fails`() = runBlockingTest {
+    fun `blames the server if something else fails`() = runTest {
         coEvery { dccReissuanceApi.requestReissuance(any()) } throws Exception("Test error")
 
         shouldThrow<DccReissuanceException> {
@@ -142,7 +142,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `throws DCC_RI_PARSE_ERR if response cannot be parsed`() = runBlockingTest {
+    fun `throws DCC_RI_PARSE_ERR if response cannot be parsed`() = runTest {
         val body = "faulty response".toResponseBody()
         coEvery { dccReissuanceApi.requestReissuance(any()) } returns Response.success(body)
 
@@ -158,7 +158,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `adds server error response`() = runBlockingTest {
+    fun `adds server error response`() = runTest {
         val dccReissuanceErrorResponse = DccReissuanceErrorResponse(
             error = "RI400-1200",
             message = "certificates not acceptable for action"

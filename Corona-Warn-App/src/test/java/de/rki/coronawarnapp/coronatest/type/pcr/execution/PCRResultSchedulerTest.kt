@@ -12,7 +12,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -46,7 +46,7 @@ class PCRResultSchedulerTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             createInstance().shouldBePolling.first() shouldBe false
         }
     }
@@ -62,7 +62,7 @@ class PCRResultSchedulerTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             createInstance().shouldBePolling.first() shouldBe true
         }
     }
@@ -71,7 +71,7 @@ class PCRResultSchedulerTest : BaseTest() {
     fun `no worker needed without test`() {
         every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
 
-        runBlockingTest {
+        runTest {
             createInstance().shouldBePolling.first() shouldBe false
         }
     }

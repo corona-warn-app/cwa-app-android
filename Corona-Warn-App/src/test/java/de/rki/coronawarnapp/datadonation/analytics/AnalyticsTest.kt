@@ -30,7 +30,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -293,7 +293,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -334,7 +334,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -367,7 +367,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -398,7 +398,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -438,7 +438,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -468,7 +468,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true

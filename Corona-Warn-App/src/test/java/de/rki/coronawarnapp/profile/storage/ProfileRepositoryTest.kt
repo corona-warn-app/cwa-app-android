@@ -8,7 +8,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -27,7 +27,7 @@ class ProfileRepositoryTest {
     }
 
     @Test
-    fun `upsert works with id`() = runBlockingTest {
+    fun `upsert works with id`() = runTest {
         val instance = createInstance()
         val profile = Profile(id = 1)
         instance.upsertProfile(profile)
@@ -35,7 +35,7 @@ class ProfileRepositoryTest {
     }
 
     @Test
-    fun `upsert works without id`() = runBlockingTest {
+    fun `upsert works without id`() = runTest {
         val instance = createInstance()
         val profile = Profile(firstName = "Jo")
         instance.upsertProfile(profile)
@@ -43,14 +43,14 @@ class ProfileRepositoryTest {
     }
 
     @Test
-    fun `delete works`() = runBlockingTest {
+    fun `delete works`() = runTest {
         val instance = createInstance()
         instance.deleteProfile(1)
         coVerify { dao.delete(1) }
     }
 
     @Test
-    fun `clear works`() = runBlockingTest {
+    fun `clear works`() = runTest {
         val instance = createInstance()
         instance.clear()
         coVerify { dao.deleteAll() }

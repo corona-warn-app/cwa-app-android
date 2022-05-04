@@ -27,7 +27,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -99,7 +99,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode decorate TransactionContext`() = runBlockingTest {
+    fun `handleQrCode decorate TransactionContext`() = runTest {
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
 
@@ -121,7 +121,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode throws MIN_VERSION_REQUIRED`() = runBlockingTest {
+    fun `handleQrCode throws MIN_VERSION_REQUIRED`() = runTest {
         every { configData.validationServiceMinVersion } returns 2160101
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
@@ -137,7 +137,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode  pass when minVersion is older`() = runBlockingTest {
+    fun `handleQrCode  pass when minVersion is older`() = runTest {
         every { configData.validationServiceMinVersion } returns 2140000
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
@@ -153,7 +153,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode pass when versions are the same`() = runBlockingTest {
+    fun `handleQrCode pass when versions are the same`() = runTest {
         every { configData.validationServiceMinVersion } returns 2150002
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
@@ -169,7 +169,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `no service provider check`() = runBlockingTest {
+    fun `no service provider check`() = runTest {
         coEvery { allowListRepository.refresh() } returns DccTicketingAllowListContainer(
             validationServiceAllowList = validationServiceAllowList,
             serviceProviderAllowList = emptySet()
@@ -184,7 +184,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode throws ALLOWLIST_NO_MATCH error`() = runBlockingTest {
+    fun `handleQrCode throws ALLOWLIST_NO_MATCH error`() = runTest {
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns DccJwkFilteringResult(emptySet(), emptySet())
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
 

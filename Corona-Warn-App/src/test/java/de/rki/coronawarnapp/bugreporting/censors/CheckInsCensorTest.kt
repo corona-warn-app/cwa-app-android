@@ -11,7 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -41,7 +41,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored check-in information`() = runBlockingTest {
+    fun `checkLog() should return LogLine with censored check-in information`() = runTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(
@@ -72,7 +72,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after user deletes his check-ins`() = runBlockingTest {
+    fun `censoring should still work after user deletes his check-ins`() = runTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(

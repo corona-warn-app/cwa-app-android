@@ -10,7 +10,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -61,13 +61,13 @@ internal class CoronaTestRepositoryExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `getPositiveViewedTests() should return emptyList if the user has no test`() = runBlockingTest {
+    fun `getPositiveViewedTests() should return emptyList if the user has no test`() = runTest {
         every { testRepository.coronaTests } returns flowOf(emptySet())
         testRepository.positiveViewedTests.first() shouldBe emptyList()
     }
 
     @Test
-    fun `getPositiveViewedTests() should return emptyList if the user has no positive test`() = runBlockingTest {
+    fun `getPositiveViewedTests() should return emptyList if the user has no positive test`() = runTest {
         with(testRepository) {
             every { coronaTests } returns flowOf(setOf(negativeRatTest))
             positiveViewedTests.first() shouldBe emptyList()
@@ -82,7 +82,7 @@ internal class CoronaTestRepositoryExtensionsTest : BaseTest() {
 
     @Test
     fun `getPositiveViewedTests() should return emptyList if the user has a positive test that is not viewed`() =
-        runBlockingTest {
+        runTest {
             with(testRepository) {
                 every { coronaTests } returns flowOf(setOf(positiveNotViewedRatTest))
                 positiveViewedTests.first() shouldBe emptyList()
@@ -102,7 +102,7 @@ internal class CoronaTestRepositoryExtensionsTest : BaseTest() {
 
     @Test
     fun `getPositiveViewedTests() should return tests if the user has a positive tests that are viewed`() =
-        runBlockingTest {
+        runTest {
             with(testRepository) {
                 every { coronaTests } returns flowOf(setOf(positiveViewedRatTest))
                 positiveViewedTests.first() shouldBe listOf(positiveViewedRatTest)

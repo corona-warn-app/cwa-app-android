@@ -20,7 +20,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -98,7 +98,7 @@ class AutoCheckOutTest : BaseTest() {
     )
 
     @Test
-    fun `process overdue`() = runBlockingTest {
+    fun `process overdue`() = runTest {
         createInstance(scope = this).apply {
             processOverDueCheckouts() shouldBe listOf(43L, 44L)
         }
@@ -114,7 +114,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `exceptions during processing of overdue checkins do not abort the whole process`() = runBlockingTest {
+    fun `exceptions during processing of overdue checkins do not abort the whole process`() = runTest {
         coEvery { checkOutHandler.checkOut(43L, any()) } throws Exception()
         createInstance(scope = this).apply {
             processOverDueCheckouts()
@@ -131,7 +131,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `0id check-in is not processed`() = runBlockingTest {
+    fun `0id check-in is not processed`() = runTest {
         createInstance(scope = this).apply {
             performCheckOut(0L) shouldBe false
         }
@@ -141,7 +141,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `process check in`() = runBlockingTest {
+    fun `process check in`() = runTest {
         createInstance(scope = this).apply {
             performCheckOut(43L) shouldBe true
         }
@@ -153,7 +153,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `null check ins are not processed`() = runBlockingTest {
+    fun `null check ins are not processed`() = runTest {
         coEvery { repository.getCheckInById(42L) } returns null
 
         createInstance(scope = this).apply {
@@ -166,7 +166,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `exceptions during checkout are caught`() = runBlockingTest {
+    fun `exceptions during checkout are caught`() = runTest {
         coEvery { checkOutHandler.checkOut(42L, any()) } throws Exception()
 
         createInstance(scope = this).apply {
@@ -175,7 +175,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `alarm refresh targets the next check-out that is due`() = runBlockingTest {
+    fun `alarm refresh targets the next check-out that is due`() = runTest {
         val mockIntent = mockk<PendingIntent>()
         every { intentFactory.createIntent(any()) } returns mockIntent
 
@@ -190,7 +190,7 @@ class AutoCheckOutTest : BaseTest() {
     }
 
     @Test
-    fun `if there is no upcoming check-out, we cancel any alarms`() = runBlockingTest {
+    fun `if there is no upcoming check-out, we cancel any alarms`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(2000)
 
         val mockIntent = mockk<PendingIntent>()

@@ -25,7 +25,7 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -64,7 +64,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `test notification in foreground`() = runBlockingTest {
+    fun `test notification in foreground`() = runTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(true) }
 
         createInstance().showTestResultAvailableNotification(mockk())
@@ -73,7 +73,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun `test notification in background`() = runBlockingTest {
+    fun `test notification in background`() = runTest {
         coEvery { foregroundState.isInForeground } returns flow { emit(false) }
         every {
             notificationHelper.sendNotification(

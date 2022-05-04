@@ -11,7 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -45,7 +45,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         every { diaryRepo.people } returns flowOf(
             listOf(
                 mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
@@ -69,7 +69,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after people are deleted`() = runBlockingTest {
+    fun `censoring should still work after people are deleted`() = runTest {
         every { diaryRepo.people } returns flowOf(
             listOf(
                 mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
@@ -100,7 +100,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there are no persons no match`() = runBlockingTest {
+    fun `censoring returns null if there are no persons no match`() = runTest {
         every { diaryRepo.people } returns flowOf(emptyList())
         val instance = createInstance(this)
         val notCensored = "May 2021 be better than 2020."
@@ -108,7 +108,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `if message is the same, don't copy the log line`() = runBlockingTest {
+    fun `if message is the same, don't copy the log line`() = runTest {
         every { diaryRepo.people } returns flowOf(
             listOf(
                 mockPerson(1, "Test", phone = null, mail = null),

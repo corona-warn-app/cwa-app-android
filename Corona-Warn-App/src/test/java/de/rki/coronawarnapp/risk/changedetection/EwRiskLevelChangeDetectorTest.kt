@@ -24,7 +24,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -88,7 +88,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `nothing happens if there is only one result yet`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(createEwRiskLevel(LOW_RISK)))
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -109,7 +109,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -130,7 +130,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -151,7 +151,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -174,7 +174,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -204,7 +204,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(1)
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
 
@@ -234,7 +234,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
             advanceUntilIdle()
@@ -254,7 +254,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance(scope = this)
             instance.launch()
             advanceUntilIdle()

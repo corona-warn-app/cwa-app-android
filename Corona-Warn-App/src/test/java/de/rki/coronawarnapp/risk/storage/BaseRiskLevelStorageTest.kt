@@ -37,7 +37,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -118,7 +118,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `aggregatedRiskPerDateResults are returned from database and mapped`() {
         val testPersistedAggregatedRiskPerDateResultFlow = flowOf(listOf(ewPersistedAggregatedRiskPerDateResult))
         every { ewAggregatedRiskPerDateResultDao.allEntries() } returns testPersistedAggregatedRiskPerDateResultFlow
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow
@@ -134,7 +134,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `ptDayRiskStates are returned from database`() {
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
             instance.ptDayRiskStates.first() shouldBe listOf(ptDayRisk)
         }
@@ -142,7 +142,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `exposureWindows are returned from database and mapped`() {
-        runBlockingTest {
+        runTest {
             val exposureWindowDAOWrappers = createInstance().exposureWindowsTables.allEntries()
             exposureWindowDAOWrappers.first() shouldBe listOf(ewDaoWrapper)
             exposureWindowDAOWrappers.first().map { it.toExposureWindow() } shouldBe listOf(testExposureWindow)
@@ -154,7 +154,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
         every { ewTables.allEntries() } returns flowOf(emptyList())
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
             instance.allEwRiskLevelResults.first() shouldBe listOf(ewRiskLevelResult)
         }
@@ -165,7 +165,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
         every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
 
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
             val riskLevelResult = ewRiskLevelResult.copy(exposureWindows = listOf(testExposureWindow))
             instance.allEwRiskLevelResultsWithExposureWindows.first() shouldBe listOf(riskLevelResult)
@@ -180,7 +180,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `allEwRiskLevelResultsWithExposureWindows are mapped`() {
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
         every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
 
             val riskLevelResult = ewRiskLevelResult.copy(exposureWindows = listOf(testExposureWindow))
@@ -194,7 +194,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `errors when storing risk level result are rethrown`() = runBlockingTest {
+    fun `errors when storing risk level result are rethrown`() = runTest {
         coEvery { ewRiskResultTables.insertEntry(any()) } throws IllegalStateException("No body expects the...")
         val instance = createInstance()
         shouldThrow<java.lang.IllegalStateException> {
@@ -203,7 +203,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `errors when storing exposure window results are thrown`() = runBlockingTest {
+    fun `errors when storing exposure window results are thrown`() = runTest {
         val instance = createInstance(onStoreExposureWindows = { _, _ -> throw IllegalStateException("Surprise!") })
         shouldThrow<IllegalStateException> {
             instance.storeResult(ewRiskLevelResult)
@@ -211,7 +211,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storeResult works`() = runBlockingTest {
+    fun `storeResult works`() = runTest {
         val mockStoreWindows: (String, EwRiskLevelResult) -> Unit = spyk()
         val mockDeleteOrphanedWindows: () -> Unit = spyk()
 
@@ -234,7 +234,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing aggregatedRiskPerDateResults works`() = runBlockingTest {
+    fun `storing aggregatedRiskPerDateResults works`() = runTest {
         val instance = createInstance()
         instance.storeResult(ewRiskLevelResultWithAggregatedRiskPerDateResult)
 
@@ -249,7 +249,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     * */
 
     @Test
-    fun `allCombinedEwPtRiskLevelResults works no pt result is available`() = runBlockingTest {
+    fun `allCombinedEwPtRiskLevelResults works no pt result is available`() = runTest {
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf())
 
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
@@ -268,7 +268,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `allCombinedEwPtRiskLevelResults works when only one calc each is available`() = runBlockingTest {
+    fun `allCombinedEwPtRiskLevelResults works when only one calc each is available`() = runTest {
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low))
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
@@ -290,7 +290,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `allCombinedEwPtRiskLevelResults works when two calc each are available`() = runBlockingTest {
+    fun `allCombinedEwPtRiskLevelResults works when two calc each are available`() = runTest {
 
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low, ptResult2Failed))
@@ -318,7 +318,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined`() {
-        runBlockingTest {
+        runTest {
             val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
 
             riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
@@ -340,7 +340,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { ptRiskRepository.presenceTracingDayRisk } returns flowOf(listOf())
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf())
 
-        runBlockingTest {
+        runTest {
             val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
             riskLevelResult.lastCalculated.calculatedAt shouldBe Instant.EPOCH
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.LOW_RISK
@@ -350,7 +350,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clear works`() = runBlockingTest {
+    fun `clear works`() = runTest {
         createInstance().clear()
         coVerify {
             ewRiskResultDatabase.clearAllTables()

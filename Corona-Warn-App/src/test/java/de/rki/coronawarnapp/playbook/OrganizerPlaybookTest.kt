@@ -21,7 +21,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -57,7 +57,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit Upload TAN pass`() = runBlockingTest {
+    fun `submit Upload TAN pass`() = runTest {
         val checkInsReport = CheckInsReport(
             unencryptedCheckIns = listOf(CheckInOuterClass.CheckIn.getDefaultInstance()),
             encryptedCheckIns = listOf(CheckInOuterClass.CheckInProtectedReport.getDefaultInstance())
@@ -77,7 +77,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `obtainUploadTan - Registration token pass`() = runBlockingTest {
+    fun `obtainUploadTan - Registration token pass`() = runTest {
         organizerPlaybook.obtainUploadTan(RegistrationRequest(key = "key", type = VerificationKeyType.TELETAN))
 
         coVerifySequence {
@@ -88,7 +88,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `obtainUploadTan - Registration token fail`() = runBlockingTest {
+    fun `obtainUploadTan - Registration token fail`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } throws Exception()
             coEvery { retrieveTan(any()) } returns "uploadTan"
@@ -111,7 +111,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     // ////////////////////////////////////////////////////
 
     @Test
-    fun `submit - registration fails with client error`() = runBlockingTest {
+    fun `submit - registration fails with client error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } throws CwaClientError(400, "CwaClientError")
             coEvery { retrieveTan(any()) } returns "uploadTan"
@@ -140,7 +140,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - registration fails with server error`() = runBlockingTest {
+    fun `submit - registration fails with server error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } throws CwaServerError(500, "CwaServerError")
             coEvery { retrieveTan(any()) } returns "uploadTan"
@@ -169,7 +169,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - registration fails with network error`() = runBlockingTest {
+    fun `submit - registration fails with network error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } throws CwaUnknownHostException("CwaUnknownHostException", null)
             coEvery { retrieveTan(any()) } returns "uploadTan"
@@ -198,7 +198,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - registration fails with other errors`() = runBlockingTest {
+    fun `submit - registration fails with other errors`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } throws Exception()
             coEvery { retrieveTan(any()) } returns "uploadTan"
@@ -230,7 +230,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     // ////////////////////////////////////////////////////
 
     @Test
-    fun `submit - TAN fails with client error`() = runBlockingTest {
+    fun `submit - TAN fails with client error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
             coEvery { retrieveTan(any()) } throws CwaClientError(400, "CwaClientError")
@@ -259,7 +259,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - TAN fails with server error`() = runBlockingTest {
+    fun `submit - TAN fails with server error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
             coEvery { retrieveTan(any()) } throws CwaServerError(500, "CwaServerError")
@@ -288,7 +288,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - TAN fails with network error`() = runBlockingTest {
+    fun `submit - TAN fails with network error`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
             coEvery { retrieveTan(any()) } throws CwaUnknownHostException("CwaUnknownHostException", null)
@@ -317,7 +317,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit - TAN fails with other errors`() = runBlockingTest {
+    fun `submit - TAN fails with other errors`() = runTest {
         with(verificationServer) {
             coEvery { retrieveRegistrationToken(any()) } returns "RegistrationToken"
             coEvery { retrieveTan(any()) } throws Exception()
@@ -350,7 +350,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     // ////////////////////////////////////////////////////
 
     @Test
-    fun `submit fails with client error`() = runBlockingTest {
+    fun `submit fails with client error`() = runTest {
         coEvery { organizerSubmissionServer.submit(any(), any()) } throws
             CwaClientError(400, "CwaClientError")
         val checkInsReport = CheckInsReport(
@@ -372,7 +372,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit fails with server error`() = runBlockingTest {
+    fun `submit fails with server error`() = runTest {
         coEvery { organizerSubmissionServer.submit(any(), any()) } throws
             CwaServerError(500, "CwaServerError")
 
@@ -395,7 +395,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit fails with network error`() = runBlockingTest {
+    fun `submit fails with network error`() = runTest {
         coEvery { organizerSubmissionServer.submit(any(), any()) } throws
             CwaUnknownHostException("CwaUnknownHostException", null)
 
@@ -418,7 +418,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submit fails with other errors`() = runBlockingTest {
+    fun `submit fails with other errors`() = runTest {
         coEvery { organizerSubmissionServer.submit(any(), any()) } throws Exception()
 
         val checkInsReport = CheckInsReport(

@@ -18,7 +18,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -56,7 +56,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     )
 
     @Test
-    fun `side effect free init`() = runBlockingTest {
+    fun `side effect free init`() = runTest {
         createInstance(scope = this)
         verify { storage wasNot Called }
         verify { timeStamper wasNot Called }

@@ -10,7 +10,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
@@ -46,7 +46,7 @@ internal class TraceLocationCreatorTest : BaseTest() {
 
     @Test
     fun `createTraceLocation() should return traceLocation and store it in repository when everything works fine`() =
-        runBlockingTest {
+        runTest {
 
             val userInput = TraceLocationUserInput(
                 type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT,

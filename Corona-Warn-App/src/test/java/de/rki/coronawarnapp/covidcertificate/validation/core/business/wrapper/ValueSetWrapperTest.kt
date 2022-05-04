@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -34,7 +34,7 @@ class ValueSetWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `value set mapping`() = runBlockingTest {
+    fun `value set mapping`() = runTest {
         valueSetWrapper.valueMap.first() shouldBe mapOf(
             countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),

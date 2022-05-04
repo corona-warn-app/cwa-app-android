@@ -22,7 +22,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -56,7 +56,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Vax repo`() = runBlockingTest {
+    fun `handleQrCode calls Vax repo`() = runTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -68,7 +68,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Test repo`() = runBlockingTest {
+    fun `handleQrCode calls Test repo`() = runTest {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -80,7 +80,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Recovery repo`() = runBlockingTest {
+    fun `handleQrCode calls Recovery repo`() = runTest {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
         }

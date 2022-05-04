@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJson
@@ -15,7 +15,7 @@ class FlowPreferenceTest : BaseTest() {
     private val mockPreferences = MockSharedPreferences()
 
     @Test
-    fun `reading and writing strings`() = runBlockingTest {
+    fun `reading and writing strings`() = runTest {
         mockPreferences.createFlowPreference<String?>(
             key = "testKey",
             defaultValue = "default"
@@ -44,7 +44,7 @@ class FlowPreferenceTest : BaseTest() {
     }
 
     @Test
-    fun `reading and writing boolean`() = runBlockingTest {
+    fun `reading and writing boolean`() = runTest {
         mockPreferences.createFlowPreference<Boolean?>(
             key = "testKey",
             defaultValue = true
@@ -73,7 +73,7 @@ class FlowPreferenceTest : BaseTest() {
     }
 
     @Test
-    fun `reading and writing long`() = runBlockingTest {
+    fun `reading and writing long`() = runTest {
         mockPreferences.createFlowPreference<Long?>(
             key = "testKey",
             defaultValue = 9000L
@@ -102,7 +102,7 @@ class FlowPreferenceTest : BaseTest() {
     }
 
     @Test
-    fun `reading and writing integer`() = runBlockingTest {
+    fun `reading and writing integer`() = runTest {
         mockPreferences.createFlowPreference<Long?>(
             key = "testKey",
             defaultValue = 123
@@ -131,7 +131,7 @@ class FlowPreferenceTest : BaseTest() {
     }
 
     @Test
-    fun `reading and writing float`() = runBlockingTest {
+    fun `reading and writing float`() = runTest {
         mockPreferences.createFlowPreference<Float?>(
             key = "testKey",
             defaultValue = 3.6f
@@ -168,7 +168,7 @@ class FlowPreferenceTest : BaseTest() {
     )
 
     @Test
-    fun `reading and writing GSON`() = runBlockingTest {
+    fun `reading and writing GSON`() = runTest {
         val testData1 = TestGson(string = "teststring")
         val testData2 = TestGson(string = "update")
         FlowPreference<TestGson?>(
@@ -209,7 +209,7 @@ class FlowPreferenceTest : BaseTest() {
     }
 
     @Test
-    fun `reading and writing Jackson`() = runBlockingTest {
+    fun `reading and writing Jackson`() = runTest {
         val testData1 = TestGson(string = "teststring")
         val testData2 = TestGson(string = "update")
         FlowPreference<TestGson?>(

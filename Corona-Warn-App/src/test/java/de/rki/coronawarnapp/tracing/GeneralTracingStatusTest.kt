@@ -9,7 +9,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -47,7 +47,7 @@ class GeneralTracingStatusTest : BaseTest() {
     )
 
     @Test
-    fun `flow updates work`() = runBlockingTest {
+    fun `flow updates work`() = runTest {
         val testCollector = createInstance().generalStatus.test(startOnScope = this)
         advanceUntilIdle()
 
@@ -67,21 +67,21 @@ class GeneralTracingStatusTest : BaseTest() {
     }
 
     @Test
-    fun `bluetooth state change`() = runBlockingTest {
+    fun `bluetooth state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
         isBluetoothEnabled.emit(false)
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.BLUETOOTH_DISABLED
     }
 
     @Test
-    fun `tracing state change`() = runBlockingTest {
+    fun `tracing state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
         isTracingEnabled.emit(false)
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_INACTIVE
     }
 
     @Test
-    fun `location state change`() = runBlockingTest {
+    fun `location state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
 
         isLocationEnabled.emit(false)

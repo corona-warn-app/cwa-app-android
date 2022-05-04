@@ -13,7 +13,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,7 +53,7 @@ internal class TraceLocationCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return LogLine with censored trace location information from repository`() =
-        runBlockingTest {
+        runTest {
             every { traceLocationRepo.allTraceLocations } returns flowOf(
                 listOf(
                     mockTraceLocation(
@@ -87,7 +87,7 @@ internal class TraceLocationCensorTest : BaseTest() {
         }
 
     @Test
-    fun `censoring should still work after the user deletes his trace locations`() = runBlockingTest {
+    fun `censoring should still work after the user deletes his trace locations`() = runTest {
 
         every { traceLocationRepo.allTraceLocations } returns flowOf(
             listOf(
@@ -164,7 +164,7 @@ internal class TraceLocationCensorTest : BaseTest() {
         }
 
     @Test
-    fun `checkLog() should return null if no trace locations are stored`() = runBlockingTest {
+    fun `checkLog() should return null if no trace locations are stored`() = runTest {
         every { traceLocationRepo.allTraceLocations } returns flowOf(emptyList())
 
         val censor = createInstance(this)
@@ -173,7 +173,7 @@ internal class TraceLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlockingTest {
+    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runTest {
 
         every { traceLocationRepo.allTraceLocations } returns flowOf(
             listOf(

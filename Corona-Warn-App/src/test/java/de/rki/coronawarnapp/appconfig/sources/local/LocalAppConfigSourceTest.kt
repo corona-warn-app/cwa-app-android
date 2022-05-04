@@ -11,7 +11,7 @@ import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -70,7 +70,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     )
 
     @Test
-    fun `local app config source returns null if storage is empty`() = runBlockingTest {
+    fun `local app config source returns null if storage is empty`() = runTest {
         coEvery { configStorage.getStoredConfig() } returns null
 
         val instance = createInstance()
@@ -81,7 +81,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `local default config is loaded from storage`() = runBlockingTest {
+    fun `local default config is loaded from storage`() = runTest {
         coEvery { configStorage.getStoredConfig() } returns expectedData
 
         val instance = createInstance()
@@ -99,7 +99,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `local app config source returns null if there is any exception`() = runBlockingTest {
+    fun `local app config source returns null if there is any exception`() = runTest {
         coEvery { configStorage.getStoredConfig() } returns expectedData.copy(
             rawData = "I'm not valid protobuf".toByteArray()
         )

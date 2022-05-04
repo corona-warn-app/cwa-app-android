@@ -18,7 +18,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -70,7 +70,7 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `initial state is emitted correctly without callback`() = runBlockingTest {
+    fun `initial state is emitted correctly without callback`() = runTest {
         mockLocationStatus(true)
         val instance = createInstance()
         instance.isLocationEnabled.first() shouldBe true
@@ -83,7 +83,7 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runBlockingTest {
+    fun `system callbacks lead to new emissions with an updated state`() = runTest {
         val instance = createInstance()
 
         mockLocationStatus(enabled = true)

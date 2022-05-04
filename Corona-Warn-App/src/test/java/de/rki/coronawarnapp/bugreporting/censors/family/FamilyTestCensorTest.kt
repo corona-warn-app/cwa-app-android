@@ -11,7 +11,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -67,7 +67,7 @@ internal class FamilyTestCensorTest {
     )
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlockingTest {
+    fun `checkLog() should return censored LogLine`() = runTest {
 
         val censor = createInstance()
 
@@ -92,7 +92,7 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
+    fun `checkLog() should return null if no data to censor was set`() = runTest {
         coEvery { familyTestRepository.familyTests } returns flowOf(setOf())
         coEvery { familyTestRepository.familyTestsInRecycleBin } returns flowOf(setOf())
         val censor = createInstance()
@@ -103,7 +103,7 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `personName of family should be censored`() = runBlockingTest {
+    fun `personName of family should be censored`() = runTest {
         coEvery { familyTestRepository.familyTests } returns flowOf(setOf())
         coEvery { familyTestRepository.familyTestsInRecycleBin } returns flowOf(setOf())
         val censor = createInstance()
@@ -115,7 +115,7 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
+    fun `checkLog() should return null if nothing should be censored`() = runTest {
         val censor = createInstance()
         val logLineNotToCensor = "Nothing to censor here"
 

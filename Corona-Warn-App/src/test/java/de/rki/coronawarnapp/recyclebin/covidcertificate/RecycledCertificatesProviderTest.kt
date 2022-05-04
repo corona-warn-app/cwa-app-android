@@ -23,7 +23,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -80,12 +80,12 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun sorting() = runBlockingTest {
+    fun sorting() = runTest {
         provider().recycledCertificates.first() shouldBe setOf(vc, tc, rc)
     }
 
     @Test
-    fun findCertificate() = runBlockingTest {
+    fun findCertificate() = runTest {
         provider().findCertificate("tcQrCode") shouldBe tcContainerId
         provider().findCertificate("rcQrCode") shouldBe rcContainerId
         provider().findCertificate("vcQrCode") shouldBe vcContainerId
@@ -93,7 +93,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun restoreCertificate() = runBlockingTest {
+    fun restoreCertificate() = runTest {
         provider().restoreCertificate(tcContainerId)
         provider().restoreCertificate(vcContainerId)
         provider().restoreCertificate(rcContainerId)
@@ -106,7 +106,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteCertificate() = runBlockingTest {
+    fun deleteCertificate() = runTest {
         provider().deleteCertificate(tcContainerId)
         provider().deleteCertificate(vcContainerId)
         provider().deleteCertificate(rcContainerId)
@@ -119,7 +119,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteAllCertificate() = runBlockingTest {
+    fun deleteAllCertificate() = runTest {
         provider().deleteAllCertificate(setOf(tcContainerId, vcContainerId, rcContainerId))
 
         coVerify(exactly = 1) {

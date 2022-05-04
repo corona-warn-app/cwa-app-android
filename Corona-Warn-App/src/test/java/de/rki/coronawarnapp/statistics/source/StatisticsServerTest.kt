@@ -10,7 +10,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.Cache
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
@@ -41,7 +41,7 @@ class StatisticsServerTest : BaseIOTest() {
     )
 
     @Test
-    fun `successful download`() = runBlockingTest {
+    fun `successful download`() = runTest {
         coEvery { api.getStatistics() } returns Response.success(STATS_ZIP.toResponseBody())
 
         val server = createInstance()
@@ -53,7 +53,7 @@ class StatisticsServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `data is faulty`() = runBlockingTest {
+    fun `data is faulty`() = runTest {
         coEvery { api.getStatistics() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -64,7 +64,7 @@ class StatisticsServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `verification fails`() = runBlockingTest {
+    fun `verification fails`() = runTest {
         coEvery { api.getStatistics() } returns Response.success(STATS_ZIP.toResponseBody())
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 

@@ -21,7 +21,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -54,7 +54,7 @@ internal class DccSwapperTest : BaseTest() {
     }
 
     @Test
-    fun `swap vc`() = runBlockingTest {
+    fun `swap vc`() = runTest {
         val qrCode = mockk<VaccinationCertificateQRCode>()
         coEvery { dccQrCodeExtractor.extract(any()) } returns qrCode
         dccSwapper().swap(dccReissuance, certificateToReissue)
@@ -72,7 +72,7 @@ internal class DccSwapperTest : BaseTest() {
     }
 
     @Test
-    fun `swap tc`() = runBlockingTest {
+    fun `swap tc`() = runTest {
         val qrCode = mockk<TestCertificateQRCode>()
         coEvery { dccQrCodeExtractor.extract(any()) } returns qrCode
         dccSwapper().swap(dccReissuance, certificateToReissue)
@@ -90,7 +90,7 @@ internal class DccSwapperTest : BaseTest() {
     }
 
     @Test
-    fun `swap rc`() = runBlockingTest {
+    fun `swap rc`() = runTest {
         val qrCode = mockk<RecoveryCertificateQRCode>()
         coEvery { dccQrCodeExtractor.extract(any()) } returns qrCode
         dccSwapper().swap(dccReissuance, certificateToReissue)

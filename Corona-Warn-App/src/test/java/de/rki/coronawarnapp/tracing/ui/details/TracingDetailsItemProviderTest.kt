@@ -29,7 +29,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -108,7 +108,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `additional info low risk box`() = runBlockingTest {
+    fun `additional info low risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -125,7 +125,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `no additional info low risk box due to matched key count`() = runBlockingTest {
+    fun `no additional info low risk box due to matched key count`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -142,7 +142,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `no additional info low risk box due to high risk`() = runBlockingTest {
+    fun `no additional info low risk box due to high risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -159,7 +159,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `increased risk box and no normal risk box`() = runBlockingTest {
+    fun `increased risk box and no normal risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -178,7 +178,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `normal risk box and no increased risk box`() = runBlockingTest {
+    fun `normal risk box and no increased risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -197,7 +197,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `period logged box with low risk`() = runBlockingTest {
+    fun `period logged box with low risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -217,7 +217,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `period logged box with high risk`() = runBlockingTest {
+    fun `period logged box with high risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -237,7 +237,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `no period logged box due to failed calculation`() = runBlockingTest {
+    fun `no period logged box due to failed calculation`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -257,7 +257,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `no period logged box due to inactive tracing`() = runBlockingTest {
+    fun `no period logged box due to inactive tracing`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
@@ -277,7 +277,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `failed calculation box due to inactive tracing`() = runBlockingTest {
+    fun `failed calculation box due to inactive tracing`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
@@ -300,7 +300,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `failed calculation box due to failed calculation`() = runBlockingTest {
+    fun `failed calculation box due to failed calculation`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -323,7 +323,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `low risk box no high risk box`() = runBlockingTest {
+    fun `low risk box no high risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -346,7 +346,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `high risk box no low risk box`() = runBlockingTest {
+    fun `high risk box no low risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -369,7 +369,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `low risk no high risk survey box`() = runBlockingTest {
+    fun `low risk no high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -390,7 +390,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `high risk but feature disabled so no high risk survey box`() = runBlockingTest {
+    fun `high risk but feature disabled so no high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -411,7 +411,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `high risk and feature enabled so high risk survey box`() = runBlockingTest {
+    fun `high risk and feature enabled so high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,

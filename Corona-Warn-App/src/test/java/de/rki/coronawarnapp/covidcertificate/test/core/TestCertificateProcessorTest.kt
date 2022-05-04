@@ -26,7 +26,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -180,7 +180,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - no edgecase means assume success on HTTP 409`() = runBlockingTest {
+    fun `public key registration - no edgecase means assume success on HTTP 409`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_409
         )
@@ -200,7 +200,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase and HTTP 409`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase and HTTP 409`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_409
         )
@@ -223,7 +223,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase generic error`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase generic error`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_FAILED,
         )
@@ -250,7 +250,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase and success`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase and success`() = runTest {
         val edgeCaseData = raCertificateData.copy(
             rsaPublicKey = null,
             rsaPrivateKey = null,

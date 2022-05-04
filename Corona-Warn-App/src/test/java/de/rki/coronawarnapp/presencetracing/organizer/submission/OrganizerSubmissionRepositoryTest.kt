@@ -14,7 +14,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -65,7 +65,7 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `submit - Prepare checkins and then submit`() = runBlockingTest {
+    fun `submit - Prepare checkins and then submit`() = runTest {
         organiserSubmissionRepository.submit(organizerSubmissionPayload)
 
         coVerifySequence {
@@ -75,7 +75,7 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `submit - throws Exception when Preparing checkins fails`() = runBlockingTest {
+    fun `submit - throws Exception when Preparing checkins fails`() = runTest {
         coEvery { checkInsTransformer.transform(any()) } throws Exception()
         shouldThrow<Exception> {
             organiserSubmissionRepository.submit(organizerSubmissionPayload)
@@ -83,7 +83,7 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `submit - throws Exception when submit fails`() = runBlockingTest {
+    fun `submit - throws Exception when submit fails`() = runTest {
         coEvery { organizerPlaybook.submit(any(), any()) } throws Exception()
         shouldThrow<Exception> {
             organiserSubmissionRepository.submit(organizerSubmissionPayload)

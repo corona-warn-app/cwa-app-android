@@ -19,7 +19,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -76,7 +76,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `registration works`() = runBlockingTest {
+    fun `registration works`() = runTest {
         createInstance().registerTest(qrCode, "Maria") shouldBe familyTest
 
         coVerifySequence {
@@ -88,7 +88,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `refresh works`() = runBlockingTest {
+    fun `refresh works`() = runTest {
         createInstance().refresh()
         coVerifySequence {
             storage.familyTestMap
@@ -99,7 +99,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `no polling for final results`() = runBlockingTest {
+    fun `no polling for final results`() = runTest {
         coEvery { storage.familyTestMap } returns
             flowOf(mapOf(identifier to familyTest.updateTestResult(CoronaTestResult.PCR_POSITIVE)))
         createInstance().refresh()
@@ -109,7 +109,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `restoreTest calls update`() = runBlockingTest {
+    fun `restoreTest calls update`() = runTest {
         val instance = createInstance()
         instance.restoreTest(identifier)
         coVerify {
@@ -118,7 +118,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `moveTestToRecycleBin calls update`() = runBlockingTest {
+    fun `moveTestToRecycleBin calls update`() = runTest {
         val instance = createInstance()
         instance.moveTestToRecycleBin(identifier)
         coVerify {
@@ -127,7 +127,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `moveAllTestsToRecycleBin calls moveAllToRecycleBin`() = runBlockingTest {
+    fun `moveAllTestsToRecycleBin calls moveAllToRecycleBin`() = runTest {
         val instance = createInstance()
         instance.moveAllTestsToRecycleBin(listOf("1", "2", "3"))
         coVerify {
@@ -136,7 +136,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `markViewed calls update`() = runBlockingTest {
+    fun `markViewed calls update`() = runTest {
         val instance = createInstance()
         instance.markViewed(identifier)
         coVerify {
@@ -145,7 +145,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `updateResultNotification calls update`() = runBlockingTest {
+    fun `updateResultNotification calls update`() = runTest {
         val instance = createInstance()
         instance.updateResultNotification(identifier, true)
         coVerify {
@@ -154,7 +154,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `markBadgeAsViewed calls update`() = runBlockingTest {
+    fun `markBadgeAsViewed calls update`() = runTest {
         val instance = createInstance()
         instance.markAllBadgesAsViewed(listOf(identifier))
         coVerify {
@@ -163,7 +163,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `markDccAsCreated calls update`() = runBlockingTest {
+    fun `markDccAsCreated calls update`() = runTest {
         val instance = createInstance()
         instance.markDccAsCreated(identifier, true)
         coVerify {
@@ -172,7 +172,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `delete calls storage delete`() = runBlockingTest {
+    fun `delete calls storage delete`() = runTest {
         val instance = createInstance()
         instance.deleteTest(identifier)
         coVerify {
@@ -181,7 +181,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `notifyIfNeeded notify and update tests after change`() = runBlockingTest {
+    fun `notifyIfNeeded notify and update tests after change`() = runTest {
         val familyTest1 = FamilyCoronaTest(
             personName = "Person 1",
             coronaTest = CoronaTest(

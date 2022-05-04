@@ -11,7 +11,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +37,7 @@ internal class CheckInCleanerTest : BaseTest() {
     private fun createInstance() = CheckInCleaner(checkInRepository, timeStamper)
 
     @Test
-    fun `cleanUp() should do nothing when no check-ins are stored`() = runBlockingTest {
+    fun `cleanUp() should do nothing when no check-ins are stored`() = runTest {
         every { checkInRepository.allCheckIns } returns flowOf(emptyList())
 
         createInstance().cleanUp()
@@ -47,7 +47,7 @@ internal class CheckInCleanerTest : BaseTest() {
 
     @Test
     fun `cleanUp() should NOT delete check-ins with an check-out date that is not older than 15 days`() =
-        runBlockingTest {
+        runTest {
 
             val lastValidCheckIn = createCheckIn(Instant.parse("2020-01-01T00:00:00.000Z"))
             every { checkInRepository.allCheckIns } returns flowOf(listOf(lastValidCheckIn))
@@ -59,7 +59,7 @@ internal class CheckInCleanerTest : BaseTest() {
 
     @Test
     fun `cleanUp() should delete check-ins that are older than 15 days`() =
-        runBlockingTest {
+        runTest {
 
             val oldCheckIn = createCheckIn(Instant.parse("2019-12-31T23:59:59.000Z"))
             every { checkInRepository.allCheckIns } returns flowOf(listOf(oldCheckIn))

@@ -14,7 +14,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -58,7 +58,7 @@ class DccReissuanceProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `maps input correctly and forwards response`() = runBlockingTest {
+    fun `maps input correctly and forwards response`() = runTest {
         val response = DccReissuanceResponse(dccReissuances = emptyList())
 
         coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } returns response
@@ -78,7 +78,7 @@ class DccReissuanceProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `forwards errors`() = runBlockingTest {
+    fun `forwards errors`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_400
         coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } throws DccReissuanceException(
             errorCode = errorCode

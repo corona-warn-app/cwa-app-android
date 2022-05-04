@@ -18,7 +18,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -73,7 +73,7 @@ internal class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance throws DCC_RI_NO_RELATION if no reissuances`() = runBlockingTest {
+    fun `startReissuance throws DCC_RI_NO_RELATION if no reissuances`() = runTest {
         shouldThrow<DccReissuanceException> {
             dccReissuer().startReissuance(dccReissuanceDescriptor = certificateReissuance)
         }.errorCode shouldBe DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION
@@ -82,7 +82,7 @@ internal class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance throws DCC_RI_NO_RELATION if no relation index`() = runBlockingTest {
+    fun `startReissuance throws DCC_RI_NO_RELATION if no relation index`() = runTest {
         coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(
                 DccReissuanceResponse.DccReissuance(
@@ -104,7 +104,7 @@ internal class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance throws DCC_RI_NO_RELATION if no relation action`() = runBlockingTest {
+    fun `startReissuance throws DCC_RI_NO_RELATION if no relation action`() = runTest {
         coEvery { dccReissuanceProcessor.requestDccReissuance(any()) } returns DccReissuanceResponse(
             dccReissuances = listOf(
                 DccReissuanceResponse.DccReissuance(
@@ -126,7 +126,7 @@ internal class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance works`() = runBlockingTest {
+    fun `startReissuance works`() = runTest {
         val dccReissuance = DccReissuanceResponse.DccReissuance(
             certificate = "HC1:6BFOXN...",
             relations = listOf(
@@ -152,7 +152,7 @@ internal class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance should throw what swapper throws`() = runBlockingTest {
+    fun `startReissuance should throw what swapper throws`() = runTest {
         val dccReissuance = DccReissuanceResponse.DccReissuance(
             certificate = "HC1:6BFOXN...",
             relations = listOf(

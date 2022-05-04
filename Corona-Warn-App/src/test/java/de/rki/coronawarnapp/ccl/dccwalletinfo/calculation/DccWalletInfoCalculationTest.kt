@@ -23,7 +23,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -115,7 +115,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `execution works`() = runBlockingTest {
+    fun `execution works`() = runTest {
         instance.getDccWalletInfo(
             dccList = listOf(certificate),
             dateTime = dateTime

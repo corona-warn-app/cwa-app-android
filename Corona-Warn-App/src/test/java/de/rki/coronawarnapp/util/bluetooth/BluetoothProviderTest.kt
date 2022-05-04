@@ -17,7 +17,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -71,7 +71,7 @@ class BluetoothProviderTest : BaseTest() {
     }
 
     @Test
-    fun `initial state is emitted correctly without callback`() = runBlockingTest {
+    fun `initial state is emitted correctly without callback`() = runTest {
         val instance = createInstance()
         instance.isBluetoothEnabled.first() shouldBe true
 
@@ -83,7 +83,7 @@ class BluetoothProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runBlockingTest {
+    fun `system callbacks lead to new emissions with an updated state`() = runTest {
         val instance = createInstance()
 
         val testCollector = instance.isBluetoothEnabled.test(startOnScope = this)
@@ -104,7 +104,7 @@ class BluetoothProviderTest : BaseTest() {
     }
 
     @Test
-    fun `null adapter defaults to false`() = runBlockingTest {
+    fun `null adapter defaults to false`() = runTest {
         val instance = createInstance(adapter = null)
         instance.isBluetoothEnabled.first() shouldBe false
     }

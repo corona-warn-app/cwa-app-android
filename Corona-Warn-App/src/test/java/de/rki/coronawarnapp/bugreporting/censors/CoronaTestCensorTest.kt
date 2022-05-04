@@ -14,7 +14,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -76,7 +76,7 @@ class CoronaTestCensorTest : BaseTest() {
     )
 
     @Test
-    fun `censoring replaces the logline message even when tests are deleted`() = runBlockingTest {
+    fun `censoring replaces the logline message even when tests are deleted`() = runTest {
         every { contactDiaryRepository.testResults } returns contactDiaryTestResults2
 
         val instance = createInstance()
@@ -89,7 +89,7 @@ class CoronaTestCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         val instance = createInstance()
         val filterMe =
             "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier and $contactDiaryTestId"
@@ -100,7 +100,7 @@ class CoronaTestCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there is no corona test stored`() = runBlockingTest {
+    fun `censoring returns null if there is no corona test stored`() = runTest {
         coronaTests.value = emptySet()
 
         val instance = createInstance()
@@ -110,14 +110,14 @@ class CoronaTestCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there is no match`() = runBlockingTest {
+    fun `censoring returns null if there is no match`() = runTest {
         val instance = createInstance()
         val filterMeNot = "I'm not a registration token ;)"
         instance.checkLog(filterMeNot) shouldBe null
     }
 
     @Test
-    fun `censoring still works after test was deleted`() = runBlockingTest {
+    fun `censoring still works after test was deleted`() = runTest {
 
         val censor = createInstance()
 

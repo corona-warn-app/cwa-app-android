@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -80,7 +80,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             createInstance().checkPollingSchedule()
         }
 
@@ -98,7 +98,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
             )
         )
 
-        runBlockingTest {
+        runTest {
             createInstance().checkPollingSchedule()
         }
 
@@ -109,7 +109,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
     fun `cancel worker without tests`() {
         every { repository.familyTestsToRefresh } returns flowOf(emptySet())
 
-        runBlockingTest {
+        runTest {
             createInstance().checkPollingSchedule()
         }
 

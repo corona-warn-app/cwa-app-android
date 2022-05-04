@@ -22,7 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -159,7 +159,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `triggerAfterConfigChange - feature is on and config update`() = runBlockingTest {
+    fun `triggerAfterConfigChange - feature is on and config update`() = runTest {
         coEvery { cclSettings.getAdmissionScenarioId() } returns "BW"
         coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true) } returns
             DccWalletInfoCalculationManager.Result.Success
@@ -174,7 +174,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `triggerAfterConfigChange - feature is off and no config update`() = runBlockingTest {
+    fun `triggerAfterConfigChange - feature is off and no config update`() = runTest {
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { admissionScenariosEnabled } returns false
         }
@@ -191,7 +191,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun triggerNow() = runBlockingTest {
+    fun triggerNow() = runTest {
         coEvery { dccWalletInfoCalculationManager.triggerNow("BW") } returns
             DccWalletInfoCalculationManager.Result.Success
 

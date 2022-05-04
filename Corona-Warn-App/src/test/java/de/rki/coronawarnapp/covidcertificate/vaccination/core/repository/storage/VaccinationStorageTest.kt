@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -51,7 +51,7 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing empty set deletes data`() = runBlockingTest {
+    fun `storing empty set deletes data`() = runTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
             putString("vaccination.certificate", "test")
@@ -70,7 +70,7 @@ class VaccinationStorageTest : BaseTest() {
             notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
         val personData = setOf(testData.personAVac1StoredCertificateData, vaccinationContainer2)
-        runBlockingTest {
+        runTest {
             val instance = createInstance()
             instance.save(personData)
 

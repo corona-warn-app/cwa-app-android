@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -39,7 +39,7 @@ class OrganizerRegistrationTokenCensorTest {
     private fun createInstance() = OrganizerRegistrationTokenCensor()
 
     @Test
-    fun `censoring replaces the logline message for tans`() = runBlockingTest {
+    fun `censoring replaces the logline message for tans`() = runTest {
         val instance = createInstance()
 
         tans.forEach {
@@ -51,7 +51,7 @@ class OrganizerRegistrationTokenCensorTest {
     }
 
     @Test
-    fun `censoring replaces the logline message for registration requests`() = runBlockingTest {
+    fun `censoring replaces the logline message for registration requests`() = runTest {
         val instance = createInstance()
 
         testRegistrationRequests.forEach {
@@ -63,7 +63,7 @@ class OrganizerRegistrationTokenCensorTest {
     }
 
     @Test
-    fun `censoring aborts if no qrcode was set`() = runBlockingTest {
+    fun `censoring aborts if no qrcode was set`() = runTest {
         val instance = createInstance()
 
         testRegistrationRequests.forEach {

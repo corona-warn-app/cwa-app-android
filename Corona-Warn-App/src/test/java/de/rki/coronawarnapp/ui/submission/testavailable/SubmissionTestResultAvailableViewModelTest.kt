@@ -22,7 +22,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -100,7 +100,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `go to your consent page`() = runBlockingTest {
+    fun `go to your consent page`() = runTest {
         val viewModel = createViewModel()
         coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { identifier } returns ""
@@ -125,7 +125,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `go to test result without updating TEK history if NO consent is given`() = runBlockingTest {
+    fun `go to test result without updating TEK history if NO consent is given`() = runTest {
         coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
             every { identifier } returns ""

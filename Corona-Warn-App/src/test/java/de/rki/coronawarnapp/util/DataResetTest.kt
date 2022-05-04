@@ -46,7 +46,7 @@ import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -149,7 +149,7 @@ internal class DataResetTest : BaseTest() {
     )
 
     @Test
-    fun `clearAllLocalData() should clear all data`() = runBlockingTest {
+    fun `clearAllLocalData() should clear all data`() = runTest {
         createInstance().clearAllLocalData()
 
         coVerify(exactly = 1) {
