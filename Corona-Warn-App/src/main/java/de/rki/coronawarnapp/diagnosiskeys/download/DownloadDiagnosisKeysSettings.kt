@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.diagnosiskeys.download
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
@@ -8,6 +7,7 @@ import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import org.joda.time.Instant
 import timber.log.Timber
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class DownloadDiagnosisKeysSettings @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson private val gson: Gson
-) {
+) : Resettable {
 
     private val prefs by lazy {
         context.getSharedPreferences("keysync_localdata", Context.MODE_PRIVATE)
@@ -43,8 +43,8 @@ class DownloadDiagnosisKeysSettings @Inject constructor(
             putLong(KEY_LAST_VERSION_CODE, value)
         }
 
-    @SuppressLint("ApplySharedPref")
-    fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         prefs.clearAndNotify()
     }
 

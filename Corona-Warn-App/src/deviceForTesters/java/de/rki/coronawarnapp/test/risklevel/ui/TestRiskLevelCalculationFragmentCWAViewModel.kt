@@ -204,7 +204,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Clearing key cache")
         launch {
             keyCacheRepository.reset()
-            downloadDiagnosisKeysSettings.clear()
+            downloadDiagnosisKeysSettings.reset()
             exposureDetectionTracker.reset()
 
             dataResetEvent.postValue("Download & Submission related data reset.")
