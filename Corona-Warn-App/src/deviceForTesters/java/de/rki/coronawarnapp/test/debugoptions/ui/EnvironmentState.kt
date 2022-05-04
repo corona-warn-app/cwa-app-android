@@ -14,6 +14,7 @@ data class EnvironmentState(
     val pubKeyAppConfig: String,
     val dccServerUrl: String,
     val dccReissuanceServerUrl: String,
+    val isOverwritten:Boolean,
 ) {
     companion object {
         internal fun EnvironmentSetup.toEnvironmentState() = EnvironmentState(
@@ -28,6 +29,7 @@ data class EnvironmentState(
             pubKeyAppConfig = appConfigPublicKey,
             dccServerUrl = dccServerUrl,
             dccReissuanceServerUrl = dccReissuanceServerUrl,
+            isOverwritten = launchEnvironment != null
         )
     }
 }

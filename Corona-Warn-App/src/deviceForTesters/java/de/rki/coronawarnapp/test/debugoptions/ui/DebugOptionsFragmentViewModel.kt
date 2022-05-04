@@ -23,6 +23,17 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     val environmentState = environmentStateFlow.asLiveData(context = dispatcherProvider.Default)
     val environmentStateChange = SingleLiveEvent<EnvironmentState>()
 
+    fun clearLaunchEnvironment() {
+        envSetup.launchEnvironment = null
+        envSetup.toEnvironmentState()
+            .copy(isOverwritten = false)
+            .let {
+                environmentStateFlow.value = it
+                environmentStateChange.postValue(it)
+            }
+        cleanCachedData()
+    }
+
     fun selectEnvironmentType(type: String) {
         envSetup.currentEnvironment = type.toEnvironmentType()
         envSetup.toEnvironmentState().let {

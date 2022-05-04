@@ -9,6 +9,8 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -47,10 +49,17 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
             }
         }
 
+        binding.buttonClear.setOnClickListener {
+            vm.clearLaunchEnvironment()
+        }
+
         vm.environmentState.observe2(this) { state ->
             binding.apply {
                 if (environmentToggleGroup.childCount != state.available.size) {
                     environmentToggleGroup.removeAllViews()
+                    buttonClear.isVisible = state.isOverwritten
+                    overwrittenWarning.isVisible = state.isOverwritten
+                    environmentToggleGroup.isGone = state.isOverwritten
                     state.available.forEach { type ->
                         RadioButton(requireContext()).apply {
                             id = ViewCompat.generateViewId()
