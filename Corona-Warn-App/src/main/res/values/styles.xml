@@ -606,7 +606,8 @@
     <style name="CertificateCardInfoButton" parent="buttonIcon">
         <item name="android:height">@dimen/button_icon</item>
         <item name="android:width">@dimen/button_icon</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:paddingEnd">6dp</item>
         <item name="android:src">@drawable/ic_info</item>
         <item name="android:contentDescription">@string/cov_pass_info_title</item>
     </style>
