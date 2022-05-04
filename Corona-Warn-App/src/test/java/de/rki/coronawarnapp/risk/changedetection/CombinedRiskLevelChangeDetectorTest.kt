@@ -36,6 +36,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate

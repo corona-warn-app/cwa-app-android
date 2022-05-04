@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration

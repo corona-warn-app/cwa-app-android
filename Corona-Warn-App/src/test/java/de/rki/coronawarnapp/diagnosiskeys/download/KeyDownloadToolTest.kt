@@ -19,6 +19,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import org.joda.time.Duration

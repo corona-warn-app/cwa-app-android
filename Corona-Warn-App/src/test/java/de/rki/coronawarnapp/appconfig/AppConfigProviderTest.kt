@@ -13,6 +13,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach

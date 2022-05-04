@@ -20,6 +20,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verifySequence
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
