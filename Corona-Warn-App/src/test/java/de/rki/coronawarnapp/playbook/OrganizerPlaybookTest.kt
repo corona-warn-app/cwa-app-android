@@ -21,6 +21,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +49,7 @@ internal class OrganizerPlaybookTest : BaseTest() {
         coEvery { organizerSubmissionServer.submit(any(), any()) } just Runs
 
         organizerPlaybook = OrganizerPlaybook(
-            appScope = TestCoroutineScope(),
+            appScope = TestScope(),
             verificationServer = verificationServer,
             organizerSubmissionServer = organizerSubmissionServer,
             submissionServer = submissionServer,

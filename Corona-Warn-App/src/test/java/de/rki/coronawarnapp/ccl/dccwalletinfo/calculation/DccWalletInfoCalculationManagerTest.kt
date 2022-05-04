@@ -26,7 +26,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class DccWalletInfoCalculationManagerTest : BaseTest() {
 
@@ -106,7 +106,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     fun `catches exception`() {
         coEvery { calculation.getDccWalletInfo(any()) } throws Exception()
         assertDoesNotThrow {
-            runBlockingTest2 {
+            runTest2 {
                 instance.triggerAfterConfigChange("")
             }
         }
@@ -116,7 +116,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     fun `calculation runs for each person after certificate change`() {
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
-        runBlockingTest2 {
+        runTest2 {
             instance.triggerNow("")
         }
 
@@ -135,7 +135,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     fun `calculation runs for each person after config change`() {
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
-        runBlockingTest2 {
+        runTest2 {
             instance.triggerAfterConfigChange("")
         }
 
@@ -155,7 +155,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPersonA.dccWalletInfo } returns null
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo1
 
-        runBlockingTest2 {
+        runTest2 {
             instance.triggerAfterConfigChange("", false)
         }
 
@@ -185,7 +185,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
-        runBlockingTest2 {
+        runTest2 {
             instance.triggerAfterConfigChange("", false)
         }
 

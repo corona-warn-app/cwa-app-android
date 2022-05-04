@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class ClientMetadataDonorTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
@@ -67,7 +67,7 @@ class ClientMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()

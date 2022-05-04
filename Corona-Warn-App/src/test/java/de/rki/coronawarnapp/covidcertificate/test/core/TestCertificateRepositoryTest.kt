@@ -43,7 +43,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import javax.inject.Inject
 
 class TestCertificateRepositoryTest : BaseTest() {
@@ -124,7 +124,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `register via corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `register via corona test`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         instance.requestCertificate(
@@ -165,7 +165,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `register via qrcode`() = runBlockingTest2(ignoreActive = true) {
+    fun `register via qrcode`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         instance.registerCertificate(
@@ -196,7 +196,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+    fun `storage is not written on init`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
         instance.certificates.first()
         advanceUntilIdle()
@@ -206,7 +206,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+    fun `filter by recycled`() = runTest2(ignoreActive = true) {
         val recycled = testData.personATest2StoredData.copy(
             identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
             recycledAt = nowUTC
@@ -246,7 +246,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Cert is not existing`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -266,7 +266,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - ExpiringSoon`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -286,7 +286,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Expired`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -306,7 +306,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Invalid`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -326,7 +326,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Blocked`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -346,7 +346,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Valid`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -366,7 +366,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
+    fun `replace certificate works`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
         instance.replaceCertificate(
@@ -384,7 +384,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `replace certificate works if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
+    fun `replace certificate works if old certificate does not exist`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf()
         val instance = createInstance(this)
         instance.replaceCertificate(
@@ -401,7 +401,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `replace certificate works if new certificate already exists`() = runBlockingTest2(ignoreActive = true) {
+    fun `replace certificate works if new certificate already exists`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData, testData.personATest2StoredData)
         val instance = createInstance(this)
         instance.replaceCertificate(
@@ -419,7 +419,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `replace certificate works if old certificate is already recycled`() = runBlockingTest2(ignoreActive = true) {
+    fun `replace certificate works if old certificate is already recycled`() = runTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData.copy(recycledAt = nowUTC))
         val instance = createInstance(this)
         instance.replaceCertificate(

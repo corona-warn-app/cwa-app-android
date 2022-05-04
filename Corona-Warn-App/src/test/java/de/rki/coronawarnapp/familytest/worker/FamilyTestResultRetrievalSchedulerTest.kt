@@ -14,12 +14,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
 
@@ -36,7 +37,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
     }
 
-    private fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = FamilyTestResultRetrievalScheduler(
+    private fun createInstance(scope: CoroutineScope = TestScope()) = FamilyTestResultRetrievalScheduler(
         appScope = scope,
         repository = repository,
         workManager = workManager,
@@ -44,7 +45,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `setup works`() = runBlockingTest2(ignoreActive = true) {
+    fun `setup works`() = runTest2(ignoreActive = true) {
         val flow = MutableStateFlow(setOf<FamilyCoronaTest>())
         every { repository.familyTests } returns flow
         every { repository.familyTestsToRefresh } returns flowOf(

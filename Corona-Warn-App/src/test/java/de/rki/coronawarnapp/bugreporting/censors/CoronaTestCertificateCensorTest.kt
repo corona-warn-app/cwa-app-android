@@ -12,6 +12,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,7 +47,7 @@ class CoronaTestCertificateCensorTest : BaseTest() {
     }
 
     private fun createInstance() = CoronaTestCertificateCensor(
-        debugScope = TestCoroutineScope(),
+        debugScope = TestScope(),
         coronaTestRepository = coronaTestRepository
     )
 

@@ -18,6 +18,7 @@ import io.mockk.mockkObject
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -30,7 +31,7 @@ class AutoCheckOutReceiverTest : BaseTest() {
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
 
-    private val scope = TestCoroutineScope()
+    private val scope = TestScope()
     lateinit var workRequestSlot: CapturingSlot<WorkRequest>
 
     class TestApp : Application(), HasAndroidInjector {

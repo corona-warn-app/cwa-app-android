@@ -17,6 +17,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +28,7 @@ class BluetoothProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var bluetoothAdapter: BluetoothAdapter
-    private val appScope: CoroutineScope = TestCoroutineScope()
+    private val appScope: CoroutineScope = TestScope()
     private var lastReceiver: BroadcastReceiver? = null
     private var lastFilter: IntentFilter? = null
     private val receiverSlot = slot<BroadcastReceiver>()

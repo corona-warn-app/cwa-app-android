@@ -25,6 +25,7 @@ import io.mockk.verifyOrder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,7 +55,7 @@ class PCRTestResultAvailableNotificationServiceTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
 
-    fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = PCRTestResultAvailableNotificationService(
+    fun createInstance(scope: CoroutineScope = TestScope()) = PCRTestResultAvailableNotificationService(
         context = context,
         foregroundState = foregroundState,
         navDeepLinkBuilderFactory = navDeepLinkBuilderFactory,

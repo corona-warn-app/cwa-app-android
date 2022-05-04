@@ -24,7 +24,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import testhelpers.gms.MockGMSTask
 
@@ -48,7 +48,7 @@ class DefaultTracingStatusTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free and lazy`() = runBlockingTest2(ignoreActive = true) {
+    fun `init is sideeffect free and lazy`() = runTest2(ignoreActive = true) {
         createInstance(scope = this)
 
         advanceUntilIdle()
@@ -57,13 +57,13 @@ class DefaultTracingStatusTest : BaseTest() {
     }
 
     @Test
-    fun `state emission works`() = runBlockingTest2(ignoreActive = true) {
+    fun `state emission works`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
         instance.isTracingEnabled.first() shouldBe true
     }
 
     @Test
-    fun `state is updated and polling stops on cancel`() = runBlockingTest2(ignoreActive = true) {
+    fun `state is updated and polling stops on cancel`() = runTest2(ignoreActive = true) {
         every { client.isEnabled } returnsMany listOf(
             true,
             false,
@@ -88,7 +88,7 @@ class DefaultTracingStatusTest : BaseTest() {
     }
 
     @Test
-    fun `subscriptions are shared but not cached`() = runBlockingTest2(ignoreActive = true) {
+    fun `subscriptions are shared but not cached`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val collector1 = instance.isTracingEnabled.test(tag = "1", startOnScope = this)
@@ -111,7 +111,7 @@ class DefaultTracingStatusTest : BaseTest() {
     }
 
     @Test
-    fun `api errors during state polling are mapped to false`() = runBlockingTest2(ignoreActive = true) {
+    fun `api errors during state polling are mapped to false`() = runTest2(ignoreActive = true) {
         every { client.isEnabled } answers { MockGMSTask.forError(ApiException(Status.RESULT_INTERNAL_ERROR)) }
 
         val instance = createInstance(scope = this)
@@ -120,7 +120,7 @@ class DefaultTracingStatusTest : BaseTest() {
     }
 
     @Test
-    fun `api errors during state setting are rethrown`() = runBlockingTest2(ignoreActive = true) {
+    fun `api errors during state setting are rethrown`() = runTest2(ignoreActive = true) {
         val ourError = ApiException(Status.RESULT_INTERNAL_ERROR)
         every { client.start() } answers { MockGMSTask.forError(ourError) }
         every { client.isEnabled } answers { MockGMSTask.forValue(false) }

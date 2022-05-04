@@ -17,6 +17,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -39,7 +40,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
         every { coronaTestProvider.getTestForIdentifier(any()) } returns testFlow
     }
 
-    fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =
+    fun createInstance(scope: CoroutineScope = TestScope(), forceInitialUpdate: Boolean = false) =
         SubmissionTestResultPendingViewModel(
             dispatcherProvider = scope.asDispatcherProvider(),
             initialUpdate = forceInitialUpdate,

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
-import testhelpers.coroutines.test
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
@@ -49,22 +48,17 @@ class GeneralTracingStatusTest : BaseTest() {
 
     @Test
     fun `flow updates work`() = runTest {
-        val testCollector = createInstance().generalStatus.test(startOnScope = this)
+        val generalStatus = createInstance().generalStatus
         advanceUntilIdle()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
 
         isBluetoothEnabled.emit(false)
         advanceUntilIdle()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.BLUETOOTH_DISABLED
 
         isBluetoothEnabled.emit(true)
         advanceUntilIdle()
-
-        testCollector.latestValues shouldBe listOf(
-            GeneralTracingStatus.Status.TRACING_ACTIVE,
-            GeneralTracingStatus.Status.BLUETOOTH_DISABLED,
-            GeneralTracingStatus.Status.TRACING_ACTIVE
-        )
-
-        testCollector.cancel()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
     }
 
     @Test

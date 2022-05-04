@@ -22,7 +22,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var certificateProvider: CertificateProvider
@@ -114,7 +114,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     )
 
     @Test
-    fun `empty data`() = runBlockingTest2(ignoreActive = true) {
+    fun `empty data`() = runTest2(ignoreActive = true) {
         val emptyCertificateContainer = CertificateProvider.CertificateContainer(
             recoveryCertificates = emptySet(),
             testCertificates = emptySet(),
@@ -133,7 +133,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun `data combination`() = runBlockingTest2(ignoreActive = true) {
+    fun `data combination`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val personCertificates = instance.personCertificates.first()
@@ -178,7 +178,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun `data combination and cwa user is not in the list`() = runBlockingTest2(ignoreActive = true) {
+    fun `data combination and cwa user is not in the list`() = runTest2(ignoreActive = true) {
         every { personCertificatesSettings.currentCwaUser } returns flowOf(identifierC)
         val instance = createInstance(this)
 

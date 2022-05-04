@@ -13,7 +13,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.gms.MockGMSTask
 
 class DefaultDiagnosisKeysDataMapperTest : BaseTest() {
@@ -47,7 +47,7 @@ class DefaultDiagnosisKeysDataMapperTest : BaseTest() {
 
         val mapper = createMapper()
 
-        runBlockingTest2 {
+        runTest2 {
             mapper.updateDiagnosisKeysDataMapping(secondMapping)
         }
 
@@ -75,7 +75,7 @@ class DefaultDiagnosisKeysDataMapperTest : BaseTest() {
 
         val mapper = createMapper()
 
-        runBlockingTest2 {
+        runTest2 {
             mapper.updateDiagnosisKeysDataMapping(secondMapping)
         }
 

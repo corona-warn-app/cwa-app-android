@@ -26,7 +26,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class DccValidityStateChangeObserverTest : BaseTest() {
 
@@ -52,7 +52,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on initial emission`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on initial emission`() = runTest2(ignoreActive = true) {
         certificateContainerFlow.value = createContainer(setOf(certExpired))
         createInstance(scope = this).setup()
 
@@ -64,7 +64,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does not trigger when empty`() = runBlockingTest2(ignoreActive = true) {
+    fun `does not trigger when empty`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.value = createContainer(emptySet())
 
@@ -76,7 +76,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does not trigger on Valid`() = runBlockingTest2(ignoreActive = true) {
+    fun `does not trigger on Valid`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certValid)) }
 
@@ -88,7 +88,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on Invalid`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on Invalid`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certInvalid)) }
 
@@ -100,7 +100,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on Recycled`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on Recycled`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRecycled)) }
 
@@ -112,7 +112,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on Blocked`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on Blocked`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certBlocked)) }
 
@@ -124,7 +124,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on Revoked`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on Revoked`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRevoked)) }
 
@@ -136,7 +136,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on Expired`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on Expired`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
 
@@ -148,7 +148,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `does trigger on ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on ExpiringSoon`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
 
@@ -160,7 +160,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     }
 
     @Test
-    fun `only triggers if changed`() = runBlockingTest2(ignoreActive = true) {
+    fun `only triggers if changed`() = runTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }

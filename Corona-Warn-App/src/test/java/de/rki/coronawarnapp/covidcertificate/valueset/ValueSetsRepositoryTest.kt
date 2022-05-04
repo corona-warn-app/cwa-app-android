@@ -28,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.util.Locale
 
 class ValueSetsRepositoryTest : BaseTest() {
@@ -64,7 +64,7 @@ class ValueSetsRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `successful update for de`() = runBlockingTest2(ignoreActive = true) {
+    fun `successful update for de`() = runTest2(ignoreActive = true) {
         createInstance(this).run {
             triggerUpdateValueSet(languageCode = Locale.GERMAN)
             latestVaccinationValueSets.first() shouldBe vaccinationValueSetsDe
@@ -84,7 +84,7 @@ class ValueSetsRepositoryTest : BaseTest() {
 
     @Test
     fun `getLocale() of context should be used as locale if no locale is passed to triggerUpdateValueSet()`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every { context.getLocale() } returns Locale.GERMAN
 
             createInstance(this).run {
@@ -105,7 +105,7 @@ class ValueSetsRepositoryTest : BaseTest() {
         }
 
     @Test
-    fun `fallback to en`() = runBlockingTest2(ignoreActive = true) {
+    fun `fallback to en`() = runTest2(ignoreActive = true) {
         createInstance(this).run {
             triggerUpdateValueSet(languageCode = Locale.FRENCH)
             latestVaccinationValueSets.first() shouldBe vaccinationValueSetsEn
@@ -120,7 +120,7 @@ class ValueSetsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `server returns nothing`() = runBlockingTest2(ignoreActive = true) {
+    fun `server returns nothing`() = runTest2(ignoreActive = true) {
         coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN) } returns null
         coEvery { certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns null
 
@@ -139,7 +139,7 @@ class ValueSetsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear data of server and local storage`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear data of server and local storage`() = runTest2(ignoreActive = true) {
         createInstance(this).run {
             triggerUpdateValueSet(languageCode = Locale.GERMAN)
             advanceUntilIdle()
@@ -159,7 +159,7 @@ class ValueSetsRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `storage is not written again on init`() = runBlockingTest2(ignoreActive = true) {
+    fun `storage is not written again on init`() = runTest2(ignoreActive = true) {
         createInstance(this)
         advanceUntilIdle()
 

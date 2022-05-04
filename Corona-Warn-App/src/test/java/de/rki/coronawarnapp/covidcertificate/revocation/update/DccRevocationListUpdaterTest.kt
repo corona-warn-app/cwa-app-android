@@ -23,7 +23,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class DccRevocationListUpdaterTest : BaseTest() {
 
@@ -53,7 +53,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `update is not triggered on App start - first flow emission`() = runBlockingTest2(ignoreActive = true) {
+    fun `update is not triggered on App start - first flow emission`() = runTest2(ignoreActive = true) {
         getInstance(this)
         coVerify {
             dccRevocationUpdateSettings wasNot Called
@@ -62,7 +62,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `update is not triggered when day is the same`() = runBlockingTest2(ignoreActive = true) {
+    fun `update is not triggered when day is the same`() = runTest2(ignoreActive = true) {
         getInstance(this).updateRevocationList(false)
         coVerify(exactly = 0) {
             dccRevocationUpdateService.updateRevocationList(any())
@@ -71,7 +71,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `update is triggered when day is different`() = runBlockingTest2(ignoreActive = true) {
+    fun `update is triggered when day is different`() = runTest2(ignoreActive = true) {
         every { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
         getInstance(this).updateRevocationList(false)
 
@@ -82,7 +82,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `update is triggered when force flag is on despite day check`() = runBlockingTest2(ignoreActive = true) {
+    fun `update is triggered when force flag is on despite day check`() = runTest2(ignoreActive = true) {
         getInstance(this).updateRevocationList(true)
         coVerify(exactly = 1) {
             dccRevocationUpdateService.updateRevocationList(any())
@@ -91,7 +91,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `update error is caught`() = runBlockingTest2(ignoreActive = true) {
+    fun `update error is caught`() = runTest2(ignoreActive = true) {
         coEvery { dccRevocationUpdateService.updateRevocationList(any()) } throws Exception("WOW!")
         shouldNotThrow<Exception> {
             getInstance(this).updateRevocationList(true)
@@ -100,7 +100,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
 
     @Test
     fun `update is triggered only when size changes and calls update service with latest certificates`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             // Size is always 1 but set changes to make stateflow emit
             allCertificatesFlow.value = setOf(vacc)
             getInstance(scope = this)
@@ -125,7 +125,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
         }
 
     @Test
-    fun `isUpdateRequired() should return true after one day`() = runBlockingTest2(ignoreActive = true) {
+    fun `isUpdateRequired() should return true after one day`() = runTest2(ignoreActive = true) {
         val updater = getInstance(this)
 
         // update is required when none was performed yet
@@ -151,7 +151,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
 
     @Test
     fun `calls update service with given certificates or gets them from certificate provider`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
 
             with(getInstance(scope = this)) {
                 updateRevocationList(forceUpdate = true)

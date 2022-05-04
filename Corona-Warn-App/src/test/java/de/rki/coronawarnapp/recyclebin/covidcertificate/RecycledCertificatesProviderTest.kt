@@ -23,6 +23,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -133,6 +134,6 @@ class RecycledCertificatesProviderTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         vaccinationCertificateRepository = vaccinationCertificateRepository,
-        appScope = TestCoroutineScope()
+        appScope = TestScope()
     )
 }

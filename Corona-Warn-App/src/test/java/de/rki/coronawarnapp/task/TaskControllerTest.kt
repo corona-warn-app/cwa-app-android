@@ -43,7 +43,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import testhelpers.extensions.isAfterOrEqual
 import java.io.File
@@ -131,7 +131,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `default task execution`() = runBlockingTest2(ignoreActive = true) {
+    fun `default task execution`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -193,7 +193,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed task yields exception`() = runBlockingTest2(ignoreActive = true) {
+    fun `failed task yields exception`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -232,7 +232,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `canceled task yields exception`() = runBlockingTest2(ignoreActive = true) {
+    fun `canceled task yields exception`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -256,7 +256,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `queued task execution`() = runBlockingTest2(ignoreActive = true) {
+    fun `queued task execution`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -307,7 +307,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `skippable tasks are skipped`() = runBlockingTest2(ignoreActive = true) {
+    fun `skippable tasks are skipped`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -352,7 +352,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `tasks with preconditions that are not met are skipped`() = runBlockingTest2(ignoreActive = true) {
+    fun `tasks with preconditions that are not met are skipped`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val request = DefaultTaskRequest(type = PreconditionTask::class)
@@ -389,7 +389,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `collision behavior only affects task of same type`() = runBlockingTest2(ignoreActive = true) {
+    fun `collision behavior only affects task of same type`() = runTest2(ignoreActive = true) {
         val arguments = QueueingTask.Arguments(path = File(testDir, UUID.randomUUID().toString()))
         arguments.path.exists() shouldBe false
 
@@ -438,7 +438,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `resubmitting a request has no effect`() = runBlockingTest2(ignoreActive = true) {
+    fun `resubmitting a request has no effect`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -470,7 +470,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `tasks are timed out according to their config`() = runBlockingTest2(ignoreActive = true) {
+    fun `tasks are timed out according to their config`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val request = DefaultTaskRequest(
@@ -495,7 +495,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `timeout starts on execution, not while pending`() = runBlockingTest2(ignoreActive = true) {
+    fun `timeout starts on execution, not while pending`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val taskWithTimeout = DefaultTaskRequest(
@@ -536,7 +536,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `parallel tasks can timeout`() = runBlockingTest2(ignoreActive = true) {
+    fun `parallel tasks can timeout`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val task1WithTimeout = DefaultTaskRequest(
@@ -589,7 +589,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `old tasks are pruned from history`() = runBlockingTest2(ignoreActive = true) {
+    fun `old tasks are pruned from history`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         val expectedFiles = mutableListOf<File>()
@@ -629,7 +629,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `silent error handling`() = runBlockingTest2(ignoreActive = true) {
+    fun `silent error handling`() = runTest2(ignoreActive = true) {
 
         val error: Throwable = spyk(Throwable())
 
@@ -659,7 +659,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `alert error handling`() = runBlockingTest2(ignoreActive = true) {
+    fun `alert error handling`() = runTest2(ignoreActive = true) {
 
         val error: Throwable = spyk(Throwable())
 

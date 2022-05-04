@@ -28,6 +28,7 @@ import io.mockk.mockkStatic
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -287,7 +288,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
-            appScope = TestCoroutineScope(),
+            appScope = TestScope(),
             format = CclTextFormatter(cclJsonFunctions, mapper),
             admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,

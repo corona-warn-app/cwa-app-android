@@ -20,6 +20,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
@@ -88,7 +89,7 @@ class AutoCheckOutTest : BaseTest() {
         every { alarmManager.cancel(any<PendingIntent>()) } just Runs
     }
 
-    fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = AutoCheckOut(
+    fun createInstance(scope: CoroutineScope = TestScope()) = AutoCheckOut(
         appScope = scope,
         repository = repository,
         checkOutHandler = checkOutHandler,

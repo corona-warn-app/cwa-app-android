@@ -20,7 +20,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 
 class BackgroundModeStatusTest : BaseTest() {
@@ -49,13 +49,13 @@ class BackgroundModeStatusTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free and lazy`() = runBlockingTest2(ignoreActive = true) {
+    fun `init is sideeffect free and lazy`() = runTest2(ignoreActive = true) {
         createInstance(scope = this)
         verify { activityManager wasNot Called }
     }
 
     @Test
-    fun isAutoModeEnabled() = runBlockingTest2(ignoreActive = true) {
+    fun isAutoModeEnabled() = runTest2(ignoreActive = true) {
         every { activityManager.isBackgroundRestricted } returnsMany listOf(true, false, true, false)
         createInstance(scope = this).apply {
             isAutoModeEnabled.first() shouldBe true
@@ -66,22 +66,22 @@ class BackgroundModeStatusTest : BaseTest() {
 
     @Test
     fun `autoMode enabled means battery optimizations are ignored or we are not restricted`() {
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every { activityManager.isBackgroundRestricted } returns true
             every { powerManagement.isIgnoringBatteryOptimizations } returns false
             createInstance(scope = this).isAutoModeEnabled.first() shouldBe false
         }
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every { activityManager.isBackgroundRestricted } returns false
             every { powerManagement.isIgnoringBatteryOptimizations } returns false
             createInstance(scope = this).isAutoModeEnabled.first() shouldBe true
         }
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every { activityManager.isBackgroundRestricted } returns true
             every { powerManagement.isIgnoringBatteryOptimizations } returns true
             createInstance(scope = this).isAutoModeEnabled.first() shouldBe true
         }
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every { activityManager.isBackgroundRestricted } returns false
             every { powerManagement.isIgnoringBatteryOptimizations } returns true
             createInstance(scope = this).isAutoModeEnabled.first() shouldBe true
@@ -89,7 +89,7 @@ class BackgroundModeStatusTest : BaseTest() {
     }
 
     @Test
-    fun `isAutoModeEnabled is shared but not cached`() = runBlockingTest2(ignoreActive = true) {
+    fun `isAutoModeEnabled is shared but not cached`() = runTest2(ignoreActive = true) {
         every { powerManagement.isIgnoringBatteryOptimizations } returnsMany listOf(true, false, true, false)
         every { activityManager.isBackgroundRestricted } returns true
 
@@ -114,7 +114,7 @@ class BackgroundModeStatusTest : BaseTest() {
     }
 
     @Test
-    fun isBackgroundRestricted() = runBlockingTest2(ignoreActive = true) {
+    fun isBackgroundRestricted() = runTest2(ignoreActive = true) {
         every { activityManager.isBackgroundRestricted } returnsMany listOf(false, true, false)
         createInstance(scope = this).apply {
             isBackgroundRestricted.first() shouldBe false
@@ -124,7 +124,7 @@ class BackgroundModeStatusTest : BaseTest() {
     }
 
     @Test
-    fun `isBackgroundRestricted is shared but not cached`() = runBlockingTest2(ignoreActive = true) {
+    fun `isBackgroundRestricted is shared but not cached`() = runTest2(ignoreActive = true) {
         every { activityManager.isBackgroundRestricted } returnsMany listOf(true, false, true, false)
 
         val instance = createInstance(scope = this)
@@ -148,7 +148,7 @@ class BackgroundModeStatusTest : BaseTest() {
     }
 
     @Test
-    fun `isBackgroundRestricted defaults to false on API27 and lower`() = runBlockingTest2(ignoreActive = true) {
+    fun `isBackgroundRestricted defaults to false on API27 and lower`() = runTest2(ignoreActive = true) {
         every { activityManager.isBackgroundRestricted } returns true
 
         createInstance(scope = this).isBackgroundRestricted.first() shouldBe true

@@ -14,6 +14,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
@@ -58,7 +59,7 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
 
         coEvery { organizerPlaybook.submit(any(), any()) } just Runs
         organiserSubmissionRepository = OrganizerSubmissionRepository(
-            appScope = TestCoroutineScope(),
+            appScope = TestScope(),
             checkInsTransformer = checkInsTransformer,
             organizerPlaybook = organizerPlaybook
         )

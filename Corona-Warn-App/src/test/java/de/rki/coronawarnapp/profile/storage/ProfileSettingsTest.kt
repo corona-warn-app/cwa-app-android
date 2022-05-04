@@ -7,6 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +38,7 @@ internal class ProfileSettingsTest : BaseTest() {
         profileSettings = ProfileSettingsDataStore(
             { fakeDataStore },
             SerializationModule().baseGson(),
-            TestCoroutineScope()
+            TestScope()
         )
     }
 

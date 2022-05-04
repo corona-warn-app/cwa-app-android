@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.asDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import java.io.IOException
 
@@ -65,13 +65,13 @@ class StatisticsProviderTest : BaseTest() {
     )
 
     @Test
-    fun `creation is sideeffect free`() = runBlockingTest2(ignoreActive = true) {
+    fun `creation is sideeffect free`() = runTest2(ignoreActive = true) {
         createInstance(this)
         verify(exactly = 0) { localCache.load() }
     }
 
     @Test
-    fun `initial subscription tries cache, then server`() = runBlockingTest2(ignoreActive = true) {
+    fun `initial subscription tries cache, then server`() = runTest2(ignoreActive = true) {
         val testCollector = createInstance(this).current.test(startOnScope = this)
 
         coVerifySequence {
@@ -85,7 +85,7 @@ class StatisticsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `update foreground state change`() = runBlockingTest2(ignoreActive = true) {
+    fun `update foreground state change`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
         val testCollector = instance.current.test(startOnScope = this)
 
@@ -106,7 +106,7 @@ class StatisticsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `failed update does not destroy cache`() = runBlockingTest2(ignoreActive = true) {
+    fun `failed update does not destroy cache`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
         val testCollector = instance.current.test(startOnScope = this)
 
@@ -121,7 +121,7 @@ class StatisticsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `clear deletes cache`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear deletes cache`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val testCollector = instance.current.test(startOnScope = this)
@@ -136,7 +136,7 @@ class StatisticsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `subscription flow timeout is 5 seconds`() = runBlockingTest2(ignoreActive = true) {
+    fun `subscription flow timeout is 5 seconds`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
         var testCollector1 = instance.current.test(startOnScope = this)
         var testCollector2 = instance.current.test(startOnScope = this)

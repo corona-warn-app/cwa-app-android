@@ -26,11 +26,12 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import testhelpers.preferences.mockFlowPreference
 
@@ -108,13 +109,13 @@ class NetworkStateProviderTest : BaseTest() {
     @Test
     fun `init is sideeffect free and lazy`() {
         shouldNotThrowAny {
-            createInstance(TestCoroutineScope())
+            createInstance(TestScope())
         }
         verify { connectivityManager wasNot Called }
     }
 
     @Test
-    fun `initial state is emitted correctly without callback`() = runBlockingTest2(ignoreActive = true) {
+    fun `initial state is emitted correctly without callback`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         instance.networkState.first().apply {
@@ -133,7 +134,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `we can handle null networks`() = runBlockingTest2(ignoreActive = true) {
+    fun `we can handle null networks`() = runTest2(ignoreActive = true) {
         every { connectivityManager.activeNetwork } returns null
         val instance = createInstance(this)
 
@@ -145,7 +146,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runBlockingTest2(ignoreActive = true) {
+    fun `system callbacks lead to new emissions with an updated state`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         val testCollector = instance.networkState.test(startOnScope = this)
@@ -186,7 +187,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `metered connection state checks capabilities`() = runBlockingTest2(ignoreActive = true) {
+    fun `metered connection state checks capabilities`() = runTest2(ignoreActive = true) {
         createInstance(this).apply {
             networkState.first().isMeteredConnection shouldBe false
 
@@ -199,7 +200,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `metered connection state can be overridden via test settings`() = runBlockingTest2(ignoreActive = true) {
+    fun `metered connection state can be overridden via test settings`() = runTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         instance.networkState.first().isMeteredConnection shouldBe false
@@ -210,7 +211,7 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Android 6 not metered on wifi`() = runBlockingTest2(ignoreActive = true) {
+    fun `Android 6 not metered on wifi`() = runTest2(ignoreActive = true) {
         every { BuildVersionWrap.SDK_INT } returns 23
         val instance = createInstance(this)
 
@@ -226,7 +227,7 @@ class NetworkStateProviderTest : BaseTest() {
 
     @Test
     fun `if we fail to register the callback, we do not attempt to unregister it`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
             every {
                 connectivityManager.registerNetworkCallback(
                     any(),
@@ -254,7 +255,7 @@ class NetworkStateProviderTest : BaseTest() {
         }
 
     @Test
-    fun `current state is correctly determined below API 23`() = runBlockingTest2(ignoreActive = true) {
+    fun `current state is correctly determined below API 23`() = runTest2(ignoreActive = true) {
         every { BuildVersionWrap.SDK_INT } returns 22
 
         createInstance(this).apply {

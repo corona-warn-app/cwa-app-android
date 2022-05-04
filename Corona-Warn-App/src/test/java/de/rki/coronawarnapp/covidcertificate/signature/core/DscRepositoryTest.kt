@@ -19,7 +19,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.lang.Exception
 
 internal class DscRepositoryTest {
@@ -43,7 +43,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `local cache is loaded from default storage - no server requests`() = runBlockingTest2(ignoreActive = true) {
+    fun `local cache is loaded from default storage - no server requests`() = runTest2(ignoreActive = true) {
         createInstance(this).apply {
             dscSignatureList.first() shouldBe emptyDscList
         }
@@ -62,7 +62,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `local cache is loaded from local storage - no server requests`() = runBlockingTest2(ignoreActive = true) {
+    fun `local cache is loaded from local storage - no server requests`() = runTest2(ignoreActive = true) {
         coEvery { localStorage.load() } returns emptyDscList
 
         createInstance(this).apply {
@@ -83,7 +83,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `refresh talks to server and updates local cache`() = runBlockingTest2(ignoreActive = true) {
+    fun `refresh talks to server and updates local cache`() = runTest2(ignoreActive = true) {
         createInstance(this).apply {
             refresh()
 
@@ -98,7 +98,7 @@ internal class DscRepositoryTest {
 
     @Test
     fun `bad server response yields exception and data are not saved to local repository`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true) {
 
             every { dscDataParser.parse(any()) } throws Exception()
 

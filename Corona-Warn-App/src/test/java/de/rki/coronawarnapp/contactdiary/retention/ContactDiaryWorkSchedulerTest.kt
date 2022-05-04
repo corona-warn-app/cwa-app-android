@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class ContactDiaryWorkSchedulerTest : BaseTest() {
 
@@ -52,7 +52,7 @@ class ContactDiaryWorkSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `periodic work should be scheduled after onboaring`() = runBlockingTest2(ignoreActive = true) {
+    fun `periodic work should be scheduled after onboaring`() = runTest2(ignoreActive = true) {
         val onboardingFlow = MutableStateFlow(false)
         every { onBoardingSettings.isOnboardedFlow } returns onboardingFlow
         createScheduler(this).setup()

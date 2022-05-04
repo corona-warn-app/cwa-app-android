@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class DccRevocationUpdateSchedulerTest : BaseTest() {
 
@@ -38,7 +38,7 @@ internal class DccRevocationUpdateSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `schedule daily worker on setup() call`() = runBlockingTest2(ignoreActive = true) {
+    fun `schedule daily worker on setup() call`() = runTest2(ignoreActive = true) {
         createScheduler(this).setup()
 
         advanceUntilIdle()
@@ -53,7 +53,7 @@ internal class DccRevocationUpdateSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `perform update when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
+    fun `perform update when app comes into foreground`() = runTest2(ignoreActive = true) {
         createScheduler(this).apply {
             setup()
 

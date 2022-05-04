@@ -13,6 +13,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -40,7 +41,7 @@ class ContactDiaryEditPersonsViewModelTest {
     }
 
     private fun createInstance() = ContactDiaryEditPersonsViewModel(
-        appScope = TestCoroutineScope(),
+        appScope = TestScope(),
         contactDiaryRepository = contactDiaryRepository,
         dispatcherProvider = TestDispatcherProvider()
     )

@@ -14,6 +14,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -46,7 +47,7 @@ class ConfigChangeDetectorTest : BaseTest() {
     private fun createInstance() = ConfigChangeDetector(
         appConfigProvider = appConfigProvider,
         taskController = taskController,
-        appScope = TestCoroutineScope(),
+        appScope = TestScope(),
         riskLevelSettings = riskLevelSettings,
         riskLevelStorage = riskLevelStorage
     )

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class DccValidityMeasuresObserverTest : BaseTest() {
 
@@ -38,7 +38,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
     }
 
     @Test
-    fun getDccValidityMeasures() = runBlockingTest2(ignoreActive = true) {
+    fun getDccValidityMeasures() = runTest2(ignoreActive = true) {
         instance(this).dccValidityMeasures.first() shouldBe DccValidityMeasures(
             dscSignatureList = dscSignatureList,
             blockedQrCodeHashes = setOf("hash-1"),
@@ -47,7 +47,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
     }
 
     @Test
-    fun dccValidityMeasures() = runBlockingTest2(ignoreActive = true) {
+    fun dccValidityMeasures() = runTest2(ignoreActive = true) {
         instance(this).dccValidityMeasures() shouldBe DccValidityMeasures(
             dscSignatureList = dscSignatureList,
             blockedQrCodeHashes = setOf("hash-1"),

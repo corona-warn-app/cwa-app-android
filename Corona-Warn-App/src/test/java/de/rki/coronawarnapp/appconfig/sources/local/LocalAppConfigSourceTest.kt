@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.io.File
 
 class LocalAppConfigSourceTest : BaseIOTest() {
@@ -113,7 +113,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears caches`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear clears caches`() = runTest2(ignoreActive = true) {
         val instance = createInstance()
 
         instance.clear()

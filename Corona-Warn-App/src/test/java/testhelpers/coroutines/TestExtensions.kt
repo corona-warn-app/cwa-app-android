@@ -1,6 +1,8 @@
 package testhelpers.coroutines
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.TestScope
@@ -14,20 +16,35 @@ import kotlin.coroutines.EmptyCoroutineContext
  */
 
 @ExperimentalCoroutinesApi // Since 1.2.1, tentatively till 1.3.0
-fun TestScope.runBlockingTest2(
+fun TestScope.runTest2(
     ignoreActive: Boolean = false,
     block: suspend TestScope.() -> Unit
-): Unit = runBlockingTest2(
+): Unit = runTest2(
     ignoreActive = ignoreActive,
     context = coroutineContext,
     testBody = block
 )
 
-fun runBlockingTest2(
+fun runTest2(
     ignoreActive: Boolean = false,
     context: CoroutineContext = EmptyCoroutineContext,
     testBody: suspend TestScope.() -> Unit
-) = runTest(
-    context = context,
-    testBody = testBody
-)
+) {
+    try {
+        runBlocking {
+            val job = launch {
+                runTest(
+                    context = context,
+                    dispatchTimeoutMs = 1_00L,
+                    testBody = testBody
+                )
+            }
+
+            job.cancelAndJoin()
+        }
+    } catch (e: Exception) {
+        if (!ignoreActive || (e.message != "This job has not completed yet")) {
+            throw e
+        }
+    }
+}
