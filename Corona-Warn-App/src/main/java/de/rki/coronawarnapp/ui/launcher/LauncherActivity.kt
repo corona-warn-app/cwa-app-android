@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.launcher
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -8,9 +9,11 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.ui.showRootDetectionDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
+import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import javax.inject.Inject
 
 class LauncherActivity : AppCompatActivity() {
@@ -25,6 +28,8 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
+
+        checkEnvSetup()
 
         viewModel.events.observe(this) {
             when (it) {
@@ -58,5 +63,36 @@ class LauncherActivity : AppCompatActivity() {
             .setCancelable(false)
             .setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
             .show()
+    }
+
+    private fun checkEnvSetup() {
+        if (CWADebug.buildFlavor != CWADebug.BuildFlavor.DEVICE_FOR_TESTERS) {
+            Timber.w("Tried to change currentEnvironment in PRODUCTION mode.")
+            return
+        }
+        if (intent.extras?.containsKey(ENVIRONMENT_KEY) == true) {
+            intent.extras?.getString(ENVIRONMENT_KEY)?.let {
+                viewModel.setEnvironment(it)
+                restartApp()
+            }
+        } else if (intent.extras?.containsKey(ENVIRONMENT_BASE64_KEY) == true) {
+            intent.extras?.getString(ENVIRONMENT_BASE64_KEY)?.let {
+                viewModel.setEnvironmentData(it)
+                restartApp()
+            }
+        }
+    }
+
+    private fun restartApp() {
+        val intent = applicationContext.packageManager.getLaunchIntentForPackage(applicationContext.packageName)
+        val componentName = intent?.component
+        val mainIntent = Intent.makeRestartActivityTask(componentName)
+        applicationContext.startActivity(mainIntent)
+        Runtime.getRuntime().exit(0)
+    }
+
+    companion object {
+        private const val ENVIRONMENT_KEY = "env"
+        private const val ENVIRONMENT_BASE64_KEY = "env_base64"
     }
 }
