@@ -43,7 +43,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
             setOnCheckedChangeListener { group, checkedId ->
                 val chip = group.findViewById<RadioButton>(checkedId)
                 if (!chip.isPressed) return@setOnCheckedChangeListener
-                vm.selectEnvironmentTytpe(chip.text.toString())
+                vm.selectEnvironmentType(chip.text.toString())
             }
         }
 

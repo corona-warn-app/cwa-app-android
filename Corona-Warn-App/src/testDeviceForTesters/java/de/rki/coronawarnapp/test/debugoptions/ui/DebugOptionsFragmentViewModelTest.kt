@@ -54,10 +54,10 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         val vm = createViewModel()
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
 
-        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.DEV.rawKey)
+        vm.selectEnvironmentType(EnvironmentSetup.Type.DEV.rawKey)
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
 
-        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.WRU_XA.rawKey)
+        vm.selectEnvironmentType(EnvironmentSetup.Type.WRU_XA.rawKey)
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.WRU_XA
     }
 }
