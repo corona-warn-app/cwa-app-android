@@ -297,7 +297,17 @@ data class ReissuanceDivision(
     val longText: CclText?,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String?
+    val faqAnchor: String?,
+
+    @JsonProperty("identifier")
+    val identifier: String?,
+
+    @JsonProperty("listTitleText")
+    val listTitleText: CclText?,
+
+    @JsonProperty("consentSubtitleText")
+    val consentSubtitleText: CclText?,
+
 )
 
 data class CertificatesRevokedByInvalidationRules(
