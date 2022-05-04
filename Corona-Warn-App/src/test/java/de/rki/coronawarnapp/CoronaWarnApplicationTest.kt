@@ -48,7 +48,6 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach

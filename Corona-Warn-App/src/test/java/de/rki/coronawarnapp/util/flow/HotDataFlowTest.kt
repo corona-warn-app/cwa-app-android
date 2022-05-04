@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util.flow
 import de.rki.coronawarnapp.util.mutate
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.instanceOf
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.withTimeoutOrNull
@@ -47,7 +45,6 @@ class HotDataFlowTest : BaseTest() {
         }
 
         testScope.advanceUntilIdle()
-
     }
 
     @Test
