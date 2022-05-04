@@ -47,12 +47,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
-@ExtendWith(InstantExecutorExtension::class)
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class MainActivityViewModelTest2 : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup

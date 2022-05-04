@@ -22,9 +22,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.asDispatcherProvider
+import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExtendWith(InstantExecutorExtension::class)
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
