@@ -417,7 +417,7 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.12.2"
+    testImplementation "io.mockk:mockk:1.12.3"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
@@ -434,14 +434,14 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = "5.1.0"
+    def kotest_version = "5.3.0"
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-property-jvm:$kotest_version"
 
-    testImplementation "io.github.classgraph:classgraph:4.8.138"
+    testImplementation "io.github.classgraph:classgraph:4.8.146"
 
     // Testing - Instrumentation
     androidTestImplementation "junit:junit:$junit_version"
