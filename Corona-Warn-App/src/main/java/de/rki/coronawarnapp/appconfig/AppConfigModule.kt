@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.appconfig
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.CWAConfigMapper
@@ -17,6 +19,7 @@ import de.rki.coronawarnapp.appconfig.mapping.SurveyConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.joda.time.Duration
@@ -26,8 +29,8 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
-class AppConfigModule {
+@Module(includes = [AppConfigModule.BindsModule::class])
+object AppConfigModule {
 
     @Singleton
     @Provides
@@ -62,47 +65,45 @@ class AppConfigModule {
         return Cache(cacheDir, DEFAULT_CACHE_SIZE)
     }
 
-    @Provides
-    fun cwaMapper(mapper: CWAConfigMapper):
-        CWAConfig.Mapper = mapper
+    @Module
+    internal interface BindsModule {
 
-    @Provides
-    fun downloadMapper(mapper: KeyDownloadParametersMapper): KeyDownloadConfig.Mapper = mapper
+        @Binds
+        @IntoSet
+        fun bindResettableAppConfigProvider(resettable: AppConfigProvider): Resettable
 
-    @Provides
-    fun exposureMapper(mapper: ExposureDetectionConfigMapper):
-        ExposureDetectionConfig.Mapper = mapper
+        @Binds
+        fun cwaMapper(mapper: CWAConfigMapper): CWAConfig.Mapper
 
-    @Provides
-    fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper):
-        ExposureWindowRiskCalculationConfig.Mapper = mapper
+        @Binds
+        fun downloadMapper(mapper: KeyDownloadParametersMapper): KeyDownloadConfig.Mapper
 
-    @Provides
-    fun surveyMapper(mapper: SurveyConfigMapper):
-        SurveyConfig.Mapper = mapper
+        @Binds
+        fun exposureMapper(mapper: ExposureDetectionConfigMapper): ExposureDetectionConfig.Mapper
 
-    @Provides
-    fun analyticsMapper(mapper: AnalyticsConfigMapper):
-        AnalyticsConfig.Mapper = mapper
+        @Binds
+        fun windowRiskMapper(mapper: ExposureWindowRiskCalculationConfigMapper):
+            ExposureWindowRiskCalculationConfig.Mapper
 
-    @Provides
-    fun logUploadMapper(mapper: LogUploadConfigMapper):
-        LogUploadConfig.Mapper = mapper
+        @Binds
+        fun surveyMapper(mapper: SurveyConfigMapper): SurveyConfig.Mapper
 
-    @Provides
-    fun presenceTracingMapper(mapper: PresenceTracingConfigMapper):
-        PresenceTracingConfig.Mapper = mapper
+        @Binds
+        fun analyticsMapper(mapper: AnalyticsConfigMapper): AnalyticsConfig.Mapper
 
-    @Provides
-    fun coronaTestConfigMapper(mapper: CoronaTestConfigMapper):
-        CoronaTestConfig.Mapper = mapper
+        @Binds
+        fun logUploadMapper(mapper: LogUploadConfigMapper): LogUploadConfig.Mapper
 
-    @Provides
-    fun covidCertificateConfigMapper(mapper: CovidCertificateConfigMapper):
-        CovidCertificateConfig.Mapper = mapper
+        @Binds
+        fun presenceTracingMapper(mapper: PresenceTracingConfigMapper): PresenceTracingConfig.Mapper
 
-    companion object {
-        private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)
-        private const val DEFAULT_CACHE_SIZE = 2 * 1024 * 1024L // 5MB
+        @Binds
+        fun coronaTestConfigMapper(mapper: CoronaTestConfigMapper): CoronaTestConfig.Mapper
+
+        @Binds
+        fun covidCertificateConfigMapper(mapper: CovidCertificateConfigMapper): CovidCertificateConfig.Mapper
     }
 }
+
+private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)
+private const val DEFAULT_CACHE_SIZE = 2 * 1024 * 1024L // 5MB
