@@ -117,7 +117,6 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
         instance.triggerNow("")
 
-
         coVerify(exactly = 2) {
             calculation.getDccWalletInfo(any(), "", any())
         }
@@ -151,9 +150,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPersonA.dccWalletInfo } returns null
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo1
 
-
         instance.triggerAfterConfigChange("", false)
-
 
         coVerify(exactly = 1) {
             calculation.getDccWalletInfo(any(), "", any())
@@ -181,9 +178,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
-
         instance.triggerAfterConfigChange("", false)
-
 
         coVerify(exactly = 1) {
             calculation.getDccWalletInfo(any(), "", any())
