@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
@@ -87,6 +88,10 @@ class AnalyticsModule {
 
         @Binds
         @IntoSet
-        fun bindResettable(resettable: Analytics): Resettable
+        fun bindResettableAnalytics(resettable: Analytics): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableAnalyticsExposureWindowsSettings(resettable: AnalyticsExposureWindowsSettings): Resettable
     }
 }
