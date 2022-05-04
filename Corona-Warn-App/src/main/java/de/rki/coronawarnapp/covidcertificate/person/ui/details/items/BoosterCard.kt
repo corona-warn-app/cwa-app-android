@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ImageSpan
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.PersonDetailsBoosterCardBinding
@@ -26,25 +24,7 @@ class BoosterCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
 
         title.text = curItem.title
-        if (curItem.badgeVisible) {
-            val boosterBadgeDrawable = ImageSpan(context, R.drawable.ic_badge_with_space, 2)
-            if (title.text.isNotEmpty() && title.layout != null) {
-                title.post {
-                    val textOnFirstLine = title.text.subSequence(
-                        title.layout.getLineStart(0), title.layout.getLineEnd(0)
-                    )
-                    val restOfText = title.text.subSequence(title.layout.getLineEnd(0), title.text.length)
-                    val spannableString = SpannableString("$textOnFirstLine*$restOfText")
-                    spannableString.setSpan(
-                        boosterBadgeDrawable,
-                        textOnFirstLine.length,
-                        textOnFirstLine.length + 1,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                    title.text = spannableString
-                }
-            }
-        }
+        boosterBadge.isVisible = curItem.badgeVisible
         subtitle.text = curItem.subtitle
     }
 
