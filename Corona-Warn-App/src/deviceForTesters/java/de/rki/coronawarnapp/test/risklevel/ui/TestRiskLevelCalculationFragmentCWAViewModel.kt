@@ -205,7 +205,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         launch {
             keyCacheRepository.reset()
             downloadDiagnosisKeysSettings.clear()
-            exposureDetectionTracker.clear()
+            exposureDetectionTracker.reset()
 
             dataResetEvent.postValue("Download & Submission related data reset.")
         }
