@@ -203,7 +203,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
         launch {
-            keyCacheRepository.clear()
+            keyCacheRepository.reset()
             downloadDiagnosisKeysSettings.clear()
             exposureDetectionTracker.clear()
 
