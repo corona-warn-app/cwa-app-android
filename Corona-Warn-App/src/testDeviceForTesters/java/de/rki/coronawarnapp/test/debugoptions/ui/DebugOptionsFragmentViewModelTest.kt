@@ -40,6 +40,7 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
         every { environmentSetup.currentEnvironment = any() } answers { currentEnvironment = arg(0) }
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }
+        every { environmentSetup.launchEnvironment } returns null
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
