@@ -300,13 +300,13 @@ data class ReissuanceDivision(
     val faqAnchor: String?,
 
     @JsonProperty("identifier")
-    val identifier: String?,
+    val identifier: String? = "renew",
 
     @JsonProperty("listTitleText")
-    val listTitleText: CclText?,
+    val listTitleText: CclText? = null,
 
     @JsonProperty("consentSubtitleText")
-    val consentSubtitleText: CclText?,
+    val consentSubtitleText: CclText? = null,
 
 )
 

@@ -76,6 +76,40 @@ class DccReissuerTest : BaseTest() {
         )
     )
 
+    private val certificateReissuanceLegacy = CertificateReissuance(
+        reissuanceDivision = ReissuanceDivision(
+            visible = true,
+            titleText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Zertifikat ersetzen"),
+                parameters = listOf()
+            ),
+            subtitleText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Text"),
+                parameters = listOf()
+            ),
+            longText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Langer Text"),
+                parameters = listOf()
+            ),
+            faqAnchor = "dcc_admission_state"
+        ),
+        certificateToReissue = Certificate(
+            certificateRef = CertificateRef(
+                barcodeData = VaccinationTestData.personAVac1QRCodeString,
+            )
+        ),
+        accompanyingCertificates = listOf(
+            Certificate(
+                certificateRef = CertificateRef(
+                    barcodeData = VaccinationTestData.personAVac2QRCodeString
+                )
+            )
+        )
+    )
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -97,7 +131,7 @@ class DccReissuerTest : BaseTest() {
             certificate = VaccinationTestData.personAVac1QRCodeString,
             relations = listOf(
                 DccReissuanceResponse.Relation(
-                    index = 0,
+                    index = 1,
                     action = ACTION_REPLACE
                 )
             )
@@ -109,6 +143,8 @@ class DccReissuerTest : BaseTest() {
             instance().startReissuance(certificateReissuance = certificateReissuance)
         }
 
+        val qrCode2 = dccQrCodeExtractor.extract(VaccinationTestData.personAVac2QRCodeString)
+
         coVerify(exactly = 1) {
             dccReissuanceServer.requestDccReissuance(
                 action = ACTION_RENEW,
@@ -117,8 +153,39 @@ class DccReissuerTest : BaseTest() {
                     VaccinationTestData.personAVac2QRCodeString
                 )
             )
-            dccQrCodeHandler.register(any())
-            dccQrCodeHandler.moveToRecycleBin(any())
+            dccQrCodeHandler.register(VaccinationTestData.personAVac1QRCode)
+            dccQrCodeHandler.moveToRecycleBin(qrCode2)
+        }
+    }
+
+    @Test
+    fun `startReissuance works for legacy wallet`() = runBlockingTest {
+        val dccReissuance = DccReissuanceResponse.DccReissuance(
+            certificate = VaccinationTestData.personAVac1QRCodeString,
+            relations = listOf(
+                DccReissuanceResponse.Relation(
+                    index = 0,
+                    action = ACTION_REPLACE
+                )
+            )
+        )
+        coEvery { dccReissuanceServer.requestDccReissuance(ACTION_RENEW, any()) } returns DccReissuanceResponse(
+            dccReissuances = listOf(dccReissuance)
+        )
+        shouldNotThrow<DccReissuanceException> {
+            instance().startReissuance(certificateReissuance = certificateReissuanceLegacy)
+        }
+
+        coVerify(exactly = 1) {
+            dccReissuanceServer.requestDccReissuance(
+                action = ACTION_RENEW,
+                certificates = listOf(
+                    VaccinationTestData.personAVac1QRCodeString,
+                    VaccinationTestData.personAVac2QRCodeString
+                )
+            )
+            dccQrCodeHandler.register(VaccinationTestData.personAVac1QRCode)
+            dccQrCodeHandler.moveToRecycleBin(VaccinationTestData.personAVac1QRCode)
         }
     }
 

@@ -63,13 +63,13 @@ class VaccinationStorageTest : BaseTest() {
 
     @Test
     fun `store one person`() {
-        val vaccinationContainer2 = testData.personAVac2StoredCertificateData.copy(
+        val vaccinationContainer2 = VaccinationTestData.personAVac2StoredCertificateData.copy(
             notifiedInvalidAt = Instant.ofEpochSecond(1234),
             notifiedBlockedAt = Instant.ofEpochSecond(1234),
             notifiedExpiredAt = Instant.ofEpochSecond(1234),
             notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
-        val personData = setOf(testData.personAVac1StoredCertificateData, vaccinationContainer2)
+        val personData = setOf(VaccinationTestData.personAVac1StoredCertificateData, vaccinationContainer2)
         runBlockingTest {
             val instance = createInstance()
             instance.save(personData)
