@@ -20,14 +20,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 
 class RecycledCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
@@ -80,23 +80,25 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun sorting() = runTest {
-        provider().recycledCertificates.first() shouldBe setOf(vc, tc, rc)
+    fun sorting() = runTest2 {
+        provider(this).recycledCertificates.first() shouldBe setOf(vc, tc, rc)
     }
 
     @Test
-    fun findCertificate() = runTest {
-        provider().findCertificate("tcQrCode") shouldBe tcContainerId
-        provider().findCertificate("rcQrCode") shouldBe rcContainerId
-        provider().findCertificate("vcQrCode") shouldBe vcContainerId
-        provider().findCertificate("vcQrCode1") shouldBe null
+    fun findCertificate() = runTest2 {
+        val provider = provider(this)
+        provider.findCertificate("tcQrCode") shouldBe tcContainerId
+        provider.findCertificate("rcQrCode") shouldBe rcContainerId
+        provider.findCertificate("vcQrCode") shouldBe vcContainerId
+        provider.findCertificate("vcQrCode1") shouldBe null
     }
 
     @Test
-    fun restoreCertificate() = runTest {
-        provider().restoreCertificate(tcContainerId)
-        provider().restoreCertificate(vcContainerId)
-        provider().restoreCertificate(rcContainerId)
+    fun restoreCertificate() = runTest2 {
+        val provider = provider(this)
+        provider.restoreCertificate(tcContainerId)
+        provider.restoreCertificate(vcContainerId)
+        provider.restoreCertificate(rcContainerId)
 
         coVerify(exactly = 1) {
             testCertificateRepository.restoreCertificate(any())
@@ -106,10 +108,11 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteCertificate() = runTest {
-        provider().deleteCertificate(tcContainerId)
-        provider().deleteCertificate(vcContainerId)
-        provider().deleteCertificate(rcContainerId)
+    fun deleteCertificate() = runTest2 {
+        val provider = provider(this)
+        provider.deleteCertificate(tcContainerId)
+        provider.deleteCertificate(vcContainerId)
+        provider.deleteCertificate(rcContainerId)
 
         coVerify(exactly = 1) {
             testCertificateRepository.deleteCertificate(any())
@@ -119,8 +122,8 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteAllCertificate() = runTest {
-        provider().deleteAllCertificate(setOf(tcContainerId, vcContainerId, rcContainerId))
+    fun deleteAllCertificate() = runTest2 {
+        provider(this).deleteAllCertificate(setOf(tcContainerId, vcContainerId, rcContainerId))
 
         coVerify(exactly = 1) {
             testCertificateRepository.deleteCertificate(any())
@@ -129,10 +132,10 @@ class RecycledCertificatesProviderTest : BaseTest() {
         }
     }
 
-    fun provider() = RecycledCertificatesProvider(
+    fun provider(scope: CoroutineScope) = RecycledCertificatesProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         vaccinationCertificateRepository = vaccinationCertificateRepository,
-        appScope = TestScope()
+        appScope = scope
     )
 }

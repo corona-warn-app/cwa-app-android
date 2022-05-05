@@ -2,6 +2,7 @@ package testhelpers.coroutines
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
@@ -24,25 +25,14 @@ fun TestScope.runTest2(
 )
 
 fun runTest2(
-    ignoreActive: Boolean = false,
+    ignoreActive: Boolean = true,
     context: CoroutineContext = EmptyCoroutineContext,
     testBody: suspend TestScope.() -> Unit
 ) {
-    try {
-        runBlocking {
-            val job = launch {
-                runTest(
-                    context = context,
-                    dispatchTimeoutMs = 1_00L,
-                    testBody = testBody
-                )
-            }
-
-            job.cancelAndJoin()
-        }
-    } catch (e: Exception) {
-        if (!ignoreActive || (e.message != "This job has not completed yet")) {
-            throw e
-        }
+    runTest(
+        context = context
+    ) {
+        testBody()
+        if (ignoreActive) coroutineContext.cancelChildren()
     }
 }
