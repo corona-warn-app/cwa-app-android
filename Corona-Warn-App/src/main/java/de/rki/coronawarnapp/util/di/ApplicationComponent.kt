@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.environment.EnvironmentModule
 import de.rki.coronawarnapp.familytest.core.FamilyTestModule
 import de.rki.coronawarnapp.gstatus.ui.GStatusModule
 import de.rki.coronawarnapp.http.HttpModule
+import de.rki.coronawarnapp.main.MainModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
@@ -101,6 +102,7 @@ import javax.inject.Singleton
         GStatusModule::class,
         FamilyTestModule::class,
         ProfileModule::class,
+        MainModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
