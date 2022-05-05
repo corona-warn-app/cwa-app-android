@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -36,14 +36,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runTest2
+import testhelpers.coroutines.runBlockingTest2
 import javax.inject.Inject
 
 class TestCertificateRepositoryTest : BaseTest() {
@@ -124,7 +123,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `register via corona test`() = runTest2(ignoreActive = true) {
+    fun `register via corona test`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         instance.requestCertificate(
@@ -165,7 +164,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `register via qrcode`() = runTest2(ignoreActive = true) {
+    fun `register via qrcode`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
         instance.registerCertificate(
@@ -196,7 +195,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `storage is not written on init`() = runTest2(ignoreActive = true) {
+    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
         instance.certificates.first()
         advanceUntilIdle()
@@ -206,7 +205,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `filter by recycled`() = runTest2(ignoreActive = true) {
+    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
         val recycled = testData.personATest2StoredData.copy(
             identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
             recycledAt = nowUTC
@@ -246,7 +245,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Cert is not existing`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -266,7 +265,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - ExpiringSoon`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -286,7 +285,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Expired`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -306,7 +305,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Invalid`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -326,7 +325,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Blocked`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -346,7 +345,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Valid`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
         coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
         val instance = createInstance(this)
 
@@ -362,77 +361,6 @@ class TestCertificateRepositoryTest : BaseTest() {
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
             notifiedExpiredAt shouldBe null
-        }
-    }
-
-    @Test
-    fun `replace certificate works`() = runTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate does not exist`() = runTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf()
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 0
-        }
-    }
-
-    @Test
-    fun `replace certificate works if new certificate already exists`() = runTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData, testData.personATest2StoredData)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate is already recycled`() = runTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData.copy(recycledAt = nowUTC))
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
         }
     }
 }

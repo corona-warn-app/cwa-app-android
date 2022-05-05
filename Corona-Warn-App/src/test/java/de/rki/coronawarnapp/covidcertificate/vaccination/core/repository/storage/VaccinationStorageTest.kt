@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -51,7 +51,7 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing empty set deletes data`() = runTest {
+    fun `storing empty set deletes data`() = runBlockingTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
             putString("vaccination.certificate", "test")
@@ -63,14 +63,14 @@ class VaccinationStorageTest : BaseTest() {
 
     @Test
     fun `store one person`() {
-        val vaccinationContainer2 = testData.personAVac2StoredCertificateData.copy(
+        val vaccinationContainer2 = VaccinationTestData.personAVac2StoredCertificateData.copy(
             notifiedInvalidAt = Instant.ofEpochSecond(1234),
             notifiedBlockedAt = Instant.ofEpochSecond(1234),
             notifiedExpiredAt = Instant.ofEpochSecond(1234),
             notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
-        val personData = setOf(testData.personAVac1StoredCertificateData, vaccinationContainer2)
-        runTest {
+        val personData = setOf(VaccinationTestData.personAVac1StoredCertificateData, vaccinationContainer2)
+        runBlockingTest {
             val instance = createInstance()
             instance.save(personData)
 
@@ -80,7 +80,7 @@ class VaccinationStorageTest : BaseTest() {
             json.toComparableJsonPretty() shouldBe """
                 [
                     {
-                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "vaccinationQrCode": "${VaccinationTestData.personAVac1QRCodeString}",
                       "scannedAt": 1620062834471,
                       "lastSeenStateChange": {
                         "expiresAt": 1620062834471,
@@ -90,7 +90,7 @@ class VaccinationStorageTest : BaseTest() {
                       "certificateSeenByUser": true
                     },
                     {
-                      "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
+                      "vaccinationQrCode": "${VaccinationTestData.personAVac2QRCodeString}",
                       "scannedAt": 1620069934471,
                       "notifiedExpiresSoonAt": 1234000,
                       "notifiedExpiredAt": 1234000,

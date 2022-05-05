@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 class VaccinationCertificateContainerTest : BaseTest() {
 
-    @Inject lateinit var testData: VaccinationTestData
+    @Inject lateinit var vaccinationTestData: VaccinationTestData
 
     @BeforeEach
     fun setup() {
@@ -34,7 +34,7 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
     @Test
     fun `person identifier calculation`() {
-        testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
+        vaccinationTestData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
             dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
@@ -43,7 +43,7 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
     @Test
     fun `header decoding`() {
-        testData.personAVac1Container.header.apply {
+        vaccinationTestData.personAVac1Container.header.apply {
             issuer shouldBe "DE"
             issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
             expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
@@ -52,23 +52,23 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 1 of 2`() {
-        testData.personAVac1Container.apply {
-            certificate shouldBe testData.personAVac1Certificate
-            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+        vaccinationTestData.personAVac1Container.apply {
+            certificate shouldBe VaccinationTestData.personAVac1Certificate
+            qrCodeHash shouldBe VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
     @Test
     fun `full property decoding - 2 of 2`() {
-        testData.personAVac22Container.apply {
-            certificate shouldBe testData.personAVac2Certificate
-            qrCodeHash shouldBe testData.personAVac2StoredCertificateData.vaccinationQrCode.toSHA256()
+        vaccinationTestData.personAVac22Container.apply {
+            certificate shouldBe VaccinationTestData.personAVac2Certificate
+            qrCodeHash shouldBe VaccinationTestData.personAVac2StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
     @Test
     fun `mapping to user facing data - valueset is null`() {
-        testData.personAVac1Container.toVaccinationCertificate(
+        vaccinationTestData.personAVac1Container.toVaccinationCertificate(
             valueSet = null,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN
@@ -85,9 +85,9 @@ class VaccinationCertificateContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
-                testData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
+                vaccinationTestData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -121,7 +121,7 @@ class VaccinationCertificateContainerTest : BaseTest() {
             ma = DefaultValueSet(items = listOf(maItem))
         )
 
-        testData.personAVac1Container.toVaccinationCertificate(
+        vaccinationTestData.personAVac1Container.toVaccinationCertificate(
             valueSet = vaccinationValueSets,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN,
@@ -138,9 +138,9 @@ class VaccinationCertificateContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
-                testData.personAVac1Container.vaccination.uniqueCertificateIdentifier
+                vaccinationTestData.personAVac1Container.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -154,7 +154,7 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
     @Test
     fun `nonsense country code appears unchanged`() {
-        testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(
+        vaccinationTestData.personXVac1ContainerBadCountryData.toVaccinationCertificate(
             valueSet = null,
             certificateState = CwaCovidCertificate.State.Invalid()
         ).apply {
@@ -177,7 +177,7 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
         val container = VaccinationCertificateContainer(
             data = StoredVaccinationCertificateData(
-                vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
+                vaccinationQrCode = VaccinationTestData.personYVacTwoEntriesQrCode,
                 scannedAt = Instant.EPOCH
             ),
             qrCodeExtractor = extractor
@@ -185,11 +185,13 @@ class VaccinationCertificateContainerTest : BaseTest() {
 
         container.certificateData shouldNotBe null
 
-        coVerify { extractor.extract(testData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
+        coVerify {
+            extractor.extract(VaccinationTestData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT)
+        }
     }
 
     @Test
     fun `gracefully handle semi invalid data - multiple entries`() {
-        testData.personYVacTwoEntriesContainer.certificate.vaccination
+        vaccinationTestData.personYVacTwoEntriesContainer.certificate.vaccination
     }
 }
