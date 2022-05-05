@@ -171,7 +171,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun resetRiskLevel() {
         Timber.d("Resetting risk level")
         launch {
-            riskLevelStorage.clear()
+            riskLevelStorage.reset()
             dataResetEvent.postValue("Risk level calculation related data reset.")
         }
     }
