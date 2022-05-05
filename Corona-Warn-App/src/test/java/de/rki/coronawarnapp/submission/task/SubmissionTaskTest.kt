@@ -284,7 +284,7 @@ class SubmissionTaskTest : BaseTest() {
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.clear()
-            checkInRepository.clear()
+            checkInRepository.reset()
             settingSymptomsPreference.update(any())
             autoSubmission.updateMode(any())
         }

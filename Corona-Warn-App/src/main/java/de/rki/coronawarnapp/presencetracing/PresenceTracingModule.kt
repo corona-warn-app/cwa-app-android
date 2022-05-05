@@ -2,11 +2,16 @@ package de.rki.coronawarnapp.presencetracing
 
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoSet
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
+import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionModule
 import de.rki.coronawarnapp.presencetracing.storage.repo.DefaultTraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
+import de.rki.coronawarnapp.util.reset.Resettable
 
 @Module(
     includes = [
@@ -15,10 +20,26 @@ import de.rki.coronawarnapp.presencetracing.warning.PresenceTracingWarningModule
         OrganizerSubmissionModule::class,
     ]
 )
-abstract class PresenceTracingModule {
+interface PresenceTracingModule {
 
     @Binds
-    abstract fun traceLocationRepository(
+    fun traceLocationRepository(
         defaultTraceLocationRepo: DefaultTraceLocationRepository
     ): TraceLocationRepository
+
+    @Binds
+    @IntoSet
+    fun bindResettableTraceLocationPreferences(resettable: TraceLocationPreferences): Resettable
+
+    @Binds
+    @IntoSet
+    fun bindResettableTraceLocationSettings(resettable: TraceLocationSettings): Resettable
+
+    @Binds
+    @IntoSet
+    fun bindResettableCheckInRepository(resettable: CheckInRepository): Resettable
+
+    @Binds
+    @IntoSet
+    fun bindResettableTraceLocationRepository(resettable: TraceLocationRepository): Resettable
 }
