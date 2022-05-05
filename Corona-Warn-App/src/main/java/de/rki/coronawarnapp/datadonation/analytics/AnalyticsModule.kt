@@ -28,7 +28,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [AnalyticsModule.BindsModule::class])
-class AnalyticsModule {
+object AnalyticsModule {
 
     @Reusable
     @Provides
@@ -47,42 +47,6 @@ class AnalyticsModule {
             .create(DataDonationAnalyticsApiV1::class.java)
     }
 
-    @IntoSet
-    @Provides
-    fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun userMetadata(module: UserMetadataDonor): DonorModule = module
-
-    @IntoSet
-    @Provides
-    fun clientMetadata(module: ClientMetadataDonor): DonorModule = module
-
-    @Provides
-    @Singleton
-    fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger = logger
-
     @Module
     internal interface BindsModule {
 
@@ -93,5 +57,40 @@ class AnalyticsModule {
         @Binds
         @IntoSet
         fun bindResettableAnalyticsExposureWindowsSettings(resettable: AnalyticsExposureWindowsSettings): Resettable
+
+        @IntoSet
+        @Binds
+        fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun userMetadata(module: UserMetadataDonor): DonorModule = module
+
+        @IntoSet
+        @Binds
+        fun clientMetadata(module: ClientMetadataDonor): DonorModule = module
+
+        @Binds
+        fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger
     }
 }
