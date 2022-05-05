@@ -10,8 +10,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,34 +26,32 @@ class CoronaTestCertificateCensorTest : BaseTest() {
     private val pcrIdentifier = "qrcode-pcr-someIdentifier"
     private val ratIdentifier = "qrcode-rat-someIdentifier"
 
-    private val coronaTests: MutableStateFlow<Set<TestCertificateWrapper>> = MutableStateFlow(
-        setOf(
-            mockk<TestCertificateWrapper>().apply {
-                every { registrationToken } returns testToken
-                every { containerId } returns TestCertificateContainerId(pcrIdentifier)
-            },
-            mockk<TestCertificateWrapper>().apply {
-                every { registrationToken } returns testToken
-                every { containerId } returns TestCertificateContainerId(ratIdentifier)
-            }
-        )
-    )
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.certificates } returns coronaTests
+        every { coronaTestRepository.certificates } returns flowOf(
+            setOf(
+                mockk<TestCertificateWrapper>().apply {
+                    every { registrationToken } returns testToken
+                    every { containerId } returns TestCertificateContainerId(pcrIdentifier)
+                },
+                mockk<TestCertificateWrapper>().apply {
+                    every { registrationToken } returns testToken
+                    every { containerId } returns TestCertificateContainerId(ratIdentifier)
+                }
+            )
+        )
     }
 
-    private fun createInstance() = CoronaTestCertificateCensor(
-        debugScope = TestScope(),
+    private fun createInstance(scope: CoroutineScope) = CoronaTestCertificateCensor(
+        debugScope = scope,
         coronaTestRepository = coronaTestRepository
     )
 
     @Test
-    fun `censoring replaces the logline message`() = runTest {
-        val instance = createInstance()
+    fun `censoring replaces the log line message`() = runTest {
+        val instance = createInstance(this)
         val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
         instance.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
@@ -62,9 +61,9 @@ class CoronaTestCertificateCensorTest : BaseTest() {
 
     @Test
     fun `censoring returns null if there is no corona test stored`() = runTest {
-        coronaTests.value = emptySet()
+        every { coronaTestRepository.certificates } returns flowOf(setOf())
 
-        val instance = createInstance()
+        val instance = createInstance(this)
         val filterMeNot =
             "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
         instance.checkLog(filterMeNot) shouldBe null
@@ -72,15 +71,15 @@ class CoronaTestCertificateCensorTest : BaseTest() {
 
     @Test
     fun `censoring returns null if there is no match`() = runTest {
-        val instance = createInstance()
+        val instance = createInstance(this)
         val filterMeNot = "I'm not a registration token ;)"
         instance.checkLog(filterMeNot) shouldBe null
     }
 
     @Test
-    fun `censoring still works after test was deleted`() = runTest {
+    fun `censoring still works after test was deleted`() = runTest(UnconfinedTestDispatcher()) {
 
-        val censor = createInstance()
+        val censor = createInstance(this)
 
         val filterMe = "I'm a shy registration token: $testToken and we are extrovert $pcrIdentifier and $ratIdentifier"
 
@@ -88,7 +87,7 @@ class CoronaTestCertificateCensorTest : BaseTest() {
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"
 
         // delete all tests
-        coronaTests.value = emptySet()
+        every { coronaTestRepository.certificates } returns flowOf(setOf())
 
         censor.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier"

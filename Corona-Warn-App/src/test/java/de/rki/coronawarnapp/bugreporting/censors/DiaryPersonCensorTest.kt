@@ -10,7 +10,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,7 +45,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runTest {
+    fun `censoring replaces the log line message`() = runTest(UnconfinedTestDispatcher()) {
         every { diaryRepo.people } returns flowOf(
             listOf(
                 mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
@@ -69,7 +69,7 @@ class DiaryPersonCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after people are deleted`() = runTest {
+    fun `censoring should still work after people are deleted`() = runTest(UnconfinedTestDispatcher()) {
         every { diaryRepo.people } returns flowOf(
             listOf(
                 mockPerson(1, "Luka", phone = "+49 1234 7777", mail = "luka@sap.com"),
@@ -142,7 +142,7 @@ class DiaryPersonCensorTest : BaseTest() {
             Runtime.getRuntime().exit(1)
         }
 
-        runBlocking {
+        runTest {
             val instance = createInstance(this)
 
             val processedLine = try {
