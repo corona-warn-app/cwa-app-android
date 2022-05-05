@@ -43,6 +43,22 @@ internal class DccWalletInfoParserTest : BaseTest() {
             }
     }
 
+    @Test
+    fun `Deserialize DCCWalletInfo with Reissuance legacy`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_reissuance_legacy.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoWithReissuanceLegacy
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo with Reissuance legacy`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_reissuance_legacy.json").bufferedReader()
+            .use {
+                mapper.writeValueAsString(dccWalletInfoWithReissuanceLegacy).toComparableJsonPretty() shouldBe
+                    it.readText().toComparableJsonPretty()
+            }
+    }
+
     private val pluralTextIndexed = PluralText(
         type = "plural",
         quantity = null,

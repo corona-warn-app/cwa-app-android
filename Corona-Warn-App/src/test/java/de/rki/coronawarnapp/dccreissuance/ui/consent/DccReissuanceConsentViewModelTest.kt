@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.ui.consent
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dccWalletInfoWithReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dccWalletInfoWithReissuanceLegacy
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -29,7 +29,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
@@ -66,7 +65,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         every { personCertificatesProvider.findPersonByIdentifierCode(any()) } returns flowOf(
             PersonCertificates(
                 certificates = listOf(vaccinationCertA),
-                dccWalletInfo = dccWalletInfoWithReissuance
+                dccWalletInfo = dccWalletInfoWithReissuanceLegacy
             )
         )
 
