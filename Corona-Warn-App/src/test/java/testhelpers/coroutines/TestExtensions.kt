@@ -25,7 +25,7 @@ fun TestScope.runTest2(
 )
 
 fun runTest2(
-    ignoreActive: Boolean = true,
+    ignoreActive: Boolean = false,
     context: CoroutineContext = EmptyCoroutineContext,
     testBody: suspend TestScope.() -> Unit
 ) {

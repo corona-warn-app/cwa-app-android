@@ -15,6 +15,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,97 +66,103 @@ class StatisticsProviderTest : BaseTest() {
     )
 
     @Test
-    fun `creation is sideeffect free`() = runTest2(ignoreActive = true) {
-        createInstance(this)
-        verify(exactly = 0) { localCache.load() }
-    }
-
-    @Test
-    fun `initial subscription tries cache, then server`() = runTest2(ignoreActive = true) {
-        val testCollector = createInstance(this).current.test(startOnScope = this)
-
-        coVerifySequence {
-            localCache.load()
-            server.getRawStatistics()
-            parser.parse(testData)
-            localCache.save(testData)
+    fun `creation is side effect free`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            createInstance(this)
+            verify(exactly = 0) { localCache.load() }
         }
 
-        testCollector.latestValue shouldBe statisticsData
-    }
-
     @Test
-    fun `update foreground state change`() = runTest2(ignoreActive = true) {
-        val instance = createInstance(this)
-        val testCollector = instance.current.test(startOnScope = this)
+    fun `initial subscription tries cache, then server`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val testCollector = createInstance(this).current.test(startOnScope = this)
 
-        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
+            coVerifySequence {
+                localCache.load()
+                server.getRawStatistics()
+                parser.parse(testData)
+                localCache.save(testData)
+            }
 
-        val newRawStatisticsData = "Bernd".encodeToByteArray()
-        coEvery { server.getRawStatistics() } returns newRawStatisticsData
-        val newStatisticsData = mockk<StatisticsData>().apply {
-            every { isDataAvailable } returns false
+            testCollector.latestValue shouldBe statisticsData
         }
-        coEvery { parser.parse(any()) } returns newStatisticsData
-
-        testForegroundState.value = false
-        testForegroundState.value = true
-
-        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData, newStatisticsData)
-        verify { localCache.save(newRawStatisticsData) }
-    }
 
     @Test
-    fun `failed update does not destroy cache`() = runTest2(ignoreActive = true) {
-        val instance = createInstance(this)
-        val testCollector = instance.current.test(startOnScope = this)
+    fun `update foreground state change`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
+            val testCollector = instance.current.test(startOnScope = this)
 
-        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
+            testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
 
-        coEvery { server.getRawStatistics() } throws IOException()
+            val newRawStatisticsData = "Bernd".encodeToByteArray()
+            coEvery { server.getRawStatistics() } returns newRawStatisticsData
+            val newStatisticsData = mockk<StatisticsData>().apply {
+                every { isDataAvailable } returns false
+            }
+            coEvery { parser.parse(any()) } returns newStatisticsData
 
-        instance.triggerUpdate()
+            testForegroundState.value = false
+            testForegroundState.value = true
 
-        testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
-        verify(exactly = 0) { localCache.save(null) }
-    }
-
-    @Test
-    fun `clear deletes cache`() = runTest2(ignoreActive = true) {
-        val instance = createInstance(this)
-
-        val testCollector = instance.current.test(startOnScope = this)
-        testCollector.latestValue shouldBe statisticsData
-
-        instance.clear()
-
-        coVerify {
-            server.clear()
-            localCache.save(null)
+            testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData, newStatisticsData)
+            verify { localCache.save(newRawStatisticsData) }
         }
-    }
 
     @Test
-    fun `subscription flow timeout is 5 seconds`() = runTest2(ignoreActive = true) {
-        val instance = createInstance(this)
-        var testCollector1 = instance.current.test(startOnScope = this)
-        var testCollector2 = instance.current.test(startOnScope = this)
+    fun `failed update does not destroy cache`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
+            val testCollector = instance.current.test(startOnScope = this)
 
-        advanceUntilIdle()
-        coVerify(exactly = 1) { localCache.load() }
+            testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
 
-        testCollector1.cancel()
-        testCollector2.cancel()
+            coEvery { server.getRawStatistics() } throws IOException()
 
-        testScheduler.apply { advanceTimeBy(6000); runCurrent() }
+            instance.triggerUpdate()
 
-        testCollector1 = instance.current.test(startOnScope = this)
-        testCollector2 = instance.current.test(startOnScope = this)
+            testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
+            verify(exactly = 0) { localCache.save(null) }
+        }
 
-        advanceUntilIdle()
-        coVerify(exactly = 2) { localCache.load() }
+    @Test
+    fun `clear deletes cache`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
 
-        testCollector1.cancel()
-        testCollector2.cancel()
-    }
+            val testCollector = instance.current.test(startOnScope = this)
+            testCollector.latestValue shouldBe statisticsData
+
+            instance.clear()
+
+            coVerify {
+                server.clear()
+                localCache.save(null)
+            }
+        }
+
+    @Test
+    fun `subscription flow timeout is 5 seconds`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
+            var testCollector1 = instance.current.test(startOnScope = this)
+            var testCollector2 = instance.current.test(startOnScope = this)
+
+            advanceUntilIdle()
+            coVerify(exactly = 1) { localCache.load() }
+
+            testCollector1.cancel()
+            testCollector2.cancel()
+
+            testScheduler.apply { advanceTimeBy(6000); runCurrent() }
+
+            testCollector1 = instance.current.test(startOnScope = this)
+            testCollector2 = instance.current.test(startOnScope = this)
+
+            advanceUntilIdle()
+            coVerify(exactly = 2) { localCache.load() }
+
+            testCollector1.cancel()
+            testCollector2.cancel()
+        }
 }
