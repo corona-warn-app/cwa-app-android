@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -361,77 +361,6 @@ class TestCertificateRepositoryTest : BaseTest() {
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
             notifiedExpiredAt shouldBe null
-        }
-    }
-
-    @Test
-    fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf()
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 0
-        }
-    }
-
-    @Test
-    fun `replace certificate works if new certificate already exists`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData, testData.personATest2StoredData)
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
-        }
-    }
-
-    @Test
-    fun `replace certificate works if old certificate is already recycled`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { storage.load() } returns setOf(testData.personATest1StoredData.copy(recycledAt = nowUTC))
-        val instance = createInstance(this)
-        instance.replaceCertificate(
-            certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
-        )
-        with(instance.certificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
-        }
-        with(instance.recycledCertificates.first()) {
-            size shouldBe 1
-            this.first().containerId shouldBe testData.personATest1Container.containerId
         }
     }
 }
