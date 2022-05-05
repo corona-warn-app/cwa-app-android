@@ -27,7 +27,7 @@
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:paddingBottom="@dimen/spacing_small"
         android:text="@string/person_details_certificate_covpass_info_title"
         app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
@@ -39,6 +39,8 @@
         style="@style/CertificateCardInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:layout_marginEnd="-8dp"
         android:contentDescription="@string/statistics_info_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
