@@ -23,10 +23,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.TestDispatcherProvider
+import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import java.io.PrintWriter
 
-@ExtendWith(InstantExecutorExtension::class)
+@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class SubmissionConsentViewModelTest {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
