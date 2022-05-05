@@ -7,13 +7,13 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
-import testhelpers.coroutines.test
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -34,20 +34,16 @@ class ForegroundStateTest : BaseTest() {
     )
 
     @Test
-    fun `test emissions`() = runTest {
+    fun `test emissions`() = runTest(UnconfinedTestDispatcher()) {
         val instance = createInstance()
+        instance.isInForeground
 
-        val testCollector = instance.isInForeground.test(startOnScope = this)
-
-        testCollector.latestValue shouldBe false
+        instance.isInForeground.first() shouldBe false
 
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        testCollector.latestValue shouldBe true
+        instance.isInForeground.first() shouldBe true
 
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-        testCollector.latestValue shouldBe false
-
-        testCollector.cancel()
-        advanceUntilIdle()
+        instance.isInForeground.first() shouldBe false
     }
 }
