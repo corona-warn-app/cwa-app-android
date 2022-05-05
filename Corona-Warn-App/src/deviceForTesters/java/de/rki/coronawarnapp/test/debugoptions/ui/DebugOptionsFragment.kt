@@ -55,11 +55,13 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
 
         vm.environmentState.observe2(this) { state ->
             binding.apply {
+
+                buttonClear.isVisible = state.isOverwritten
+                overwrittenWarning.isVisible = state.isOverwritten
+                environmentToggleGroup.isGone = state.isOverwritten
+
                 if (environmentToggleGroup.childCount != state.available.size) {
                     environmentToggleGroup.removeAllViews()
-                    buttonClear.isVisible = state.isOverwritten
-                    overwrittenWarning.isVisible = state.isOverwritten
-                    environmentToggleGroup.isGone = state.isOverwritten
                     state.available.forEach { type ->
                         RadioButton(requireContext()).apply {
                             id = ViewCompat.generateViewId()

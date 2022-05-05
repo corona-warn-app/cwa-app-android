@@ -26,7 +26,6 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     fun clearLaunchEnvironment() {
         envSetup.launchEnvironment = null
         envSetup.toEnvironmentState()
-            .copy(isOverwritten = false)
             .let {
                 environmentStateFlow.value = it
                 environmentStateChange.postValue(it)
