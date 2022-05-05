@@ -61,7 +61,7 @@ internal class CclSettingsTest : BaseTest() {
     }
 
     @Test
-    fun `test CclSettings - forceCclCalculation`() =  runTest(UnconfinedTestDispatcher()) {
+    fun `test CclSettings - forceCclCalculation`() = runTest(UnconfinedTestDispatcher()) {
         val cclSettings = CclSettings(fakeDataStore, this)
 
         // Call - 1-> returns `true` and set value to `false`
