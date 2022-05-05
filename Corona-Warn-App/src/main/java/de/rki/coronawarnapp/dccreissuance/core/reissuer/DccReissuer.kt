@@ -25,16 +25,7 @@ class DccReissuer @Inject constructor(
         InvalidHealthCertificateException::class
     )
     suspend fun startReissuance(certificateReissuance: CertificateReissuance) {
-        certificateReissuance.certificateToReissue?.let {
-            CertificateReissuanceItem(
-                certificateToReissue = it,
-                accompanyingCertificates = certificateReissuance.accompanyingCertificates ?: emptyList(),
-                action = ACTION_RENEW
-            ).apply {
-                reissue(this)
-            }
-        }
-        certificateReissuance.certificates?.forEach {
+        certificateReissuance.migrateLegacyCertificate().certificates?.forEach {
             reissue(it)
         }
     }

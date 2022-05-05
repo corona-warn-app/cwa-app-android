@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.dccreissuance.core.reissuer.ACTION_RENEW
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
 
@@ -269,7 +270,29 @@ data class CertificateReissuance(
 
     @JsonProperty("certificates")
     val certificates: List<CertificateReissuanceItem>? = null,
-)
+) {
+    fun migrateLegacyCertificate(): CertificateReissuance {
+        val consolidatedCertificates = mutableListOf<CertificateReissuanceItem>().apply {
+            certificates?.let {
+                addAll(it)
+            }
+        }
+        certificateToReissue?.let {
+            CertificateReissuanceItem(
+                certificateToReissue = it,
+                accompanyingCertificates = accompanyingCertificates ?: emptyList(),
+                action = ACTION_RENEW
+            ).apply {
+                consolidatedCertificates.add(this)
+            }
+        }
+        return copy(
+            certificateToReissue = null,
+            accompanyingCertificates = null,
+            certificates = consolidatedCertificates
+        )
+    }
+}
 
 data class CertificateReissuanceItem(
 
