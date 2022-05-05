@@ -16,11 +16,12 @@ import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 
 @ExtendWith(InstantExecutorExtension::class)
-class FamilyTestConsentViewModelTest {
+class FamilyTestConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
     @MockK lateinit var familyTestCensor: FamilyTestCensor
@@ -57,14 +58,13 @@ class FamilyTestConsentViewModelTest {
     }
 
     @Test
-    fun nameChanged(value: String) {
+    fun testNameChanged() {
         viewModelDcc.nameChanged("My Name")
         viewModelDcc.isSubmittable.value shouldBe true
     }
 
     @Test
-    fun nameNotChanged(value: String) {
-        viewModelDcc.nameChanged("My Name")
+    fun testNameNotChanged() {
         viewModelDcc.isSubmittable.value shouldBe false
     }
 
