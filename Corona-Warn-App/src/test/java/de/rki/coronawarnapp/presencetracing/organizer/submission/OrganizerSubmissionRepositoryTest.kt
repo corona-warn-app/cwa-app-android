@@ -26,8 +26,6 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var checkInsTransformer: OrganizerCheckInsTransformer
     @MockK lateinit var organizerPlaybook: OrganizerPlaybook
 
-    private lateinit var organiserSubmissionRepository: OrganizerSubmissionRepository
-
     private val traceLocation = TraceLocation(
         id = 2,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -57,16 +55,11 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
         )
 
         coEvery { organizerPlaybook.submit(any(), any()) } just Runs
-        organiserSubmissionRepository = OrganizerSubmissionRepository(
-            appScope = TestScope(),
-            checkInsTransformer = checkInsTransformer,
-            organizerPlaybook = organizerPlaybook
-        )
     }
 
     @Test
     fun `submit - Prepare checkins and then submit`() = runTest {
-        organiserSubmissionRepository.submit(organizerSubmissionPayload)
+        organizerSubmissionRepository().submit(organizerSubmissionPayload)
 
         coVerifySequence {
             checkInsTransformer.transform(any())
@@ -78,7 +71,7 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     fun `submit - throws Exception when Preparing checkins fails`() = runTest {
         coEvery { checkInsTransformer.transform(any()) } throws Exception()
         shouldThrow<Exception> {
-            organiserSubmissionRepository.submit(organizerSubmissionPayload)
+            organizerSubmissionRepository().submit(organizerSubmissionPayload)
         }
     }
 
@@ -86,7 +79,13 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     fun `submit - throws Exception when submit fails`() = runTest {
         coEvery { organizerPlaybook.submit(any(), any()) } throws Exception()
         shouldThrow<Exception> {
-            organiserSubmissionRepository.submit(organizerSubmissionPayload)
+            organizerSubmissionRepository().submit(organizerSubmissionPayload)
         }
     }
+
+    private fun TestScope.organizerSubmissionRepository() = OrganizerSubmissionRepository(
+        appScope = this,
+        checkInsTransformer = checkInsTransformer,
+        organizerPlaybook = organizerPlaybook
+    )
 }
