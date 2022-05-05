@@ -36,7 +36,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runTest2
 import testhelpers.preferences.mockFlowPreference
 
 class AnalyticsTest : BaseTest() {
@@ -97,7 +96,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -121,7 +120,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -146,7 +145,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -172,7 +171,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -199,7 +198,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -255,7 +254,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe true
