@@ -9,19 +9,21 @@ import android.location.LocationManager
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 
 class LocationProviderTest : BaseTest() {
@@ -29,7 +31,6 @@ class LocationProviderTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var locationManager: LocationManager
 
-    private val appScope: CoroutineScope = TestScope()
     private var lastReceiver: BroadcastReceiver? = null
     private var lastFilter: IntentFilter? = null
     private val receiverSlot = slot<BroadcastReceiver>()
@@ -43,11 +44,12 @@ class LocationProviderTest : BaseTest() {
             lastFilter = arg(1)
             mockk()
         }
+        every { context.unregisterReceiver(any()) } just Runs
         every { context.getSystemService(Context.LOCATION_SERVICE) } returns locationManager
     }
 
     private fun createInstance(
-        scope: CoroutineScope = appScope
+        scope: CoroutineScope
     ): LocationProvider = LocationProvider(
         context = context,
         appScope = scope
@@ -64,15 +66,20 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `init is sideeffect free and lazy`() {
-        createInstance()
+    fun `init is side effect free and lazy`() = runTest2(
+        ignoreActive = true,
+        context = UnconfinedTestDispatcher()
+    ) {
+        createInstance(this)
         verify { context wasNot Called }
     }
 
     @Test
-    fun `initial state is emitted correctly without callback`() = runTest {
+    fun `initial state is emitted correctly without callback`() = runTest2(
+        ignoreActive = true, context = UnconfinedTestDispatcher()
+    ) {
         mockLocationStatus(true)
-        val instance = createInstance()
+        val instance = createInstance(this)
         instance.isLocationEnabled.first() shouldBe true
 
         verifySequence {
@@ -83,8 +90,11 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runTest {
-        val instance = createInstance()
+    fun `system callbacks lead to new emissions with an updated state`() = runTest2(
+        ignoreActive = true,
+        context = UnconfinedTestDispatcher()
+    ) {
+        val instance = createInstance(this)
 
         mockLocationStatus(enabled = true)
 
