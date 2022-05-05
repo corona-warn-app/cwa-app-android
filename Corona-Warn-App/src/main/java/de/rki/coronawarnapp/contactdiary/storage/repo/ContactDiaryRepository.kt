@@ -7,11 +7,12 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
 @Suppress("TooManyFunctions")
-interface ContactDiaryRepository {
+interface ContactDiaryRepository: Resettable {
 
     // Location
     val locations: Flow<List<ContactDiaryLocation>>
@@ -59,7 +60,4 @@ interface ContactDiaryRepository {
     val testResults: Flow<List<ContactDiaryCoronaTestEntity>>
     suspend fun updateTests(tests: Map<CoronaTestGUID, BaseCoronaTest>)
     suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>)
-
-    // Clean
-    suspend fun clear()
 }
