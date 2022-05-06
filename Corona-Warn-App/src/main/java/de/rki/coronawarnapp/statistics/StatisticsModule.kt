@@ -1,13 +1,21 @@
 package de.rki.coronawarnapp.statistics
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsApiV1
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsCache
+import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsServer
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsApiV1
+import de.rki.coronawarnapp.statistics.source.StatisticsCache
+import de.rki.coronawarnapp.statistics.source.StatisticsServer
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.joda.time.Duration
@@ -18,8 +26,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module
-class StatisticsModule {
+@Module(includes = [StatisticsModule.BindsModule::class])
+object StatisticsModule {
 
     @Singleton
     @Provides
@@ -83,11 +91,33 @@ class StatisticsModule {
             .create(LocalStatisticsApiV1::class.java)
     }
 
-    companion object {
-        private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
-        private val HTTP_TIMEOUT = Duration.standardSeconds(10)
+    @Module
+    internal interface BindsModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableStatisticsCache(resettable: StatisticsCache): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableStatisticsServer(resettable: StatisticsServer): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableLocalStatisticsConfigStorage(resettable: LocalStatisticsConfigStorage): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableLocalStatisticsServer(resettable: LocalStatisticsServer): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableLocalStatisticsCache(resettable: LocalStatisticsCache): Resettable
     }
 }
+
+private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+private val HTTP_TIMEOUT = Duration.standardSeconds(10)
 
 @Qualifier
 @MustBeDocumented
