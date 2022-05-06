@@ -27,11 +27,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class CheckInsConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var savedState: SavedStateHandle

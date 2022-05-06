@@ -15,10 +15,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class GeneralTracingStatusTest : BaseTest() {
 
     @MockK lateinit var enfClient: ENFClient
