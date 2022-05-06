@@ -11,10 +11,11 @@ import de.rki.coronawarnapp.ccl.configuration.CclConfigurationModule
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettingsDataStore
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDao
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDatabase
+import de.rki.coronawarnapp.ccl.reset.CclResetModule
 import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Singleton
 
-@Module(includes = [CclConfigurationModule::class])
+@Module(includes = [CclConfigurationModule::class, CclResetModule::class])
 object CclModule {
 
     @Singleton
