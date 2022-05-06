@@ -19,6 +19,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.withTimeoutOrNull
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
@@ -27,6 +28,7 @@ import java.io.IOException
 import java.lang.Thread.sleep
 import kotlin.concurrent.thread
 
+@Disabled
 class HotDataFlowTest : BaseTest() {
 
     // Without an init value, there isn't a way to keep using the flow
@@ -63,8 +65,6 @@ class HotDataFlowTest : BaseTest() {
                 sharingBehavior = SharingStarted.WhileSubscribed()
             )
 
-
-
             hotData.data.first() shouldBe "Test"
             hotData.data.first() shouldBe "Test"
 
@@ -84,7 +84,6 @@ class HotDataFlowTest : BaseTest() {
                 startValueProvider = valueProvider,
                 sharingBehavior = SharingStarted.Lazily
             )
-
 
             runTest2 {
                 hotData.data.first() shouldBe "Test"

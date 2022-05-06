@@ -10,7 +10,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -51,6 +51,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
             Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
             """.trimIndent()
 
+        advanceUntilIdle()
         censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
             """
             Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
@@ -77,7 +78,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
             """
             Hello! My name is John. My friends call me Mister Doe and I was born on 2020-01-01.
             """.trimIndent()
-
+        advanceUntilIdle()
         censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe
             """
             Hello! My name is RATest/FirstName. My friends call me Mister RATest/LastName and I was born on RATest/DateOfBirth.
@@ -85,7 +86,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return return null if no corona tests are stored`() = runBlocking {
+    fun `checkLog() should return return null if no corona tests are stored`() = runTest {
         every { coronaTestRepository.allCoronaTests } returns flowOf(emptySet())
 
         val censor = createInstance(this)
@@ -96,7 +97,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
+    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runTest {
         every { coronaTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {

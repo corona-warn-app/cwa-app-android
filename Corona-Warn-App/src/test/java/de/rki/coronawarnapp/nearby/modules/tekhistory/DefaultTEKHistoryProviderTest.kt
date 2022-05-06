@@ -33,6 +33,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.gms.MockGMSTask
 import timber.log.Timber
 import java.io.PrintWriter
@@ -181,7 +182,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 getTEKHistory throws ApiException on new Api`() = runTest {
+    fun `ENFV1_8 getTEKHistory throws ApiException on new Api`() = runTest2 {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         val error = mockk<ApiException>().apply {
             every { status.hasResolution() } returns true

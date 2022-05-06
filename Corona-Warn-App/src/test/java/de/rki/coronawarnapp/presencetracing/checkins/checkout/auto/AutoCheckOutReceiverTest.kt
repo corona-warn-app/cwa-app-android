@@ -16,8 +16,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
+import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -29,8 +31,8 @@ class AutoCheckOutReceiverTest : BaseTest() {
 
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
+    private val application = mockk<TestApp>()
 
-    private val scope = TestScope()
     lateinit var workRequestSlot: CapturingSlot<WorkRequest>
 
     class TestApp : Application(), HasAndroidInjector {
@@ -45,28 +47,28 @@ class AutoCheckOutReceiverTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkObject(AppInjector)
 
-        val application = mockk<TestApp>()
         every { context.applicationContext } returns application
-
-        val broadcastReceiverInjector = AndroidInjector<Any> {
-            it as AutoCheckOutReceiver
-            it.dispatcherProvider = TestDispatcherProvider()
-            it.scope = scope
-            it.workManager = workManager
-        }
-        every { application.androidInjector() } returns broadcastReceiverInjector
-
         workRequestSlot = slot()
         every { workManager.enqueue(capture(workRequestSlot)) } answers { mockk() }
     }
 
     @Test
-    fun `match our intent`() {
+    fun `match our intent`() = runTest {
+        val broadcastReceiverInjector = AndroidInjector<Any> {
+            it as AutoCheckOutReceiver
+            it.dispatcherProvider = TestDispatcherProvider()
+            it.scope = this
+            it.workManager = workManager
+        }
+        every { application.androidInjector() } returns broadcastReceiverInjector
         every { intent.action } returns "de.rki.coronawarnapp.intent.action.AUTO_CHECKOUT"
         every { intent.getLongExtra("autoCheckout.checkInId", 0L) } returns 42L
-        AutoCheckOutReceiver().apply {
-            onReceive(context, intent)
-        }
+        spyk(AutoCheckOutReceiver())
+            .apply {
+                every { goAsync() } returns mockk(relaxed = true)
+                onReceive(context, intent)
+            }
+        advanceUntilIdle()
 
         verify { workManager.enqueue(any<WorkRequest>()) }
 
@@ -75,11 +77,23 @@ class AutoCheckOutReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `do not match unknown intents`() {
-        every { intent.action } returns "yolo"
-        AutoCheckOutReceiver().apply {
-            onReceive(context, intent)
+    fun `do not match unknown intents`() = runTest {
+        val broadcastReceiverInjector = AndroidInjector<Any> {
+            it as AutoCheckOutReceiver
+            it.dispatcherProvider = TestDispatcherProvider()
+            it.scope = this
+            it.workManager = workManager
         }
+        every { application.androidInjector() } returns broadcastReceiverInjector
+
+        every { intent.action } returns "yolo"
+        spyk(AutoCheckOutReceiver())
+            .apply {
+                every { goAsync() } returns mockk(relaxed = true)
+                onReceive(context, intent)
+            }
+
+        advanceUntilIdle()
 
         verify(exactly = 0) { workManager.enqueue(any<WorkRequest>()) }
     }

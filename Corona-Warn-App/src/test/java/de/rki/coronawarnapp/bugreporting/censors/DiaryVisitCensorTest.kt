@@ -11,6 +11,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -55,6 +56,8 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
+
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,
@@ -84,6 +87,7 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,

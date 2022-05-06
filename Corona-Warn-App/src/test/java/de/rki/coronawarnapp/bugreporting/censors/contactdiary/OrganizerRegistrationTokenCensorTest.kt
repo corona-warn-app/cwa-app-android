@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -29,11 +28,9 @@ class OrganizerRegistrationTokenCensorTest {
     }
 
     @AfterEach
-    fun teardown() {
-        runBlocking {
-            OrganizerRegistrationTokenCensor.clearTan()
-            OrganizerRegistrationTokenCensor.clearRegistrationRequests()
-        }
+    fun teardown() = runTest {
+        OrganizerRegistrationTokenCensor.clearTan()
+        OrganizerRegistrationTokenCensor.clearRegistrationRequests()
     }
 
     private fun createInstance() = OrganizerRegistrationTokenCensor()
