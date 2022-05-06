@@ -52,7 +52,7 @@ class ProfileRepositoryTest {
     @Test
     fun `clear works`() = runBlockingTest {
         val instance = createInstance()
-        instance.clear()
+        instance.reset()
         coVerify { dao.deleteAll() }
     }
 

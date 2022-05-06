@@ -59,7 +59,7 @@ internal class ProfileSettingsTest : BaseTest() {
     fun `Clear profile settings`() = runBlockingTest {
         profileSettings.updateProfile(profile)
         profileSettings.setOnboarded()
-        profileSettings.clear()
+        profileSettings.reset()
         fakeDataStore[ProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
         fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }
