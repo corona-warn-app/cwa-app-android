@@ -9,6 +9,7 @@ import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.http.RestrictedConnectionSpecs
+import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
 import de.rki.coronawarnapp.submission.task.DefaultKeyConverter
@@ -70,7 +71,11 @@ object SubmissionModule {
 
         @Binds
         @IntoSet
-        fun bindResettableSubmissionRepository(resettable: SubmissionRepository): Resettable
+        fun bindResettableSubmissionSettings(resettable: SubmissionSettings): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableTEKHistoryStorage(resettable: TEKHistoryStorage): Resettable
     }
 }
 

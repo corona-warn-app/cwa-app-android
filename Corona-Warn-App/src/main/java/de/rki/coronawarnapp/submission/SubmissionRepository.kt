@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -27,7 +26,7 @@ class SubmissionRepository @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val tekHistoryStorage: TEKHistoryStorage,
     private val coronaTestRepository: CoronaTestRepository,
-): Resettable {
+) {
 
     val pcrTest: Flow<PCRCoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
         tests.singleOrNull { it.type == BaseCoronaTest.Type.PCR } as? PCRCoronaTest
@@ -129,12 +128,6 @@ class SubmissionRepository @Inject constructor(
         )
         Timber.d("Registered test %s -> %s", request, coronaTest)
         return coronaTest
-    }
-
-    override suspend fun reset() {
-        Timber.tag(TAG).v("reset()")
-        tekHistoryStorage.reset()
-        submissionSettings.reset()
     }
 
     companion object {
