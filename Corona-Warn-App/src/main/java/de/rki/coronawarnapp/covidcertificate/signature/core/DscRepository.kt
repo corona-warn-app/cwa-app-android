@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.storage.LocalDscStor
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.plus
@@ -22,7 +23,7 @@ class DscRepository @Inject constructor(
     private val localStorage: LocalDscStorage,
     private val dscServer: DscServer,
     private val dscDataParser: DscDataParser,
-) {
+) : Resettable {
     private val internalData: HotDataFlow<DscSignatureList> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.Default,
@@ -56,16 +57,16 @@ class DscRepository @Inject constructor(
         Timber.tag(TAG).d("refresh() - DONE")
     }
 
-    suspend fun clear() {
-        Timber.d("clear()")
+    private fun mapDscList(rawData: ByteArray): DscSignatureList {
+        return dscDataParser.parse(rawData)
+    }
+
+    override suspend fun reset() {
+        Timber.d("reset()")
         localStorage.clear()
         internalData.updateBlocking {
             defaultDscData.getDscData()
         }
-    }
-
-    private fun mapDscList(rawData: ByteArray): DscSignatureList {
-        return dscDataParser.parse(rawData)
     }
 
     companion object {

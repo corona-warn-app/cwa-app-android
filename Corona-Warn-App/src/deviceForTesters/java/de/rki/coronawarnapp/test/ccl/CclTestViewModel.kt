@@ -23,7 +23,7 @@ class CclTestViewModel @AssistedInject constructor(
 
     fun clearDccWallet() = launch {
         dccWalletInfoRepository.clear()
-        personCertificatesSettings.clear()
+        personCertificatesSettings.reset()
     }
 
     fun triggerCalculation() = launch {

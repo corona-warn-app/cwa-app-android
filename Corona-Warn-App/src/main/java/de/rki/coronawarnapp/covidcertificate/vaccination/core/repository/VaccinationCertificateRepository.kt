@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -56,7 +57,7 @@ class VaccinationCertificateRepository @Inject constructor(
     private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
     private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
         HotDataFlow(
@@ -154,7 +155,7 @@ class VaccinationCertificateRepository @Inject constructor(
         return newCertificate
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
         Timber.tag(TAG).w("Clearing vaccination data.")
         internalData.updateBlocking {
             Timber.tag(TAG).v("Deleting %d items", this.size)

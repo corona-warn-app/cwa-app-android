@@ -84,7 +84,6 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
         server.apply {
             coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
-            every { clear() } just runs
         }
     }
 
@@ -221,13 +220,12 @@ class BoosterRulesRepositoryTest : BaseTest() {
             update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe bnrs
 
-            clear()
+            reset()
 
             rules.first() shouldBe emptyList()
         }
 
         coVerify {
-            server.clear()
             localCache.saveBoosterNotificationRulesJson(null)
         }
     }
