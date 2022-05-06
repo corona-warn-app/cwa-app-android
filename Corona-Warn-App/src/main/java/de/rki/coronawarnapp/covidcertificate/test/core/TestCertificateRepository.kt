@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -549,28 +549,6 @@ class TestCertificateRepository @Inject constructor(
             )
 
             mutate { this[containerId] = updated }
-        }
-    }
-
-    suspend fun replaceCertificate(
-        certificateToReplace: TestCertificateContainerId,
-        newCertificateQrCode: TestCertificateQRCode
-    ) {
-        internalData.updateBlocking {
-
-            val recycledCertificate = this[certificateToReplace]?.setRecycled()
-            val newCertificate = newCertificateQrCode.createContainer()
-
-            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
-
-            mutate {
-                // recycle old
-                recycledCertificate?.let {
-                    this[certificateToReplace] = it
-                }
-                // add new
-                this[newCertificate.containerId] = newCertificate
-            }
         }
     }
 

@@ -66,10 +66,6 @@ class DccReissuanceException(
             message = "DCC Reissuance request failed because of a server error",
             textKey = TextKey.TRY_AGAIN
         ),
-        DCC_RI_NO_RELATION(
-            message = "DCC Reissuance failed because the relation was not found",
-            textKey = TextKey.CONTACT_SUPPORT
-        )
     }
 
     val errorMessage: LazyString
