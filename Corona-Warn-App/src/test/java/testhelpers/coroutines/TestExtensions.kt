@@ -6,6 +6,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -25,8 +26,8 @@ fun TestScope.runTest2(
 )
 
 fun runTest2(
-    ignoreActive: Boolean = false,
-    context: CoroutineContext = EmptyCoroutineContext,
+    ignoreActive: Boolean = true,
+    context: CoroutineContext = UnconfinedTestDispatcher(),
     testBody: suspend TestScope.() -> Unit
 ) {
     runTest(

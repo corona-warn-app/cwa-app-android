@@ -78,7 +78,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onConsent() - happy path`() = runTest2(ignoreActive = true) {
+    fun `onConsent() - happy path`() = runTest2 {
         val updatedTransactionContext = transactionContext.copy(
             initializationData = transactionContext.initializationData.copy(
                 protocol = "Test protocol updated"

@@ -110,7 +110,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `give submission consent`() = runTest2(ignoreActive = true) {
+    fun `give submission consent`() = runTest2 {
         coronaTestsInStorage.add(pcrTest)
 
         createInstance(this).updateSubmissionConsent(pcrTest.identifier, true)
@@ -119,7 +119,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `test registration with default conditions`() = runTest2(ignoreActive = true) {
+    fun `test registration with default conditions`() = runTest2 {
         coronaTestsInStorage.clear()
         val negativePcr = pcrTest.copy(testResult = CoronaTestResult.PCR_NEGATIVE)
         coEvery { pcrProcessor.create(pcrRegistrationRequest) } returns negativePcr
@@ -129,7 +129,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `test registration with default conditions and existing test`() = runTest2(ignoreActive = true) {
+    fun `test registration with default conditions and existing test`() = runTest2 {
         coronaTestsInStorage.add(pcrTest)
 
         val instance = createInstance(this)
@@ -140,7 +140,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `Filter corona tests by recycle state`() = runTest2(ignoreActive = true) {
+    fun `Filter corona tests by recycle state`() = runTest2 {
         val recycledTest = pcrTest.copy(recycledAt = Instant.EPOCH)
         val notRecycledTest = raTest.copy(recycledAt = null)
         val tests = setOf(recycledTest, notRecycledTest)

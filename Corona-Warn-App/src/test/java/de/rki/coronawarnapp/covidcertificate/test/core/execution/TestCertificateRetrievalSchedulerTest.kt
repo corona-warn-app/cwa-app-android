@@ -109,7 +109,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `new negative corona tests create a dcc if supported and consented`() = runTest2(ignoreActive = true) {
+    fun `new negative corona tests create a dcc if supported and consented`() = runTest2 {
         createInstance(scope = this).setup()
         coVerify {
             testCertificateRepository.requestCertificate(mockTest)
@@ -121,7 +121,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `certificates only for negative results`() = runTest2(ignoreActive = true) {
+    fun `certificates only for negative results`() = runTest2 {
         every { mockTest.isNegative } returns false
         every { mockFamilyTest.isNegative } returns false
         createInstance(scope = this).setup()
@@ -130,7 +130,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `no duplicate certificates for flaky test results`() = runTest2(ignoreActive = true) {
+    fun `no duplicate certificates for flaky test results`() = runTest2 {
         every { mockTest.isDccDataSetCreated } returns true
         every { mockFamilyTest.isDccDataSetCreated } returns true
         createInstance(scope = this).setup()
@@ -139,7 +139,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `refresh on foreground`() = runTest2(ignoreActive = true) {
+    fun `refresh on foreground`() = runTest2 {
         testsFlow.value = emptySet()
 
         createInstance(scope = this).setup()
@@ -152,7 +152,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `refresh on new certificate entry`() = runTest2(ignoreActive = true) {
+    fun `refresh on new certificate entry`() = runTest2 {
         testsFlow.value = emptySet()
         createInstance(scope = this).setup()
 

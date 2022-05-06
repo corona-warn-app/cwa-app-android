@@ -43,7 +43,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `local cache is loaded from default storage - no server requests`() = runTest2(ignoreActive = true) {
+    fun `local cache is loaded from default storage - no server requests`() = runTest2 {
         createInstance(this).apply {
             dscSignatureList.first() shouldBe emptyDscList
         }
@@ -62,7 +62,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `local cache is loaded from local storage - no server requests`() = runTest2(ignoreActive = true) {
+    fun `local cache is loaded from local storage - no server requests`() = runTest2 {
         coEvery { localStorage.load() } returns emptyDscList
 
         createInstance(this).apply {
@@ -83,7 +83,7 @@ internal class DscRepositoryTest {
     }
 
     @Test
-    fun `refresh talks to server and updates local cache`() = runTest2(ignoreActive = true) {
+    fun `refresh talks to server and updates local cache`() = runTest2 {
         createInstance(this).apply {
             refresh()
 
@@ -98,7 +98,7 @@ internal class DscRepositoryTest {
 
     @Test
     fun `bad server response yields exception and data are not saved to local repository`() =
-        runTest2(ignoreActive = true) {
+        runTest2 {
 
             every { dscDataParser.parse(any()) } throws Exception()
 

@@ -64,7 +64,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `data is restored from storage`() = runTest2(ignoreActive = true) {
+    fun `data is restored from storage`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -76,7 +76,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `tracking a new calculation`() = runTest2(ignoreActive = true) {
+    fun `tracking a new calculation`() = runTest2 {
         createInstance(scope = this).apply {
             val expectedIdentifier = UUID.randomUUID().toString()
             trackNewExposureDetection(expectedIdentifier)
@@ -107,7 +107,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `finish an existing calcluation`() = runTest2(ignoreActive = true) {
+    fun `finish an existing calcluation`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -142,7 +142,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `a late calculation overwrites timeout state`() = runTest2(ignoreActive = true) {
+    fun `a late calculation overwrites timeout state`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH,
@@ -171,7 +171,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `no more than 10 calcluations are tracked`() = runTest2(ignoreActive = true) {
+    fun `no more than 10 calcluations are tracked`() = runTest2 {
         val calcData = (1..15L).map {
             val calcData = TrackedExposureDetection(
                 identifier = "$it",
@@ -195,7 +195,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `15 minute timeout on ongoing calcs`() = runTest2(ignoreActive = true) {
+    fun `15 minute timeout on ongoing calcs`() = runTest2 {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardMinutes(15))
             .plus(2)

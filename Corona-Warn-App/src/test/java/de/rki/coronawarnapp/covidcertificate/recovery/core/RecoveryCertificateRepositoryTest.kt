@@ -104,7 +104,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `register recovery certificate`() = runTest2(ignoreActive = true) {
+    fun `register recovery certificate`() = runTest2 {
         val instance = createInstance(this)
         advanceUntilIdle()
         instance.certificates.first() shouldBe emptySet()
@@ -122,7 +122,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `storage is not written on init`() = runTest2(ignoreActive = true) {
+    fun `storage is not written on init`() = runTest2 {
         val instance = createInstance(this)
         instance.certificates.first()
         advanceUntilIdle()
@@ -132,7 +132,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `filter by recycled`() = runTest2(ignoreActive = true) {
+    fun `filter by recycled`() = runTest2 {
         val notRecycled = mockk<StoredRecoveryCertificateData> {
             every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.recoveryQrCode1
             every { recycledAt } returns null
@@ -177,7 +177,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Cert is not existing`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Cert is not existing`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -198,7 +198,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - ExpiringSoon`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - ExpiringSoon`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -219,7 +219,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Expired`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Expired`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -240,7 +240,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Invalid`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Invalid`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -261,7 +261,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Blocked`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Blocked`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -282,7 +282,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Valid`() = runTest2(ignoreActive = true) {
+    fun `setNotifiedState - Valid`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)

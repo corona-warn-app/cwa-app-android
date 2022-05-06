@@ -56,7 +56,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `saves revocation list as json`() = runTest2(ignoreActive = true) {
+    fun `saves revocation list as json`() = runTest2 {
         val revocationListJson = """
             [
               {
@@ -94,7 +94,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear removes revocation list`() = runTest2(ignoreActive = true) {
+    fun `clear removes revocation list`() = runTest2 {
         with(createInstance(scope = this)) {
             saveCachedRevocationChunks(listOf(cachedRevocationChunk))
             revocationList.first() shouldBe listOf(cachedRevocationChunk)
@@ -111,7 +111,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear does not throw`() = runTest2(ignoreActive = true) {
+    fun `clear does not throw`() = runTest2 {
         val mockDataStore = mockk<DataStore<Preferences>> {
             every { data } returns flowOf()
             coEvery { updateData(any()) } throws IOException("Test error")

@@ -178,7 +178,7 @@ class DccValidationRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `local cache is loaded on init - no server requests`() = runTest2(ignoreActive = true) {
+    fun `local cache is loaded on init - no server requests`() = runTest2 {
         createInstance(this).apply {
             dccCountries.first() shouldBe emptyList()
             acceptanceRules.first() shouldBe emptyList()
@@ -209,7 +209,7 @@ class DccValidationRepositoryTest : BaseTest() {
 
     @Test
     fun `refresh talks to server and updates local cache`() =
-        runTest2(ignoreActive = true) {
+        runTest2 {
             createInstance(this).apply {
                 refresh()
                 dccCountries.first() shouldBe listOf(
@@ -230,7 +230,7 @@ class DccValidationRepositoryTest : BaseTest() {
         }
 
     @Test
-    fun `bad acceptance rules yields exception`() = runTest2(ignoreActive = true) {
+    fun `bad acceptance rules yields exception`() = runTest2 {
         // Missing attributes
         coEvery { server.ruleSetJson(Type.ACCEPTANCE) } returns DccValidationServer.RuleSetResult(
             ruleSetJson = """
@@ -268,7 +268,7 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `bad invaldation rules yields exception`() = runTest2(ignoreActive = true) {
+    fun `bad invaldation rules yields exception`() = runTest2 {
         // Missing attributes
         coEvery { server.ruleSetJson(Type.INVALIDATION) } returns DccValidationServer.RuleSetResult(
             ruleSetJson = """
@@ -303,7 +303,7 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update invalidation rules server fails and no cache`() = runTest2(ignoreActive = true) {
+    fun `update invalidation rules server fails and no cache`() = runTest2 {
         coEvery {
             server.ruleSetJson(Type.INVALIDATION)
         } throws DccValidationException(DccValidationException.ErrorCode.INVALIDATION_RULE_SERVER_ERROR)
@@ -323,7 +323,7 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update invalidation rules success`() = runTest2(ignoreActive = true) {
+    fun `update invalidation rules success`() = runTest2 {
         val invalidationRuleList = listOf(testInvalidationRule)
 
         coEvery { server.ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesResult
@@ -340,7 +340,7 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update invalidation - no new rules - getting data from cache`() = runTest2(ignoreActive = true) {
+    fun `update invalidation - no new rules - getting data from cache`() = runTest2 {
         val invalidationRuleList = listOf(testInvalidationRule)
 
         coEvery { localCache.loadInvalidationRuleJson() } returns testInvalidationRulesData

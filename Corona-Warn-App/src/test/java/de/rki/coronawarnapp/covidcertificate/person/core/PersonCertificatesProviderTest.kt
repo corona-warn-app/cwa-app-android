@@ -114,7 +114,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     )
 
     @Test
-    fun `empty data`() = runTest2(ignoreActive = true) {
+    fun `empty data`() = runTest2 {
         val emptyCertificateContainer = CertificateProvider.CertificateContainer(
             recoveryCertificates = emptySet(),
             testCertificates = emptySet(),
@@ -133,7 +133,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun `data combination`() = runTest2(ignoreActive = true) {
+    fun `data combination`() = runTest2 {
         val instance = createInstance(this)
 
         val personCertificates = instance.personCertificates.first()
@@ -178,7 +178,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun `data combination and cwa user is not in the list`() = runTest2(ignoreActive = true) {
+    fun `data combination and cwa user is not in the list`() = runTest2 {
         every { personCertificatesSettings.currentCwaUser } returns flowOf(identifierC)
         val instance = createInstance(this)
 

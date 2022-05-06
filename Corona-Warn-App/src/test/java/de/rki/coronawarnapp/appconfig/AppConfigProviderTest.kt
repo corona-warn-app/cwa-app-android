@@ -67,7 +67,7 @@ class AppConfigProviderTest : BaseIOTest() {
     )
 
     @Test
-    fun `appConfig is observable`() = runTest2(ignoreActive = true) {
+    fun `appConfig is observable`() = runTest2 {
         var counter = 0
         coEvery { appConfigSource.getConfigData() } answers {
             ConfigDataContainer(
@@ -102,7 +102,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `appConfig uses LAZILY mode`() = runTest2(ignoreActive = true) {
+    fun `appConfig uses LAZILY mode`() = runTest2 {
         val instance = createInstance(this)
 
         val testCollector1 = instance.currentConfig.test(startOnScope = this)
@@ -131,7 +131,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears storage and current config`() = runTest2(ignoreActive = true) {
+    fun `clear clears storage and current config`() = runTest2 {
         val instance = createInstance(this)
 
         instance.clear()

@@ -58,7 +58,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `test agegroup emission`() = runTest2(ignoreActive = true) {
+    fun `test agegroup emission`() = runTest2 {
         userInfoAgeGroup.update { PPAAgeGroup.AGE_GROUP_0_TO_29 }
         val instance = createInstance(inputType = InputType.AGE_GROUP, scope = this)
 
@@ -78,7 +78,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test agegroup selection`() = runTest2(ignoreActive = true) {
+    fun `test agegroup selection`() = runTest2 {
         val instance = createInstance(inputType = InputType.AGE_GROUP, scope = this)
         instance.finishEvent.value shouldBe null
 
@@ -94,7 +94,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test federal state emission`() = runTest2(ignoreActive = true) {
+    fun `test federal state emission`() = runTest2 {
         userInfoFederalState.update { PPAFederalState.FEDERAL_STATE_HH }
         val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
@@ -118,7 +118,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test federal state selection`() = runTest2(ignoreActive = true) {
+    fun `test federal state selection`() = runTest2 {
         val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
         instance.finishEvent.value shouldBe null
@@ -136,7 +136,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test district emission`() = runTest2(ignoreActive = true) {
+    fun `test district emission`() = runTest2 {
         userInfoFederalState.update { PPAFederalState.FEDERAL_STATE_NRW }
 
         val ourDistrict = Districts.District(
@@ -157,7 +157,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `test district selection`() = runTest2(ignoreActive = true) {
+    fun `test district selection`() = runTest2 {
         val instance = createInstance(inputType = InputType.DISTRICT, scope = this)
         instance.finishEvent.value shouldBe null
 

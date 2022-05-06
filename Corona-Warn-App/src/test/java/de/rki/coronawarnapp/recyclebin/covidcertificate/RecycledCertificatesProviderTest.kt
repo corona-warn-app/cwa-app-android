@@ -80,12 +80,12 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun sorting() = runTest2(ignoreActive = true) {
+    fun sorting() = runTest2 {
         provider(this).recycledCertificates.first() shouldBe setOf(vc, tc, rc)
     }
 
     @Test
-    fun findCertificate() = runTest2(ignoreActive = true) {
+    fun findCertificate() = runTest2 {
         val provider = provider(this)
         provider.findCertificate("tcQrCode") shouldBe tcContainerId
         provider.findCertificate("rcQrCode") shouldBe rcContainerId
@@ -94,7 +94,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun restoreCertificate() = runTest2(ignoreActive = true) {
+    fun restoreCertificate() = runTest2 {
         val provider = provider(this)
         provider.restoreCertificate(tcContainerId)
         provider.restoreCertificate(vcContainerId)
@@ -108,7 +108,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteCertificate() = runTest2(ignoreActive = true) {
+    fun deleteCertificate() = runTest2 {
         val provider = provider(this)
         provider.deleteCertificate(tcContainerId)
         provider.deleteCertificate(vcContainerId)
@@ -122,7 +122,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     }
 
     @Test
-    fun deleteAllCertificate() = runTest2(ignoreActive = true) {
+    fun deleteAllCertificate() = runTest2 {
         provider(this).deleteAllCertificate(setOf(tcContainerId, vcContainerId, rcContainerId))
 
         coVerify(exactly = 1) {

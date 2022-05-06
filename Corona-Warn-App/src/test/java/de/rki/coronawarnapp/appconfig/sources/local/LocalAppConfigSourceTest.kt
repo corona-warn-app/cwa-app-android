@@ -113,7 +113,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears caches`() = runTest2(ignoreActive = true) {
+    fun `clear clears caches`() = runTest2 {
         val instance = createInstance()
 
         instance.clear()

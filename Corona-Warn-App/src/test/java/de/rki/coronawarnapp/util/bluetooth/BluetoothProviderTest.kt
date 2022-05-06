@@ -8,26 +8,27 @@ import android.content.IntentFilter
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 
 class BluetoothProviderTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var bluetoothAdapter: BluetoothAdapter
-    private val appScope: CoroutineScope = TestScope()
     private var lastReceiver: BroadcastReceiver? = null
     private var lastFilter: IntentFilter? = null
     private val receiverSlot = slot<BroadcastReceiver>()
@@ -42,11 +43,13 @@ class BluetoothProviderTest : BaseTest() {
             mockk()
         }
 
+        every { context.unregisterReceiver(any()) } just Runs
+
         every { bluetoothAdapter.isEnabled } returns true
     }
 
     private fun createInstance(
-        scope: CoroutineScope = appScope,
+        scope: CoroutineScope,
         adapter: BluetoothAdapter? = bluetoothAdapter
     ): BluetoothProvider = BluetoothProvider(
         context = context,
@@ -64,48 +67,52 @@ class BluetoothProviderTest : BaseTest() {
     }
 
     @Test
-    fun `init is sideeffect free and lazy`() {
-        createInstance()
-        verify { context wasNot Called }
-        verify { bluetoothAdapter wasNot Called }
-    }
-
-    @Test
-    fun `initial state is emitted correctly without callback`() = runTest {
-        val instance = createInstance()
-        instance.isBluetoothEnabled.first() shouldBe true
-
-        verifySequence {
-            bluetoothAdapter.isEnabled
-            context.registerReceiver(any(), any())
-            context.unregisterReceiver(receiverSlot.captured)
-        }
-    }
-
-    @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runTest {
-        val instance = createInstance()
-
-        val testCollector = instance.isBluetoothEnabled.test(startOnScope = this)
-
-        lastFilter!!.hasAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-
-        lastReceiver!!.apply {
-            onReceive(mockk(), mockBluetoothIntent(enabled = false))
-            onReceive(mockk(), mockBluetoothIntent(enabled = true))
-            onReceive(mockk(), mockBluetoothIntent(enabled = null))
+    fun `init is side effect free and lazy`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            createInstance(this)
+            verify { context wasNot Called }
+            verify { bluetoothAdapter wasNot Called }
         }
 
-        testCollector.latestValues shouldBe listOf(true, false, true)
+    @Test
+    fun `initial state is emitted correctly without callback`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
+            instance.isBluetoothEnabled.first() shouldBe true
 
-        instance.isBluetoothEnabled.first() shouldBe true
-
-        testCollector.cancel()
-    }
+            verifySequence {
+                bluetoothAdapter.isEnabled
+                context.registerReceiver(any(), any())
+                context.unregisterReceiver(receiverSlot.captured)
+            }
+        }
 
     @Test
-    fun `null adapter defaults to false`() = runTest {
-        val instance = createInstance(adapter = null)
-        instance.isBluetoothEnabled.first() shouldBe false
-    }
+    fun `system callbacks lead to new emissions with an updated state`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
+
+            val testCollector = instance.isBluetoothEnabled.test(startOnScope = this)
+
+            lastFilter!!.hasAction(BluetoothAdapter.ACTION_STATE_CHANGED)
+
+            lastReceiver!!.apply {
+                onReceive(mockk(), mockBluetoothIntent(enabled = false))
+                onReceive(mockk(), mockBluetoothIntent(enabled = true))
+                onReceive(mockk(), mockBluetoothIntent(enabled = null))
+            }
+
+            testCollector.latestValues shouldBe listOf(true, false, true)
+
+            instance.isBluetoothEnabled.first() shouldBe true
+
+            testCollector.cancel()
+        }
+
+    @Test
+    fun `null adapter defaults to false`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(adapter = null, scope = this)
+            instance.isBluetoothEnabled.first() shouldBe false
+        }
 }

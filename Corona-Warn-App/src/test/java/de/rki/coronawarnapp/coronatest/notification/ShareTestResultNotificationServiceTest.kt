@@ -79,7 +79,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `any test which allows submission and is viewed triggers scheduling`() = runTest2(ignoreActive = true) {
+    fun `any test which allows submission and is viewed triggers scheduling`() = runTest2 {
         val instance = createInstance(this)
 
         coronaTestFlow.value = setOf(
@@ -124,7 +124,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
     @Test
     fun `no notification should be scheduled for tests that are not viewed yet`() =
-        runTest2(ignoreActive = true) {
+        runTest2 {
             val instance = createInstance(this)
 
             coronaTestFlow.value = setOf(
@@ -165,7 +165,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         }
 
     @Test
-    fun `showing a notification consumes a token`() = runTest2(ignoreActive = true) {
+    fun `showing a notification consumes a token`() = runTest2 {
         val instance = createInstance(this)
         numberOfRemainingSharePositiveTestResultRemindersPcr = 2
         numberOfRemainingSharePositiveTestResultRemindersRat = 2
@@ -182,7 +182,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
     @Test
     fun `if there are no tokens left to show a notification, cancel the current one`() =
-        runTest2(ignoreActive = true) {
+        runTest2 {
             val instance = createInstance(this)
 
             // PCR
@@ -209,7 +209,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         }
 
     @Test
-    fun `reset notification if no test is stored or test was deleted`() = runTest2(ignoreActive = true) {
+    fun `reset notification if no test is stored or test was deleted`() = runTest2 {
         val instance = createInstance(this)
 
         coronaTestFlow.value = emptySet()

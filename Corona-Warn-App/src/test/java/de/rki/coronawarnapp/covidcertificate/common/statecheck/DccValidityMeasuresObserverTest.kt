@@ -38,7 +38,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
     }
 
     @Test
-    fun getDccValidityMeasures() = runTest2(ignoreActive = true) {
+    fun getDccValidityMeasures() = runTest2 {
         instance(this).dccValidityMeasures.first() shouldBe DccValidityMeasures(
             dscSignatureList = dscSignatureList,
             blockedQrCodeHashes = setOf("hash-1"),
@@ -47,7 +47,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
     }
 
     @Test
-    fun dccValidityMeasures() = runTest2(ignoreActive = true) {
+    fun dccValidityMeasures() = runTest2 {
         instance(this).dccValidityMeasures() shouldBe DccValidityMeasures(
             dscSignatureList = dscSignatureList,
             blockedQrCodeHashes = setOf("hash-1"),

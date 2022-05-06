@@ -44,7 +44,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `setup works`() = runTest2(ignoreActive = true) {
+    fun `setup works`() = runTest2 {
         val flow = MutableStateFlow(setOf<FamilyCoronaTest>())
         every { repository.familyTests } returns flow
         every { repository.familyTestsToRefresh } returns flowOf(

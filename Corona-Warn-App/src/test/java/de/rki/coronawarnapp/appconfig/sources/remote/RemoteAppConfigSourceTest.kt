@@ -79,7 +79,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     )
 
     @Test
-    fun `successful download stores new config`() = runTest2(ignoreActive = true) {
+    fun `successful download stores new config`() = runTest2 {
         val source = createInstance()
         source.getConfigData() shouldBe ConfigDataContainer(
             serverTime = mockConfigStorage!!.serverTime,
@@ -96,7 +96,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed download doesn't overwrite valid config`() = runTest2(ignoreActive = true) {
+    fun `failed download doesn't overwrite valid config`() = runTest2 {
         mockConfigStorage = dataFromServer
         coEvery { configServer.downloadAppConfig() } throws IOException()
 

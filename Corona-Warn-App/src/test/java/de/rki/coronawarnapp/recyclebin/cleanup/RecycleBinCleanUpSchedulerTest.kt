@@ -42,7 +42,7 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `start recycle bin clean up when app comes into foreground`() = runTest2(ignoreActive = true) {
+    fun `start recycle bin clean up when app comes into foreground`() = runTest2 {
         createInstance(this).run {
             setup()
             advanceUntilIdle()
@@ -70,7 +70,7 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `clean up errors won't break scheduling`() = runTest2(ignoreActive = true) {
+    fun `clean up errors won't break scheduling`() = runTest2 {
         coEvery { recycleBinCleanUpService.clearRecycledItems() } throws Exception("Test error")
 
         createInstance(this).run {

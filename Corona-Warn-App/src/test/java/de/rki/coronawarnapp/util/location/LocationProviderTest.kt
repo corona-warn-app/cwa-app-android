@@ -66,10 +66,7 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `init is side effect free and lazy`() = runTest2(
-        ignoreActive = true,
-        context = UnconfinedTestDispatcher()
-    ) {
+    fun `init is side effect free and lazy`() = runTest2 {
         createInstance(this)
         verify { context wasNot Called }
     }
@@ -90,10 +87,7 @@ class LocationProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runTest2(
-        ignoreActive = true,
-        context = UnconfinedTestDispatcher()
-    ) {
+    fun `system callbacks lead to new emissions with an updated state`() = runTest2 {
         val instance = createInstance(this)
 
         mockLocationStatus(enabled = true)
