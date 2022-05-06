@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
 @Suppress("TooManyFunctions")
-interface ContactDiaryRepository: Resettable {
+interface ContactDiaryRepository : Resettable {
 
     // Location
     val locations: Flow<List<ContactDiaryLocation>>

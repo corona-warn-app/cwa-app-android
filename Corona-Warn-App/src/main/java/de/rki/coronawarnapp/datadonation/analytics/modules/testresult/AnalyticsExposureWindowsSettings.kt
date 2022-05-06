@@ -15,7 +15,7 @@ import javax.inject.Inject
 class AnalyticsExposureWindowsSettings @Inject constructor(
     @AppContext context: Context,
     @BaseGson val gson: Gson,
-): Resettable {
+) : Resettable {
     private val prefs by lazy {
         context.getSharedPreferences("analytics_exposureWindows", Context.MODE_PRIVATE)
     }

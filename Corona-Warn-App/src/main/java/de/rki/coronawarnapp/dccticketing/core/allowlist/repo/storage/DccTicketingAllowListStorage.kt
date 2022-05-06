@@ -52,7 +52,7 @@ class DccTicketingAllowListStorage @Inject constructor(
     }
 
     override suspend fun reset() = mutex.withLock {
-      localStorage.reset()
+        localStorage.reset()
     }
 
     private fun File.reset() {

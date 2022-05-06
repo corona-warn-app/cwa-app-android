@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.presencetracing.qrcodeposter.QrCodePosterTemplateModule
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionModule

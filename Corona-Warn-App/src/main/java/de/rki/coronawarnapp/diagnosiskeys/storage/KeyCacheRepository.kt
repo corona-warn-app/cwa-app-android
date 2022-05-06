@@ -24,7 +24,7 @@ class KeyCacheRepository @Inject constructor(
     @AppContext private val context: Context,
     private val databaseFactory: KeyCacheDatabase.Factory,
     private val timeStamper: TimeStamper
-): Resettable {
+) : Resettable {
 
     private val storageDir by lazy {
         File(context.cacheDir, "diagnosis_keys").apply {

@@ -40,7 +40,7 @@ class Analytics @Inject constructor(
     private val logger: LastAnalyticsSubmissionLogger,
     private val timeStamper: TimeStamper,
     private val onboardingSettings: OnboardingSettings
-): Resettable {
+) : Resettable {
     private val submissionLockoutMutex = Mutex()
 
     private suspend fun trySubmission(analyticsConfig: AnalyticsConfig, ppaData: PpaData.PPADataAndroid): Result {
