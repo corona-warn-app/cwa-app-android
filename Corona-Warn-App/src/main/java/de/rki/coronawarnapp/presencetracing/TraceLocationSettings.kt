@@ -38,10 +38,6 @@ class TraceLocationSettings @Inject constructor(
     inline val isOnboardingDone: Boolean
         get() = onboardingStatus.value == OnboardingStatus.ONBOARDED_2_0
 
-    fun clear() {
-
-    }
-
     override suspend fun reset() {
         Timber.d("reset()")
         preferences.clearAndNotify()
