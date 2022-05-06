@@ -15,6 +15,10 @@ class DataReset @Inject constructor(
     private val mutex = Mutex()
     private val resettableData get() = resettableDataProvider.get()
 
+    init {
+        resettableData.forEach { Timber.d("Reset: %s", it::class.java.simpleName) }
+    }
+
     suspend fun clearAllLocalData() = mutex.withLock {
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
 
