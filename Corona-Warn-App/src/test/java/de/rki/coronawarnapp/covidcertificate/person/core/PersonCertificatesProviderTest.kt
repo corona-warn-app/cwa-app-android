@@ -6,12 +6,14 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -29,18 +32,21 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
-    private val identifierA: CertificatePersonIdentifier = mockk {
-        every { groupingKey } returns "identifierA"
-        every { codeSHA256 } returns groupingKey.toSHA256()
-    }
-    private val identifierB: CertificatePersonIdentifier = mockk {
-        every { groupingKey } returns "identifierB"
-        every { codeSHA256 } returns groupingKey.toSHA256()
-    }
-    private val identifierC: CertificatePersonIdentifier = mockk {
-        every { groupingKey } returns "identifierC"
-        every { codeSHA256 } returns groupingKey.toSHA256()
-    }
+    private val identifierA: CertificatePersonIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "10.11.1990",
+        firstNameStandardized = "Harry",
+        lastNameStandardized = "Potter",
+    )
+    private val identifierB: CertificatePersonIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "10.10.1980",
+        firstNameStandardized = "Moris",
+        lastNameStandardized = "Parker",
+    )
+    private val identifierC: CertificatePersonIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "10.12.1970",
+        firstNameStandardized = "Joe",
+        lastNameStandardized = "Doe",
+    )
 
     private val vaccinationCertA = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
@@ -59,6 +65,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { personIdentifier } returns identifierA
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns true
+        every { testedPositiveOn } returns LocalDate.now()
     }
 
     // Person B
@@ -72,6 +79,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { personIdentifier } returns identifierB
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns true
+        every { testedPositiveOn } returns LocalDate.now()
     }
 
     private val rcSet = setOf(recoveryCertA, recoveryCertB)
@@ -101,6 +109,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         personCertificatesSettings.apply {
             every { currentCwaUser } returns flowOf(identifierA)
             every { personsSettings } returns flowOf(mapOf())
+            coEvery { removeCurrentCwaUser() } just Runs
         }
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
@@ -125,7 +134,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
         val instance = createInstance(this)
 
-        instance.personCertificates.first() shouldBe emptyList()
+        instance.personCertificates.first() shouldBe emptySet()
 
         verify {
             certificateProvider.certificateContainer
@@ -138,9 +147,9 @@ class PersonCertificatesProviderTest : BaseTest() {
 
         val personCertificates = instance.personCertificates.first()
         val certificatesPersonA = listOf(
+            recoveryCertA,
             vaccinationCertA,
-            testCertA,
-            recoveryCertA
+            testCertA
         )
         val personA = PersonCertificates(
             certificates = certificatesPersonA,
@@ -149,8 +158,8 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         val certificatesPersonB = listOf(
-            testCertB,
-            recoveryCertB
+            recoveryCertB,
+            testCertB
         )
         val personB = PersonCertificates(
             certificates = certificatesPersonB,
@@ -185,17 +194,17 @@ class PersonCertificatesProviderTest : BaseTest() {
         instance.personCertificates.first() shouldBe listOf(
             PersonCertificates(
                 certificates = listOf(
+                    recoveryCertA,
                     vaccinationCertA,
-                    testCertA,
-                    recoveryCertA
+                    testCertA
                 ),
                 isCwaUser = false,
                 badgeCount = 2
             ),
             PersonCertificates(
                 certificates = listOf(
-                    testCertB,
-                    recoveryCertB
+                    recoveryCertB,
+                    testCertB
                 ),
                 isCwaUser = false,
                 badgeCount = 2
