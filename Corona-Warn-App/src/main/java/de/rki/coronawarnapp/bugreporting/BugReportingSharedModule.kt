@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -32,6 +33,7 @@ import de.rki.coronawarnapp.environment.bugreporting.LogUploadServerUrl
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,7 +43,7 @@ import javax.inject.Singleton
 
 @Suppress("TooManyFunctions")
 @Module
-class BugReportingSharedModule {
+object BugReportingSharedModule {
 
     @Reusable
     @Provides
@@ -82,75 +84,83 @@ class BugReportingSharedModule {
     @Provides
     fun scope(): CoroutineScope = DebugLoggerScope
 
-    @Provides
-    @IntoSet
-    fun registrationTokenCensor(censor: CoronaTestCensor): BugCensor = censor
+    @Module
+    internal interface BindsModule {
 
-    @Provides
-    @IntoSet
-    fun testCertificateCensor(censor: CoronaTestCertificateCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun bindResettableBugReportingSettings(resettable: BugReportingSettings): Resettable
 
-    @Provides
-    @IntoSet
-    fun pcrQrCodeCensor(censor: PcrQrCodeCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun registrationTokenCensor(censor: CoronaTestCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun pcrTeleTanCensor(censor: PcrTeleTanCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun testCertificateCensor(censor: CoronaTestCertificateCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun rapidQrCodeCensor(censor: RapidQrCodeCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun pcrQrCodeCensor(censor: PcrQrCodeCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun raCoronaTestCensor(censor: RACoronaTestCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun pcrTeleTanCensor(censor: PcrTeleTanCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun diaryPersonCensor(censor: DiaryPersonCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun rapidQrCodeCensor(censor: RapidQrCodeCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun diaryEncounterCensor(censor: DiaryEncounterCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun raCoronaTestCensor(censor: RACoronaTestCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun diaryLocationCensor(censor: DiaryLocationCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun diaryPersonCensor(censor: DiaryPersonCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun diaryVisitCensor(censor: DiaryVisitCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun diaryEncounterCensor(censor: DiaryEncounterCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun checkInsCensor(censor: CheckInsCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun diaryLocationCensor(censor: DiaryLocationCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun traceLocationsCensor(censor: TraceLocationCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun diaryVisitCensor(censor: DiaryVisitCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun profileCensor(censor: ProfileCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun checkInsCensor(censor: CheckInsCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun certificateQrCodeCensor(censor: DccQrCodeCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun traceLocationsCensor(censor: TraceLocationCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun organizerRegistrationTokenCensor(censor: OrganizerRegistrationTokenCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun profileCensor(censor: ProfileCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun cwaUserCensor(censor: CwaUserCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun certificateQrCodeCensor(censor: DccQrCodeCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun ticketingJwtCensor(censor: DccTicketingJwtCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun organizerRegistrationTokenCensor(censor: OrganizerRegistrationTokenCensor): BugCensor
 
-    @Provides
-    @IntoSet
-    fun familyTestCensor(censor: FamilyTestCensor): BugCensor = censor
+        @Binds
+        @IntoSet
+        fun cwaUserCensor(censor: CwaUserCensor): BugCensor
+
+        @Binds
+        @IntoSet
+        fun ticketingJwtCensor(censor: DccTicketingJwtCensor): BugCensor
+
+        @Binds
+        @IntoSet
+        fun familyTestCensor(censor: FamilyTestCensor): BugCensor
+    }
 }
