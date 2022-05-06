@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.launcher
 
 import android.app.Activity.RESULT_OK
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
@@ -9,10 +8,7 @@ import com.google.android.play.core.install.model.UpdateAvailability.DEVELOPER_T
 import com.google.android.play.core.install.model.UpdateAvailability.UPDATE_AVAILABLE
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
-import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -20,11 +16,9 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.update.getUpdateInfo
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 
 class LauncherActivityViewModel @AssistedInject constructor(
@@ -33,15 +27,12 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     private val onboardingSettings: OnboardingSettings,
     private val rootDetectionCheck: RootDetectionCheck,
-    private val appUpdateManager: AppUpdateManager,
-    private val envSetup: EnvironmentSetup,
-    private val dscRepository: DscRepository,
-    @BaseJackson private val objectMapper: ObjectMapper
+    private val appUpdateManager: AppUpdateManager
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
 
-    fun initialization() {
+    init {
         Timber.tag(TAG).d("init()")
         checkForRoot()
     }
@@ -111,40 +102,6 @@ class LauncherActivityViewModel @AssistedInject constructor(
             isJustInstalledOrUpdated() -> LauncherEvent.GoToOnboarding
             else -> LauncherEvent.GoToMainActivity
         }.let { events.postValue(it) }
-    }
-
-    fun setEnvironment(environment: LauncherParameter.EnvironmentKey) {
-        try {
-            envSetup.launchEnvironment = null
-            envSetup.currentEnvironment = environment.value.uppercase().toEnvironmentType()
-            clearAndRestart()
-        } catch (e: Exception) {
-            Timber.e(e, "Can't set environment data using $environment")
-            events.postValue(
-                LauncherEvent.ErrorToast(
-                    "Supported envs: ${EnvironmentSetup.Type.values().joinToString { it.rawKey }}"
-                )
-            )
-        }
-    }
-
-    fun setEnvironment(environment: LauncherParameter.Base64Environment) {
-        try {
-            environment.value.decodeBase64()?.toByteArray()?.let {
-                envSetup.launchEnvironment = objectMapper.readTree(it)
-            }
-            clearAndRestart()
-        } catch (e: Exception) {
-            Timber.e(e, "Can't set environment data using $environment")
-            events.postValue(LauncherEvent.ErrorToast("base64 environment is malformed"))
-        }
-    }
-
-    private fun clearAndRestart() {
-        launch {
-            dscRepository.clear()
-            events.postValue(LauncherEvent.RestartApp)
-        }
     }
 
     private fun isJustInstalledOrUpdated() =
