@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.util.reset
 
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -15,18 +17,16 @@ class DataReset @Inject constructor(
     private val mutex = Mutex()
     private val resettableData get() = resettableDataProvider.get()
 
-    init {
-        resettableData.forEach { Timber.d("Reset: %s", it::class.java.simpleName) }
-    }
-
     suspend fun clearAllLocalData() = mutex.withLock {
-        Timber.w("CWA LOCAL DATA DELETION INITIATED.")
+        withContext(NonCancellable) {
+            Timber.w("CWA LOCAL DATA DELETION INITIATED.")
 
-        resettableData.forEach { data ->
-            runCatching { data.reset() }
-                .onFailure { Timber.e(it, "Failed to reset %s", data::class.java.simpleName) }
+            resettableData.forEach { data ->
+                runCatching { data.reset() }
+                    .onFailure { Timber.e(it, "Failed to reset %s", data::class.java.simpleName) }
+            }
+
+            Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
         }
-
-        Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }
