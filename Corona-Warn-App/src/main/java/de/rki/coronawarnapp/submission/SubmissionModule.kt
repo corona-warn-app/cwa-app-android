@@ -25,7 +25,7 @@ import java.io.File
 import javax.inject.Singleton
 
 @Module(includes = [SubmissionModule.BindsModule::class])
-class SubmissionModule {
+object SubmissionModule {
 
     @Reusable
     @SubmissionHttpClient
@@ -72,8 +72,6 @@ class SubmissionModule {
         @IntoSet
         fun bindResettableSubmissionRepository(resettable: SubmissionRepository): Resettable
     }
-
-    companion object {
-        private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
-    }
 }
+
+private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB

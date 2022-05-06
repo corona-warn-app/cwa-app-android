@@ -133,8 +133,8 @@ class SubmissionRepository @Inject constructor(
 
     override suspend fun reset() {
         Timber.tag(TAG).v("reset()")
-        tekHistoryStorage.clear()
-        submissionSettings.clear()
+        tekHistoryStorage.reset()
+        submissionSettings.reset()
     }
 
     companion object {
