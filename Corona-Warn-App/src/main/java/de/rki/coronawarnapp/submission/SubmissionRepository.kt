@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -23,8 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
-    private val submissionSettings: SubmissionSettings,
-    private val tekHistoryStorage: TEKHistoryStorage,
+    submissionSettings: SubmissionSettings,
     private val coronaTestRepository: CoronaTestRepository,
 ) {
 
