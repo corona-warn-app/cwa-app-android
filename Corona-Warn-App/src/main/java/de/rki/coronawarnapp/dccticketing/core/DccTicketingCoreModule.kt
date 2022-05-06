@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListApi1
+import de.rki.coronawarnapp.dccticketing.core.reset.DccTicketingResetModule
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -19,7 +20,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [DccTicketingResetModule::class])
 class DccTicketingCoreModule {
 
     @DccTicketingHttpClient

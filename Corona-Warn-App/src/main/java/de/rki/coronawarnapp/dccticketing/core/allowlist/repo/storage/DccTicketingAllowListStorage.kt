@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.allowlist.repo.storage
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.DccTicketing
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @Reusable
 class DccTicketingAllowListStorage @Inject constructor(
     @DccTicketing private val localStorage: File
-) {
+) : Resettable {
 
     private val mutex = Mutex()
     private val allowListLocalData = File(localStorage, ALLOW_LIST_FILE_NAME)
@@ -50,15 +51,17 @@ class DccTicketingAllowListStorage @Inject constructor(
         Timber.tag(TAG).e(e, "Saving data failed.")
     }
 
-    suspend fun clear() = mutex.withLock {
-        localStorage.run {
-            if (exists()) {
-                val success = deleteRecursively()
-                Timber.tag(TAG).d("Deleted %s successfully %b", name, success)
-            } else {
-                Timber.tag(TAG).d("%s did not exist, so nothing to delete", name)
-            }
+    override suspend fun reset() = mutex.withLock {
+      localStorage.reset()
+    }
+
+    private fun File.reset() {
+        if (!exists()) {
+            Timber.tag(TAG).d("%s did not exist, so nothing to delete", name)
+            return
         }
+
+        deleteRecursively().also { Timber.tag(TAG).d("Deleted %s successfully %b", name, it) }
     }
 
     companion object {
