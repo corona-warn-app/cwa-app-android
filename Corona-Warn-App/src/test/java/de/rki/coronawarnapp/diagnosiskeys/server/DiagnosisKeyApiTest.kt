@@ -42,7 +42,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        return DiagnosisKeysModule().provideDiagnosisKeyApi(
+        return DiagnosisKeysModule.provideDiagnosisKeyApi(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory
