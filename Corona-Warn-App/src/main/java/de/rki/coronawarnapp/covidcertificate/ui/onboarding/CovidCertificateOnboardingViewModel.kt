@@ -26,7 +26,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
         covidCertificateSettings.isOnboarded.update { true }
         val event = if (dccQrCode != null) {
             try {
-                val containerId = dccQrCodeHandler.handleQrCode(dccQrCode = dccQrCode)
+                val containerId = dccQrCodeHandler.validateAndRegister(dccQrCode = dccQrCode)
                 Event.NavigateToDccDetailsScreen(containerId)
             } catch (e: Exception) {
                 Timber.d(e, "handleQrCode failed")

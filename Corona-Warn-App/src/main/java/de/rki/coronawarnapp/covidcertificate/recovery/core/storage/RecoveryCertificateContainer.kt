@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -51,6 +52,9 @@ data class RecoveryCertificateContainer(
 
     override val recycledAt: Instant? = data.recycledAt
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
         certificateState: State,

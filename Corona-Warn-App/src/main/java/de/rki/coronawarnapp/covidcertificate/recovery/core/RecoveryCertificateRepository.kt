@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
@@ -98,11 +98,10 @@ class RecoveryCertificateRepository @Inject constructor(
 
         certMap.values.forEach {
             when {
-                it.isNotRecycled -> certificates += it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
-                it.isRecycled -> recycledCertificates += it.toRecoveryCertificate(
-                    valueSet = valueSets,
-                    certificateState = CwaCovidCertificate.State.Recycled
-                )
+                it.isNotRecycled -> it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
+                    ?.let { rc -> certificates += rc }
+                it.isRecycled -> it.toRecoveryCertificateOrNull(valueSets, CwaCovidCertificate.State.Recycled)
+                    ?.let { rc -> recycledCertificates += rc }
             }
         }
 
@@ -287,27 +286,6 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
-    suspend fun replaceCertificate(
-        certificateToReplace: RecoveryCertificateContainerId,
-        newCertificateQrCode: RecoveryCertificateQRCode
-    ) {
-        internalData.updateBlocking {
-            val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
-            val newCertificate = newCertificateQrCode.toContainer()
-
-            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
-
-            mutate {
-                // recycle old
-                recycledCertificate?.let {
-                    this[certificateToReplace] = it
-                }
-                // add new
-                this[newCertificate.containerId] = newCertificate
-            }
-        }
-    }
-
     private fun RecoveryCertificateContainer.setRecycled(value: Boolean): RecoveryCertificateContainer {
         return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
@@ -320,21 +298,40 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
+    private fun RecoveryCertificateContainer.toRecoveryCertificateOrNull(
+        valueSet: VaccinationValueSets?,
+        certificateState: CwaCovidCertificate.State
+    ): RecoveryCertificate? {
+        try {
+            return toRecoveryCertificate(valueSet, certificateState)
+            // read value from dcc data to throw an exception early if the DccQrCodeExtractor is not able to parse
+            // the certificate
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificate failed")
+        }
+        return null
+    }
+
     private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
         valueSets: VaccinationValueSets,
         dccValidityMeasures: DccValidityMeasures
-    ): RecoveryCertificateWrapper {
-        val state = dccState(
-            dccData = certificateData,
-            qrCodeHash = qrCodeHash,
-            dccValidityMeasures = dccValidityMeasures
-        )
+    ): RecoveryCertificateWrapper? {
+        try {
+            val state = dccState(
+                dccData = certificateData,
+                qrCodeHash = qrCodeHash,
+                dccValidityMeasures = dccValidityMeasures
+            )
 
-        return RecoveryCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state
-        )
+            return RecoveryCertificateWrapper(
+                valueSets = valueSets,
+                container = this,
+                certificateState = state
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificateWrapper failed")
+        }
+        return null
     }
 
     companion object {

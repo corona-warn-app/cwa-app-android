@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -104,11 +104,10 @@ class VaccinationCertificateRepository @Inject constructor(
 
         certMap.values.forEach {
             when {
-                it.isNotRecycled -> certificates += it.toVaccinationCertificateWrapper(valueSets, dccValidityMeasures)
-                it.isRecycled -> recycledCertificates += it.toVaccinationCertificate(
-                    certificateState = CwaCovidCertificate.State.Recycled,
-                    valueSet = valueSets
-                )
+                it.isNotRecycled -> it.toVaccinationCertificateWrapper(valueSets, dccValidityMeasures)
+                    ?.let { vc -> certificates += vc }
+                it.isRecycled -> it.toVaccinationCertificateOrNull(valueSets, CwaCovidCertificate.State.Recycled)
+                    ?.let { vc -> recycledCertificates += vc }
             }
         }
 
@@ -286,27 +285,6 @@ class VaccinationCertificateRepository @Inject constructor(
         }
     }
 
-    suspend fun replaceCertificate(
-        certificateToReplace: VaccinationCertificateContainerId,
-        newCertificateQrCode: VaccinationCertificateQRCode
-    ) {
-        internalData.updateBlocking {
-            val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
-            val newCertificate = newCertificateQrCode.createContainer()
-
-            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
-
-            mutate {
-                // recycle old
-                recycledCertificate?.let {
-                    this[certificateToReplace] = it
-                }
-                // add new
-                this[newCertificate.containerId] = newCertificate
-            }
-        }
-    }
-
     private fun VaccinationCertificateContainer.setRecycled(value: Boolean): VaccinationCertificateContainer {
         return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
@@ -328,21 +306,42 @@ class VaccinationCertificateRepository @Inject constructor(
             certificateSeenByUser = false,
         )
 
+    private fun VaccinationCertificateContainer.toVaccinationCertificateOrNull(
+        valueSet: VaccinationValueSets?,
+        certificateState: CwaCovidCertificate.State
+    ): VaccinationCertificate? {
+        try {
+            return toVaccinationCertificate(valueSet, certificateState).also {
+                // read value from dcc data to throw an exception early if the DccQrCodeExtractor is not able to parse
+                // the certificate
+                it.personIdentifier
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Creating VaccinationCertificate failed")
+        }
+        return null
+    }
+
     private suspend fun VaccinationCertificateContainer.toVaccinationCertificateWrapper(
         valueSets: VaccinationValueSets,
         dccValidityMeasures: DccValidityMeasures
-    ): VaccinationCertificateWrapper {
-        val state = dccState(
-            dccData = certificateData,
-            qrCodeHash = qrCodeHash,
-            dccValidityMeasures = dccValidityMeasures
-        )
+    ): VaccinationCertificateWrapper? {
+        try {
+            val state = dccState(
+                dccData = certificateData,
+                qrCodeHash = qrCodeHash,
+                dccValidityMeasures = dccValidityMeasures
+            )
 
-        return VaccinationCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state
-        )
+            return VaccinationCertificateWrapper(
+                valueSets = valueSets,
+                container = this,
+                certificateState = state
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Creating VaccinationCertificateWrapper failed")
+        }
+        return null
     }
 
     companion object {
