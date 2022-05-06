@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsP
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
@@ -25,7 +26,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
-import javax.inject.Singleton
 
 @Module(includes = [AnalyticsModule.BindsModule::class])
 object AnalyticsModule {
@@ -53,6 +53,10 @@ object AnalyticsModule {
         @Binds
         @IntoSet
         fun bindResettableAnalytics(resettable: Analytics): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableAnalyticsSettings(resettable: AnalyticsSettings): Resettable
 
         @Binds
         @IntoSet
