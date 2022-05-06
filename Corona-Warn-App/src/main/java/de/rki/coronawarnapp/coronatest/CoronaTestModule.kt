@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.profile.ProfileModule
 import de.rki.coronawarnapp.util.reset.Resettable
 
 @Module(
-    includes = [VerificationModule::class, ProfileModule::class]
+    includes = [CoronaTestModule.ResetModule::class, VerificationModule::class, ProfileModule::class]
 )
 interface CoronaTestModule {
 
@@ -27,7 +27,11 @@ interface CoronaTestModule {
         processor: RATestProcessor
     ): PersonalCoronaTestProcessor
 
-    @Binds
-    @IntoSet
-    fun bindResettableCoronaTestRepository(resettable: CoronaTestRepository): Resettable
+    @Module
+    interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableCoronaTestRepository(resettable: CoronaTestRepository): Resettable
+    }
 }

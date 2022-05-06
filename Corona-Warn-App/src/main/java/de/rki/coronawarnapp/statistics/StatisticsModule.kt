@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [StatisticsModule.BindsModule::class])
+@Module(includes = [StatisticsModule.ResetModule::class])
 object StatisticsModule {
 
     @Singleton
@@ -92,7 +92,7 @@ object StatisticsModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

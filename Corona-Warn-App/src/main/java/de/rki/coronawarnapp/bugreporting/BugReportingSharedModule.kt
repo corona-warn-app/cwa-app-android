@@ -42,7 +42,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
 @Suppress("TooManyFunctions")
-@Module(includes = [BugReportingSharedModule.BindsModule::class])
+@Module(includes = [BugReportingSharedModule.BindsModule::class, BugReportingSharedModule.ResetModule::class])
 object BugReportingSharedModule {
 
     @Reusable
@@ -85,11 +85,15 @@ object BugReportingSharedModule {
     fun scope(): CoroutineScope = DebugLoggerScope
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
         fun bindResettableBugReportingSettings(resettable: BugReportingSettings): Resettable
+    }
+
+    @Module
+    internal interface BindsModule {
 
         @Binds
         @IntoSet

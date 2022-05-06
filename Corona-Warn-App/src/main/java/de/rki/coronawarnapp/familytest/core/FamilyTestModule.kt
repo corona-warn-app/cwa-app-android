@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
-@Module(includes = [FamilyTestModule.BindsModule::class])
+@Module(includes = [FamilyTestModule.ResetModule::class])
 object FamilyTestModule {
     @Singleton
     @Provides
@@ -19,7 +19,7 @@ object FamilyTestModule {
     ): FamilyCoronaTestDao = factory.create().familyCoronaTestDao()
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

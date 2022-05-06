@@ -25,7 +25,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [DccRevocationModule.BindsModule::class])
+@Module(includes = [DccRevocationModule.ResetModule::class])
 object DccRevocationModule {
 
     @Singleton
@@ -63,7 +63,7 @@ object DccRevocationModule {
     )
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

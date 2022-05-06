@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 import de.rki.coronawarnapp.util.reset.Resettable
 
-@Module
+@Module(includes = [RiskModule.ResetModule::class])
 interface RiskModule {
 
     @Binds
@@ -31,7 +31,11 @@ interface RiskModule {
         storage: DefaultRiskLevelStorage
     ): RiskLevelStorage
 
-    @Binds
-    @IntoSet
-    fun bindResettableRiskLevelStorage(resettable: RiskLevelStorage): Resettable
+    @Module
+    interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableRiskLevelStorage(resettable: DefaultRiskLevelStorage): Resettable
+    }
 }

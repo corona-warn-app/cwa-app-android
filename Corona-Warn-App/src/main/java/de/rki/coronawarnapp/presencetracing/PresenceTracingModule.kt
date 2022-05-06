@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.reset.Resettable
         QrCodePosterTemplateModule::class,
         PresenceTracingWarningModule::class,
         OrganizerSubmissionModule::class,
+        PresenceTracingModule.ResetModule::class,
     ]
 )
 interface PresenceTracingModule {
@@ -27,19 +28,23 @@ interface PresenceTracingModule {
         defaultTraceLocationRepo: DefaultTraceLocationRepository
     ): TraceLocationRepository
 
-    @Binds
-    @IntoSet
-    fun bindResettableTraceLocationPreferences(resettable: TraceLocationPreferences): Resettable
+    @Module
+    interface ResetModule {
 
-    @Binds
-    @IntoSet
-    fun bindResettableTraceLocationSettings(resettable: TraceLocationSettings): Resettable
+        @Binds
+        @IntoSet
+        fun bindResettableTraceLocationPreferences(resettable: TraceLocationPreferences): Resettable
 
-    @Binds
-    @IntoSet
-    fun bindResettableCheckInRepository(resettable: CheckInRepository): Resettable
+        @Binds
+        @IntoSet
+        fun bindResettableTraceLocationSettings(resettable: TraceLocationSettings): Resettable
 
-    @Binds
-    @IntoSet
-    fun bindResettableTraceLocationRepository(resettable: TraceLocationRepository): Resettable
+        @Binds
+        @IntoSet
+        fun bindResettableCheckInRepository(resettable: CheckInRepository): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableTraceLocationRepository(resettable: DefaultTraceLocationRepository): Resettable
+    }
 }

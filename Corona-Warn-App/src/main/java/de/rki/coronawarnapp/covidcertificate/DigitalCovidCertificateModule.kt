@@ -44,7 +44,8 @@ import dgca.verifier.app.engine.DefaultJsonLogicValidator
         DscServerModule::class,
         ExportCertificateModule::class,
         DccRevocationModule::class,
-        DigitalCovidCertificateModule.BindsModule::class
+        DigitalCovidCertificateModule.BindsModule::class,
+        DigitalCovidCertificateModule.ResetModule::class
     ]
 )
 object DigitalCovidCertificateModule {
@@ -77,7 +78,7 @@ object DigitalCovidCertificateModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
@@ -106,6 +107,10 @@ object DigitalCovidCertificateModule {
         @Binds
         @IntoSet
         fun bindResettableCovidCertificateSettings(resettable: CovidCertificateSettings): Resettable
+    }
+
+    @Module
+    internal interface BindsModule {
 
         @IntoSet
         @Binds

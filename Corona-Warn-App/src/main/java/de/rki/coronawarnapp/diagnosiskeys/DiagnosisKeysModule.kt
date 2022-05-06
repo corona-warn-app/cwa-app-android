@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [DiagnosisKeysModule.BindsModule::class])
+@Module(includes = [DiagnosisKeysModule.ResetModule::class])
 object DiagnosisKeysModule {
 
     @Singleton
@@ -32,7 +32,7 @@ object DiagnosisKeysModule {
         .create(DiagnosisKeyApiV1::class.java)
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

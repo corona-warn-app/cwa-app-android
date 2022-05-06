@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
-@Module(includes = [CclConfigurationModule::class, CclModule.BindsModule::class])
+@Module(includes = [CclConfigurationModule::class, CclModule.ResetModule::class])
 object CclModule {
 
     @Singleton
@@ -41,7 +41,7 @@ object CclModule {
     private const val CCL_SETTINGS_DATASTORE_NAME = "ccl_settings_localdata"
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

@@ -16,7 +16,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
 @Module(
-    includes = [SurveyModule.BindsModule::class, SurveyConsentModule::class]
+    includes = [SurveyModule.ResetModule::class, SurveyConsentModule::class]
 )
 object SurveyModule {
 
@@ -36,7 +36,7 @@ object SurveyModule {
         .create(SurveyApiV1::class.java)
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

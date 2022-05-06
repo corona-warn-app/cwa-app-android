@@ -20,7 +20,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = [PresenceTracingWarningModule.BindsModule::class])
+@Module(includes = [PresenceTracingWarningModule.BindsModule::class, PresenceTracingWarningModule.ResetModule::class])
 object PresenceTracingWarningModule {
 
     @Singleton
@@ -56,6 +56,14 @@ object PresenceTracingWarningModule {
     }
 
     @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableTraceWarningRepository(resettable: TraceWarningRepository): Resettable
+    }
+
+    @Module
     internal interface BindsModule {
 
         @Binds
@@ -64,9 +72,5 @@ object PresenceTracingWarningModule {
         fun taskFactory(
             factory: PresenceTracingWarningTask.Factory
         ): TaskFactory<out Task.Progress, out Task.Result>
-
-        @Binds
-        @IntoSet
-        fun bindResettableTraceWarningRepository(resettable: TraceWarningRepository): Resettable
     }
 }

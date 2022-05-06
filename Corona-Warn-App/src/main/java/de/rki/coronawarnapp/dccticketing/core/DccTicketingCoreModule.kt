@@ -25,7 +25,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Singleton
 
-@Module(includes = [DccTicketingCoreModule.BindsModule::class])
+@Module(includes = [DccTicketingCoreModule.ResetModule::class])
 object DccTicketingCoreModule {
 
     @DccTicketingHttpClient
@@ -85,7 +85,7 @@ object DccTicketingCoreModule {
     ): Cache = Cache(File(context.cacheDir, "dcc_ticketing"), DEFAULT_CACHE_SIZE)
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

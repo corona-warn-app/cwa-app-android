@@ -27,7 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 
-@Module(includes = [AnalyticsModule.BindsModule::class])
+@Module(includes = [AnalyticsModule.BindsModule::class, AnalyticsModule.ResetModule::class])
 object AnalyticsModule {
 
     @Reusable
@@ -48,7 +48,7 @@ object AnalyticsModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
@@ -61,6 +61,10 @@ object AnalyticsModule {
         @Binds
         @IntoSet
         fun bindResettableAnalyticsExposureWindowsSettings(resettable: AnalyticsExposureWindowsSettings): Resettable
+    }
+
+    @Module
+    internal interface BindsModule {
 
         @IntoSet
         @Binds

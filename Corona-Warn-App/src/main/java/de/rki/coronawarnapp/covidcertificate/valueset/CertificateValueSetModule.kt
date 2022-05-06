@@ -22,7 +22,7 @@ import retrofit2.Retrofit
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-@Module(includes = [CertificateValueSetModule.BindsModule::class])
+@Module(includes = [CertificateValueSetModule.ResetModule::class])
 object CertificateValueSetModule {
 
     @Reusable
@@ -56,7 +56,7 @@ object CertificateValueSetModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

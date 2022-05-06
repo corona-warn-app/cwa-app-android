@@ -25,7 +25,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import java.io.File
 import javax.inject.Singleton
 
-@Module(includes = [SubmissionModule.BindsModule::class])
+@Module(includes = [SubmissionModule.ResetModule::class, SubmissionModule.BindsModule::class])
 object SubmissionModule {
 
     @Reusable
@@ -61,13 +61,8 @@ object SubmissionModule {
             .create(SubmissionApiV1::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideKeyConverter(defaultKeyConverter: DefaultKeyConverter): KeyConverter =
-        defaultKeyConverter
-
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
@@ -76,6 +71,13 @@ object SubmissionModule {
         @Binds
         @IntoSet
         fun bindResettableTEKHistoryStorage(resettable: TEKHistoryStorage): Resettable
+    }
+
+    @Module
+    internal interface BindsModule {
+
+        @Binds
+        fun provideKeyConverter(defaultKeyConverter: DefaultKeyConverter): KeyConverter
     }
 }
 

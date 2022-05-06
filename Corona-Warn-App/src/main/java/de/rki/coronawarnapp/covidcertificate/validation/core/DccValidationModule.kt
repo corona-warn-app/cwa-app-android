@@ -22,7 +22,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [DccValidationModule.BindsModule::class])
+@Module(includes = [DccValidationModule.ResetModule::class])
 object DccValidationModule {
 
     @Singleton
@@ -74,7 +74,7 @@ object DccValidationModule {
         .create(DccValidationRuleApi::class.java)
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet

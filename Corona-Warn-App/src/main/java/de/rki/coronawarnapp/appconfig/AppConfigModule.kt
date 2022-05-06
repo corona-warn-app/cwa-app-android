@@ -29,7 +29,7 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module(includes = [AppConfigModule.BindsModule::class])
+@Module(includes = [AppConfigModule.BindsModule::class, AppConfigModule.ResetModule::class])
 object AppConfigModule {
 
     @Singleton
@@ -66,11 +66,15 @@ object AppConfigModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
         fun bindResettableAppConfigProvider(resettable: AppConfigProvider): Resettable
+    }
+
+    @Module
+    internal interface BindsModule {
 
         @Binds
         fun cwaMapper(mapper: CWAConfigMapper): CWAConfig.Mapper

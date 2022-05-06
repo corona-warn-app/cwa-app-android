@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
-@Module(includes = [ProfileModule.BindsModule::class])
+@Module(includes = [ProfileModule.ResetModule::class])
 object ProfileModule {
     @Singleton
     @Provides
@@ -44,7 +44,7 @@ object ProfileModule {
     }
 
     @Module
-    internal interface BindsModule {
+    internal interface ResetModule {
 
         @Binds
         @IntoSet
