@@ -60,35 +60,35 @@ object AnalyticsModule {
 
         @IntoSet
         @Binds
-        fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
+        fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule = module
+        fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule = module
+        fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule = module
+        fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule = module
+        fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
+        fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun userMetadata(module: UserMetadataDonor): DonorModule = module
+        fun userMetadata(module: UserMetadataDonor): DonorModule
 
         @IntoSet
         @Binds
-        fun clientMetadata(module: ClientMetadataDonor): DonorModule = module
+        fun clientMetadata(module: ClientMetadataDonor): DonorModule
 
         @Binds
         fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger
