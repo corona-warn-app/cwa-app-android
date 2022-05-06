@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.launcher
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -46,6 +47,10 @@ class LauncherActivity : AppCompatActivity() {
                 LauncherEvent.ShowUpdateDialog -> showUpdateNeededDialog()
                 LauncherEvent.ShowRootedDialog -> showRootDetectionDialog { viewModel.onRootedDialogDismiss() }
                 LauncherEvent.RestartApp -> restartApp()
+                is LauncherEvent.ErrorToast -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    restartApp()
+                }
             }
         }
     }

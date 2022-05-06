@@ -120,7 +120,11 @@ class LauncherActivityViewModel @AssistedInject constructor(
             clearAndRestart()
         } catch (e: Exception) {
             Timber.e(e, "Can't set environment data using $environment")
-            events.postValue(LauncherEvent.RestartApp)
+            events.postValue(
+                LauncherEvent.ErrorToast(
+                    "Supported envs: ${EnvironmentSetup.Type.values().joinToString { it.rawKey }}"
+                )
+            )
         }
     }
 
@@ -132,7 +136,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
             clearAndRestart()
         } catch (e: Exception) {
             Timber.e(e, "Can't set environment data using $environment")
-            events.postValue(LauncherEvent.RestartApp)
+            events.postValue(LauncherEvent.ErrorToast("base64 environment is malformed"))
         }
     }
 
