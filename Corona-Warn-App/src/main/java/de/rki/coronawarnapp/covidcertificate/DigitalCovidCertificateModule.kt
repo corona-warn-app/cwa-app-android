@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
@@ -101,6 +102,10 @@ object DigitalCovidCertificateModule {
         @Binds
         @IntoSet
         fun bindResettablePersonCertificatesSettings(resettable: PersonCertificatesSettings): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableCovidCertificateSettings(resettable: CovidCertificateSettings): Resettable
 
         @IntoSet
         @Binds
