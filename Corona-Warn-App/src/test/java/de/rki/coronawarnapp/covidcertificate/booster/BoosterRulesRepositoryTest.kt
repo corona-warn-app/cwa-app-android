@@ -213,7 +213,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear clears server, cache and flow`() = runBlockingTest2(ignoreActive = true) {
+    fun `reset clears flow`() = runBlockingTest2(ignoreActive = true) {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
             update() shouldBe UpdateResult.UPDATE
@@ -222,10 +222,6 @@ class BoosterRulesRepositoryTest : BaseTest() {
             reset()
 
             rules.first() shouldBe emptyList()
-        }
-
-        coVerify {
-            localCache.saveBoosterNotificationRulesJson(null)
         }
     }
 }
