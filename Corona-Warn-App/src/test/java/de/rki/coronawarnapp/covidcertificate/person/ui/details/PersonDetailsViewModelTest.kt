@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -54,6 +55,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var viewModel: PersonDetailsViewModel
     @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
@@ -163,6 +165,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         dccValidationRepository = dccValidationRepository,
         personCertificatesProvider = personCertificatesProvider,
         personCertificatesSettings = personCertificatesSettings,
+        recycledCertificatesProvider = recycledCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
         format = CclTextFormatter(cclJsonFunctions, mapper)
@@ -185,7 +188,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { isDisplayValid } returns true
-        every { getState() } returns State.Valid(headerExpiresAt)
+        every { state } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
         every { qrCodeHash } returns "TC"
     }
@@ -212,7 +215,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { isSeriesCompletingShot } returns final
             every { headerIssuedAt } returns Instant.EPOCH
             every { isDisplayValid } returns true
-            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { state } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { qrCodeHash } returns "VC$number"
         }
@@ -231,7 +234,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                     every { validFrom } returns LocalDate.now()
                 }
             }
-            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { state } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeHash } returns "RC"
         }
 

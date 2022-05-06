@@ -18,6 +18,11 @@ data class VaccinationValueSets(
 
     override fun getDisplayText(key: String): String? =
         tg.getDisplayText(key) ?: vp.getDisplayText(key) ?: mp.getDisplayText(key) ?: ma.getDisplayText(key)
+
+    override fun toString(): String {
+        // reduce output for logging
+        return "value set for language $languageCode ..."
+    }
 }
 
 val emptyVaccinationValueSets: VaccinationValueSets by lazy {

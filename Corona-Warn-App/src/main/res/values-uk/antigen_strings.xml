@@ -100,7 +100,7 @@
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
     <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Народився %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Видано: %1$s, %2$s"</string>
+    <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"У вас не діагностували вірус SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
@@ -108,7 +108,7 @@
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Щоб підтвердити відображений тут результат, потрібен цифровий Covid-сертифікат ЄС . Якщо під час реєстрації тесту ви запитали цифровий сертифікат тестування і пункт тестування підтримує видачу цифрових сертифікатів, ви можете знайти свій цифровий сертифікат тесту за посиланням, зазначеним вище. Ви також знайдете сертифікат на вкладці «Сертифікати».\nТакож дізнайтеся про критерії визнання та чинності сертифікатів тестів у контексті мети, для якої вам потрібні докази."</string>
     <!-- XHED: submission result antigen negative result counter title -->
-    <string name="submission_test_result_antigen_negative_counter_title">"Результат доступний від"</string>
+    <string name="submission_test_result_antigen_negative_counter_title">"Дата видачі"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Ваш експрес-тест додано"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
@@ -134,11 +134,13 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Профіль експрес-тесту"</string>
+    <string name="rat_profile_open_card_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Заощаджуйте час і надавайте свій профіль експрес-тесту на місці тестування."</string>
+    <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надіслати до будь-якого пункту тестування, що приймає участь, за допомогою QR-коду."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профіль експрес-тесту"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Ім\'я"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Недійсний номер телефону"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Недійсна адреса електронної пошти"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Профіль експрес-тесту"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Профілі експрес-тестів ще не створені"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Ви можете створити профіль експрес-тесту зі своїми особистими даними, які ви можете надіслати за допомогою QR-коду до кожного залученого пункту тестування."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жінка зі смартфоном у руці стоїть перед будівлею. QR-код символізує профіль експрес-тесту, який потрібно сканувати."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
+    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб ви мали змогу надіслати до будь-якого пункту тестування, що приймає участь."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом."</string>
+    <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом.\nВи можете створити декілька профілів експрес-тесту, наприклад, один для себе і по одному для кожного члена вашої родини."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Продовжити"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
@@ -179,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Народився %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Продовжити"</string>
+    <string name="rat_qr_code_profile_next_button">"Сканувати тест"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Видалити профіль експрес-тесту"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

@@ -6,12 +6,13 @@ import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
@@ -112,7 +113,7 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun ratProfileSettings(): RATProfileSettingsDataStore = mockk()
+    fun profileSettings(): ProfileSettingsDataStore = mockk()
 
     @Singleton
     @Provides
@@ -125,5 +126,11 @@ class MockProvider {
     fun familyTestRepository(): FamilyTestRepository = mockk {
         every { familyTests } returns flowOf(emptySet())
         every { familyTestsInRecycleBin } returns flowOf(emptySet())
+    }
+
+    @Singleton
+    @Provides
+    fun profileRepository(): ProfileRepository = mockk {
+        every { profilesFlow } returns flowOf(emptySet())
     }
 }

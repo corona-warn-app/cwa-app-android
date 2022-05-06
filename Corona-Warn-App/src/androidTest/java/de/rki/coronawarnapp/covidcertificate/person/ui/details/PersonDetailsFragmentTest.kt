@@ -204,7 +204,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
             add(
@@ -213,7 +214,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
 
@@ -223,7 +225,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
 
@@ -233,7 +236,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = true,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
             add(
@@ -242,7 +246,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
         }
@@ -326,7 +331,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = true,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
         }
@@ -358,10 +364,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
         )
         every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
         every { hasNotificationBadge } returns false
-        every { isNotBlocked } returns true
+        every { isNotScreened } returns true
         every { qrCodeHash } returns "TC"
         every { isPCRTestCertificate } returns true
     }
@@ -399,10 +405,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { qrCodeHash } returns "VC$number"
             every { headerIssuedAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         }
@@ -417,10 +423,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { qrCodeHash } returns "RC"
         }
 

@@ -13,8 +13,9 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotification
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationListUpdater
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -188,7 +189,7 @@ class MockProvider {
     fun dccStateChecker(): DccStateChecker = mockk()
 
     @Provides
-    fun dscCheckNotification(): DccExpirationNotification = mockk()
+    fun dscCheckNotification(): DccValidityStateNotification = mockk()
 
     @Provides
     fun recoveryCertificateRepository(): RecoveryCertificateRepository = mockk()
@@ -204,4 +205,7 @@ class MockProvider {
 
     @Provides
     fun familyTestRepository(): FamilyTestRepository = mockk()
+
+    @Provides
+    fun revocationUpdater(): DccRevocationListUpdater = mockk()
 }

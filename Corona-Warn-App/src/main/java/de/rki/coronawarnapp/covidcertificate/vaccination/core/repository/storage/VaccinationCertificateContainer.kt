@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -25,6 +27,9 @@ data class VaccinationCertificateContainer(
     private val qrCodeExtractor: DccQrCodeExtractor,
 ) : CertificateRepoContainer {
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     internal val certificateData: DccData<VaccinationDccV1> by lazy {
         runBlocking {
             data.vaccinationQrCode.let {
@@ -64,25 +69,28 @@ data class VaccinationCertificateContainer(
         certificateState: State,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
-        override fun getState(): State = certificateState
+        override val state: State get() = certificateState
 
         override val notifiedExpiresSoonAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedExpiresSoonAt
+            get() = data.notifiedExpiresSoonAt
 
         override val notifiedExpiredAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedExpiredAt
+            get() = data.notifiedExpiredAt
 
         override val notifiedInvalidAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedInvalidAt
+            get() = data.notifiedInvalidAt
 
         override val notifiedBlockedAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedBlockedAt
+            get() = data.notifiedBlockedAt
+
+        override val notifiedRevokedAt: Instant?
+            get() = data.notifiedRevokedAt
 
         override val lastSeenStateChange: State?
-            get() = this@VaccinationCertificateContainer.data.lastSeenStateChange
+            get() = data.lastSeenStateChange
 
         override val lastSeenStateChangeAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.lastSeenStateChangeAt
+            get() = data.lastSeenStateChangeAt
 
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationCertificateContainer.containerId
@@ -163,10 +171,7 @@ data class VaccinationCertificateContainer(
             get() = certificateData
 
         override val hasNotificationBadge: Boolean
-            get() {
-                val state = getState()
-                return (state !is State.Valid && state != lastSeenStateChange) || isNew
-            }
+            get() = (state !is Valid && state != lastSeenStateChange) || isNew
 
         override val isNew: Boolean get() = !data.certificateSeenByUser
 

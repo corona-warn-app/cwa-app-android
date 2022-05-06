@@ -9,5 +9,6 @@ internal fun CwaCovidCertificate.State.toCclState(): CclCertificate.Validity = w
     is CwaCovidCertificate.State.ExpiringSoon -> CclCertificate.Validity.EXPIRING_SOON
     is CwaCovidCertificate.State.Invalid -> CclCertificate.Validity.INVALID
     is CwaCovidCertificate.State.Valid -> CclCertificate.Validity.VALID
+    is CwaCovidCertificate.State.Revoked -> CclCertificate.Validity.REVOKED
     else -> throw IllegalStateException("State not supported")
 }

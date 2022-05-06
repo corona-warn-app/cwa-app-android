@@ -32,7 +32,7 @@ data class PersonCertificates(
                     buttonText = certRef.buttonText
                 )
             }
-        }.take(2).ifEmpty {
+        }.take(3).ifEmpty {
             when (val cert = certificates.findFallbackDcc()) {
                 null -> emptyList()
                 else -> listOf(VerificationCertificate(cert))

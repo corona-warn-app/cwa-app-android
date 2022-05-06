@@ -100,7 +100,7 @@
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
     <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Born %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Issued: %1$s, %2$s"</string>
+    <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"You have not been diagnosed with the SARS-CoV-2 virus."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
@@ -108,7 +108,7 @@
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"To verifiably prove the result displayed here, an EU Digital Covid Certificate is required. If you requested a digital test certificate when you registered your test and the testing point supports the issuing of digital certificates, you can find your digital test certificate using the link specified above. You will also find the certificate on the “Certificates” tab.\nPlease also find out about the criteria for recognition and validity of test certificates in the context of the purpose for which you need proof."</string>
     <!-- XHED: submission result antigen negative result counter title -->
-    <string name="submission_test_result_antigen_negative_counter_title">"Result available since"</string>
+    <string name="submission_test_result_antigen_negative_counter_title">"Date of Issue"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Your rapid test was added"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
@@ -134,11 +134,13 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Save your personal data as a QR code to speed up registration at testing points."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Rapid Test Profile"</string>
+    <string name="rat_profile_open_card_title">"Rapid Test Profiles"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Save time and present your rapid test profile at the testing point."</string>
+    <string name="rat_profile_open_card_subtitle">"Rapid test profile with your personal data, which you can submit to any participating testing point via the QR code."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Rapid Test Profile"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Rapid Test Profiles"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"First Name"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Invalid phone number"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Invalid e-mail address"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Rapid Test Profile"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"No rapid test profiles created yet"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"You can create a rapid test profile with your personal data, which you can submit via QR code to every participating testing point."</string>
 
     <!--RAT profile onboarding-->
-    <string name="rat_profile_onboarding_image_content_description">"A woman with a smartphone in her hand is standing in front of a building. A QR code symbolizes the rapid test profile to be scanned."</string>
+    <string name="rat_profile_onboarding_image_content_description">"A woman with a smartphone in her hand stands in front of a building. A QR code symbolizes the rapid test profile to be scanned."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Save your personal data as a QR code to speed up registration at testing points."</string>
+    <string name="rat_profile_onboarding_title">"Save your personal data as a QR code that you can submit to any participating testing point."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"When you create a rapid test profile, you will not have to fill out your personal data again before every rapid test."</string>
+    <string name="rat_profile_onboarding_subtitle">"When you create a rapid test profile, you will not have to fill out your personal data again before every rapid test.\nYou can create several rapid test profiles, e.g. one for yourself and one each for your family members."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Continue"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
@@ -179,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Born %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Continue"</string>
+    <string name="rat_qr_code_profile_next_button">"Scan Test"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Delete Rapid Test Profile"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

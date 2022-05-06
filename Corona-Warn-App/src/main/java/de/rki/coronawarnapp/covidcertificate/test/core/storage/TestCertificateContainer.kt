@@ -2,11 +2,15 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -70,6 +74,9 @@ data class TestCertificateContainer(
     override val qrCodeHash: String
         get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
         certificateState: State,
@@ -82,7 +89,7 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
-            override fun getState(): State = certificateState
+            override val state: State get() = certificateState
 
             override val containerId: TestCertificateContainerId
                 get() = this@TestCertificateContainer.containerId
@@ -165,6 +172,9 @@ data class TestCertificateContainer(
             override val notifiedBlockedAt: Instant?
                 get() = data.notifiedBlockedAt
 
+            override val notifiedRevokedAt: Instant?
+                get() = data.notifiedRevokedAt
+
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
 
@@ -175,10 +185,7 @@ data class TestCertificateContainer(
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
             override val hasNotificationBadge: Boolean
-                get() {
-                    val state = getState()
-                    return (state is State.Invalid && state != lastSeenStateChange) || isNew
-                }
+                get() = (isScreenedTestCert(state) && state != lastSeenStateChange) || isNew
 
             override val recycledAt: Instant?
                 get() = data.recycledAt
@@ -186,4 +193,8 @@ data class TestCertificateContainer(
             override fun toString(): String = "TestCertificate($containerId)"
         }
     }
+}
+
+fun isScreenedTestCert(state: State): Boolean {
+    return state is Invalid || state is Blocked || state is Revoked
 }

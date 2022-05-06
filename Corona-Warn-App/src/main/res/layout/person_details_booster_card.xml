@@ -16,9 +16,12 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/arrow"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Booster" />
+        tools:text="Not on Booster Vaccination" />
 
     <ImageView
         android:id="@+id/booster_badge"
@@ -28,9 +31,11 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_badge"
+        app:layout_constraintEnd_toEndOf="@id/arrow"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/title"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:srcCompat="@drawable/ic_badge"
         tools:visibility="visible" />
 
     <ImageView
@@ -39,6 +44,9 @@
         android:layout_height="wrap_content"
         android:alpha="0.6"
         android:hyphenationFrequency="normal"
+        android:paddingStart="@dimen/spacing_normal"
+        android:paddingEnd="0dp"
+        android:layout_marginTop="3dp"
         android:src="@drawable/ic_contact_diary_right_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -2,11 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser.Mode
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -50,6 +52,9 @@ data class RecoveryCertificateContainer(
 
     override val recycledAt: Instant? = data.recycledAt
 
+    /**
+     * May throw an **[InvalidHealthCertificateException]**
+     */
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
         certificateState: State,
@@ -60,7 +65,7 @@ data class RecoveryCertificateContainer(
         val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
-            override fun getState(): State = certificateState
+            override val state: State get() = certificateState
 
             override val notifiedExpiresSoonAt: Instant?
                 get() = data.notifiedExpiresSoonAt
@@ -73,6 +78,9 @@ data class RecoveryCertificateContainer(
 
             override val notifiedBlockedAt: Instant?
                 get() = data.notifiedBlockedAt
+
+            override val notifiedRevokedAt: Instant?
+                get() = data.notifiedRevokedAt
 
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
@@ -153,10 +161,7 @@ data class RecoveryCertificateContainer(
                 get() = certificateData
 
             override val hasNotificationBadge: Boolean
-                get() {
-                    val state = getState()
-                    return (state !is State.Valid && state != lastSeenStateChange) || isNew
-                }
+                get() = (state !is Valid && state != lastSeenStateChange) || isNew
 
             override val isNew: Boolean
                 get() = !data.certificateSeenByUser

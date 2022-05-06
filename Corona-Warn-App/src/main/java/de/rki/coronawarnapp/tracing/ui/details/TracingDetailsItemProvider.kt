@@ -50,7 +50,7 @@ class TracingDetailsItemProvider @Inject constructor(
         val latestCalc = riskLevelResults.lastCalculated
 
         val lowRiskWithEncounters = latestCalc.riskState == RiskState.LOW_RISK &&
-            latestCalc.matchedRiskCount > 0
+            latestCalc.daysWithEncounters > 0
 
         mutableListOf<DetailsItem>().apply {
             if (status != Status.TRACING_INACTIVE &&
@@ -93,7 +93,7 @@ class TracingDetailsItemProvider @Inject constructor(
                 }
                 latestCalc.riskState == RiskState.LOW_RISK -> DetailsLowRiskBox.Item(
                     riskState = latestCalc.riskState,
-                    matchedRiskCount = latestCalc.matchedRiskCount
+                    matchedRiskCount = latestCalc.daysWithEncounters
                 )
                 latestCalc.riskState == RiskState.INCREASED_RISK -> DetailsIncreasedRiskBox.Item(
                     riskState = latestCalc.riskState,

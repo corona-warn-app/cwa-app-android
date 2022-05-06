@@ -24,8 +24,8 @@ class BoosterCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
 
         title.text = curItem.title
-        subtitle.text = curItem.subtitle
         boosterBadge.isVisible = curItem.badgeVisible
+        subtitle.text = curItem.subtitle
     }
 
     data class Item(

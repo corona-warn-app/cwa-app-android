@@ -14,7 +14,7 @@
     <include app:graph="@navigation/trace_location_attendee_nav_graph" />
 
     <!--    Rapid antigen test profile graph-->
-    <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
+    <include app:graph="@navigation/profile_nav_graph" />
 
     <!--    Covid certificates graph-->
     <include app:graph="@navigation/covid_certificates_graph" />
@@ -208,7 +208,6 @@
             android:id="@+id/action_interopCountryConfigurationFragment_to_settingTracingFragment"
             app:destination="@id/settingsTracingFragment" />
     </fragment>
-
 
     <fragment
         android:id="@+id/settingsNotificationFragment"
@@ -820,6 +819,7 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
+
     <fragment
         android:id="@+id/submissionDoneFragment"
         android:name="de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment"
@@ -834,6 +834,7 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
+
     <fragment
         android:id="@+id/submissionTestResultKeysSharedFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedFragment"
@@ -843,7 +844,6 @@
             android:name="testIdentifier"
             app:argType="string" />
     </fragment>
-
 
     <fragment
         android:id="@+id/qrCodeFullScreenFragment"
@@ -906,52 +906,50 @@
         android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
         android:label="QrCodeScannerFragment"
         tools:layout="@layout/fragment_qrcode_scanner">
+
+        <argument
+            android:name="familyTestPersonName"
+            android:defaultValue=""
+            app:argType="string" />
+
         <action
             android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"
             app:destination="@id/testRegistrationSelectionFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_pendingTestResult"
             app:destination="@id/submissionTestResultPendingFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
 
-        <action
-            android:id="@+id/action_universalScanner_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
             app:destination="@id/universalScannerInformationFragment" />
+
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
+
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultNegativeFragment"
             app:destination="@id/submissionTestResultNegativeFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
+
         <action
             android:id="@+id/action_universalScanner_to_submissionResultPositiveOtherWarningNoConsentFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
+
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment"
-            app:popUpTo="@id/universalScanner"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment" />
     </fragment>
 
     <fragment

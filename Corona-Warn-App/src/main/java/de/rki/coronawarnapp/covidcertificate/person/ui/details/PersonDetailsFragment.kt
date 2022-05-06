@@ -2,22 +2,27 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.get
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -25,6 +30,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import javax.inject.Inject
 
 // Shows the list of certificates for one person
@@ -45,6 +51,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     )
     private val personDetailsAdapter = PersonDetailsAdapter()
+    private var numberOfCertificates = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +70,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
-                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+                setupSwipe(context = requireContext())
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
@@ -75,6 +82,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             viewModel.uiState.observe(viewLifecycleOwner) {
                 name.text = it.name
                 personDetailsAdapter.update(it.certificateItems)
+                numberOfCertificates = it.numberOfCertificates
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
             viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
@@ -98,6 +106,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -106,6 +115,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToTestCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -114,6 +124,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -137,27 +148,54 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
             ).also { viewModel.dismissAdmissionStateBadge() }
-            Back -> popBackStack()
+            Back -> {
+                removeGlobalLayoutListener()
+                popBackStack()
+            }
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
                     .also { viewModel.dismissAdmissionStateBadge() }
+            is RecycleCertificate -> showCertificateDeletionRequest(event.cwaCovidCertificate, event.position)
         }
     }
 
+    private fun showCertificateDeletionRequest(cwaCovidCertificate: CwaCovidCertificate, position: Int) {
+        RecycleBinDialogType.RecycleCertificateConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.recycleCertificate(cwaCovidCertificate) },
+            negativeButtonAction = { personDetailsAdapter.notifyItemChanged(position) }
+        )
+    }
+
+    private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        try {
+            if (binding.recyclerViewCertificatesList.childCount > 0) {
+                removeGlobalLayoutListener()
+                val firstElement = binding.recyclerViewCertificatesList[0]
+                val emptySpaceToTop =
+                    firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                val overlap = (firstElement.height / 2) + emptySpaceToTop
+
+                val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
+                    binding.recyclerViewCertificatesList.layoutParams
+                        as (CoordinatorLayout.LayoutParams)
+                val behavior: AppBarLayout.ScrollingViewBehavior =
+                    layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+                behavior.overlayTop = overlap
+
+                binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                binding.europaImage.requestLayout()
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "PersonDetailsFragment can't update toolbar height")
+        }
+    }
+
+    private fun removeGlobalLayoutListener() {
+        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+    }
+
     private fun setToolbarOverlay() {
-        val deviceWidth = requireContext().resources.displayMetrics.widthPixels
-
-        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewCertificatesList.layoutParams
-            as (CoordinatorLayout.LayoutParams)
-
-        val textParams = binding.toolbarLinearLayout.layoutParams as (CollapsingToolbarLayout.LayoutParams)
-
-        val divider = 2
-        textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
-        binding.toolbarLinearLayout.requestLayout()
-
-        val behavior: AppBarLayout.ScrollingViewBehavior =
-            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (deviceWidth / divider) - 24
+        binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
     }
 }

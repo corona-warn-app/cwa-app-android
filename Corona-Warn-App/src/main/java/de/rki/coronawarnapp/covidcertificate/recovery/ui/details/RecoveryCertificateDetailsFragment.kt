@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -42,6 +43,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -79,7 +81,15 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.recoveryCertificate.observe(viewLifecycleOwner) { it?.let { onCertificateReady(it) } }
+        viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
+            when (it != null) {
+                true -> onCertificateReady(it)
+                false -> {
+                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
+                    goBack()
+                }
+            }
+        }
 
         viewModel.exportError.observe(viewLifecycleOwner) {
             CertificateExportErrorDialog.showDialog(
@@ -97,13 +107,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         startValidationCheck.apply {
-            isEnabled = certificate.isNotBlocked
-            defaultButton.isEnabled = certificate.isNotBlocked
+            isEnabled = certificate.isNotScreened
+            defaultButton.isEnabled = certificate.isNotScreened
         }
-        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotBlocked
+        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotScreened
         qrCodeCard.bindValidityViews(
             certificate,
-            isCertificateDetails = true,
             onCovPassInfoAction = { onNavEvent(RecoveryCertificateDetailsNavigation.OpenCovPassInfo) }
         )
         fullname.text = certificate.fullNameFormatted
@@ -149,7 +158,15 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
-            RecoveryCertificateDetailsNavigation.Back -> popBackStack()
+            RecoveryCertificateDetailsNavigation.Back -> goBack()
+            RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
+                if (args.numberOfCertificates == 1) {
+                    doNavigate(
+                        RecoveryCertificateDetailsFragmentDirections
+                            .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
+                    )
+                } else goBack()
+            }
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
@@ -176,6 +193,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 )
         }
     }
+
+    private fun goBack() = popBackStack()
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
@@ -215,6 +234,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     companion object {
+        private val TAG = tag<RecoveryCertificateDetailsFragment>()
+
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
             return "cwa://recovery-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()

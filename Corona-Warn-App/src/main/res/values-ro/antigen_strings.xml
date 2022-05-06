@@ -100,7 +100,7 @@
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
     <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Născut(ă) pe %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
-    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Emis la: %1$s, %2$s"</string>
+    <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"Nu ați fost diagnosticat cu virusul SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
@@ -108,7 +108,7 @@
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Pentru a dovedi într-un mod verificabil rezultatul afișat aici, este nevoie de un Certificat covid digital UE. Dacă ați solicitat un certificat de test digital când v-ați înregistrat testul și dacă punctul de testare suportă emiterea certificatelor digitale, puteți găsi certificatul dvs. de test digital utilizând legătura specificată mai sus. De asemenea, veți găsi certificatul dvs. pe tabul „Certificate”.\nVă rugăm să consultați și criteriile pentru recunoașterea și valabilitatea certificatelor de test în funcție de scopul pentru care vă este necesară dovada."</string>
     <!-- XHED: submission result antigen negative result counter title -->
-    <string name="submission_test_result_antigen_negative_counter_title">"Rezultat disponibil de la"</string>
+    <string name="submission_test_result_antigen_negative_counter_title">"Data emiterii"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
     <string name="coronatest_negative_antigen_result_first_info_title">"Testul dvs. rapid a fost adăugat"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
@@ -134,11 +134,13 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Profil de test rapid"</string>
+    <string name="rat_profile_open_card_title">"Profiluri de test rapid"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Economisiți timp și prezentați profilul dvs. de test rapid la punctul de testare."</string>
+    <string name="rat_profile_open_card_subtitle">"Profilul de test rapid cu datele dvs. personale, pe care îl puteți trimite la orice punct de testare participant prin intermediul codului QR."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Profil de test rapid"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Profiluri de test rapid"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Prenume"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Număr de telefon nevalabil"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Adresă de e-mail nevalabilă"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Profil de test rapid"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Nu a fost creat încă niciun profil de test rapid"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Puteți crea un profil de test rapid cu datele dvs. personale, pe care îl puteți transmite prin intermediul codului QR la fiecare punct de testare participant."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"O femeie cu un smartphone în mână stă în fața unei clădiri. Un cod QR simbolizează profilul de test rapid de scanat."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
+    <string name="rat_profile_onboarding_title">"Salvați datele dvs. personale sub formă de cod QR pe care îl puteți transmite la orice punct de testare participant."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Când creați un profil de test rapid nu va trebui să completați din nou datele dvs. înainte de fiecare test rapid."</string>
+    <string name="rat_profile_onboarding_subtitle">"Când creați un profil de test rapid nu va trebui să completați din nou datele dvs. personale înainte de fiecare test rapid.\nPuteți crea mai multe profiluri de test rapide, de exemplu, unul pentru dvs. și unul pentru fiecare membru al familiei."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Continuare"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
@@ -179,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Născut(ă) pe %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Continuare"</string>
+    <string name="rat_qr_code_profile_next_button">"Scanare test"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Ștergerea profilului de test rapid"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

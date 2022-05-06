@@ -1,19 +1,25 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -26,7 +32,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -39,15 +44,14 @@ import javax.inject.Singleton
 
 @Singleton
 class RecoveryCertificateRepository @Inject constructor(
-    @AppScope private val appScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
-    private val qrCodeExtractor: DccQrCodeExtractor,
     valueSetsRepository: ValueSetsRepository,
-    private val storage: RecoveryCertificateStorage,
-    private val dccStateChecker: DccStateChecker,
+    dispatcherProvider: DispatcherProvider,
+    @AppScope private val appScope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    dscRepository: DscRepository,
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccState: DccStateChecker,
+    private val qrCodeExtractor: DccQrCodeExtractor,
+    private val storage: RecoveryCertificateStorage,
+    private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
 ) {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
@@ -81,51 +85,49 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+    /**
+     * All [RecoveryCertificate] in the app whether recycled or not
+     */
+    val allCertificates: Flow<RecoveryCertificatesHolder> = combine(
         internalData.data,
-        dscRepository.dscData,
-        dccWalletInfoRepository.blockedCertificateQrCodeHashes
-    ) { certMap, _, blockedCertificateQrCodeHashes ->
-        certMap.values
-            .filter { it.isNotRecycled }
-            .map { container ->
+        valueSetsRepository.latestVaccinationValueSets,
+        dccValidityMeasuresObserver.dccValidityMeasures
+    ) { certMap, valueSets, dccValidityMeasures ->
+        val certificates = mutableSetOf<RecoveryCertificateWrapper>()
+        val recycledCertificates = mutableSetOf<RecoveryCertificate>()
 
-                val state = dccStateChecker.checkState(
-                    container.certificateData,
-                    container.qrCodeHash,
-                    blockedCertificateQrCodeHashes
-                ).first()
+        certMap.values.forEach {
+            when {
+                it.isNotRecycled -> it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
+                    ?.let { rc -> certificates += rc }
+                it.isRecycled -> it.toRecoveryCertificateOrNull(valueSets, CwaCovidCertificate.State.Recycled)
+                    ?.let { rc -> recycledCertificates += rc }
+            }
+        }
 
-                RecoveryCertificateWrapper(
-                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
+        RecoveryCertificatesHolder(
+            certificates = certificates,
+            recycledCertificates = recycledCertificates
+        )
     }
-
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
         .shareLatest(
             tag = TAG,
             scope = appScope
         )
 
     /**
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isNotRecycled]
+     */
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = allCertificates
+        .map { it.certificates }
+        .shareLatest(scope = appScope)
+
+    /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<RecoveryCertificate>> = internalData.data
-        .map { certMap ->
-            certMap.values
-                .filter { it.isRecycled }
-                .map {
-                    it.toRecoveryCertificate(certificateState = CwaCovidCertificate.State.Recycled)
-                }
-                .toSet()
-        }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = allCertificates
+        .map { it.recycledCertificates }
+        .shareLatest(scope = appScope)
 
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {
@@ -182,10 +184,11 @@ class RecoveryCertificateRepository @Inject constructor(
             }
 
             val newData = when (state) {
-                is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
-                is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
-                is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
-                is CwaCovidCertificate.State.Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
+                is ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                is Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
+                is Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Revoked -> toUpdate.data.copy(notifiedRevokedAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 
@@ -205,12 +208,11 @@ class RecoveryCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState =
-                dccStateChecker.checkState(
-                    toUpdate.certificateData,
-                    toUpdate.qrCodeHash,
-                    dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
-                ).first()
+            val currentState = dccState(
+                dccData = toUpdate.certificateData,
+                qrCodeHash = toUpdate.qrCodeHash,
+                dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
+            )
 
             if (currentState == toUpdate.data.lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")
@@ -315,6 +317,42 @@ class RecoveryCertificateRepository @Inject constructor(
         return copy(data = data.copy(certificateSeenByUser = true)).also {
             Timber.tag(TAG).d("markAsSeenByUser %s", it.containerId)
         }
+    }
+
+    private fun RecoveryCertificateContainer.toRecoveryCertificateOrNull(
+        valueSet: VaccinationValueSets?,
+        certificateState: CwaCovidCertificate.State
+    ): RecoveryCertificate? {
+        try {
+            return toRecoveryCertificate(valueSet, certificateState)
+            // read value from dcc data to throw an exception early if the DccQrCodeExtractor is not able to parse
+            // the certificate
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificate failed")
+        }
+        return null
+    }
+
+    private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
+        valueSets: VaccinationValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): RecoveryCertificateWrapper? {
+        try {
+            val state = dccState(
+                dccData = certificateData,
+                qrCodeHash = qrCodeHash,
+                dccValidityMeasures = dccValidityMeasures
+            )
+
+            return RecoveryCertificateWrapper(
+                valueSets = valueSets,
+                container = this,
+                certificateState = state
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Creating RecoveryCertificateWrapper failed")
+        }
+        return null
     }
 
     companion object {

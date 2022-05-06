@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
@@ -11,13 +12,21 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.displayExpirationState
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class VaccinationCertificateCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<Item, VaccinationCertificateCardBinding>(
         layoutRes = R.layout.vaccination_certificate_card,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.certificate, holder.bindingAdapterPosition) }
+    }
 
     override val viewBinding: Lazy<VaccinationCertificateCardBinding> = lazy {
         VaccinationCertificateCardBinding.bind(itemView)
@@ -25,56 +34,57 @@ class VaccinationCertificateCard(parent: ViewGroup) :
     override val onBindData: VaccinationCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { boundItem, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick() }
-        vaccinationDosesInfo.text = context.getString(
-            R.string.vaccination_certificate_doses,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: boundItem
 
-        certificateDate.text = context.getString(
-            R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
-        )
-        val bookmarkIcon =
-            if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
-        bookmark.setImageResource(bookmarkIcon)
+        latestItem?.let { item ->
+            val certificate = item.certificate
+            root.setOnClickListener { item.onClick() }
+            vaccinationDosesInfo.text = context.getString(
+                R.string.vaccination_certificate_doses,
+                certificate.doseNumber,
+                certificate.totalSeriesOfDoses
+            )
 
-        val color = when {
-            curItem.certificate.isDisplayValid -> curItem.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+            certificateDate.text = context.getString(
+                R.string.vaccination_certificate_vaccinated_on,
+                certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
+            )
+            val bookmarkIcon = if (item.certificate.isDisplayValid)
+                item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            bookmark.setImageResource(bookmarkIcon)
 
-        when {
-            // Invalid state first
-            !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
+            val color = when {
+                item.certificate.isDisplayValid -> item.colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }
 
-            // Final shot
-            certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
+            when {
+                // Invalid state first
+                !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
+                // Final shot
+                certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
+                // Other shots
+                else -> R.drawable.ic_vaccination_incomplete
+            }.also { certificateIcon.setImageResource(it) }
 
-            // Other shots
-            else -> R.drawable.ic_vaccination_incomplete
-        }.also { certificateIcon.setImageResource(it) }
+            when {
+                item.isCurrentCertificate -> color.currentCertificateBg
+                else -> color.defaultCertificateBg
+            }.also { certificateBg.setImageResource(it) }
 
-        when {
-            curItem.isCurrentCertificate -> color.currentCertificateBg
-            else -> color.defaultCertificateBg
-        }.also { certificateBg.setImageResource(it) }
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            certificateExpiration.displayExpirationState(item.certificate)
 
-        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
-
-        certificateExpiration.displayExpirationState(curItem.certificate)
-        startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotBlocked
-            isEnabled = certificate.isNotBlocked
-            isLoading = curItem.isLoading
-            defaultButton.setOnClickListener {
-                curItem.validateCertificate(certificate.containerId)
+            startValidationCheckButton.apply {
+                defaultButton.isEnabled = certificate.isNotScreened
+                isEnabled = certificate.isNotScreened
+                isLoading = item.isLoading
+                defaultButton.setOnClickListener {
+                    item.validateCertificate(certificate.containerId)
+                }
             }
         }
     }
@@ -85,6 +95,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val isCurrentCertificate: Boolean,
         val isLoading: Boolean = false,
         val onClick: () -> Unit,
+        val onSwipeItem: (VaccinationCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId = certificate.containerId.hashCode().toLong()

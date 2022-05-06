@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
@@ -13,7 +13,8 @@ sealed class BaseTestCertificateData : Recyclable {
     abstract val certificateReceivedAt: Instant?
     abstract val notifiedInvalidAt: Instant?
     abstract val notifiedBlockedAt: Instant?
-    abstract val lastSeenStateChange: CwaCovidCertificate.State?
+    abstract val notifiedRevokedAt: Instant?
+    abstract val lastSeenStateChange: State?
     abstract val lastSeenStateChangeAt: Instant?
     abstract val testCertificateQrCode: String?
     abstract val certificateSeenByUser: Boolean

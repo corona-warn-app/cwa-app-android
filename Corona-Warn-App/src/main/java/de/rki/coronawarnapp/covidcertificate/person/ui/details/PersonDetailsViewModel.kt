@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -48,6 +49,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
+    private val recycledCertificatesProvider: RecycledCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     private val format: CclTextFormatter,
@@ -59,7 +61,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
+        certificateSet.first { it.personIdentifier.codeSHA256 == personIdentifierCode }
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
@@ -116,7 +118,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         return UiState(
             name = priorityCertificate.fullName,
-            certificateItems = certificateItems
+            certificateItems = certificateItems,
+            numberOfCertificates = personCertificates.certificates.size
         )
     }
 
@@ -215,8 +218,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { swipedCertificate, position ->
+            events.postValue(RecycleCertificate(swipedCertificate, position))
         }
     )
+
+    fun recycleCertificate(certificate: CwaCovidCertificate) = launch {
+        recycledCertificatesProvider.recycleCertificate(certificate.containerId)
+    }
 
     private fun vcItem(
         certificate: VaccinationCertificate,
@@ -235,6 +245,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { swipedCertificate, position ->
+            events.postValue(RecycleCertificate(swipedCertificate, position))
         }
     )
 
@@ -255,6 +268,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { swipedCertificate, position ->
+            events.postValue(RecycleCertificate(swipedCertificate, position))
         }
     )
 
@@ -277,7 +293,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     data class UiState(
         val name: String,
-        val certificateItems: List<CertificateItem>
+        val certificateItems: List<CertificateItem>,
+        val numberOfCertificates: Int = 0
     )
 
     @AssistedFactory

@@ -26,6 +26,8 @@ internal object HashExtensions {
 
     fun String.toMD5(format: Format = HEX) = this.hashString("MD5", format)
 
+    fun String.sha256() = toByteArray().toByteString().sha256()
+
     private fun String.hashString(type: String, format: Format): String = toByteArray().hashByteArray(type, format)
 
     private fun ByteArray.hashByteArray(type: String, format: Format): String = MessageDigest

@@ -152,8 +152,29 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_two_g_plus_certificate() {
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "",
+                subtitle = ""
+            )
+        )
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
         takeSelfie("two_g_plus")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_third_certificate() {
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "",
+                subtitle = ""
+            )
+        )
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(threeCertificates()))
+        takeSelfie("third_certificate")
     }
 
     @Test
@@ -400,6 +421,42 @@ class PersonOverviewFragmentTest : BaseUITest() {
             )
         }
 
+    private fun threeCertificates() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    overviewCertificates = listOf(
+                        OverviewCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Geimpft"
+                                else -> "2G Certificate"
+                            }
+                        ),
+                        OverviewCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Getestet"
+                                else -> "Test Certificate"
+                            }
+                        ),
+                        OverviewCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Genesen"
+                                else -> "Recovery Certificate"
+                            }
+                        )
+                    ),
+                    admissionBadgeText = "2G+",
+                    colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0,
+                    onClickAction = { _, _ -> },
+                    onCovPassInfoAction = {}
+                )
+            )
+        }
+
     private fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
@@ -447,7 +504,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
         every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
     }
 
@@ -474,7 +531,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 dateOfBirthFormatted = "1943-04-18"
             )
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+            every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
         }
 }

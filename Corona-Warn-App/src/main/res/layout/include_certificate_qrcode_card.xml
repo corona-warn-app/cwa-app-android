@@ -39,6 +39,7 @@
         style="@style/CertificateCardInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/statistics_info_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +84,6 @@
         android:id="@+id/invalid_overlay"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
         app:constraint_referenced_ids="invalid_qr_code_overlay,invalid_qr_code_symbol"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp"
@@ -101,41 +101,45 @@
         app:layout_constraintTop_toTopOf="@id/image" />
 
     <ImageView
-        android:id="@+id/expiration_status_icon"
+        android:id="@+id/status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/expiration_status_text"
+        app:layout_constraintBottom_toBottomOf="@id/status_title"
         app:layout_constraintStart_toStartOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/expiration_status_text"
+        app:layout_constraintTop_toTopOf="@id/status_title"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_av_timer"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/expiration_status_text"
+        android:id="@+id/status_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_tiny"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
+        app:layout_constraintStart_toEndOf="@id/status_icon"
         app:layout_constraintTop_toBottomOf="@+id/image"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/expiration_status_body"
+        android:id="@+id/status_body"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/expiration_info"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/expiration_status_icon"
-        app:layout_constraintTop_toBottomOf="@id/expiration_status_text" />
+        app:layout_constraintStart_toStartOf="@id/status_icon"
+        app:layout_constraintTop_toBottomOf="@id/status_title" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/status_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="status_icon,status_title,status_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

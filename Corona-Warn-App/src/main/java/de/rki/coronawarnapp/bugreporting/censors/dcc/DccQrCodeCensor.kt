@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.dcc
 
-import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -13,275 +12,155 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@Reusable
+@Singleton
 class DccQrCodeCensor @Inject constructor() : BugCensor {
 
+    private val state = MutableStateFlow(Data())
+
     override suspend fun checkLog(message: String): CensorContainer? {
-        var newMessage = CensorContainer(message)
+        var container = CensorContainer(message)
 
-        qrCodeFlow.first().forEach {
-            newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
-        }
-
-        certificateFlow.first().forEach {
-            it.certificate.apply {
-                newMessage = newMessage.censor(
-                    dateOfBirthFormatted,
-                    "dcc/dateOfBirth"
-                )
-
-                newMessage = censorNameData(nameData, newMessage)
-
-                newMessage = when (it.certificate) {
-                    is VaccinationDccV1 -> censorVaccinationData(it.certificate.vaccination, newMessage)
-                    is TestDccV1 -> censorTestData(it.certificate.test, newMessage)
-                    is RecoveryDccV1 -> censorRecoveryData(it.certificate.recovery, newMessage)
-                    else -> newMessage
-                }
+        with(state.first()) {
+            qrCodes.forEach {
+                container = container.censor(it, "#qrCode" + it.takeLast(4))
+            }
+            identifiers.forEach {
+                container = container.censor(it, "#identifier")
+            }
+            names.forEach {
+                container = container.censor(it, "#name")
+            }
+            dates.forEach {
+                container = container.censor(it, "#date")
+            }
+            countries.forEach {
+                container = container.censor(" $it ", "#country")
+                container = container.censor("\"${it}\"", "#country")
+            }
+            testDetails.forEach {
+                container = container.censor(it, "#testDetail")
+            }
+            issuers.forEach {
+                container = container.censor(it, "#issuer")
             }
         }
 
-        return newMessage.nullIfEmpty()
+        return container.nullIfEmpty()
     }
 
-    private fun censorRecoveryData(
-        data: DccV1.RecoveryCertificateData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
-        newMessage = newMessage.censor(
-            data.certificateIssuer,
-            "recovery/certificateIssuer"
-        )
-
-        newMessage = newMessage.censor(
-            data.uniqueCertificateIdentifier,
-            "recovery/uniqueCertificateIdentifier"
-        )
-
-        newMessage = newMessage.censor(
-            " ${data.certificateCountry} ",
-            " recovery/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${data.certificateCountry}\"",
-            "\"recovery/certificateCountry\""
-        )
-
-        newMessage = newMessage.censor(
-            data.testedPositiveOnFormatted,
-            "recovery/testedPositiveOnFormatted"
-        )
-
-        newMessage = newMessage.censor(
-            data.validFromFormatted,
-            "recovery/validFromFormatted"
-        )
-
-        newMessage = newMessage.censor(
-            data.validUntilFormatted,
-            "recovery/validUntilFormatted"
-        )
-
-        data.validUntil?.toShortDayFormat()?.let { validUntil ->
-            newMessage = newMessage.censor(
-                validUntil,
-                "recovery/validFromFormatted"
-            )
-        }
-
-        return newMessage
+    fun addQRCodeStringToCensor(rawString: String) = state.edit {
+        qrCodes += rawString
     }
 
-    private fun censorVaccinationData(
-        vaccinationData: DccV1.VaccinationData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
+    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = state.edit {
+        dates += cert.certificate.dateOfBirthFormatted
 
-        newMessage = newMessage.censor(
-            vaccinationData.marketAuthorizationHolderId,
-            "vaccination/marketAuthorizationHolderId"
-        )
+        addNameData(cert.certificate.nameData)
 
-        newMessage = newMessage.censor(
-            vaccinationData.medicalProductId,
-            "vaccination/medicalProductId"
-        )
-
-        newMessage = newMessage.censor(
-            vaccinationData.targetId,
-            "vaccination/targetId"
-        )
-
-        newMessage = newMessage.censor(
-            vaccinationData.certificateIssuer,
-            "vaccination/certificateIssuer"
-        )
-
-        newMessage = newMessage.censor(
-            vaccinationData.uniqueCertificateIdentifier,
-            "vaccination/uniqueCertificateIdentifier"
-        )
-
-        newMessage = newMessage.censor(
-            " ${vaccinationData.certificateCountry} ",
-            " vaccination/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${vaccinationData.certificateCountry}\"",
-            "\"vaccination/certificateCountry\""
-        )
-
-        newMessage = newMessage.censor(
-            vaccinationData.vaccineId,
-            "vaccination/vaccineId"
-        )
-
-        val vaccinatedOn = vaccinationData.vaccinatedOnFormatted
-        newMessage = newMessage.censor(
-            vaccinatedOn,
-            "vaccination/vaccinatedOnFormatted"
-        )
-        if (vaccinatedOn != vaccinationData.dt) {
-            newMessage = newMessage.censor(
-                vaccinationData.dt,
-                "vaccination/dt"
-            )
+        when (cert.certificate) {
+            is VaccinationDccV1 -> addVaccinationData(cert.certificate.vaccination)
+            is TestDccV1 -> addTestData(cert.certificate.test)
+            is RecoveryDccV1 -> addRecoveryData(cert.certificate.recovery)
         }
-
-        return newMessage
     }
 
-    private fun censorTestData(
-        data: DccV1.TestCertificateData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
+    private fun MutableData.addRecoveryData(data: DccV1.RecoveryCertificateData) = with(data) {
+        issuers += certificateIssuer
+        identifiers += uniqueCertificateIdentifier
+        countries += certificateCountry
 
-        data.testCenter?.let {
-            newMessage = newMessage.censor(
-                data.testCenter,
-                "test/testCenter"
-            )
+        dates += testedPositiveOnFormatted
+        dates += validFromFormatted
+        dates += validUntilFormatted
+
+        validUntil?.let {
+            dates += it.toShortDayFormat()
         }
-
-        newMessage = newMessage.censor(
-            data.testResult,
-            "test/testResult"
-        )
-
-        newMessage = newMessage.censor(
-            data.testType,
-            "test/testType"
-        )
-
-        data.testName?.let {
-            newMessage = newMessage.censor(
-                data.testName,
-                "test/testName"
-            )
-        }
-
-        data.testNameAndManufacturer?.let {
-            newMessage = newMessage.censor(
-                data.testNameAndManufacturer,
-                "test/testNameAndManufacturer"
-            )
-        }
-
-        newMessage = newMessage.censor(
-            data.sampleCollectedAtFormatted,
-            "test/sampleCollectedAtFormatted"
-        )
-
-        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
-            newMessage = newMessage.censor(
-                sampleCollectedAt,
-                "test/sampleCollectedAt"
-            )
-        }
-
-        newMessage = newMessage.censor(
-            data.targetId,
-            "test/targetId"
-        )
-
-        newMessage = newMessage.censor(
-            data.certificateIssuer,
-            "test/certificateIssuer"
-        )
-
-        newMessage = newMessage.censor(
-            data.uniqueCertificateIdentifier,
-            "test/uniqueCertificateIdentifier"
-        )
-
-        newMessage = newMessage.censor(
-            " ${data.certificateCountry} ",
-            " test/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${data.certificateCountry}\"",
-            "\"test/certificateCountry\""
-        )
-
-        return newMessage
     }
 
-    private fun censorNameData(nameData: DccV1.NameData, message: CensorContainer): CensorContainer {
-        var newMessage = message
+    private fun MutableData.addVaccinationData(data: DccV1.VaccinationData) = with(data) {
+        issuers += certificateIssuer
+        countries += certificateCountry
 
-        nameData.familyName?.let { fName ->
-            newMessage = newMessage.censor(
-                fName,
-                "nameData/familyName"
-            )
-        }
+        identifiers += uniqueCertificateIdentifier
+        identifiers += marketAuthorizationHolderId
+        identifiers += medicalProductId
+        identifiers += targetId
+        identifiers += vaccineId
 
-        newMessage = newMessage.censor(
-            nameData.familyNameStandardized,
-            "nameData/familyNameStandardized"
-        )
-
-        nameData.givenName?.let { gName ->
-            newMessage = newMessage.censor(
-                gName,
-                "nameData/givenName"
-            )
-        }
-
-        nameData.givenNameStandardized?.let { gName ->
-            newMessage = newMessage.censor(
-                gName,
-                "nameData/givenNameStandardized"
-            )
-        }
-
-        return newMessage
+        dates += vaccinatedOnFormatted
+        dates += dt
     }
 
-    companion object {
+    private fun MutableData.addTestData(data: DccV1.TestCertificateData) = with(data) {
+        issuers += certificateIssuer
+        countries += certificateCountry
 
-        private val qrCodeFlow = MutableStateFlow<Set<String>>(value = emptySet())
-        private val certificateFlow = MutableStateFlow<Set<DccData<out DccV1.MetaData>>>(value = emptySet())
-
-        fun addQRCodeStringToCensor(rawString: String) = qrCodeFlow.update {
-            it.plus(rawString)
+        dates += sampleCollectedAtFormatted
+        sampleCollectedAt?.let {
+            dates += it.toShortDayFormat()
         }
 
-        fun clearQRCodeStringToCensor() = qrCodeFlow.update { emptySet() }
+        identifiers += uniqueCertificateIdentifier
+        identifiers += targetId
 
-        fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = certificateFlow.update {
-            it.plus(cert)
-        }
-
-        fun clearCertificateToCensor() = certificateFlow.update { emptySet() }
-
-        private const val PLACEHOLDER = "###"
+        testCenter?.let { testDetails += it }
+        testDetails += testResult
+        testDetails += testType
+        testName?.let { testDetails += it }
+        testNameAndManufacturer?.let { testDetails += it }
     }
+
+    private fun MutableData.addNameData(nameData: DccV1.NameData) = with(nameData) {
+        names += familyNameStandardized
+        familyName?.let { names += it }
+        givenName?.let { names += it }
+        givenNameStandardized?.let { names += it }
+    }
+}
+
+private data class Data(
+    val qrCodes: Set<String> = emptySet(),
+    val names: Set<String> = emptySet(),
+    val dates: Set<String> = emptySet(),
+    val countries: Set<String> = emptySet(),
+    val identifiers: Set<String> = emptySet(),
+    val issuers: Set<String> = emptySet(),
+    val testDetails: Set<String> = emptySet()
+)
+
+private data class MutableData(
+    val qrCodes: MutableSet<String>,
+    val names: MutableSet<String>,
+    val dates: MutableSet<String>,
+    val countries: MutableSet<String>,
+    val identifiers: MutableSet<String>,
+    val issuers: MutableSet<String>,
+    val testDetails: MutableSet<String>
+)
+
+private fun Data.toMutableData() = MutableData(
+    qrCodes = qrCodes.toMutableSet(),
+    names = names.toMutableSet(),
+    dates = dates.toMutableSet(),
+    countries = countries.toMutableSet(),
+    identifiers = identifiers.toMutableSet(),
+    issuers = issuers.toMutableSet(),
+    testDetails = testDetails.toMutableSet()
+)
+
+private fun MutableData.toData() = Data(
+    qrCodes = qrCodes,
+    names = names,
+    dates = dates,
+    countries = countries,
+    identifiers = identifiers,
+    issuers = issuers,
+    testDetails = testDetails
+)
+
+private fun MutableStateFlow<Data>.edit(transform: MutableData.() -> Unit) = update {
+    it.toMutableData().apply { transform(this) }.toData()
 }
