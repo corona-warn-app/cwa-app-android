@@ -172,6 +172,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
 
         viewModel.coronaTestResult.observe(this) { handleCoronaTestResult(coronaTestResult = it) }
+        viewModel.coronaTestRestoreEvent.observe(this) { handCoronaTestRestoreEvent(event = it) }
 
         if (savedInstanceState == null) {
             processExtraParameters()
@@ -192,6 +193,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
         RestoreCoronaTestConfirmationDialog
             .showDialog(context = this) { viewModel.restoreCoronaTest(recycledCoronaTest) }
+
+    private fun handCoronaTestRestoreEvent(event: CoronaTestRestoreEvent) = when (event) {
+        is CoronaTestRestoreEvent.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
+            event.restoreRecycledTestRequest
+        )
+        is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
+    }.let { navController.doNavigate(it) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean

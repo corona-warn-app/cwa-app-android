@@ -71,6 +71,8 @@ class MainActivityViewModel @AssistedInject constructor(
     val coronaTestResult: LiveData<CoronaTestQRCodeHandler.Result> = mutableCoronaTestResult
 
     private val mutableCoronaTestRestoreEvent = SingleLiveEvent<CoronaTestRestoreEvent>()
+    val coronaTestRestoreEvent: LiveData<CoronaTestRestoreEvent> = mutableCoronaTestRestoreEvent
+
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
     private val mutableIsContactDiaryOnboardingDone = MutableLiveData<Boolean>()
