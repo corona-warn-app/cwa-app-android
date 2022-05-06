@@ -42,7 +42,7 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
 @Suppress("TooManyFunctions")
-@Module
+@Module(includes = [BugReportingSharedModule.BindsModule::class])
 object BugReportingSharedModule {
 
     @Reusable
