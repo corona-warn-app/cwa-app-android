@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <!-- Main -->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="de.rki.coronawarnapp.ui.main.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_fragment_layout">
+        <action
+            android:id="@+id/action_mainFragment_to_settingsTracingFragment"
+            app:destination="@id/settingsTracingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_riskDetailsFragment"
+            app:destination="@id/riskDetailsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_informationFragment"
+            app:destination="@id/informationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mainSharingFragment"
+            app:destination="@id/mainSharingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultPendingFragment"
+            app:destination="@id/submissionTestResultPendingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultInvalidFragment"
+            app:destination="@id/submissionTestResultInvalidFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mainOverviewFragment"
+            app:destination="@id/mainOverviewFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionDispatcher"
+            app:destination="@id/submissionDispatcherFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_test_nav_graph"
+            app:destination="@id/test_nav_graph" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
+            app:destination="@id/statisticsExplanationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_trace_location_organizer_nav_graph"
+            app:destination="@id/trace_location_organizer_nav_graph" />
+        <action
+            android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_federalStateSelectionFragment"
+            app:destination="@id/federalStateSelectionFragment" />
+        <action
+            android:id="@+id/action_RecyclerBinOverviewFragment_self"
+            app:destination="@id/recyclerBinOverviewFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_familyTestListFragment"
+            app:destination="@id/familyTestListFragment" />
+    </fragment>
+
+</navigation>

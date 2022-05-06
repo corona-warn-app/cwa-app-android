@@ -239,36 +239,36 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
-            )
+//            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
+//            )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
-            is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
-            )
-            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
-                    event.identifier
-                )
-            )
-            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
-                    testIdentifier = event.identifier
-                )
-            )
-            is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    testIdentifier = event.identifier
-                )
-            )
-            is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
-                    event.identifier,
-                    event.forceUpdate,
-                )
-            )
+//            is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
+//            )
+//            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
+//                    event.identifier
+//                )
+//            )
+//            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
+//                    testIdentifier = event.identifier
+//                )
+//            )
+//            is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+//                    testIdentifier = event.identifier
+//                )
+//            )
+//            is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
+//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
+//                    event.identifier,
+//                    event.forceUpdate,
+//                )
+//            )
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
