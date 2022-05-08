@@ -240,7 +240,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
             allCertificates.first().also {
                 it.certificates shouldBe certificates.first()
-                it.recycledCertificates shouldBe recycledCertificates.first()
+                it.recycledCertificates.map { cer -> cer.containerId } shouldBe
+                    recycledCertificates.first().map { cer -> cer.containerId }
             }
         }
     }

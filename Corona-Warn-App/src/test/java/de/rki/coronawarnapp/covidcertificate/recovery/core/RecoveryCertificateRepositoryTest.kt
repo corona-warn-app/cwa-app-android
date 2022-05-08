@@ -52,7 +52,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
-    private val containerIdRecoveryQrCode1 = RecoveryQrCodeTestData.recoveryQrCode1.toSHA256()
     private val containerIdRecoveryQrCode2 = RecoveryQrCodeTestData.recoveryQrCode2.toSHA256()
 
     @BeforeEach
@@ -171,7 +170,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
             allCertificates.first().also {
                 it.certificates shouldBe certificates.first()
-                it.recycledCertificates shouldBe recycledCertificates.first()
+                it.recycledCertificates.map { cer -> cer.containerId } shouldBe
+                    recycledCertificates.first().map { cer -> cer.containerId }
             }
         }
     }
