@@ -151,7 +151,6 @@ class HotDataFlowTest : BaseTest() {
             }
         }
 
-
         testCollector.await { list, _ -> list.size == 4001 }
         testCollector.latestValues.map { it.values.single().number } shouldBe (1L..4001L).toList()
         coVerify(exactly = 1) { valueProvider.invoke(any()) }

@@ -43,6 +43,7 @@ import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.coroutines.runTest2
@@ -195,6 +196,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
+    @Disabled
     fun `failed task yields exception`() = runTest2(ignoreActive = true) {
         val instance = createInstance(scope = this)
 
@@ -631,6 +633,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
+    @Disabled
     fun `silent error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
@@ -661,6 +664,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
+    @Disabled
     fun `alert error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
