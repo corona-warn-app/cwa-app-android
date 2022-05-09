@@ -98,12 +98,6 @@ class StatisticsProvider @Inject constructor(
         )
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        server.clear()
-        localCache.save(null)
-    }
-
     companion object {
         const val TAG = "StatisticsProvider"
     }

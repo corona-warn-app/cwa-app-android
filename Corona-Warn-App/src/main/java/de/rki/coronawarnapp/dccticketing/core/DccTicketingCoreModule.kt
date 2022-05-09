@@ -1,15 +1,21 @@
 package de.rki.coronawarnapp.dccticketing.core
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.multibindings.IntoSet
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.storage.DccTicketingAllowListStorage
 import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListApi1
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeSettings
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,8 +25,8 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Singleton
 
-@Module
-class DccTicketingCoreModule {
+@Module(includes = [DccTicketingCoreModule.ResetModule::class])
+object DccTicketingCoreModule {
 
     @DccTicketingHttpClient
     @Provides
@@ -78,10 +84,24 @@ class DccTicketingCoreModule {
         @AppContext context: Context
     ): Cache = Cache(File(context.cacheDir, "dcc_ticketing"), DEFAULT_CACHE_SIZE)
 
-    companion object {
-        private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+    @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableDccTicketingAllowListRepository(resettable: DccTicketingAllowListRepository): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableDccTicketingAllowListStorage(resettable: DccTicketingAllowListStorage): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableDccTicketingQrCodeSettings(resettable: DccTicketingQrCodeSettings): Resettable
     }
 }
+
+private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
 
 // Dummy base url to satisfy Retrofit ¯\_(ツ)_/¯
 private const val BASE_URL = "https://localhost"

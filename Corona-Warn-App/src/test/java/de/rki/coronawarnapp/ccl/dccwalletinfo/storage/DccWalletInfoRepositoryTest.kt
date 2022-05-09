@@ -63,7 +63,7 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
 
     @Test
     fun clear() = runBlockingTest2(ignoreActive = true) {
-        repo(this).clear()
+        repo(this).reset()
         coVerify {
             dao.deleteAll()
         }

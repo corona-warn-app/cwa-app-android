@@ -39,7 +39,7 @@ class DataDonationAnalyticsApiV1Test : BaseTest() {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
 
-        return AnalyticsModule().provideAnalyticsSubmissionApi(
+        return AnalyticsModule.provideAnalyticsSubmissionApi(
             client = defaultHttpClient,
             url = serverAddress,
             gsonConverterFactory = httpModule.provideGSONConverter(),

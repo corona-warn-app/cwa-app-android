@@ -3,8 +3,10 @@ package de.rki.coronawarnapp.nearby
 import android.content.Context
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.DefaultExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider.DefaultDiagnosisKeyProvider
@@ -22,51 +24,46 @@ import de.rki.coronawarnapp.nearby.modules.tracing.TracingStatus
 import de.rki.coronawarnapp.nearby.modules.version.DefaultENFVersion
 import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
-@Module
-class ENFModule {
+@Module(includes = [ENFModule.BindsModule::class])
+object ENFModule {
 
     @Singleton
     @Provides
     fun exposureNotificationClient(@AppContext context: Context): ExposureNotificationClient =
         Nearby.getExposureNotificationClient(context)
 
-    @Singleton
-    @Provides
-    fun diagnosisKeySubmitter(submitter: DefaultDiagnosisKeyProvider): DiagnosisKeyProvider =
-        submitter
+    @Module
+    internal interface BindsModule {
 
-    @Singleton
-    @Provides
-    fun tracingStatus(tracingStatus: DefaultTracingStatus): TracingStatus =
-        tracingStatus
+        @Binds
+        @IntoSet
+        fun bindResettableExposureDetectionTracker(resettable: ExposureDetectionTracker): Resettable
 
-    @Singleton
-    @Provides
-    fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport =
-        scanningSupport
+        @Binds
+        fun diagnosisKeySubmitter(submitter: DefaultDiagnosisKeyProvider): DiagnosisKeyProvider
 
-    @Singleton
-    @Provides
-    fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider =
-        exposureWindowProvider
+        @Binds
+        fun tracingStatus(tracingStatus: DefaultTracingStatus): TracingStatus
 
-    @Singleton
-    @Provides
-    fun diagnosisKeysDataMapper(diagnosisKeysDataMapper: DefaultDiagnosisKeysDataMapper):
-        DiagnosisKeysDataMapper = diagnosisKeysDataMapper
+        @Binds
+        fun scanningSupport(scanningSupport: DefaultScanningSupport): ScanningSupport
 
-    @Singleton
-    @Provides
-    fun calculationTracker(exposureDetectionTracker: DefaultExposureDetectionTracker): ExposureDetectionTracker =
-        exposureDetectionTracker
+        @Binds
+        fun exposureWindowProvider(exposureWindowProvider: DefaultExposureWindowProvider): ExposureWindowProvider
 
-    @Singleton
-    @Provides
-    fun enfClientVersion(enfVersion: DefaultENFVersion): ENFVersion = enfVersion
+        @Binds
+        fun diagnosisKeysDataMapper(diagnosisKeysDataMapper: DefaultDiagnosisKeysDataMapper): DiagnosisKeysDataMapper
 
-    @Singleton
-    @Provides
-    fun tekHistory(tekHistory: DefaultTEKHistoryProvider): TEKHistoryProvider = tekHistory
+        @Binds
+        fun calculationTracker(exposureDetectionTracker: DefaultExposureDetectionTracker): ExposureDetectionTracker
+
+        @Binds
+        fun enfClientVersion(enfVersion: DefaultENFVersion): ENFVersion
+
+        @Binds
+        fun tekHistory(tekHistory: DefaultTEKHistoryProvider): TEKHistoryProvider
+    }
 }
