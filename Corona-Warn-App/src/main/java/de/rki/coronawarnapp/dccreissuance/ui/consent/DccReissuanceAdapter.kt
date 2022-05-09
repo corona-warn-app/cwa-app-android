@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 import timber.log.Timber
 
-class DccReissuanceAdapter : ModularAdapter<DccReissuanceAdapter.ItemVH<DccReissuanceItem, ViewBinding>>(),
+class DccReissuanceAdapter :
+    ModularAdapter<DccReissuanceAdapter.ItemVH<DccReissuanceItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DccReissuanceItem> {
 
     override val asyncDiffer: AsyncDiffer<DccReissuanceItem> = AsyncDiffer(adapter = this)

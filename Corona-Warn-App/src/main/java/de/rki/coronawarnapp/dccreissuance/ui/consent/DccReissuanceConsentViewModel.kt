@@ -78,7 +78,6 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
                         certificateToReissue
                     )
                 )
-
             }
         }
         return State(
