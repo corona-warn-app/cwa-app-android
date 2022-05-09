@@ -28,19 +28,22 @@ class DccReissuer @Inject constructor(
         val updates = certificateReissuance.asCertificateReissuanceCompat().certificates?.map {
             reissue(it)
         }
-        updates?.forEach { update ->
-            update.recycleBin.forEach {
-                moveToBin(it)
-            }
-            update.register.forEach {
-                register(it)
-            }
+        updates?.map {
+            it.recycleBin
+        }?.flatten()?.toSet()?.forEach {
+            moveToBin(it)
+        }
+
+        updates?.map {
+            it.register
+        }?.flatten()?.toSet()?.forEach {
+            register(it)
         }
     }
 
     suspend fun reissue(item: CertificateReissuanceItem): CertificateUpdate {
-        val recycleBin = mutableListOf<QrCodeString>()
-        val register = mutableListOf<QrCodeString>()
+        val recycleBin = mutableSetOf<QrCodeString>()
+        val register = mutableSetOf<QrCodeString>()
         val allQrCodes = mutableListOf(item.certificateToReissue) + item.accompanyingCertificates
 
         val response = dccReissuanceServer.requestDccReissuance(
@@ -81,8 +84,8 @@ class DccReissuer @Inject constructor(
     private suspend fun QrCodeString.extract() = dccQrCodeExtractor.extract(this)
 
     data class CertificateUpdate(
-        val register: List<QrCodeString>,
-        val recycleBin: List<QrCodeString>,
+        val register: Set<QrCodeString>,
+        val recycleBin: Set<QrCodeString>,
     )
 }
 
