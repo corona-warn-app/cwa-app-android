@@ -98,11 +98,11 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear calls storage clear`() = runTest2 {
+    fun `clear causes reload of default ccl config`() = runTest2 {
         createInstance(scope = this).reset()
 
-        coVerify {
-            downloadedCclConfigurationStorage.reset()
+        coVerify(exactly = 2) {
+            downloadedCclConfigurationStorage.load()
         }
     }
 
