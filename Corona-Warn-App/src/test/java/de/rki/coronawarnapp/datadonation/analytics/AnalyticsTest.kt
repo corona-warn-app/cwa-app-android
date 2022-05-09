@@ -484,7 +484,7 @@ class AnalyticsTest : BaseTest() {
     }
 
     @Test
-    fun `reset leads to deletion of all data for each module`() = runBlockingTest {
+    fun `reset leads to deletion of all data for each module`() = runTest {
         val userMetadataDonor = mockk<UserMetadataDonor>(relaxed = true)
         val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
 
