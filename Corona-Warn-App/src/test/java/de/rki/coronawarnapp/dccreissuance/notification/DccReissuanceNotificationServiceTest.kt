@@ -73,7 +73,8 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personNotificationSender = personNotificationSender
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
-            oldWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns newCertificateReissuance },
+            oldWalletInfo = mockk<DccWalletInfo>()
+                .apply { every { certificateReissuance } returns newCertificateReissuance },
             newWalletInfo = newDccWalletInfo,
         )
 
@@ -90,7 +91,8 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personNotificationSender = personNotificationSender
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
-            oldWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns oldCertificateReissuance },
+            oldWalletInfo = mockk<DccWalletInfo>()
+                .apply { every { certificateReissuance } returns oldCertificateReissuance },
             newWalletInfo = newDccWalletInfo
         )
 
@@ -99,7 +101,6 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }
-
 
     @Test
     fun `dismiss the badge if the new dcc reissuance doesn't exist`() = runBlockingTest {
