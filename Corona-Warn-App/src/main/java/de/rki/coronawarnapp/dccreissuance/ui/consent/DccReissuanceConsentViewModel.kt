@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -62,19 +63,36 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
 
     fun navigateBack() = event.postValue(Back)
 
+    private fun MutableList<DccReissuanceItem>.addDccToReissue(
+        certificate: CertificateReissuanceItem
+    ) {
+    }
+
     private suspend fun CertificateReissuance?.toState(): State {
-        var certificate: DccV1.MetaData? = null
-        this?.certificateToReissue?.certificateRef?.barcodeData?.let {
-            certificate = dccQrCodeExtractor.extract(
-                it,
-                DccV1Parser.Mode.CERT_SINGLE_STRICT
-            ).data.certificate
+        val certificates = mutableListOf<DccReissuanceItem>()
+        if (this?.certificates != null) {
+            this.certificates.forEach { dccCertificate ->
+                var certificateToReissue: DccV1.MetaData
+                dccCertificate.certificateToReissue.certificateRef.barcodeData.let {
+                    certificateToReissue = dccQrCodeExtractor.extract(
+                        it,
+                        DccV1Parser.Mode.CERT_SINGLE_STRICT
+                    ).data.certificate
+                }
+                certificates.add(
+                    DccReissuanceConsentCard.Item(
+                        certificateToReissue
+                    )
+                )
+
+            }
         }
         return State(
-            certificate = certificate,
+            certificateList = certificates,
             divisionVisible = this?.reissuanceDivision?.visible ?: false,
+            listItemsTitle = format(this?.reissuanceDivision?.listTitleText),
             title = format(this?.reissuanceDivision?.titleText),
-            subtitle = format(this?.reissuanceDivision?.subtitleText),
+            subtitle = format(this?.reissuanceDivision?.consentSubtitleText),
             content = format(this?.reissuanceDivision?.longText),
             url = format(this?.reissuanceDivision?.faqAnchor)
         )
@@ -83,8 +101,9 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     fun openPrivacyScreen() = event.postValue(OpenPrivacyScreen)
 
     internal data class State(
-        val certificate: DccV1.MetaData?,
+        val certificateList: List<DccReissuanceItem>,
         val divisionVisible: Boolean = false,
+        val listItemsTitle: String?,
         val title: String?,
         val subtitle: String?,
         val content: String?,
