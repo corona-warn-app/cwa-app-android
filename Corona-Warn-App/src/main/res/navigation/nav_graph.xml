@@ -22,7 +22,6 @@
 
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
 
-    <!-- New Global Actions from Main Fragment -->
     <action
         android:id="@+id/action_global_to_submissionTestResultNegativeFragment"
         app:destination="@id/submissionTestResultNegativeFragment"
@@ -81,18 +80,15 @@
         android:id="@+id/action_global_testRegistrationSelectionFragment"
         app:destination="@id/testRegistrationSelectionFragment" />
 
-    <!--    Maybe I could separate this one-->
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
 
-    <!--    Global navigation to main fragment is good-->
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/status_nav_graph"
         app:popUpToInclusive="true" />
 
-    <!--    Could this be separated from main navigation?-->
     <fragment
         android:id="@+id/qrCodeFullScreenFragment"
         android:name="de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment"
@@ -103,7 +99,6 @@
             app:argType="de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode" />
     </fragment>
 
-    <!--  Universal Scanner -->
     <fragment
         android:id="@+id/universalScanner"
         android:name="de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment"
