@@ -25,30 +25,47 @@ class DccReissuer @Inject constructor(
         InvalidHealthCertificateException::class
     )
     suspend fun startReissuance(certificateReissuance: CertificateReissuance) {
-        certificateReissuance.migrateLegacyCertificate().certificates?.forEach {
+        val updates = certificateReissuance.asCertificateReissuanceCompat().certificates?.map {
             reissue(it)
+        }
+        updates?.forEach { update ->
+            update.recycleBin.forEach {
+                moveToBin(it)
+            }
+            update.register.forEach {
+                register(it)
+            }
         }
     }
 
-    suspend fun reissue(item: CertificateReissuanceItem) {
+    suspend fun reissue(item: CertificateReissuanceItem): CertificateUpdate {
+        val recycleBin = mutableListOf<QrCodeString>()
+        val register = mutableListOf<QrCodeString>()
         val allQrCodes = mutableListOf(item.certificateToReissue) + item.accompanyingCertificates
+
         val response = dccReissuanceServer.requestDccReissuance(
             action = item.action,
             certificates = allQrCodes.map { it.certificateRef.barcodeData }
         )
 
         response.dccReissuances.forEach { issuance ->
-            register(issuance.certificate)
+            register.add(issuance.certificate)
             issuance.relations.filter { relation ->
                 relation.action == ACTION_REPLACE
             }.forEach {
                 try {
-                    moveToBin(allQrCodes[it.index].certificateRef.barcodeData)
+                    recycleBin.add(allQrCodes[it.index].certificateRef.barcodeData)
                 } catch (e: IndexOutOfBoundsException) {
                     Timber.d(e, "No certificate at index ${it.index}. Size is ${allQrCodes.size}")
+                    throw DccReissuanceException(DccReissuanceException.ErrorCode.DCC_RI_SERVER_ERR)
                 }
             }
         }
+
+        return CertificateUpdate(
+            register = register,
+            recycleBin = recycleBin
+        )
     }
 
     private suspend fun moveToBin(qrCodeString: QrCodeString) {
@@ -62,6 +79,11 @@ class DccReissuer @Inject constructor(
     }
 
     private suspend fun QrCodeString.extract() = dccQrCodeExtractor.extract(this)
+
+    data class CertificateUpdate(
+        val register: List<QrCodeString>,
+        val recycleBin: List<QrCodeString>,
+    )
 }
 
 internal const val ACTION_RENEW = "renew"

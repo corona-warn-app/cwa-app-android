@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
@@ -45,7 +46,12 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                  */
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
-                    runCatching { triggerNow(admissionScenarioId()) }.onFailure {
+                    runCatching {
+                        // delay to collect rapid changes and do only one recalculation
+                        delay(1000)
+                        Timber.d("recalculate wallets after change")
+                        triggerNow(admissionScenarioId())
+                    }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
