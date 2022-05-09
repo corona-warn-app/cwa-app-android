@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class CclSettings @Inject constructor(
     @CclSettingsDataStore private val dataStore: DataStore<Preferences>,
     @AppScope private val appScope: CoroutineScope,
-) {
+) : Resettable {
 
     private val dataStoreFlow = dataStore.data
         .catch { e ->
@@ -119,7 +120,7 @@ class CclSettings @Inject constructor(
         return force.also { Timber.tag(TAG).d("forceCclCalculation() -> $it") }
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
         Timber.tag(TAG).d("Clearing CCL Settings data store.")
         runCatching {
             dataStore.edit { prefs -> prefs.clear() }

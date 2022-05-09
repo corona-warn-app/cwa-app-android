@@ -53,7 +53,7 @@ class DownloadedCclConfigurationStorageTest : BaseIOTest() {
         with(instance) {
             cacheDir.shouldExist()
             cacheFile.shouldExist()
-            clear()
+            reset()
             cacheDir.shouldNotExist()
             cacheFile.shouldNotExist()
         }

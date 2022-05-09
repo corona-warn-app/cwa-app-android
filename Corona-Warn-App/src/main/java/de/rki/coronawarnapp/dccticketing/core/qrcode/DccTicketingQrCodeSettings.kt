@@ -5,11 +5,13 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccTicketingQrCodeSettings @Inject constructor(
     @AppContext context: Context,
-) {
+) : Resettable {
     private val prefs by lazy {
         context.getSharedPreferences("dccTicketing_qrcode", Context.MODE_PRIVATE)
     }
@@ -19,7 +21,10 @@ class DccTicketingQrCodeSettings @Inject constructor(
         defaultValue = true
     )
 
-    fun clear() = prefs.clearAndNotify()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        prefs.clearAndNotify()
+    }
 }
 
 private const val PREFS_KEY_CHECK_SERVICE_IDENTITY = "dccTicketing_checkServiceIdentity"

@@ -56,7 +56,7 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
         keyPackageSyncTool.syncKeyFiles()
     }
 
-    fun clearDownloads() = launchWithSyncProgress { keyCacheRepository.clear() }
+    fun clearDownloads() = launchWithSyncProgress { keyCacheRepository.reset() }
 
     private fun launchWithSyncProgress(action: suspend () -> Unit) {
         isSyncRunning.postValue(true)

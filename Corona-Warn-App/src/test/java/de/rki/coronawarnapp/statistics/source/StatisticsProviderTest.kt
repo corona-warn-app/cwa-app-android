@@ -4,13 +4,11 @@ import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +38,6 @@ class StatisticsProviderTest : BaseTest() {
 
         server.apply {
             coEvery { getRawStatistics() } returns testData
-            every { clear() } just Runs
         }
 
         every { parser.parse(testData) } returns statisticsData
@@ -116,22 +113,6 @@ class StatisticsProviderTest : BaseTest() {
         instance.triggerUpdate()
 
         testCollector.latestValues shouldBe listOf(StatisticsData(), statisticsData)
-        verify(exactly = 0) { localCache.save(null) }
-    }
-
-    @Test
-    fun `clear deletes cache`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(this)
-
-        val testCollector = instance.current.test(startOnScope = this)
-        testCollector.latestValue shouldBe statisticsData
-
-        instance.clear()
-
-        coVerify {
-            server.clear()
-            localCache.save(null)
-        }
     }
 
     @Test

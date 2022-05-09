@@ -32,7 +32,7 @@ internal class CclSettingsTest : BaseTest() {
         fakeDataStore[CclSettings.LAST_EXECUTION_TIME_KEY] shouldBe now.seconds
         cclSettings.getLastExecutionTime() shouldBe now
 
-        cclSettings.clear()
+        cclSettings.reset()
         cclSettings.getLastExecutionTime() shouldBe null
     }
 
@@ -45,7 +45,7 @@ internal class CclSettingsTest : BaseTest() {
         fakeDataStore[CclSettings.ADMISSION_SCENARIO_ID_KEY] shouldBe "Ad-Sc-ID"
         cclSettings.admissionScenarioId() shouldBe "Ad-Sc-ID"
 
-        cclSettings.clear()
+        cclSettings.reset()
         cclSettings.admissionScenarioId() shouldBe ""
     }
 
@@ -58,7 +58,7 @@ internal class CclSettingsTest : BaseTest() {
         fakeDataStore[CclSettings.ADMISSION_CHECK_SCENARIOS_KEY] shouldBe scenariosJson
         cclSettings.admissionCheckScenarios.first() shouldBe scenariosJson
 
-        cclSettings.clear()
+        cclSettings.reset()
         cclSettings.admissionCheckScenarios.first() shouldBe null
     }
 

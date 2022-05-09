@@ -221,7 +221,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         keyFilePath.exists() shouldBe true
 
         runBlocking {
-            repo.clear()
+            repo.reset()
 
             coVerify { keyFileDao.deleteEntry(keyFileToClear) }
 

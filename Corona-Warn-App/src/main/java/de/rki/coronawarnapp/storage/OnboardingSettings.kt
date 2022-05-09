@@ -6,16 +6,18 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OnboardingSettings @Inject constructor(
     @AppContext private val context: Context
-) {
+) : Resettable {
     private val prefs by lazy {
         context.getSharedPreferences("onboarding_localdata", Context.MODE_PRIVATE)
     }
@@ -48,7 +50,10 @@ class OnboardingSettings @Inject constructor(
         get() = prefs.getBoolean(BACKGROUND_CHECK_DONE, false)
         set(value) = prefs.edit { putBoolean(BACKGROUND_CHECK_DONE, value) }
 
-    fun clear() = prefs.clearAndNotify()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        prefs.clearAndNotify()
+    }
 
     companion object {
         private const val ONBOARDING_COMPLETED_TIMESTAMP = "onboarding.done.timestamp"

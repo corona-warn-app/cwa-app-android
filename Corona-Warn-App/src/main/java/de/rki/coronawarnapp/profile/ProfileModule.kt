@@ -6,16 +6,21 @@ import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.profile.storage.ProfileDao
 import de.rki.coronawarnapp.profile.storage.ProfileDataStore
 import de.rki.coronawarnapp.profile.storage.ProfileDatabase
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import javax.inject.Singleton
 
-@Module
-class ProfileModule {
+@Module(includes = [ProfileModule.ResetModule::class])
+object ProfileModule {
     @Singleton
     @Provides
     fun familyCoronaTestDao(
@@ -36,6 +41,18 @@ class ProfileModule {
         )
     ) {
         context.preferencesDataStoreFile(LEGACY_SHARED_PREFS_NAME)
+    }
+
+    @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableProfileSettingsDataStore(resettable: ProfileSettingsDataStore): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableProfileRepository(resettable: ProfileRepository): Resettable
     }
 }
 

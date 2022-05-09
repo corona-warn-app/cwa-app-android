@@ -5,6 +5,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.Cache
 import retrofit2.HttpException
@@ -17,7 +18,7 @@ class StatisticsServer @Inject constructor(
     private val api: Lazy<StatisticsApiV1>,
     private val signatureValidation: SignatureValidation,
     @Statistics val cache: Cache
-) {
+) : Resettable {
 
     suspend fun getRawStatistics(): ByteArray {
         Timber.tag(TAG).d("Fetching statistics.")
@@ -50,14 +51,15 @@ class StatisticsServer @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
-    }
-
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
         private const val TAG = "StatisticsServer"
+    }
+
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
+        runCatching { cache.evictAll() }
+            .onFailure { Timber.tag(TAG).e(it, "Failed to clear cache") }
     }
 }

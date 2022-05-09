@@ -74,7 +74,7 @@ object Statistics {
 
         val statisticsServer = LocalStatisticsServer(
             api = {
-                StatisticsModule().localApi(
+                StatisticsModule.localApi(
                     client = cdnClient,
                     url = url,
                     gsonConverterFactory = gsonFactory,
@@ -115,7 +115,7 @@ object Statistics {
 
         val statisticsServer = StatisticsServer(
             api = {
-                StatisticsModule().api(
+                StatisticsModule.api(
                     client = cdnClient,
                     url = url,
                     gsonConverterFactory = gsonFactory,

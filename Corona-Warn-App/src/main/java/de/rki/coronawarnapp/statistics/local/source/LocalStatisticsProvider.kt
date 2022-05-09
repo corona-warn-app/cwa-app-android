@@ -107,14 +107,6 @@ class LocalStatisticsProvider @Inject constructor(
         )
     }
 
-    fun clear() {
-        Timber.d("clear()")
-
-        localStatisticsConfigStorage.clear()
-        server.clear()
-        localStatisticsCache.clearAll()
-    }
-
     companion object {
         const val TAG = "LocalStatisticsProvider"
     }
