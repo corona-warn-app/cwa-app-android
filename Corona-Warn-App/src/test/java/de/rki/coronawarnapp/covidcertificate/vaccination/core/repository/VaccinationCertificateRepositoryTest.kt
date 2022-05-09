@@ -139,7 +139,6 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         val instance = createInstance(this)
 
-
         instance.registerCertificate(VaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe
