@@ -63,15 +63,11 @@ class DccRevocationRepository @Inject constructor(
     private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = objectMapper.readValue(this)
     private fun List<CachedRevocationChunk>.toJson(): String = objectMapper.writeValueAsString(this)
 
-    private fun String?.toRevocationList(): List<CachedRevocationChunk> {
-        val empty: List<CachedRevocationChunk> by lazy(LazyThreadSafetyMode.NONE) { emptyList() }
-        return when (this == null) {
-            true -> empty
-            false -> runCatching { toCachedRevocationChunks() }.onFailure {
-                Timber.tag(TAG).e(it, "Failed to create Revocation List from json=%s", this)
-            }.getOrDefault(empty)
-        }
+    private fun String?.toRevocationList(): List<CachedRevocationChunk> = runCatching {
+        this?.toCachedRevocationChunks()
     }
+        .onFailure { Timber.tag(TAG).e(it, "Failed to create Revocation List from json=%s", this) }
+        .getOrNull() ?: emptyList()
 }
 
 private val TAG = tag<DccRevocationRepository>()
