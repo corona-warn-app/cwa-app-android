@@ -1,34 +1,41 @@
 package de.rki.coronawarnapp.risk
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
-import javax.inject.Singleton
+import de.rki.coronawarnapp.util.reset.Resettable
 
-@Module
-class RiskModule {
+@Module(includes = [RiskModule.ResetModule::class])
+interface RiskModule {
 
-    @Provides
+    @Binds
     @IntoMap
     @TaskTypeKey(EwRiskLevelTask::class)
     fun riskLevelTaskFactory(
         factory: EwRiskLevelTask.Factory
-    ): TaskFactory<out Task.Progress, out Task.Result> = factory
+    ): TaskFactory<out Task.Progress, out Task.Result>
 
-    @Provides
-    @Singleton
+    @Binds
     fun bindRiskLevelCalculation(
         riskLevelCalculation: DefaultRiskLevels
-    ): RiskLevels = riskLevelCalculation
+    ): RiskLevels
 
-    @Provides
-    @Singleton
+    @Binds
     fun riskLevelStorage(
         storage: DefaultRiskLevelStorage
-    ): RiskLevelStorage = storage
+    ): RiskLevelStorage
+
+    @Module
+    interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableRiskLevelStorage(resettable: DefaultRiskLevelStorage): Resettable
+    }
 }

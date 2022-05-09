@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -63,7 +64,7 @@ class TestCertificateRepository @Inject constructor(
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccState: DccStateChecker,
     private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
@@ -391,7 +392,7 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
         Timber.tag(TAG).i("clear()")
         internalData.updateBlocking { emptyMap() }
     }

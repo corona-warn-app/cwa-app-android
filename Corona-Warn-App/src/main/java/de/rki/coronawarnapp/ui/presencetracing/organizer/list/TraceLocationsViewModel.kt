@@ -9,14 +9,18 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.items.TraceLocationItem
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.items.TraceLocationVH
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class TraceLocationsViewModel @AssistedInject constructor(
+    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     checkInsRepository: CheckInRepository,
     private val traceLocationRepository: TraceLocationRepository,
@@ -61,7 +65,9 @@ class TraceLocationsViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun deleteAllTraceLocations() {
-        traceLocationRepository.deleteAllTraceLocations()
+        appScope.launch {
+            traceLocationRepository.reset()
+        }
     }
 
     fun deleteSingleTraceLocation(traceLocation: TraceLocation) {

@@ -2,16 +2,18 @@ package de.rki.coronawarnapp.familytest.core.storage
 
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FamilyTestStorage @Inject constructor(
     private val dao: FamilyCoronaTestDao
-) {
+) : Resettable {
 
     val familyTestMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = dao.getAllActive().map { list ->
         list.filterNotNull().associate { it.identifier to it.fromEntity() }
@@ -41,7 +43,8 @@ class FamilyTestStorage @Inject constructor(
         dao.moveAllToRecycleBin(identifiers, atInstant.millis)
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         dao.deleteAll()
     }
 }

@@ -58,7 +58,7 @@ class AppConfigApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        return AppConfigModule().provideAppConfigApi(
+        return AppConfigModule.provideAppConfigApi(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,

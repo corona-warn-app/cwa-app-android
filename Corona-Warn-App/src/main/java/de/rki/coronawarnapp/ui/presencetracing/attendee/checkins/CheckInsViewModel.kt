@@ -67,7 +67,7 @@ class CheckInsViewModel @AssistedInject constructor(
         Timber.d("removeCheckin(checkIn=%s)", checkIn)
         launch(scope = appScope) {
             if (checkIn == null) {
-                checkInsRepository.clear()
+                checkInsRepository.reset()
             } else {
                 checkInsRepository.deleteCheckIns(listOf(checkIn))
             }

@@ -8,9 +8,10 @@ import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 
-interface RiskLevelStorage {
+interface RiskLevelStorage : Resettable {
 
     /** EXPOSURE WINDOW RISK RESULT
      * All currently available risk results.
@@ -73,8 +74,6 @@ interface RiskLevelStorage {
     suspend fun deleteAggregatedRiskPerDateResults(results: List<ExposureWindowDayRisk>)
 
     suspend fun storeResult(resultEw: EwRiskLevelResult)
-
-    suspend fun clear()
 
     suspend fun clearResults()
 }

@@ -50,9 +50,9 @@ class StatisticsAPIV1Test : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        val cache = StatisticsModule().httpCache(cacheDir)
+        val cache = StatisticsModule.httpCache(cacheDir)
 
-        return StatisticsModule().api(
+        return StatisticsModule.api(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,
