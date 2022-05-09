@@ -54,6 +54,13 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         every { headerIssuedAt } returns Instant(20000L)
     }
 
+    private val vc3 = mockk<VaccinationCertificate>().apply {
+        every { qrCodeHash } returns "hash3"
+        every { personIdentifier } returns mockk()
+        every { vaccinatedOn } returns LocalDate(30000L)
+        every { headerIssuedAt } returns Instant(30000L)
+    }
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
@@ -124,6 +131,25 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
             delay(1_100L)
+
+            coVerify(exactly = 1) {
+                dccWalletInfoCalculationManager.triggerNow(any())
+                dccWalletInfoCleaner.clean()
+            }
+        }
+
+    @Test
+    fun `update is triggered only once after rapid certificate changes`() =
+        runBlockingTest2(true) {
+            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
+            every { personCertificateProvider.personCertificates } returns flow
+            instance(this)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+
+            delay(1_00L)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2, vc3))))
+
+            delay(2_100L)
 
             coVerify(exactly = 1) {
                 dccWalletInfoCalculationManager.triggerNow(any())
