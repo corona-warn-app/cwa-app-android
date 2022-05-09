@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -239,36 +240,36 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-//            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
-//            )
+            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
+            )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
-//            is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
-//            )
-//            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
-//                    event.identifier
-//                )
-//            )
-//            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
-//                    testIdentifier = event.identifier
-//                )
-//            )
-//            is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-//                    testIdentifier = event.identifier
-//                )
-//            )
-//            is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
-//                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
-//                    event.identifier,
-//                    event.forceUpdate,
-//                )
-//            )
+            is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
+            )
+            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(
+                    event.identifier
+                )
+            )
+            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionTestResultKeysSharedFragment(
+                    testIdentifier = event.identifier
+                )
+            )
+            is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                    testIdentifier = event.identifier
+                )
+            )
+            is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
+                NavGraphDirections.actionGlobalToSubmissionTestResultPendingFragment(
+                    event.identifier,
+                    event.forceUpdate,
+                )
+            )
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )

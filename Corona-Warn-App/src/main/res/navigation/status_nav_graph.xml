@@ -27,17 +27,9 @@
             android:id="@+id/action_mainFragment_to_mainSharingFragment"
             app:destination="@id/mainSharingFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_submissionTestResultPendingFragment"
-            app:destination="@id/submissionTestResultPendingFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_submissionTestResultNegativeFragment"
-            app:destination="@id/submissionTestResultNegativeFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
+
         <action
             android:id="@+id/action_mainFragment_to_mainOverviewFragment"
             app:destination="@id/mainOverviewFragment" />
@@ -47,18 +39,14 @@
         <action
             android:id="@+id/action_mainFragment_to_test_nav_graph"
             app:destination="@id/test_nav_graph" />
-        <action
-            android:id="@+id/action_mainFragment_to_submissionTestResultAvailableFragment"
-            app:destination="@id/submissionTestResultAvailableFragment" />
+
         <action
             android:id="@+id/action_mainFragment_to_statisticsExplanationFragment"
             app:destination="@id/statisticsExplanationFragment" />
         <action
             android:id="@+id/action_mainFragment_to_trace_location_organizer_nav_graph"
             app:destination="@id/trace_location_organizer_nav_graph" />
-        <action
-            android:id="@+id/action_mainFragment_to_submissionTestResultKeysSharedFragment"
-            app:destination="@id/submissionTestResultKeysSharedFragment" />
+
         <action
             android:id="@+id/action_mainFragment_to_federalStateSelectionFragment"
             app:destination="@id/federalStateSelectionFragment" />
@@ -69,5 +57,11 @@
             android:id="@+id/action_mainFragment_to_familyTestListFragment"
             app:destination="@id/familyTestListFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/statisticsExplanationFragment"
+        android:name="de.rki.coronawarnapp.statistics.ui.StatisticsExplanationFragment"
+        android:label="@layout/fragment_statistics_explanation"
+        tools:layout="@layout/fragment_statistics_explanation" />
 
 </navigation>

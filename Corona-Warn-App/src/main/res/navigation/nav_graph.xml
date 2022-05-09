@@ -22,6 +22,37 @@
 
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
 
+    <!-- New Global Actions from Main Fragment -->
+    <action
+        android:id="@+id/action_global_to_submissionTestResultNegativeFragment"
+        app:destination="@id/submissionTestResultNegativeFragment"
+        app:popUpTo="@id/status_nav_graph"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_to_submissionTestResultAvailableFragment"
+        app:destination="@id/submissionTestResultAvailableFragment"
+        app:popUpTo="@id/status_nav_graph"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_to_submissionTestResultKeysSharedFragment"
+        app:destination="@id/submissionTestResultKeysSharedFragment"
+        app:popUpTo="@id/status_nav_graph"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_to_submissionResultPositiveOtherWarningNoConsentFragment"
+        app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
+        app:popUpTo="@id/status_nav_graph"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_to_submissionTestResultPendingFragment"
+        app:destination="@id/submissionTestResultPendingFragment"
+        app:popUpTo="@id/status_nav_graph"
+        app:popUpToInclusive="false" />
+
     <!-- Global Actions -->
     <action
         android:id="@+id/action_submissionTestResultPendingFragment"
@@ -50,18 +81,18 @@
         android:id="@+id/action_global_testRegistrationSelectionFragment"
         app:destination="@id/testRegistrationSelectionFragment" />
 
-<!--    Maybe I could separate this one-->
+    <!--    Maybe I could separate this one-->
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
 
-<!--    Global navigation to main fragment is good-->
+    <!--    Global navigation to main fragment is good-->
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/status_nav_graph"
         app:popUpToInclusive="true" />
 
-<!--    Could this be separated from main navigation?-->
+    <!--    Could this be separated from main navigation?-->
     <fragment
         android:id="@+id/qrCodeFullScreenFragment"
         android:name="de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment"
@@ -504,7 +535,7 @@
         tools:layout="@layout/fragment_information_privacy" />
 
 
-<!--    ok let's put it here everythibg-->
+    <!--    ok let's put it here everythibg-->
 
     <fragment
         android:id="@+id/mainSharingFragment"
@@ -656,7 +687,6 @@
         tools:layout="@layout/fragment_information_about" />
 
 
-
     <fragment
         android:id="@+id/informationTermsFragment"
         android:name="de.rki.coronawarnapp.ui.information.InformationTermsFragment"
@@ -712,11 +742,6 @@
         android:label="@layout/fragment_tracing_details_home"
         tools:layout="@layout/fragment_tracing_details_home" />
 
-    <fragment
-        android:id="@+id/statisticsExplanationFragment"
-        android:name="de.rki.coronawarnapp.statistics.ui.StatisticsExplanationFragment"
-        android:label="@layout/fragment_statistics_explanation"
-        tools:layout="@layout/fragment_statistics_explanation" />
 
     <!-- Submission -->
     <fragment
@@ -734,7 +759,6 @@
             android:id="@+id/action_submissionDispatcherFragment_to_rapid_test_profile_nav_graph"
             app:destination="@id/rapid_test_profile_nav_graph" />
     </fragment>
-
 
 
     <fragment
@@ -765,7 +789,6 @@
             android:id="@+id/deepLink"
             app:uri="coronawarnapp://launch" />
     </activity>
-
 
 
     <!-- New Release -->
@@ -958,10 +981,6 @@
             app:argType="string" />
     </fragment>
 
-
-
-
-
     <fragment
         android:id="@+id/federalStateSelectionFragment"
         android:name="de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionFragment"
@@ -977,7 +996,6 @@
             android:defaultValue="-1"
             app:argType="integer" />
     </fragment>
-
 
 
     <fragment
