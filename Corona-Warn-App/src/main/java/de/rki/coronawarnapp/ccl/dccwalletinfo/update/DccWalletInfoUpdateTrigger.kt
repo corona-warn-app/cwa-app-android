@@ -77,7 +77,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         dccWalletInfoCleaner.clean()
 
         val personIdentifiers = personCertificateProvider.personCertificates.first()
-            .mapNotNull { it.personIdentifier }.toSet()
+            .map { it.personIdentifier }.toSet()
 
         /*
         After person certificates change a merge or a split could happen and this will lead to outdated PersonSettings,
@@ -91,7 +91,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
 
     private suspend fun admissionScenarioId(): String =
         if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
-            cclSettings.getAdmissionScenarioId()
+            cclSettings.admissionScenarioId()
         } else {
             Timber.tag(TAG).d(
                 "admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by ${Scenario.DEFAULT_ID} "

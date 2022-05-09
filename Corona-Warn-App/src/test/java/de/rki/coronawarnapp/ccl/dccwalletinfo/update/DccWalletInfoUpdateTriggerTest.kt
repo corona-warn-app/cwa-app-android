@@ -19,13 +19,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
@@ -40,10 +42,16 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
     private val vc1 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash1"
+        every { personIdentifier } returns mockk()
+        every { vaccinatedOn } returns LocalDate(10000L)
+        every { headerIssuedAt } returns Instant(10000L)
     }
 
     private val vc2 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash2"
+        every { personIdentifier } returns mockk()
+        every { vaccinatedOn } returns LocalDate(20000L)
+        every { headerIssuedAt } returns Instant(20000L)
     }
 
     @BeforeEach
@@ -60,7 +68,9 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             every { admissionScenariosEnabled } returns true
         }
 
-        coEvery { cclSettings.getAdmissionScenarioId() } returns ""
+        coEvery { cclSettings.admissionScenarioId() } returns ""
+
+        coEvery { cclSettings.saveAdmissionScenarioId(any()) } returns Job()
 
         coEvery { personCertificatesSettings.cleanSettingsNotIn(any()) } just Runs
     }
@@ -75,6 +85,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
             delay(1_00L)
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+            delay(1_100L)
 
             coVerify(exactly = 1) {
                 dccWalletInfoCalculationManager.triggerNow(any())
@@ -91,6 +103,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
         delay(1_00L)
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+        delay(1_100L)
 
         coVerify(exactly = 0) {
             dccWalletInfoCalculationManager.triggerNow(any())
@@ -109,6 +123,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             delay(1_00L)
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
+            delay(1_100L)
+
             coVerify(exactly = 1) {
                 dccWalletInfoCalculationManager.triggerNow(any())
                 dccWalletInfoCleaner.clean()
@@ -124,6 +140,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
         delay(1_00L)
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+        delay(1_100L)
 
         coVerify(exactly = 1) {
             dccWalletInfoCalculationManager.triggerNow(any())
@@ -142,6 +160,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
         }
 
+        delay(1_100L)
         coVerify { dccWalletInfoCalculationManager.triggerNow(any()) }
     }
 
@@ -155,12 +174,14 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             instance(this)
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
         }
+
+        delay(1_100L)
         coVerify { dccWalletInfoCleaner.clean() }
     }
 
     @Test
     fun `triggerAfterConfigChange - feature is on and config update`() = runBlockingTest {
-        coEvery { cclSettings.getAdmissionScenarioId() } returns "BW"
+        coEvery { cclSettings.admissionScenarioId() } returns "BW"
         coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true) } returns
             DccWalletInfoCalculationManager.Result.Success
 
