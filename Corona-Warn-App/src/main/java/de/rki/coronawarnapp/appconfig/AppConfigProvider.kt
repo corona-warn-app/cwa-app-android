@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.internal.AppConfigSource
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +18,7 @@ class AppConfigProvider @Inject constructor(
     private val appConfigSource: AppConfigSource,
     private val dispatcherProvider: DispatcherProvider,
     @AppScope private val scope: CoroutineScope
-) {
+) : Resettable {
 
     private val configHolder = HotDataFlow(
         loggingTag = "AppConfigProvider",
@@ -42,8 +43,8 @@ class AppConfigProvider @Inject constructor(
         return deferred.await()
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).v("clear()")
+    override suspend fun reset() {
+        Timber.tag(TAG).v("reset()")
         appConfigSource.clear()
     }
 

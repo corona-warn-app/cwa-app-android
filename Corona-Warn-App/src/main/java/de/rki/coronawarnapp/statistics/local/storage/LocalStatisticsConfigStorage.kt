@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import kotlinx.coroutines.flow.map
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 class LocalStatisticsConfigStorage @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson private val baseGson: Gson,
-) {
+) : Resettable {
     private val prefs by lazy {
         context.getSharedPreferences("statistics_local_config", Context.MODE_PRIVATE)
     }
@@ -56,7 +57,8 @@ class LocalStatisticsConfigStorage @Inject constructor(
             }.distinct()
         }
 
-    fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         activeSelections.update { SelectedLocations() }
     }
 

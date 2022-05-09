@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.presencetracing.storage.dao.CheckInDao
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.presencetracing.storage.entity.toCheckIn
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 class CheckInRepository @Inject constructor(
     traceLocationDatabaseFactory: TraceLocationDatabase.Factory,
     private val timeStamper: TimeStamper
-) {
+) : Resettable {
 
     private val traceLocationDatabase: TraceLocationDatabase by lazy {
         traceLocationDatabaseFactory.create()
@@ -81,11 +82,6 @@ class CheckInRepository @Inject constructor(
         checkInDao.deleteByIds(checkIns.map { it.id })
     }
 
-    suspend fun clear() = withContext(NonCancellable) {
-        Timber.d("clear()")
-        checkInDao.deleteAll()
-    }
-
     suspend fun checkInForId(checkInId: Long): CheckIn {
         val checkIn = checkInDao.entryForId(checkInId)
             ?: throw IllegalArgumentException("No checkIn found for ID=$checkInId")
@@ -102,5 +98,10 @@ class CheckInRepository @Inject constructor(
             )
         }
         checkInDao.updateSubmissionConsents(consentUpdates)
+    }
+
+    override suspend fun reset() {
+        Timber.d("reset()")
+        checkInDao.deleteAll()
     }
 }

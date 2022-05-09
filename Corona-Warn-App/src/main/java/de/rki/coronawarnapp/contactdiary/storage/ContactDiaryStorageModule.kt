@@ -1,16 +1,27 @@
 package de.rki.coronawarnapp.contactdiary.storage
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
-import javax.inject.Singleton
+import de.rki.coronawarnapp.util.reset.Resettable
 
-@Module
-class ContactDiaryStorageModule {
+@Module(includes = [ContactDiaryStorageModule.ResetModule::class])
+interface ContactDiaryStorageModule {
 
-    @Singleton
-    @Provides
-    fun contactDiaryRepo(defaultContactDiaryRepository: DefaultContactDiaryRepository): ContactDiaryRepository =
-        defaultContactDiaryRepository
+    @Binds
+    fun contactDiaryRepo(defaultContactDiaryRepository: DefaultContactDiaryRepository): ContactDiaryRepository
+
+    @Module
+    interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableContactDiaryPreferences(resettable: ContactDiaryPreferences): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableContactDiaryRepository(resettable: DefaultContactDiaryRepository): Resettable
+    }
 }

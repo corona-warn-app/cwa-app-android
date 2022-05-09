@@ -33,7 +33,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
         every { taskController.submit(any()) } just Runs
         every { appConfigProvider.currentConfig } returns currentConfigFake
-        coEvery { riskLevelStorage.clear() } just Runs
+        coEvery { riskLevelStorage.reset() } just Runs
         coEvery { riskLevelStorage.clearResults() } just Runs
     }
 
@@ -77,7 +77,7 @@ class ConfigChangeDetectorTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            riskLevelStorage.clear()
+            riskLevelStorage.reset()
         }
     }
 
@@ -111,7 +111,7 @@ class ConfigChangeDetectorTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            riskLevelStorage.clear()
+            riskLevelStorage.reset()
         }
     }
 }
