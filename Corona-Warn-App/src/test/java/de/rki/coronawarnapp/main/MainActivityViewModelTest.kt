@@ -75,6 +75,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { onboardingSettings.isOnboarded } returns true
         every { onboardingSettings.fabScannerOnboardingDone } returns mockFlowPreference(true)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
+        every { environmentSetup.launchEnvironment } returns null
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
             TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         )

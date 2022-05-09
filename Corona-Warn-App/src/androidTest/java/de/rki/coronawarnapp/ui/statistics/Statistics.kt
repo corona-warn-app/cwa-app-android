@@ -64,8 +64,8 @@ object Statistics {
         )
 
         val cdnModule = DownloadCDNModule()
-        val baseGson = SerializationModule().baseGson()
-        val environmentSetup = EnvironmentSetup(context = context, gson = baseGson)
+        val objectMapper = SerializationModule().jacksonObjectMapper()
+        val environmentSetup = EnvironmentSetup(context = context, objectMapper = objectMapper)
         val httpClient = HttpModule().defaultHttpClient()
         val cdnClient = cdnModule.cdnHttpClient(httpClient)
         val url = cdnModule.provideDownloadServerUrl(environmentSetup)
@@ -105,8 +105,8 @@ object Statistics {
         every { context.getSharedPreferences(any(), any()) } returns preferences
 
         val cdnModule = DownloadCDNModule()
-        val baseGson = SerializationModule().baseGson()
-        val environmentSetup = EnvironmentSetup(context = context, gson = baseGson)
+        val objectMapper = SerializationModule().jacksonObjectMapper()
+        val environmentSetup = EnvironmentSetup(context = context, objectMapper = objectMapper)
         val httpClient = HttpModule().defaultHttpClient()
         val cdnClient = cdnModule.cdnHttpClient(httpClient)
         val url = cdnModule.provideDownloadServerUrl(environmentSetup)
