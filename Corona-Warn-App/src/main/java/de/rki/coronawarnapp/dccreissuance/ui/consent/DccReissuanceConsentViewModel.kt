@@ -5,7 +5,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -62,11 +61,6 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     }
 
     fun navigateBack() = event.postValue(Back)
-
-    private fun MutableList<DccReissuanceItem>.addDccToReissue(
-        certificate: CertificateReissuanceItem
-    ) {
-    }
 
     private suspend fun CertificateReissuance?.toState(): State {
         val certificates = mutableListOf<DccReissuanceItem>()
