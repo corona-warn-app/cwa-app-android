@@ -201,7 +201,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
             VaccinationTestData.personAData2Vac.vaccinations.map { it.vaccinationQrCode.toSHA256() }
-        instance.clear()
+        instance.reset()
         testStorage shouldBe emptySet()
         instance.certificates.first() shouldBe emptySet()
     }

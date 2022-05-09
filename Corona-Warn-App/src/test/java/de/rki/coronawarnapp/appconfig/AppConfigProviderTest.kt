@@ -134,7 +134,7 @@ class AppConfigProviderTest : BaseIOTest() {
     fun `clear clears storage and current config`() = runTest2 {
         val instance = createInstance(this)
 
-        instance.clear()
+        instance.reset()
 
         coVerifySequence {
             appConfigSource.clear()

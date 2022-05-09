@@ -87,13 +87,9 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
             validationServiceAllowList.first().shouldNotBeEmpty()
             serviceProviderAllowList.first().shouldNotBeEmpty()
 
-            clear()
+            reset()
             validationServiceAllowList.first().shouldBeEmpty()
             serviceProviderAllowList.first().shouldBeEmpty()
-        }
-
-        coVerify {
-            dccTicketingAllowListStorage.clear()
         }
     }
 

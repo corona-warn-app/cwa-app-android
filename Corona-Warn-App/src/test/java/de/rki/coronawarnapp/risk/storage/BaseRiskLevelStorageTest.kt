@@ -351,7 +351,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `clear works`() = runTest {
-        createInstance().clear()
+        createInstance().reset()
         coVerify {
             ewRiskResultDatabase.clearAllTables()
             ptRiskRepository.clearAllTables()

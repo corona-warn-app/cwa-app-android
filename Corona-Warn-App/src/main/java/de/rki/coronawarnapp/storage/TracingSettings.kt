@@ -8,13 +8,14 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TracingSettings @Inject constructor(@AppContext private val context: Context) {
+class TracingSettings @Inject constructor(@AppContext private val context: Context) : Resettable {
 
     private val prefs by lazy {
         context.getSharedPreferences("tracing_settings", Context.MODE_PRIVATE)
@@ -72,7 +73,10 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         }
     }
 
-    fun clear() = prefs.clearAndNotify()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        prefs.clearAndNotify()
+    }
 
     companion object {
         const val TRACING_POOLING_TIMESTAMP = "tracing.pooling.timestamp"

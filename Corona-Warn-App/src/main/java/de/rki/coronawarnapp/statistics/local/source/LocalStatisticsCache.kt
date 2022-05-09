@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.statistics.local.source
 
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
+import de.rki.coronawarnapp.util.reset.Resettable
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -10,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class LocalStatisticsCache @Inject constructor(
     @Statistics cacheDir: File
-) {
+) : Resettable {
 
     private val cacheFolder = File(cacheDir, "cache_raw_local")
 
@@ -39,7 +40,8 @@ class LocalStatisticsCache @Inject constructor(
         cacheFile.writeBytes(data)
     }
 
-    fun clearAll() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         cacheFolder.deleteRecursively()
     }
 }

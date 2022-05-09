@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.HourInterval
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -20,7 +21,7 @@ class TraceWarningRepository @Inject constructor(
     @AppContext private val context: Context,
     private val factory: TraceWarningDatabase.Factory,
     private val timeStamper: TimeStamper
-) {
+) : Resettable {
     private val database by lazy { factory.create() }
     private val dao: TraceWarningPackageDao by lazy { database.traceWarningPackageDao() }
 
@@ -133,8 +134,8 @@ class TraceWarningRepository @Inject constructor(
         }
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).d("clear()")
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
         dao.clear()
 
         if (!storageDir.deleteRecursively()) {

@@ -24,11 +24,10 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.runs
 import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
@@ -49,7 +48,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var rootDetectionCheck: RootDetectionCheck
-    @MockK lateinit var dscRepository: DscRepository
+    @RelaxedMockK lateinit var dscRepository: DscRepository
     @MockK(relaxed = true) lateinit var environmentSetup: EnvironmentSetup
 
     @BeforeEach
@@ -58,8 +57,6 @@ class LauncherActivityViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.update.InAppUpdateKt")
 
         every { onboardingSettings.isOnboarded } returns false
-
-        coEvery { dscRepository.clear() } just runs
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 10L

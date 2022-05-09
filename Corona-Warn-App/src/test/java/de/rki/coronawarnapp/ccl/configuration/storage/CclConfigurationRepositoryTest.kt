@@ -99,10 +99,10 @@ class CclConfigurationRepositoryTest : BaseTest() {
 
     @Test
     fun `clear calls storage clear`() = runTest2 {
-        createInstance(scope = this).clear()
+        createInstance(scope = this).reset()
 
         coVerify {
-            downloadedCclConfigurationStorage.clear()
+            downloadedCclConfigurationStorage.reset()
         }
     }
 
@@ -117,13 +117,12 @@ class CclConfigurationRepositoryTest : BaseTest() {
                 contains(storageCclConfig) shouldBe true
                 contains(defaultCclConfig) shouldBe true
             }
-            clear()
+            reset()
             getCclConfigurations() shouldBe listOf(defaultCclConfig)
         }
 
         coVerifyOrder {
             cclConfigurationParser.parseCClConfigurations(rawData = storageCclConfigRaw)
-            downloadedCclConfigurationStorage.clear()
             cclConfigurationParser.parseCClConfigurations(rawData = defaultCclConfigRaw)
         }
     }
@@ -132,7 +131,7 @@ class CclConfigurationRepositoryTest : BaseTest() {
     fun `getCclConfigurations returns the actual item of cclConfigurations`() = runTest2 {
         createInstance(scope = this).run {
             getCclConfigurations() shouldBe cclConfigurations.first()
-            clear()
+            reset()
             getCclConfigurations() shouldBe cclConfigurations.first()
             updateCclConfiguration() shouldBe UpdateResult.UPDATE
             getCclConfigurations() shouldBe cclConfigurations.first()

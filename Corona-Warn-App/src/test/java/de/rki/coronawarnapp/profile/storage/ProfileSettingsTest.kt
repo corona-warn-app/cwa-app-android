@@ -56,7 +56,7 @@ internal class ProfileSettingsTest : BaseTest() {
         val profileSettings = profileSettingsDataStore()
         profileSettings.updateProfile(profile)
         profileSettings.setOnboarded()
-        profileSettings.clear()
+        profileSettings.reset()
         fakeDataStore[ProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
         fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }

@@ -66,7 +66,7 @@ class PersonCertificatesStorageTest : BaseTest() {
             fakeDataStore[CURRENT_PERSON_KEY] shouldNotBe null
             fakeDataStore[PERSONS_SETTINGS_MAP] shouldNotBe null
 
-            clear()
+            reset()
 
             fakeDataStore[CURRENT_PERSON_KEY] shouldBe null
             fakeDataStore[PERSONS_SETTINGS_MAP] shouldBe null

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class DccValidationCache @Inject constructor(
     @CertificateValidation private val cacheDir: File,
-) {
+) : Resettable {
     private val mutex = Mutex()
     private val countryCacheFile = File(cacheDir, "dcc_validation_cache_countries_raw")
     private val acceptanceRulesCacheFile = File(cacheDir, "dcc_validation_cache_acc_rules_raw")
@@ -33,6 +34,11 @@ class DccValidationCache @Inject constructor(
     suspend fun saveInvalidationRulesJson(data: String?) = invalidationRulesCacheFile.save(data)
 
     suspend fun saveBoosterNotificationRulesJson(data: String?) = boosterNotificationRulesCacheFile.save(data)
+
+    override suspend fun reset() {
+        cacheDir.deleteRecursively()
+            .also { Timber.d("Successfully deleted %s: %b", cacheDir.name, it) }
+    }
 
     @VisibleForTesting
     internal suspend fun File.load(): String? = mutex.withLock {

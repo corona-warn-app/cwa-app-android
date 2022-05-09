@@ -12,7 +12,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
@@ -84,7 +83,6 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
         server.apply {
             coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
-            every { clear() } just runs
         }
     }
 
@@ -215,20 +213,15 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear clears server, cache and flow`() = runTest2 {
+    fun `reset clears flow`() = runTest2 {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
             update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe bnrs
 
-            clear()
+            reset()
 
             rules.first() shouldBe emptyList()
-        }
-
-        coVerify {
-            server.clear()
-            localCache.saveBoosterNotificationRulesJson(null)
         }
     }
 }

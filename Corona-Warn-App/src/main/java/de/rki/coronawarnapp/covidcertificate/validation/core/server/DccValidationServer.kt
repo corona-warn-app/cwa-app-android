@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.retrofit.wasModified
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
@@ -31,7 +32,7 @@ class DccValidationServer @Inject constructor(
     @CertificateValidation private val cache: Cache,
     private val signatureValidation: SignatureValidation,
     private val dispatcherProvider: DispatcherProvider,
-) {
+) : Resettable {
 
     private val countryApi: DccCountryApi
         get() = countryApiLazy.get()
@@ -119,9 +120,10 @@ class DccValidationServer @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
+    override suspend fun reset() {
+        Timber.tag(TAG).d("clear()")
+        runCatching { cache.evictAll() }
+            .onFailure { Timber.tag(TAG).e(it, "Failed to clear cache") }
     }
 
     private fun Response<ResponseBody>.parseAndValidate(

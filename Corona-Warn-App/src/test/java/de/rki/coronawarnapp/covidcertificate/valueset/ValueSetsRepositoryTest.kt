@@ -46,7 +46,6 @@ class ValueSetsRepositoryTest : BaseTest() {
             coEvery { getVaccinationValueSets(any()) } returns null
             coEvery { getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetsContainerEn
             coEvery { getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetsContainerDe
-            every { clear() } just Runs
         }
 
         valueSetsStorage.apply {
@@ -146,14 +145,13 @@ class ValueSetsRepositoryTest : BaseTest() {
             latestVaccinationValueSets.first() shouldBe vaccinationValueSetsDe
             latestTestCertificateValueSets.first() shouldBe testCertificateValueSetsDe
 
-            clear()
+            reset()
             advanceUntilIdle()
             latestVaccinationValueSets.first() shouldBe emptyValueSetsContainer.vaccinationValueSets
             latestTestCertificateValueSets.first() shouldBe emptyValueSetsContainer.testCertificateValueSets
         }
 
         coVerify {
-            certificateValueSetServer.clear()
             valueSetsStorage.save(emptyValueSetsContainer)
         }
     }

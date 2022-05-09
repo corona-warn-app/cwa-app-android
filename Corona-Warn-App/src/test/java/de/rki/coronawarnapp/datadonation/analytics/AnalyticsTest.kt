@@ -25,6 +25,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
@@ -45,7 +46,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var settings: AnalyticsSettings
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var analyticsConfig: AnalyticsConfig
-    @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
+    @RelaxedMockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var onboardingSettings: OnboardingSettings
@@ -480,5 +481,15 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) { dataDonationAnalyticsServer.uploadAnalyticsData(any()) }
+    }
+
+    @Test
+    fun `reset leads to deletion of all data for each module`() = runBlockingTest {
+        val userMetadataDonor = mockk<UserMetadataDonor>(relaxed = true)
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        createInstance(modules).reset()
+
+        coVerify { modules.forEach { it.deleteData() } }
     }
 }

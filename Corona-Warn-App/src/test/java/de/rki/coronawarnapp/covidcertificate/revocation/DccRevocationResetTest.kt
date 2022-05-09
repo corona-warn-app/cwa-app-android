@@ -33,7 +33,7 @@ class DccRevocationResetTest : BaseTest() {
     @Test
     @Suppress("BlockingMethodInNonBlockingContext")
     fun `clears all data`() = runTest2 {
-        instance.clear()
+        instance.reset()
 
         coVerify {
             cache.evictAll()
@@ -46,7 +46,7 @@ class DccRevocationResetTest : BaseTest() {
         coEvery { dataStore.updateData(any()) } throws IOException("Test error")
 
         shouldNotThrowAny {
-            instance.clear()
+            instance.reset()
         }
     }
 }

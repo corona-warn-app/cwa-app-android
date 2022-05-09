@@ -31,7 +31,7 @@ class DccTicketingAllowListStorageTest : BaseIOTest() {
             load() shouldBe null
 
             save(data)
-            clear()
+            reset()
             load() shouldBe null
         }
     }
@@ -59,7 +59,7 @@ class DccTicketingAllowListStorageTest : BaseIOTest() {
             localStorage.shouldBeEmpty()
             save(data = data)
             localStorage.shouldNotBeEmptyDirectory()
-            clear()
+            reset()
             localStorage.shouldBeEmpty()
         }
     }

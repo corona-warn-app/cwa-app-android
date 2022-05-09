@@ -209,10 +209,10 @@ abstract class BaseRiskLevelStorage constructor(
 
     internal abstract suspend fun deletedOrphanedExposureWindows()
 
-    override suspend fun clear() {
-        Timber.w("clear() - Clearing stored risklevel/exposure-detection results.")
+    override suspend fun reset() {
+        Timber.w("reset() - Clearing stored risklevel/exposure-detection results.")
         database.clearAllTables()
-        Timber.w("clear() - Clearing stored presence tracing matches and results.")
+        Timber.w("reset() - Clearing stored presence tracing matches and results.")
         presenceTracingRiskRepository.clearAllTables()
     }
 
