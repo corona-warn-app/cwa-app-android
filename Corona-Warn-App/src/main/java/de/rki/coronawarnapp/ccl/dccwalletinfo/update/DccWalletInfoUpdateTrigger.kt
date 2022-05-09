@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
@@ -45,10 +45,10 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                  isn't considered
                  */
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
+                // delay to collect rapid changes and do only one recalculation
+                .debounce(1000L)
                 .collectLatest {
                     runCatching {
-                        // delay to collect rapid changes and do only one recalculation
-                        delay(1000)
                         Timber.d("recalculate wallets after change")
                         triggerNow(admissionScenarioId())
                     }.onFailure {
