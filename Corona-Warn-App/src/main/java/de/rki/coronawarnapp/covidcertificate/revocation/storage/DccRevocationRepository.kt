@@ -37,7 +37,7 @@ class DccRevocationRepository @Inject constructor(
             if (it is IOException) emit(emptyPreferences()) else throw it
         }
         .map { prefs ->
-            prefs[CACHED_REVOCATION_CHUNKS_KEY]?.toCachedRevocationChunks() ?: emptyList()
+            prefs[CACHED_REVOCATION_CHUNKS_KEY].toRevocationList()
         }
         .shareLatest(scope = appScope)
 
@@ -62,6 +62,16 @@ class DccRevocationRepository @Inject constructor(
 
     private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = objectMapper.readValue(this)
     private fun List<CachedRevocationChunk>.toJson(): String = objectMapper.writeValueAsString(this)
+
+    private fun String?.toRevocationList(): List<CachedRevocationChunk> {
+        val empty: List<CachedRevocationChunk> by lazy(LazyThreadSafetyMode.NONE) { emptyList() }
+        return when (this == null) {
+            true -> empty
+            false -> runCatching { toCachedRevocationChunks() }.onFailure {
+                Timber.tag(TAG).e(it, "Failed to create Revocation List from json=%s", this)
+            }.getOrDefault(empty)
+        }
+    }
 }
 
 private val TAG = tag<DccRevocationRepository>()
