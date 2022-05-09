@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.dccreissuance.notification
 
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
@@ -22,7 +24,11 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
 
     @MockK lateinit var personNotificationSender: PersonNotificationSender
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
-    @MockK lateinit var dccWalletInfo: DccWalletInfo
+    @MockK lateinit var newDccWalletInfo: DccWalletInfo
+    @MockK lateinit var oldCertificateReissuance: CertificateReissuance
+    @MockK lateinit var newCertificateReissuance: CertificateReissuance
+    @MockK lateinit var oldReissuanceDivision: ReissuanceDivision
+    @MockK lateinit var newReissuanceDivision: ReissuanceDivision
 
     private val personIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01-01-2010",
@@ -36,7 +42,11 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         coEvery { personCertificatesSettings.setDccReissuanceNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
         every { personNotificationSender.showNotification(any(), any()) } just Runs
-        every { dccWalletInfo.certificateReissuance } returns mockk()
+        every { oldReissuanceDivision.identifier } returns "renew"
+        every { newReissuanceDivision.identifier } returns "extend"
+        every { oldCertificateReissuance.reissuanceDivision } returns oldReissuanceDivision
+        every { newCertificateReissuance.reissuanceDivision } returns newReissuanceDivision
+        every { newDccWalletInfo.certificateReissuance } returns newCertificateReissuance
     }
 
     @Test
@@ -47,7 +57,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
             oldWalletInfo = null,
-            newWalletInfo = dccWalletInfo
+            newWalletInfo = newDccWalletInfo
         )
 
         coVerify {
@@ -63,8 +73,8 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personNotificationSender = personNotificationSender
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
-            oldWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns mockk() },
-            newWalletInfo = dccWalletInfo
+            oldWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns newCertificateReissuance },
+            newWalletInfo = newDccWalletInfo,
         )
 
         coVerify(exactly = 0) {
@@ -74,13 +84,31 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     }
 
     @Test
+    fun `notify person if there is previous dcc reissuance with different identifier`() = runBlockingTest {
+        DccReissuanceNotificationService(
+            personCertificatesSettings = personCertificatesSettings,
+            personNotificationSender = personNotificationSender
+        ).notifyIfNecessary(
+            personIdentifier = personIdentifier,
+            oldWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns oldCertificateReissuance },
+            newWalletInfo = newDccWalletInfo
+        )
+
+        coVerify(exactly = 1) {
+            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
+            personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
+        }
+    }
+
+
+    @Test
     fun `dismiss the badge if the new dcc reissuance doesn't exist`() = runBlockingTest {
         DccReissuanceNotificationService(
             personCertificatesSettings = personCertificatesSettings,
             personNotificationSender = personNotificationSender
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
-            oldWalletInfo = dccWalletInfo,
+            oldWalletInfo = newDccWalletInfo,
             newWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns null }
         )
 
