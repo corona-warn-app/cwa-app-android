@@ -14,6 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("DEPRECATION")
 @Singleton
 class VaccinationStorage @Inject constructor(
     @AppContext val context: Context,
