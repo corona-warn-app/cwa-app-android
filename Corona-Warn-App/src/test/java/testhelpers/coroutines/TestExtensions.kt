@@ -38,7 +38,7 @@ fun runTest2(
 }
 
 /**
- * Use this in cases where the [TestScope] should not be canceled if a child coroutine throws an [Exception].
+ * Use this in cases where the [TestScope] should not be canceled if a child coroutine fails.
  */
 suspend fun TestScope.runWithoutChildExceptionCancellation(
     ignoreActive: Boolean = true,
