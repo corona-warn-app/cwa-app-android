@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.storage
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
@@ -118,5 +119,12 @@ class DccRevocationRepositoryTest : BaseTest() {
         }
 
         shouldNotThrowAny { createInstance(scope = this, data = mockDataStore).clear() }
+    }
+
+    @Test
+    fun `recovers with empty list from faulty data`() = runBlockingTest2(ignoreActive = true) {
+        dataStore.edit { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] = "faulty data" }
+
+        createInstance(scope = this).revocationList.first() shouldBe emptyList()
     }
 }
