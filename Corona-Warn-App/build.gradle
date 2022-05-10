@@ -270,7 +270,6 @@ android {
         // see the following issue: https://issuetracker.google.com/issues/169249668
         disable 'NullSafeMutableLiveData'
     }
-    namespace 'de.rki.coronawarnapp'
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
