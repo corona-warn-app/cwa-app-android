@@ -18,7 +18,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -103,7 +103,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
     }
 
     @Test
-    fun `requestValidationDecorator() - forwards call to processor`() = runBlockingTest {
+    fun `requestValidationDecorator() - forwards call to processor`() = runTest {
         val url = "serviceEndpoint"
         val validationServiceAllowList = setOf<DccTicketingValidationServiceAllowListEntry>()
 
@@ -125,7 +125,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
     }
 
     @Test
-    fun `requestValidationService() - forwards call to processor`() = runBlockingTest {
+    fun `requestValidationService() - forwards call to processor`() = runTest {
         val validationService = dccTicketingService
         val validationServiceJwkSet = emptySet<DccJWK>()
         val validationServiceAllowList = emptySet<DccTicketingValidationServiceAllowListEntry>()
@@ -165,7 +165,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
     }
 
     @Test
-    fun `requestAccessToken() - forwards call to processor`() = runBlockingTest {
+    fun `requestAccessToken() - forwards call to processor`() = runTest {
         val accessTokenService = dccTicketingService
         val accessTokenServiceJwkSet = emptySet<DccJWK>()
         val accessTokenSignJwkSet = emptySet<DccJWK>()
@@ -220,7 +220,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
     }
 
     @Test
-    fun `requestResultToken() - forwards call to processor`() = runBlockingTest {
+    fun `requestResultToken() - forwards call to processor`() = runTest {
         val input = ResultTokenInput(
             serviceEndpoint = "serviceEndpoint",
             validationServiceJwkSet = emptySet(),

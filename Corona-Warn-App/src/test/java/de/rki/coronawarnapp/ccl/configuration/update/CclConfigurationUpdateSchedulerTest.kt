@@ -14,10 +14,11 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
 
@@ -35,7 +36,7 @@ internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `schedule daily worker on setup() call`() = runBlockingTest2(ignoreActive = true) {
+    fun `schedule daily worker on setup() call`() = runTest2 {
         createScheduler(this).setup()
 
         advanceUntilIdle()
@@ -50,7 +51,7 @@ internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `perform update when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
+    fun `perform update when app comes into foreground`() = runTest2 {
         createScheduler(this).apply {
             setup()
 

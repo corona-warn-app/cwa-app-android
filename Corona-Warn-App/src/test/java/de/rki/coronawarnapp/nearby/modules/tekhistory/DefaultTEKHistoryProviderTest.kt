@@ -27,10 +27,13 @@ import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.gms.MockGMSTask
 import timber.log.Timber
 import java.io.PrintWriter
@@ -103,7 +106,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     )
 
     @Test
-    fun `ENFV1_7 init is side effect free and lazy`() = runBlockingTest {
+    fun `ENFV1_7 init is side effect free and lazy`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns false
         createInstance()
 
@@ -113,7 +116,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 init is side effect free and lazy`() = runBlockingTest {
+    fun `ENFV1_8 init is side effect free and lazy`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         createInstance()
 
@@ -123,7 +126,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_7 errors are forwarded`() = runBlockingTest {
+    fun `ENFV1_7 errors are forwarded`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns false
         val error = ApiException(Status.RESULT_DEAD_CLIENT)
         every { client.temporaryExposureKeyHistory } answers { MockGMSTask.forError(error) }
@@ -140,7 +143,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_7 getTEKHistory only calls the normal API`() = runBlockingTest {
+    fun `ENFV1_7 getTEKHistory only calls the normal API`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns false
         val mockTEK = mockk<TemporaryExposureKey>()
         every { client.temporaryExposureKeyHistory } answers { MockGMSTask.forValue(listOf(mockTEK)) }
@@ -155,21 +158,21 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_7 preAuthorizeExposureKeyHistory return false on older Api`() = runBlockingTest {
+    fun `ENFV1_7 preAuthorizeExposureKeyHistory return false on older Api`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns false
 
         createInstance().preAuthorizeExposureKeyHistory() shouldBe false
     }
 
     @Test
-    fun `ENFV1_8 preAuthorizeExposureKeyHistory return true on newer Api`() = runBlockingTest {
+    fun `ENFV1_8 preAuthorizeExposureKeyHistory return true on newer Api`() = runTest {
         every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } answers { MockGMSTask.forValue(null) }
 
         createInstance().preAuthorizeExposureKeyHistory() shouldBe true
     }
 
     @Test
-    fun `ENFV1_8 getTEKHistory request keys from new Api`() = runBlockingTest {
+    fun `ENFV1_8 getTEKHistory request keys from new Api`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         every { client.requestPreAuthorizedTemporaryExposureKeyHistory() } answers { MockGMSTask.forValue(null) }
 
@@ -179,7 +182,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 getTEKHistory throws ApiException on new Api`() = runBlockingTest {
+    fun `ENFV1_8 getTEKHistory throws ApiException on new Api`() = runTest2 {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         val error = mockk<ApiException>().apply {
             every { status.hasResolution() } returns true
@@ -193,7 +196,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 getTEKHistory request keys from new Api fallback to old Api on error`() = runBlockingTest {
+    fun `ENFV1_8 getTEKHistory request keys from new Api fallback to old Api on error`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forError(Exception()) }
         val mockTEK = mockk<TemporaryExposureKey>()
@@ -206,7 +209,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
     }
 
     @Test
-    fun `ENFV1_8 getTEKHistory request keys from new Api does not check for preAuth`() = runBlockingTest {
+    fun `ENFV1_8 getTEKHistory request keys from new Api does not check for preAuth`() = runTest {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns true
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } answers { MockGMSTask.forValue(null) }
 
@@ -222,7 +225,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns MockGMSTask.timeout()
         verify(exactly = 0) { context.unregisterReceiver(any()) }
 
-        runBlockingTest {
+        runTest {
             val deferred = async { createInstance().getPreAuthorizedExposureKeys() }
             advanceTimeBy(6_000)
             deferred.getCompletionExceptionOrNull() shouldBe instanceOf(TimeoutCancellationException::class)
@@ -244,7 +247,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
 
         verify(exactly = 0) { context.unregisterReceiver(any()) }
 
-        runBlockingTest {
+        runTest {
             val deferred = async { createInstance().getPreAuthorizedExposureKeys() }
             advanceTimeBy(6_000)
             deferred.getCompletionExceptionOrNull() shouldBe instanceOf(TimeoutCancellationException::class)
@@ -261,7 +264,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         val onTEKHistoryAvailable = mockk<(List<TemporaryExposureKey>) -> Unit>(relaxed = true)
         val onPermissionRequired = mockk<(Status) -> Unit>(relaxed = true)
 
-        runBlockingTest {
+        runTest {
             createInstance().getTEKHistoryOrRequestPermission(
                 onTEKHistoryAvailable = onTEKHistoryAvailable,
                 onPermissionRequired = onPermissionRequired
@@ -282,7 +285,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         val onTEKHistoryAvailable = mockk<(List<TemporaryExposureKey>) -> Unit>(relaxed = true)
         val onPermissionRequired = mockk<(Status) -> Unit>(relaxed = true)
 
-        runBlockingTest {
+        runTest {
             createInstance().getTEKHistoryOrRequestPermission(
                 onTEKHistoryAvailable = onTEKHistoryAvailable,
                 onPermissionRequired = onPermissionRequired
@@ -301,7 +304,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         coEvery { enfVersion.isAtLeast(ENFVersion.V1_8) } returns false
         every { client.temporaryExposureKeyHistory } returns MockGMSTask.forError(RuntimeException())
 
-        runBlockingTest {
+        runTest {
             shouldThrow<RuntimeException> {
                 createInstance().getTEKHistoryOrRequestPermission(mockk(), mockk())
             }
@@ -321,7 +324,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         val onTEKHistoryAvailable = mockk<(List<TemporaryExposureKey>) -> Unit>(relaxed = true)
         val onPermissionRequired = mockk<(Status) -> Unit>(relaxed = true)
 
-        runBlockingTest {
+        runTest {
             createInstance().getTEKHistoryOrRequestPermission(
                 onTEKHistoryAvailable = onTEKHistoryAvailable,
                 onPermissionRequired = onPermissionRequired
@@ -346,7 +349,7 @@ class DefaultTEKHistoryProviderTest : BaseTest() {
         every { client.requestPreAuthorizedTemporaryExposureKeyRelease() } returns
             MockGMSTask.forError(RuntimeException())
 
-        runBlockingTest {
+        runTest {
             shouldThrow<IllegalStateException> {
                 createInstance().getTEKHistoryOrRequestPermission(mockk(), mockk())
             }

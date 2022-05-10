@@ -15,7 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
@@ -53,7 +53,7 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         input: String,
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
-    ) = runBlockingTest {
+    ) = runTest {
         val checkInQrCode = createInstance().extract(input)
         checkInQrCode.qrCodePayload shouldBe expectedPayload
         CWALocationData.parseFrom(checkInQrCode.qrCodePayload.vendorData) shouldBe expectedVendorData
@@ -65,7 +65,7 @@ class CheckInQrCodeExtractorTest : BaseTest() {
         input: String,
         expectedPayload: QRCodePayload,
         expectedVendorData: CWALocationData
-    ) = runBlockingTest {
+    ) = runTest {
         coEvery { configProvider.currentConfig } returns flowOf(
             mockk<ConfigData>().apply {
                 every { presenceTracing } returns PresenceTracingConfigContainer(
@@ -88,7 +88,7 @@ class CheckInQrCodeExtractorTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(InvalidUrlProvider::class)
-    fun `Invalid URLs`(input: String) = runBlockingTest {
+    fun `Invalid URLs`(input: String) = runTest {
         shouldThrow<InvalidQrCodeUriException> {
             createInstance().extract(input)
         }

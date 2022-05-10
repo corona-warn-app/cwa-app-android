@@ -26,7 +26,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.preferences.mockFlowPreference
 
 class ExposureRiskMetadataDonorTest : BaseTest() {
@@ -126,7 +126,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -198,7 +198,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -246,7 +246,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         )
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -302,7 +302,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 )
             )
         )
-        runBlockingTest2 {
+        runTest2 {
             val parentBuilder = PpaData.PPADataAndroid.newBuilder()
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {

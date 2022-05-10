@@ -28,8 +28,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -108,7 +109,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `additional info low risk box`() = runBlockingTest {
+    fun `additional info low risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -118,14 +119,13 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe true
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe true
     }
 
     @Test
-    fun `no additional info low risk box due to matched key count`() = runBlockingTest {
+    fun `no additional info low risk box due to matched key count`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -135,14 +135,13 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `no additional info low risk box due to high risk`() = runBlockingTest {
+    fun `no additional info low risk box due to high risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -152,14 +151,13 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `increased risk box and no normal risk box`() = runBlockingTest {
+    fun `increased risk box and no normal risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -169,16 +167,15 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `normal risk box and no increased risk box`() = runBlockingTest {
+    fun `normal risk box and no increased risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -188,16 +185,15 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
     }
 
     @Test
-    fun `period logged box with low risk`() = runBlockingTest {
+    fun `period logged box with low risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -209,15 +205,15 @@ class TracingDetailsItemProviderTest : BaseTest() {
         val instance = createInstance()
         val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe true
     }
 
     @Test
-    fun `period logged box with high risk`() = runBlockingTest {
+    fun `period logged box with high risk`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -227,17 +223,16 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe false
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe true
     }
 
     @Test
-    fun `no period logged box due to failed calculation`() = runBlockingTest {
+    fun `no period logged box due to failed calculation`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -247,17 +242,16 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe false
     }
 
     @Test
-    fun `no period logged box due to inactive tracing`() = runBlockingTest {
+    fun `no period logged box due to inactive tracing`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
@@ -267,17 +261,16 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe false
     }
 
     @Test
-    fun `failed calculation box due to inactive tracing`() = runBlockingTest {
+    fun `failed calculation box due to inactive tracing`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_INACTIVE,
@@ -287,20 +280,19 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsFailedCalculationBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is DetailsLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsFailedCalculationBox.Item } shouldBe true
+        instance.state.first().any { it is DetailsLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsIncreasedRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `failed calculation box due to failed calculation`() = runBlockingTest {
+    fun `failed calculation box due to failed calculation`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -310,20 +302,19 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsFailedCalculationBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is DetailsLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsFailedCalculationBox.Item } shouldBe true
+        instance.state.first().any { it is DetailsLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsIncreasedRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `low risk box no high risk box`() = runBlockingTest {
+    fun `low risk box no high risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -333,20 +324,19 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is DetailsFailedCalculationBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsLowRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is DetailsIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe true
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe true
+        instance.state.first().any { it is DetailsFailedCalculationBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsLowRiskBox.Item } shouldBe true
+        instance.state.first().any { it is DetailsIncreasedRiskBox.Item } shouldBe false
     }
 
     @Test
-    fun `high risk box no low risk box`() = runBlockingTest {
+    fun `high risk box no low risk box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -356,20 +346,19 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.size.shouldBeGreaterThan(0)
-        testCollector.latestValue!!.any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is BehaviorNormalRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is PeriodLoggedBox.Item } shouldBe true
-        testCollector.latestValue!!.any { it is DetailsFailedCalculationBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsLowRiskBox.Item } shouldBe false
-        testCollector.latestValue!!.any { it is DetailsIncreasedRiskBox.Item } shouldBe true
+        instance.state.first().size.shouldBeGreaterThan(0)
+        instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is BehaviorIncreasedRiskBox.Item } shouldBe true
+        instance.state.first().any { it is BehaviorNormalRiskBox.Item } shouldBe false
+        instance.state.first().any { it is PeriodLoggedBox.Item } shouldBe true
+        instance.state.first().any { it is DetailsFailedCalculationBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsLowRiskBox.Item } shouldBe false
+        instance.state.first().any { it is DetailsIncreasedRiskBox.Item } shouldBe true
     }
 
     @Test
-    fun `low risk no high risk survey box`() = runBlockingTest {
+    fun `low risk no high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -380,9 +369,8 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.run {
+        instance.state.first().run {
             any { it is DetailsLowRiskBox.Item } shouldBe true
             any { it is DetailsIncreasedRiskBox.Item } shouldBe false
             any { it is UserSurveyBox.Item } shouldBe false
@@ -390,7 +378,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `high risk but feature disabled so no high risk survey box`() = runBlockingTest {
+    fun `high risk but feature disabled so no high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -401,9 +389,8 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.run {
+        instance.state.first().run {
             any { it is DetailsLowRiskBox.Item } shouldBe false
             any { it is DetailsIncreasedRiskBox.Item } shouldBe true
             any { it is UserSurveyBox.Item } shouldBe false
@@ -411,7 +398,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     }
 
     @Test
-    fun `high risk and feature enabled so high risk survey box`() = runBlockingTest {
+    fun `high risk and feature enabled so high risk survey box`() = runTest {
 
         prepare(
             status = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -422,9 +409,8 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
 
-        testCollector.latestValue!!.run {
+        instance.state.first().run {
             any { it is DetailsLowRiskBox.Item } shouldBe false
             any { it is DetailsIncreasedRiskBox.Item } shouldBe true
             any { it is UserSurveyBox.Item } shouldBe true

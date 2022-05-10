@@ -30,7 +30,7 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -93,7 +93,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `Force update - Works only if AppConfig + InAppUpdate are requiring and update`() = runBlockingTest {
+    fun `Force update - Works only if AppConfig + InAppUpdate are requiring and update`() = runTest {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {
@@ -107,7 +107,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Force update - NOT triggered if InAppUpdate info is missing`() = runBlockingTest {
+    fun `Force update - NOT triggered if InAppUpdate info is missing`() = runTest {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
         coEvery { appUpdateManager.getUpdateInfo() } returns null
         val vm = createViewModel().apply {
@@ -118,7 +118,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Force update - NOT triggered if AppConfig is not enabled`() = runBlockingTest {
+    fun `Force update - NOT triggered if AppConfig is not enabled`() = runTest {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {
@@ -132,7 +132,7 @@ class LauncherActivityViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Force update - NOT triggered if no InAppUpdate available`() = runBlockingTest {
+    fun `Force update - NOT triggered if no InAppUpdate available`() = runTest {
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
         coEvery { appUpdateManager.getUpdateInfo() } returns
             mockk<AppUpdateInfo>().apply {

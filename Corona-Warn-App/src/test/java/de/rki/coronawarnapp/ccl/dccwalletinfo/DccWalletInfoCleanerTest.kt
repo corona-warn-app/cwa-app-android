@@ -14,7 +14,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -87,7 +87,7 @@ internal class DccWalletInfoCleanerTest : BaseTest() {
     }
 
     @Test
-    fun clean() = runBlockingTest {
+    fun clean() = runTest {
         DccWalletInfoCleaner(
             personCertificatesProvider,
             dccWalletInfoRepository

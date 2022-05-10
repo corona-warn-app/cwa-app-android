@@ -12,7 +12,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -41,7 +41,7 @@ class DataDonationAnalyticsPeriodicWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `if result says retry, do retry`() = runBlockingTest {
+    fun `if result says retry, do retry`() = runTest {
         coEvery { analytics.submitIfWanted() } returns Analytics.Result(successful = false, shouldRetry = true)
         createWorker().doWork() shouldBe ListenableWorker.Result.Retry()
 
@@ -53,7 +53,7 @@ class DataDonationAnalyticsPeriodicWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `maximum of 2 retry attemtps`() = runBlockingTest {
+    fun `maximum of 2 retry attemtps`() = runTest {
         val worker = createWorker()
         worker.runAttemptCount shouldBe 0
 
@@ -63,7 +63,7 @@ class DataDonationAnalyticsPeriodicWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `unexpected errors do not cause a retry`() = runBlockingTest {
+    fun `unexpected errors do not cause a retry`() = runTest {
         coEvery { analytics.submitIfWanted() } throws Exception("SURPRISE!!!")
         createWorker().doWork() shouldBe ListenableWorker.Result.Failure()
     }

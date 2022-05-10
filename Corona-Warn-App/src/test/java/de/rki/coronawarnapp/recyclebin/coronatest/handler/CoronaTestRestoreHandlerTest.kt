@@ -19,7 +19,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -94,7 +94,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `restore personal corona test PCR whether no other PCR is active`() = runBlockingTest {
+    fun `restore personal corona test PCR whether no other PCR is active`() = runTest {
         instance.restoreCoronaTest(recycledPCR, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
             recycledPCR
         )
@@ -106,7 +106,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `restore personal corona test RAT whether no other RAT is active`() = runBlockingTest {
+    fun `restore personal corona test RAT whether no other RAT is active`() = runTest {
         instance.restoreCoronaTest(recycledRAT, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
             recycledRAT
         )
@@ -118,7 +118,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `restore family corona test PCR regardless of whether another PCR is active`() = runBlockingTest {
+    fun `restore family corona test PCR regardless of whether another PCR is active`() = runTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(recycledPCR)
 
         instance.restoreCoronaTest(familyCoronaTest, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
@@ -132,7 +132,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `show duplicate warning if another personal test PCR is active`() = runBlockingTest {
+    fun `show duplicate warning if another personal test PCR is active`() = runTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(anotherPCR)
 
         instance.restoreCoronaTest(
@@ -149,7 +149,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `show duplicate warning if another personal test RAT is active`() = runBlockingTest {
+    fun `show duplicate warning if another personal test RAT is active`() = runTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
 
         instance.restoreCoronaTest(

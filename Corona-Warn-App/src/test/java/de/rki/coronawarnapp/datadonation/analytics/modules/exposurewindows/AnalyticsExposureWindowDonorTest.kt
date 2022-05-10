@@ -12,7 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -67,7 +67,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     @Test
     fun `skip submission when random number greater than probability`() {
         val donor = newInstance()
-        runBlockingTest {
+        runTest {
             donor.skipSubmission(.3) shouldBe true
         }
     }
@@ -75,7 +75,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     @Test
     fun `execute submission when random number less or equal than probability`() {
         val donor = newInstance()
-        runBlockingTest {
+        runTest {
             donor.skipSubmission(.5) shouldBe false
         }
     }
@@ -84,7 +84,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     fun `skipped submission returns empty contribution`() {
         val donor = newInstance()
         coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .4
-        runBlockingTest {
+        runTest {
             donor.beginDonation(request) shouldBe AnalyticsExposureWindowNoContribution
         }
     }
@@ -102,7 +102,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .8
         coEvery { analyticsExposureWindowRepository.getAllNew() } returns wrappers
         coEvery { analyticsExposureWindowRepository.moveToReported(wrappers) } returns reported
-        runBlockingTest {
+        runTest {
             (
                 donor.beginDonation(request) as AnalyticsExposureWindowDonor.Contribution
                 ).data shouldBe wrappers.asPpaData()
@@ -122,7 +122,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
         coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .8
         coEvery { analyticsExposureWindowRepository.getAllNew() } returns wrappers
         coEvery { analyticsExposureWindowRepository.moveToReported(wrappers) } returns reported
-        runBlockingTest {
+        runTest {
             val contribution = donor.beginDonation(request)
             contribution.finishDonation(false)
             coVerify { analyticsExposureWindowRepository.rollback(wrappers, reported) }
@@ -133,7 +133,7 @@ class AnalyticsExposureWindowDonorTest : BaseTest() {
     fun `stale data clean up`() {
         val donor = newInstance()
         coEvery { configData.analytics.probabilityToSubmitNewExposureWindows } returns .4
-        runBlockingTest {
+        runTest {
             donor.beginDonation(request)
             coVerify { analyticsExposureWindowRepository.deleteStaleData() }
         }

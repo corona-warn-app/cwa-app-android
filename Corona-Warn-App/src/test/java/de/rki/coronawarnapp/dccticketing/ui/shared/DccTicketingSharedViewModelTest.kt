@@ -8,9 +8,12 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
+import testhelpers.extensions.InstantExecutorExtension
 
+@ExtendWith(InstantExecutorExtension::class)
 class DccTicketingSharedViewModelTest : BaseTest() {
 
     private val data = DccTicketingQrCodeData(
@@ -29,12 +32,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `init with empty transaction context flow`() = runBlockingTest2(ignoreActive = true) {
-        shouldThrow<NoSuchElementException> { createInstance().transactionContext.first() }
-    }
-
-    @Test
-    fun `restores transaction context from save state handle`() = runBlockingTest2(ignoreActive = true) {
+    fun `restores transaction context from save state handle`() = runTest2 {
         val transactionContext = DccTicketingTransactionContext(initializationData = data)
         val savedStateHandle = SavedStateHandle().apply {
             this[TRANSACTION_CONTEXT_SAVED_STATE_KEY] = transactionContext
@@ -44,7 +42,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `init and update transaction context`() = runBlockingTest2(ignoreActive = true) {
+    fun `init and update transaction context`() = runTest2 {
         val savedStateHandle = SavedStateHandle()
 
         val ctx = DccTicketingTransactionContext(initializationData = data)
@@ -69,7 +67,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `throws on updating a not initialized transaction context`() = runBlockingTest2(ignoreActive = true) {
+    fun `throws on updating a not initialized transaction context`() = runTest2 {
         val savedStateHandle = SavedStateHandle()
 
         shouldThrow<IllegalStateException> {
