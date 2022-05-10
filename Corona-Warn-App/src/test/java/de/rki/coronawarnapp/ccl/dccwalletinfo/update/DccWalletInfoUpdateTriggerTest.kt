@@ -64,27 +64,28 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+
         coEvery { dccWalletInfoCalculationManager.triggerNow(any()) } returns
             DccWalletInfoCalculationManager.Result.Success
         coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange(any()) } returns
             DccWalletInfoCalculationManager.Result.Success
 
         coEvery { dccWalletInfoCleaner.clean() } returns Result.success(Unit)
+
         every { personCertificateProvider.personCertificates } returns flowOf(setOf())
+
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { admissionScenariosEnabled } returns true
         }
 
         coEvery { cclSettings.admissionScenarioId() } returns ""
-
         coEvery { cclSettings.saveAdmissionScenarioId(any()) } returns Job()
 
         coEvery { personCertificatesSettings.cleanSettingsNotIn(any()) } just Runs
     }
 
     @Test
-    fun `update triggered on first certificates change after initial empty set`() =
-        runTest2(true) {
+    fun `update triggered on first certificates change after initial empty set`() = runTest2(true) {
             val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf())))
             every { personCertificateProvider.personCertificates } returns flow
             instance(this)
@@ -120,8 +121,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `update is triggered on first certificates change after initial non empty set`() =
-        runTest2(true) {
+    fun `update is triggered on first certificates change after initial non empty set`() = runTest2(true) {
             val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
             every { personCertificateProvider.personCertificates } returns flow
             instance(this)
@@ -139,8 +139,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         }
 
     @Test
-    fun `update is triggered only once after rapid certificate changes`() =
-        runBlockingTest2(true) {
+    fun `update is triggered only once after rapid certificate changes`() = runTest2(true) {
             val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
             every { personCertificateProvider.personCertificates } returns flow
             instance(this)
