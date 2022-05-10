@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/status_nav_graph">
 
+    <!--    Status Tab graph-->
     <include app:graph="@navigation/status_nav_graph" />
     <!--    Corona Test graph-->
     <include app:graph="@navigation/test_nav_graph" />
@@ -13,81 +14,79 @@
     <!--    Presence Tracing graphs-->
     <include app:graph="@navigation/trace_location_organizer_nav_graph" />
     <include app:graph="@navigation/trace_location_attendee_nav_graph" />
-
     <!--    Rapid antigen test profile graph-->
     <include app:graph="@navigation/profile_nav_graph" />
-
     <!--    Covid certificates graph-->
     <include app:graph="@navigation/covid_certificates_graph" />
-
+    <!--    DCC Ticketing graph-->
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
-
-    <action
-        android:id="@+id/action_global_to_submissionTestResultNegativeFragment"
-        app:destination="@id/submissionTestResultNegativeFragment"
-        app:popUpTo="@id/status_nav_graph"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_global_to_submissionTestResultAvailableFragment"
-        app:destination="@id/submissionTestResultAvailableFragment"
-        app:popUpTo="@id/status_nav_graph"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_global_to_submissionTestResultKeysSharedFragment"
-        app:destination="@id/submissionTestResultKeysSharedFragment"
-        app:popUpTo="@id/status_nav_graph"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_global_to_submissionResultPositiveOtherWarningNoConsentFragment"
-        app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
-        app:popUpTo="@id/status_nav_graph"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_global_to_submissionTestResultPendingFragment"
-        app:destination="@id/submissionTestResultPendingFragment"
-        app:popUpTo="@id/status_nav_graph"
-        app:popUpToInclusive="false" />
 
     <!-- Global Actions -->
     <action
+        android:id="@+id/action_global_to_submissionTestResultNegativeFragment"
+        app:destination="@id/submissionTestResultNegativeFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_global_to_submissionTestResultAvailableFragment"
+        app:destination="@id/submissionTestResultAvailableFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_global_to_submissionTestResultKeysSharedFragment"
+        app:destination="@id/submissionTestResultKeysSharedFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_global_to_submissionResultPositiveOtherWarningNoConsentFragment"
+        app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_global_to_submissionTestResultPendingFragment"
+        app:destination="@id/submissionTestResultPendingFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
         android:id="@+id/action_submissionTestResultPendingFragment"
         app:destination="@id/submissionTestResultPendingFragment"
-        app:popUpTo="@id/status_nav_graph"
+        app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_requestCovidCertificateFragment"
-        app:destination="@id/requestCovidCertificateFragment" />
+        app:destination="@id/requestCovidCertificateFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_to_submissionTestResultAvailableFragment"
         app:destination="@id/submissionTestResultAvailableFragment"
-        app:popUpTo="@id/status_nav_graph"
+        app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_to_submissionDeletionWarningFragment"
-        app:destination="@id/submissionDeletionWarningFragment" />
+        app:destination="@id/submissionDeletionWarningFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_submissionConsentFragment"
-        app:destination="@id/submissionConsentFragment" />
+        app:destination="@id/submissionConsentFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_to_universal_scanner"
         app:destination="@id/universalScanner" />
-
     <action
         android:id="@+id/action_global_testRegistrationSelectionFragment"
-        app:destination="@id/testRegistrationSelectionFragment" />
-
+        app:destination="@id/testRegistrationSelectionFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
     <action
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
-
     <action
         android:id="@+id/action_global_mainFragment"
-        app:destination="@id/status_nav_graph"
-        app:popUpToInclusive="true" />
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
 
     <fragment
         android:id="@+id/qrCodeFullScreenFragment"
@@ -113,41 +112,50 @@
         <action
             android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"
             app:destination="@id/testRegistrationSelectionFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionDeletionWarningFragment"
             app:destination="@id/submissionDeletionWarningFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_pendingTestResult"
             app:destination="@id/submissionTestResultPendingFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
-            app:destination="@id/universalScannerInformationFragment" />
+            app:destination="@id/universalScannerInformationFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultNegativeFragment"
             app:destination="@id/submissionTestResultNegativeFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionResultPositiveOtherWarningNoConsentFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment"
-            app:popUpTo="@id/status_nav_graph" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -195,17 +203,17 @@
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultConsentGivenFragment"
             app:destination="@id/submissionTestResultConsentGivenFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_checkInsConsentFragment"
             app:destination="@id/checkInsConsentFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <argument
             android:name="testIdentifier"
@@ -265,12 +273,12 @@
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_submissionResultReadyFragment"
             app:destination="@id/submissionResultReadyFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_checkInsConsentFragment"
             app:destination="@id/checkInsConsentFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <argument
             android:name="testIdentifier"

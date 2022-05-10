@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/status_nav_graph"
+        android:id="@id/status_nav_graph"
         android:icon="@drawable/ic_nav_status"
         android:title="@string/bottom_nav_home_title" />
 
     <item
-        android:id="@+id/covid_certificates_graph"
+        android:id="@id/covid_certificates_graph"
         android:icon="@drawable/ic_nav_certificates"
         android:title="@string/bottom_nav_certificates_title" />
 
@@ -17,12 +17,12 @@
         android:title="@string/bottom_nav_scanner_title" />
 
     <item
-        android:id="@+id/trace_location_attendee_nav_graph"
+        android:id="@id/trace_location_attendee_nav_graph"
         android:icon="@drawable/ic_nav_checkin"
         android:title="@string/bottom_nav_check_ins_title" />
 
     <item
-        android:id="@+id/contact_diary_nav_graph"
+        android:id="@id/contact_diary_nav_graph"
         android:icon="@drawable/ic_nav_diary"
         android:title="@string/bottom_nav_diary_title" />
 </menu>
