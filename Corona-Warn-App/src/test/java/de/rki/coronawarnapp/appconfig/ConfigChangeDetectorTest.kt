@@ -12,11 +12,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 
 class ConfigChangeDetectorTest : BaseTest() {
 
@@ -43,20 +44,20 @@ class ConfigChangeDetectorTest : BaseTest() {
         }
     }
 
-    private fun createInstance() = ConfigChangeDetector(
+    private fun createInstance(scope: CoroutineScope) = ConfigChangeDetector(
         appConfigProvider = appConfigProvider,
         taskController = taskController,
-        appScope = TestCoroutineScope(),
+        appScope = scope,
         riskLevelSettings = riskLevelSettings,
         riskLevelStorage = riskLevelStorage
     )
 
     @Test
-    fun `new identifier without previous one is ignored`() {
+    fun `new identifier without previous one is ignored`() = runTest2 {
 
         every { riskLevelSettings.lastUsedConfigIdentifier } returns null
 
-        createInstance().launch()
+        createInstance(this).launch()
 
         coVerify(exactly = 0) {
             taskController.submit(any())
@@ -65,10 +66,10 @@ class ConfigChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `new identifier results in new risk level calculation`() {
+    fun `new identifier results in new risk level calculation`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "I'm a new identifier"
 
-        createInstance().launch()
+        createInstance(this).launch()
 
         coVerifySequence {
             riskLevelStorage.clearResults()
@@ -82,10 +83,10 @@ class ConfigChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `same identifier results in no op`() {
+    fun `same identifier results in no op`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
-        createInstance().launch()
+        createInstance(this).launch()
 
         coVerify(exactly = 0) {
             taskController.submit(any())
@@ -94,10 +95,10 @@ class ConfigChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `new emissions keep triggering the check`() {
+    fun `new emissions keep triggering the check`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
-        createInstance().launch()
+        createInstance(this).launch()
         currentConfigFake.value = mockConfigId("Straw")
         currentConfigFake.value = mockConfigId("berry")
 

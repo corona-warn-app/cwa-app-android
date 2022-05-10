@@ -12,7 +12,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
@@ -49,7 +49,7 @@ class CclTextFormatterTest : BaseTestInstrumentation() {
         testCases()
     }
 
-    private fun testCases() = runBlockingTest {
+    private fun testCases() = runTest {
         val format = CclTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)

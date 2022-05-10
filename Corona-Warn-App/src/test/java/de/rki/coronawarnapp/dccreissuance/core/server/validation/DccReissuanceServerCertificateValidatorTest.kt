@@ -13,7 +13,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.api.BeforeEach
@@ -65,12 +65,12 @@ class DccReissuanceServerCertificateValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path`() = runBlockingTest {
+    fun `happy path`() = runTest {
         instance.checkCertificateChain(certificateChain = listOf(serverCert))
     }
 
     @Test
-    fun `not matching hashes lead to DCC_RI_PIN_MISMATCH`() = runBlockingTest {
+    fun `not matching hashes lead to DCC_RI_PIN_MISMATCH`() = runTest {
         every { mockedPublicKey.encoded } returns "not matching hash".toByteArray()
 
         shouldThrow<DccReissuanceException> {
@@ -79,7 +79,7 @@ class DccReissuanceServerCertificateValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `maps unspecified errors to DCC_RI_PIN_MISMATCH`() = runBlockingTest {
+    fun `maps unspecified errors to DCC_RI_PIN_MISMATCH`() = runTest {
         coEvery { appConfigProvider.getAppConfig() } throws ApplicationConfigurationInvalidException(
             message = "Test error"
         )

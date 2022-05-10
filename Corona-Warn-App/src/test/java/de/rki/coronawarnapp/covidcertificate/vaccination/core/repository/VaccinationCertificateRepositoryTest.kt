@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -21,10 +22,12 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -33,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -77,6 +80,8 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         storage.apply {
             coEvery { loadLegacyData() } answers { testStorage }
             coEvery { save(any()) } answers { testStorage = arg(0) }
+            coEvery { load() } returns setOf()
+            coEvery { clearLegacyData() } just Runs
         }
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
             DccValidityMeasures(
@@ -86,7 +91,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             )
         )
 
-        coEvery { vaccinationMigration.doMigration() } returns emptySet()
+        vaccinationMigration = VaccinationMigration(storage)
     }
 
     private fun createInstance(scope: CoroutineScope) = VaccinationCertificateRepository(
@@ -102,23 +107,22 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `add new certificate - no prior data`() = runBlockingTest2(ignoreActive = true) {
+    fun `add new certificate - no prior data`() = runTest2 {
         val instance = createInstance(this)
-        advanceUntilIdle()
-
         instance.registerCertificate(VaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe
-                VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+                CertificatePersonIdentifier(
+                    dateOfBirthFormatted = "1966-11-11",
+                    lastNameStandardized = "ASTRA<EINS",
+                    firstNameStandardized = "ANDREAS"
+                )
         }
-
-        advanceUntilIdle()
-
         coVerify { storage.save(any()) }
     }
 
     @Test
-    fun `add new certificate - existing data`() = runBlockingTest2(ignoreActive = true) {
+    fun `add new certificate - existing data`() = runTest2 {
         val dataBefore = VaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(VaccinationTestData.personAVac1StoredCertificateData),
         )
@@ -134,19 +138,23 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         testStorage = setOf(dataBefore)
 
         val instance = createInstance(this)
-        advanceUntilIdle()
 
         instance.registerCertificate(VaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
             this.personIdentifier shouldBe
-                VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+                CertificatePersonIdentifier(
+                    dateOfBirthFormatted = "1966-11-11",
+                    lastNameStandardized = "ASTRA<EINS",
+                    firstNameStandardized = "ANDREAS"
+                )
         }
 
-        testStorage.first() shouldBe dataAfter
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            dataAfter.vaccinations.map { it.vaccinationQrCode.toSHA256() }
     }
 
     @Test
-    fun `add new certificate - does not match existing person`() = runBlockingTest2(ignoreActive = true) {
+    fun `add new certificate - does not match existing person`() = runTest2 {
         testStorage =
             setOf(
                 VaccinationTestData.personAData2Vac.copy(
@@ -157,54 +165,49 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             )
 
         val instance = createInstance(this)
-        advanceUntilIdle()
 
         every { timeStamper.nowUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
         instance.registerCertificate(VaccinationTestData.personBVac1QRCode)
 
-        testStorage shouldBe setOf(
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe setOf(
             VaccinationTestData.personAData2Vac,
             VaccinationTestData.personBData1Vac
-        )
+        ).flatMap {
+            it.vaccinations.map { c -> c.vaccinationQrCode.toSHA256() }
+        }
     }
 
     @Test
-    fun `add new certificate - duplicate certificate`() = runBlockingTest2(ignoreActive = true) {
+    fun `add new certificate - duplicate certificate`() = runTest2 {
         val dataBefore = VaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(VaccinationTestData.personAVac1StoredCertificateData),
         )
 
         testStorage = setOf(dataBefore)
-
         val instance = createInstance(this)
-        advanceUntilIdle()
-
         shouldThrow<InvalidVaccinationCertificateException> {
             instance.registerCertificate(VaccinationTestData.personAVac1QRCode)
         }.errorCode shouldBe ALREADY_REGISTERED
 
-        testStorage.first() shouldBe dataBefore
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            dataBefore.vaccinations.map { it.vaccinationQrCode.toSHA256() }
     }
 
     @Test
-    fun `clear data`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear data`() = runTest2 {
         testStorage = setOf(VaccinationTestData.personAData2Vac)
 
         val instance = createInstance(this)
-        advanceUntilIdle()
-
-        instance.certificates.first() shouldBe VaccinationTestData.personAData2Vac
-
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            VaccinationTestData.personAData2Vac.vaccinations.map { it.vaccinationQrCode.toSHA256() }
         instance.reset()
-        advanceUntilIdle()
-
         testStorage shouldBe emptySet()
         instance.certificates.first() shouldBe emptySet()
     }
 
     @Test
-    fun `remove certificate`() = runBlockingTest2(ignoreActive = true) {
+    fun `remove certificate`() = runTest2 {
         val before = VaccinationTestData.personAData2Vac
         val after = VaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(VaccinationTestData.personAVac1StoredCertificateData)
@@ -214,65 +217,61 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         testStorage = setOf(before)
 
         val instance = createInstance(this)
-        advanceUntilIdle()
 
-        instance.certificates.first() shouldBe VaccinationTestData.personAData2Vac
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            before.vaccinations.map { it.vaccinationQrCode.toSHA256() }
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(toRemove.vaccinationQrCode)
-        ) shouldBe VaccinationTestData.personAVac2StoredCertificateData
-        advanceUntilIdle()
+            VaccinationCertificateContainerId(toRemove.vaccinationQrCode.toSHA256())
+        )
 
-        testStorage shouldBe setOf(after)
-        instance.certificates.first().single() shouldBe after
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            after.vaccinations.map { it.vaccinationQrCode.toSHA256() }
     }
 
     @Test
-    fun `remove certificate - unknown certificate`() = runBlockingTest2(ignoreActive = true) {
+    fun `remove certificate - unknown certificate`() = runTest2 {
         testStorage = setOf(VaccinationTestData.personAData2Vac)
 
         val instance = createInstance(this)
-        advanceUntilIdle()
-
-        instance.certificates.first().single() shouldBe VaccinationTestData.personAData2Vac
-
-        instance.deleteCertificate(
-            VaccinationCertificateContainerId(VaccinationTestData.personBVac1Container.vaccinationQrCode)
-        ) shouldBe null
-    }
-
-    @Test
-    fun `remove certificate - last certificate for person`() = runBlockingTest2(ignoreActive = true) {
-        testStorage = setOf(VaccinationTestData.personBData1Vac)
-
-        val instance = createInstance(this)
-        advanceUntilIdle()
-
-        instance.certificates.first().single() shouldBe VaccinationTestData.personBData1Vac
-
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            VaccinationTestData.personAData2Vac.vaccinations.map { it.vaccinationQrCode.toSHA256() }
         instance.deleteCertificate(
             VaccinationCertificateContainerId(VaccinationTestData.personBVac1Container.vaccinationQrCode)
         )
-        advanceUntilIdle()
 
+        instance.certificates.first().map { it.vaccinationCertificate.qrCodeHash } shouldBe
+            VaccinationTestData.personAData2Vac.vaccinations.map { it.vaccinationQrCode.toSHA256() }
+    }
+
+    @Test
+    fun `remove certificate - last certificate for person`() = runTest2 {
+        testStorage = setOf(VaccinationTestData.personBData1Vac)
+        val instance = createInstance(this)
+
+        instance.certificates.first().single().vaccinationCertificate.qrCodeHash shouldBe
+            VaccinationTestData.personBData1Vac.vaccinations.single().vaccinationQrCode.toSHA256()
+
+        instance.deleteCertificate(
+            VaccinationCertificateContainerId(VaccinationTestData.personBVac1Container.vaccinationQrCode.toSHA256())
+        )
         instance.certificates.first() shouldBe emptySet()
         testStorage shouldBe emptySet()
     }
 
     @Test
-    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+    fun `storage is not written on init`() = runTest2 {
         val instance = createInstance(this)
         instance.certificates.first()
-        advanceUntilIdle()
 
         coVerify {
+            storage.load()
             storage.loadLegacyData()
-            storage.save(any())
         }
     }
 
     @Test
-    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+    fun `filter by recycled`() = runTest2 {
         val recycled = VaccinationTestData.personAVac2StoredCertificateData.copy(
             recycledAt = nowUTC
         )
@@ -303,7 +302,8 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
             allCertificates.first().also {
                 it.certificates shouldBe certificates.first()
-                it.recycledCertificates shouldBe recycledCertificates.first()
+                it.recycledCertificates.map { c -> c.qrCodeHash } shouldBe
+                    recycledCertificates.first().map { c -> c.qrCodeHash }
             }
         }
     }

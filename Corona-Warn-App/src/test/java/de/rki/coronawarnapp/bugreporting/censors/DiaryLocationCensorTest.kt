@@ -11,7 +11,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -45,7 +46,7 @@ class DiaryLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         every { diaryRepo.locations } returns flowOf(
             listOf(
                 mockLocation(1, "Munich", phone = "+49 089 3333", mail = "bürgermeister@münchen.de"),
@@ -60,6 +61,8 @@ class DiaryLocationCensorTest : BaseTest() {
             Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
             and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
             """.trimIndent()
+
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
@@ -69,7 +72,7 @@ class DiaryLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after locations are deleted`() = runBlockingTest {
+    fun `censoring should still work after locations are deleted`() = runTest {
         every { diaryRepo.locations } returns flowOf(
             listOf(
                 mockLocation(1, "Munich", phone = "+49 089 3333", mail = "bürgermeister@münchen.de"),
@@ -90,6 +93,7 @@ class DiaryLocationCensorTest : BaseTest() {
             Both agreed that their emails (bürgermeister@münchen.de|karl@aachen.de) are awesome,
             and that Bielefeld doesn't exist as it has neither phonenumber (null) nor email (null).
             """.trimIndent()
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             Bürgermeister of Location#1/Name (Location#1/PhoneNumber) and Karl of Location#3/Name [Location#3/PhoneNumber] called each other.
@@ -99,7 +103,7 @@ class DiaryLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there are no locations no match`() = runBlockingTest {
+    fun `censoring returns null if there are no locations no match`() = runTest {
         every { diaryRepo.locations } returns flowOf(emptyList())
         val instance = createInstance(this)
         val notCensored = "Can't visit many cities during lockdown..."
@@ -107,7 +111,7 @@ class DiaryLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `if message is the same, don't copy the log line`() = runBlockingTest {
+    fun `if message is the same, don't copy the log line`() = runTest {
         every { diaryRepo.locations } returns flowOf(
             listOf(
                 mockLocation(1, "Test", phone = null, mail = null),

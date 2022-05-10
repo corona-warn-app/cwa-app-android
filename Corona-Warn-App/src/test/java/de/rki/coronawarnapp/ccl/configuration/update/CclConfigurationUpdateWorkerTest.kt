@@ -12,7 +12,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +31,7 @@ class CclConfigurationUpdateWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `configuration updater should be called in doWork()`() = runBlockingTest {
+    fun `configuration updater should be called in doWork()`() = runTest {
         createWorker().doWork() shouldBe ListenableWorker.Result.success()
 
         coVerify(exactly = 1) { cclConfigurationUpdater.updateIfRequired() }

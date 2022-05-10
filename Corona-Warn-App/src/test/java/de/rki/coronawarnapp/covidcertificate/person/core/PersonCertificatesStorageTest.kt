@@ -11,7 +11,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free`() = runBlockingTest {
+    fun `init is sideeffect free`() = runTest {
         createInstance().apply {
             currentCwaUser.first() shouldBe null
             personsSettings.first() shouldBe emptyMap()
@@ -56,7 +56,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clearing deletes all data`() = runBlockingTest {
+    fun `clearing deletes all data`() = runTest {
         createInstance().apply {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
@@ -74,7 +74,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store current cwa user person identifier`() = runBlockingTest {
+    fun `store current cwa user person identifier`() = runTest {
         val testIdentifier = CertificatePersonIdentifier(
             firstNameStandardized = "firstname",
             lastNameStandardized = "lastname",
@@ -98,7 +98,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `remove current cwa user person identifier`() = runBlockingTest {
+    fun `remove current cwa user person identifier`() = runTest {
         val testIdentifier = CertificatePersonIdentifier(
             firstNameStandardized = "firstname",
             lastNameStandardized = "lastname",
@@ -115,7 +115,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set G status for a person with no setting`() = runBlockingTest {
+    fun `set G status for a person with no setting`() = runTest {
         createInstance().apply {
             setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -137,7 +137,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set G status for a person that has settings`() = runBlockingTest {
+    fun `set G status for a person that has settings`() = runTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -161,7 +161,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss G status for a person with no settings`() = runBlockingTest {
+    fun `dismiss G status for a person with no settings`() = runTest {
         createInstance().apply {
             dismissGStatusBadge(personIdentifier1)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -183,7 +183,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss G status for a person that has settings`() = runBlockingTest {
+    fun `dismiss G status for a person that has settings`() = runTest {
         createInstance().apply {
             setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
             dismissGStatusBadge(personIdentifier1)
@@ -206,7 +206,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set booster for a person has not settings`() = runBlockingTest {
+    fun `set booster for a person has not settings`() = runTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -228,7 +228,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set booster for a person has settings`() = runBlockingTest {
+    fun `set booster for a person has settings`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -251,7 +251,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set dcc reissuance for a person has not settings`() = runBlockingTest {
+    fun `set dcc reissuance for a person has not settings`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -280,7 +280,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set dcc reissuance for a person has settings`() = runBlockingTest {
+    fun `set dcc reissuance for a person has settings`() = runTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -302,7 +302,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss dcc reissuance for a person has not settings`() = runBlockingTest {
+    fun `dismiss dcc reissuance for a person has not settings`() = runTest {
         createInstance().apply {
             dismissReissuanceBadge(personIdentifier1)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -324,7 +324,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss dcc reissuance for a person has settings`() = runBlockingTest {
+    fun `dismiss dcc reissuance for a person has settings`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -347,7 +347,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `acknowledge booster for a person has not settings`() = runBlockingTest {
+    fun `acknowledge booster for a person has not settings`() = runTest {
         createInstance().apply {
             acknowledgeBoosterRule(personIdentifier1, "BRN-123")
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -369,7 +369,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `acknowledge booster for a person has settings`() = runBlockingTest {
+    fun `acknowledge booster for a person has settings`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -393,7 +393,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clear booster for a person has settings`() = runBlockingTest {
+    fun `clear booster for a person has settings`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -416,7 +416,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clear booster for a person has not settings`() = runBlockingTest {
+    fun `clear booster for a person has not settings`() = runTest {
         createInstance().apply {
             clearBoosterRuleInfo(personIdentifier1)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -434,7 +434,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `save settings for many persons`() = runBlockingTest {
+    fun `save settings for many persons`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -494,7 +494,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clean up settings for outdated persons`() = runBlockingTest {
+    fun `clean up settings for outdated persons`() = runTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)

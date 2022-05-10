@@ -11,7 +11,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -30,7 +30,7 @@ class SettingsNotificationStateTest : BaseTest() {
     }
 
     @Test
-    fun getNotificationIconColor() = runBlockingTest {
+    fun getNotificationIconColor() = runTest {
         SettingsNotificationState(
             isNotificationsEnabled = true,
         ).getNotificationIconColor(context)
@@ -43,7 +43,7 @@ class SettingsNotificationStateTest : BaseTest() {
     }
 
     @Test
-    fun getNotificationIcon() = runBlockingTest {
+    fun getNotificationIcon() = runTest {
         SettingsNotificationState(
             isNotificationsEnabled = true,
         ).getNotificationIcon(context)
