@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
@@ -66,12 +65,12 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         val certificates = mutableListOf<DccReissuanceItem>()
         if (this?.certificates != null) {
             this.certificates.forEach { dccCertificate ->
-          
-                    val certificateToReissue = dccQrCodeExtractor.extract(
-                        dccCertificate.certificateToReissue.certificateRef.barcodeData,
-                        DccV1Parser.Mode.CERT_SINGLE_STRICT
-                    ).data.certificate
-               
+
+                val certificateToReissue = dccQrCodeExtractor.extract(
+                    dccCertificate.certificateToReissue.certificateRef.barcodeData,
+                    DccV1Parser.Mode.CERT_SINGLE_STRICT
+                ).data.certificate
+
                 certificates.add(
                     DccReissuanceConsentCard.Item(
                         certificateToReissue
