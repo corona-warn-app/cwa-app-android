@@ -13,8 +13,8 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -25,8 +25,6 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var checkInsTransformer: OrganizerCheckInsTransformer
     @MockK lateinit var organizerPlaybook: OrganizerPlaybook
-
-    private lateinit var organiserSubmissionRepository: OrganizerSubmissionRepository
 
     private val traceLocation = TraceLocation(
         id = 2,
@@ -57,16 +55,11 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
         )
 
         coEvery { organizerPlaybook.submit(any(), any()) } just Runs
-        organiserSubmissionRepository = OrganizerSubmissionRepository(
-            appScope = TestCoroutineScope(),
-            checkInsTransformer = checkInsTransformer,
-            organizerPlaybook = organizerPlaybook
-        )
     }
 
     @Test
-    fun `submit - Prepare checkins and then submit`() = runBlockingTest {
-        organiserSubmissionRepository.submit(organizerSubmissionPayload)
+    fun `submit - Prepare checkins and then submit`() = runTest {
+        organizerSubmissionRepository().submit(organizerSubmissionPayload)
 
         coVerifySequence {
             checkInsTransformer.transform(any())
@@ -75,18 +68,24 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `submit - throws Exception when Preparing checkins fails`() = runBlockingTest {
+    fun `submit - throws Exception when Preparing checkins fails`() = runTest {
         coEvery { checkInsTransformer.transform(any()) } throws Exception()
         shouldThrow<Exception> {
-            organiserSubmissionRepository.submit(organizerSubmissionPayload)
+            organizerSubmissionRepository().submit(organizerSubmissionPayload)
         }
     }
 
     @Test
-    fun `submit - throws Exception when submit fails`() = runBlockingTest {
+    fun `submit - throws Exception when submit fails`() = runTest {
         coEvery { organizerPlaybook.submit(any(), any()) } throws Exception()
         shouldThrow<Exception> {
-            organiserSubmissionRepository.submit(organizerSubmissionPayload)
+            organizerSubmissionRepository().submit(organizerSubmissionPayload)
         }
     }
+
+    private fun TestScope.organizerSubmissionRepository() = OrganizerSubmissionRepository(
+        appScope = this,
+        checkInsTransformer = checkInsTransformer,
+        organizerPlaybook = organizerPlaybook
+    )
 }

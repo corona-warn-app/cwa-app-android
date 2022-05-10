@@ -11,7 +11,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.DateTime
 import org.joda.time.Duration
@@ -171,7 +171,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     fun `result should be success after send() when everything is ok`() {
         coEvery { traceLocationCreator.createTraceLocation(any()) } returns dummyTraceLocation
 
-        runBlockingTest {
+        runTest {
             val viewModel = createViewModel(categoryEvent)
 
             viewModel.send()
@@ -187,7 +187,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
         val exception = Exception()
         coEvery { traceLocationCreator.createTraceLocation(any()) } throws exception
 
-        runBlockingTest {
+        runTest {
             val viewModel = createViewModel(categoryEvent)
 
             viewModel.send()

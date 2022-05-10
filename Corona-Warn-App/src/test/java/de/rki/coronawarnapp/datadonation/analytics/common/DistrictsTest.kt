@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +34,7 @@ class DistrictsTest : BaseTest() {
     )
 
     @Test
-    fun `loading from assets and parsing`() = runBlockingTest {
+    fun `loading from assets and parsing`() = runTest {
         val districts = createInstance().loadDistricts()
         districts.size shouldBe 412
         districts.last() shouldBe Districts.District(
@@ -48,7 +48,7 @@ class DistrictsTest : BaseTest() {
     }
 
     @Test
-    fun `districts have only known short names for federal states`() = runBlockingTest {
+    fun `districts have only known short names for federal states`() = runTest {
         val districts = createInstance().loadDistricts()
 
         val stateCodesInDistricts = mutableSetOf<String>()

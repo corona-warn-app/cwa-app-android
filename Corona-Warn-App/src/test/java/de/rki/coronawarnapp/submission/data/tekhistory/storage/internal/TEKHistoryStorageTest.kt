@@ -15,7 +15,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -83,7 +83,7 @@ class TEKHistoryStorageTest : BaseTest() {
     )
 
     @Test
-    fun `store data`() = runBlockingTest {
+    fun `store data`() = runTest {
         val instance = createInstance()
 
         instance.storeTEKData(testData)
@@ -94,14 +94,14 @@ class TEKHistoryStorageTest : BaseTest() {
     }
 
     @Test
-    fun `retrieve data`() = runBlockingTest {
+    fun `retrieve data`() = runTest {
         every { tekHistoryTables.allEntries() } returns flowOf(listOf(persistedTEK1, persistedTEK2))
         val instance = createInstance()
         instance.tekData.first() shouldBe listOf(testData)
     }
 
     @Test
-    fun `clear all data`() = runBlockingTest {
+    fun `clear all data`() = runTest {
         createInstance().reset()
         coVerifySequence { tekHistoryDatabase.clearAllTables() }
     }

@@ -12,7 +12,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ class TestCertificateContainerTest : BaseTest() {
     }
 
     @Test
-    fun `check test certificate field mapping`() = runBlockingTest {
+    fun `check test certificate field mapping`() = runTest {
         val rawData = certificateTestData.personATest1CertQRCode().data
         certificateTestData.personATest1Container.toTestCertificate(
             certificateState = CwaCovidCertificate.State.Invalid()

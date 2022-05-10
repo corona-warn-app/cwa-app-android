@@ -23,7 +23,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -190,7 +190,7 @@ class CheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `checkInsReport has encryptedCheckIns only`() = runBlockingTest {
+    fun `checkInsReport has encryptedCheckIns only`() = runTest {
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 submissionParameters = submissionParams,
@@ -223,7 +223,7 @@ class CheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `checkInsReport has unencryptedCheckIns - encryptedCheckIns`() = runBlockingTest {
+    fun `checkInsReport has unencryptedCheckIns - encryptedCheckIns`() = runTest {
         val checkInsReport = checkInTransformer.transform(
             listOf(
                 checkIn1,

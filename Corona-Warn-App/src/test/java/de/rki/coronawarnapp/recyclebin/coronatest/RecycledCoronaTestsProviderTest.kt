@@ -29,7 +29,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
@@ -117,7 +117,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @Test
     fun `Recycled Tests are retrieved`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2 {
             createInstance().tests.first() shouldBe allTests
 
             coVerify {
@@ -127,7 +127,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
     @Test
-    fun `Delete recycled tests one by one`() = runBlockingTest2(ignoreActive = true) {
+    fun `Delete recycled tests one by one`() = runTest2 {
         createInstance().run {
             tests.first() shouldBe allTests
             deleteCoronaTest(recycledPersonalPcrTest.identifier)
@@ -147,7 +147,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Delete all recycled tests at once`() = runBlockingTest2(ignoreActive = true) {
+    fun `Delete all recycled tests at once`() = runTest2 {
         createInstance().run {
             tests.first() shouldBe allTests
             deleteAllCoronaTest(allTests.map { it.identifier })
@@ -163,7 +163,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Delete all recycled personal tests at once`() = runBlockingTest2(ignoreActive = true) {
+    fun `Delete all recycled personal tests at once`() = runTest2 {
         createInstance().run {
             tests.first() shouldBe allTests
             deleteAllCoronaTest(recycledPersonalTests.map { it.identifier })
@@ -181,7 +181,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Delete all recycled family tests at once`() = runBlockingTest2(ignoreActive = true) {
+    fun `Delete all recycled family tests at once`() = runTest2 {
         createInstance().run {
             tests.first() shouldBe allTests
             deleteAllCoronaTest(recycledFamilyTests.map { it.identifier })
@@ -199,7 +199,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Find corona test by qrCodeHash`() = runBlockingTest2(ignoreActive = true) {
+    fun `Find corona test by qrCodeHash`() = runTest2 {
         createInstance().run {
             findCoronaTest(recycledPersonalPcrTest.qrCodeHash) shouldBe recycledPersonalPcrTest
             findCoronaTest(recycledPersonalRatTest.qrCodeHash) shouldBe recycledPersonalRatTest
@@ -213,7 +213,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Restore Personal RAT corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Personal RAT corona test`() = runTest2 {
         createInstance().run {
             restoreCoronaTest(recycledPersonalRatTest.identifier)
         }
@@ -226,7 +226,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Restore Personal PCR corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Personal PCR corona test`() = runTest2 {
         createInstance().run {
             restoreCoronaTest(recycledPersonalPcrTest.identifier)
         }
@@ -238,7 +238,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Restore Family RAT corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Family RAT corona test`() = runTest2 {
         createInstance().run {
             restoreCoronaTest(recycledFamilyRatTest.identifier)
         }
@@ -254,7 +254,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     @Test
-    fun `Restore Family PCR corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Family PCR corona test`() = runTest2 {
         createInstance().run {
             restoreCoronaTest(recycledFamilyPcrTest.identifier)
         }

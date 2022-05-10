@@ -12,7 +12,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.BeforeEach
@@ -45,7 +45,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     )
 
     @Test
-    fun `should return poster template when response is successful`() = runBlockingTest {
+    fun `should return poster template when response is successful`() = runTest {
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.success(POSTER_BUNDLE.toResponseBody())
@@ -71,7 +71,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should fallback to default template if signature is invalid`() = runBlockingTest {
+    fun `should fallback to default template if signature is invalid`() = runTest {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         coEvery {
@@ -82,7 +82,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should throw exception if response contains invalid data`() = runBlockingTest {
+    fun `should throw exception if response contains invalid data`() = runTest {
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.success("ABC123".decodeHex().toResponseBody())
@@ -93,7 +93,7 @@ internal class QrCodePosterTemplateServerTest : BaseTest() {
     }
 
     @Test
-    fun `should fallback to default template when response is not successful`() = runBlockingTest {
+    fun `should fallback to default template when response is not successful`() = runTest {
         coEvery {
             api.getQrCodePosterTemplate()
         } returns Response.error(404, "ERROR".toResponseBody())

@@ -9,16 +9,15 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
-import testhelpers.coroutines.test
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class GeneralTracingStatusTest : BaseTest() {
 
     @MockK lateinit var enfClient: ENFClient
@@ -47,41 +46,36 @@ class GeneralTracingStatusTest : BaseTest() {
     )
 
     @Test
-    fun `flow updates work`() = runBlockingTest {
-        val testCollector = createInstance().generalStatus.test(startOnScope = this)
+    fun `flow updates work`() = runTest {
+        val generalStatus = createInstance().generalStatus
         advanceUntilIdle()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
 
         isBluetoothEnabled.emit(false)
         advanceUntilIdle()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.BLUETOOTH_DISABLED
 
         isBluetoothEnabled.emit(true)
         advanceUntilIdle()
-
-        testCollector.latestValues shouldBe listOf(
-            GeneralTracingStatus.Status.TRACING_ACTIVE,
-            GeneralTracingStatus.Status.BLUETOOTH_DISABLED,
-            GeneralTracingStatus.Status.TRACING_ACTIVE
-        )
-
-        testCollector.cancel()
+        generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
     }
 
     @Test
-    fun `bluetooth state change`() = runBlockingTest {
+    fun `bluetooth state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
         isBluetoothEnabled.emit(false)
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.BLUETOOTH_DISABLED
     }
 
     @Test
-    fun `tracing state change`() = runBlockingTest {
+    fun `tracing state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
         isTracingEnabled.emit(false)
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_INACTIVE
     }
 
     @Test
-    fun `location state change`() = runBlockingTest {
+    fun `location state change`() = runTest {
         createInstance().generalStatus.first() shouldBe GeneralTracingStatus.Status.TRACING_ACTIVE
 
         isLocationEnabled.emit(false)

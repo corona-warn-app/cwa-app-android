@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -39,7 +39,7 @@ class LocalDscStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `read and write should work`() = runBlockingTest {
+    fun `read and write should work`() = runTest {
         val rawData = DSC_LIST_BASE64.decodeBase64()!!.toByteArray()
 
         storagePath.exists() shouldBe false

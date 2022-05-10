@@ -17,7 +17,9 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -44,7 +46,7 @@ class TracingPermissionHelperTest : BaseTest() {
     )
 
     @Test
-    fun `request is not forwarded if tracing is enabled`() = runBlockingTest {
+    fun `request is not forwarded if tracing is enabled`() = runTest(UnconfinedTestDispatcher()) {
         coEvery { enfClient.isTracingEnabled } returns flowOf(true)
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
@@ -60,7 +62,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `if consent is missing then we continue after it was given`() = runBlockingTest {
+    fun `if consent is missing then we continue after it was given`() = runTest(UnconfinedTestDispatcher()) {
         every { tracingSettings.isConsentGiven } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
@@ -84,7 +86,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `if consent was declined then we do nothing`() = runBlockingTest {
+    fun `if consent was declined then we do nothing`() = runTest(UnconfinedTestDispatcher()) {
         every { tracingSettings.isConsentGiven } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
@@ -102,7 +104,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `if tracing is not yet enabled we forward to the enf client`() = runBlockingTest {
+    fun `if tracing is not yet enabled we forward to the enf client`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
 
@@ -120,7 +122,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `permission request is forwarded from enf client`() = runBlockingTest {
+    fun `permission request is forwarded from enf client`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
 
         val onPermissionRequiredCallback = slot<(Status) -> Unit>()
@@ -150,7 +152,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `errors from the enf client are forwarded`() = runBlockingTest {
+    fun `errors from the enf client are forwarded`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val onErrorCallback = slot<(Throwable) -> Unit>()
         coEvery {
@@ -180,7 +182,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `unknown activity results are not consumed`() = runBlockingTest {
+    fun `unknown activity results are not consumed`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
 
@@ -190,7 +192,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `positive activity results lead to new setTracing call`() = runBlockingTest {
+    fun `positive activity results lead to new setTracing call`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
 
@@ -212,7 +214,7 @@ class TracingPermissionHelperTest : BaseTest() {
     }
 
     @Test
-    fun `negative activity results lead permission to direct callback`() = runBlockingTest {
+    fun `negative activity results lead permission to direct callback`() = runTest(UnconfinedTestDispatcher()) {
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
 

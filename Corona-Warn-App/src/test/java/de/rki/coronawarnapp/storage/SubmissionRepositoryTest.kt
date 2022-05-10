@@ -18,7 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.slot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ class SubmissionRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `tryReplaceTest overrides register test conditions`() = runBlockingTest {
+    fun `tryReplaceTest overrides register test conditions`() = runTest {
         val precondition = slot<(Collection<BaseCoronaTest>) -> Boolean>()
         val postcondition = slot<(BaseCoronaTest) -> Boolean>()
 

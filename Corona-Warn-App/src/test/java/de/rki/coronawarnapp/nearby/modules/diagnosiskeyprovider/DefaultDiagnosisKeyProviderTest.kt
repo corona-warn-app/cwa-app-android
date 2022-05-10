@@ -16,7 +16,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -65,7 +65,7 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
         val provider = createProvider()
 
         assertThrows<OutdatedENFVersionException> {
-            runBlockingTest { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe false
+            runTest { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe false
         }
 
         coVerify {

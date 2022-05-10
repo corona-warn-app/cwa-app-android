@@ -6,10 +6,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,34 +25,34 @@ internal class ProfileCensorTest : BaseTest() {
         MockKAnnotations.init(this)
     }
 
-    private fun createInstance() = ProfileCensor(
-        TestCoroutineScope(),
+    private fun createInstance(scope: CoroutineScope) = ProfileCensor(
+        debugScope = scope,
         profileRepository = profileRepository,
     )
 
     @Test
-    fun `checkLog() should return null if no profile is stored`() = runBlocking {
+    fun `checkLog() should return null if no profile is stored`() = runTest(UnconfinedTestDispatcher()) {
         every { profileRepository.profilesFlow } returns flowOf(setOf())
         val logLine = "Lorem ipsum"
-        createInstance().checkLog(logLine) shouldBe null
+        createInstance(this).checkLog(logLine) shouldBe null
     }
 
     @Test
-    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
+    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runTest(UnconfinedTestDispatcher()) {
         every { profileRepository.profilesFlow } returns flowOf(setOf(profile))
         val logLine = "I'm a tag"
-        createInstance().checkLog(logLine) shouldBe null
+        createInstance(this).checkLog(logLine) shouldBe null
     }
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlocking {
+    fun `checkLog() should return censored LogLine`() = runTest(UnconfinedTestDispatcher()) {
         every { profileRepository.profilesFlow } returns flowOf(setOf(profile))
 
         val logLine =
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
                 "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
 
-        val censored = createInstance().checkLog(logLine)!!.compile()!!.censored
+        val censored = createInstance(this).checkLog(logLine)!!.compile()!!.censored
 
         censored.contains(profile.firstName) shouldBe false
         censored.contains(profile.lastName) shouldBe false
@@ -65,14 +65,14 @@ internal class ProfileCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after the user deletes his profile`() = runBlockingTest {
+    fun `censoring should still work after the user deletes his profile`() = runTest(UnconfinedTestDispatcher()) {
         every { profileRepository.profilesFlow } returns flowOf(setOf(profile), setOf())
 
         val logLine =
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
                 "12132 in the beautiful city of London. You can reach him by phone: 111111111 or email: email@example.com"
 
-        val censored = createInstance().checkLog(logLine)!!.compile()!!.censored
+        val censored = createInstance(this).checkLog(logLine)!!.compile()!!.censored
         censored.contains(profile.firstName) shouldBe false
         censored.contains(profile.lastName) shouldBe false
         censored.contains(profile.city) shouldBe false
@@ -84,7 +84,7 @@ internal class ProfileCensorTest : BaseTest() {
     }
 
     @Test
-    fun `self overlap`() = runBlockingTest {
+    fun `self overlap`() = runTest(UnconfinedTestDispatcher()) {
         val selfOverlap = profile.copy(
             lastName = "Berlin",
             city = "Berlin Kreuzberg"
@@ -95,7 +95,7 @@ internal class ProfileCensorTest : BaseTest() {
             "Mister First name who is also known as Last name and is born on 1950-08-01 lives in Main street, " +
                 "12132 in the beautiful city of Berlin Kreuzberg. You can reach him by phone: 111111111 or email: email@example.com"
 
-        val censored = createInstance().checkLog(logLine)!!.compile()!!.censored
+        val censored = createInstance(this).checkLog(logLine)!!.compile()!!.censored
         censored.contains(selfOverlap.firstName) shouldBe false
         censored.contains(selfOverlap.lastName) shouldBe false
         censored.contains(selfOverlap.city) shouldBe false

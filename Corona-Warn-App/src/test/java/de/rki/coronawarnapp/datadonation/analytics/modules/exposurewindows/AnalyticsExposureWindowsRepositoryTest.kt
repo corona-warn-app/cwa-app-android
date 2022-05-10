@@ -10,7 +10,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -52,7 +52,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
     @Test
     fun `stale data clean up`() {
         addDatabase()
-        runBlockingTest {
+        runTest {
             newInstance().deleteStaleData()
             coVerify {
                 analyticsExposureWindowDao.deleteReportedOlderThan(
@@ -68,7 +68,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
         coEvery { analyticsExposureWindowDao.getNew(any()) } returns null
         coEvery { analyticsExposureWindowDao.insert(any()) } just Runs
         addDatabase()
-        runBlockingTest {
+        runTest {
             newInstance().addNew(analyticsExposureWindow)
             coVerify { analyticsExposureWindowDao.insert(any()) }
         }
@@ -79,7 +79,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
         coEvery { analyticsExposureWindowDao.getReported(any()) } returns analyticsReportedExposureWindowEntity
         coEvery { analyticsExposureWindowDao.getNew(any()) } returns analyticsExposureWindowEntity
         addDatabase()
-        runBlockingTest {
+        runTest {
             newInstance().addNew(analyticsExposureWindow)
             coVerify(exactly = 0) { analyticsExposureWindowDao.insert(any()) }
         }
@@ -90,7 +90,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
         coEvery { analyticsExposureWindowDao.getReported(any()) } returns analyticsReportedExposureWindowEntity
         coEvery { analyticsExposureWindowDao.getNew(any()) } returns analyticsExposureWindowEntity
         addDatabase()
-        runBlockingTest {
+        runTest {
             newInstance().addNew(analyticsExposureWindow)
             coVerify(exactly = 0) { analyticsExposureWindowDao.insert(any()) }
         }

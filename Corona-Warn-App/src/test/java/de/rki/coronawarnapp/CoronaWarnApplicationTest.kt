@@ -48,7 +48,7 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -148,7 +148,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.testCertificateRetrievalScheduler = testCertificateRetrievalScheduler
                 app.localStatisticsRetrievalScheduler = localStatisticsRetrievalScheduler
                 app.securityProvider = securityProvider
-                app.appScope = TestCoroutineScope()
+                app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
                         // NOOP

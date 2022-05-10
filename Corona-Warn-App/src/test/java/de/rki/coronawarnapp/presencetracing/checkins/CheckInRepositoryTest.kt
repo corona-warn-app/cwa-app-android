@@ -17,7 +17,7 @@ import io.mockk.slot
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -46,7 +46,7 @@ class CheckInRepositoryTest : BaseTest() {
     private fun createInstance() = CheckInRepository(factory, timeStamper)
 
     @Test
-    fun `new entities should have ID 0`() = runBlockingTest {
+    fun `new entities should have ID 0`() = runTest {
         shouldThrow<IllegalArgumentException> {
             val checkIn = CheckIn(
                 id = 1L,
@@ -72,7 +72,7 @@ class CheckInRepositoryTest : BaseTest() {
     @Test
     fun `add new check in`() {
         coEvery { checkInDao.insert(any()) } returns 0L
-        runBlockingTest {
+        runTest {
             val time = Instant.ofEpochMilli(1397210400000)
             val end = Instant.ofEpochMilli(1397210400001)
             createInstance().addCheckIn(
@@ -122,7 +122,7 @@ class CheckInRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update new check in`() = runBlockingTest {
+    fun `update new check in`() = runTest {
         val slot = slot<(CheckIn) -> CheckIn>()
         coEvery { checkInDao.updateEntityById(any(), capture(slot)) } returns Unit
 
@@ -163,7 +163,7 @@ class CheckInRepositoryTest : BaseTest() {
                 hasSubmissionConsent = true,
             )
         )
-        runBlockingTest {
+        runTest {
             createInstance().allCheckIns.first() shouldBe listOf(
                 CheckIn(
                     id = 1L,
@@ -189,7 +189,7 @@ class CheckInRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `checkInsWithinRetention() should filter out stale check-ins`() = runBlockingTest {
+    fun `checkInsWithinRetention() should filter out stale check-ins`() = runTest {
 
         // Now = Jan 16th 2020, 00:00
         // CheckIns should be kept for 15 days, so every check-in with an end date before

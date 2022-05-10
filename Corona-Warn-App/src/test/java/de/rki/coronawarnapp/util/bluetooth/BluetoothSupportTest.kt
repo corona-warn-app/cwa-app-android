@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,43 +38,43 @@ class BluetoothSupportTest : BaseTest() {
     }
 
     @Test
-    fun `scanning not supported without bluetooth`() = runBlockingTest {
+    fun `scanning not supported without bluetooth`() = runTest {
         createInstance(null).isScanningSupported shouldBe false
     }
 
     @Test
-    fun `scanning not supported without scanner`() = runBlockingTest {
+    fun `scanning not supported without scanner`() = runTest {
         every { bluetoothAdapter.state } returns BluetoothAdapter.STATE_ON
         every { bluetoothAdapter.bluetoothLeScanner } returns null
         createInstance().isScanningSupported shouldBe false
     }
 
     @Test
-    fun `scanning supported when turned on and has scanner`() = runBlockingTest {
+    fun `scanning supported when turned on and has scanner`() = runTest {
         every { bluetoothAdapter.state } returns BluetoothAdapter.STATE_ON
         every { bluetoothAdapter.bluetoothLeScanner } returns bluetoothLeScanner
         createInstance().isScanningSupported shouldBe true
     }
 
     @Test
-    fun `scanning support unknown when turned off`() = runBlockingTest {
+    fun `scanning support unknown when turned off`() = runTest {
         every { bluetoothAdapter.state } returns BluetoothAdapter.STATE_OFF
         createInstance().isScanningSupported shouldBe null
     }
 
     @Test
-    fun `advertising not supported`() = runBlockingTest {
+    fun `advertising not supported`() = runTest {
         createInstance(null).isAdvertisingSupported shouldBe false
     }
 
     @Test
-    fun `advertising support unknown`() = runBlockingTest {
+    fun `advertising support unknown`() = runTest {
         every { bluetoothAdapter.state } returns BluetoothAdapter.STATE_OFF
         createInstance().isAdvertisingSupported shouldBe null
     }
 
     @Test
-    fun `advertising supported`() = runBlockingTest {
+    fun `advertising supported`() = runTest {
         every { bluetoothAdapter.state } returns BluetoothAdapter.STATE_ON
         every { bluetoothAdapter.bluetoothLeAdvertiser } returns bluetoothLeAdvertiser
         createInstance().isAdvertisingSupported shouldBe true

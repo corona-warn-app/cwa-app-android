@@ -15,7 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,7 +50,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun `notify person if no previous dcc reissuance`() = runBlockingTest {
+    fun `notify person if no previous dcc reissuance`() = runTest {
         DccReissuanceNotificationService(
             personCertificatesSettings = personCertificatesSettings,
             personNotificationSender = personNotificationSender
@@ -67,7 +67,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun `don't notify person if there is previous dcc reissuance`() = runBlockingTest {
+    fun `don't notify person if there is previous dcc reissuance`() = runTest {
         DccReissuanceNotificationService(
             personCertificatesSettings = personCertificatesSettings,
             personNotificationSender = personNotificationSender
@@ -85,7 +85,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun `notify person if there is previous dcc reissuance with different identifier`() = runBlockingTest {
+    fun `notify person if there is previous dcc reissuance with different identifier`() = runTest {
         DccReissuanceNotificationService(
             personCertificatesSettings = personCertificatesSettings,
             personNotificationSender = personNotificationSender
@@ -103,7 +103,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss the badge if the new dcc reissuance doesn't exist`() = runBlockingTest {
+    fun `dismiss the badge if the new dcc reissuance doesn't exist`() = runTest {
         DccReissuanceNotificationService(
             personCertificatesSettings = personCertificatesSettings,
             personNotificationSender = personNotificationSender

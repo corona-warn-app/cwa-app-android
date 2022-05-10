@@ -15,7 +15,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
 import org.joda.time.Days
@@ -79,7 +79,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     )
 
     @Test
-    fun `Creates location if missing`() = runBlockingTest {
+    fun `Creates location if missing`() = runTest {
         every { contactDiaryRepo.locations } returns flowOf(emptyList()) andThen flowOf(listOf(testLocation))
 
         // Repo returns an empty list for the first call, so location is missing and a new location should be created and added
@@ -147,7 +147,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     }
 
     @Test
-    fun `Creates location visits if missing`() = runBlockingTest {
+    fun `Creates location visits if missing`() = runTest {
         every { contactDiaryRepo.locationVisits } returns flowOf(emptyList()) andThen flowOf(listOf(testLocationVisit))
 
         createInstance().apply {
@@ -176,7 +176,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     }
 
     @Test
-    fun `Creates 1 location and 2 visits for split check in`() = runBlockingTest {
+    fun `Creates 1 location and 2 visits for split check in`() = runTest {
         val splitCheckIn = testCheckIn.copy(
             checkInStart = Instant.parse("2021-03-04T22:00+01:00"),
             checkInEnd = Instant.parse("2021-03-05T02:00+01:00")
