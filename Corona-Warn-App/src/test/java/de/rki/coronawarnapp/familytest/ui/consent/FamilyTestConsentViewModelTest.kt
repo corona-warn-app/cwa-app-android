@@ -19,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 
 @ExtendWith(InstantExecutorExtension::class)
 class FamilyTestConsentViewModelTest : BaseTest() {
@@ -60,12 +61,12 @@ class FamilyTestConsentViewModelTest : BaseTest() {
     @Test
     fun testNameChanged() {
         viewModelDcc.nameChanged("My Name")
-        viewModelDcc.isSubmittable.value shouldBe true
+        viewModelDcc.isSubmittable.getOrAwaitValue() shouldBe true
     }
 
     @Test
     fun testNameNotChanged() {
-        viewModelDcc.isSubmittable.value shouldBe false
+        viewModelDcc.isSubmittable.getOrAwaitValue() shouldBe false
     }
 
     @Test
