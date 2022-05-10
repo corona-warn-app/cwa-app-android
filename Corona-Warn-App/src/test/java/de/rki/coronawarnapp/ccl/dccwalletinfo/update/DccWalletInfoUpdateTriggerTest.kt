@@ -86,21 +86,21 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
     @Test
     fun `update triggered on first certificates change after initial empty set`() = runTest2(true) {
-            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf())))
-            every { personCertificateProvider.personCertificates } returns flow
-            instance(this)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf())))
+        every { personCertificateProvider.personCertificates } returns flow
+        instance(this)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
-            delay(1_00L)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+        delay(1_00L)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
-            delay(1_100L)
+        delay(1_100L)
 
-            coVerify(exactly = 1) {
-                dccWalletInfoCalculationManager.triggerNow(any())
-                dccWalletInfoCleaner.clean()
-            }
+        coVerify(exactly = 1) {
+            dccWalletInfoCalculationManager.triggerNow(any())
+            dccWalletInfoCleaner.clean()
         }
+    }
 
     @Test
     fun `update is not triggered on same certificates change`() = runTest2(true) {
@@ -122,39 +122,39 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
     @Test
     fun `update is triggered on first certificates change after initial non empty set`() = runTest2(true) {
-            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
-            every { personCertificateProvider.personCertificates } returns flow
-            instance(this)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
+        every { personCertificateProvider.personCertificates } returns flow
+        instance(this)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
-            delay(1_00L)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+        delay(1_00L)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
-            delay(1_100L)
+        delay(1_100L)
 
-            coVerify(exactly = 1) {
-                dccWalletInfoCalculationManager.triggerNow(any())
-                dccWalletInfoCleaner.clean()
-            }
+        coVerify(exactly = 1) {
+            dccWalletInfoCalculationManager.triggerNow(any())
+            dccWalletInfoCleaner.clean()
         }
+    }
 
     @Test
     fun `update is triggered only once after rapid certificate changes`() = runTest2(true) {
-            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
-            every { personCertificateProvider.personCertificates } returns flow
-            instance(this)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
+        every { personCertificateProvider.personCertificates } returns flow
+        instance(this)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
-            delay(1_00L)
-            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2, vc3))))
+        delay(1_00L)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2, vc3))))
 
-            delay(2_100L)
+        delay(2_100L)
 
-            coVerify(exactly = 1) {
-                dccWalletInfoCalculationManager.triggerNow(any())
-                dccWalletInfoCleaner.clean()
-            }
+        coVerify(exactly = 1) {
+            dccWalletInfoCalculationManager.triggerNow(any())
+            dccWalletInfoCleaner.clean()
         }
+    }
 
     @Test
     fun `update is triggered on recycling certificate`() = runTest2(true) {
