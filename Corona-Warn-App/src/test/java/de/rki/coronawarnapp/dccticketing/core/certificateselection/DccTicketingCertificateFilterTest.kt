@@ -16,7 +16,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -127,7 +127,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=no, gnt=yes, fnt=yes, dob=yes but not in Persons`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = emptyList(),
@@ -140,7 +140,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=no, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = emptyList(),
@@ -153,7 +153,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=null, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = null,
@@ -166,7 +166,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - no conditions`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 null
             ) shouldBe vcSet + rcSet + tcSet
@@ -174,7 +174,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=v, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("v"),
@@ -187,7 +187,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=tp, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("tp"),
@@ -200,7 +200,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=tr, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("tr"),
@@ -213,7 +213,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=tr, gnt=yes, fnt=yes, dob=yes`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("tr"),
@@ -226,7 +226,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions Mustermann family - no dob`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("tr", "v", "r"),
@@ -239,7 +239,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions dob only`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = null,
@@ -252,7 +252,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=r, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("r"),
@@ -265,7 +265,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions type=t, gnt=no, fnt=no, dob=no`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("t"),
@@ -278,7 +278,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - conditions Max Mustermann`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("t", "v", "r"),
@@ -291,7 +291,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     @Test
     fun `filter - Unsupported types`() =
-        runBlockingTest {
+        runTest {
             instance().filter(
                 validationCondition.copy(
                     type = listOf("T", "V", "R"),

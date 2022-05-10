@@ -12,7 +12,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,7 +36,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `current version is newer than the required version`() {
         every { client.version } returns MockGMSTask.forValue(17000000L)
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 getENFClientVersion() shouldBe 17000000L
                 shouldNotThrowAny {
@@ -50,7 +50,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `current version is older than the required version`() {
         every { client.version } returns MockGMSTask.forValue(15000000L)
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 getENFClientVersion() shouldBe 15000000L
 
@@ -65,7 +65,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `current version is equal to the required version`() {
         every { client.version } returns MockGMSTask.forValue(16000000L)
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 getENFClientVersion() shouldBe ENFVersion.V1_6
                 shouldNotThrowAny {
@@ -79,7 +79,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `API_NOT_CONNECTED exceptions are not treated as failures`() {
         every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 getENFClientVersion() shouldBe null
                 shouldNotThrowAny {
@@ -93,7 +93,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `rethrows unexpected exceptions`() {
         every { client.version } returns MockGMSTask.forError(ApiException(Status(INTERNAL_ERROR)))
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 getENFClientVersion() shouldBe null
 
@@ -108,7 +108,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `isAtLeast is true for newer version`() {
         every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_7)
 
-        runBlockingTest {
+        runTest {
             createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
         }
     }
@@ -117,7 +117,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `isAtLeast is true for equal version`() {
         every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
 
-        runBlockingTest {
+        runTest {
             createInstance().isAtLeast(ENFVersion.V1_6) shouldBe true
         }
     }
@@ -126,7 +126,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `isAtLeast is false for older version`() {
         every { client.version } returns MockGMSTask.forValue(ENFVersion.V1_6)
 
-        runBlockingTest {
+        runTest {
             createInstance().isAtLeast(ENFVersion.V1_7) shouldBe false
         }
     }
@@ -135,7 +135,7 @@ internal class DefaultENFVersionTest : BaseTest() {
     fun `isAtLeast returns false when client not connected`() {
         every { client.version } returns MockGMSTask.forError(ApiException(Status(API_NOT_CONNECTED)))
 
-        runBlockingTest {
+        runTest {
             createInstance().apply {
                 shouldNotThrowAny {
                     isAtLeast(ENFVersion.V1_6) shouldBe false

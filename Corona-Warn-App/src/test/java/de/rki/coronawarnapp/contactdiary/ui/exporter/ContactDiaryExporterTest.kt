@@ -12,7 +12,7 @@ import io.mockk.clearAllMocks
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -58,7 +58,7 @@ internal class ContactDiaryExporterTest {
     @MethodSource("provideArguments")
     fun `createExport() should produce correct export`(
         testItem: ExporterTestItem
-    ) = runBlockingTest {
+    ) = runTest {
 
         createInstance().createExport(
             testItem.personEncounters,

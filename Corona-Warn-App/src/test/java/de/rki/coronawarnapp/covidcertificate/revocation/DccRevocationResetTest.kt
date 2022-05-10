@@ -11,7 +11,7 @@ import okhttp3.Cache
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.io.IOException
 
 class DccRevocationResetTest : BaseTest() {
@@ -32,7 +32,7 @@ class DccRevocationResetTest : BaseTest() {
 
     @Test
     @Suppress("BlockingMethodInNonBlockingContext")
-    fun `clears all data`() = runBlockingTest2 {
+    fun `clears all data`() = runTest2 {
         instance.reset()
 
         coVerify {
@@ -42,7 +42,7 @@ class DccRevocationResetTest : BaseTest() {
     }
 
     @Test
-    fun `clear does not throw`() = runBlockingTest2 {
+    fun `clear does not throw`() = runTest2 {
         coEvery { dataStore.updateData(any()) } throws IOException("Test error")
 
         shouldNotThrowAny {

@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.security.SecureRandom
@@ -58,7 +58,7 @@ class FindMatchesTest {
             override val packageId: WarningPackageId
                 get() = "id"
         }
-        runBlockingTest {
+        runTest {
             val result = createInstance().findMatches(listOf(checkIn1, checkIn2), warningPackage)
             result.size shouldBe 1
             result[0].checkInId shouldBe 3L

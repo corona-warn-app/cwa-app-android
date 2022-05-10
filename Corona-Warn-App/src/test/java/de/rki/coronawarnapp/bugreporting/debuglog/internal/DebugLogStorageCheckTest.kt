@@ -13,7 +13,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -43,7 +43,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     )
 
     @Test
-    fun `normal not low storage case`() = runBlockingTest {
+    fun `normal not low storage case`() = runTest {
         val instance = createInstance()
         instance.isLowStorage() shouldBe false
 
@@ -51,7 +51,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `on errors we print it but do expect low storage`() = runBlockingTest {
+    fun `on errors we print it but do expect low storage`() = runTest {
         val unexpectedException = IllegalThreadStateException("ಠ_ಠ")
         every { targetPath.usableSpace } throws unexpectedException
 
@@ -68,7 +68,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `low storage default is 200MB`() = runBlockingTest {
+    fun `low storage default is 200MB`() = runTest {
         every { targetPath.usableSpace } returns 199 * 1000 * 1024L
         val instance = createInstance()
         instance.isLowStorage() shouldBe true
@@ -81,7 +81,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `target path does not exists`() = runBlockingTest {
+    fun `target path does not exists`() = runTest {
         val parentPath = mockk<File>()
         every { parentPath.exists() } returns true
         every { parentPath.parentFile } returns null
@@ -98,7 +98,7 @@ class DebugLogStorageCheckTest : BaseTest() {
     }
 
     @Test
-    fun `checks happen at most every 5 seconds`() = runBlockingTest {
+    fun `checks happen at most every 5 seconds`() = runTest {
         val instance = createInstance()
         instance.isLowStorage() shouldBe false
 

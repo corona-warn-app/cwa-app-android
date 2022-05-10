@@ -31,13 +31,12 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
 class AnalyticsTest : BaseTest() {
@@ -98,7 +97,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -122,7 +121,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -147,7 +146,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -173,7 +172,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -200,7 +199,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -256,7 +255,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe true
@@ -294,7 +293,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -335,7 +334,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -368,7 +367,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -399,7 +398,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -439,7 +438,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -469,7 +468,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -485,7 +484,7 @@ class AnalyticsTest : BaseTest() {
     }
 
     @Test
-    fun `reset leads to deletion of all data for each module`() = runBlockingTest {
+    fun `reset leads to deletion of all data for each module`() = runTest {
         val userMetadataDonor = mockk<UserMetadataDonor>(relaxed = true)
         val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
 

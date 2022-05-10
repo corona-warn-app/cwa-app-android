@@ -11,7 +11,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -35,7 +35,7 @@ internal class TraceLocationDbCleanUpPeriodicWorkerTest {
     )
 
     @Test
-    fun `worker should perform cleanUp`() = runBlockingTest {
+    fun `worker should perform cleanUp`() = runTest {
         coEvery { traceLocationCleaner.cleanUp() } just Runs
         coEvery { checkInCleaner.cleanUp() } just Runs
 

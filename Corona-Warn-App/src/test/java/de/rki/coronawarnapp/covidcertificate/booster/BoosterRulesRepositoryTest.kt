@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class BoosterRulesRepositoryTest : BaseTest() {
 
@@ -116,7 +116,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `update booster notification rules server fails and no cache`() = runBlockingTest2(ignoreActive = true) {
+    fun `update booster notification rules server fails and no cache`() = runTest2 {
         coEvery {
             server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
         } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
@@ -136,7 +136,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update booster notification rules success`() = runBlockingTest2(ignoreActive = true) {
+    fun `update booster notification rules success`() = runTest2 {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
         coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
@@ -154,7 +154,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
     @Test
     fun `update booster notification - no new rules - getting data from cache`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2 {
             val boosterRuleList = listOf(testBoosterNotificationRule)
 
             coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesCacheResult
@@ -175,7 +175,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
     @Test
-    fun `bad booster notification rules do not wreck cache`() = runBlockingTest2(ignoreActive = true) {
+    fun `bad booster notification rules do not wreck cache`() = runTest2 {
         // Missing attributes
         coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns DccValidationServer.RuleSetResult(
             ruleSetJson = """
@@ -213,7 +213,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `reset clears flow`() = runBlockingTest2(ignoreActive = true) {
+    fun `reset clears flow`() = runTest2 {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
             update() shouldBe UpdateResult.UPDATE

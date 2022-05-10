@@ -25,6 +25,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -126,7 +127,7 @@ class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance works`() = runBlockingTest {
+    fun `startReissuance works`() = runTest {
         val dccReissuance = DccReissuanceResponse.DccReissuance(
             certificate = VaccinationTestData.personAVac1QRCodeString,
             relations = listOf(
@@ -159,7 +160,7 @@ class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance works for legacy wallet`() = runBlockingTest {
+    fun `startReissuance works for legacy wallet`() = runTest {
         val dccReissuance = DccReissuanceResponse.DccReissuance(
             certificate = VaccinationTestData.personAVac1QRCodeString,
             relations = listOf(
@@ -190,7 +191,7 @@ class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `startReissuance should throw what handler throws`() = runBlockingTest {
+    fun `startReissuance should throw what handler throws`() = runTest {
         val dccReissuance = DccReissuanceResponse.DccReissuance(
             certificate = VaccinationTestData.personAVac1QRCodeString,
             relations = listOf(

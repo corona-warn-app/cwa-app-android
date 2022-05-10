@@ -14,7 +14,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -39,7 +39,7 @@ class UpdateCheckerTest : BaseTest() {
     )
 
     @Test
-    fun `update is required`() = runBlockingTest {
+    fun `update is required`() = runTest {
         every { configData.minVersionCode } returns 10
         every { BuildConfigWrap.VERSION_CODE } returns 9
 
@@ -58,7 +58,7 @@ class UpdateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `update is NOT required`() = runBlockingTest {
+    fun `update is NOT required`() = runTest {
         every { configData.minVersionCode } returns 10
         every { BuildConfigWrap.VERSION_CODE } returns 11
 
@@ -77,7 +77,7 @@ class UpdateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `general error defaults to no update required`() = runBlockingTest {
+    fun `general error defaults to no update required`() = runTest {
         every { configData.minVersionCode } throws Exception()
 
         createInstance().checkForUpdate().apply {
@@ -86,7 +86,7 @@ class UpdateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `config parsing error means update is required`() = runBlockingTest {
+    fun `config parsing error means update is required`() = runTest {
         every { configData.minVersionCode } throws ApplicationConfigurationCorruptException()
 
         createInstance().checkForUpdate().apply {
@@ -99,7 +99,7 @@ class UpdateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `timeout after 5 seconds - cached needs update`() = runBlockingTest {
+    fun `timeout after 5 seconds - cached needs update`() = runTest {
         every { configData.minVersionCode } returns 10
         every { BuildConfigWrap.VERSION_CODE } returns 9
 
@@ -132,7 +132,7 @@ class UpdateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `timeout after 5 seconds - cached does not need update`() = runBlockingTest {
+    fun `timeout after 5 seconds - cached does not need update`() = runTest {
         every { configData.minVersionCode } returns 10
         every { BuildConfigWrap.VERSION_CODE } returns 9
 

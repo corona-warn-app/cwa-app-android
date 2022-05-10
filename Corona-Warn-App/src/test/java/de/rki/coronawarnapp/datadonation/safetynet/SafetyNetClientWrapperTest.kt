@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -58,7 +58,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
 
     @Test
     fun `results are forwarded`() {
-        runBlockingTest {
+        runTest {
             createInstance().attest("hodl".toByteArray()).jwsResult shouldBe JWS_BASE64
         }
 
@@ -66,7 +66,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `attestation can time out`() = runBlockingTest {
+    fun `attestation can time out`() = runTest {
         every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.timeout()
 
         val resultAsync = async {
@@ -84,7 +84,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     fun `exception are forwarded`() {
         every { safetyNetClient.attest(any(), any()) } returns MockGMSTask.forError(IOException())
 
-        runBlockingTest {
+        runTest {
             val exception = shouldThrow<SafetyNetException> {
                 createInstance().attest("hodl".toByteArray())
             }
@@ -98,7 +98,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
             ApiException(Status(CommonStatusCodes.NETWORK_ERROR))
         )
 
-        runBlockingTest {
+        runTest {
             val exception = shouldThrow<SafetyNetException> {
                 createInstance().attest("hodl".toByteArray())
             }
@@ -110,7 +110,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     fun `an empty jwsResult is an error`() {
         every { report.jwsResult } returns null
 
-        runBlockingTest {
+        runTest {
             val exception = shouldThrow<SafetyNetException> {
                 createInstance().attest("hodl".toByteArray())
             }
@@ -122,7 +122,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     fun `api key is retrieved on each call`() {
         every { environmentSetup.safetyNetApiKey } returns "wow"
 
-        runBlockingTest {
+        runTest {
             createInstance().attest("hodl".toByteArray()).jwsResult shouldBe JWS_BASE64
         }
 
@@ -131,7 +131,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
 
     @Test
     fun `result is checked by attempting decoding it`() {
-        runBlockingTest {
+        runTest {
             createInstance().attest("hodl".toByteArray()).apply {
                 jwsResult shouldBe JWS_BASE64
                 header shouldBe JsonParser.parseString(JWS_HEADER)
@@ -150,7 +150,7 @@ class SafetyNetClientWrapperTest : BaseTest() {
     @Test
     fun `JWS with unusual and unexpected fields`() {
         every { report.jwsResult } returns JWS_BASE64_MINIMAL
-        runBlockingTest {
+        runTest {
             createInstance().attest("hodl".toByteArray()).apply {
                 body shouldBe JsonParser.parseString(JWS_BODY_MINIMAL)
 

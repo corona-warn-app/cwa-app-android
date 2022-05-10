@@ -33,7 +33,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -122,7 +122,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     )
 
     @Test
-    fun `happy path, match result is reported successfully`() = runBlockingTest {
+    fun `happy path, match result is reported successfully`() = runTest {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
@@ -145,7 +145,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `happy path with config change`() = runBlockingTest {
+    fun `happy path with config change`() = runTest {
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {
@@ -166,7 +166,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `filter respects max checkIn age`() = runBlockingTest {
+    fun `filter respects max checkIn age`() = runTest {
         coEvery { checkInsFilter.filterCheckIns(any()) } returns listOf(CHECKIN_1)
         createInstance().run(mockk()) shouldNotBe null
 
@@ -188,7 +188,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `overall task errors lead to a reported failed calculation`() = runBlockingTest {
+    fun `overall task errors lead to a reported failed calculation`() = runTest {
         coEvery { syncTool.syncPackages(mode) } throws IOException("Unexpected")
 
         shouldThrow<IOException> {
@@ -204,7 +204,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `there are no check-ins to match against`() = runBlockingTest {
+    fun `there are no check-ins to match against`() = runTest {
         coEvery { checkInsRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
         createInstance().run(mockk()) shouldNotBe null
@@ -220,7 +220,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `there are no warning packages to process`() = runBlockingTest {
+    fun `there are no warning packages to process`() = runTest {
         coEvery { traceWarningRepository.unprocessedWarningPackages } returns flowOf(emptyList())
 
         createInstance().run(mockk()) shouldNotBe null
@@ -236,7 +236,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `report failure if downloads fail`() = runBlockingTest {
+    fun `report failure if downloads fail`() = runTest {
         coEvery { syncTool.syncPackages(mode) } returns TraceWarningPackageSyncTool.SyncResult(successful = false)
 
         createInstance().run(mockk()) shouldNotBe null
@@ -256,7 +256,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     }
 
     @Test
-    fun `report failure if matching throws exception`() = runBlockingTest {
+    fun `report failure if matching throws exception`() = runTest {
         coEvery { checkInWarningMatcher.process(any(), any()) } throws IllegalArgumentException()
         shouldThrow<IllegalArgumentException> {
             createInstance().run(mockk()) shouldNotBe null

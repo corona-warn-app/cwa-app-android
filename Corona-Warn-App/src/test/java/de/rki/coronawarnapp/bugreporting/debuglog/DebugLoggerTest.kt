@@ -21,15 +21,18 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import testhelpers.logging.JUnitTree
 import timber.log.Timber
 import java.io.File
+import kotlin.coroutines.EmptyCoroutineContext
 
 @Suppress("BlockingMethodInNonBlockingContext", "MaxLineLength")
 class DebugLoggerTest : BaseIOTest() {
@@ -79,7 +82,7 @@ class DebugLoggerTest : BaseIOTest() {
     )
 
     @Test
-    fun `init does nothing if there is no trigger file`() = runBlockingTest {
+    fun `init does nothing if there is no trigger file`() = runTest2 {
         createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -93,7 +96,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `init calls start if there is a trigger file`() = runBlockingTest {
+    fun `init calls start if there is a trigger file`() = runTest2(context = EmptyCoroutineContext) {
         triggerFile.parentFile?.mkdirs()
         triggerFile.createNewFile()
 
@@ -109,26 +112,27 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `init calls start if it is a tester build and autologger pkg is installed`() = runBlockingTest {
-        every { CWADebug.isDeviceForTestersBuild } returns true
+    fun `init calls start if it is a tester build and autologger pkg is installed`() =
+        runTest2(context = EmptyCoroutineContext) {
+            every { CWADebug.isDeviceForTestersBuild } returns true
 
-        every {
-            packageManager.getPackageInfo("de.rki.coronawarnapp.els.autologger", 0)
-        } returns mockk()
+            every {
+                packageManager.getPackageInfo("de.rki.coronawarnapp.els.autologger", 0)
+            } returns mockk()
 
-        val instance = createInstance(scope = this).apply {
-            init()
-            setInjectionIsReady(component)
-            isLogging.value shouldBe true
+            val instance = createInstance(scope = this).apply {
+                init()
+                setInjectionIsReady(component)
+                isLogging.value shouldBe true
+            }
+
+            runningLog.exists() shouldBe true
+
+            instance.stop()
         }
 
-        runningLog.exists() shouldBe true
-
-        instance.stop()
-    }
-
     @Test
-    fun `init does not call start on tester builds without the autologger pkg`() = runBlockingTest {
+    fun `init does not call start on tester builds without the autologger pkg`() = runTest2 {
         every { CWADebug.isDeviceForTestersBuild } returns true
 
         every { application.packageManager } returns mockk<PackageManager>().apply {
@@ -147,7 +151,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `init does not call start on tester builds with ROM issues`() = runBlockingTest {
+    fun `init does not call start on tester builds with ROM issues`() = runTest2 {
         every { CWADebug.isDeviceForTestersBuild } returns true
 
         every { application.packageManager } throws SecurityException()
@@ -164,7 +168,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `package check is not executed in PROD`() = runBlockingTest {
+    fun `package check is not executed in PROD`() = runTest2 {
         every { CWADebug.isDeviceForTestersBuild } returns false
 
         val instance = createInstance(scope = this).apply {
@@ -181,7 +185,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `start plants a tree and starts a logging coroutine`() = runBlockingTest {
+    fun `start plants a tree and starts a logging coroutine`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -198,7 +202,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `multiple start have no effect`() = runBlockingTest {
+    fun `multiple start have no effect`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -221,7 +225,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `stop cancels the coroutine and uproots the tree and deletes any logs`() = runBlockingTest {
+    fun `stop cancels the coroutine and uproots the tree and deletes any logs`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -241,7 +245,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `logwriter is setup and used`() = runBlockingTest {
+    fun `logwriter is setup and used`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -259,7 +263,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `low storage state is forwarded`() = runBlockingTest {
+    fun `low storage state is forwarded`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -295,7 +299,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `affected text ranges are removed when censoring collisions occur`() = runBlockingTest {
+    fun `affected text ranges are removed when censoring collisions occur`() = runTest2 {
         val instance = createInstance(scope = this).apply {
             init()
             setInjectionIsReady(component)
@@ -332,7 +336,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `censoring collision handling for multiple values in the same string`() = runBlockingTest {
+    fun `censoring collision handling for multiple values in the same string`() = runTest2 {
         val before =
             """
             RACoronaTest(
@@ -409,7 +413,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `censoring collision with larger than original index bounds`() = runBlockingTest {
+    fun `censoring collision with larger than original index bounds`() = runTest2 {
         val before = "shortBefore" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
@@ -443,7 +447,7 @@ class DebugLoggerTest : BaseIOTest() {
 
     // Censoring bounds need to be determined on the original string
     @Test
-    fun `censoring collision with missmatching original and replacements`() = runBlockingTest {
+    fun `censoring collision with missmatching original and replacements`() = runTest2 {
         val before = "StrawBerryCake" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
@@ -476,7 +480,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `censoring collision without overlap`() = runBlockingTest {
+    fun `censoring collision without overlap`() = runTest2 {
         val before = "StrawBerryCakeWithCream" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
@@ -511,7 +515,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `exception during single bugcensor execution`() = runBlockingTest {
+    fun `exception during single bugcensor execution`() = runTest2 {
         val before = "StrawberryCake" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {
@@ -543,7 +547,7 @@ class DebugLoggerTest : BaseIOTest() {
     }
 
     @Test
-    fun `exception during multi bugcensor execution`() = runBlockingTest {
+    fun `exception during multi bugcensor execution`() = runTest2 {
         val before = "StrawberryCake" // Without timestamp
 
         coEvery { coronaTestCensor1.checkLog(any()) } answers {

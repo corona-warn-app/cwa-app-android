@@ -12,7 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -66,14 +66,14 @@ class PresenceTracingRiskMapperTest : BaseTest() {
 
     @Test
     fun `lookupTransmissionRiskValue returns correct value `() {
-        runBlockingTest {
+        runTest {
             createInstance().lookupTransmissionRiskValue(4) shouldBe 0.8
         }
     }
 
     @Test
     fun `lookupRiskStatePerDay returns correct value `() {
-        runBlockingTest {
+        runTest {
             createInstance().lookupRiskStatePerDay(30.0) shouldBe RiskState.LOW_RISK
             createInstance().lookupRiskStatePerDay(30.1) shouldBe RiskState.INCREASED_RISK
             createInstance().lookupRiskStatePerDay(0.0) shouldBe RiskState.LOW_RISK
@@ -83,7 +83,7 @@ class PresenceTracingRiskMapperTest : BaseTest() {
 
     @Test
     fun `lookupRiskStatePerCheckIn returns correct value `() {
-        runBlockingTest {
+        runTest {
             createInstance().lookupRiskStatePerCheckIn(30.0) shouldBe RiskState.LOW_RISK
             createInstance().lookupRiskStatePerCheckIn(30.1) shouldBe RiskState.INCREASED_RISK
             createInstance().lookupRiskStatePerCheckIn(0.0) shouldBe RiskState.LOW_RISK
@@ -93,7 +93,7 @@ class PresenceTracingRiskMapperTest : BaseTest() {
 
     @Test
     fun `out of range returns failed calculation `() {
-        runBlockingTest {
+        runTest {
             createInstance().lookupRiskStatePerDay(10000.0) shouldBe RiskState.CALCULATION_FAILED
             createInstance().lookupRiskStatePerCheckIn(100000.1) shouldBe RiskState.CALCULATION_FAILED
             createInstance().lookupRiskStatePerDay(-1.0) shouldBe RiskState.CALCULATION_FAILED
@@ -103,7 +103,7 @@ class PresenceTracingRiskMapperTest : BaseTest() {
 
     @Test
     fun `config is requested only once`() {
-        runBlockingTest {
+        runTest {
             val mapper = createInstance()
             mapper.lookupRiskStatePerDay(30.0)
             mapper.lookupRiskStatePerDay(60.0)
@@ -113,7 +113,7 @@ class PresenceTracingRiskMapperTest : BaseTest() {
 
     @Test
     fun `config is requested again after reset`() {
-        runBlockingTest {
+        runTest {
             val mapper = createInstance()
             mapper.lookupRiskStatePerDay(30.0)
             mapper.clearConfig()

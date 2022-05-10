@@ -21,12 +21,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 
 class DccWalletInfoCalculationManagerTest : BaseTest() {
 
@@ -103,41 +103,19 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     }
 
     @Test
-    fun `catches exception`() {
+    fun `catches exception`() = runTest {
         coEvery { calculation.getDccWalletInfo(any()) } throws Exception()
         assertDoesNotThrow {
-            runBlockingTest2 {
-                instance.triggerAfterConfigChange("")
-            }
-        }
-    }
-
-    @Test
-    fun `calculation runs for each person after certificate change`() {
-        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
-        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
-        runBlockingTest2 {
-            instance.triggerNow("")
-        }
-
-        coVerify(exactly = 2) {
-            calculation.getDccWalletInfo(any(), "", any())
-        }
-        coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
-        }
-        coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
-        }
-    }
-
-    @Test
-    fun `calculation runs for each person after config change`() {
-        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
-        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
-        runBlockingTest2 {
             instance.triggerAfterConfigChange("")
         }
+    }
+
+    @Test
+    fun `calculation runs for each person after certificate change`() = runTest {
+        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
+
+        instance.triggerNow("")
 
         coVerify(exactly = 2) {
             calculation.getDccWalletInfo(any(), "", any())
@@ -151,13 +129,28 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     }
 
     @Test
-    fun `calculation runs for each person without walletInfo`() {
+    fun `calculation runs for each person after config change`() = runTest {
+        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
+        instance.triggerAfterConfigChange("")
+
+        coVerify(exactly = 2) {
+            calculation.getDccWalletInfo(any(), "", any())
+        }
+        coVerify(exactly = 1) {
+            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
+        }
+        coVerify(exactly = 1) {
+            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
+        }
+    }
+
+    @Test
+    fun `calculation runs for each person without walletInfo`() = runTest {
         every { certificatesPersonA.dccWalletInfo } returns null
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo1
 
-        runBlockingTest2 {
-            instance.triggerAfterConfigChange("", false)
-        }
+        instance.triggerAfterConfigChange("", false)
 
         coVerify(exactly = 1) {
             calculation.getDccWalletInfo(any(), "", any())
@@ -181,13 +174,11 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     }
 
     @Test
-    fun `calculation runs for each person with invalid walletInfo`() {
+    fun `calculation runs for each person with invalid walletInfo`() = runTest {
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
-        runBlockingTest2 {
-            instance.triggerAfterConfigChange("", false)
-        }
+        instance.triggerAfterConfigChange("", false)
 
         coVerify(exactly = 1) {
             calculation.getDccWalletInfo(any(), "", any())

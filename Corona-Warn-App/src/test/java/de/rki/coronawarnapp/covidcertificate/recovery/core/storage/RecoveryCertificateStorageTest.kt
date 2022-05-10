@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -64,7 +64,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storing empty set deletes data`() = runBlockingTest {
+    fun `storing empty set deletes data`() = runTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
             putString("recovery.certificate", "test")
@@ -75,7 +75,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store two containers, one for each type`() = runBlockingTest {
+    fun `store two containers, one for each type`() = runTest {
         createInstance().save(testData)
 
         (mockPreferences.dataMapPeek["recovery.certificate"] as String).toComparableJsonPretty() shouldBe """

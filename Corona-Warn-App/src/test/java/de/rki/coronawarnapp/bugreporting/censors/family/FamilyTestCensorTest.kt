@@ -9,9 +9,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -61,16 +62,15 @@ internal class FamilyTestCensorTest {
         coEvery { familyTestRepository.familyTestsInRecycleBin } returns flowOf(setOf(familyTestRecycleBin))
     }
 
-    private fun createInstance() = FamilyTestCensor(
-        TestCoroutineScope(),
-        familyTestRepository,
+    private fun createInstance(scope: CoroutineScope) = FamilyTestCensor(
+        debugScope = scope,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlockingTest {
+    fun `checkLog() should return censored LogLine`() = runTest(UnconfinedTestDispatcher()) {
 
-        val censor = createInstance()
-
+        val censor = createInstance(this)
         val logLineToCensor =
             "[FamilyCoronaTest(personName=Angelina, coronaTest=CoronaTest(identifier=qrcode-RAPID_ANTIGEN-6a90a60, type=RAPID_ANTIGEN, registeredAt=2022-04-13T15:33:14.637Z, registrationToken=ac7f72a0-0135-41c5-ad14-6a4299865aca, testResult=RAT_NEGATIVE(6), labId=null, qrCodeHash=795d7c5c3fff50d58694fbd3e1a91d2e1f88f2638a3031c5a3ac21ddea986cf9, dcc=Dcc(isDccSupportedByPoc=false, isDccConsentGiven=true, isDccDataSetCreated=false), uiState=UiState(isViewed=true, didShowBadge=true, isResultAvailableNotificationSent=false, hasResultChangeBadge=false), additionalInfo=AdditionalInfo(createdAt=2022-04-13T11:06:29.000Z, firstName=Louisa, lastName=Davis, dateOfBirth=1999-12-02, sampleCollectedAt=2022-04-13T06:00:00.000Z), recycledAt=null)"
 
@@ -92,10 +92,10 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
+    fun `checkLog() should return null if no data to censor was set`() = runTest {
         coEvery { familyTestRepository.familyTests } returns flowOf(setOf())
         coEvery { familyTestRepository.familyTestsInRecycleBin } returns flowOf(setOf())
-        val censor = createInstance()
+        val censor = createInstance(this)
 
         val logLineNotToCensor = "Nothing to censor here, Angelina"
 
@@ -103,10 +103,10 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `personName of family should be censored`() = runBlockingTest {
+    fun `personName of family should be censored`() = runTest {
         coEvery { familyTestRepository.familyTests } returns flowOf(setOf())
         coEvery { familyTestRepository.familyTestsInRecycleBin } returns flowOf(setOf())
-        val censor = createInstance()
+        val censor = createInstance(this)
         censor.addName("Angelina")
 
         val logLineNotToCensor = "Please censor, Angelina"
@@ -115,8 +115,8 @@ internal class FamilyTestCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
-        val censor = createInstance()
+    fun `checkLog() should return null if nothing should be censored`() = runTest {
+        val censor = createInstance(this)
         val logLineNotToCensor = "Nothing to censor here"
 
         censor.checkLog(logLineNotToCensor) shouldBe null
