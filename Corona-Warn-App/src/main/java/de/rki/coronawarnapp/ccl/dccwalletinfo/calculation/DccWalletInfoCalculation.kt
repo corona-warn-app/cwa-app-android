@@ -99,7 +99,6 @@ class DccWalletInfoCalculation @Inject constructor(
     }
 
     private fun DccWalletInfoInput.toJsonNode(): JsonNode = mapper.valueToTree(this)
-
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
     private fun List<DccValidationRule>.toJsonNode(): JsonNode = gson.toJson(this).toJsonNode()
 }
