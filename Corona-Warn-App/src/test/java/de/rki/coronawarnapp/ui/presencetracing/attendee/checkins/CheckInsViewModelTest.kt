@@ -55,10 +55,10 @@ class CheckInsViewModelTest : BaseTest() {
 
     @Test
     fun `Remove nullable check-in`() = runBlockingTest {
-        coEvery { checkInsRepository.clear() } just Runs
+        coEvery { checkInsRepository.reset() } just Runs
         createInstance(deepLink = null, scope = this).onRemoveCheckInConfirmed(null)
 
-        coVerify { checkInsRepository.clear() }
+        coVerify { checkInsRepository.reset() }
     }
 
     @Test

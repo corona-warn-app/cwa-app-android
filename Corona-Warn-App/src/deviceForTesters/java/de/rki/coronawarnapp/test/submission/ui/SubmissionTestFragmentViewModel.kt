@@ -83,7 +83,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun clearStorage() {
         launch {
-            tekHistoryStorage.clear()
+            tekHistoryStorage.reset()
         }
     }
 

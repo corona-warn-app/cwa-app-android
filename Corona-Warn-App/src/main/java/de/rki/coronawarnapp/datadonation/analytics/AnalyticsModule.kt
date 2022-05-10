@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -10,22 +11,24 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
+import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
-import javax.inject.Singleton
 
-@Module
-class AnalyticsModule {
+@Module(includes = [AnalyticsModule.BindsModule::class, AnalyticsModule.ResetModule::class])
+object AnalyticsModule {
 
     @Reusable
     @Provides
@@ -44,39 +47,58 @@ class AnalyticsModule {
             .create(DataDonationAnalyticsApiV1::class.java)
     }
 
-    @IntoSet
-    @Provides
-    fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule = module
+    @Module
+    internal interface ResetModule {
 
-    @IntoSet
-    @Provides
-    fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule = module
+        @Binds
+        @IntoSet
+        fun bindResettableAnalytics(resettable: Analytics): Resettable
 
-    @IntoSet
-    @Provides
-    fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule = module
+        @Binds
+        @IntoSet
+        fun bindResettableAnalyticsSettings(resettable: AnalyticsSettings): Resettable
 
-    @IntoSet
-    @Provides
-    fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule = module
+        @Binds
+        @IntoSet
+        fun bindResettableAnalyticsExposureWindowsSettings(resettable: AnalyticsExposureWindowsSettings): Resettable
+    }
 
-    @IntoSet
-    @Provides
-    fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule = module
+    @Module
+    internal interface BindsModule {
 
-    @IntoSet
-    @Provides
-    fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule = module
+        @IntoSet
+        @Binds
+        fun newExposureWindows(module: AnalyticsExposureWindowDonor): DonorModule
 
-    @IntoSet
-    @Provides
-    fun userMetadata(module: UserMetadataDonor): DonorModule = module
+        @IntoSet
+        @Binds
+        fun pcrKeySubmission(module: AnalyticsPCRKeySubmissionDonor): DonorModule
 
-    @IntoSet
-    @Provides
-    fun clientMetadata(module: ClientMetadataDonor): DonorModule = module
+        @IntoSet
+        @Binds
+        fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule
 
-    @Provides
-    @Singleton
-    fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger = logger
+        @IntoSet
+        @Binds
+        fun pcrTestResult(module: AnalyticsPCRTestResultDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun raTestResult(module: AnalyticsRATestResultDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun exposureRiskMetadata(module: ExposureRiskMetadataDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun userMetadata(module: UserMetadataDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun clientMetadata(module: ClientMetadataDonor): DonorModule
+
+        @Binds
+        fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger
+    }
 }

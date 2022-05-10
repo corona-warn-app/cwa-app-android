@@ -184,7 +184,7 @@ class SubmissionTask @Inject constructor(
             analyticsKeySubmissionCollector.reportSubmittedInBackground(coronaTest.type)
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
-        tekHistoryStorage.clear()
+        tekHistoryStorage.reset()
         submissionSettings.symptoms.update { null }
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)

@@ -22,8 +22,8 @@ class CclTestViewModel @AssistedInject constructor(
     val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
 
     fun clearDccWallet() = launch {
-        dccWalletInfoRepository.clear()
-        personCertificatesSettings.clear()
+        dccWalletInfoRepository.reset()
+        personCertificatesSettings.reset()
     }
 
     fun triggerCalculation() = launch {
