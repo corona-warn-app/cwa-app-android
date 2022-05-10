@@ -122,7 +122,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `recovers with empty list from faulty data`() = runBlockingTest2(ignoreActive = true) {
+    fun `recovers with empty list from faulty data`() = runTest2 {
         dataStore.edit { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] = "faulty data" }
 
         createInstance(scope = this).revocationList.first() shouldBe emptyList()
