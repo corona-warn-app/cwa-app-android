@@ -11,7 +11,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -40,7 +41,7 @@ class DiaryVisitCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         every { diaryRepo.locationVisits } returns flowOf(
             listOf(
                 mockVisit(1, _circumstances = "Döner that was too spicy"),
@@ -55,6 +56,8 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
+
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,
@@ -64,7 +67,7 @@ class DiaryVisitCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censor should still work even after visits are deleted`() = runBlockingTest {
+    fun `censor should still work even after visits are deleted`() = runTest {
         every { diaryRepo.locationVisits } returns flowOf(
             listOf(
                 mockVisit(1, _circumstances = "Döner that was too spicy"),
@@ -84,6 +87,7 @@ class DiaryVisitCensorTest : BaseTest() {
             I got my beard shaved without mask,
             only to find out the supermarket was out of toiletpaper.
             """.trimIndent()
+        advanceUntilIdle()
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
             After having a Visit#1/Circumstances,
@@ -93,7 +97,7 @@ class DiaryVisitCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if all circumstances are blank`() = runBlockingTest {
+    fun `censoring returns null if all circumstances are blank`() = runTest {
         every { diaryRepo.locationVisits } returns flowOf(listOf(mockVisit(1, _circumstances = "")))
         val instance = createInstance(this)
         val notCensored = "So many places to visit, but no place like home!"
@@ -101,7 +105,7 @@ class DiaryVisitCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there are no visits no match`() = runBlockingTest {
+    fun `censoring returns null if there are no visits no match`() = runTest {
         every { diaryRepo.locationVisits } returns flowOf(emptyList())
         val instance = createInstance(this)
         val notCensored = "So many places to visit, but no place like home!"
@@ -109,7 +113,7 @@ class DiaryVisitCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if the message didn't change`() = runBlockingTest {
+    fun `censoring returns null if the message didn't change`() = runTest {
         every { diaryRepo.locationVisits } returns flowOf(
             listOf(
                 mockVisit(1, _circumstances = "Coffee"),

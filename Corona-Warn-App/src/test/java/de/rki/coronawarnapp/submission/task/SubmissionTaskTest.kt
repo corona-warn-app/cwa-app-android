@@ -38,7 +38,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -180,7 +180,7 @@ class SubmissionTaskTest : BaseTest() {
     )
 
     @Test
-    fun `submission flow`() = runBlockingTest {
+    fun `submission flow`() = runTest {
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SUCCESSFUL
@@ -239,7 +239,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() = runBlockingTest {
+    fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() = runTest {
         val emptySymptoms: FlowPreference<Symptoms?> = mockFlowPreference(null)
         every { submissionSettings.symptoms } returns emptySymptoms
 
@@ -254,7 +254,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `submission data is not deleted if submission fails`() = runBlockingTest {
+    fun `submission data is not deleted if submission fails`() = runTest {
         coEvery { playbook.submit(any()) } throws IOException()
 
         shouldThrow<IOException> {
@@ -292,7 +292,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `task throws if no registration token is available`() = runBlockingTest {
+    fun `task throws if no registration token is available`() = runTest {
         coronaTestsFlow.value = setOf(
             mockk<PersonalCoronaTest>().apply {
                 every { isAdvancedConsentGiven } returns true
@@ -308,7 +308,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `DE is used as fallback country`() = runBlockingTest {
+    fun `DE is used as fallback country`() = runTest {
         every { appConfigData.supportedCountries } returns listOf("DE")
 
         createTask().run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(
@@ -331,7 +331,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `submission is skipped if user was recently active in submission`() = runBlockingTest {
+    fun `submission is skipped if user was recently active in submission`() = runTest {
         settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.standardHours(1)) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
@@ -342,7 +342,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `user activity is only checked if enabled via arguments`() = runBlockingTest {
+    fun `user activity is only checked if enabled via arguments`() = runTest {
         val task = createTask()
 
         task.run(SubmissionTask.Arguments(checkUserActivity = false))
@@ -358,7 +358,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `negative user activity durations lead to immediate submission`() = runBlockingTest {
+    fun `negative user activity durations lead to immediate submission`() = runTest {
         settingLastUserActivityUTC.update { Instant.ofEpochMilli(Long.MAX_VALUE) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
@@ -367,7 +367,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `task executed with empty TEKs disables autosubmission too`() = runBlockingTest {
+    fun `task executed with empty TEKs disables autosubmission too`() = runTest {
         every { tekHistoryStorage.tekData } returns emptyFlow()
         val task = createTask()
         shouldThrow<NoSuchElementException> {
@@ -377,7 +377,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `exceeding retry attempts throws error and disables autosubmission`() = runBlockingTest {
+    fun `exceeding retry attempts throws error and disables autosubmission`() = runTest {
         settingAutoSubmissionAttemptsCount.update { Int.MAX_VALUE }
         val task = createTask()
         shouldThrowMessage("Submission task retry limit exceeded") {
@@ -387,7 +387,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `PPA is collected for PCR tests`() = runBlockingTest {
+    fun `PPA is collected for PCR tests`() = runTest {
         coronaTestsFlow.value = setOf(
             mockk<PersonalCoronaTest>().apply {
                 every { type } returns PCR
@@ -409,7 +409,7 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
-    fun `PPA is collected for RAT tests`() = runBlockingTest {
+    fun `PPA is collected for RAT tests`() = runTest {
         coronaTestsFlow.value = setOf(
             mockk<PersonalCoronaTest>().apply {
                 every { type } returns RAPID_ANTIGEN

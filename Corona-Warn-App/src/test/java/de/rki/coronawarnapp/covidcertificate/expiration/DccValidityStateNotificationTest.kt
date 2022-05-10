@@ -17,7 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -56,25 +56,25 @@ class DccValidityStateNotificationTest : BaseTest() {
     )
 
     @Test
-    fun `show expires soon notification for vaccination`() = runBlockingTest {
+    fun `show expires soon notification for vaccination`() = runTest {
         createInstance().showNotification(VaccinationCertificateContainerId("the vax-scene"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
-    fun `show expired notification for vaccination`() = runBlockingTest {
+    fun `show expired notification for vaccination`() = runTest {
         createInstance().showNotification(VaccinationCertificateContainerId("the vax-scene"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
-    fun `show expires soon notification for recovery`() = runBlockingTest {
+    fun `show expires soon notification for recovery`() = runTest {
         createInstance().showNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 
     @Test
-    fun `show expired notification for recovery`() = runBlockingTest {
+    fun `show expired notification for recovery`() = runTest {
         createInstance().showNotification(RecoveryCertificateContainerId("recovery"))
         verify { notificationHelper.sendNotification(any(), any()) }
     }

@@ -9,7 +9,7 @@ import io.kotest.matchers.types.instanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -31,13 +31,13 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `state determination, unregistered test`() = runBlockingTest {
+    fun `state determination, unregistered test`() = runTest {
         val test: RACoronaTest? = null
         test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.NoTest
     }
 
     @Test
-    fun `submission done mapping`() = runBlockingTest {
+    fun `submission done mapping`() = runTest {
         val test = RACoronaTest(
             identifier = "identifier",
             registeredAt = Instant.ofEpochMilli(123),
@@ -58,7 +58,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
 
     // EXPOSUREAPP-6784 / https://github.com/corona-warn-app/cwa-app-android/issues/2953
     @Test
-    fun `errors that are not http 400 do not affect result state`() = runBlockingTest {
+    fun `errors that are not http 400 do not affect result state`() = runTest {
         val test = RACoronaTest(
             identifier = "identifier",
             registeredAt = Instant.ofEpochMilli(123),
@@ -78,7 +78,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `client http 400 errors result in invalid test state`() = runBlockingTest {
+    fun `client http 400 errors result in invalid test state`() = runTest {
         val test = RACoronaTest(
             identifier = "identifier",
             registeredAt = Instant.ofEpochMilli(123),

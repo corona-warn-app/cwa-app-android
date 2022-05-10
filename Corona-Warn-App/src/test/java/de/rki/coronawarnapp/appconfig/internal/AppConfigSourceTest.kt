@@ -19,7 +19,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -104,7 +104,7 @@ class AppConfigSourceTest : BaseTest() {
     )
 
     @Test
-    fun `local config is used if available and valid`() = runBlockingTest {
+    fun `local config is used if available and valid`() = runTest {
         val instance = createInstance()
         instance.getConfigData() shouldBe localConfig
 
@@ -115,7 +115,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `remote config is used if local config is not valid`() = runBlockingTest {
+    fun `remote config is used if local config is not valid`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardHours(1))
             .plus(Duration.standardSeconds(301)) // Local config has 300 seconds validity
@@ -131,7 +131,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `local config is used despite being invalid if remote config is unavailable`() = runBlockingTest {
+    fun `local config is used despite being invalid if remote config is unavailable`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(2))
         coEvery { remoteSource.getConfigData() } returns null
 
@@ -149,7 +149,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `default config is used if remote and local are unavailable`() = runBlockingTest {
+    fun `default config is used if remote and local are unavailable`() = runTest {
         coEvery { remoteSource.getConfigData() } returns null
         coEvery { localSource.getConfigData() } returns null
 
@@ -164,7 +164,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `remote config with correct device time resets user acknowledgement`() = runBlockingTest {
+    fun `remote config with correct device time resets user acknowledgement`() = runTest {
         coEvery { localSource.getConfigData() } returns null
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns true
 
@@ -179,7 +179,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `remote config with incorrect device time does not reset user acknowledgement`() = runBlockingTest {
+    fun `remote config with incorrect device time does not reset user acknowledgement`() = runTest {
         coEvery { localSource.getConfigData() } returns null
 
         coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(
@@ -195,7 +195,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `first reliable device time is set when the remote config has the correct device time`() = runBlockingTest {
+    fun `first reliable device time is set when the remote config has the correct device time`() = runTest {
         coEvery { localSource.getConfigData() } returns null
 
         createInstance().getConfigData()
@@ -206,7 +206,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `first reliable device time is not set, if it has already been set`() = runBlockingTest {
+    fun `first reliable device time is not set, if it has already been set`() = runTest {
         coEvery { localSource.getConfigData() } returns null
         every { cwaSettings.firstReliableDeviceTime } returns Instant.ofEpochMilli(1234L)
 
@@ -218,7 +218,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `first reliable device time is not set, if the device time is incorrect`() = runBlockingTest {
+    fun `first reliable device time is not set, if the device time is incorrect`() = runTest {
         coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
         coEvery { localSource.getConfigData() } returns null
 
@@ -230,7 +230,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `if the device time state changes we save the timestamp and the current state`() = runBlockingTest {
+    fun `if the device time state changes we save the timestamp and the current state`() = runTest {
         coEvery { localSource.getConfigData() } returns null
         // INCORRECT
         coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
@@ -253,7 +253,7 @@ class AppConfigSourceTest : BaseTest() {
     }
 
     @Test
-    fun `clear calls subroutines`() = runBlockingTest {
+    fun `clear calls subroutines`() = runTest {
         createInstance().clear()
 
         coVerify {

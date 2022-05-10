@@ -11,7 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -65,7 +65,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `loading internal config data from assets`() = runBlockingTest {
+    fun `loading internal config data from assets`() = runTest {
         configFile.writeBytes(APPCONFIG_RAW)
 
         val instance = createInstance()
@@ -81,7 +81,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
     }
 
     @Test
-    fun `exceptions when getting the default config are rethrown`() = runBlockingTest {
+    fun `exceptions when getting the default config are rethrown`() = runTest {
         every { assetManager.open("default_app_config_android.bin") } throws
             FileNotFoundException("default_app_config_android.bin does not exist")
         val instance = createInstance()

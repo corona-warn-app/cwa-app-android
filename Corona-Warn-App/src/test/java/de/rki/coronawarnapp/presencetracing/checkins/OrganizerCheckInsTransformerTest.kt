@@ -15,7 +15,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -160,7 +160,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn1 can not derived - Encrypted and Unencrypted CheckIns should be empty`() = runBlockingTest {
+    fun `CheckIn1 can not derived - Encrypted and Unencrypted CheckIns should be empty`() = runTest {
         checkInTransformer.transform(listOf(checkIn1)).apply {
             unencryptedCheckIns.size shouldBe 0
             encryptedCheckIns.size shouldBe 0
@@ -168,7 +168,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn1 can not derived - Encrypted CheckIns should be empty`() = runBlockingTest {
+    fun `CheckIn1 can not derived - Encrypted CheckIns should be empty`() = runTest {
         every { configData.isUnencryptedCheckInsEnabled } returns false
         checkInTransformer.transform(listOf(checkIn1)).apply {
             unencryptedCheckIns.size shouldBe 0
@@ -177,7 +177,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn2 can not split - Encrypted and Unencrypted CheckIns should be 1`() = runBlockingTest {
+    fun `CheckIn2 can not split - Encrypted and Unencrypted CheckIns should be 1`() = runTest {
         checkInTransformer.transform(listOf(checkIn2)).apply {
             unencryptedCheckIns.size shouldBe 1
             encryptedCheckIns.size shouldBe 1
@@ -185,7 +185,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn2 can not split - Encrypted CheckIns should be 1`() = runBlockingTest {
+    fun `CheckIn2 can not split - Encrypted CheckIns should be 1`() = runTest {
         every { configData.isUnencryptedCheckInsEnabled } returns false
         checkInTransformer.transform(listOf(checkIn2)).apply {
             unencryptedCheckIns.size shouldBe 0
@@ -194,7 +194,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn3 can be split - Encrypted and Unencrypted CheckIns should be 7`() = runBlockingTest {
+    fun `CheckIn3 can be split - Encrypted and Unencrypted CheckIns should be 7`() = runTest {
         checkInTransformer.transform(listOf(checkIn3)).apply {
             unencryptedCheckIns.size shouldBe 7
             encryptedCheckIns.size shouldBe 7
@@ -211,7 +211,7 @@ internal class OrganizerCheckInsTransformerTest : BaseTest() {
     }
 
     @Test
-    fun `CheckIn3 can be split - Encrypted CheckIns should be 7`() = runBlockingTest {
+    fun `CheckIn3 can be split - Encrypted CheckIns should be 7`() = runTest {
         every { configData.isUnencryptedCheckInsEnabled } returns false
         checkInTransformer.transform(listOf(checkIn3)).apply {
             unencryptedCheckIns.size shouldBe 0

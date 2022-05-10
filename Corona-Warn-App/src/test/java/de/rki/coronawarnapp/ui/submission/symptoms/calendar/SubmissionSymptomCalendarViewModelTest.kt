@@ -20,7 +20,7 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -168,7 +168,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onDone() should call analyticsKeySubmissionCollector for PCR tests`() = runBlockingTest {
+    fun `onDone() should call analyticsKeySubmissionCollector for PCR tests`() = runTest {
         testType = PCR
 
         createViewModel().apply {

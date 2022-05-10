@@ -18,12 +18,13 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class DccStateCheckSchedulerTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
@@ -58,7 +59,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `schedule expiration worker on setup`() = runBlockingTest2(ignoreActive = true) {
+    fun `schedule expiration worker on setup`() = runTest2 {
         createInstance(this).setup()
 
         advanceUntilIdle()
@@ -73,7 +74,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `refresh dsc data when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
+    fun `refresh dsc data when app comes into foreground`() = runTest2 {
         createInstance(this).apply {
             setup()
 
@@ -97,7 +98,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `do not refresh dsc data when last refresh was recent`() = runBlockingTest2(ignoreActive = true) {
+    fun `do not refresh dsc data when last refresh was recent`() = runTest2 {
         every { mockDscData.updatedAt } returns Instant.ofEpochSecond(1234567).minus(Duration.standardHours(12))
         createInstance(this).apply {
             setup()

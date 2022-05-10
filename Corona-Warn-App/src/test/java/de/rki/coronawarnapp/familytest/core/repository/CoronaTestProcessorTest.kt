@@ -16,7 +16,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -65,7 +65,7 @@ class CoronaTestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a new test works`() = runBlockingTest {
+    fun `registering a new test works`() = runTest {
         val qrCode = CoronaTestQRCode.PCR(
             qrCodeGUID = "guid",
             rawQrCode = "rawQrCode"
@@ -85,7 +85,7 @@ class CoronaTestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling works`() = runBlockingTest {
+    fun `polling works`() = runTest {
         val test = CoronaTest(
             identifier = "familyTest1",
             type = BaseCoronaTest.Type.PCR,
@@ -101,7 +101,7 @@ class CoronaTestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
+    fun `registering a new test maps invalid results to INVALID state`() = runTest {
 
         var registrationData = RegistrationData(
             registrationToken = "regtoken",
@@ -145,7 +145,7 @@ class CoronaTestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling maps invalid results to INVALID state`() = runBlockingTest {
+    fun `polling maps invalid results to INVALID state`() = runTest {
         var pollResult: CoronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING
         coEvery { coronaTestService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(

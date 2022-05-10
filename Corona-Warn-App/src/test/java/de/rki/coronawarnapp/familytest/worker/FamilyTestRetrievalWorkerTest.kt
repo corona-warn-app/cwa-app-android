@@ -10,7 +10,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,7 +37,7 @@ class FamilyTestRetrievalWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `create worker`() = runBlockingTest {
+    fun `create worker`() = runTest {
         createWorker().doWork()
 
         coVerifySequence {

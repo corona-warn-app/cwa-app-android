@@ -15,7 +15,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -70,7 +71,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     )
 
     @Test
-    fun `register new RA test - with consent`() = runBlockingTest {
+    fun `register new RA test - with consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -95,7 +96,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `register new RA test - without consent`() = runBlockingTest {
+    fun `register new RA test - without consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -122,7 +123,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `replace RA test - with consent`() = runBlockingTest {
+    fun `replace RA test - with consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -147,7 +148,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `replace RA new test - without consent`() = runBlockingTest {
+    fun `replace RA new test - without consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -174,7 +175,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `register new PCR test - with consent`() = runBlockingTest {
+    fun `register new PCR test - with consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -199,7 +200,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `register new PCR test - without consent`() = runBlockingTest {
+    fun `register new PCR test - without consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -226,7 +227,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `replace PCR test - with consent`() = runBlockingTest {
+    fun `replace PCR test - with consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -251,7 +252,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `replace PCR new test - without consent`() = runBlockingTest {
+    fun `replace PCR new test - without consent`() = runTest {
         val instance = createInstance()
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
@@ -278,7 +279,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `errors are mapped to state`() = runBlockingTest {
+    fun `errors are mapped to state`() = runTest {
         val instance = createInstance()
 
         val expectedException = BadRequestException("")

@@ -10,7 +10,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeBase64
@@ -44,7 +44,7 @@ class CclConfigurationServerTest : BaseTest() {
     }
 
     @Test
-    fun `happy download`() = runBlockingTest {
+    fun `happy download`() = runTest {
         val data = cclConfigDataBase64.decodeBase64()
         val responseBody = data?.toResponseBody()
 
@@ -73,7 +73,7 @@ class CclConfigurationServerTest : BaseTest() {
     }
 
     @Test
-    fun `returns null on error response`() = runBlockingTest {
+    fun `returns null on error response`() = runTest {
         val response = Response.error<ResponseBody>(404, "".toResponseBody())
 
         coEvery { cclConfigurationApiV1.getCclConfiguration() } returns response
@@ -82,7 +82,7 @@ class CclConfigurationServerTest : BaseTest() {
     }
 
     @Test
-    fun `returns null on faulty data`() = runBlockingTest {
+    fun `returns null on faulty data`() = runTest {
         val response = Response.success("faulty data".toResponseBody())
 
         coEvery { cclConfigurationApiV1.getCclConfiguration() } returns response
@@ -91,7 +91,7 @@ class CclConfigurationServerTest : BaseTest() {
     }
 
     @Test
-    fun `returns null on cached response`() = runBlockingTest {
+    fun `returns null on cached response`() = runTest {
         val data = cclConfigDataBase64.decodeBase64()
         val response: okhttp3.Response = mockk {
             every { body } returns data?.toResponseBody()
@@ -111,7 +111,7 @@ class CclConfigurationServerTest : BaseTest() {
     }
 
     @Test
-    fun `returns null on not modified response`() = runBlockingTest {
+    fun `returns null on not modified response`() = runTest {
         val data = cclConfigDataBase64.decodeBase64()
         val response: okhttp3.Response = mockk {
             every { code } returns 304

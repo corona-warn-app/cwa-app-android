@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.dccticketing
 
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -29,7 +29,7 @@ class DccTicketingJwtCensorTest : BaseTest() {
     )
 
     @Test
-    fun `censoring replaces raw JWT`() = runBlockingTest {
+    fun `censoring replaces raw JWT`() = runTest {
         val instance = DccTicketingJwtCensor()
         instance.addJwt(rawJwt)
         val filterMe = "Logging $rawJwt for debugging"
@@ -37,7 +37,7 @@ class DccTicketingJwtCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces vc attributes`() = runBlockingTest {
+    fun `censoring replaces vc attributes`() = runTest {
         val instance = DccTicketingJwtCensor()
 
         instance.addVc(vc)
@@ -47,7 +47,7 @@ class DccTicketingJwtCensorTest : BaseTest() {
     }
 
     @Test
-    fun `no censoring returns null`() = runBlockingTest {
+    fun `no censoring returns null`() = runTest {
         val instance = DccTicketingJwtCensor()
         instance.addVc(vc)
         instance.addJwt(rawJwt)

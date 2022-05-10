@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -50,7 +50,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             endTime = Instant.parse("2021-03-15T05:45:00.000Z")
         )
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().calculateNormalizedTime(listOf(overlap, overlap2))
             result.size shouldBe 2
             result.find { it.checkInId == 1L }!!.normalizedTime shouldBe (0.8 * 30)
@@ -71,7 +71,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             localDateUtc = Instant.parse("2021-03-15T05:00:00.000Z").toLocalDateUtc(),
             normalizedTime = 15.0
         )
-        runBlockingTest {
+        runTest {
             val result = createInstance().calculateCheckInRiskPerDay(listOf(normTime, normTime2))
             result.size shouldBe 2
             result.find { it.checkInId == 1L }!!.riskState shouldBe RiskState.INCREASED_RISK
@@ -87,7 +87,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             normalizedTime = 10000.0
         )
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().calculateCheckInRiskPerDay(listOf(normTime))
             result.size shouldBe 1
             result.find { it.checkInId == 1L }!!.riskState shouldBe RiskState.CALCULATION_FAILED
@@ -102,7 +102,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             normalizedTime = 10000.0
         )
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().calculateDayRisk(listOf(normTime))
             result.size shouldBe 1
             result[0].riskState shouldBe RiskState.CALCULATION_FAILED
@@ -132,7 +132,7 @@ class PresenceTracingRiskCalculatorTest : BaseTest() {
             normalizedTime = 15.0
         )
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().calculateDayRisk(listOf(normTime, normTime2, normTime3))
             result.size shouldBe 2
             result.find { it.localDateUtc == localDate }!!.riskState shouldBe RiskState.INCREASED_RISK

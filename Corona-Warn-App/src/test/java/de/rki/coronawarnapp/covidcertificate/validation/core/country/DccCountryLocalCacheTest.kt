@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.country
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
@@ -16,7 +16,7 @@ class DccCountryLocalCacheTest : BaseIOTest() {
     )
 
     @Test
-    fun `write and read data`() = runBlockingTest {
+    fun `write and read data`() = runTest {
 
         createInstance().apply {
             loadCountryJson() shouldBe null

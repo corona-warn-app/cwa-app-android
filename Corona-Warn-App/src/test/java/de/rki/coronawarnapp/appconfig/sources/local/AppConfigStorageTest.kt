@@ -9,7 +9,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
@@ -60,7 +60,7 @@ class AppConfigStorageTest : BaseIOTest() {
     )
 
     @Test
-    fun `simple read and write config`() = runBlockingTest {
+    fun `simple read and write config`() = runTest {
         configPath.exists() shouldBe false
         val storage = createStorage()
         configPath.exists() shouldBe false
@@ -82,7 +82,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `restoring from storage`() = runBlockingTest {
+    fun `restoring from storage`() = runTest {
         configPath.parentFile!!.mkdirs()
         configPath.writeText(
             """
@@ -100,7 +100,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `nulling and overwriting`() = runBlockingTest {
+    fun `nulling and overwriting`() = runTest {
         val storage = createStorage()
         configPath.exists() shouldBe false
 
@@ -129,7 +129,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `nulling deletes legacy config`() = runBlockingTest {
+    fun `nulling deletes legacy config`() = runTest {
         val storage = createStorage()
         configPath.exists() shouldBe false
 
@@ -149,7 +149,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `if no fallback exists, but we have a legacy config, use that`() = runBlockingTest {
+    fun `if no fallback exists, but we have a legacy config, use that`() = runTest {
         configPath.exists() shouldBe false
         legacyConfigPath.exists() shouldBe false
 
@@ -168,7 +168,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `writing a new config deletes any legacy configsconfig`() = runBlockingTest {
+    fun `writing a new config deletes any legacy configsconfig`() = runTest {
         legacyConfigPath.parentFile!!.mkdirs()
         legacyConfigPath.writeBytes(APPCONFIG_RAW)
         configPath.exists() shouldBe false
@@ -181,7 +181,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `return null on errors`() = runBlockingTest {
+    fun `return null on errors`() = runTest {
         every { timeStamper.nowUTC } throws Exception()
 
         val storage = createStorage()
@@ -189,7 +189,7 @@ class AppConfigStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `return null on invalid json and delete config file`() = runBlockingTest {
+    fun `return null on invalid json and delete config file`() = runTest {
         configPath.parentFile!!.mkdirs()
         configPath.writeText(
             """
@@ -211,7 +211,7 @@ class AppConfigStorageTest : BaseIOTest() {
 
         val storage = createStorage()
 
-        runBlockingTest {
+        runTest {
             storage.getStoredConfig() shouldBe null
         }
 
@@ -225,7 +225,7 @@ class AppConfigStorageTest : BaseIOTest() {
 
         val storage = createStorage()
 
-        runBlockingTest {
+        runTest {
             storage.setStoredConfig(mockk())
         }
 

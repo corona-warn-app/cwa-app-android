@@ -12,7 +12,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotContain
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -70,7 +70,7 @@ class DccQrCodeCensorTest : BaseTest() {
     private fun createInstance() = DccQrCodeCensor()
 
     @Test
-    fun `censoring of vaccination certificate works`() = runBlockingTest {
+    fun `censoring of vaccination certificate works`() = runTest {
         val censor = createInstance().apply {
             addCertificateToCensor(vaccinationCertificateData)
         }
@@ -106,14 +106,14 @@ class DccQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
+    fun `checkLog() should return null if no data to censor was set`() = runTest {
         val censor = createInstance()
         val logLineNotToCensor = "Here comes the rawData: $vaccinationQrCode"
         censor.checkLog(logLineNotToCensor) shouldBe null
     }
 
     @Test
-    fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
+    fun `checkLog() should return null if nothing should be censored`() = runTest {
         val censor = createInstance()
         censor.addQRCodeStringToCensor(vaccinationQrCode.replace("1", "2"))
         censor.addCertificateToCensor(vaccinationCertificateData)
@@ -122,7 +122,7 @@ class DccQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring of test certificate works`() = runBlockingTest {
+    fun `censoring of test certificate works`() = runTest {
         val data = certificateTestData.personATest1CertQRCode().data
         val censor = createInstance()
         censor.addCertificateToCensor(data)
@@ -164,7 +164,7 @@ class DccQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring of recovery certificate works`() = runBlockingTest {
+    fun `censoring of recovery certificate works`() = runTest {
         val data = DccData(
             header = mockk(),
             recoveryCertificate1.asRecoveryCertificate!!,
@@ -206,7 +206,7 @@ class DccQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring of qr code works`() = runBlockingTest {
+    fun `censoring of qr code works`() = runTest {
         val censor = createInstance()
         censor.addQRCodeStringToCensor(vaccinationQrCode)
         val logLineToCensor = "RawString: $vaccinationQrCode of certificate"
@@ -214,7 +214,7 @@ class DccQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `EXPOSUREAPP-9075 - case`() = runBlockingTest {
+    fun `EXPOSUREAPP-9075 - case`() = runTest {
         val censor = createInstance()
         val logLine =
             "2021-08-11T02:24:48.604Z V/DefaultExposureDetectio: Running timeout check (now=2021-08-11T02:24:48.603Z): [TrackedExposureDetection(identifier=3463faf6-6546-4f51-b9eb-85d45fa3af13, startedAt=2021-08-10T06:11:08.298Z, result=NO_MATCHES, finishedAt=2021-08-10T06:11:21.824Z, enfVersion=V2_WINDOW_MODE), TrackedExposureDetection(identifier=5b5b5d8c-353f-430e-8e9a-fea5312d3773, startedAt=2021-08-10T10:14:46.817Z, result=NO_MATCHES, finishedAt=2021-08-10T10:15:02.430Z, enfVersion=V2_WINDOW_MODE), TrackedExposureDetection(identifier=6ce6ea79-3fe6-44c8-b41d-1369ab9bf7de, startedAt=2021-08-10T15:17:58.451Z, result=NO_MATCHES, finishedAt=2021-08-10T15:18:13.911Z, enfVersion=V2_WINDOW_MODE), TrackedExposureDetection(identifier=0927fc48-7831-45a9-a48d-f19ba643841a, startedAt=2021-08-10T19:21:52.010Z, result=NO_MATCHES, finishedAt=2021-08-10T19:22:04.288Z, enfVersion=V2_WINDOW_MODE), TrackedExposureDetection(identifier=b6702fbe-22ce-430f-ad9f-0e05651d9243, startedAt=2021-08-10T23:24:45.592Z, result=NO_MATCHES, finishedAt=2021-08-10T23:25:01.560Z, enfVersion=V2_WINDOW_MODE)]"

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,14 +33,14 @@ class DccRevocationCheckerTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `all not revoked when no revocation list`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `all not revoked when no revocation list`(testCaseDcc: DccRevocationCalculationTestCase) = runTest {
         val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(dccData, listOf()) shouldBe false
     }
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type SIGNATURE`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `all revoked for type SIGNATURE`(testCaseDcc: DccRevocationCalculationTestCase) = runTest {
         val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
@@ -90,7 +90,7 @@ class DccRevocationCheckerTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type UCI`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `all revoked for type UCI`(testCaseDcc: DccRevocationCalculationTestCase) = runTest {
         val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
@@ -140,7 +140,7 @@ class DccRevocationCheckerTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type COUNTRYCODEUCI`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `all revoked for type COUNTRYCODEUCI`(testCaseDcc: DccRevocationCalculationTestCase) = runTest {
         val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
@@ -190,7 +190,7 @@ class DccRevocationCheckerTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `all revoked for combination`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `all revoked for combination`(testCaseDcc: DccRevocationCalculationTestCase) = runTest {
         val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
@@ -241,7 +241,7 @@ class DccRevocationCheckerTest : BaseTest() {
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
     fun `all not revoked when coordinate exist but no hashes`(testCaseDcc: DccRevocationCalculationTestCase) =
-        runBlockingTest {
+        runTest {
             val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
             DccRevocationChecker().isRevoked(
                 dccData,

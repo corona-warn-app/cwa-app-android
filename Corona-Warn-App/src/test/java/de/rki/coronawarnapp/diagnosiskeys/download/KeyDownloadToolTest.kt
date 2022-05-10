@@ -19,7 +19,8 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -81,7 +82,7 @@ class KeyDownloadToolTest : BaseIOTest() {
     )
 
     @Test
-    fun `etag from header is stored`() = runBlockingTest {
+    fun `etag from header is stored`() = runTest {
         val instance = createInstance()
 
         instance.downloadKeyFile(cachedKey, downloadConfig)
@@ -90,7 +91,7 @@ class KeyDownloadToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `if the etag is missing we throw an exception`() = runBlockingTest {
+    fun `if the etag is missing we throw an exception`() = runTest {
         coEvery { keyServer.downloadKeyFile(any(), any(), any(), any(), any()) } returns DownloadInfo(
             headers = Headers.headersOf()
         )
@@ -105,7 +106,7 @@ class KeyDownloadToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `invididual downloads timeout based on appconfig`() = runBlockingTest {
+    fun `invididual downloads timeout based on appconfig`() = runTest {
         coEvery { keyServer.downloadKeyFile(any(), any(), any(), any(), any()) } coAnswers {
             delay(10 * 1000)
             mockk()
@@ -121,7 +122,7 @@ class KeyDownloadToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed downloads are deleted`() = runBlockingTest {
+    fun `failed downloads are deleted`() = runTest {
         coEvery { keyServer.downloadKeyFile(any(), any(), any(), any(), any()) } throws IOException()
 
         val instance = createInstance()

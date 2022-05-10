@@ -17,7 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.Cache
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeBase64
@@ -57,7 +57,7 @@ class DccValidationServerTest : BaseIOTest() {
     )
 
     @Test
-    fun `successful download`() = runBlockingTest {
+    fun `successful download`() = runTest {
 
         val server = createInstance()
 
@@ -68,7 +68,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `successful download of booster notification rule set form server`() = runBlockingTest {
+    fun `successful download of booster notification rule set form server`() = runTest {
 
         val server = createInstance()
 
@@ -117,7 +117,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `country data is faulty`() = runBlockingTest {
+    fun `country data is faulty`() = runTest {
         coEvery { countryApi.onboardedCountries() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -128,7 +128,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `acceptance rules data is faulty`() = runBlockingTest {
+    fun `acceptance rules data is faulty`() = runTest {
         coEvery { rulesApi.acceptanceRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -139,7 +139,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `booster notification rules data is faulty`() = runBlockingTest {
+    fun `booster notification rules data is faulty`() = runTest {
         coEvery { rulesApi.boosterNotificationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -150,7 +150,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `invalidation rules data is faulty`() = runBlockingTest {
+    fun `invalidation rules data is faulty`() = runTest {
         coEvery { rulesApi.invalidationRules() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -161,7 +161,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `verification fails`() = runBlockingTest {
+    fun `verification fails`() = runTest {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         val server = createInstance()
@@ -172,7 +172,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `dcc countries maps network error`() = runBlockingTest {
+    fun `dcc countries maps network error`() = runTest {
         coEvery { countryApi.onboardedCountries() } throws CwaUnknownHostException(cause = IOException())
 
         shouldThrow<DccValidationException> {
@@ -181,7 +181,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `acceptance rules maps network error`() = runBlockingTest {
+    fun `acceptance rules maps network error`() = runTest {
         coEvery { rulesApi.acceptanceRules() } throws CwaUnknownHostException(cause = IOException())
 
         shouldThrow<DccValidationException> {
@@ -190,7 +190,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `booster notification rules maps network error`() = runBlockingTest {
+    fun `booster notification rules maps network error`() = runTest {
         coEvery { rulesApi.boosterNotificationRules() } throws CwaUnknownHostException(cause = IOException())
 
         shouldThrow<DccValidationException> {
@@ -199,7 +199,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `invalidation rules maps network error`() = runBlockingTest {
+    fun `invalidation rules maps network error`() = runTest {
         coEvery { rulesApi.invalidationRules() } throws CwaUnknownHostException(cause = IOException())
 
         shouldThrow<DccValidationException> {
@@ -208,7 +208,7 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears cache`() = runBlockingTest {
+    fun `clear clears cache`() = runTest {
         createInstance().reset()
         verify { cache.evictAll() }
     }

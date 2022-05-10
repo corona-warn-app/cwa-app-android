@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
 
@@ -35,35 +35,35 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `parse scenarios`() = runBlockingTest2 {
+    fun `parse scenarios`() = runTest2 {
         every { cclSettings.admissionCheckScenarios } returns flowOf(scenariosJson)
         instance = createInstance()
         instance.admissionCheckScenarios.first() shouldBe admissionCheckScenarios
     }
 
     @Test
-    fun `parse null`() = runBlockingTest2 {
+    fun `parse null`() = runTest2 {
         every { cclSettings.admissionCheckScenarios } returns flowOf(null)
         instance = createInstance()
         instance.admissionCheckScenarios.first() shouldBe null
     }
 
     @Test
-    fun `parse empty string`() = runBlockingTest2 {
+    fun `parse empty string`() = runTest2 {
         every { cclSettings.admissionCheckScenarios } returns flowOf("")
         instance = createInstance()
         instance.admissionCheckScenarios.first() shouldBe null
     }
 
     @Test
-    fun `parse corrupt string`() = runBlockingTest2 {
+    fun `parse corrupt string`() = runTest2 {
         every { cclSettings.admissionCheckScenarios } returns flowOf("something else")
         instance = createInstance()
         instance.admissionCheckScenarios.first() shouldBe null
     }
 
     @Test
-    fun `save works`() = runBlockingTest2 {
+    fun `save works`() = runTest2 {
         instance = createInstance()
         instance.save(admissionCheckScenarios)
         coVerify {
