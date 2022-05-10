@@ -47,39 +47,42 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
     private val args = DccReissuanceConsentFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
 
     private val state = DccReissuanceConsentViewModel.State(
-        certificateList = mutableListOf<DccReissuanceItem>(DccReissuanceConsentCard.Item(mockk<VaccinationDccV1> {
-            every { nameData } returns mockk {
-                every { fullName } returns "Andrea Schneider"
-            }
+        certificateList = mutableListOf<DccReissuanceItem>(
+            DccReissuanceConsentCard.Item(
+                mockk<VaccinationDccV1> {
+                    every { nameData } returns mockk {
+                        every { fullName } returns "Andrea Schneider"
+                    }
 
-            every { vaccination } returns mockk {
-                every { doseNumber } returns 2
-                every { totalSeriesOfDoses } returns 2
-                every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
-                every { personIdentifier } returns CertificatePersonIdentifier(
-                    dateOfBirthFormatted = "2020-01-01",
-                    lastNameStandardized = "Schneider",
-                    firstNameStandardized = "Andrea"
-                )
-            }
-        }
-        ),
-            DccReissuanceConsentCard.Item(mockk<VaccinationDccV1> {
-                every { nameData } returns mockk {
-                    every { fullName } returns "Andrea Schneider"
+                    every { vaccination } returns mockk {
+                        every { doseNumber } returns 2
+                        every { totalSeriesOfDoses } returns 2
+                        every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
+                        every { personIdentifier } returns CertificatePersonIdentifier(
+                            dateOfBirthFormatted = "2020-01-01",
+                            lastNameStandardized = "Schneider",
+                            firstNameStandardized = "Andrea"
+                        )
+                    }
                 }
+            ),
+            DccReissuanceConsentCard.Item(
+                mockk<VaccinationDccV1> {
+                    every { nameData } returns mockk {
+                        every { fullName } returns "Andrea Schneider"
+                    }
 
-                every { vaccination } returns mockk {
-                    every { doseNumber } returns 2
-                    every { totalSeriesOfDoses } returns 2
-                    every { vaccinatedOn } returns LocalDate.parse("2022-01-17")
-                    every { personIdentifier } returns CertificatePersonIdentifier(
-                        dateOfBirthFormatted = "2020-01-01",
-                        lastNameStandardized = "Schneider",
-                        firstNameStandardized = "Andrea"
-                    )
+                    every { vaccination } returns mockk {
+                        every { doseNumber } returns 2
+                        every { totalSeriesOfDoses } returns 2
+                        every { vaccinatedOn } returns LocalDate.parse("2022-01-17")
+                        every { personIdentifier } returns CertificatePersonIdentifier(
+                            dateOfBirthFormatted = "2020-01-01",
+                            lastNameStandardized = "Schneider",
+                            firstNameStandardized = "Andrea"
+                        )
+                    }
                 }
-            }
             )
         ),
         divisionVisible = true,
