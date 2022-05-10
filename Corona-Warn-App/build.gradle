@@ -45,7 +45,7 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
-        resConfigs supportedLocales.join(",")
+        resConfigs ','
 
         println("Supported Locales: ${supportedLocales.join(",")}")
 
@@ -270,6 +270,7 @@ android {
         // see the following issue: https://issuetracker.google.com/issues/169249668
         disable 'NullSafeMutableLiveData'
     }
+    namespace 'de.rki.coronawarnapp'
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
