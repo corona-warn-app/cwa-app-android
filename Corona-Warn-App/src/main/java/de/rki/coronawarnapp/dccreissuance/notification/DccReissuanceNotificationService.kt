@@ -25,7 +25,9 @@ class DccReissuanceNotificationService @Inject constructor(
         val oldCertReissuance = oldWalletInfo?.certificateReissuance
         val newCertReissuance = newWalletInfo.certificateReissuance
         when {
-            newCertReissuance != null && oldCertReissuance == null -> {
+            newCertReissuance != null &&
+                newCertReissuance.reissuanceDivision.identifier !=
+                oldCertReissuance?.reissuanceDivision?.identifier -> {
                 Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
                 personNotificationSender.showNotification(
                     personIdentifier = personIdentifier,
