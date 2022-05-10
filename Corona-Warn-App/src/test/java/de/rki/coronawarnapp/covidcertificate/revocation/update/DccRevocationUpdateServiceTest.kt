@@ -32,7 +32,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.BeforeEach
@@ -65,7 +65,7 @@ class DccRevocationUpdateServiceTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `happy path`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `happy path`(testCase: DccRevocationCalculationTestCase) = runTest {
         testCase.checkFor(RevocationHashType.SIGNATURE)
         testCase.checkFor(RevocationHashType.UCI)
         testCase.checkFor(RevocationHashType.COUNTRYCODEUCI)
@@ -73,7 +73,7 @@ class DccRevocationUpdateServiceTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `skips already revoked entries`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `skips already revoked entries`(testCase: DccRevocationCalculationTestCase) = runTest {
         val cert = testCase.toCert()
         val kidHash = cert.dccData.kidHash()
         val hashType = RevocationHashType.UCI
@@ -108,7 +108,7 @@ class DccRevocationUpdateServiceTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `aborts on error`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `aborts on error`(testCase: DccRevocationCalculationTestCase) = runTest {
         val cert = testCase.toCert()
         val kidHash = cert.dccData.kidHash()
         val hashType = RevocationHashType.COUNTRYCODEUCI

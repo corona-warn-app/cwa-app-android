@@ -14,7 +14,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +63,7 @@ class SnapshotUploaderTest : BaseTest() {
     )
 
     @Test
-    fun `upload a snapshot`() = runBlockingTest {
+    fun `upload a snapshot`() = runTest {
         val instance = createInstance()
         instance.uploadSnapshot() shouldBe expectedLogUpload
 
@@ -71,7 +71,7 @@ class SnapshotUploaderTest : BaseTest() {
     }
 
     @Test
-    fun `snapshots are deleted on errors too`() = runBlockingTest {
+    fun `snapshots are deleted on errors too`() = runTest {
         coEvery { uploadServer.uploadLog(logUploadOtp, snapshot) } throws IOException()
 
         val instance = createInstance()
@@ -83,7 +83,7 @@ class SnapshotUploaderTest : BaseTest() {
     }
 
     @Test
-    fun `upload history is capped at 10`() = runBlockingTest {
+    fun `upload history is capped at 10`() = runTest {
         val existingEntries = (1..10L).map { LogUpload(id = "$it", Instant.ofEpochMilli(it)) }
         uploadHistoryPref.update { UploadHistory(logs = existingEntries) }
 

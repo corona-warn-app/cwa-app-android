@@ -11,10 +11,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import io.mockk.verifySequence
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runTest
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -60,9 +60,9 @@ class ProfileMigrationTest {
     }
 
     @Test
-    fun `test migration`() = runBlocking {
+    fun `test migration`() = runTest {
         every { settingsDataStore.profileFlow } returns flowOf(profile)
-        createInstance().migrateFromDataStore(db)
+        createInstance(this).migrateFromDataStore(db)
         verifySequence {
             settingsDataStore.profileFlow
             db.beginTransaction()
@@ -74,9 +74,9 @@ class ProfileMigrationTest {
     }
 
     @Test
-    fun `test migration empty profile`() = runBlocking {
+    fun `test migration empty profile`() = runTest {
         every { settingsDataStore.profileFlow } returns flowOf(emptyProfile)
-        createInstance().migrateFromDataStore(db)
+        createInstance(this).migrateFromDataStore(db)
         verifySequence {
             settingsDataStore.profileFlow
             db.beginTransaction()
@@ -88,9 +88,9 @@ class ProfileMigrationTest {
     }
 
     @Test
-    fun `test migration no profile`() = runBlocking {
+    fun `test migration no profile`() = runTest {
         every { settingsDataStore.profileFlow } returns flowOf(null)
-        createInstance().migrateFromDataStore(db)
+        createInstance(this).migrateFromDataStore(db)
         verifySequence {
             settingsDataStore.profileFlow
         }
@@ -103,9 +103,9 @@ class ProfileMigrationTest {
         }
     }
 
-    private fun createInstance() = ProfileDatabase.Factory(
+    private fun createInstance(scope: CoroutineScope) = ProfileDatabase.Factory(
         context,
-        TestCoroutineScope(),
+        scope,
         settingsDataStore
     )
 }

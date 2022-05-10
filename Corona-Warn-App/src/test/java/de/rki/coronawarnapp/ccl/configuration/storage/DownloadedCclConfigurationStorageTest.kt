@@ -4,7 +4,7 @@ import io.kotest.matchers.file.shouldExist
 import io.kotest.matchers.file.shouldNotExist
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
@@ -23,7 +23,7 @@ class DownloadedCclConfigurationStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `write and read data`() = runBlockingTest {
+    fun `write and read data`() = runTest {
         val data = "Some test data".toByteArray()
 
         with(instance) {
@@ -43,7 +43,7 @@ class DownloadedCclConfigurationStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `clears ccl file completely`() = runBlockingTest {
+    fun `clears ccl file completely`() = runTest {
         val cacheDir = File(cclFile, "ccl_config_http_cache")
         val cacheFile = File(cacheDir, "data")
         cacheFile.parentFile?.mkdirs()

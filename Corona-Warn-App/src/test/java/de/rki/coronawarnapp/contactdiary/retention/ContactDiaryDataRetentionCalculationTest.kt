@@ -19,7 +19,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -85,7 +85,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `test location visit deletion`() = runBlockingTest {
+    fun `test location visit deletion`() = runTest {
         val list: List<ContactDiaryLocationVisit> = testDates.map { createContactDiaryLocationVisit(Instant.parse(it)) }
 
         every { contactDiaryRepository.locationVisits } returns flowOf(list)
@@ -105,7 +105,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `test person encounters`() = runBlockingTest {
+    fun `test person encounters`() = runTest {
         val list: List<ContactDiaryPersonEncounter> =
             testDates.map { createContactDiaryPersonEncounter(Instant.parse(it)) }
 
@@ -125,7 +125,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `test risk per date results`() = runBlockingTest {
+    fun `test risk per date results`() = runTest {
         val instance = createInstance()
         val list: List<ExposureWindowDayRisk> = testDates.map { createAggregatedRiskPerDateResult(Instant.parse(it)) }
         val filteredList = list.filter { instance.isOutOfRetention(it.localDateUtc) }
@@ -146,7 +146,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     )
 
     @Test
-    fun `test corona tests`() = runBlockingTest {
+    fun `test corona tests`() = runTest {
         createInstance().run {
             val list: List<ContactDiaryCoronaTestEntity> =
                 testDates.map { createContactDiaryCoronaTestEntity(Instant.parse(it)) }

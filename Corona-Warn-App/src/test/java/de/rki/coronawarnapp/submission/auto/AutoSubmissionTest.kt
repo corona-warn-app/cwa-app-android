@@ -25,7 +25,7 @@ import io.mockk.slot
 import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -143,7 +143,7 @@ class AutoSubmissionTest : BaseTest() {
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
-        runBlockingTest {
+        runTest {
             instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
         }
 
@@ -172,7 +172,7 @@ class AutoSubmissionTest : BaseTest() {
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
-        runBlockingTest {
+        runTest {
             instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
         }
 

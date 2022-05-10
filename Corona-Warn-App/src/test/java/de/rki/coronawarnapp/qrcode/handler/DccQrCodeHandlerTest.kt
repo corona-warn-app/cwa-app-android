@@ -23,7 +23,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -61,7 +61,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Vax repo`() = runBlockingTest {
+    fun `handleQrCode calls Vax repo`() = runTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -73,7 +73,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Test repo`() = runBlockingTest {
+    fun `handleQrCode calls Test repo`() = runTest {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -85,7 +85,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handleQrCode calls Recovery repo`() = runBlockingTest {
+    fun `handleQrCode calls Recovery repo`() = runTest {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -97,7 +97,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `register calls vaccination repo`() = runBlockingTest {
+    fun `register calls vaccination repo`() = runTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -108,7 +108,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `register calls Test repo`() = runBlockingTest {
+    fun `register calls Test repo`() = runTest {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -119,7 +119,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `register calls Recovery repo`() = runBlockingTest {
+    fun `register calls Recovery repo`() = runTest {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
         }
@@ -130,7 +130,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `move to recycle bin calls vaccination repo`() = runBlockingTest {
+    fun `move to recycle bin calls vaccination repo`() = runTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
             every { hash } returns "hash"
@@ -144,7 +144,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `move to recycle bin calls Test repo`() = runBlockingTest {
+    fun `move to recycle bin calls Test repo`() = runTest {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
             every { hash } returns "hash"
@@ -158,7 +158,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `move to recycle bin calls Recovery repo`() = runBlockingTest {
+    fun `move to recycle bin calls Recovery repo`() = runTest {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
             every { hash } returns "hash"

@@ -27,7 +27,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -117,7 +117,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `last used config ID is set after calculation`() = runBlockingTest {
+    fun `last used config ID is set after calculation`() = runTest {
         every { configData.isDeviceTimeCorrect } returns true
 
         val task = createTask()
@@ -127,7 +127,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if device time is incorrect`() = runBlockingTest {
+    fun `risk calculation is skipped if device time is incorrect`() = runTest {
         every { configData.isDeviceTimeCorrect } returns false
         every { configData.localOffset } returns Duration.standardHours(5)
 
@@ -140,7 +140,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if tracing is disabled`() = runBlockingTest {
+    fun `risk calculation is skipped if tracing is disabled`() = runTest {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
@@ -150,7 +150,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if results are not existing while in background mode`() = runBlockingTest {
+    fun `risk calculation is skipped if results are not existing while in background mode`() = runTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
@@ -160,7 +160,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if results are not existing while no background mode`() = runBlockingTest {
+    fun `risk calculation is skipped if results are not existing while no background mode`() = runTest {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf()
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
@@ -170,7 +170,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if results are outdated while in background mode`() = runBlockingTest {
+    fun `risk calculation is skipped if results are outdated while in background mode`() = runTest {
         val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
         val now = Instant.parse("2020-12-28")
 
@@ -185,7 +185,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if results are outdated while no background mode`() = runBlockingTest {
+    fun `risk calculation is skipped if results are outdated while no background mode`() = runTest {
         val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
         val now = Instant.parse("2020-12-28")
 
@@ -200,7 +200,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation returns aggregated risk result`() = runBlockingTest {
+    fun `risk calculation returns aggregated risk result`() = runTest {
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = testTimeNow,
             failureReason = null,
@@ -214,7 +214,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `run task throws exception if it is already canceled`() = runBlockingTest {
+    fun `run task throws exception if it is already canceled`() = runTest {
         val task = createTask()
         task.cancel()
         assertThrows<TaskCancellationException> {
@@ -223,7 +223,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `areKeyPkgsOutDated returns true`() = runBlockingTest {
+    fun `areKeyPkgsOutDated returns true`() = runTest {
         val now = DateTime.parse("2020-12-28T00:00+00:00")
         val cachedKey = mockCachedKey(now.minusHours(49)) // outdated > 48h
 
@@ -233,7 +233,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `areKeyPkgsOutDated returns false`() = runBlockingTest {
+    fun `areKeyPkgsOutDated returns false`() = runTest {
         val now = DateTime.parse("2020-12-28T00:00+00:00")
         val cachedKey = mockCachedKey(now.minusHours(49))
         val cachedKey2 = mockCachedKey(now.minusHours(47)) // not outdated < 48h
@@ -244,7 +244,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation applies filter`() = runBlockingTest {
+    fun `risk calculation applies filter`() = runTest {
         val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
         val now = Instant.parse("2020-12-28T00:00:00Z")
         val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {

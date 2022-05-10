@@ -21,7 +21,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -115,7 +115,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path`() = runBlockingTest {
+    fun `happy path`() = runTest {
         val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = setOf(jwkRSAOAEPWithSHA256AESCBC),
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = setOf(jwkRSAOAEPWithSHA256AESGCM),
@@ -131,7 +131,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path - only RSAOAEPWithSHA256AESCBC`() = runBlockingTest {
+    fun `happy path - only RSAOAEPWithSHA256AESCBC`() = runTest {
         val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = setOf(jwkRSAOAEPWithSHA256AESCBC),
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = emptySet(),
@@ -153,7 +153,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path - only RSAOAEPWithSHA256AESGCM`() = runBlockingTest {
+    fun `happy path - only RSAOAEPWithSHA256AESGCM`() = runTest {
         val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = emptySet(),
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = setOf(jwkRSAOAEPWithSHA256AESGCM),
@@ -175,7 +175,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if service identity document lacks encryption keys`() = runBlockingTest {
+    fun `throws if service identity document lacks encryption keys`() = runTest {
         val document = serviceIdentityDocument.copy(
             verificationMethod = emptyList()
         )
@@ -194,7 +194,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if service identity document lacks required jwk set`() = runBlockingTest {
+    fun `throws if service identity document lacks required jwk set`() = runTest {
         val document = serviceIdentityDocument.copy(
             verificationMethod = serviceIdentityDocument.verificationMethod - validationServiceSignKey
         )
@@ -213,7 +213,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if parser throws`() = runBlockingTest {
+    fun `throws if parser throws`() = runTest {
         coEvery {
             dccTicketingServerParser.createServiceIdentityDocument(any())
         } throws DccTicketingServerException(errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR)
@@ -224,7 +224,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `Check server error mapping`() = runBlockingTest {
+    fun `Check server error mapping`() = runTest {
         with(instance) {
             checkServerErrorMapping(
                 serverErrorCode = DccTicketingServerException.ErrorCode.PARSE_ERR,

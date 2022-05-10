@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class DccTicketingAllowListRepositoryTest : BaseTest() {
 
@@ -68,7 +68,7 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `returns empty container if storage is empty`() = runBlockingTest2(ignoreActive = true) {
+    fun `returns empty container if storage is empty`() = runTest2 {
         with(createInstance(scope = this)) {
             validationServiceAllowList.first().shouldBeEmpty()
             serviceProviderAllowList.first().shouldBeEmpty()
@@ -81,7 +81,7 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear() clears internal data and storage`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear() clears internal data and storage`() = runTest2 {
         with(createInstance(scope = this)) {
             refresh()
             validationServiceAllowList.first().shouldNotBeEmpty()
@@ -94,7 +94,7 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `fallbacks to empty container if initial data loading fails`() = runBlockingTest2(ignoreActive = true) {
+    fun `fallbacks to empty container if initial data loading fails`() = runTest2 {
         coEvery { dccTicketingAllowListStorage.load() } returns byteArrayOf()
         coEvery { dccTicketingAllowListParser.parse(rawData = any()) } throws Exception("Test Error")
 
@@ -105,7 +105,7 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `fallbacks to last container if anything fails`() = runBlockingTest2(ignoreActive = true) {
+    fun `fallbacks to last container if anything fails`() = runTest2 {
         coEvery { dccTicketingAllowListStorage.load() } returns byteArrayOf()
 
         val instance = createInstance(scope = this)
@@ -134,7 +134,7 @@ class DccTicketingAllowListRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `updates internal data and storage with new data`() = runBlockingTest2(ignoreActive = true) {
+    fun `updates internal data and storage with new data`() = runTest2 {
         val container2 = container.copy(serviceProviderAllowList = emptySet())
         val container3 = container.copy(validationServiceAllowList = emptySet())
 

@@ -7,7 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,7 +25,7 @@ class CwaUserCensorTest : BaseTest() {
     private fun createInstance() = CwaUserCensor(personCertificatesSettings)
 
     @Test
-    fun `censoring of certificate person identifier works`() = runBlockingTest {
+    fun `censoring of certificate person identifier works`() = runTest {
 
         every { personCertificatesSettings.currentCwaUser } returns flowOf(
             CertificatePersonIdentifier(
@@ -43,7 +43,7 @@ class CwaUserCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
+    fun `checkLog() should return null if nothing should be censored`() = runTest {
         every { personCertificatesSettings.currentCwaUser } returns flowOf(null)
 
         val censor = createInstance()

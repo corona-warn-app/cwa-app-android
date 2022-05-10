@@ -11,7 +11,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.decodeHex
@@ -39,7 +39,7 @@ internal class DscServerTest {
     )
 
     @Test
-    fun `successful download`() = runBlockingTest {
+    fun `successful download`() = runTest {
 
         val server = createInstance()
 
@@ -51,7 +51,7 @@ internal class DscServerTest {
     }
 
     @Test
-    fun `data is faulty`() = runBlockingTest {
+    fun `data is faulty`() = runTest {
         coEvery { dscApi.dscList() } returns Response.success("123ABC".decodeHex().toResponseBody())
 
         val server = createInstance()
@@ -62,7 +62,7 @@ internal class DscServerTest {
     }
 
     @Test
-    fun `verification fails`() = runBlockingTest {
+    fun `verification fails`() = runTest {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         val server = createInstance()

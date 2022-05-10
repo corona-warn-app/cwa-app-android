@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -25,7 +25,7 @@ class DccExpirationCheckerTest : BaseTest() {
     private fun createInstance() = DccExpirationChecker()
 
     @Test
-    fun `getExpirationState works`() = runBlockingTest {
+    fun `getExpirationState works`() = runTest {
         // certificate expires at 2021-06-03T10:12:48.000Z
         val instance = createInstance()
         val exp = Instant.parse("2021-06-03T10:12:48.000Z")

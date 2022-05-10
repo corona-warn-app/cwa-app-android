@@ -26,7 +26,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -166,7 +166,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `successful attestation`() = runBlockingTest {
+    fun `successful attestation`() = runTest {
         createInstance().apply {
             val attestationResult = attest(TestAttestationRequest(defaultPayload))
 
@@ -182,7 +182,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `minimum google play api version is 13000000`() = runBlockingTest {
+    fun `minimum google play api version is 13000000`() = runTest {
         every { googleApiVersion.isPlayServicesVersionAvailable(any()) } returns false
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(mockk())
@@ -191,7 +191,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `request nonce must match response nonce`() = runBlockingTest {
+    fun `request nonce must match response nonce`() = runTest {
         every { clientReport.nonce } returns "missmatch".decodeBase64()
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
@@ -200,7 +200,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `request APK name must match response APK name`() = runBlockingTest {
+    fun `request APK name must match response APK name`() = runTest {
         every { context.packageName } returns "package.name"
 
         val exception = shouldThrow<SafetyNetException> {
@@ -210,7 +210,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `incorrect device time fails the attestation`() = runBlockingTest {
+    fun `incorrect device time fails the attestation`() = runTest {
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
 
         val exception = shouldThrow<SafetyNetException> {
@@ -220,7 +220,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() = runBlockingTest {
+    fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
@@ -229,7 +229,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `24h since onboarding can be skipped on deviceForTester builds`() = runBlockingTest {
+    fun `24h since onboarding can be skipped on deviceForTester builds`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
         shouldThrow<SafetyNetException> {
@@ -250,7 +250,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `first reliable devicetime timestamp needs to be set`() = runBlockingTest {
+    fun `first reliable devicetime timestamp needs to be set`() = runTest {
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
@@ -259,7 +259,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `device time checks can be disabled via request`() = runBlockingTest {
+    fun `device time checks can be disabled via request`() = runTest {
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
@@ -271,7 +271,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `the request can contain a app config that should be used`() = runBlockingTest {
+    fun `the request can contain a app config that should be used`() = runTest {
         val request = TestAttestationRequest(
             "Computer says no.".toByteArray(),
             configData = appConfigData
@@ -282,7 +282,7 @@ class CWASafetyNetTest : BaseTest() {
     }
 
     @Test
-    fun `internal error triggers retry`() = runBlockingTest {
+    fun `internal error triggers retry`() = runTest {
         clientReport.apply {
             every { jwsResult } returns "JWSRESULT"
             every { nonce } returns defaultNonce

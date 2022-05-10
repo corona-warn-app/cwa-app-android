@@ -31,7 +31,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -100,7 +100,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     }
 
     @Test
-    fun `register test collects data`() = runBlockingTest {
+    fun `register test collects data`() = runTest {
         every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
         analyticsTestResultCollector.reportTestRegistered(PCR)
 
@@ -116,7 +116,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `saveTestResultAnalyticsSettings does not save anything when no user consent`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_POSITIVE, PCR)
 
@@ -135,7 +135,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `saveTestResult saves data when user gave consent`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
 
             // PCR
@@ -169,7 +169,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is INVALID`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_INVALID, PCR)
             analyticsTestResultCollector.reportTestResultReceived(RAT_INVALID, RAPID_ANTIGEN)
@@ -181,7 +181,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_OR_RAT_REDEEMED, PCR)
             analyticsTestResultCollector.reportTestResultReceived(RAT_REDEEMED, RAPID_ANTIGEN)
@@ -192,7 +192,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `reportTestResultReceived doesn't update when TestResult isn't POS or NEG`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(
                 PCR_OR_RAT_PENDING
@@ -221,7 +221,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `updatePendingTestResultReceivedTime doesn't update when Test is not scanned after consent`() =
-        runBlockingTest {
+        runTest {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(PCR_OR_RAT_PENDING)
             every { pcrTestResultSettings.finalTestResultReceivedAt } returns
@@ -250,7 +250,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `updatePendingTestResultReceivedTime update when TestResult is POS or NEG`() =
-        runBlockingTest {
+        runTest {
             for (testResult in listOf(PCR_NEGATIVE, PCR_POSITIVE)) {
                 every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
                 every { pcrTestResultSettings.testResult } returns mockFlowPreference(
