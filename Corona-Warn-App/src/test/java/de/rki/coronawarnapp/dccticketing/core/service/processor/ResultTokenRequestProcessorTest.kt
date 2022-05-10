@@ -26,7 +26,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -74,7 +74,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun requestResultToken() = runBlockingTest {
+    fun requestResultToken() = runTest {
         instance().requestResultToken(input) shouldBe ResultTokenOutput(
             resultToken = jsonResultToken,
             resultTokenPayload = parser.getResultToken(jsonResultToken)
@@ -88,7 +88,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws RTR_CERT_PIN_MISMATCH `() = runBlockingTest {
+    fun `checkServerCertificate throws RTR_CERT_PIN_MISMATCH `() = runTest {
         every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH)
 
@@ -98,7 +98,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws RTR_CERT_PIN_HOST_MISMATCH `() = runBlockingTest {
+    fun `checkServerCertificate throws RTR_CERT_PIN_HOST_MISMATCH `() = runTest {
         every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
 
@@ -115,14 +115,14 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate Pass`() = runBlockingTest {
+    fun `checkServerCertificate Pass`() = runTest {
         shouldNotThrowAny {
             instance().checkServerCertificate(response, input.allowlist)
         }
     }
 
     @Test
-    fun `verifyJWT throws RTR_JWT_VER_EMPTY_JWKS`() = runBlockingTest {
+    fun `verifyJWT throws RTR_JWT_VER_EMPTY_JWKS`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS)
         shouldThrow<DccTicketingException> {
@@ -131,7 +131,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws RTR_JWT_VER_ALG_NOT_SUPPORTED`() = runBlockingTest {
+    fun `verifyJWT throws RTR_JWT_VER_ALG_NOT_SUPPORTED`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED)
         shouldThrow<DccTicketingException> {
@@ -140,7 +140,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws JWT_VER_NO_JWK_FOR_KID`() = runBlockingTest {
+    fun `verifyJWT throws JWT_VER_NO_JWK_FOR_KID`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID)
         shouldThrow<DccTicketingException> {
@@ -149,7 +149,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws JWT_VER_NO_KID`() = runBlockingTest {
+    fun `verifyJWT throws JWT_VER_NO_KID`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID)
         shouldThrow<DccTicketingException> {
@@ -158,7 +158,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws JWT_VER_SIG_INVALID`() = runBlockingTest {
+    fun `verifyJWT throws JWT_VER_SIG_INVALID`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID)
         shouldThrow<DccTicketingException> {
@@ -167,14 +167,14 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT Pass`() = runBlockingTest {
+    fun `verifyJWT Pass`() = runTest {
         shouldNotThrowAny {
             instance().verifyJWT("jwt", emptySet())
         }
     }
 
     @Test
-    fun `resultTokenResponse verify request and response`() = runBlockingTest {
+    fun `resultTokenResponse verify request and response`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe input.serviceEndpoint
             arg<String>(1) shouldBe "Bearer ${input.jwt}"
@@ -193,7 +193,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse verify null response`() = runBlockingTest {
+    fun `resultTokenResponse verify null response`() = runTest {
 
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
             Response.success(null)
@@ -204,7 +204,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse throws RTR_NO_NETWORK when CwaUnknownHostException`() = runBlockingTest {
+    fun `resultTokenResponse throws RTR_NO_NETWORK when CwaUnknownHostException`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             CwaUnknownHostException(cause = null)
         shouldThrow<DccTicketingException> {
@@ -213,7 +213,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkReadTimeoutException`() = runBlockingTest {
+    fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkReadTimeoutException`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             NetworkReadTimeoutException(message = null)
 
@@ -223,7 +223,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkConnectTimeoutException`() = runBlockingTest {
+    fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkConnectTimeoutException`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws NetworkConnectTimeoutException()
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
@@ -231,7 +231,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse throws RTR_CLIENT_ERR when CwaClientError`() = runBlockingTest {
+    fun `resultTokenResponse throws RTR_CLIENT_ERR when CwaClientError`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             CwaClientError(404, "message")
         shouldThrow<DccTicketingException> {
@@ -240,7 +240,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `resultTokenResponse throws RTR_NO_NETWORK when any error`() = runBlockingTest {
+    fun `resultTokenResponse throws RTR_NO_NETWORK when any error`() = runTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             Exception()
         shouldThrow<DccTicketingException> {

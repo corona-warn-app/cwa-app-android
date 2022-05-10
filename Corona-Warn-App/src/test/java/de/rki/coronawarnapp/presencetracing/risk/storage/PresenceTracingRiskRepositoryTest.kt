@@ -20,7 +20,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -98,7 +98,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             endTimeMillis = now.minus(80000).millis
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity, entity2))
-        runBlockingTest {
+        runTest {
             val overlaps = createInstance().allCheckInWarningOverlaps.first()
             overlaps.size shouldBe 2
             overlaps[0].checkInId shouldBe 1L
@@ -133,7 +133,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         } returns listOf(time)
 
         coEvery { presenceTracingRiskCalculator.calculateCheckInRiskPerDay(listOf(time)) } returns listOf(riskPerDay)
-        runBlockingTest {
+        runTest {
             val riskStates = createInstance().traceLocationCheckInRiskStates.first()
             riskStates.size shouldBe 1
             riskStates[0].checkInId shouldBe 2L
@@ -157,7 +157,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         )
         coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)
         coEvery { presenceTracingRiskCalculator.calculateCheckInRiskPerDay(any()) } returns emptyList()
-        runBlockingTest {
+        runTest {
             val risks = createInstance().presenceTracingDayRisk.first()
             risks.size shouldBe 1
             risks[0].riskState shouldBe RiskState.LOW_RISK
@@ -166,7 +166,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
     @Test
     fun `deleteStaleData works`() {
-        runBlockingTest {
+        runTest {
             createInstance().deleteStaleData()
             coVerify {
                 traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
@@ -177,7 +177,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
     @Test
     fun `deleteAllMatches works`() {
-        runBlockingTest {
+        runTest {
             createInstance().deleteAllMatches()
             coVerify { traceTimeIntervalMatchDao.deleteAll() }
         }
@@ -201,7 +201,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             riskState = RiskState.LOW_RISK,
             calculatedFromMillis = deadline.millis
         )
-        runBlockingTest {
+        runTest {
             createInstance().reportCalculation(
                 successful = true,
                 newOverlaps = listOf(overlap)
@@ -233,7 +233,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             riskState = RiskState.CALCULATION_FAILED,
             calculatedFromMillis = deadline.millis
         )
-        runBlockingTest {
+        runTest {
             createInstance().reportCalculation(
                 successful = false,
                 newOverlaps = listOf(overlap)

@@ -11,7 +11,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,7 +38,7 @@ class ValueSetsStorageTest : BaseTest() {
     )
 
     @Test
-    fun `Updates values`() = runBlockingTest {
+    fun `Updates values`() = runTest {
         createInstance().run {
             save(valueSetsContainerDe)
             load() shouldBe valueSetsContainerDe
@@ -55,7 +55,7 @@ class ValueSetsStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storage format`() = runBlockingTest {
+    fun `storage format`() = runTest {
         createInstance().save(valueSetsContainerDe)
         (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
             {
@@ -175,7 +175,7 @@ class ValueSetsStorageTest : BaseTest() {
     }
 
     @Test
-    fun `removes leftover`() = runBlockingTest {
+    fun `removes leftover`() = runTest {
         val leftover = "I'm a malicious leftover"
         val valueSet = "valueset"
         prefs.edit(commit = true) {

@@ -12,7 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -42,7 +42,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
     fun `no contribution without test result`() {
         every { repository.testResultReceivedAt } returns -1
         every { repository.submitted } returns false
-        runBlockingTest {
+        runTest {
             val donor = createInstance()
             donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
         }
@@ -52,7 +52,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
     fun `no contribution when neither submitted nor enough time passed`() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.submitted } returns false
-        runBlockingTest {
+        runTest {
             val donor = createInstance()
             donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
         }
@@ -78,7 +78,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
         every { repository.submittedWithCheckIns } returns false
         every { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
         every { repository.reset() } just Runs
-        runBlockingTest {
+        runTest {
             val donor = createInstance()
             val contribution = donor.beginDonation(request)
             contribution.injectData(ppaData)
@@ -95,7 +95,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
         every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
         every { repository.submitted } returns true
         val minTimePassedToSubmit = Duration.standardHours(3)
-        runBlockingTest {
+        runTest {
             val donor = createInstance()
             donor.enoughTimeHasPassedSinceResult(Duration.standardHours(3)) shouldBe true
             donor.shouldSubmitData(minTimePassedToSubmit) shouldBe true

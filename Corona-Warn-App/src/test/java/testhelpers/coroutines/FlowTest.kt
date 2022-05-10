@@ -16,14 +16,14 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.withTimeout
 import org.joda.time.Duration
 import timber.log.Timber
 
 fun <T> Flow<T>.test(
     tag: String? = null,
-    startOnScope: CoroutineScope = TestCoroutineScope()
+    startOnScope: CoroutineScope = TestScope()
 ): TestCollector<T> = createTest(tag ?: "FlowTest").start(scope = startOnScope)
 
 fun <T> Flow<T>.createTest(
@@ -95,11 +95,6 @@ class TestCollector<T>(
         } catch (e: Exception) {
             error = e
         }
-    }
-
-    suspend fun assertNoErrors() = apply {
-        awaitFinal()
-        require(error == null) { "Error was not null: $error" }
     }
 
     fun cancel() {

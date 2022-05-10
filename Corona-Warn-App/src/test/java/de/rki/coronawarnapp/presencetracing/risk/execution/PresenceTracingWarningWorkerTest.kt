@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkStatic
 import io.mockk.slot
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,7 +50,7 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `worker runs task`() = runBlockingTest {
+    fun `worker runs task`() = runTest {
         val slot = slot<TaskRequest>()
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
@@ -67,7 +67,7 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `task errors lead to retry`() = runBlockingTest {
+    fun `task errors lead to retry`() = runTest {
         every { taskResult.isSuccessful } returns false
         every { taskResult.error } returns Exception()
 
@@ -81,7 +81,7 @@ class PresenceTracingWarningWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `taskcontroller errors lead to retry`() = runBlockingTest {
+    fun `taskcontroller errors lead to retry`() = runTest {
         coEvery { taskController.submitBlocking(any()) } throws Exception()
 
         val worker = createWorker()

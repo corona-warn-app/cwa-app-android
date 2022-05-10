@@ -9,7 +9,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,14 +37,14 @@ class DeadmanNotificationOneTimeWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `run worker success`() = runBlockingTest {
+    fun `run worker success`() = runTest {
         createWorker().doWork()
 
         coVerify(exactly = 1) { sender.sendNotification() }
     }
 
     @Test
-    fun `run worker fail`() = runBlockingTest {
+    fun `run worker fail`() = runTest {
         val worker = createWorker()
 
         worker.runAttemptCount shouldBe 0

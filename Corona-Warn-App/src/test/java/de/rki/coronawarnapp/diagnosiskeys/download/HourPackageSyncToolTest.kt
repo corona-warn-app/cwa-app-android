@@ -8,7 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -41,7 +41,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     )
 
     @Test
-    fun `successful sync`() = runBlockingTest {
+    fun `successful sync`() = runTest {
         // Today is the 4th, 02:15:00
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
@@ -77,7 +77,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `app config can invalidate cached hours`() = runBlockingTest {
+    fun `app config can invalidate cached hours`() = runTest {
         // Today is the 4th, 02:15:00
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
@@ -124,7 +124,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `determine missing hours checks EXPECT NEW HOURS`() = runBlockingTest {
+    fun `determine missing hours checks EXPECT NEW HOURS`() = runTest {
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
@@ -140,7 +140,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `determine missing hours with forcesync ignores EXPECT NEW HOURS`() = runBlockingTest {
+    fun `determine missing hours with forcesync ignores EXPECT NEW HOURS`() = runTest {
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
 
@@ -154,7 +154,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `download errors do not abort the whole sync`() = runBlockingTest {
+    fun `download errors do not abort the whole sync`() = runTest {
         var counter = 0
         coEvery { downloadTool.downloadKeyFile(any(), any()) } answers {
             if (++counter == 2) throw IOException()
@@ -188,7 +188,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `EXPECT_NEW_HOUR_PACKAGES evaluation`() = runBlockingTest {
+    fun `EXPECT_NEW_HOUR_PACKAGES evaluation`() = runTest {
         val cachedKey1 = mockCachedHour("EUR".loc, "2020-01-01".day, "00:00".hour)
         val cachedKey2 = mockCachedHour("EUR".loc, "2020-01-01".day, "01:00".hour)
 
@@ -203,7 +203,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `EXPECT_NEW_HOUR_PACKAGES does not get confused by same hour on next day`() = runBlockingTest {
+    fun `EXPECT_NEW_HOUR_PACKAGES does not get confused by same hour on next day`() = runTest {
         val cachedKey1 = mockCachedHour("EUR".loc, "2020-01-01".day, "00:00".hour)
 
         val instance = createInstance()
@@ -213,7 +213,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if keys were revoked skip the EXPECT packages check`() = runBlockingTest {
+    fun `if keys were revoked skip the EXPECT packages check`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
@@ -234,7 +234,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if force-sync is set we skip the EXPECT packages check`() = runBlockingTest {
+    fun `if force-sync is set we skip the EXPECT packages check`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
@@ -244,7 +244,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runBlockingTest {
+    fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
@@ -254,7 +254,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `network connection time out does not clear the cache and returns an unsuccessful result`() = runBlockingTest {
+    fun `network connection time out does not clear the cache and returns an unsuccessful result`() = runTest {
         coEvery { keyServer.getHourIndex(any(), any()) } throws NetworkConnectTimeoutException()
 
         val instance = createInstance()

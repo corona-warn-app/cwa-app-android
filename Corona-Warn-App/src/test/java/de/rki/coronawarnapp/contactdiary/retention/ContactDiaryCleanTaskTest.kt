@@ -7,7 +7,7 @@ import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -32,7 +32,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     )
 
     @Test
-    fun `no errors`() = runBlockingTest {
+    fun `no errors`() = runTest {
         val result = createInstance().run(mockk())
 
         coVerifySequence {
@@ -47,7 +47,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     }
 
     @Test
-    fun `location visits fails`() = runBlockingTest {
+    fun `location visits fails`() = runTest {
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws Exception()
 
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
@@ -64,7 +64,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     }
 
     @Test
-    fun `person encounters fails`() = runBlockingTest {
+    fun `person encounters fails`() = runTest {
         coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws Exception()
 
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
@@ -84,7 +84,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk per date fails`() = runBlockingTest {
+    fun `risk per date fails`() = runTest {
         coEvery { retentionCalculation.clearObsoleteRiskPerDate() } throws Exception()
 
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
@@ -103,7 +103,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     }
 
     @Test
-    fun `corona tests fails`() = runBlockingTest {
+    fun `corona tests fails`() = runTest {
         coEvery { retentionCalculation.clearObsoleteCoronaTests() } throws Exception()
 
         val result = assertThrows<Exception> { createInstance().run(mockk()) }
@@ -121,7 +121,7 @@ class ContactDiaryCleanTaskTest : BaseTest() {
     }
 
     @Test
-    fun `everything fails =(`() = runBlockingTest {
+    fun `everything fails =(`() = runTest {
         coEvery { retentionCalculation.clearObsoleteContactDiaryLocationVisits() } throws Exception()
         coEvery { retentionCalculation.clearObsoleteContactDiaryPersonEncounters() } throws Exception()
 

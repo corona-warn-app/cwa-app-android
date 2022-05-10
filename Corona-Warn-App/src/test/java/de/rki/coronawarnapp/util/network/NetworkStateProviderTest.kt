@@ -25,11 +25,12 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import testhelpers.preferences.mockFlowPreference
 
@@ -105,34 +106,35 @@ class NetworkStateProviderTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free and lazy`() {
+    fun `init is side effect free and lazy`() = runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
         shouldNotThrowAny {
-            createInstance(TestCoroutineScope())
+            createInstance(this)
         }
         verify { connectivityManager wasNot Called }
     }
 
     @Test
-    fun `initial state is emitted correctly without callback`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(this)
+    fun `initial state is emitted correctly without callback`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
 
-        instance.networkState.first().apply {
-            isMeteredConnection shouldBe false
-            isInternetAvailable shouldBe true
+            instance.networkState.first().apply {
+                isMeteredConnection shouldBe false
+                isInternetAvailable shouldBe true
+            }
+
+            advanceUntilIdle()
+
+            verifySequence {
+                connectivityManager.activeNetwork
+                connectivityManager.getNetworkCapabilities(network)
+                connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+                connectivityManager.unregisterNetworkCallback(lastCallback!!)
+            }
         }
-
-        advanceUntilIdle()
-
-        verifySequence {
-            connectivityManager.activeNetwork
-            connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
-            connectivityManager.unregisterNetworkCallback(lastCallback!!)
-        }
-    }
 
     @Test
-    fun `we can handle null networks`() = runBlockingTest2(ignoreActive = true) {
+    fun `we can handle null networks`() = runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
         every { connectivityManager.activeNetwork } returns null
         val instance = createInstance(this)
 
@@ -144,72 +146,75 @@ class NetworkStateProviderTest : BaseTest() {
     }
 
     @Test
-    fun `system callbacks lead to new emissions with an updated state`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(this)
+    fun `system callbacks lead to new emissions with an updated state`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
 
-        val testCollector = instance.networkState.test(startOnScope = this)
+            val testCollector = instance.networkState.test(startOnScope = this)
 
-        lastCallback!!.onAvailable(mockk())
+            lastCallback!!.onAvailable(mockk())
 
-        every { connectivityManager.activeNetwork } returns null
-        lastCallback!!.onUnavailable()
+            every { connectivityManager.activeNetwork } returns null
+            lastCallback!!.onUnavailable()
 
-        every { connectivityManager.activeNetwork } returns network
-        lastCallback!!.onAvailable(mockk())
+            every { connectivityManager.activeNetwork } returns network
+            lastCallback!!.onAvailable(mockk())
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        // 3 not 4 as first onAvailable call doesn't change the value (stateIn behavior)
-        testCollector.latestValues.size shouldBe 3
+            // 3 not 4 as first onAvailable call doesn't change the value (stateIn behavior)
+            testCollector.latestValues.size shouldBe 3
 
-        testCollector.awaitFinal(cancel = true)
+            testCollector.awaitFinal(cancel = true)
 
-        verifySequence {
-            // Start value
-            connectivityManager.activeNetwork
-            connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
+            verifySequence {
+                // Start value
+                connectivityManager.activeNetwork
+                connectivityManager.getNetworkCapabilities(network)
+                connectivityManager.registerNetworkCallback(networkRequest, any<ConnectivityManager.NetworkCallback>())
 
-            // onAvailable
-            connectivityManager.activeNetwork
-            connectivityManager.getNetworkCapabilities(network)
+                // onAvailable
+                connectivityManager.activeNetwork
+                connectivityManager.getNetworkCapabilities(network)
 
-            // onUnavailable
-            connectivityManager.activeNetwork
+                // onUnavailable
+                connectivityManager.activeNetwork
 
-            // onAvailable
-            connectivityManager.activeNetwork
-            connectivityManager.getNetworkCapabilities(network)
-            connectivityManager.unregisterNetworkCallback(lastCallback!!)
+                // onAvailable
+                connectivityManager.activeNetwork
+                connectivityManager.getNetworkCapabilities(network)
+                connectivityManager.unregisterNetworkCallback(lastCallback!!)
+            }
         }
-    }
 
     @Test
-    fun `metered connection state checks capabilities`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).apply {
-            networkState.first().isMeteredConnection shouldBe false
+    fun `metered connection state checks capabilities`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            createInstance(this).apply {
+                networkState.first().isMeteredConnection shouldBe false
 
-            every { capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns false
-            networkState.first().isMeteredConnection shouldBe true
+                every { capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED) } returns false
+                networkState.first().isMeteredConnection shouldBe true
 
-            every { connectivityManager.getNetworkCapabilities(any()) } returns null
-            networkState.first().isMeteredConnection shouldBe true
+                every { connectivityManager.getNetworkCapabilities(any()) } returns null
+                networkState.first().isMeteredConnection shouldBe true
+            }
         }
-    }
 
     @Test
-    fun `metered connection state can be overridden via test settings`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(this)
+    fun `metered connection state can be overridden via test settings`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            val instance = createInstance(this)
 
-        instance.networkState.first().isMeteredConnection shouldBe false
+            instance.networkState.first().isMeteredConnection shouldBe false
 
-        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
+            every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
 
-        instance.networkState.first().isMeteredConnection shouldBe true
-    }
+            instance.networkState.first().isMeteredConnection shouldBe true
+        }
 
     @Test
-    fun `Android 6 not metered on wifi`() = runBlockingTest2(ignoreActive = true) {
+    fun `Android 6 not metered on wifi`() = runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
         every { BuildVersionWrap.SDK_INT } returns 23
         val instance = createInstance(this)
 
@@ -225,7 +230,7 @@ class NetworkStateProviderTest : BaseTest() {
 
     @Test
     fun `if we fail to register the callback, we do not attempt to unregister it`() =
-        runBlockingTest2(ignoreActive = true) {
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
             every {
                 connectivityManager.registerNetworkCallback(
                     any(),
@@ -253,28 +258,29 @@ class NetworkStateProviderTest : BaseTest() {
         }
 
     @Test
-    fun `current state is correctly determined below API 23`() = runBlockingTest2(ignoreActive = true) {
-        every { BuildVersionWrap.SDK_INT } returns 22
+    fun `current state is correctly determined below API 23`() =
+        runTest2(ignoreActive = true, context = UnconfinedTestDispatcher()) {
+            every { BuildVersionWrap.SDK_INT } returns 22
 
-        createInstance(this).apply {
-            networkState.first().apply {
-                isInternetAvailable shouldBe true
-                isMeteredConnection shouldBe false
+            createInstance(this).apply {
+                networkState.first().apply {
+                    isInternetAvailable shouldBe true
+                    isMeteredConnection shouldBe false
+                }
+
+                every { networkInfo.type } returns ConnectivityManager.TYPE_MOBILE
+                networkState.first().apply {
+                    isInternetAvailable shouldBe true
+                    isMeteredConnection shouldBe true
+                }
+
+                every { networkInfo.isConnected } returns false
+                networkState.first().apply {
+                    isInternetAvailable shouldBe false
+                    isMeteredConnection shouldBe true
+                }
             }
 
-            every { networkInfo.type } returns ConnectivityManager.TYPE_MOBILE
-            networkState.first().apply {
-                isInternetAvailable shouldBe true
-                isMeteredConnection shouldBe true
-            }
-
-            every { networkInfo.isConnected } returns false
-            networkState.first().apply {
-                isInternetAvailable shouldBe false
-                isMeteredConnection shouldBe true
-            }
+            verify { connectivityManager.activeNetworkInfo }
         }
-
-        verify { connectivityManager.activeNetworkInfo }
-    }
 }

@@ -14,7 +14,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
@@ -51,7 +51,7 @@ class TestCertificateServerTest : BaseTest() {
     )
 
     @Test
-    fun `happy path - successful registration`() = runBlockingTest {
+    fun `happy path - successful registration`() = runTest {
         createInstance().registerPublicKeyForTest(
             testRegistrationToken = "token",
             publicKey = keyPair.publicKey
@@ -68,7 +68,7 @@ class TestCertificateServerTest : BaseTest() {
     }
 
     @Test
-    fun `error mapping - no network`() = runBlockingTest {
+    fun `error mapping - no network`() = runTest {
         every { networkState.isInternetAvailable } returns false
 
         shouldThrow<TestCertificateException> {
@@ -82,7 +82,7 @@ class TestCertificateServerTest : BaseTest() {
     }
 
     @Test
-    fun `error mapping - http 409`() = runBlockingTest {
+    fun `error mapping - http 409`() = runTest {
         coEvery { dccApi.sendPublicKey(any()) } throws ConflictException("test")
         shouldThrow<TestCertificateException> {
             createInstance().registerPublicKeyForTest(

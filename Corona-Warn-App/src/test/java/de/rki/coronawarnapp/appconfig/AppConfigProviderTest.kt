@@ -13,6 +13,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
 import java.io.File
 
@@ -66,7 +67,7 @@ class AppConfigProviderTest : BaseIOTest() {
     )
 
     @Test
-    fun `appConfig is observable`() = runBlockingTest2(ignoreActive = true) {
+    fun `appConfig is observable`() = runTest2 {
         var counter = 0
         coEvery { appConfigSource.getConfigData() } answers {
             ConfigDataContainer(
@@ -101,7 +102,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `appConfig uses LAZILY mode`() = runBlockingTest2(ignoreActive = true) {
+    fun `appConfig uses LAZILY mode`() = runTest2 {
         val instance = createInstance(this)
 
         val testCollector1 = instance.currentConfig.test(startOnScope = this)
@@ -130,7 +131,7 @@ class AppConfigProviderTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears storage and current config`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear clears storage and current config`() = runTest2 {
         val instance = createInstance(this)
 
         instance.reset()
