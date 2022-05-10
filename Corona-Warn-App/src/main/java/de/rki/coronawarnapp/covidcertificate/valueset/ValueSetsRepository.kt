@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,7 +35,7 @@ class ValueSetsRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
     @AppContext val context: Context,
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(
         loggingTag = TAG,
@@ -94,11 +95,10 @@ class ValueSetsRepository @Inject constructor(
         return container.also { Timber.v("Value set has been obtained from server") }
     }
 
-    suspend fun clear() {
-        Timber.d("Clearing value sets")
-        certificateValueSetServer.clear()
+    override suspend fun reset() {
+        Timber.tag(TAG).d("Clearing value sets")
         internalData.updateBlocking {
-            Timber.v("Resetting value sets")
+            Timber.tag(TAG).v("Resetting value sets")
             emptyValueSetsContainer
         }
     }

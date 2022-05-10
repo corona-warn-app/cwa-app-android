@@ -142,7 +142,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     private fun clearAndRestart() {
         launch {
-            dscRepository.clear()
+            dscRepository.reset()
             events.postValue(LauncherEvent.RestartApp)
         }
     }

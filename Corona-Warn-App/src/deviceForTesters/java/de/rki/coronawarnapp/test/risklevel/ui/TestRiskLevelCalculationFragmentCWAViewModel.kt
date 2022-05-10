@@ -171,7 +171,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun resetRiskLevel() {
         Timber.d("Resetting risk level")
         launch {
-            riskLevelStorage.clear()
+            riskLevelStorage.reset()
             dataResetEvent.postValue("Risk level calculation related data reset.")
         }
     }
@@ -203,9 +203,9 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     fun clearKeyCache() {
         Timber.d("Clearing key cache")
         launch {
-            keyCacheRepository.clear()
-            downloadDiagnosisKeysSettings.clear()
-            exposureDetectionTracker.clear()
+            keyCacheRepository.reset()
+            downloadDiagnosisKeysSettings.reset()
+            exposureDetectionTracker.reset()
 
             dataResetEvent.postValue("Download & Submission related data reset.")
         }

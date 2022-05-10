@@ -1,9 +1,10 @@
 package de.rki.coronawarnapp.presencetracing.storage.repo
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 
-interface TraceLocationRepository {
+interface TraceLocationRepository : Resettable {
 
     /**
      * Returns all stored trace locations
@@ -25,6 +26,4 @@ interface TraceLocationRepository {
     suspend fun addTraceLocation(traceLocation: TraceLocation): TraceLocation
 
     fun deleteTraceLocation(traceLocation: TraceLocation)
-
-    fun deleteAllTraceLocations()
 }

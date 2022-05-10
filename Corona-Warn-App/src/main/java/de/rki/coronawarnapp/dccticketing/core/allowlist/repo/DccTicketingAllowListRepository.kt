@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +28,7 @@ class DccTicketingAllowListRepository @Inject constructor(
     private val dccTicketingAllowListServer: DccTicketingAllowListServer,
     private val dccTicketingAllowListStorage: DccTicketingAllowListStorage,
     private val dccTicketingAllowListParser: DccTicketingAllowListParser
-) {
+) : Resettable {
 
     private val emptyDccTicketingAllowListContainer: DccTicketingAllowListContainer
         get() = DccTicketingAllowListContainer()
@@ -54,10 +55,9 @@ class DccTicketingAllowListRepository @Inject constructor(
         Timber.tag(TAG).d("refresh() - returning %s", it)
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).d("clear()")
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
         internalData.updateBlocking {
-            dccTicketingAllowListStorage.clear()
             emptyDccTicketingAllowListContainer
         }
     }

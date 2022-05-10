@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
@@ -30,7 +31,7 @@ class CertificateValueSetServer @Inject constructor(
     private val apiV1: Lazy<CertificateValueSetApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation
-) {
+) : Resettable {
 
     suspend fun getVaccinationValueSets(languageCode: Locale): ValueSetsContainer? =
         withContext(dispatcherProvider.Default) {
@@ -78,10 +79,10 @@ class CertificateValueSetServer @Inject constructor(
         return ValueSetsOuterClass.ValueSets.parseFrom(exportBinary)
     }
 
-    fun clear() {
-        // Clear cache
+    override suspend fun reset() {
         Timber.d("Clearing cache")
-        cache.evictAll()
+        runCatching { cache.evictAll() }
+            .onFailure { Timber.e(it, "Failed to clear cache") }
     }
 }
 

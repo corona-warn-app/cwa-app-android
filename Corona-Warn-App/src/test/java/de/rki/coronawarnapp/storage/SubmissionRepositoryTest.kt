@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -29,7 +28,6 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
@@ -61,7 +59,6 @@ class SubmissionRepositoryTest : BaseTest() {
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
         scope = scope,
         submissionSettings = submissionSettings,
-        tekHistoryStorage = tekHistoryStorage,
         coronaTestRepository = coronaTestRepository,
     )
 

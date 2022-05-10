@@ -9,11 +9,11 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class DccWalletInfoRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val dccWalletInfoDao: DccWalletInfoDao,
     @AppScope private val appScope: CoroutineScope
-) {
+) : Resettable {
     val personWallets: Flow<Set<PersonWalletInfo>> = dccWalletInfoDao.getAll()
         .distinctUntilChanged()
         .map { personWallets ->
@@ -62,7 +62,7 @@ class DccWalletInfoRepository @Inject constructor(
         dccWalletInfoDao.deleteBy(personIds)
     }
 
-    fun clear() = appScope.launch {
+    override suspend fun reset() {
         Timber.d("Delete all DccWalletInfo.")
         dccWalletInfoDao.deleteAll()
     }
