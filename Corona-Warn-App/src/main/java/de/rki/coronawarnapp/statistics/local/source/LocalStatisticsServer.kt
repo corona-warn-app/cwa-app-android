@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.source.InvalidStatisticsSignatureException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.Cache
 import retrofit2.HttpException
@@ -19,7 +20,7 @@ class LocalStatisticsServer @Inject constructor(
     private val api: Lazy<LocalStatisticsApiV1>,
     private val signatureValidation: SignatureValidation,
     @Statistics val cache: Cache
-) {
+) : Resettable {
 
     suspend fun getRawLocalStatistics(federalState: FederalStateToPackageId): ByteArray {
         Timber.d("Fetching Local statistics.")
@@ -52,9 +53,10 @@ class LocalStatisticsServer @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        runCatching { cache.evictAll() }
+            .onFailure { Timber.e(it, "Failed to clear cache") }
     }
 
     companion object {

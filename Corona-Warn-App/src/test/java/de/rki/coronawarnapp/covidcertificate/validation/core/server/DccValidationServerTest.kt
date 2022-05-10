@@ -208,8 +208,8 @@ class DccValidationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears cache`() {
-        createInstance().clear()
+    fun `clear clears cache`() = runBlockingTest {
+        createInstance().reset()
         verify { cache.evictAll() }
     }
 

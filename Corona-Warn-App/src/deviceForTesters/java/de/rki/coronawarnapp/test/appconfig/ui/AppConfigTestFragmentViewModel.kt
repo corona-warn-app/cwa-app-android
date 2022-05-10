@@ -36,7 +36,7 @@ class AppConfigTestFragmentViewModel @AssistedInject constructor(
 
     fun clearConfig() {
         launch {
-            appConfigProvider.clear()
+            appConfigProvider.reset()
         }
     }
 

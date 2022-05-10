@@ -76,8 +76,8 @@ class StatisticsServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear clears cache`() {
-        createInstance().clear()
+    fun `reset clears cache`() = runBlockingTest {
+        createInstance().reset()
         verify { cache.evictAll() }
     }
 

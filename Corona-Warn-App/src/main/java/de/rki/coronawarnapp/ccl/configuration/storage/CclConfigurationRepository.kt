@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.repositories.UpdateResult
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +27,7 @@ class CclConfigurationRepository @Inject constructor(
     private val cclConfigurationParser: CclConfigurationParser,
     private val cclConfigurationServer: CclConfigurationServer,
     private val cclConfigurationMerger: CclConfigurationMerger
-) {
+) : Resettable {
     private val internalData: HotDataFlow<List<CclConfiguration>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
@@ -76,9 +77,8 @@ class CclConfigurationRepository @Inject constructor(
         UpdateResult.FAIL
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).d("Clearing")
-        downloadedCclConfigurationStorage.clear()
+    override suspend fun reset() {
+        Timber.tag(TAG).d("Resetting")
         internalData.updateBlocking { loadInitialConfigs() }
     }
 

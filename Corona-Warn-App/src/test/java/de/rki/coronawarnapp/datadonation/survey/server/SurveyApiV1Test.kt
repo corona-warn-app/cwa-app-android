@@ -42,7 +42,7 @@ class SurveyApiV1Test : BaseTest() {
     private fun createAPI(): SurveyApiV1 {
         val httpModule = HttpModule()
 
-        return SurveyModule().let {
+        return SurveyModule.let {
             val downloadHttpClient = httpModule.defaultHttpClient()
             it.provideSurveyApi(
                 client = downloadHttpClient,

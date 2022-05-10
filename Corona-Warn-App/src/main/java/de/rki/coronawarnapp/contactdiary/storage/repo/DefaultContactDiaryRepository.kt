@@ -282,7 +282,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         }
     }
 
-    override suspend fun clear() {
+    override suspend fun reset() {
         Timber.d("Clearing contact diary database")
         contactDiaryDatabase.clearAllTables()
     }

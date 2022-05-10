@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -42,7 +43,7 @@ class CoronaTestRepository @Inject constructor(
     private val processors: Set<@JvmSuppressWildcards PersonalCoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
     private val contactDiaryRepository: ContactDiaryRepository
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<Map<CoronaTestGUID, PersonalCoronaTest>> = HotDataFlow(
         loggingTag = TAG,
@@ -258,14 +259,6 @@ class CoronaTestRepository @Inject constructor(
         return refreshedData.values.filter { toRefresh.contains(it.identifier) }.toSet()
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).i("clear()")
-        internalData.updateBlocking {
-            Timber.tag(TAG).d("Clearing %s", this)
-            emptyMap()
-        }
-    }
-
     suspend fun markAsSubmitted(identifier: TestIdentifier) {
         Timber.tag(TAG).i("markAsSubmitted(identifier=%s)", identifier)
 
@@ -328,6 +321,14 @@ class CoronaTestRepository @Inject constructor(
 
         modifyTest(identifier) { processor, before ->
             processor.markDccCreated(before, created)
+        }
+    }
+
+    override suspend fun reset() {
+        Timber.tag(TAG).i("reset()")
+        internalData.updateBlocking {
+            Timber.tag(TAG).d("Clearing %s", this)
+            emptyMap()
         }
     }
 

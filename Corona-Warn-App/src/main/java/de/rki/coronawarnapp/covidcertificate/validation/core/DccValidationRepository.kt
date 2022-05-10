@@ -159,14 +159,6 @@ class DccValidationRepository @Inject constructor(
 
     private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)
 
-    suspend fun clear() {
-        Timber.tag(TAG).i("clear()")
-        server.clear()
-        localCache.saveCountryJson(null)
-        localCache.saveAcceptanceRulesJson(null)
-        localCache.saveInvalidationRulesJson(null)
-    }
-
     companion object {
         private const val TAG = "DccValidationRepository"
     }
