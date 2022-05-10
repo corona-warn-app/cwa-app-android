@@ -99,7 +99,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
     }
 
     fun resetProcessedWarningPackages() = launch {
-        traceWarningRepository.clear()
+        traceWarningRepository.reset()
     }
 
     fun runRiskCalculationPerCheckInDay() {

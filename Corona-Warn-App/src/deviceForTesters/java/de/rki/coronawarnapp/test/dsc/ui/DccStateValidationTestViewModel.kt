@@ -49,7 +49,7 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
 
     fun clearDscList() {
         launch {
-            dscRepository.clear()
+            dscRepository.reset()
         }
     }
 

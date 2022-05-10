@@ -123,7 +123,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { tekBatch.keys } returns listOf(tek)
         every { tekHistoryStorage.tekData } returns flowOf(listOf(tekBatch))
-        coEvery { tekHistoryStorage.clear() } just Runs
+        coEvery { tekHistoryStorage.reset() } just Runs
 
         every {
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), any())
@@ -218,7 +218,7 @@ class SubmissionTaskTest : BaseTest() {
                 )
             )
 
-            tekHistoryStorage.clear()
+            tekHistoryStorage.reset()
             submissionSettings.symptoms
             settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
@@ -283,8 +283,8 @@ class SubmissionTaskTest : BaseTest() {
             )
         }
         coVerify(exactly = 0) {
-            tekHistoryStorage.clear()
-            checkInRepository.clear()
+            tekHistoryStorage.reset()
+            checkInRepository.reset()
             settingSymptomsPreference.update(any())
             autoSubmission.updateMode(any())
         }

@@ -44,7 +44,7 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
 
     private fun cleanCachedData() {
         launch {
-            dscRepository.clear()
+            dscRepository.reset()
         }
     }
 

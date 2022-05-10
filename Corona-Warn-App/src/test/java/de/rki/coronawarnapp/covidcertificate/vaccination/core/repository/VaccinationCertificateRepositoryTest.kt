@@ -196,7 +196,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         instance.certificates.first() shouldBe VaccinationTestData.personAData2Vac
 
-        instance.clear()
+        instance.reset()
         advanceUntilIdle()
 
         testStorage shouldBe emptySet()

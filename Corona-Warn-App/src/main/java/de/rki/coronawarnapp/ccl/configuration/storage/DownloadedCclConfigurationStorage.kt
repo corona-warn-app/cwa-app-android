@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.storage
 
 import de.rki.coronawarnapp.ccl.configuration.CclConfiguration
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class DownloadedCclConfigurationStorage @Inject constructor(
     @CclConfiguration private val cclFile: File
-) {
+) : Resettable {
 
     private val mutex = Mutex()
     private val cclConfigurationRawFile = File(cclFile, "ccl_config_raw")
@@ -23,9 +24,11 @@ class DownloadedCclConfigurationStorage @Inject constructor(
         cclConfigurationRawFile.save(rawData = rawData)
     }
 
-    suspend fun clear() = mutex.withLock {
-        Timber.tag(TAG).d("Clearing ccl storage")
-        cclFile.deleteRecursively()
+    override suspend fun reset() {
+        mutex.withLock {
+            Timber.tag(TAG).d("Clearing ccl storage")
+            cclFile.deleteRecursively().also { Timber.tag(TAG).d("Clearing was successful %b", it) }
+        }
     }
 
     private fun File.load(): ByteArray? = try {
