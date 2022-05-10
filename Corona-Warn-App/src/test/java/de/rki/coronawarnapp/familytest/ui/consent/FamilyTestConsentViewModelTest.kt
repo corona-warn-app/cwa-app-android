@@ -2,8 +2,12 @@ package de.rki.coronawarnapp.familytest.ui.consent
 
 import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateBack
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateToCertificateRequest
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateToDataPrivacy
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,7 +16,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
-import org.junit.Assert
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -73,15 +76,11 @@ class FamilyTestConsentViewModelTest : BaseTest() {
     fun `onConsentButtonClick with DCC returns Navigation Event`() {
         viewModelDcc.nameChanged("My Name")
         viewModelDcc.onConsentButtonClick()
-
-        Assert.assertTrue(
-            viewModelDcc.routeToScreen.value is FamilyTestConsentNavigationEvents.NavigateToCertificateRequest
-        )
+        viewModelDcc.routeToScreen.getOrAwaitValue().shouldBeInstanceOf<NavigateToCertificateRequest>()
     }
 
     @Test
     fun `onConsentButtonClick without DCC starts test registration`() {
-
         val viewModelNoDcc = FamilyTestConsentViewModel(
             dispatcherProvider = TestDispatcherProvider(),
             coronaTestQRCode = qrNoDcc,
@@ -103,12 +102,12 @@ class FamilyTestConsentViewModelTest : BaseTest() {
     @Test
     fun testOnDataPrivacyClick() {
         viewModelDcc.onDataPrivacyClick()
-        viewModelDcc.routeToScreen.value shouldBe FamilyTestConsentNavigationEvents.NavigateToDataPrivacy
+        viewModelDcc.routeToScreen.getOrAwaitValue() shouldBe NavigateToDataPrivacy
     }
 
     @Test
     fun testOnNavigateBack() {
         viewModelDcc.onNavigateBack()
-        viewModelDcc.routeToScreen.value shouldBe FamilyTestConsentNavigationEvents.NavigateBack
+        viewModelDcc.routeToScreen.getOrAwaitValue() shouldBe NavigateBack
     }
 }
