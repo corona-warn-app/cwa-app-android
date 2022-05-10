@@ -131,15 +131,9 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun `toDateTimeAtStartOfDayUtc returns a date on the same day if converted to instant`() {
         val day = LocalDate(2021, 2, 15)
         val startOfDayUtc = day.toDateTimeAtStartOfDayUtc()
-        val startOfDay = day.toDateTimeAtStartOfDay()
-
         val timeStampUtc = startOfDayUtc.toInstant().seconds
-        val timeStamp = startOfDay.toInstant().seconds
-
         val tsuInstantString = timeStampUtc.secondsToInstant().toString()
-        val tsInstantString = timeStamp.secondsToInstant().toString()
 
         tsuInstantString shouldBe "2021-02-15T00:00:00.000Z"
-        tsInstantString shouldBe "2021-02-14T23:00:00.000Z"
     }
 }
