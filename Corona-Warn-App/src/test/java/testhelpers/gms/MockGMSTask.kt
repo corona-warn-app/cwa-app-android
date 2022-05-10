@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import io.mockk.every
 import io.mockk.mockk
 import timber.log.Timber
+import java.util.concurrent.Executor
 
 object MockGMSTask {
     fun <T> forError(error: Exception): Task<T> = mockk<Task<T>>().apply {
@@ -40,6 +41,6 @@ object MockGMSTask {
         }
         every { addOnFailureListener(any()) } returns this
         every { isComplete } answers { false }
-        every { addOnCompleteListener(any()) } returns this
+        every { addOnCompleteListener(any<Executor>(), any()) } returns this
     }
 }

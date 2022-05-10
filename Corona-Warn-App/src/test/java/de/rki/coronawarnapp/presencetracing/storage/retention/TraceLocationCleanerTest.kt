@@ -11,7 +11,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -37,7 +37,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
     private fun createInstance() = TraceLocationCleaner(traceLocationRepository, timeStamper)
 
     @Test
-    fun `cleanUp() should do nothing when no trace locations are stored`() = runBlockingTest {
+    fun `cleanUp() should do nothing when no trace locations are stored`() = runTest {
         every { traceLocationRepository.allTraceLocations } returns flowOf(emptyList())
 
         createInstance().cleanUp()
@@ -47,7 +47,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
 
     @Test
     fun `cleanUp() should NOT delete trace locations with an end date that is not older than 15 days`() =
-        runBlockingTest {
+        runTest {
 
             val lastValidTraceLocation = createTraceLocationWithEndDate(Instant.parse("2020-01-01T00:00:00.000Z"))
 
@@ -58,7 +58,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
         }
 
     @Test
-    fun `cleanUp() should NOT delete trace locations without end dates`() = runBlockingTest {
+    fun `cleanUp() should NOT delete trace locations without end dates`() = runTest {
 
         val permanentTraceLocation = createTraceLocationWithEndDate(null)
 
@@ -70,7 +70,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
 
     @Test
     fun `cleanUp() should delete trace locations that are older than 15 days`() =
-        runBlockingTest {
+        runTest {
 
             val oldTraceLocation = createTraceLocationWithEndDate(Instant.parse("2019-12-31T23:59:59.000Z"))
 

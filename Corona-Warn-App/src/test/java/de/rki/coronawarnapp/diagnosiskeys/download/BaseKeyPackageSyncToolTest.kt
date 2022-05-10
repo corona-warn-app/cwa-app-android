@@ -15,7 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -69,7 +69,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
     )
 
     @Test
-    fun `revoke keys based on ETags and return true if something happened`() = runBlockingTest {
+    fun `revoke keys based on ETags and return true if something happened`() = runTest {
         val invalidatedDay = mockk<KeyDownloadConfig.RevokedKeyPackage>().apply {
             every { etag } returns "etag-badday"
         }
@@ -257,7 +257,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `required storage check`() = runBlockingTest {
+    fun `required storage check`() = runTest {
         val instance = createInstance()
         val countryDay = mockk<LocationDays>().apply {
             every { approximateSizeInBytes } returns 9000L
@@ -271,7 +271,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `getting completed or checked keys`() = runBlockingTest {
+    fun `getting completed or checked keys`() = runTest {
         // incomplete -> no delta
         val key1 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {

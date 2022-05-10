@@ -21,7 +21,8 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -63,7 +64,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     )
 
     @Test
-    fun `request is forwarded to enf client`() = runBlockingTest {
+    fun `request is forwarded to enf client`() = runTest(UnconfinedTestDispatcher()) {
         every { tekHistoryStorage.tekData } returns flowOf(listOf())
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
@@ -78,7 +79,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `request checks if there are cached keys`() = runBlockingTest {
+    fun `request checks if there are cached keys`() = runTest(UnconfinedTestDispatcher()) {
         every { tekHistoryStorage.tekData } returns flowOf(listOf())
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
@@ -88,29 +89,30 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `request checks if there are cached keys and returns callback directly`() = runBlockingTest {
-        val teks = listOf<TemporaryExposureKey>(mockk(), mockk())
-        val mockedBatch = mockk<TEKHistoryStorage.TEKBatch>().apply {
-            every { keys } returns teks
-        }
-        every { tekHistoryStorage.tekData } returns flowOf(listOf(mockedBatch))
-        val callback = mockk<TEKHistoryUpdater.Callback>().apply {
-            every { onTEKAvailable(any()) } just Runs
-        }
-        val instance = createInstance(scope = this, callback = callback)
+    fun `request checks if there are cached keys and returns callback directly`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val teks = listOf<TemporaryExposureKey>(mockk(), mockk())
+            val mockedBatch = mockk<TEKHistoryStorage.TEKBatch>().apply {
+                every { keys } returns teks
+            }
+            every { tekHistoryStorage.tekData } returns flowOf(listOf(mockedBatch))
+            val callback = mockk<TEKHistoryUpdater.Callback>().apply {
+                every { onTEKAvailable(any()) } just Runs
+            }
+            val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
-        verify(exactly = 1) { callback.onTEKAvailable(teks) }
-        coVerify(exactly = 0) {
-            enfClient.getTEKHistoryOrRequestPermission(
-                any(),
-                any()
-            )
+            instance.updateTEKHistoryOrRequestPermission()
+            verify(exactly = 1) { callback.onTEKAvailable(teks) }
+            coVerify(exactly = 0) {
+                enfClient.getTEKHistoryOrRequestPermission(
+                    any(),
+                    any()
+                )
+            }
         }
-    }
 
     @Test
-    fun `if tracing is disabled then start tracing`() = runBlockingTest {
+    fun `if tracing is disabled then start tracing`() = runTest(UnconfinedTestDispatcher()) {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
 
         every { tracingPermissionHelperFactory.create(any()) } returns tracingPermissionHelper
@@ -126,7 +128,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `tracing callbacks are forwarded via tek updater callbacks`() = runBlockingTest {
+    fun `tracing callbacks are forwarded via tek updater callbacks`() = runTest(UnconfinedTestDispatcher()) {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
 
         var tracingCallback: TracingPermissionHelper.Callback? = null
@@ -155,52 +157,54 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `tracing permission results are forwarded to the tracing permissionhelper`() = runBlockingTest {
-        every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns true
-        val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
-        val instance = createInstance(scope = this, callback = callback)
+    fun `tracing permission results are forwarded to the tracing permission helper`() =
+        runTest(UnconfinedTestDispatcher()) {
+            every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns true
+            val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
+            val instance = createInstance(scope = this, callback = callback)
 
-        val testIntent = mockk<Intent>()
-        instance.handleActivityResult(
-            requestCode = TracingPermissionHelper.TRACING_PERMISSION_REQUESTCODE,
-            resultCode = Activity.RESULT_OK,
-            data = testIntent
-        )
-
-        verify {
-            tracingPermissionHelper.handleActivityResult(
+            val testIntent = mockk<Intent>()
+            instance.handleActivityResult(
                 requestCode = TracingPermissionHelper.TRACING_PERMISSION_REQUESTCODE,
                 resultCode = Activity.RESULT_OK,
                 data = testIntent
             )
+
+            verify {
+                tracingPermissionHelper.handleActivityResult(
+                    requestCode = TracingPermissionHelper.TRACING_PERMISSION_REQUESTCODE,
+                    resultCode = Activity.RESULT_OK,
+                    data = testIntent
+                )
+            }
         }
-    }
 
     @Test
-    fun `TEK activity results processed if not consumed by the tracing permissionhelper`() = runBlockingTest {
-        every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
-        val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
-        val instance = createInstance(scope = this, callback = callback)
+    fun `TEK activity results processed if not consumed by the tracing permissionhelper`() =
+        runTest(UnconfinedTestDispatcher()) {
+            every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
+            val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
+            val instance = createInstance(scope = this, callback = callback)
 
-        val testIntent = mockk<Intent>()
-        instance.handleActivityResult(
-            requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
-            resultCode = Activity.RESULT_CANCELED,
-            data = testIntent
-        ) shouldBe true
-
-        verifySequence {
-            tracingPermissionHelper.handleActivityResult(
+            val testIntent = mockk<Intent>()
+            instance.handleActivityResult(
                 requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
                 resultCode = Activity.RESULT_CANCELED,
                 data = testIntent
-            )
-            callback.onTEKPermissionDeclined()
+            ) shouldBe true
+
+            verifySequence {
+                tracingPermissionHelper.handleActivityResult(
+                    requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
+                    resultCode = Activity.RESULT_CANCELED,
+                    data = testIntent
+                )
+                callback.onTEKPermissionDeclined()
+            }
         }
-    }
 
     @Test
-    fun `unknown resultcodes are not consumed`() = runBlockingTest {
+    fun `unknown result codes are not consumed`() = runTest(UnconfinedTestDispatcher()) {
         every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
         val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)
@@ -222,7 +226,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `positive TEK activity results trigger new update attempt`() = runBlockingTest {
+    fun `positive TEK activity results trigger new update attempt`() = runTest(UnconfinedTestDispatcher()) {
         every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
         val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = callback)

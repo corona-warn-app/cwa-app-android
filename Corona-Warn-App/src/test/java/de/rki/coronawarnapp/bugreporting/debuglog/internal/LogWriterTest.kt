@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -35,7 +35,7 @@ class LogWriterTest : BaseIOTest() {
     )
 
     @Test
-    fun `log size returns current logfile size`() = runBlockingTest {
+    fun `log size returns current logfile size`() = runTest {
         logFile.parentFile?.mkdirs()
         logFile.appendBytes(Random.nextBytes(22))
         createInstance().apply {
@@ -50,7 +50,7 @@ class LogWriterTest : BaseIOTest() {
      * e.g. System cache cleaning interferring
      */
     @Test
-    fun `if the file is deleted after setup we try to recreate it and do not crash`() = runBlockingTest {
+    fun `if the file is deleted after setup we try to recreate it and do not crash`() = runTest {
         createInstance().apply {
             setup()
             write("ABC")

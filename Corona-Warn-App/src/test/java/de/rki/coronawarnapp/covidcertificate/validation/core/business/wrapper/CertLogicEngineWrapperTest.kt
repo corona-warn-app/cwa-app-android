@@ -27,7 +27,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -80,7 +80,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `valid certificate passes`() = runBlockingTest {
+    fun `valid certificate passes`() = runTest {
         createWrapperInstance()
         val rule = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
@@ -108,7 +108,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `valid certificate passes french rule`() = runBlockingTest {
+    fun `valid certificate passes french rule`() = runTest {
         createWrapperInstance()
         val rule = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
@@ -132,7 +132,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
     }
 
     @Test
-    fun `PCR test certificate only valid for 72h`() = runBlockingTest {
+    fun `PCR test certificate only valid for 72h`() = runTest {
         createWrapperInstance()
         val rule = createDccRule(
             certificateType = RuleCertificateType.TEST,

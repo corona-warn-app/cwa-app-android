@@ -12,8 +12,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,7 +53,7 @@ internal class TraceLocationCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return LogLine with censored trace location information from repository`() =
-        runBlockingTest {
+        runTest(UnconfinedTestDispatcher()) {
             every { traceLocationRepo.allTraceLocations } returns flowOf(
                 listOf(
                     mockTraceLocation(
@@ -87,7 +87,7 @@ internal class TraceLocationCensorTest : BaseTest() {
         }
 
     @Test
-    fun `censoring should still work after the user deletes his trace locations`() = runBlockingTest {
+    fun `censoring should still work after the user deletes his trace locations`() = runTest(UnconfinedTestDispatcher()) {
 
         every { traceLocationRepo.allTraceLocations } returns flowOf(
             listOf(
@@ -111,12 +111,6 @@ internal class TraceLocationCensorTest : BaseTest() {
                     traceLocationDescription = "Sushi Place",
                     traceLocationAddress = "Sushi Street 123, 12345 Fish Town"
                 ),
-                /* deleted: mockTraceLocation(
-                    traceLocationId = 2,
-                    traceLocationType = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_CULTURAL_EVENT,
-                    traceLocationDescription = "Rick Astley Concert",
-                    traceLocationAddress = "Never gonna give you up street 1, 12345 RickRoll City"
-                )*/
             )
         )
 
@@ -137,7 +131,7 @@ internal class TraceLocationCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return LogLine with censored trace location information from companion object`() =
-        runBlocking {
+        runTest(UnconfinedTestDispatcher()) {
             every { traceLocationRepo.allTraceLocations } returns flowOf(emptyList())
             TraceLocationCensor.dataToCensor = TraceLocationUserInput(
                 type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_PRIVATE_EVENT,
@@ -164,7 +158,7 @@ internal class TraceLocationCensorTest : BaseTest() {
         }
 
     @Test
-    fun `checkLog() should return null if no trace locations are stored`() = runBlockingTest {
+    fun `checkLog() should return null if no trace locations are stored`() = runTest(UnconfinedTestDispatcher()) {
         every { traceLocationRepo.allTraceLocations } returns flowOf(emptyList())
 
         val censor = createInstance(this)
@@ -173,7 +167,7 @@ internal class TraceLocationCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlockingTest {
+    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runTest(UnconfinedTestDispatcher()) {
 
         every { traceLocationRepo.allTraceLocations } returns flowOf(
             listOf(

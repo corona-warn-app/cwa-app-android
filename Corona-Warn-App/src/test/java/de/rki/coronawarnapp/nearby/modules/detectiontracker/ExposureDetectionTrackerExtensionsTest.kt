@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -45,7 +45,7 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
             tr2.identifier to tr2,
             tr3.identifier to tr3
         )
-        runBlockingTest {
+        runTest {
             tracker.lastSubmission(onlyFinished = false) shouldBe tr3
             tracker.lastSubmission(onlyFinished = true) shouldBe tr2
         }
@@ -53,7 +53,7 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
 
     @Test
     fun `last submission on empty data`() {
-        runBlockingTest {
+        runTest {
             tracker.lastSubmission(onlyFinished = false) shouldBe null
             tracker.lastSubmission(onlyFinished = true) shouldBe null
         }
@@ -69,14 +69,14 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
             tr2.identifier to tr2,
             tr3.identifier to tr3
         )
-        runBlockingTest {
+        runTest {
             tracker.latestSubmission(onlySuccessful = false).first() shouldBe tr3
             tracker.latestSubmission(onlySuccessful = true).first() shouldBe tr2
         }
     }
 
     @Test
-    fun `latest submission on empty data`() = runBlockingTest {
+    fun `latest submission on empty data`() = runTest {
         tracker.latestSubmission(onlySuccessful = false).first() shouldBe null
         tracker.latestSubmission(onlySuccessful = true).first() shouldBe null
 

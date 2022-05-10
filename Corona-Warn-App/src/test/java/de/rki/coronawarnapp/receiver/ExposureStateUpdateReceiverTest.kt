@@ -19,7 +19,8 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verifySequence
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,7 +37,7 @@ class ExposureStateUpdateReceiverTest : BaseTest() {
     @MockK private lateinit var workManager: WorkManager
     @MockK private lateinit var exposureDetectionTracker: ExposureDetectionTracker
 
-    private val scope = TestCoroutineScope()
+    private val scope = TestScope()
 
     class TestApp : Application(), HasAndroidInjector {
         override fun androidInjector(): AndroidInjector<Any> {

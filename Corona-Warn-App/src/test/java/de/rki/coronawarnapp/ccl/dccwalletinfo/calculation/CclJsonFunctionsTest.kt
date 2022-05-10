@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class CclJsonFunctionsTest : BaseTest() {
 
@@ -90,7 +90,7 @@ internal class CclJsonFunctionsTest : BaseTest() {
     }
 
     @Test
-    fun evaluateFunction() = runBlockingTest2(ignoreActive = true) {
+    fun evaluateFunction() = runTest2 {
         instance(this).apply {
             evaluateFunction("greet", param).asText() shouldBe "Hello Android!"
             shouldThrow<NoSuchFunctionException> {

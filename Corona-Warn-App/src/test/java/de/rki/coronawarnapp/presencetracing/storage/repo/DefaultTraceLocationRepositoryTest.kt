@@ -13,7 +13,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -38,7 +38,7 @@ internal class DefaultTraceLocationRepositoryTest : BaseTest() {
     private fun createInstance() = DefaultTraceLocationRepository(factory, appScope, timeStamper)
 
     @Test
-    fun `getTraceLocationsWithinRetention() should filter out stale trace locations`() = runBlockingTest {
+    fun `getTraceLocationsWithinRetention() should filter out stale trace locations`() = runTest {
 
         // Now = Jan 16th 2020, 00:00
         // TraceLocations should be kept for 15 days, so every TraceLocation with an end date before

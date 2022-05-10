@@ -13,7 +13,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -65,7 +65,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `happy path below threshold results in PASSED`() = runBlockingTest {
+    fun `happy path below threshold results in PASSED`() = runTest {
         every { configData.dccPersonWarnThreshold } returns 4
         every { configData.dccPersonCountMax } returns 5
         coEvery { configProvider.currentConfig } returns flowOf(configData)
@@ -76,7 +76,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `new person exceeds threshold results in REACHES_THRESHOLD`() = runBlockingTest {
+    fun `new person exceeds threshold results in REACHES_THRESHOLD`() = runTest {
         every { configData.dccPersonWarnThreshold } returns 3
         every { configData.dccPersonCountMax } returns 5
         coEvery { configProvider.currentConfig } returns flowOf(configData)
@@ -90,7 +90,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `exceeds threshold but not a new person results in PASSED`() = runBlockingTest {
+    fun `exceeds threshold but not a new person results in PASSED`() = runTest {
         every { configData.dccPersonWarnThreshold } returns 1
         every { configData.dccPersonCountMax } returns 3
         coEvery { configProvider.currentConfig } returns flowOf(configData)
@@ -101,7 +101,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `new person exceeds max results in EXCEEDS_MAX`() = runBlockingTest {
+    fun `new person exceeds max results in EXCEEDS_MAX`() = runTest {
         every { configData.dccPersonWarnThreshold } returns 1
         every { configData.dccPersonCountMax } returns 2
         coEvery { configProvider.currentConfig } returns flowOf(configData)
@@ -115,7 +115,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `exceeds max but not a new person results in PASSED`() = runBlockingTest {
+    fun `exceeds max but not a new person results in PASSED`() = runTest {
         every { configData.dccPersonWarnThreshold } returns 1
         every { configData.dccPersonCountMax } returns 1
         coEvery { configProvider.currentConfig } returns flowOf(configData)
