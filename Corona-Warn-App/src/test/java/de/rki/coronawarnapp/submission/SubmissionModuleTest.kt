@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.submission
 
 import android.content.Context
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -38,23 +37,12 @@ class SubmissionModuleTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createModule() = SubmissionModule()
-
-    @Test
-    fun `side effect free instantiation`() {
-        shouldNotThrowAny {
-            createModule()
-        }
-    }
-
     @Test
     fun `client creation uses connection specs`() {
-        val module = createModule()
-
         val specs = listOf(ConnectionSpec.MODERN_TLS)
         val client = OkHttpClient.Builder().build()
 
-        val newClient = module.cdnHttpClient(
+        val newClient = SubmissionModule.cdnHttpClient(
             defaultHttpClient = client,
             connectionSpecs = specs
         )
@@ -66,11 +54,9 @@ class SubmissionModuleTest : BaseIOTest() {
 
     @Test
     fun `api uses a cache`() {
-        val module = createModule()
-
         val client = OkHttpClient.Builder().build()
 
-        module.provideSubmissionApi(
+        SubmissionModule.provideSubmissionApi(
             context = context,
             client = client,
             url = "https://testurl",

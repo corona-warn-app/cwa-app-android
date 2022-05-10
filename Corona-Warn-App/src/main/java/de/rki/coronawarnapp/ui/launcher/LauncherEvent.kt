@@ -12,4 +12,8 @@ sealed class LauncherEvent {
     object ShowUpdateDialog : LauncherEvent()
 
     object ShowRootedDialog : LauncherEvent()
+
+    object RestartApp : LauncherEvent()
+
+    data class ErrorToast(val message: String) : LauncherEvent()
 }

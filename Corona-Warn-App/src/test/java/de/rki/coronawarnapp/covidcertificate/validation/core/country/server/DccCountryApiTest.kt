@@ -51,9 +51,9 @@ class DccCountryApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        val cache = StatisticsModule().httpCache(cacheDir)
+        val cache = StatisticsModule.httpCache(cacheDir)
 
-        return DccValidationModule().countryApi(
+        return DccValidationModule.countryApi(
             httpClient = cdnHttpClient,
             url = serverAddress,
             cache = cache

@@ -7,13 +7,15 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import timber.log.Timber
 import javax.inject.Inject
 
 class AnalyticsExposureWindowsSettings @Inject constructor(
     @AppContext context: Context,
     @BaseGson val gson: Gson,
-) {
+) : Resettable {
     private val prefs by lazy {
         context.getSharedPreferences("analytics_exposureWindows", Context.MODE_PRIVATE)
     }
@@ -24,7 +26,10 @@ class AnalyticsExposureWindowsSettings @Inject constructor(
         writer = FlowPreference.gsonWriter(gson)
     )
 
-    fun clear() = prefs.clearAndNotify()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        prefs.clearAndNotify()
+    }
 }
 
 private const val PREFS_KEY_CURRENT_EXPOSURE_WINDOWS = "analytics_currentExposureWindows"

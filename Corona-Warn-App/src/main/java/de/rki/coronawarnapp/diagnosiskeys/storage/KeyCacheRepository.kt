@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteConstraintException
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -23,7 +24,7 @@ class KeyCacheRepository @Inject constructor(
     @AppContext private val context: Context,
     private val databaseFactory: KeyCacheDatabase.Factory,
     private val timeStamper: TimeStamper
-) {
+) : Resettable {
 
     private val storageDir by lazy {
         File(context.cacheDir, "diagnosis_keys").apply {
@@ -162,8 +163,8 @@ class KeyCacheRepository @Inject constructor(
         if (path.delete()) Timber.v("Deleted cache key file at %s", path)
     }
 
-    suspend fun clear() {
-        Timber.i("clear()")
+    override suspend fun reset() {
+        Timber.i("reset()")
         deleteInfoAndFile(getDao().allEntries().first())
     }
 }

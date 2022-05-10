@@ -6,6 +6,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.submission.data.tekhistory.internal.TEKEntryDao
 import de.rki.coronawarnapp.submission.data.tekhistory.internal.TEKHistoryDatabase
 import de.rki.coronawarnapp.submission.data.tekhistory.internal.toPersistedTEK
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import okio.ByteString.Companion.toByteString
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class TEKHistoryStorage @Inject constructor(
     private val tekHistoryDatabaseFactory: TEKHistoryDatabase.Factory
-) {
+) : Resettable {
 
     private val database by lazy { tekHistoryDatabaseFactory.create() }
     private val tekHistoryTables by lazy { database.tekHistory() }
@@ -56,8 +57,8 @@ class TEKHistoryStorage @Inject constructor(
         }
     }
 
-    suspend fun clear() {
-        Timber.w("clear() - Clearing all stored temporary exposure keys.")
+    override suspend fun reset() {
+        Timber.w("reset() - Clearing all stored temporary exposure keys.")
         database.clearAllTables()
     }
 

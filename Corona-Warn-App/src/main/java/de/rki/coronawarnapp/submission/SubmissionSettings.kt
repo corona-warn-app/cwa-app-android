@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import org.joda.time.Instant
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 class SubmissionSettings @Inject constructor(
     @AppContext val context: Context,
     @BaseGson val baseGson: Gson
-) {
+) : Resettable {
 
     private val gson by lazy {
         baseGson.newBuilder().apply {
@@ -136,7 +137,10 @@ class SubmissionSettings @Inject constructor(
         }
     }
 
-    fun clear() = prefs.clearAndNotify()
+    override suspend fun reset() {
+        Timber.d("reset()")
+        prefs.clearAndNotify()
+    }
 
     companion object {
         private const val TEST_REGISTRATION_TOKEN = "submission.test.token"

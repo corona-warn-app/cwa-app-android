@@ -102,7 +102,7 @@ class TEKHistoryStorageTest : BaseTest() {
 
     @Test
     fun `clear all data`() = runBlockingTest {
-        createInstance().clear()
+        createInstance().reset()
         coVerifySequence { tekHistoryDatabase.clearAllTables() }
     }
 }

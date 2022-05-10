@@ -237,7 +237,7 @@ class SubmissionServerTest : BaseTest() {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
 
-        return SubmissionModule().let {
+        return SubmissionModule.let {
             val downloadHttpClient = it.cdnHttpClient(
                 defaultHttpClient,
                 listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)

@@ -197,10 +197,6 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun clear() {
-        storage.clear()
-    }
-
     private suspend fun getTest(identifier: TestIdentifier) =
         storage.familyTestMap.first()[identifier] ?: storage.familyTestRecycleBinMap.first()[identifier]
 
