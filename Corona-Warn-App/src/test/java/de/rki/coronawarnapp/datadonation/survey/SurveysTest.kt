@@ -16,7 +16,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -50,13 +50,13 @@ internal class SurveysTest : BaseTest() {
     )
 
     @Test
-    fun `isConsentNeeded() should return Needed when no otp was yet authorized`() = runBlockingTest {
+    fun `isConsentNeeded() should return Needed when no otp was yet authorized`() = runTest {
         every { oneTimePasswordRepo.otpAuthorizationResult } returns null
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
     }
 
     @Test
-    fun `isConsentNeeded() should return Needed when authentication of stored otp failed `() = runBlockingTest {
+    fun `isConsentNeeded() should return Needed when authentication of stored otp failed `() = runTest {
         every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
             UUID.randomUUID(),
             authorized = false,
@@ -68,7 +68,7 @@ internal class SurveysTest : BaseTest() {
 
     @Test
     fun `isConsentNeeded() returns Needed when an auth-otp was invalidated due to a risk change from high to low`() =
-        runBlockingTest {
+        runTest {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
@@ -80,7 +80,7 @@ internal class SurveysTest : BaseTest() {
 
     @Test
     fun `isConsentNeeded() should return AlreadyGiven when an authorized otp is stored and not invalidated`() =
-        runBlockingTest {
+        runTest {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,

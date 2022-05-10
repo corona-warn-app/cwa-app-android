@@ -18,7 +18,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
@@ -56,7 +56,7 @@ class DccValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `expired certificate fails`() = runBlockingTest {
+    fun `expired certificate fails`() = runTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
         val validationDateTime = LocalDateTime.parse("2022-06-11T15:00:00")
@@ -71,7 +71,7 @@ class DccValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `expired certificate fails 2`() = runBlockingTest {
+    fun `expired certificate fails 2`() = runTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
         val validationDateTime = LocalDateTime.parse("2022-06-12T11:00:00")
@@ -86,7 +86,7 @@ class DccValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `valid certificate passes expiration check`() = runBlockingTest {
+    fun `valid certificate passes expiration check`() = runTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
         val validationDateTime = LocalDateTime.parse("2022-06-11T14:00:00")
@@ -101,7 +101,7 @@ class DccValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `valid certificate passes expiration check 2`() = runBlockingTest {
+    fun `valid certificate passes expiration check 2`() = runTest {
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
         val validationDateTime = LocalDateTime.parse("2022-06-10T15:00:00")

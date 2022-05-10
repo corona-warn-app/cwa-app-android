@@ -6,8 +6,9 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -17,7 +18,6 @@ import testhelpers.preferences.FakeDataStore
 internal class ProfileSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
     private val fakeDataStore = FakeDataStore()
-    private lateinit var profileSettings: ProfileSettingsDataStore
     private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
     private val profile = RATProfile(
         firstName = "First name",
@@ -33,34 +33,37 @@ internal class ProfileSettingsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        profileSettings = ProfileSettingsDataStore(
-            { fakeDataStore },
-            SerializationModule().baseGson(),
-            TestCoroutineScope()
-        )
     }
 
     @Test
-    fun `Profile deletion`() {
+    fun `Profile deletion`() = runTest(UnconfinedTestDispatcher()) {
+        val profileSettings = profileSettingsDataStore()
         profileSettings.updateProfile(profile)
         profileSettings.deleteProfile()
         fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }
 
     @Test
-    fun `User on-boarding`() {
+    fun `User on-boarding`() = runTest(UnconfinedTestDispatcher()) {
+        val profileSettings = profileSettingsDataStore()
         fakeDataStore[ProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
         profileSettings.setOnboarded()
         fakeDataStore[ProfileSettingsDataStore.ONBOARDED_KEY] shouldBe true
     }
 
     @Test
-    fun `Clear profile settings`() = runBlockingTest {
+    fun `Clear profile settings`() = runTest(UnconfinedTestDispatcher()) {
+        val profileSettings = profileSettingsDataStore()
         profileSettings.updateProfile(profile)
         profileSettings.setOnboarded()
         profileSettings.reset()
         fakeDataStore[ProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
         fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }
+
+    private fun TestScope.profileSettingsDataStore() = ProfileSettingsDataStore(
+        dataStoreLazy = { fakeDataStore },
+        gson = SerializationModule().baseGson(),
+        appScope = this
+    )
 }

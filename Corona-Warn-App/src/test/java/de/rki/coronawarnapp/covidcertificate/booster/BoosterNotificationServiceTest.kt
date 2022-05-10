@@ -16,7 +16,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -55,7 +55,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `notifyIfNecessary() should send notification if there is a new booster rule id`() = runBlockingTest {
+    fun `notifyIfNecessary() should send notification if there is a new booster rule id`() = runTest {
         every { newBoosterNotification.identifier } returns "1"
         every { oldBoosterNotification.identifier } returns null
 
@@ -68,7 +68,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
     @Test
     fun `notifyIfNecessary() should send notification if there is a new booster rule id and no old wallet info`() =
-        runBlockingTest {
+        runTest {
             every { newBoosterNotification.identifier } returns "1"
             every { oldBoosterNotification.identifier } returns null
 
@@ -81,7 +81,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
     @Test
     fun `notifyIfNecessary() should send notification if the new booster rule id is different to the old one`() =
-        runBlockingTest {
+        runTest {
             every { newBoosterNotification.identifier } returns "2"
             every { oldBoosterNotification.identifier } returns "1"
 
@@ -93,7 +93,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
 
     @Test
-    fun `notifyIfNecessary() should NOT send notification if the new booster rule id null`() = runBlockingTest {
+    fun `notifyIfNecessary() should NOT send notification if the new booster rule id null`() = runTest {
         every { newBoosterNotification.identifier } returns null
         every { oldBoosterNotification.identifier } returns "1"
 
@@ -106,7 +106,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
     @Test
     fun `notifyIfNecessary() should NOT send notification if the new booster rule id is the same than the old one`() =
-        runBlockingTest {
+        runTest {
             every { newBoosterNotification.identifier } returns "1"
             every { oldBoosterNotification.identifier } returns "1"
 

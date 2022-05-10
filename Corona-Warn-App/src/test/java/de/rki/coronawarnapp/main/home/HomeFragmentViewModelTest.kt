@@ -44,13 +44,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
 import testhelpers.preferences.mockFlowPreference
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var generalTracingStatus: GeneralTracingStatus

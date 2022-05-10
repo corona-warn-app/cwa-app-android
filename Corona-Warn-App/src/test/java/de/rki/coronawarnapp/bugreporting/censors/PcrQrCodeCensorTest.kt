@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,7 +26,7 @@ class PcrQrCodeCensorTest : BaseTest() {
     private fun createInstance() = PcrQrCodeCensor()
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         PcrQrCodeCensor.lastGUID = testGUID
         val instance = createInstance()
         val censored = "I'm a shy qrcode: $testGUID"
@@ -35,7 +35,7 @@ class PcrQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there is no match`() = runBlockingTest {
+    fun `censoring returns null if there is no match`() = runTest {
         PcrQrCodeCensor.lastGUID = testGUID.replace("f", "a")
         val instance = createInstance()
         val notCensored = "I'm a shy qrcode: $testGUID"
@@ -43,7 +43,7 @@ class PcrQrCodeCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring aborts if no qrcode was set`() = runBlockingTest {
+    fun `censoring aborts if no qrcode was set`() = runTest {
         PcrQrCodeCensor.lastGUID = null
         val instance = createInstance()
         val notCensored = "I'm a shy qrcode: $testGUID"

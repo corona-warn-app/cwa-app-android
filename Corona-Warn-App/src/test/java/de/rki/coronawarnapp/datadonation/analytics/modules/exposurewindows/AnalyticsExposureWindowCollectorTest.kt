@@ -12,7 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -50,7 +50,7 @@ class AnalyticsExposureWindowCollectorTest : BaseTest() {
     @Test
     fun `data is stored when analytics enabled`() {
         every { analyticsSettings.analyticsEnabled.value } returns true
-        runBlockingTest {
+        runTest {
             newInstance().reportRiskResultsPerWindow(mapOf(exposureWindow to riskResult))
             coVerify(exactly = 1) { analyticsExposureWindowRepository.addNew(any()) }
         }
@@ -59,7 +59,7 @@ class AnalyticsExposureWindowCollectorTest : BaseTest() {
     @Test
     fun `data is not stored when analytics disabled`() {
         every { analyticsSettings.analyticsEnabled.value } returns false
-        runBlockingTest {
+        runTest {
             newInstance().reportRiskResultsPerWindow(mapOf(exposureWindow to riskResult))
             coVerify(exactly = 0) { analyticsExposureWindowRepository.addNew(any()) }
         }

@@ -19,7 +19,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -96,7 +96,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
             now.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
 
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
             verify { pcrTestRegisteredAt.update(any()) }
@@ -104,7 +104,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
             verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
         }
 
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportTestRegistered(RAPID_ANTIGEN)
             verify { raTestRegisteredAt.update(any()) }
@@ -120,7 +120,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsPcrKeySubmissionStorage.submitted } returns submittedFlow
         val submittedAtFlow = mockFlowPreference(now.millis)
         every { analyticsPcrKeySubmissionStorage.submittedAt } returns submittedAtFlow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportSubmitted(PCR)
             verify { submittedFlow.update(any()) }
@@ -133,7 +133,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedAfterCancel } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportSubmittedAfterCancel(PCR)
             verify { flow.update(any()) }
@@ -145,7 +145,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedInBackground } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportSubmittedInBackground(PCR)
             verify { flow.update(any()) }
@@ -157,7 +157,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportSubmittedAfterSymptomFlow(PCR)
             verify { flow.update(any()) }
@@ -170,7 +170,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         val flow = mockFlowPreference(-1L)
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportPositiveTestResultReceived(PCR)
             verify { flow.update(any()) }
@@ -183,7 +183,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         val flow = mockFlowPreference(now.millis)
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportPositiveTestResultReceived(PCR)
             verify(exactly = 0) { flow.update(any()) }
@@ -195,7 +195,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportAdvancedConsentGiven(PCR)
             verify { flow.update(any()) }
@@ -207,7 +207,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportConsentWithdrawn(PCR)
             verify { flow.update(any()) }
@@ -219,7 +219,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.registeredWithTeleTAN } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportRegisteredWithTeleTAN()
             verify { flow.update(any()) }
@@ -231,7 +231,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(0)
         every { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR)
             verify { flow.update(any()) }
@@ -241,7 +241,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `PCR no data collection if disabled`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns false
-        runBlockingTest {
+        runTest {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
             verify(exactly = 0) { analyticsPcrKeySubmissionStorage.testRegisteredAt }

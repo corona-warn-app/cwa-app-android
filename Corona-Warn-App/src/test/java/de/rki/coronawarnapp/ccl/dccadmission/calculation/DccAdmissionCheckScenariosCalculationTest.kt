@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -49,7 +49,7 @@ class DccAdmissionCheckScenariosCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `execution works`() = runBlockingTest {
+    fun `execution works`() = runTest {
         instance.getDccAdmissionCheckScenarios(
             dateTime = dateTime
         ) shouldBe dccAdmissionCheckScenarios

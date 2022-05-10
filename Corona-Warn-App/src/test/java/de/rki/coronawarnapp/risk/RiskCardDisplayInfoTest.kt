@@ -14,7 +14,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -52,7 +52,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
     @ParameterizedTest
     @ArgumentsSource(TestCaseProvider::class)
     fun `shouldShowRiskCard() should return correct result depending on testCase`(testCase: TestCase) =
-        runBlockingTest {
+        runTest {
             with(testCase) {
                 every { testRepository.coronaTests } returns flowOf(testSet)
                 every { timeStamper.nowUTC } returns Instant.EPOCH.plus(durationPassed)

@@ -23,7 +23,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -58,7 +58,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws ATR_CERT_PIN_MISMATCH`() = runBlockingTest {
+    fun `checkServerCertificate throws ATR_CERT_PIN_MISMATCH`() = runTest {
         coEvery { dccTicketingServer.getAccessToken(any(), any(), any(), any()) } throws
             DccTicketingServerCertificateCheckException(
                 DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH
@@ -70,7 +70,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws ATR_CERT_PIN_NO_JWK_FOR_KID`() = runBlockingTest {
+    fun `checkServerCertificate throws ATR_CERT_PIN_NO_JWK_FOR_KID`() = runTest {
         coEvery { dccTicketingServer.getAccessToken(any(), any(), any(), any()) } throws
             DccTicketingServerCertificateCheckException(
                 DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID
@@ -82,7 +82,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws ATR_CLIENT_ERR`() = runBlockingTest {
+    fun `checkServerCertificate throws ATR_CLIENT_ERR`() = runTest {
         coEvery { dccTicketingServer.getAccessToken(any(), any(), any(), any()) } throws BadRequestException("")
 
         shouldThrow<DccTicketingException> {
@@ -91,7 +91,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws ATR_SERVER_ERR`() = runBlockingTest {
+    fun `checkServerCertificate throws ATR_SERVER_ERR`() = runTest {
         coEvery {
             dccTicketingServer.getAccessToken(
                 any(),
@@ -107,7 +107,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws ATR_NO_NETWORK`() = runBlockingTest {
+    fun `checkServerCertificate throws ATR_NO_NETWORK`() = runTest {
         coEvery {
             dccTicketingServer.getAccessToken(
                 any(),
@@ -123,7 +123,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws JWT_VER_EMPTY_JWKS`() = runBlockingTest {
+    fun `verifyJWT throws JWT_VER_EMPTY_JWKS`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS)
         shouldThrow<DccTicketingException> {
@@ -132,7 +132,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws ATR_JWT_VER_ALG_NOT_SUPPORTED`() = runBlockingTest {
+    fun `verifyJWT throws ATR_JWT_VER_ALG_NOT_SUPPORTED`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED)
         shouldThrow<DccTicketingException> {
@@ -141,7 +141,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws ATR_JWT_VER_NO_JWK_FOR_KID`() = runBlockingTest {
+    fun `verifyJWT throws ATR_JWT_VER_NO_JWK_FOR_KID`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID)
         shouldThrow<DccTicketingException> {
@@ -150,7 +150,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws ATR_JWT_VER_NO_KID`() = runBlockingTest {
+    fun `verifyJWT throws ATR_JWT_VER_NO_KID`() = runTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
             DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID)
         shouldThrow<DccTicketingException> {
@@ -159,7 +159,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws ATR_PARSE_ERR`() = runBlockingTest {
+    fun `verifyJWT throws ATR_PARSE_ERR`() = runTest {
         every { jwtTokenParser.getAccessToken(any()) } throws Exception()
 
         shouldThrow<DccTicketingException> {
@@ -168,7 +168,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    suspend fun `requestAccessToken pass`() = runBlockingTest {
+    suspend fun `requestAccessToken pass`() = runTest {
         shouldNotThrowAny {
             callRequestAccessToken()
         }

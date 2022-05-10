@@ -12,7 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -73,7 +73,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `12 hours delay`() = runBlockingTest {
+    fun `12 hours delay`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00"))
@@ -85,7 +85,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `12 hours delay - only completed results count`() = runBlockingTest {
+    fun `12 hours delay - only completed results count`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-28T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
@@ -102,7 +102,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `negative delay`() = runBlockingTest {
+    fun `negative delay`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("14:00:00")),
@@ -112,7 +112,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `success in future delay`() = runBlockingTest {
+    fun `success in future delay`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-27"), keyHour = LocalTime.parse("15:00:00")),
@@ -122,7 +122,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `initial delay - no successful calculations yet`() = runBlockingTest {
+    fun `initial delay - no successful calculations yet`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-27T14:00:00")
         allCachedKeysFlow.value = emptyList()
 
@@ -130,7 +130,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `ensure correct order`() = runBlockingTest {
+    fun `ensure correct order`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T14:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-26")),
@@ -143,7 +143,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `ensure correct order 2`() = runBlockingTest {
+    fun `ensure correct order 2`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-30T10:00:00.000Z")
         allCachedKeysFlow.value = listOf(
             mockCachedKey(keyDay = LocalDate.parse("2020-08-26")), // day package

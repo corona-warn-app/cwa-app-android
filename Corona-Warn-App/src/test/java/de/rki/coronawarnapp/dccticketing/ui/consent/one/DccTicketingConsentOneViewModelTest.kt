@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
@@ -78,7 +78,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onConsent() - happy path`() = runBlockingTest2(ignoreActive = true) {
+    fun `onConsent() - happy path`() = runTest2 {
         val updatedTransactionContext = transactionContext.copy(
             initializationData = transactionContext.initializationData.copy(
                 protocol = "Test protocol updated"

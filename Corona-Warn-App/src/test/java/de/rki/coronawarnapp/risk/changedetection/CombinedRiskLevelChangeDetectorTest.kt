@@ -36,7 +36,8 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -150,7 +151,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(createLastCombinedRiskResults(riskSequence.first(), LocalDate.parse("2022-01-01")))
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -183,7 +184,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -215,7 +216,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -247,7 +248,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -278,7 +279,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -307,7 +308,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -343,7 +344,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -373,7 +374,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()
@@ -397,7 +398,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).launch()
 
             advanceUntilIdle()

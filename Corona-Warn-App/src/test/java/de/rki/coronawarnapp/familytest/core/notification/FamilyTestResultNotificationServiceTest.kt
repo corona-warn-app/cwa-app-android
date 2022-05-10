@@ -14,7 +14,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -39,7 +39,7 @@ internal class FamilyTestResultNotificationServiceTest : BaseTest() {
     }
 
     @Test
-    fun testNotifications() = runBlockingTest {
+    fun testNotifications() = runTest {
         instance().showTestResultNotification()
         verify { notificationHelper.sendNotification(any(), any()) }
     }

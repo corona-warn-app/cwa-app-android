@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -12,7 +12,7 @@ import testhelpers.BaseTest
 class TraceLocationUrlTest : BaseTest() {
 
     @Test
-    fun `locationUrl 1`() = runBlockingTest {
+    fun `locationUrl 1`() = runTest {
         val traceLocation = TraceLocation(
             id = 1,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
@@ -33,7 +33,7 @@ class TraceLocationUrlTest : BaseTest() {
     }
 
     @Test
-    fun `locationUrl 2`() = runBlockingTest {
+    fun `locationUrl 2`() = runTest {
         val traceLocation = TraceLocation(
             id = 2,
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER,

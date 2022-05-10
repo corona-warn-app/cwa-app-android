@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.io.IOException
@@ -57,7 +57,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `saves revocation list as json`() = runBlockingTest2(ignoreActive = true) {
+    fun `saves revocation list as json`() = runTest2 {
         val revocationListJson = """
             [
               {
@@ -95,7 +95,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear removes revocation list`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear removes revocation list`() = runTest2 {
         with(createInstance(scope = this)) {
             saveCachedRevocationChunks(listOf(cachedRevocationChunk))
             revocationList.first() shouldBe listOf(cachedRevocationChunk)
@@ -112,7 +112,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear does not throw`() = runBlockingTest2(ignoreActive = true) {
+    fun `clear does not throw`() = runTest2 {
         val mockDataStore = mockk<DataStore<Preferences>> {
             every { data } returns flowOf()
             coEvery { updateData(any()) } throws IOException("Test error")
@@ -122,7 +122,7 @@ class DccRevocationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `recovers with empty list from faulty data`() = runBlockingTest2(ignoreActive = true) {
+    fun `recovers with empty list from faulty data`() = runTest2 {
         dataStore.edit { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] = "faulty data" }
 
         createInstance(scope = this).revocationList.first() shouldBe emptyList()

@@ -12,7 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -43,7 +43,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `certificate refresh`() = runBlockingTest {
+    fun `certificate refresh`() = runTest {
         val result = createWorker().doWork()
 
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
@@ -52,7 +52,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `retry on error`() = runBlockingTest {
+    fun `retry on error`() = runTest {
         coEvery { testCertificateRepository.refresh() } throws UnknownHostException()
 
         val result = createWorker().doWork()
@@ -63,7 +63,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `failure after 2 retries`() = runBlockingTest {
+    fun `failure after 2 retries`() = runTest {
 
         val result = createWorker(runAttempts = 3).doWork()
 
