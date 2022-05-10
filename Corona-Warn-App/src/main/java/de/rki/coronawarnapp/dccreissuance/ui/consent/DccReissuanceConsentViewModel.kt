@@ -66,13 +66,12 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         val certificates = mutableListOf<DccReissuanceItem>()
         if (this?.certificates != null) {
             this.certificates.forEach { dccCertificate ->
-                var certificateToReissue: DccV1.MetaData
-                dccCertificate.certificateToReissue.certificateRef.barcodeData.let {
-                    certificateToReissue = dccQrCodeExtractor.extract(
-                        it,
+          
+                    val certificateToReissue = dccQrCodeExtractor.extract(
+                        dccCertificate.certificateToReissue.certificateRef.barcodeData,
                         DccV1Parser.Mode.CERT_SINGLE_STRICT
                     ).data.certificate
-                }
+               
                 certificates.add(
                     DccReissuanceConsentCard.Item(
                         certificateToReissue
