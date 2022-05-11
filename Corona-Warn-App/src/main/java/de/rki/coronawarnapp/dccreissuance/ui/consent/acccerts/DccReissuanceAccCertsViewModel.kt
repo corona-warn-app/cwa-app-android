@@ -40,7 +40,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     private suspend fun CertificateReissuance?.toList(): List<DccReissuanceItem> {
-        return (this?.certificates?: emptyList()).flatMap {
+        return (this?.certificates ?: emptyList()).flatMap {
             it.accompanyingCertificates
         }.toSet().mapNotNull {
             try {
@@ -53,16 +53,14 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
                 null
             }
         }.sortedByDescending {
-            when(it) {
+            when (it) {
                 is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
                 is VaccinationCertificateQRCode -> it.data.certificate.vaccination.vaccinatedOn
                 is RecoveryCertificateQRCode -> it.data.certificate.recovery.testedPositiveOn
                 else -> null
             }
         }.map {
-            DccReissuanceConsentCard.Item(
-              it.data.certificate
-            )
+            DccReissuanceConsentCard.Item(it.data.certificate)
         }
     }
 
