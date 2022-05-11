@@ -58,6 +58,38 @@
                 tools:listitem="@layout/dcc_reissuance_certificate_card" />
 
             <TextView
+                android:id="@+id/accompanying_certificates_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:paddingVertical="12dp"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/certificate_recycler"
+                android:text="@string/dcc_reissuance_accompanying_certificates" />
+
+            <View
+                android:id="@+id/accompanying_certificates_divider"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:background="@color/dividerColor"
+                app:layout_constraintTop_toBottomOf="@id/accompanying_certificates_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/accompanying_certificates_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="accompanying_certificates_text, accompanying_certificates_divider" />
+
+            <TextView
                 android:id="@+id/dcc_reissuance_title"
                 style="@style/headline5"
                 android:layout_width="match_parent"
@@ -65,7 +97,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/certificate_recycler"
+                app:layout_constraintTop_toBottomOf="@id/accompanying_certificates_text"
                 tools:text="Zertifikat aktualisieren" />
 
             <TextView

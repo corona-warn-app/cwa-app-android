@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
-import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
@@ -45,18 +44,22 @@ class DccWalletInfoCalculation @Inject constructor(
         admissionScenarioId: String = "",
         dateTime: DateTime = DateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
+        val input = getDccWalletInfoInput(
+            dccList = dccList,
+            boosterNotificationRules = boosterRulesNode,
+            defaultInputParameters = getDefaultInputParameters(dateTime),
+            scenarioIdentifier = admissionScenarioId,
+            invalidationRules = invalidationRulesNode
+        ).toJsonNode()
+
+        //Timber.d(input.toPrettyString())
+
         val output = cclJsonFunctions.evaluateFunction(
             "getDccWalletInfo",
-            getDccWalletInfoInput(
-                dccList = dccList,
-                boosterNotificationRules = boosterRulesNode,
-                defaultInputParameters = getDefaultInputParameters(dateTime),
-                scenarioIdentifier = admissionScenarioId,
-                invalidationRules = invalidationRulesNode
-            ).toJsonNode()
+            input
         )
 
-        Timber.d(output.toPrettyString())
+        //Timber.d(output.toPrettyString())
 
         mapper.treeToValue(output, DccWalletInfo::class.java)
     }

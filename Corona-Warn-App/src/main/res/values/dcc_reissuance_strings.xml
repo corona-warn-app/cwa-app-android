@@ -29,4 +29,5 @@
     <string name="dcc_reissuance_deletion_hint">"The old certificate will be moved automatically to the recycle bin and deleted after 30 days. The certificate can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">"If you cancel now, you can request an update in the certificate overview at any time."</string>
+    <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
 </resources>
