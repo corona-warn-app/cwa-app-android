@@ -265,6 +265,7 @@ android {
         }
     }
     lint {
+        ignoreTestFixturesSources true
         checkAllWarnings true
         // this rule is broken on 2.3.0
         // see the following issue: https://issuetracker.google.com/issues/169249668
