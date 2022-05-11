@@ -2,32 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Card.Vaccination"
+    android:background="@drawable/ic_certificate_background_border"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="24dp"
-    android:padding="8dp">
+    android:layout_marginHorizontal="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_small">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="8dp" />
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="8dp" />
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
 
     <TextView
         android:id="@+id/covpass_info_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:paddingBottom="@dimen/spacing_small"
         android:text="@string/person_details_certificate_covpass_info_title"
         app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
@@ -39,6 +39,7 @@
         style="@style/CertificateCardInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:contentDescription="@string/statistics_info_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
