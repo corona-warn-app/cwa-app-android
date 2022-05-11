@@ -32,21 +32,19 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.plus
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.coroutines.runTest2
+import testhelpers.coroutines.runWithoutChildExceptionCancellation
 import testhelpers.coroutines.test
 import testhelpers.extensions.isAfterOrEqual
 import java.io.File
@@ -196,43 +194,44 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    @Disabled
-    fun `failed task yields exception`() = runTest2(ignoreActive = true) {
-        val instance = createInstance(scope = this)
+    fun `failed task yields exception`() = runTest {
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val arguments = QueueingTask.Arguments(
-            path = File(testDir, UUID.randomUUID().toString())
-        )
-        val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
-        )
+            val arguments = QueueingTask.Arguments(
+                path = File(testDir, UUID.randomUUID().toString())
+            )
+            val request = DefaultTaskRequest(
+                type = QueueingTask::class,
+                arguments = arguments
+            )
 
-        arguments.path.exists() shouldBe false
+            arguments.path.exists() shouldBe false
 
-        // The target path is now a directory, this will fail the task
-        arguments.path.mkdirs()
+            // The target path is now a directory, this will fail the task
+            arguments.path.mkdirs()
 
-        instance.submit(request)
+            instance.submit(request)
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
-            taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
+            infoFinished.apply {
+                taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
+                taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
-            taskState.isSuccessful shouldBe false
-            taskState.isFailed shouldBe true
+                taskState.isSuccessful shouldBe false
+                taskState.isFailed shouldBe true
 
-            taskState.result shouldBe null
-            taskState.error should instanceOf(FileNotFoundException::class)
+                taskState.result shouldBe null
+                taskState.error should instanceOf(FileNotFoundException::class)
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 
     @Test
@@ -633,7 +632,6 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    @Disabled
     fun `silent error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
@@ -644,27 +642,28 @@ class TaskControllerTest : BaseIOTest() {
         every { error.report(any(), any(), any()) } just Runs
         every { error.reportProblem(any()) } just Runs
 
-        val instance = createInstance(scope = this)
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val request =
-            DefaultTaskRequest(type = SilentErrorTask::class, arguments = SilentErrorTask.Arguments(error = error))
-        instance.submit(request)
+            val request =
+                DefaultTaskRequest(type = SilentErrorTask::class, arguments = SilentErrorTask.Arguments(error = error))
+            instance.submit(request)
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.error shouldNotBe null
-            verify(exactly = 0) { any<Throwable>().report(any()) }
-            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            infoFinished.apply {
+                taskState.error shouldNotBe null
+                verify(exactly = 0) { any<Throwable>().report(any()) }
+                verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 
     @Test
-    @Disabled
     fun `alert error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
@@ -675,22 +674,24 @@ class TaskControllerTest : BaseIOTest() {
         every { error.report(any(), any(), any()) } just Runs
         every { error.reportProblem(any()) } just Runs
 
-        val instance = createInstance(scope = this)
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val request =
-            DefaultTaskRequest(type = AlertErrorTask::class, arguments = AlertErrorTask.Arguments(error = error))
-        instance.submit(request)
+            val request =
+                DefaultTaskRequest(type = AlertErrorTask::class, arguments = AlertErrorTask.Arguments(error = error))
+            instance.submit(request)
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.error shouldNotBe null
-            verify(exactly = 1) { any<Throwable>().report(any()) }
-            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            infoFinished.apply {
+                taskState.error shouldNotBe null
+                verify(exactly = 1) { any<Throwable>().report(any()) }
+                verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 }
