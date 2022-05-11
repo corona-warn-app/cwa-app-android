@@ -45,7 +45,7 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
-        resConfigs ','
+        resConfigs supportedLocales.join(",")
 
         println("Supported Locales: ${supportedLocales.join(",")}")
 
