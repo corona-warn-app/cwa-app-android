@@ -27,16 +27,17 @@ class DccReissuer @Inject constructor(
     suspend fun startReissuance(certificateReissuance: CertificateReissuance) {
         val updates = certificateReissuance.asCertificateReissuanceCompat().certificates?.map {
             reissue(it)
-        }
-        updates?.map {
+        }.orEmpty()
+
+        updates.flatMap {
             it.recycleBin
-        }?.flatten()?.toSet()?.forEach {
+        }.toSet().forEach {
             moveToBin(it)
         }
 
-        updates?.map {
+        updates.flatMap {
             it.register
-        }?.flatten()?.toSet()?.forEach {
+        }.toSet().forEach {
             register(it)
         }
     }

@@ -49,7 +49,6 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 .debounce(1000L)
                 .collectLatest {
                     runCatching {
-                        Timber.d("recalculate wallets after change")
                         triggerNow(admissionScenarioId())
                     }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
