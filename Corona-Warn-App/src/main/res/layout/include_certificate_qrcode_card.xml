@@ -5,7 +5,7 @@
     android:background="@drawable/ic_certificate_background_border"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="24dp"
+    android:layout_marginHorizontal="@dimen/spacing_normal"
     android:paddingBottom="@dimen/spacing_small">
 
     <androidx.constraintlayout.widget.Guideline
