@@ -1,9 +1,12 @@
 package testhelpers.coroutines
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlin.coroutines.CoroutineContext
 
@@ -32,4 +35,16 @@ fun runTest2(
         testBody()
         if (ignoreActive) coroutineContext.cancelChildren()
     }
+}
+
+/**
+ * Use this in cases where the [TestScope] should not be canceled if a child coroutine fails.
+ */
+suspend fun TestScope.runWithoutChildExceptionCancellation(
+    ignoreActive: Boolean = true,
+    action: suspend CoroutineScope.() -> Unit
+) = supervisorScope {
+    action()
+    advanceUntilIdle()
+    if (ignoreActive) coroutineContext.cancelChildren()
 }
