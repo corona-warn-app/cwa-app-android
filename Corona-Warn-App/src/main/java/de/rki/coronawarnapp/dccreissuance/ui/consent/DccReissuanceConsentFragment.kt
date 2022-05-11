@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -34,6 +35,8 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         }
     )
 
+    private val dccReissuanceAdapter = DccReissuanceAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,9 +55,14 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                 viewModel.startReissuance()
             }
 
+            certificateRecycler.apply {
+                adapter = dccReissuanceAdapter
+            }
+
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
                     reissuanceGroup.isVisible = it.divisionVisible
+                    listTitleText.text = it.listItemsTitle
                     dccReissuanceTitle.text = it.title
                     dccReissuanceSubtitle.text = it.subtitle
                     dccReissuanceContent.text = it.content
@@ -67,7 +75,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                             url = url
                         )
                     }
-                    dccReissuanceCertificateCard.certificate = it.certificate
+                    dccReissuanceAdapter.update(it.certificateList)
                 }
 
                 event.observe2(this@DccReissuanceConsentFragment) { event ->
