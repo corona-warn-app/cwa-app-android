@@ -6,28 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
-    android:paddingBottom="8dp">
+    android:paddingBottom="@dimen/spacing_small">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="17dp" />
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
 
     <TextView
         android:id="@+id/covpass_info_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="12dp"
         android:paddingBottom="@dimen/spacing_small"
         android:text="@string/person_details_certificate_covpass_info_title"
         app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
