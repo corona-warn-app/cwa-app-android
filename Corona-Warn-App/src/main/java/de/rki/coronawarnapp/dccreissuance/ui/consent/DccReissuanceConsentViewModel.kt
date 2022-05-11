@@ -62,13 +62,20 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     fun navigateBack() = event.postValue(Back)
 
     private suspend fun CertificateReissuance?.toState(): State {
-        val certificates = this?.certificates?.map { dccCertificate ->
-            DccReissuanceConsentCard.Item(
+        val certificates = this?.certificates?.mapNotNull { dccCertificate ->
+            try {
                 dccQrCodeExtractor.extract(
                     dccCertificate.certificateToReissue.certificateRef.barcodeData,
                     DccV1Parser.Mode.CERT_SINGLE_STRICT
-                ).data.certificate
-            )
+                ).data.certificate.let {
+                    DccReissuanceConsentCard.Item(
+                        it
+                    )
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to extract certificate")
+                null
+            }
         }
 
         val accompanyingCertificatesVisible = this?.certificates?.any {

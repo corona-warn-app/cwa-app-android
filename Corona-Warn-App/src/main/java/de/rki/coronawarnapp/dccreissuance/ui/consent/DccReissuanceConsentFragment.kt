@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.dccreissuance.ui.consent
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -55,7 +54,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             agreeButton.defaultButton.setOnClickListener {
                 viewModel.startReissuance()
             }
-            accompanyingCertificatesGroup.setOnClickListener {
+            accompanyingCertificatesText.setOnClickListener {
                 viewModel.openAccompanyingCertificatesScreen()
             }
 
@@ -101,11 +100,12 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                             R.id.informationPrivacyFragment
                         )
                         DccReissuanceConsentViewModel.OpenAccompanyingCertificatesScreen ->
-                            Toast.makeText(
-                                this@DccReissuanceConsentFragment.context,
-                                "Open accompanying certificates screen",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            findNavController().navigate(
+                                DccReissuanceConsentFragmentDirections
+                                    .actionDccReissuanceConsentFragmentToAccCertsFragment(
+                                        args.personIdentifierCode
+                                    )
+                            )
                     }
                 }
             }

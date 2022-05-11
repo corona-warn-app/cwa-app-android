@@ -31,4 +31,6 @@
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Aktualisierung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
     <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
+    <string name="dcc_reissuance_acc_certs_content">Folgende Zertifikate werden bei der Erneuerung als Zusatzinformation übermittelt, damit die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufgenommen werden kann. Diese Zertifikate verbleiben unverändert auf Ihrem Gerät.</string>
+    <string name="dcc_reissuance_acc_certs_title">Zusätzlich übermittelte Zertifikate</string>
 </resources>

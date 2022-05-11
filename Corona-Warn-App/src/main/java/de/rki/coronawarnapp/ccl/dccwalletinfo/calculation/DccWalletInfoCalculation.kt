@@ -52,14 +52,10 @@ class DccWalletInfoCalculation @Inject constructor(
             invalidationRules = invalidationRulesNode
         ).toJsonNode()
 
-        //Timber.d(input.toPrettyString())
-
         val output = cclJsonFunctions.evaluateFunction(
             "getDccWalletInfo",
             input
         )
-
-        //Timber.d(output.toPrettyString())
 
         mapper.treeToValue(output, DccWalletInfo::class.java)
     }
