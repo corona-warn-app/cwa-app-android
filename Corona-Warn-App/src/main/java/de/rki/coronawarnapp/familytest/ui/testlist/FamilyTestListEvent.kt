@@ -8,6 +8,8 @@ sealed class FamilyTestListEvent {
 
     data class ConfirmRemoveTest(val familyCoronaTest: FamilyCoronaTest) : FamilyTestListEvent()
 
+    data class DeleteTest(val familyCoronaTest: FamilyCoronaTest) : FamilyTestListEvent()
+
     object ConfirmRemoveAllTests : FamilyTestListEvent()
 
     data class ConfirmSwipeTest(val familyCoronaTest: FamilyCoronaTest, val position: Int) : FamilyTestListEvent()

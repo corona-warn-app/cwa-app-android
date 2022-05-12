@@ -79,12 +79,12 @@ class CclSettings @Inject constructor(
     /**
      * @returns admission scenario identifier, by default empty string
      */
-    suspend fun getAdmissionScenarioId(): String = admissionScenarioId.first()
+    suspend fun admissionScenarioId(): String = admissionScenarioId.first()
 
     /**
      * Stores admission scenario identifier
      */
-    fun setAdmissionScenarioId(admissionScenarioId: String) = appScope.launch {
+    fun saveAdmissionScenarioId(admissionScenarioId: String) = appScope.launch {
         runCatching {
             dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioId }
         }.onFailure { e ->
