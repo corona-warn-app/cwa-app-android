@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -87,7 +88,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseDate.seconds)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
@@ -149,7 +150,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
@@ -160,7 +161,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(false)
             .setPtDateChangedComparedToPreviousSubmission(false)
             .build()
@@ -269,7 +270,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
