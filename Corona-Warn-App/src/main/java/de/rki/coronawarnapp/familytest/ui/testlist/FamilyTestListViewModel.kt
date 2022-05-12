@@ -80,6 +80,12 @@ class FamilyTestListViewModel @AssistedInject constructor(
         }
     }
 
+    fun deleteTest(test: FamilyCoronaTest) {
+        launch(appScope) {
+            familyTestRepository.deleteTest(test.identifier)
+        }
+    }
+
     fun onRefreshTests() {
         launch(appScope) {
             val result = familyTestRepository.refresh().also {
@@ -215,7 +221,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 onSwipeItem = { familyCoronaTest, position ->
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 },
-                onDeleteTest = { events.postValue(FamilyTestListEvent.ConfirmRemoveTest(this)) }
+                onDeleteTest = { events.postValue(FamilyTestListEvent.DeleteTest(this)) }
             )
             // Should not be possible
             State.RECYCLED -> FamilyRapidTestInvalidCard.Item(
