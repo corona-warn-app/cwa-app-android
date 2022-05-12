@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
-import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
@@ -55,9 +54,6 @@ class DccWalletInfoCalculation @Inject constructor(
                 invalidationRules = invalidationRulesNode
             ).toJsonNode()
         )
-
-        Timber.d(output.toPrettyString())
-
         mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 

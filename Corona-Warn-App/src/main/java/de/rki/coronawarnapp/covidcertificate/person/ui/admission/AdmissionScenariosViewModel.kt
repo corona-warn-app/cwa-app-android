@@ -51,7 +51,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
             admissionCheckScenariosRepository.save(
                 scenarios = admissionScenariosSharedViewModel.admissionScenarios.first()
             )
-            cclSettings.setAdmissionScenarioId(admissionScenarioId)
+            cclSettings.saveAdmissionScenarioId(admissionScenarioId)
             // Calculate DccWalletInfo for certificate holders
             dccWalletInfoUpdateTrigger.triggerNow(admissionScenarioId = admissionScenarioId)
             calculationState.postValue(CalculationDone) // Dismiss busy indicator
