@@ -32,7 +32,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = personCertificatesProvider
         .findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
-            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()?.toItemList().orEmpty()
+            person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()?.toItemList().orEmpty()
         }.asLiveData2()
 
     private suspend fun CertificateReissuance.toItemList(): List<DccReissuanceItem> {

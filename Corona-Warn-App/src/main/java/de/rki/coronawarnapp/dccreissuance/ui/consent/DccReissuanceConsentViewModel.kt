@@ -36,7 +36,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()
+            person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()
         }
     internal val stateLiveData: LiveData<State> = reissuanceData.map {
         // Make sure DccReissuance exists, otherwise screen is dismissed
