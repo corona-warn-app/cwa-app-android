@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
     <string name="dcc_reissuance_success_screen_title">"Certificate Updated"</string>
@@ -16,6 +17,8 @@
     <string name="dcc_reissuance_error_handling_text_key_no_network">"Your Internet connection may have been lost. Please check the connection and try again."</string>
     <!-- XTXT: Text Key - Try Again -->
     <string name="dcc_reissuance_error_handling_text_key_try_again">"An error occurred during the update of your certificate. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline. "</string>
+    <!-- XTXT: Text Key - Rate limit -->
+    <string name="dcc_reissuance_error_handling_text_key_rate_limit">Das Zertifikat wurde bereits drei mal neu ausgestellt. Eine weitere Neuausstellung ist nicht möglich.<br />Wir empfehlen, Ihr bereits erneut ausgestelltes Zertifikat als PDF zu exportieren und auszudrucken. Damit können Sie es jederzeit erneut einscannen.</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Your certificate cannot be updated. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
 
