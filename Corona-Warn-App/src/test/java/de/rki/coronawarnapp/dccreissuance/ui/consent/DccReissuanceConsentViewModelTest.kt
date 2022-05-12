@@ -81,13 +81,14 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     @Test
     fun `getState works`() {
         viewModel().stateLiveData.getOrAwaitValue() shouldBe DccReissuanceConsentViewModel.State(
-            certificateList = mutableListOf<DccReissuanceItem>(),
+            certificateList = emptyList(),
             divisionVisible = true,
             listItemsTitle = "",
             title = "Zertifikat ersetzen",
             subtitle = "",
             content = "Langer Text",
-            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state"
+            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state",
+            accompanyingCertificatesVisible = true
         )
     }
 
