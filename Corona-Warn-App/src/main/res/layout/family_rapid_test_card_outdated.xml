@@ -90,7 +90,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="@dimen/card_padding"
         android:layout_marginBottom="@dimen/card_padding"
-        android:text="@string/submission_status_card_button_failed"
+        android:text="@string/ag_homescreen_card_rapidtest_dont_show_anymore_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
