@@ -78,7 +78,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             }
         }
 
-        val accompanyingCertificatesVisible = getConsolidatedAccompanyingCertificates().isNotEmpty()
+        val accompanyingCertificatesVisible = consolidateAccompanyingCertificates().isNotEmpty()
 
         return State(
             certificateList = certificates ?: emptyList(),

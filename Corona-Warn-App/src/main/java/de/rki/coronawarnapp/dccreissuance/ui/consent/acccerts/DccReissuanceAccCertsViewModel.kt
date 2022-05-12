@@ -40,7 +40,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     private suspend fun CertificateReissuance.toList(): List<DccReissuanceItem> {
-        return getConsolidatedAccompanyingCertificates().mapNotNull {
+        return consolidateAccompanyingCertificates().mapNotNull {
             try {
                 dccQrCodeExtractor.extract(
                     it.certificateRef.barcodeData,
