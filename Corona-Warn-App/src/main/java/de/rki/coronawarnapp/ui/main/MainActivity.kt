@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
+import androidx.navigation.navOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
@@ -230,33 +231,40 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun goToCertificates() {
-        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
-            R.id.covid_certificates_graph
-
-        navController
-            .findNestedGraph(R.id.covid_certificates_graph)
-            .startDestination = if (viewModel.isCertificatesConsentGiven.value == false) {
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId = R.id.covid_certificates_graph
+        val nestedGraph = navController.findNestedGraph(R.id.covid_certificates_graph)
+        val destination = if (viewModel.isCertificatesConsentGiven.value == false) {
             R.id.covidCertificateOnboardingFragment
         } else {
             R.id.personOverviewFragment
         }
+        nestedGraph.setStartDestination(destination)
+        navController.navigate(destination)
     }
 
     private fun goToCheckIns() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.trace_location_attendee_nav_graph
-        navController
-            .findNestedGraph(R.id.trace_location_attendee_nav_graph)
-            .startDestination = if (viewModel.isTraceLocationOnboardingDone.value == false) {
-            R.id.checkInsConsentFragment
+        val nestedGraph = navController.findNestedGraph(R.id.trace_location_attendee_nav_graph)
+        if (viewModel.isTraceLocationOnboardingDone.value == false) {
+            nestedGraph.setStartDestination(R.id.checkInOnboardingFragment)
+            navController.navigate(R.id.checkInOnboardingFragment)
         } else {
-            R.id.checkInsFragment
+            nestedGraph.setStartDestination(R.id.checkInsFragment)
+            navController.navigate(
+                resId = R.id.checkInsFragment,
+                args = null,
+                navOptions = navOptions {
+                    popUpTo(R.id.checkInOnboardingFragment) {
+                        inclusive = true
+                    }
+                }
+            )
         }
     }
 
     private fun goToContactJournal() {
-        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
-            R.id.contact_diary_nav_graph
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId = R.id.contact_diary_nav_graph
         val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
         if (viewModel.isContactDiaryOnboardingDone.value == true) {
@@ -377,6 +385,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
