@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -7,8 +8,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -26,20 +27,15 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val personCertificatesSettings: PersonCertificatesSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+    internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = personCertificatesProvider
+        .findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
-            person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()
-        }
+            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()?.toItemList().orEmpty()
+        }.asLiveData2()
 
-    internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = reissuanceData.map {
-        it?.toList() ?: emptyList()
-    }.asLiveData2()
-
-    private suspend fun CertificateReissuance.toList(): List<DccReissuanceItem> {
+    private suspend fun CertificateReissuance.toItemList(): List<DccReissuanceItem> {
         return consolidateAccompanyingCertificates().mapNotNull {
             try {
                 dccQrCodeExtractor.extract(
@@ -50,14 +46,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
                 Timber.e(e, "Failed to extract certificate")
                 null
             }
-        }.sortedByDescending {
-            when (it) {
-                is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
-                is VaccinationCertificateQRCode -> it.data.certificate.vaccination.vaccinatedOn
-                is RecoveryCertificateQRCode -> it.data.certificate.recovery.testedPositiveOn
-                else -> null
-            }
-        }.map {
+        }.sort().map {
             DccReissuanceConsentCard.Item(it.data.certificate)
         }
     }
@@ -67,5 +56,15 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
         fun create(
             personIdentifierCode: String
         ): DccReissuanceAccCertsViewModel
+    }
+}
+
+@VisibleForTesting
+internal fun List<DccQrCode>.sort() = sortedByDescending {
+    when (it) {
+        is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
+        is VaccinationCertificateQRCode -> it.data.certificate.vaccination.vaccinatedOn
+        is RecoveryCertificateQRCode -> it.data.certificate.recovery.testedPositiveOn
+        else -> null
     }
 }
