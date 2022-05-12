@@ -271,7 +271,7 @@ data class CertificateReissuance(
     @JsonProperty("certificates")
     val certificates: List<CertificateReissuanceItem>? = null,
 ) {
-    fun migrateLegacyCertificate(): CertificateReissuance {
+    fun asCertificateReissuanceCompat(): CertificateReissuance {
         val consolidatedCertificates = mutableListOf<CertificateReissuanceItem>().apply {
             certificates?.let {
                 addAll(it)
@@ -334,7 +334,7 @@ data class ReissuanceDivision(
     val faqAnchor: String?,
 
     @JsonProperty("identifier")
-    val identifier: String? = "renew",
+    val identifier: String? = DEFAULT_IDENTIFIER,
 
     @JsonProperty("listTitleText")
     val listTitleText: CclText? = null,
@@ -347,3 +347,5 @@ data class CertificatesRevokedByInvalidationRules(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
+
+internal const val DEFAULT_IDENTIFIER = "renew"

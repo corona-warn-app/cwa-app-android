@@ -17,6 +17,8 @@
     <string name="dcc_reissuance_error_handling_text_key_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XTXT: Text Key - Try Again -->
     <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Aktualisierung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: Text Key - Rate limit -->
+    <string name="dcc_reissuance_error_handling_text_key_rate_limit">Das Zertifikat wurde bereits drei mal neu ausgestellt. Eine weitere Neuausstellung ist nicht möglich.<br />Wir empfehlen, Ihr bereits erneut ausgestelltes Zertifikat als PDF zu exportieren und auszudrucken. Damit können Sie es jederzeit erneut einscannen.</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht aktualisiert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
 
