@@ -29,7 +29,14 @@
     <string name="dcc_reissuance_deletion_hint">"The old certificate will be moved automatically to the recycle bin and deleted after 30 days. The certificate can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">"If you cancel now, you can request an update in the certificate overview at any time."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates content -->
     <string name="dcc_reissuance_acc_certs_content">Folgende Zertifikate werden bei der Erneuerung als Zusatzinformation übermittelt, damit die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufgenommen werden kann. Diese Zertifikate verbleiben unverändert auf Ihrem Gerät.</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates title -->
     <string name="dcc_reissuance_acc_certs_title">Zusätzlich übermittelte Zertifikate</string>
+    <!-- XTXT: DCC Reissuance third bullet point-->
+    <string name="dcc_reissuance_bulletpoint_three">Stellen Sie bitte bei der Erneuerung von Zertifikaten von Familienmitgliedern sicher, dass die betreffende Person einverstanden ist.</string>
+    <!-- XTXT: DCC Reissuance fourth bullet point-->
+    <string name="dcc_reissuance_bulletpoint_four">In bestimmten Fällen werden zusätzlich zu dem zu erneuernden Zertifikat weitere Zertifikate übermittelt. Dies ist erforderlich, um die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufnehmen zu können.</string>
 </resources>

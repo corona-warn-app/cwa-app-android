@@ -249,6 +249,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_consent" />
 
+
             <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
                 android:id="@+id/dcc_reissuance_bulletpoint_two"
                 android:layout_width="0dp"
@@ -259,6 +260,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_one" />
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_three"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/dcc_reissuance_bulletpoint_three"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two" />
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_four"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/dcc_reissuance_bulletpoint_four"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_three" />
 
             <TextView
                 android:id="@+id/dcc_reissuance_link"
@@ -271,7 +294,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_four"
                 tools:text="@string/confirmed_status_faq_text"
                 tools:visibility="visible" />
 
