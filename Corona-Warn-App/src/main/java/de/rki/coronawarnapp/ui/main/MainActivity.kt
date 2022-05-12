@@ -239,7 +239,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             R.id.personOverviewFragment
         }
         nestedGraph.setStartDestination(destination)
-        navController.navigate(destination)
+        navController.navigate(
+            resId = destination,
+            args = null,
+            navOptions = navOptions {
+                popUpTo(R.id.personOverviewFragment) {
+                    inclusive = true
+                }
+            }
+        )
     }
 
     private fun goToCheckIns() {
