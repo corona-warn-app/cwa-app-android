@@ -36,7 +36,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance
+            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()
         }
     internal val stateLiveData: LiveData<State> = reissuanceData.map {
         // Make sure DccReissuance exists, otherwise screen is dismissed
@@ -61,8 +61,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
 
     fun navigateBack() = event.postValue(Back)
 
-    private suspend fun CertificateReissuance?.toState(): State {
-        val certificates = this?.certificates?.mapNotNull { dccCertificate ->
+    private suspend fun CertificateReissuance.toState(): State {
+        val certificates = certificates?.mapNotNull { dccCertificate ->
             try {
                 dccQrCodeExtractor.extract(
                     dccCertificate.certificateToReissue.certificateRef.barcodeData,
@@ -78,19 +78,17 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             }
         }
 
-        val accompanyingCertificatesVisible = this?.certificates?.any {
-            it.accompanyingCertificates.isNotEmpty()
-        } ?: false
+        val accompanyingCertificatesVisible = getConsolidatedAccompanyingCertificates().isNotEmpty()
 
         return State(
             certificateList = certificates ?: emptyList(),
             accompanyingCertificatesVisible = accompanyingCertificatesVisible,
-            divisionVisible = this?.reissuanceDivision?.visible ?: false,
-            listItemsTitle = format(this?.reissuanceDivision?.listTitleText),
-            title = format(this?.reissuanceDivision?.titleText),
-            subtitle = format(this?.reissuanceDivision?.consentSubtitleText),
-            content = format(this?.reissuanceDivision?.longText),
-            url = format(this?.reissuanceDivision?.faqAnchor)
+            divisionVisible = reissuanceDivision.visible,
+            listItemsTitle = format(reissuanceDivision.listTitleText),
+            title = format(reissuanceDivision.titleText),
+            subtitle = format(reissuanceDivision.consentSubtitleText),
+            content = format(reissuanceDivision.longText),
+            url = format(reissuanceDivision.faqAnchor)
         )
     }
 

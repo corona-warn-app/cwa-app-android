@@ -32,17 +32,15 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance
+            person?.dccWalletInfo?.certificateReissuance?.migrateLegacyCertificate()
         }
 
     internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = reissuanceData.map {
         it?.toList() ?: emptyList()
     }.asLiveData2()
 
-    private suspend fun CertificateReissuance?.toList(): List<DccReissuanceItem> {
-        return (this?.certificates ?: emptyList()).flatMap {
-            it.accompanyingCertificates
-        }.toSet().mapNotNull {
+    private suspend fun CertificateReissuance.toList(): List<DccReissuanceItem> {
+        return getConsolidatedAccompanyingCertificates().mapNotNull {
             try {
                 dccQrCodeExtractor.extract(
                     it.certificateRef.barcodeData,
