@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Timber.i("onNewIntent:$intent")
-        navigateByIntentUri(intent)
+        processExtraParameters()
     }
 
     private fun processExtraParameters() {
