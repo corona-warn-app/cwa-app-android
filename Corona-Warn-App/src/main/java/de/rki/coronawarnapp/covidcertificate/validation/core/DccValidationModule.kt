@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountryApi
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleApi
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSet
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -18,8 +22,8 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module
-class DccValidationModule {
+@Module(includes = [DccValidationModule.ResetModule::class])
+object DccValidationModule {
 
     @Singleton
     @Provides
@@ -69,10 +73,20 @@ class DccValidationModule {
         .build()
         .create(DccValidationRuleApi::class.java)
 
-    companion object {
-        private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+    @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableDccValidationServer(resettable: DccValidationServer): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableDccValidationCache(resettable: DccValidationCache): Resettable
     }
 }
+
+private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
 
 @Qualifier
 @MustBeDocumented

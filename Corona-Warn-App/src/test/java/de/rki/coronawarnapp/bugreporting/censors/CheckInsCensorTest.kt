@@ -10,8 +10,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -41,7 +41,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return LogLine with censored check-in information`() = runBlockingTest {
+    fun `checkLog() should return LogLine with censored check-in information`() = runTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(
@@ -65,6 +65,8 @@ internal class CheckInsCensorTest : BaseTest() {
             Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
             """.trimIndent()
 
+        advanceUntilIdle()
+
         censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe """
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
             Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
@@ -72,7 +74,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after user deletes his check-ins`() = runBlockingTest {
+    fun `censoring should still work after user deletes his check-ins`() = runTest {
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(
                 mockCheckIn(
@@ -92,11 +94,6 @@ internal class CheckInsCensorTest : BaseTest() {
                     checkInDescription = "Moe's Tavern",
                     checkInAddress = "Near 742 Evergreen Terrace, 12345 Springfield"
                 ),
-                /* deleted: mockCheckIn(
-        checkInId = 2,
-        checkInDescription = "Kwik-E-Mart",
-        checkInAddress = "Some Street, 12345 Springfield"
-    )*/
             )
         )
 
@@ -108,6 +105,8 @@ internal class CheckInsCensorTest : BaseTest() {
             Who needs the Kwik-E-Mart in Some Street, 12345 Springfield? I doooo!
             """.trimIndent()
 
+        advanceUntilIdle()
+
         censor.checkLog(logLineToCensor)!!.compile()!!.censored shouldBe """
             Let's go to CheckIn#1/Description in CheckIn#1/Address.
             Who needs the CheckIn#2/Description in CheckIn#2/Address? I doooo!
@@ -115,7 +114,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if no check-ins are stored`() = runBlocking {
+    fun `checkLog() should return null if no check-ins are stored`() = runTest {
         every { checkInsRepo.allCheckIns } returns flowOf(emptyList())
 
         val censor = createInstance(this)
@@ -125,7 +124,7 @@ internal class CheckInsCensorTest : BaseTest() {
     }
 
     @Test
-    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
+    fun `checkLog() should return null if LogLine doesn't need to be censored`() = runTest {
 
         every { checkInsRepo.allCheckIns } returns flowOf(
             listOf(

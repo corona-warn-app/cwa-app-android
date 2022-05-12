@@ -162,8 +162,8 @@ class DefaultExposureDetectionTracker @Inject constructor(
         }
     }
 
-    override fun clear() {
-        Timber.i("clear()")
+    override suspend fun reset() {
+        Timber.i("reset()")
         detectionStates.updateAsync {
             emptyMap()
         }

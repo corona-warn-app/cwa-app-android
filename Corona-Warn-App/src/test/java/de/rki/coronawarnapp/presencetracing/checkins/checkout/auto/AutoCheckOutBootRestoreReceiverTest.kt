@@ -16,8 +16,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.slot
+import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -30,8 +33,9 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     @MockK private lateinit var intent: Intent
     @MockK private lateinit var workManager: WorkManager
 
-    private val scope = TestCoroutineScope()
     lateinit var workRequestSlot: CapturingSlot<WorkRequest>
+
+    private val application = mockk<TestApp>()
 
     class TestApp : Application(), HasAndroidInjector {
         override fun androidInjector(): AndroidInjector<Any> {
@@ -45,25 +49,17 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkObject(AppInjector)
 
-        val application = mockk<TestApp>()
         every { context.applicationContext } returns application
-
-        val broadcastReceiverInjector = AndroidInjector<Any> {
-            it as AutoCheckOutBootRestoreReceiver
-            it.dispatcherProvider = TestDispatcherProvider()
-            it.scope = scope
-            it.workManager = workManager
-        }
-        every { application.androidInjector() } returns broadcastReceiverInjector
-
         workRequestSlot = slot()
         every { workManager.enqueue(capture(workRequestSlot)) } answers { mockk() }
     }
 
     @Test
-    fun `match boot intent`() {
+    fun `match boot intent`() = runTest(UnconfinedTestDispatcher()) {
+        setup()
         every { intent.action } returns Intent.ACTION_BOOT_COMPLETED
-        AutoCheckOutBootRestoreReceiver().apply {
+        spyk(AutoCheckOutBootRestoreReceiver()).apply {
+            every { goAsync() } returns mockk(relaxed = true)
             onReceive(context, intent)
         }
 
@@ -73,9 +69,11 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `match app update intent`() {
+    fun `match app update intent`() = runTest(UnconfinedTestDispatcher()) {
+        setup()
         every { intent.action } returns Intent.ACTION_MY_PACKAGE_REPLACED
-        AutoCheckOutBootRestoreReceiver().apply {
+        spyk(AutoCheckOutBootRestoreReceiver()).apply {
+            every { goAsync() } returns mockk(relaxed = true)
             onReceive(context, intent)
         }
 
@@ -85,12 +83,23 @@ class AutoCheckOutBootRestoreReceiverTest : BaseTest() {
     }
 
     @Test
-    fun `do not match unknown intents`() {
+    fun `do not match unknown intents`() = runTest(UnconfinedTestDispatcher()) {
+        setup()
         every { intent.action } returns "yolo"
         AutoCheckOutBootRestoreReceiver().apply {
             onReceive(context, intent)
         }
 
         verify(exactly = 0) { workManager.enqueue(any<WorkRequest>()) }
+    }
+
+    private fun TestScope.setup() {
+        val broadcastReceiverInjector = AndroidInjector<Any> {
+            it as AutoCheckOutBootRestoreReceiver
+            it.dispatcherProvider = TestDispatcherProvider()
+            it.scope = this
+            it.workManager = workManager
+        }
+        every { application.androidInjector() } returns broadcastReceiverInjector
     }
 }

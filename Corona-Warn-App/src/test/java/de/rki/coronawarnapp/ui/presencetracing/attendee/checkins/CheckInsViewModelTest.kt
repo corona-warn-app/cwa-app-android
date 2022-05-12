@@ -25,7 +25,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,15 +54,15 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Remove nullable check-in`() = runBlockingTest {
-        coEvery { checkInsRepository.clear() } just Runs
+    fun `Remove nullable check-in`() = runTest {
+        coEvery { checkInsRepository.reset() } just Runs
         createInstance(deepLink = null, scope = this).onRemoveCheckInConfirmed(null)
 
-        coVerify { checkInsRepository.clear() }
+        coVerify { checkInsRepository.reset() }
     }
 
     @Test
-    fun `Remove check-in`() = runBlockingTest {
+    fun `Remove check-in`() = runTest {
         coEvery { checkInsRepository.deleteCheckIns(any()) } just Runs
 
         val checkIn = mockk<CheckIn>()
@@ -72,7 +72,7 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Remove all check-ins`() = runBlockingTest {
+    fun `Remove all check-ins`() = runTest {
         createInstance(deepLink = null, scope = this).apply {
             onRemoveAllCheckIns()
 
@@ -81,7 +81,7 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `DeepLink verification`() = runBlockingTest {
+    fun `DeepLink verification`() = runTest {
         every { savedState.get<String>(any()) } returns null
         coEvery { checkInQrCodeExtractor.extract(any()) } returns
             CheckInQrCode(
@@ -99,7 +99,7 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Check-Ins sorting`() = runBlockingTest {
+    fun `Check-Ins sorting`() = runTest {
         val checkIn1 = mockk<CheckIn>().apply {
             every { id } returns 1
             every { checkInEnd } returns Instant.parse("2020-04-01T10:00:00.000Z")
@@ -153,7 +153,7 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Handle uri InvalidQrCodeUriException`() = runBlockingTest {
+    fun `Handle uri InvalidQrCodeUriException`() = runTest {
         every { savedState.get<String>("deeplink.last") } returns null
         coEvery { checkInQrCodeExtractor.extract(any()) } throws InvalidQrCodeUriException("Invalid")
         val url = "https://e.coronawarn.app?v=1#place_holder"
@@ -166,7 +166,7 @@ class CheckInsViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `Handle uri InvalidQrCodeDataException`() = runBlockingTest {
+    fun `Handle uri InvalidQrCodeDataException`() = runTest {
         every { savedState.get<String>("deeplink.last") } returns null
         coEvery { checkInQrCodeExtractor.extract(any()) } throws InvalidQrCodeDataException("Invalid")
         val url = "https://e.coronawarn.app?v=1#place_holder"

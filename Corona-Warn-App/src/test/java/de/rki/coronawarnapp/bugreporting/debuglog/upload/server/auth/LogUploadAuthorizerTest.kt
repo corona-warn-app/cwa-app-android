@@ -15,7 +15,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.slot
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -70,7 +70,7 @@ class LogUploadAuthorizerTest : BaseIOTest() {
     )
 
     @Test
-    fun `otp generation`() = runBlockingTest {
+    fun `otp generation`() = runTest {
         val expectedOtp = UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894")
         val instance = createInstance()
 

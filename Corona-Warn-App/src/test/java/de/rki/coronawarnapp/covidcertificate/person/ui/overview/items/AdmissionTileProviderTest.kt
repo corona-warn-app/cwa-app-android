@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -53,7 +53,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     }
 
     @Test
-    fun `admission tile is not visible when config flag is disabled`() = runBlockingTest {
+    fun `admission tile is not visible when config flag is disabled`() = runTest {
         every { configData.admissionScenariosEnabled } returns false
         instance().run {
             admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
@@ -65,7 +65,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     }
 
     @Test
-    fun `admission tile is not visible when no certificates are available`() = runBlockingTest {
+    fun `admission tile is not visible when no certificates are available`() = runTest {
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf())
         instance().run {
             admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
@@ -77,7 +77,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     }
 
     @Test
-    fun `admission tile - subtitle is from selected scenario`() = runBlockingTest {
+    fun `admission tile - subtitle is from selected scenario`() = runTest {
         every { cclSettings.admissionScenarioId } returns flowOf("BW")
         instance().run {
             admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(

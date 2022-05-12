@@ -25,18 +25,18 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 import testhelpers.preferences.mockFlowPreference
 
 class AnalyticsTest : BaseTest() {
@@ -46,7 +46,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var settings: AnalyticsSettings
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var analyticsConfig: AnalyticsConfig
-    @MockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
+    @RelaxedMockK lateinit var exposureRiskMetadataDonor: ExposureRiskMetadataDonor
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var onboardingSettings: OnboardingSettings
@@ -97,7 +97,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -121,7 +121,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -146,7 +146,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -172,7 +172,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -199,7 +199,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe false
@@ -255,7 +255,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest2 {
+        runTest {
             val result = analytics.submitIfWanted()
             result.apply {
                 successful shouldBe true
@@ -293,7 +293,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -334,7 +334,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance(modules = modules)
 
-        runBlockingTest {
+        runTest {
             analytics.submitIfWanted()
         }
 
@@ -367,7 +367,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -398,7 +398,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -438,7 +438,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -468,7 +468,7 @@ class AnalyticsTest : BaseTest() {
 
         val analytics = createInstance()
 
-        runBlockingTest {
+        runTest {
             val result = analytics.submitIfWanted()
             result.successful shouldBe false
             result.shouldRetry shouldBe true
@@ -481,5 +481,15 @@ class AnalyticsTest : BaseTest() {
         }
 
         coVerify(exactly = 0) { dataDonationAnalyticsServer.uploadAnalyticsData(any()) }
+    }
+
+    @Test
+    fun `reset leads to deletion of all data for each module`() = runTest {
+        val userMetadataDonor = mockk<UserMetadataDonor>(relaxed = true)
+        val modules = setOf(exposureRiskMetadataDonor, userMetadataDonor)
+
+        createInstance(modules).reset()
+
+        coVerify { modules.forEach { it.deleteData() } }
     }
 }

@@ -64,7 +64,7 @@ class LogUploadApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        return BugReportingSharedModule().logUploadApi(
+        return BugReportingSharedModule.logUploadApi(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,

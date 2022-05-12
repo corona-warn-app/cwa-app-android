@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.repositories.UpdateResult
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,7 +26,7 @@ class BoosterRulesRepository @Inject constructor(
     private val converter: DccValidationRuleConverter,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<List<DccValidationRule>> = HotDataFlow(
         loggingTag = TAG,
@@ -84,10 +85,8 @@ class BoosterRulesRepository @Inject constructor(
 
     private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)
 
-    suspend fun clear() {
-        Timber.tag(TAG).i("clear()")
-        server.clear()
-        localCache.saveBoosterNotificationRulesJson(null)
+    override suspend fun reset() {
+        Timber.tag(TAG).i("reset()")
         internalData.updateBlocking { emptyList() }
     }
 }

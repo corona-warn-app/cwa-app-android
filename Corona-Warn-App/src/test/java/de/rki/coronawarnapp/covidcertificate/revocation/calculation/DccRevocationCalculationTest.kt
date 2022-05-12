@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import javax.inject.Inject
 
 class DccRevocationCalculationTest : BaseTest() {
@@ -27,7 +27,7 @@ class DccRevocationCalculationTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `run test cases`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest2 {
+    fun `run test cases`(testCaseDcc: DccRevocationCalculationTestCase) = runTest2 {
         val dgc = createMockCert(testCaseDcc.barcodeData)
 
         val uci = dgc.calculateRevocationEntryForType(RevocationHashType.UCI).hex()

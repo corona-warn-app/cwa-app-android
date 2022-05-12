@@ -53,7 +53,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     val profileGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
                     val startDestination =
                         if (it.onboarded) R.id.profileListFragment else R.id.profileOnboardingFragment
-                    profileGraph.startDestination = startDestination
+                    profileGraph.setStartDestination(startDestination)
 
                     doNavigate(
                         SubmissionDispatcherFragmentDirections

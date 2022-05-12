@@ -8,10 +8,9 @@ import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTestInstrumentation
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class TestForApiFragmentViewModelTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var context: Context

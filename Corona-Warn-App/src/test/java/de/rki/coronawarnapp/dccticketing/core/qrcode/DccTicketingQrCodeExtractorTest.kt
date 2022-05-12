@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeEx
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -24,7 +24,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction`() = runBlockingTest {
+    fun `happy path extraction`() = runTest {
         shouldNotThrowAny {
             extractor.canHandle(validQrCode) shouldBe true
             extractor.extract(validQrCode)
@@ -32,7 +32,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `missing service provider throws exception`() = runBlockingTest {
+    fun `missing service provider throws exception`() = runTest {
         extractor.canHandle(invalidQrCodeMissingServiceProvider) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeMissingServiceProvider)
@@ -40,7 +40,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `wrong protocol throws exception`() = runBlockingTest {
+    fun `wrong protocol throws exception`() = runTest {
         extractor.canHandle(invalidQrCodeWrongProtocol) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeWrongProtocol)
@@ -48,7 +48,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `missing subject throws exception`() = runBlockingTest {
+    fun `missing subject throws exception`() = runTest {
         extractor.canHandle(invalidQrCodeMissingSubject) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeMissingSubject)
@@ -56,7 +56,7 @@ class DccTicketingQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `malformed json throws exception`() = runBlockingTest {
+    fun `malformed json throws exception`() = runTest {
         extractor.canHandle(invalidJson) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidJson)

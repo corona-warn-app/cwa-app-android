@@ -17,7 +17,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
@@ -93,7 +93,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path`() = runBlockingTest {
+    fun `happy path`() = runTest {
         coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } returns serviceIdentityDocument
 
         val validationDecoratorResult = ValidationDecoratorRequestProcessor.ValidationDecoratorResult(
@@ -115,7 +115,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if service identity document has faulty jwk`() = runBlockingTest {
+    fun `throws if service identity document has faulty jwk`() = runTest {
         val faultyVerificationMethod = accessTokenServiceKey.copy(
             publicKeyJwk = accessTokenServiceKeyJWK.copy(x5c = emptyList())
         )
@@ -127,13 +127,13 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if service identity document lacks required service`() = runBlockingTest {
+    fun `throws if service identity document lacks required service`() = runTest {
         checkServiceNotFoundErrorCode(service = accessTokenService, errorCode = DccTicketingErrorCode.VD_ID_NO_ATS)
         checkServiceNotFoundErrorCode(service = validationService, errorCode = DccTicketingErrorCode.VD_ID_NO_VS)
     }
 
     @Test
-    fun `throws if service identity document lacks required jwk set`() = runBlockingTest {
+    fun `throws if service identity document lacks required jwk set`() = runTest {
         checkJwkNotFoundErrorCode(
             verificationMethod = accessTokenServiceKey,
             errorCode = DccTicketingErrorCode.VD_ID_NO_ATS_SVC_KEY
@@ -149,7 +149,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `throws if parser throws`() = runBlockingTest {
+    fun `throws if parser throws`() = runTest {
         coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } throws DccTicketingServerException(
             errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR
         )
@@ -160,7 +160,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `Check server error mapping`() = runBlockingTest {
+    fun `Check server error mapping`() = runTest {
         with(instance) {
             checkServerErrorMapping(
                 serverErrorCode = DccTicketingServerException.ErrorCode.PARSE_ERR,

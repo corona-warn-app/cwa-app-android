@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +27,7 @@ internal class SurveyUrlProviderTest {
     )
 
     @Test
-    fun `provideUrl() should provide correct Url`() = runBlockingTest {
+    fun `provideUrl() should provide correct Url`() = runTest {
         val otp = UUID.randomUUID()
         coEvery { appConfigProvider.getAppConfig().survey.surveyOnHighRiskUrl } returns
             "http://www.example.com".toHttpUrl()
@@ -37,7 +37,7 @@ internal class SurveyUrlProviderTest {
     }
 
     @Test
-    fun `provideUrl() should throw IllegalStateException when url from AppConfig is null`() = runBlockingTest {
+    fun `provideUrl() should throw IllegalStateException when url from AppConfig is null`() = runTest {
         val otp = UUID.randomUUID()
         coEvery { appConfigProvider.getAppConfig().survey.surveyOnHighRiskUrl } returns null
 

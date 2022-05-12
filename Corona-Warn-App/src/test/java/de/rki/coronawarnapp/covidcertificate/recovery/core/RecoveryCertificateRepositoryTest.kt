@@ -29,12 +29,13 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import javax.inject.Inject
 
 class RecoveryCertificateRepositoryTest : BaseTest() {
@@ -51,7 +52,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
-    private val containerIdRecoveryQrCode1 = RecoveryQrCodeTestData.recoveryQrCode1.toSHA256()
     private val containerIdRecoveryQrCode2 = RecoveryQrCodeTestData.recoveryQrCode2.toSHA256()
 
     @BeforeEach
@@ -103,7 +103,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     )
 
     @Test
-    fun `register recovery certificate`() = runBlockingTest2(ignoreActive = true) {
+    fun `register recovery certificate`() = runTest2 {
         val instance = createInstance(this)
         advanceUntilIdle()
         instance.certificates.first() shouldBe emptySet()
@@ -121,7 +121,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
+    fun `storage is not written on init`() = runTest2 {
         val instance = createInstance(this)
         instance.certificates.first()
         advanceUntilIdle()
@@ -131,7 +131,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+    fun `filter by recycled`() = runTest2 {
         val notRecycled = mockk<StoredRecoveryCertificateData> {
             every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.recoveryQrCode1
             every { recycledAt } returns null
@@ -170,13 +170,14 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
             allCertificates.first().also {
                 it.certificates shouldBe certificates.first()
-                it.recycledCertificates shouldBe recycledCertificates.first()
+                it.recycledCertificates.map { cer -> cer.containerId } shouldBe
+                    recycledCertificates.first().map { cer -> cer.containerId }
             }
         }
     }
 
     @Test
-    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Cert is not existing`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -197,7 +198,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - ExpiringSoon`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -218,7 +219,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Expired`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -239,7 +240,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Invalid`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -260,7 +261,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Blocked`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
@@ -281,7 +282,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
+    fun `setNotifiedState - Valid`() = runTest2 {
         val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)

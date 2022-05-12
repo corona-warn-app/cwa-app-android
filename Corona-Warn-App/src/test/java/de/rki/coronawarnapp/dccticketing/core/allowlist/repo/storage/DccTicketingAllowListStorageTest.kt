@@ -5,7 +5,7 @@ import io.kotest.matchers.file.shouldNotBeEmptyDirectory
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
@@ -26,18 +26,18 @@ class DccTicketingAllowListStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `returns null if no data exists`() = runBlockingTest {
+    fun `returns null if no data exists`() = runTest {
         with(instance) {
             load() shouldBe null
 
             save(data)
-            clear()
+            reset()
             load() shouldBe null
         }
     }
 
     @Test
-    fun `returns saved data and override existing data`() = runBlockingTest {
+    fun `returns saved data and override existing data`() = runTest {
         val data2 = "data2".toByteArray()
 
         with(instance) {
@@ -59,7 +59,7 @@ class DccTicketingAllowListStorageTest : BaseIOTest() {
             localStorage.shouldBeEmpty()
             save(data = data)
             localStorage.shouldNotBeEmptyDirectory()
-            clear()
+            reset()
             localStorage.shouldBeEmpty()
         }
     }

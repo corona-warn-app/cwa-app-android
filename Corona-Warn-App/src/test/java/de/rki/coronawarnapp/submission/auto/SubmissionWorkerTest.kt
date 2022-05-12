@@ -19,7 +19,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkStatic
 import io.mockk.slot
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -47,7 +47,7 @@ class SubmissionWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `worker runs task with user activity check enabled`() = runBlockingTest {
+    fun `worker runs task with user activity check enabled`() = runTest {
         every { taskResult.error } returns null
         val slot = slot<TaskRequest>()
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
@@ -66,7 +66,7 @@ class SubmissionWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `task errors are rethrown `() = runBlockingTest {
+    fun `task errors are rethrown `() = runTest {
         every { taskResult.error } returns Exception()
 
         val worker = createWorker()

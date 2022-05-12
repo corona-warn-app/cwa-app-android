@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.covidcertificate.person.model.SettingsMap
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -28,7 +29,7 @@ import javax.inject.Singleton
 class PersonCertificatesSettings @Inject constructor(
     @PersonSettingsDataStore private val dataStore: DataStore<Preferences>,
     @BaseJackson private val mapper: ObjectMapper
-) {
+) : Resettable {
 
     private val dataStoreFlow = dataStore.data
         .catch { e ->
@@ -150,8 +151,8 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    suspend fun clear() {
-        Timber.d("clear()")
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
         dataStore.edit { preferences -> preferences.clear() }
     }
 

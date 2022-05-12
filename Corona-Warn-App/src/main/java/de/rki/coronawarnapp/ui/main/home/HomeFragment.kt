@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -240,31 +241,31 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
             is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
+                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
+                NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
+                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(
                     event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
+                NavGraphDirections.actionGlobalToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                NavGraphDirections.actionGlobalToSubmissionResultPositiveOtherWarningNoConsentFragment(
                     testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
+                NavGraphDirections.actionGlobalToSubmissionTestResultPendingFragment(
                     event.identifier,
                     event.forceUpdate,
                 )

@@ -99,9 +99,13 @@ class MainActivityViewModel @AssistedInject constructor(
     init {
         if (CWADebug.isDeviceForTestersBuild) {
             launch {
-                val current = environmentSetup.currentEnvironment
-                if (current != EnvironmentSetup.Type.PRODUCTION) {
-                    showEnvironmentHint.postValue(current.rawKey)
+                val current = if (environmentSetup.launchEnvironment != null)
+                    "base64 data"
+                else
+                    environmentSetup.currentEnvironment.rawKey
+
+                if (current != EnvironmentSetup.Type.PRODUCTION.rawKey) {
+                    showEnvironmentHint.postValue(current)
                 }
             }
         }

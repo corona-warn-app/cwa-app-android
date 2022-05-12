@@ -12,7 +12,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,7 +37,7 @@ class NotificationsSettingsTest : BaseTest() {
     )
 
     @Test
-    fun isNotificationsEnabled() = runBlockingTest {
+    fun isNotificationsEnabled() = runTest {
         createInstance().apply {
             isNotificationsEnabled.first() shouldBe true
             verifySequence {

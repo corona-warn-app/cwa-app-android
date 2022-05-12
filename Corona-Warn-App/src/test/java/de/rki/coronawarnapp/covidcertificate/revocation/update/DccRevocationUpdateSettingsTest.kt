@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.update
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 
@@ -23,7 +23,7 @@ internal class DccRevocationUpdateSettingsTest : BaseTest() {
 
     @Test
     fun `test RevocationUpdateSettings - set last update value`() =
-        runBlockingTest {
+        runTest {
             settings.getLastUpdateTime() shouldBe null
 
             val now = Instant.parse("2022-04-14T00:00:00.000Z")

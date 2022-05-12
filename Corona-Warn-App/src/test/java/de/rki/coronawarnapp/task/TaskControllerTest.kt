@@ -36,13 +36,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
+import testhelpers.coroutines.runWithoutChildExceptionCancellation
 import testhelpers.coroutines.test
 import testhelpers.extensions.isAfterOrEqual
 import java.io.File
@@ -96,7 +98,7 @@ class TaskControllerTest : BaseIOTest() {
     )
 
     @Test
-    fun `side effect free init`() = runBlockingTest {
+    fun `side effect free init`() = runTest {
         shouldNotThrowAny {
             val instance = createInstance(scope = this)
             instance.close()
@@ -104,7 +106,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `missing task factory throw exception`() = runBlockingTest {
+    fun `missing task factory throw exception`() = runTest {
         val instance = createInstance(scope = this)
 
         val unknownTask = DefaultTaskRequest(
@@ -120,7 +122,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `task map is empty by default`() = runBlockingTest {
+    fun `task map is empty by default`() = runTest {
         val instance = createInstance(scope = this)
 
         val map = instance.tasks.take(1).toList().single()
@@ -130,7 +132,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `default task execution`() = runBlockingTest2(ignoreActive = true) {
+    fun `default task execution`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -192,46 +194,48 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed task yields exception`() = runBlockingTest2(ignoreActive = true) {
-        val instance = createInstance(scope = this)
+    fun `failed task yields exception`() = runTest {
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val arguments = QueueingTask.Arguments(
-            path = File(testDir, UUID.randomUUID().toString())
-        )
-        val request = DefaultTaskRequest(
-            type = QueueingTask::class,
-            arguments = arguments
-        )
+            val arguments = QueueingTask.Arguments(
+                path = File(testDir, UUID.randomUUID().toString())
+            )
+            val request = DefaultTaskRequest(
+                type = QueueingTask::class,
+                arguments = arguments
+            )
 
-        arguments.path.exists() shouldBe false
+            arguments.path.exists() shouldBe false
 
-        // The target path is now a directory, this will fail the task
-        arguments.path.mkdirs()
+            // The target path is now a directory, this will fail the task
+            arguments.path.mkdirs()
 
-        instance.submit(request)
+            instance.submit(request)
 
-        this.advanceUntilIdle()
+            advanceUntilIdle()
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
-            taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
+            infoFinished.apply {
+                taskState.startedAt!!.isAfterOrEqual(taskState.createdAt) shouldBe true
+                taskState.finishedAt!!.isAfterOrEqual(taskState.startedAt!!) shouldBe true
 
-            taskState.isSuccessful shouldBe false
-            taskState.isFailed shouldBe true
+                taskState.isSuccessful shouldBe false
+                taskState.isFailed shouldBe true
 
-            taskState.result shouldBe null
-            taskState.error should instanceOf(FileNotFoundException::class)
+                taskState.result shouldBe null
+                taskState.error should instanceOf(FileNotFoundException::class)
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 
     @Test
-    fun `canceled task yields exception`() = runBlockingTest2(ignoreActive = true) {
+    fun `canceled task yields exception`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -255,7 +259,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `queued task execution`() = runBlockingTest2(ignoreActive = true) {
+    fun `queued task execution`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -306,7 +310,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `skippable tasks are skipped`() = runBlockingTest2(ignoreActive = true) {
+    fun `skippable tasks are skipped`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -351,7 +355,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `tasks with preconditions that are not met are skipped`() = runBlockingTest2(ignoreActive = true) {
+    fun `tasks with preconditions that are not met are skipped`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val request = DefaultTaskRequest(type = PreconditionTask::class)
@@ -388,7 +392,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `collision behavior only affects task of same type`() = runBlockingTest2(ignoreActive = true) {
+    fun `collision behavior only affects task of same type`() = runTest2 {
         val arguments = QueueingTask.Arguments(path = File(testDir, UUID.randomUUID().toString()))
         arguments.path.exists() shouldBe false
 
@@ -437,7 +441,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `resubmitting a request has no effect`() = runBlockingTest2(ignoreActive = true) {
+    fun `resubmitting a request has no effect`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val arguments = QueueingTask.Arguments(
@@ -469,7 +473,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `tasks are timed out according to their config`() = runBlockingTest2(ignoreActive = true) {
+    fun `tasks are timed out according to their config`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val request = DefaultTaskRequest(
@@ -494,7 +498,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `timeout starts on execution, not while pending`() = runBlockingTest2(ignoreActive = true) {
+    fun `timeout starts on execution, not while pending`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val taskWithTimeout = DefaultTaskRequest(
@@ -535,7 +539,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `parallel tasks can timeout`() = runBlockingTest2(ignoreActive = true) {
+    fun `parallel tasks can timeout`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val task1WithTimeout = DefaultTaskRequest(
@@ -588,7 +592,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `old tasks are pruned from history`() = runBlockingTest2(ignoreActive = true) {
+    fun `old tasks are pruned from history`() = runTest2 {
         val instance = createInstance(scope = this)
 
         val expectedFiles = mutableListOf<File>()
@@ -628,7 +632,7 @@ class TaskControllerTest : BaseIOTest() {
     }
 
     @Test
-    fun `silent error handling`() = runBlockingTest2(ignoreActive = true) {
+    fun `silent error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
 
@@ -638,27 +642,29 @@ class TaskControllerTest : BaseIOTest() {
         every { error.report(any(), any(), any()) } just Runs
         every { error.reportProblem(any()) } just Runs
 
-        val instance = createInstance(scope = this)
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val request =
-            DefaultTaskRequest(type = SilentErrorTask::class, arguments = SilentErrorTask.Arguments(error = error))
-        instance.submit(request)
+            val request =
+                DefaultTaskRequest(type = SilentErrorTask::class, arguments = SilentErrorTask.Arguments(error = error))
+            instance.submit(request)
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.error shouldNotBe null
-            verify(exactly = 0) { any<Throwable>().report(any()) }
-            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            infoFinished.apply {
+                taskState.error shouldNotBe null
+                verify(exactly = 0) { any<Throwable>().report(any()) }
+                verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 
     @Test
-    fun `alert error handling`() = runBlockingTest2(ignoreActive = true) {
+    fun `alert error handling`() = runTest2 {
 
         val error: Throwable = spyk(Throwable())
 
@@ -668,22 +674,24 @@ class TaskControllerTest : BaseIOTest() {
         every { error.report(any(), any(), any()) } just Runs
         every { error.reportProblem(any()) } just Runs
 
-        val instance = createInstance(scope = this)
+        runWithoutChildExceptionCancellation {
+            val instance = createInstance(scope = this)
 
-        val request =
-            DefaultTaskRequest(type = AlertErrorTask::class, arguments = AlertErrorTask.Arguments(error = error))
-        instance.submit(request)
+            val request =
+                DefaultTaskRequest(type = AlertErrorTask::class, arguments = AlertErrorTask.Arguments(error = error))
+            instance.submit(request)
 
-        val infoFinished = instance.tasks
-            .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
-            .single()
+            val infoFinished = instance.tasks
+                .first { it.single().taskState.executionState == TaskState.ExecutionState.FINISHED }
+                .single()
 
-        infoFinished.apply {
-            taskState.error shouldNotBe null
-            verify(exactly = 1) { any<Throwable>().report(any()) }
-            verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            infoFinished.apply {
+                taskState.error shouldNotBe null
+                verify(exactly = 1) { any<Throwable>().report(any()) }
+                verify(exactly = 1) { any<Throwable>().reportProblem(any()) }
+            }
+
+            instance.close()
         }
-
-        instance.close()
     }
 }
