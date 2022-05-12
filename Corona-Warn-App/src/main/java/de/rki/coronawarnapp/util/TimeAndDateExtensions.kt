@@ -183,6 +183,11 @@ object TimeAndDateExtensions {
      */
     fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
+    /**
+     * Converts this LocalDate to a full datetime at the earliest valid time for the date using timezone UTC
+     */
+    fun LocalDate.toDateTimeAtStartOfDayUtc(): DateTime = toDateTimeAtStartOfDay(DateTimeZone.UTC)
+
     /*
     * Returns date changes until
     */
