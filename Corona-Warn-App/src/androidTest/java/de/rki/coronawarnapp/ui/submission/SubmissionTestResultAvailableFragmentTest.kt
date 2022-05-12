@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAv
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableViewModel
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
@@ -52,7 +51,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { submissionRepository.testForType(any()) } returns flowOf()
-        every { appShortcutsHelper.disableAllShortcuts() } just Runs
+        every { appShortcutsHelper.disableAllShortcuts() } returns Result.success(Unit)
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(
