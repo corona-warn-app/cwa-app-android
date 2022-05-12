@@ -4,19 +4,16 @@
     android:id="@+id/vaccination_card"
     style="@style/Card.Vaccination.Ripple.NoPadding"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:paddingBottom="@dimen/spacing_small">
+    android:layout_height="126dp"
+    android:layout_marginTop="8dp">
 
     <ImageView
         android:id="@+id/dcc_reissuance_certificate_bg"
         android:layout_width="88dp"
         android:layout_height="95dp"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bg_certificate_blue_1" />
@@ -52,18 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="6dp"
-        android:paddingBottom="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dcc_reissuance_certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_header"
         tools:text="First Name\nLast Name\nVaccination 1 of 2\nVaccinated on 01.06.21" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/bottom_barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="dcc_reissuance_certificate_bg,dcc_reissuance_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
