@@ -44,7 +44,7 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
         every { admissionScenariosSharedViewModel.admissionScenarios } returns flowOf(dccAdmissionCheckScenarios)
 
         coEvery { admissionCheckScenariosRepository.save(any()) } just Runs
-        coEvery { cclSetting.setAdmissionScenarioId(any()) } returns Job()
+        coEvery { cclSetting.saveAdmissionScenarioId(any()) } returns Job()
         coEvery { dccWalletInfoUpdateTrigger.triggerNow(any()) } just Runs
     }
 
@@ -81,7 +81,7 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
         instance().selectScenario("admissionScenarioId")
         coVerifySequence {
             admissionCheckScenariosRepository.save(any())
-            cclSetting.setAdmissionScenarioId(any())
+            cclSetting.saveAdmissionScenarioId(any())
             dccWalletInfoUpdateTrigger.triggerNow(any())
         }
     }
