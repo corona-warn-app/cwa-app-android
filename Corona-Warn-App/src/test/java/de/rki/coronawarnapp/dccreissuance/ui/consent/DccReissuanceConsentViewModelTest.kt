@@ -88,7 +88,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
             subtitle = "",
             content = "Langer Text",
             url = "https://www.coronawarn.app/en/faq/#dcc_admission_state",
-            accompanyingCertificatesVisible = true
+            accompanyingCertificatesVisible = false
         )
     }
 
