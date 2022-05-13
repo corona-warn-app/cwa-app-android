@@ -54,12 +54,12 @@ fun setAnimationColor(view: LottieAnimationView, color: Int?) {
     }
 }
 
-@BindingAdapter("app:tint")
+@BindingAdapter("tint")
 fun setTint(view: ImageView, color: Int) {
     ImageViewCompat.setImageTintList(view, ColorStateList.valueOf(color))
 }
 
-@BindingAdapter("app:indicatorColor")
+@BindingAdapter("indicatorColor")
 fun setIndicatorColor(view: CircularProgressIndicator, color: Int) {
     view.setIndicatorColor(color)
 }
