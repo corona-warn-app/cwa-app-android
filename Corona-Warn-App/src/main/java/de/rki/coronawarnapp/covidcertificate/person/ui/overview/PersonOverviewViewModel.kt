@@ -88,7 +88,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                         colorShade = color,
                         badgeCount = person.badgeCount,
                         onClickAction = { _, position ->
-                            person.personIdentifier?.let { personIdentifier ->
+                            person.personIdentifier.let { personIdentifier ->
                                 events.postValue(
                                     OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
                                 )

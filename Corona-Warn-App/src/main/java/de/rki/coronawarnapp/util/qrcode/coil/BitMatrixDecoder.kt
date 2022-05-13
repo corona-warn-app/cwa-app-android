@@ -35,6 +35,7 @@ class BitMatrixDecoder @Inject constructor(
     override suspend fun decode(pool: BitmapPool, source: BufferedSource, size: Size, options: Options): DecodeResult {
         val bitmapStart = System.currentTimeMillis()
 
+        @Suppress("UNCHECKED_CAST")
         val matrix = ObjectInputStream(source.inputStream()).use {
             it.readObject() as Array<ByteArray>
         }
