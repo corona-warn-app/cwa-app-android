@@ -8,9 +8,7 @@ concurrency:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -22,5 +20,8 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Ktlint
+        uses: ./.github/workflows/run-gradle-cmd.yml
+        with:
+          decs: "Detekt check"
+          cmd: ":Corona-Warn-App:detekt"
