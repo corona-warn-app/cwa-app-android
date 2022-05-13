@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.bugreporting.censors.submission
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 @Reusable
