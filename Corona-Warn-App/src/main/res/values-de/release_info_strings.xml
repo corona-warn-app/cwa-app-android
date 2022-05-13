@@ -17,12 +17,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Schnelltest-Profile für Familie</item>
+        <item>Neuausstellung von Zertifikaten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt Schnelltest-Profile für die Mitglieder Ihrer Familie anlegen. Sie können damit die Registrierung an einer Teststelle beschleunigen. Für die Erfasssung der persönlichen Daten muss dann nur der jeweilige QR-Code des Schnelltest-Profils gescannt werden.</item>
+        <item>Die Gültigkeit von Impfzertifikaten ist technisch auf 365 Tage begrenzt. Sie können in der App jedoch ein neues Zertifikat anfordern. Die Neuausstellung kann 28 Tage vor Ablauf der Gültigkeit und bis zu 90 Tage nach Ablauf der Gültigkeit vorgenommen werden. In der App finden Sie einen Hinweis, der Sie über den Ablauf der Gültigkeit Ihres Zertifikats informiert.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
