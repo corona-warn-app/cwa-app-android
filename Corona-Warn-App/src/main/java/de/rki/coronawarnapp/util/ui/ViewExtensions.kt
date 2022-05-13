@@ -5,9 +5,8 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import de.rki.coronawarnapp.util.recyclerview.ThrottledClickListener
 import timber.log.Timber
 
@@ -47,9 +46,8 @@ fun View.addLifecycleEventCallback(
 ): Boolean {
     val hostLifecycle = hostLifecycle ?: return false
 
-    val observer = object : LifecycleObserver {
-        @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-        fun onLifecycleEvent(owner: LifecycleOwner, event: Lifecycle.Event) {
+    val observer = object : LifecycleEventObserver {
+        override fun onStateChanged(owner: LifecycleOwner, event: Lifecycle.Event) {
             if (event != type) return
             Timber.v("%s triggered %s for %s", owner, event, this@addLifecycleEventCallback)
             val consumed = callback()
