@@ -1,6 +1,6 @@
 name: Android CI
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 jobs:
   build:
 
@@ -11,9 +11,7 @@ jobs:
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
+          java-version: 11
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
