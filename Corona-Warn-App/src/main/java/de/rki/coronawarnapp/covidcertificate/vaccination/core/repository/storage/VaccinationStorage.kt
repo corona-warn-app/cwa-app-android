@@ -52,6 +52,7 @@ class VaccinationStorage @Inject constructor(
         }
     }
 
+    @Suppress("DEPRECATION")
     suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("loadLegacyData()")
         val persons = prefs.all.mapNotNull { (key, value) ->

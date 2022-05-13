@@ -40,7 +40,7 @@ class CWAViewModelFactoryProvider @AssistedInject constructor(
      * Called indirectly (lazy) when the viewModel is accessed in a Fragment/Activity
      **/
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(
+    override fun <T : ViewModel> create(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle
