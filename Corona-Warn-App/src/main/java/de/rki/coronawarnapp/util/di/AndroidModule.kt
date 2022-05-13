@@ -34,6 +34,7 @@ class AndroidModule {
     @AppContext
     fun context(app: Application): Context = app.applicationContext
 
+    @Suppress("DEPRECATION")
     @Provides
     @Singleton
     fun bluetoothAdapter(): BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()

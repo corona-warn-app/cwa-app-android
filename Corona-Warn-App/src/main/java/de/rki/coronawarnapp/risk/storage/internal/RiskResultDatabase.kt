@@ -9,6 +9,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.Transaction
 import androidx.room.TypeConverters
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration2To3
@@ -48,6 +49,7 @@ abstract class RiskResultDatabase : RoomDatabase() {
 
     @Dao
     interface RiskResultsDao {
+        @Transaction
         @Query("SELECT * FROM riskresults ORDER BY monotonicId DESC")
         fun allEntries(): Flow<List<PersistedRiskLevelResultDao>>
 
@@ -68,9 +70,11 @@ abstract class RiskResultDatabase : RoomDatabase() {
 
     @Dao
     interface ExposureWindowsDao {
+        @Transaction
         @Query("SELECT * FROM exposurewindows")
         fun allEntries(): Flow<List<PersistedExposureWindowDaoWrapper>>
 
+        @Transaction
         @Query("SELECT * FROM exposurewindows WHERE riskLevelResultId IN (:riskResultIds)")
         fun getWindowsForResult(riskResultIds: List<String>): Flow<List<PersistedExposureWindowDaoWrapper>>
 
