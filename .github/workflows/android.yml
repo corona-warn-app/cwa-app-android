@@ -22,6 +22,10 @@ jobs:
         run: chmod +x gradlew
       - name: Ktlint
         run: ./gradlew :Corona-Warn-App:detekt
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
 
   quick_build_device_release_no_tests:
     runs-on: ubuntu-latest
@@ -38,6 +42,10 @@ jobs:
         run: chmod +x gradlew
       - name: Ktlint
         run: ./gradlew assembleDeviceRelease
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
 
   quick_build_device_for_testers_release_no_tests:
     runs-on: ubuntu-latest
@@ -54,6 +62,10 @@ jobs:
         run: chmod +x gradlew
       - name: Quick Build
         run: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
 
   unit_tests_device_release:
     runs-on: ubuntu-latest
@@ -70,6 +82,10 @@ jobs:
         run: chmod +x gradlew
       - name: Unit tests
         run: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/test-results
 
   unit_tests_device_for_testers_release:
     runs-on: ubuntu-latest
@@ -86,6 +102,10 @@ jobs:
         run: chmod +x gradlew
       - name: Unit tests
         run: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/test-results
 
   lint_device_release_check:
     runs-on: ubuntu-latest
@@ -102,6 +122,10 @@ jobs:
         run: chmod +x gradlew
       - name: Lint check deviceRelease
         run: ./gradlew :Corona-Warn-App:lintDeviceRelease -i
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
 
   lint_device_for_testers_release_check:
     runs-on: ubuntu-latest
@@ -118,6 +142,10 @@ jobs:
         run: chmod +x gradlew
       - name: Lint check deviceForTestersRelease
         run: ./gradlew :Corona-Warn-App:lintDeviceForTestersRelease -i
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
 
   ktlint_check:
     runs-on: ubuntu-latest
@@ -134,3 +162,7 @@ jobs:
         run: chmod +x gradlew
       - name: Lint check deviceForTestersRelease
         run: ./gradlew :Corona-Warn-App:ktlintCheck
+      - name: Reports
+        uses: actions/upload-artifact@v3
+        with:
+          path: Corona-Warn-App/build/reports
