@@ -72,6 +72,7 @@ abstract class ProfileDatabase : RoomDatabase() {
                     setTransactionSuccessful()
                     endTransaction()
                 }
+                @Suppress("DEPRECATION")
                 settings.deleteProfile()
             }
             Timber.i("Migration complete")
