@@ -21,7 +21,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Ktlint
-        run: ./gradlw :Corona-Warn-App:detekt
+        run: ./gradlew :Corona-Warn-App:detekt
 
   quick_build_device_release_no_tests:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Ktlint
-        run: ./gradlw assembleDeviceRelease
+        run: ./gradlew assembleDeviceRelease
 
   quick_build_device_for_testers_release_no_tests:
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Quick Build
-        run: ./gradlw :Corona-Warn-App:assembleDeviceForTestersRelease
+        run: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
 
   unit_tests_device_release:
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Unit tests
-        run: ./gradlw :Corona-Warn-App:testDeviceReleaseUnitTest -i
+        run: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i
 
   unit_tests_device_for_testers_release:
     runs-on: ubuntu-latest
@@ -85,7 +85,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Unit tests
-        run: ./gradlw :Corona-Warn-App:testDeviceForTestersReleaseUnitTest
+        run: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest
 
   lint_device_release_check:
     runs-on: ubuntu-latest
@@ -101,7 +101,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Lint check deviceRelease
-        run: ./gradlw :Corona-Warn-App:lintDeviceRelease -i
+        run: ./gradlew :Corona-Warn-App:lintDeviceRelease -i
 
   lint_device_for_testers_release_check:
     runs-on: ubuntu-latest
@@ -117,7 +117,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Lint check deviceForTestersRelease
-        run: ./gradlw :Corona-Warn-App:lintDeviceForTestersRelease -i
+        run: ./gradlew :Corona-Warn-App:lintDeviceForTestersRelease -i
 
   ktlint_check:
     runs-on: ubuntu-latest
@@ -133,4 +133,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Lint check deviceForTestersRelease
-        run: ./gradlw :Corona-Warn-App:ktlintCheck
+        run: ./gradlew :Corona-Warn-App:ktlintCheck
