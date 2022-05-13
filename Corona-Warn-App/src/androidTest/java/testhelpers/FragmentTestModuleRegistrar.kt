@@ -1,6 +1,7 @@
 package testhelpers
 
 import dagger.Module
+import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
 import de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragmentTestModule
@@ -63,6 +64,9 @@ import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModul
 import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModule
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.TestScope
 
 @Module(
     includes = [
@@ -159,4 +163,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         FamilyTestsListFragmentTestModule::class,
     ]
 )
-class FragmentTestModuleRegistrar
+class FragmentTestModuleRegistrar {
+    @Provides
+    @AppScope
+    fun appScope(): CoroutineScope = TestScope()
+}

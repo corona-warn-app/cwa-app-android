@@ -248,10 +248,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    fun restoreAppShortcuts() {
-        launch {
-            appShortcutsHelper.restoreAppShortcut()
-        }
+    fun initAppShortcuts() {
+        appShortcutsHelper.initShortcuts()
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
