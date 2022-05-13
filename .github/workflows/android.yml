@@ -1,6 +1,11 @@
 name: Android CI
 
 on: [ push, pull_request ]
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
