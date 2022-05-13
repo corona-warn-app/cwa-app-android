@@ -79,8 +79,8 @@ class MainActivityViewModel @AssistedInject constructor(
     val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
-    private val mutableIsVaccinationOnboardingDone = MutableLiveData<Boolean>()
-    val isVaccinationConsentGiven: LiveData<Boolean> = mutableIsVaccinationOnboardingDone
+    private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
+    val isCertificatesConsentGiven: LiveData<Boolean> = mutableIsCertificatesOnboardingDone
 
     val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
@@ -139,7 +139,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
-        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboarded.value
+        mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

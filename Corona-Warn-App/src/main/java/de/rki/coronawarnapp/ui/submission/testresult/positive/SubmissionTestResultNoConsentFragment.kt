@@ -73,7 +73,7 @@ class SubmissionTestResultNoConsentFragment :
 
     override fun onResume() {
         super.onResume()
-        appShortcutsHelper.removeAppShortcut()
+        appShortcutsHelper.disableAllShortcuts()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
