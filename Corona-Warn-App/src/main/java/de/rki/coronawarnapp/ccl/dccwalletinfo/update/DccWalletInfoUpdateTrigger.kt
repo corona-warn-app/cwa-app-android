@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
@@ -44,8 +45,12 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                  isn't considered
                  */
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
+                // delay to collect rapid changes and do only one recalculation
+                .debounce(1000L)
                 .collectLatest {
-                    runCatching { triggerNow(admissionScenarioId()) }.onFailure {
+                    runCatching {
+                        triggerNow(admissionScenarioId())
+                    }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
@@ -71,7 +76,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         dccWalletInfoCleaner.clean()
 
         val personIdentifiers = personCertificateProvider.personCertificates.first()
-            .mapNotNull { it.personIdentifier }.toSet()
+            .map { it.personIdentifier }.toSet()
 
         /*
         After person certificates change a merge or a split could happen and this will lead to outdated PersonSettings,
@@ -85,7 +90,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
 
     private suspend fun admissionScenarioId(): String =
         if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
-            cclSettings.getAdmissionScenarioId()
+            cclSettings.admissionScenarioId()
         } else {
             Timber.tag(TAG).d(
                 "admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by ${Scenario.DEFAULT_ID} "

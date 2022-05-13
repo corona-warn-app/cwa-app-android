@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -52,7 +53,7 @@ class RecoveryCertificateRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val storage: RecoveryCertificateStorage,
     private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
         HotDataFlow(
@@ -162,7 +163,7 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
         Timber.tag(TAG).w("Clearing recovery certificate data.")
         internalData.updateBlocking {
             Timber.tag(TAG).v("Deleting: %d items", this.size)
@@ -282,27 +283,6 @@ class RecoveryCertificateRepository @Inject constructor(
 
             mutate {
                 this[containerId] = toUpdate.setRecycled(false)
-            }
-        }
-    }
-
-    suspend fun replaceCertificate(
-        certificateToReplace: RecoveryCertificateContainerId,
-        newCertificateQrCode: RecoveryCertificateQRCode
-    ) {
-        internalData.updateBlocking {
-            val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
-            val newCertificate = newCertificateQrCode.toContainer()
-
-            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
-
-            mutate {
-                // recycle old
-                recycledCertificate?.let {
-                    this[certificateToReplace] = it
-                }
-                // add new
-                this[newCertificate.containerId] = newCertificate
             }
         }
     }

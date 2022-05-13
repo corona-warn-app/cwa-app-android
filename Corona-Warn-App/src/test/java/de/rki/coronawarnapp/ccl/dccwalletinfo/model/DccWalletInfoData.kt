@@ -130,7 +130,7 @@ val dccWalletInfo = DccWalletInfo(
     validUntil = "2022-01-14T18:43:00Z"
 )
 
-private val certificateReissuance = CertificateReissuance(
+private val certificateReissuanceLegacy = CertificateReissuance(
     reissuanceDivision = ReissuanceDivision(
         visible = true,
         titleText = SingleText(
@@ -164,7 +164,59 @@ private val certificateReissuance = CertificateReissuance(
     )
 )
 
+private val certificateReissuance = CertificateReissuance(
+    reissuanceDivision = ReissuanceDivision(
+        visible = true,
+        titleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Zertifikat ersetzen"),
+            parameters = listOf()
+        ),
+        subtitleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Text"),
+            parameters = listOf()
+        ),
+        longText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Langer Text"),
+            parameters = listOf()
+        ),
+        faqAnchor = "dcc_admission_state",
+        identifier = "extend",
+        listTitleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Zu erneuernde Zertifikate:"),
+            parameters = listOf()
+        ),
+        consentSubtitleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Erneuerung direkt über die App vornehmen"),
+            parameters = listOf()
+        )
+    ),
+    certificates = listOf(
+        CertificateReissuanceItem(
+            certificateToReissue = Certificate(
+                certificateRef = CertificateRef(
+                    barcodeData = "HC1:6BFOXN*TS0BI\$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE \$CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C\$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98\$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-\$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0",
+                )
+            ),
+            accompanyingCertificates = listOf(
+                Certificate(
+                    certificateRef = CertificateRef(
+                        barcodeData = "HC1:6BFOXN*TS0BI\$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE \$CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C\$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98\$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-\$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+                    )
+                )
+            ),
+            action = "extend"
+        ),
+    )
+)
+
 val dccWalletInfoWithReissuance = dccWalletInfo.copy(certificateReissuance = certificateReissuance)
+
+val dccWalletInfoWithReissuanceLegacy = dccWalletInfo.copy(certificateReissuance = certificateReissuanceLegacy)
 
 val certificatesRevokedByInvalidationRules = CertificatesRevokedByInvalidationRules(
     certificateRef = CertificateRef(

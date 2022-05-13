@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -62,7 +62,7 @@ class OnboardingAnalyticsViewModelTest : BaseTest() {
     fun `accepting ppa updates versioncode and state `() {
         lastOnboardingVersionCode.value shouldBe 0L
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).onProceed(true)
         }
 
@@ -74,7 +74,7 @@ class OnboardingAnalyticsViewModelTest : BaseTest() {
     fun `declining ppa updates versioncode and state`() {
         lastOnboardingVersionCode.value shouldBe 0L
 
-        runBlockingTest {
+        runTest {
             createInstance(scope = this).onProceed(false)
         }
 

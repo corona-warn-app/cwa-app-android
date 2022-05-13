@@ -46,7 +46,8 @@
 
                 <Button
                     android:id="@+id/show_debug_log_screen"
-                    android:layout_width="wrap_content"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
                     android:text="Open new debug log screen"
@@ -147,8 +148,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="vertical" />
-            </LinearLayout>
 
+                <TextView
+                    android:id="@+id/overwritten_warning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="The current environment has been overwritten by the launcher parameter"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button_clear"
+                    style="@style/buttonPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Clear launcher parameter"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

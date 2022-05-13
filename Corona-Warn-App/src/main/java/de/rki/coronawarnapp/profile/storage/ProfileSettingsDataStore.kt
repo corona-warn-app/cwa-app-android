@@ -13,6 +13,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.profile.legacy.RATProfile
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +30,7 @@ class ProfileSettingsDataStore @Inject constructor(
     @ProfileDataStore private val dataStoreLazy: Lazy<DataStore<Preferences>>,
     @BaseGson private val gson: Gson,
     @AppScope private val appScope: CoroutineScope
-) {
+) : Resettable {
 
     private val dataStore: DataStore<Preferences> get() = dataStoreLazy.get()
     private val dataStoreFlow = dataStore.data
@@ -73,7 +74,8 @@ class ProfileSettingsDataStore @Inject constructor(
         }
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
         dataStore.edit { preferences ->
             preferences.clear()
         }

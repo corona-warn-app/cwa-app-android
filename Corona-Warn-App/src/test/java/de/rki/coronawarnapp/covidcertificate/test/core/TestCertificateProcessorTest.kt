@@ -26,14 +26,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class TestCertificateProcessorTest : BaseTest() {
 
@@ -126,7 +126,7 @@ class TestCertificateProcessorTest : BaseTest() {
     )
 
     @Test
-    fun `public key registration`() = runBlockingTest2(ignoreActive = true) {
+    fun `public key registration`() = runTest2 {
         val instance = createInstance()
 
         instance.registerPublicKey(pcrCertificateData)
@@ -140,7 +140,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
+    fun `public key registration - requires valid labId only if PCR`() = runTest2 {
         val instance = createInstance()
         shouldThrow<TestCertificateException> {
             instance.registerPublicKey(pcrCertificateData.copy(labId = null))
@@ -156,7 +156,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - requires rsa key-pair`() = runBlockingTest2(ignoreActive = true) {
+    fun `public key registration - requires rsa key-pair`() = runTest2 {
         val instance = createInstance()
 
         // No public key
@@ -180,7 +180,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - no edgecase means assume success on HTTP 409`() = runBlockingTest {
+    fun `public key registration - no edgecase means assume success on HTTP 409`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_409
         )
@@ -200,7 +200,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase and HTTP 409`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase and HTTP 409`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_409
         )
@@ -223,7 +223,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase generic error`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase generic error`() = runTest {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_FAILED,
         )
@@ -250,7 +250,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - missing keypair edgecase and success`() = runBlockingTest {
+    fun `public key registration - missing keypair edgecase and success`() = runTest {
         val edgeCaseData = raCertificateData.copy(
             rsaPublicKey = null,
             rsaPrivateKey = null,
@@ -273,7 +273,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `public key registration - forwards errors`() = runBlockingTest2(ignoreActive = true) {
+    fun `public key registration - forwards errors`() = runTest2 {
         coEvery { certificateServer.registerPublicKeyForTest(any(), any()) } throws TestCertificateException(
             TestCertificateException.ErrorCode.PKR_500
         )
@@ -290,7 +290,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `obtain certificate components`() = runBlockingTest2(ignoreActive = true) {
+    fun `obtain certificate components`() = runTest2 {
         val instance = createInstance()
 
         instance.obtainCertificate(pcrCertificateDataRegistered)
@@ -302,7 +302,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `obtain certificate components - requires valid labId only if PCR`() = runBlockingTest2(ignoreActive = true) {
+    fun `obtain certificate components - requires valid labId only if PCR`() = runTest2 {
         val instance = createInstance()
 
         shouldThrow<TestCertificateException> {

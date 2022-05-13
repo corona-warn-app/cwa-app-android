@@ -5,15 +5,17 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TraceLocationSettings @Inject constructor(
     @AppContext val context: Context
-) {
+) : Resettable {
 
     private val preferences by lazy {
         context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -36,7 +38,8 @@ class TraceLocationSettings @Inject constructor(
     inline val isOnboardingDone: Boolean
         get() = onboardingStatus.value == OnboardingStatus.ONBOARDED_2_0
 
-    fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         preferences.clearAndNotify()
     }
 

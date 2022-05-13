@@ -137,7 +137,7 @@ class BugCensorTest : BaseTest() {
             }
         }
 
-        one.censor("#", "...").actions shouldBe emptyList()
+        one.censor("#", "...").actions shouldBe emptySet()
 
         one.censor("1234567890ABCDEFG", "1234567890ABCDEFG###").apply {
             actions.single().apply {
@@ -157,7 +157,7 @@ class BugCensorTest : BaseTest() {
     @Test
     fun `censoring range combination`() {
         val container1 = BugCensor.CensorContainer("abcdefg")
-        container1.actions shouldBe emptyList()
+        container1.actions shouldBe emptySet()
         val container2 = container1.censor("cde", "345")
         container2.actions.map { it.range }.toSet() shouldBe setOf(2..5)
         val container3 = container2.censor("ab", "12")

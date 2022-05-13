@@ -19,7 +19,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -113,7 +113,7 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `updateTransactionContext - happy path`() = runBlockingTest {
+    fun `updateTransactionContext - happy path`() = runTest {
         instance.updateTransactionContext(ctx = transactionContext) shouldBe transactionContext.copy(
             accessTokenService = validationDecoratorResult.accessTokenService,
             accessTokenServiceJwkSet = validationDecoratorResult.accessTokenServiceJwkSet,
@@ -136,7 +136,7 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `Forwards errors`() = runBlockingTest {
+    fun `Forwards errors`() = runTest {
         val genericError = Exception("Test Error")
         val dccTicketingException = DccTicketingException(errorCode = DccTicketingException.ErrorCode.VS_ID_EMPTY_X5C)
 
@@ -162,7 +162,7 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `Throws if required values are not set`() = runBlockingTest {
+    fun `Throws if required values are not set`() = runTest {
         instance.run {
             shouldThrow<IllegalArgumentException> {
                 updateTransactionContext(

@@ -18,14 +18,15 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.util.UUID
 
 class DefaultExposureDetectionTrackerTest : BaseTest() {
@@ -56,14 +57,14 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     )
 
     @Test
-    fun `side effect free init`() = runBlockingTest {
+    fun `side effect free init`() = runTest {
         createInstance(scope = this)
         verify { storage wasNot Called }
         verify { timeStamper wasNot Called }
     }
 
     @Test
-    fun `data is restored from storage`() = runBlockingTest2(ignoreActive = true) {
+    fun `data is restored from storage`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -75,7 +76,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `tracking a new calculation`() = runBlockingTest2(ignoreActive = true) {
+    fun `tracking a new calculation`() = runTest2 {
         createInstance(scope = this).apply {
             val expectedIdentifier = UUID.randomUUID().toString()
             trackNewExposureDetection(expectedIdentifier)
@@ -106,7 +107,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `finish an existing calcluation`() = runBlockingTest2(ignoreActive = true) {
+    fun `finish an existing calcluation`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH
@@ -141,7 +142,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `a late calculation overwrites timeout state`() = runBlockingTest2(ignoreActive = true) {
+    fun `a late calculation overwrites timeout state`() = runTest2 {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH,
@@ -170,7 +171,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `no more than 10 calcluations are tracked`() = runBlockingTest2(ignoreActive = true) {
+    fun `no more than 10 calcluations are tracked`() = runTest2 {
         val calcData = (1..15L).map {
             val calcData = TrackedExposureDetection(
                 identifier = "$it",
@@ -194,7 +195,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     }
 
     @Test
-    fun `15 minute timeout on ongoing calcs`() = runBlockingTest2(ignoreActive = true) {
+    fun `15 minute timeout on ongoing calcs`() = runTest2 {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardMinutes(15))
             .plus(2)

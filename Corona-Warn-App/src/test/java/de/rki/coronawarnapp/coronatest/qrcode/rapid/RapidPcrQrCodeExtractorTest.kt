@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcAndFullPersonalDa
 import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalData
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     private val qrCodeWithDgcWithoutPersonalData = prefix + rawPayloadWithDgcWithoutPersonalData
 
     @Test
-    fun `valid codes are recognized`() = runBlockingTest {
+    fun `valid codes are recognized`() = runTest {
         with(instance) {
             listOf(
                 raPcrCode1,
@@ -38,7 +38,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `invalid codes are rejected`() = runBlockingTest {
+    fun `invalid codes are rejected`() = runTest {
         listOf(
             raQrCode1,
             raQrCode2,
@@ -55,7 +55,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `creates PCR corona test qr code data with personal data`() = runBlockingTest {
+    fun `creates PCR corona test qr code data with personal data`() = runTest {
         instance.extract(rawPayloadWithDgcAndFullPersonalData).also {
             it.type shouldBe BaseCoronaTest.Type.PCR
             it.createdAt shouldBe Instant.ofEpochSecond(1619618382)
@@ -70,7 +70,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `creates PCR corona test qr code data without personal data`() = runBlockingTest {
+    fun `creates PCR corona test qr code data without personal data`() = runTest {
         instance.extract(rawPayloadWithDgcWithoutPersonalData).also {
             it.type shouldBe BaseCoronaTest.Type.PCR
             it.createdAt shouldBe Instant.ofEpochSecond(1627403671)
@@ -85,7 +85,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `isDccSupportedByPoc is true only if dgc is true`() = runBlockingTest {
+    fun `isDccSupportedByPoc is true only if dgc is true`() = runTest {
         with(instance) {
             extract(rawString = qrCodeWithDgcAndFullPersonalData).also {
                 it.isDccSupportedByPoc shouldBe true

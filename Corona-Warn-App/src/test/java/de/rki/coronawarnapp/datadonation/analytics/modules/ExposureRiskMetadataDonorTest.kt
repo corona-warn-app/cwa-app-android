@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -26,7 +27,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.preferences.mockFlowPreference
 
 class ExposureRiskMetadataDonorTest : BaseTest() {
@@ -87,7 +88,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseDate.seconds)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
@@ -126,7 +127,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -149,7 +150,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
@@ -160,7 +161,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(false)
             .setPtDateChangedComparedToPreviousSubmission(false)
             .build()
@@ -198,7 +199,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -246,7 +247,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         )
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
-        runBlockingTest2 {
+        runTest2 {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()
@@ -269,7 +270,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDay().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
@@ -302,7 +303,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 )
             )
         )
-        runBlockingTest2 {
+        runTest2 {
             val parentBuilder = PpaData.PPADataAndroid.newBuilder()
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {

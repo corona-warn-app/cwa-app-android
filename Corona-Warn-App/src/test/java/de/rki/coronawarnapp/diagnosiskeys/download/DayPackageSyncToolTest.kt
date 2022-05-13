@@ -7,7 +7,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -40,7 +40,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     )
 
     @Test
-    fun `successful sync`() = runBlockingTest {
+    fun `successful sync`() = runTest {
         // Today is the 4th
         mockCachedDay("EUR".loc, "2020-01-01".day)
 
@@ -63,7 +63,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `determine missing days checks EXPECT NEW DAYS`() = runBlockingTest {
+    fun `determine missing days checks EXPECT NEW DAYS`() = runTest {
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
 
@@ -79,7 +79,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `determine missing days with forcesync ignores EXPECT NEW DAYS`() = runBlockingTest {
+    fun `determine missing days with forcesync ignores EXPECT NEW DAYS`() = runTest {
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
 
@@ -93,7 +93,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `EXPECT_NEW_DAY_PACKAGES evaluation`() = runBlockingTest {
+    fun `EXPECT_NEW_DAY_PACKAGES evaluation`() = runTest {
         val cachedKey1 = mockCachedDay("EUR".loc, "2020-10-30".day)
         val cachedKey2 = mockCachedDay("EUR".loc, "2020-10-31".day)
 
@@ -108,7 +108,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `download errors do not abort the whole sync`() = runBlockingTest {
+    fun `download errors do not abort the whole sync`() = runTest {
         var counter = 0
         coEvery { downloadTool.downloadKeyFile(any(), any()) } answers {
             if (++counter == 2) throw IOException()
@@ -136,7 +136,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `app config can invalidate cached days`() = runBlockingTest {
+    fun `app config can invalidate cached days`() = runTest {
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
         val invalidDay = mockCachedDay("EUR".loc, "2020-01-03".day)
@@ -170,7 +170,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if keys were revoked skip the EXPECT packages check`() = runBlockingTest {
+    fun `if keys were revoked skip the EXPECT packages check`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
@@ -190,7 +190,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if force-sync is set we skip the EXPECT packages check`() = runBlockingTest {
+    fun `if force-sync is set we skip the EXPECT packages check`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
@@ -201,7 +201,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
     }
 
     @Test
-    fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runBlockingTest {
+    fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runTest {
         every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)

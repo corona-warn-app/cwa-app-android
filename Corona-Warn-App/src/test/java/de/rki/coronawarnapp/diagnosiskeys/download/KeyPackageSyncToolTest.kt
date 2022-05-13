@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -103,7 +103,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     )
 
     @Test
-    fun `normal call sequence`() = runBlockingTest {
+    fun `normal call sequence`() = runTest {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
@@ -131,7 +131,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed day sync is reflected in results property`() = runBlockingTest {
+    fun `failed day sync is reflected in results property`() = runTest {
         coEvery { dayPackageSyncTool.syncMissingDayPackages(any(), any()) } returns BaseKeyPackageSyncTool.SyncResult(
             successful = false,
             newPackages = listOf(cachedDayKey)
@@ -163,7 +163,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `missing last download causes force sync`() = runBlockingTest {
+    fun `missing last download causes force sync`() = runTest {
         lastDownloadDays.update { null }
         lastDownloadHours.update { null }
 
@@ -198,7 +198,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `failed last download causes force sync`() = runBlockingTest {
+    fun `failed last download causes force sync`() = runTest {
         lastDownloadDays.update {
             DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
@@ -244,7 +244,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `hourly download does not happen on metered connections`() = runBlockingTest {
+    fun `hourly download does not happen on metered connections`() = runTest {
         every { networkState.isMeteredConnection } returns true
         val instance = createInstance()
 
@@ -269,7 +269,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `we clean up stale location data`() = runBlockingTest {
+    fun `we clean up stale location data`() = runTest {
         val badLocation = CachedKey(
             info = mockk<CachedKeyInfo>().apply {
                 every { location } returns LocationCode("NOT-EUR")

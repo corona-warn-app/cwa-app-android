@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.dccreissuance.core.reissuer.ACTION_RENEW
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
 
@@ -259,11 +260,50 @@ data class CertificateReissuance(
     @JsonProperty("reissuanceDivision")
     val reissuanceDivision: ReissuanceDivision,
 
+    // legacy from CCL config-v2
+    @JsonProperty("certificateToReissue")
+    val certificateToReissue: Certificate? = null,
+
+    // legacy from CCL config-v2
+    @JsonProperty("accompanyingCertificates")
+    val accompanyingCertificates: List<Certificate>? = null,
+
+    @JsonProperty("certificates")
+    val certificates: List<CertificateReissuanceItem>? = null,
+) {
+    fun asCertificateReissuanceCompat(): CertificateReissuance {
+        val consolidatedCertificates = mutableListOf<CertificateReissuanceItem>().apply {
+            certificates?.let {
+                addAll(it)
+            }
+        }
+        certificateToReissue?.let {
+            CertificateReissuanceItem(
+                certificateToReissue = it,
+                accompanyingCertificates = accompanyingCertificates ?: emptyList(),
+                action = ACTION_RENEW
+            ).apply {
+                consolidatedCertificates.add(this)
+            }
+        }
+        return copy(
+            certificateToReissue = null,
+            accompanyingCertificates = null,
+            certificates = consolidatedCertificates
+        )
+    }
+}
+
+data class CertificateReissuanceItem(
+
     @JsonProperty("certificateToReissue")
     val certificateToReissue: Certificate,
 
     @JsonProperty("accompanyingCertificates")
-    val accompanyingCertificates: List<Certificate>
+    val accompanyingCertificates: List<Certificate>,
+
+    @JsonProperty("action")
+    val action: String,
 )
 
 data class ReissuanceDivision(
@@ -280,10 +320,21 @@ data class ReissuanceDivision(
     val longText: CclText?,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String?
+    val faqAnchor: String?,
+
+    @JsonProperty("identifier")
+    val identifier: String? = DEFAULT_IDENTIFIER,
+
+    @JsonProperty("listTitleText")
+    val listTitleText: CclText? = null,
+
+    @JsonProperty("consentSubtitleText")
+    val consentSubtitleText: CclText? = null,
 )
 
 data class CertificatesRevokedByInvalidationRules(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
+
+internal const val DEFAULT_IDENTIFIER = "renew"

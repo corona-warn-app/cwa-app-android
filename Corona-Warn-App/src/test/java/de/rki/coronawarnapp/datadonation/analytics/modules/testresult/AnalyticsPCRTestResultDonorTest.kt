@@ -17,7 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -82,20 +82,20 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     }
 
     @Test
-    fun `No donation when timestamp at registration is missing`() = runBlockingTest {
+    fun `No donation when timestamp at registration is missing`() = runTest {
         every { testResultSettings.testRegisteredAt } returns mockFlowPreference(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
-    fun `No donation when test result is INVALID`() = runBlockingTest {
+    fun `No donation when test result is INVALID`() = runTest {
         every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_INVALID)
         every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
-    fun `No donation when test result is REDEEMED`() = runBlockingTest {
+    fun `No donation when test result is REDEEMED`() = runTest {
         every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_REDEEMED)
         every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
@@ -103,7 +103,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
-        runBlockingTest {
+        runTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
@@ -115,7 +115,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
-        runBlockingTest {
+        runTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
@@ -139,7 +139,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `Donation is collected when test result is POSITIVE`() {
-        runBlockingTest {
+        runTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns
@@ -161,7 +161,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `Donation is collected when test result is NEGATIVE`() {
-        runBlockingTest {
+        runTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns
@@ -182,7 +182,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 1 LowRisk`() = runBlockingTest {
+    fun `Scenario 1 LowRisk`() = runTest {
         with(testResultSettings) {
             every { testResult } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
@@ -209,7 +209,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     }
 
     @Test
-    fun `Scenario 2 HighRisk`() = runBlockingTest {
+    fun `Scenario 2 HighRisk`() = runTest {
         with(testResultSettings) {
             every { testResult } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
             every { finalTestResultReceivedAt } returns mockFlowPreference(
@@ -237,7 +237,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     }
 
     @Test
-    fun deleteData() = runBlockingTest {
+    fun deleteData() = runTest {
         every { testResultSettings.clear() } just Runs
 
         testResultDonor.deleteData()

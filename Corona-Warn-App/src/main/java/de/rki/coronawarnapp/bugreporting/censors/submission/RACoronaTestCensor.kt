@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
+import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
@@ -15,6 +16,7 @@ import kotlinx.coroutines.sync.withLock
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
+@Reusable
 class RACoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
     coronaTestRepository: CoronaTestRepository

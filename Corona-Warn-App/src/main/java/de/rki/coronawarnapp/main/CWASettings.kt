@@ -7,7 +7,9 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
 import org.joda.time.Instant
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -16,7 +18,7 @@ import javax.inject.Inject
  */
 class CWASettings @Inject constructor(
     @AppContext val context: Context
-) {
+) : Resettable {
 
     private val prefs by lazy {
         context.getSharedPreferences("cwa_main_localdata", Context.MODE_PRIVATE)
@@ -84,7 +86,8 @@ class CWASettings @Inject constructor(
         defaultValue = 0L
     )
 
-    fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         prefs.clearAndNotify()
     }
 

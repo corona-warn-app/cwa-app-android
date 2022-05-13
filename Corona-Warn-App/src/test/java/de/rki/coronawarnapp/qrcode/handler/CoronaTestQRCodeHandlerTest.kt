@@ -11,7 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -61,7 +61,7 @@ class CoronaTestQRCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handle PCR in recycle bin`() = runBlockingTest {
+    fun `handle PCR in recycle bin`() = runTest {
         val hash = coronaTestQrCodePCR.rawQrCode.toSHA256()
         coEvery { recycledCoronaTestsProvider.findCoronaTest(hash) } returns anotherPCR
 
@@ -75,7 +75,7 @@ class CoronaTestQRCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handle RAT in recycle bin`() = runBlockingTest {
+    fun `handle RAT in recycle bin`() = runTest {
         val hash = coronaTestQrCodeRAT.rawQrCode.toSHA256()
         coEvery { recycledCoronaTestsProvider.findCoronaTest(hash) } returns anotherRAT
 
@@ -89,7 +89,7 @@ class CoronaTestQRCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handle new PCR test`() = runBlockingTest {
+    fun `handle new PCR test`() = runTest {
         val hash = coronaTestQrCodePCR.rawQrCode.toSHA256()
         coEvery { recycledCoronaTestsProvider.findCoronaTest(any()) } returns null
 
@@ -105,7 +105,7 @@ class CoronaTestQRCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `handle new RAT test`() = runBlockingTest {
+    fun `handle new RAT test`() = runTest {
         val hash = coronaTestQrCodeRAT.rawQrCode.toSHA256()
         coEvery { recycledCoronaTestsProvider.findCoronaTest(any()) } returns null
 

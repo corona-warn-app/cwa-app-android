@@ -31,7 +31,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -106,7 +106,7 @@ class RAProcessorTest : BaseTest() {
     )
 
     @Test
-    fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
+    fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runTest {
         val instance = createInstance()
 
         val raTest = defaultTest.copy(
@@ -123,7 +123,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a new test`() = runBlockingTest {
+    fun `registering a new test`() = runTest {
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
             createdAt = Instant.EPOCH,
@@ -145,7 +145,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
+    fun `registering a new test maps invalid results to INVALID state`() = runTest {
         var registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -189,7 +189,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling filters out invalid test result values`() = runBlockingTest {
+    fun `polling filters out invalid test result values`() = runTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
         coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
@@ -224,7 +224,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
+    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runTest {
         coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = RAT_POSITIVE,
@@ -250,7 +250,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
+    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runTest {
         val ourBadRequest = BadRequestException("Who?")
         coEvery { submissionService.checkTestResult(any()) } throws ourBadRequest
 
@@ -279,7 +279,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `giving submission consent`() = runBlockingTest {
+    fun `giving submission consent`() = runTest {
         val instance = createInstance()
 
         instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
@@ -291,7 +291,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `request parameters for dcc are mapped`() = runBlockingTest {
+    fun `request parameters for dcc are mapped`() = runTest {
         val registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -336,7 +336,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `marking dcc as created`() = runBlockingTest {
+    fun `marking dcc as created`() = runTest {
         val instance = createInstance()
 
         instance.markDccCreated(defaultTest, true) shouldBe defaultTest.copy(
@@ -348,7 +348,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `response parameters are stored during initial registration`() = runBlockingTest {
+    fun `response parameters are stored during initial registration`() = runTest {
         val registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -375,7 +375,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `new data received during polling is stored in the test`() = runBlockingTest {
+    fun `new data received during polling is stored in the test`() = runTest {
         val instance = createInstance()
         val raTest = RACoronaTest(
             identifier = "identifier",
@@ -404,7 +404,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `recycle sets recycledAt`() = runBlockingTest {
+    fun `recycle sets recycledAt`() = runTest {
         val raTest = defaultTest.copy(recycledAt = null)
 
         createInstance().run {
@@ -413,7 +413,7 @@ class RAProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `restore clears recycledAt`() = runBlockingTest {
+    fun `restore clears recycledAt`() = runTest {
         val raTest = defaultTest.copy(recycledAt = nowUTC)
 
         createInstance().run {

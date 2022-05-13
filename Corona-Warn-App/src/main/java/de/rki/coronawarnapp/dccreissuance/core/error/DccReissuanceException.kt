@@ -18,6 +18,7 @@ class DccReissuanceException(
         CONTACT_SUPPORT,
         NO_NETWORK,
         TRY_AGAIN,
+        RATE_LIMIT,
         REISSUANCE_NOT_SUPPORTED
     }
 
@@ -52,7 +53,7 @@ class DccReissuanceException(
         ),
         DCC_RI_429(
             message = statusCodeMsg(code = 429),
-            textKey = TextKey.TRY_AGAIN
+            textKey = TextKey.RATE_LIMIT
         ),
         DCC_RI_500(
             message = statusCodeMsg(code = 500),
@@ -66,10 +67,6 @@ class DccReissuanceException(
             message = "DCC Reissuance request failed because of a server error",
             textKey = TextKey.TRY_AGAIN
         ),
-        DCC_RI_NO_RELATION(
-            message = "DCC Reissuance failed because the relation was not found",
-            textKey = TextKey.CONTACT_SUPPORT
-        )
     }
 
     val errorMessage: LazyString
@@ -77,6 +74,7 @@ class DccReissuanceException(
             TextKey.CONTACT_SUPPORT -> R.string.dcc_reissuance_error_handling_text_key_contact_support
             TextKey.NO_NETWORK -> R.string.dcc_reissuance_error_handling_text_key_no_network
             TextKey.TRY_AGAIN -> R.string.dcc_reissuance_error_handling_text_key_try_again
+            TextKey.RATE_LIMIT -> R.string.dcc_reissuance_error_handling_text_key_rate_limit
             TextKey.REISSUANCE_NOT_SUPPORTED -> R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported
         }.toResolvingString()
 
