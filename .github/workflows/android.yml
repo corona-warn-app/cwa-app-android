@@ -11,16 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        commands: [
-            ':Corona-Warn-App:assembleDeviceRelease',
-            ':Corona-Warn-App:detekt',
-            ':Corona-Warn-App:assembleDeviceForTestersRelease',
-            ':Corona-Warn-App:testDeviceReleaseUnitTest -i',
-            ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest',
-            ':Corona-Warn-App:lintDeviceRelease -i',
-            ':Corona-Warn-App:lintDeviceForTestersRelease -i',
-            ':Corona-Warn-App:ktlintCheck',
-        ]
+        commands: [':Corona-Warn-App:assembleDeviceRelease', ':Corona-Warn-App:detekt', ':Corona-Warn-App:assembleDeviceForTestersRelease', ':Corona-Warn-App:testDeviceReleaseUnitTest -i', ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest', ':Corona-Warn-App:lintDeviceRelease -i', ':Corona-Warn-App:lintDeviceForTestersRelease -i', ':Corona-Warn-App:ktlintCheck']
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -32,9 +23,8 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Ktlint
-        run: |
-        ./gradlew ${{ matrix.commands }}
+      - name: Checks
+        run: ./gradlew ${{ matrix.commands }}
         env:
           JVM_OPTS: -Xmx4096m
           GRADLE_OPTS: |
