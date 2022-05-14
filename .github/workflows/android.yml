@@ -24,6 +24,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:detekt
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
 
@@ -44,6 +45,7 @@ jobs:
         run: ./gradlew assembleDeviceRelease
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
 
@@ -64,6 +66,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:assembleDeviceForTestersRelease
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
 
@@ -73,6 +76,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: set up JDK 11
         uses: actions/setup-java@v3
+        if: always()
         with:
           java-version: '11'
           distribution: 'adopt'
@@ -84,6 +88,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:testDeviceReleaseUnitTest -i
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/test-results
 
@@ -104,6 +109,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:testDeviceForTestersReleaseUnitTest
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/test-results
 
@@ -124,6 +130,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:lintDeviceRelease -i
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
 
@@ -144,6 +151,7 @@ jobs:
         run: ./gradlew :Corona-Warn-App:lintDeviceForTestersRelease -i
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
 
@@ -164,5 +172,6 @@ jobs:
         run: ./gradlew :Corona-Warn-App:ktlintCheck
       - name: Reports
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           path: Corona-Warn-App/build/reports
