@@ -12,6 +12,10 @@ jobs:
     strategy:
       matrix:
         commands: [':Corona-Warn-App:assembleDeviceRelease', ':Corona-Warn-App:detekt', ':Corona-Warn-App:assembleDeviceForTestersRelease', ':Corona-Warn-App:testDeviceReleaseUnitTest -i', ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest', ':Corona-Warn-App:lintDeviceRelease -i', ':Corona-Warn-App:lintDeviceForTestersRelease -i', ':Corona-Warn-App:ktlintCheck']
+
+    env:
+      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -25,14 +29,6 @@ jobs:
         run: chmod +x gradlew
       - name: Checks
         run: ./gradlew ${{ matrix.commands }}
-        env:
-          JVM_OPTS: -Xmx4096m
-          GRADLE_OPTS: |
-            -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
-            -Dorg.gradle.caching=true
-            -Dorg.gradle.configureondemand=true
-            -Dkotlin.compiler.execution.strategy=in-process
-            -Dkotlin.incremental=false
 
       - name: Reports
         uses: actions/upload-artifact@v3
