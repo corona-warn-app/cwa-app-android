@@ -21,7 +21,13 @@ jobs:
         ]
 
     env:
-      GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+      JVM_OPTS: -Xmx4096m
+      GRADLE_OPTS: |
+      -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
+      -Dorg.gradle.caching=true
+      -Dorg.gradle.configureondemand=true
+      -Dkotlin.compiler.execution.strategy=in-process
+      -Dkotlin.incremental=false
 
     steps:
       - uses: actions/checkout@v3
