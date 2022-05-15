@@ -19,13 +19,11 @@ import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.SecureRandom
 import kotlin.random.asKotlinRandom
 
-@Disabled
 internal class OrganizerCheckInsTransformerTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
