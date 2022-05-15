@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        commands: [':Corona-Warn-App:assembleDeviceRelease', ':Corona-Warn-App:detekt', ':Corona-Warn-App:assembleDeviceForTestersRelease', ':Corona-Warn-App:testDeviceReleaseUnitTest -i', ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest', ':Corona-Warn-App:lintDeviceRelease -i', ':Corona-Warn-App:lintDeviceForTestersRelease -i', ':Corona-Warn-App:ktlintCheck']
+        commands: [':Corona-Warn-App:assembleDeviceRelease', ':Corona-Warn-App:detekt', ':Corona-Warn-App:assembleDeviceForTestersRelease', ':Corona-Warn-App:testDeviceReleaseUnitTest', ':Corona-Warn-App:testDeviceForTestersReleaseUnitTest', ':Corona-Warn-App:lintDeviceRelease', ':Corona-Warn-App:lintDeviceForTestersRelease', ':Corona-Warn-App:ktlintCheck']
 
     env:
       GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
