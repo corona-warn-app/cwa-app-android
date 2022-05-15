@@ -11,13 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        commands: [ 'assembleDeviceRelease',
-                    'ktlintCheck detekt',
-                    'assembleDeviceForTestersRelease',
-                    'testDeviceReleaseUnitTest',
-                    'testDeviceForTestersReleaseUnitTest',
-                    'lintDeviceRelease',
-                    'lintDeviceForTestersRelease'
+        commands: [
+            'detekt',
+            'ktlintCheck',
+            'lintDeviceRelease',
+            'assembleDeviceRelease',
+            'testDeviceReleaseUnitTest',
+            'lintDeviceForTestersRelease',
+            'assembleDeviceForTestersRelease',
+            'testDeviceForTestersReleaseUnitTest'
         ]
 
     steps:
