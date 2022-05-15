@@ -14,7 +14,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +24,7 @@ class FamilyTestCensor @Inject constructor(
 ) : BugCensor {
 
     private val mutex = Mutex()
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val names = mutableSetOf<String>()
     private val dates = mutableSetOf<LocalDate>()
     private val registrationTokens = mutableSetOf<String>()
