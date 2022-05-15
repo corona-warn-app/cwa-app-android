@@ -33,8 +33,10 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      - name: Checks
+      - name: Run ${{ matrix.commands }}
         run: ./gradlew ${{ matrix.commands }}
 
       - name: Reports
