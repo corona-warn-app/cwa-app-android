@@ -158,5 +158,4 @@ internal class CertificateReissuanceExtensionTest : BaseTest() {
             )
         set.size shouldBe 1
     }
-
 }

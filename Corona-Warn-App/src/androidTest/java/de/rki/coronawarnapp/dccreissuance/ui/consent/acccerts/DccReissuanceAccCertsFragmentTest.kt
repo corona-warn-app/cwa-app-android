@@ -46,43 +46,43 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
     private val args = DccReissuanceAccCertsFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
 
     private val certificateList = mutableListOf<DccReissuanceItem>(
-            DccReissuanceCertificateCard.Item(
-                mockk<VaccinationDccV1> {
-                    every { nameData } returns mockk {
-                        every { fullName } returns "Andrea Schneider"
-                    }
-
-                    every { vaccination } returns mockk {
-                        every { doseNumber } returns 2
-                        every { totalSeriesOfDoses } returns 2
-                        every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
-                        every { personIdentifier } returns CertificatePersonIdentifier(
-                            dateOfBirthFormatted = "1980-06-01",
-                            lastNameStandardized = "Schneider",
-                            firstNameStandardized = "Andrea"
-                        )
-                    }
+        DccReissuanceCertificateCard.Item(
+            mockk<VaccinationDccV1> {
+                every { nameData } returns mockk {
+                    every { fullName } returns "Andrea Schneider"
                 }
-            ),
-            DccReissuanceCertificateCard.Item(
-                mockk<VaccinationDccV1> {
-                    every { nameData } returns mockk {
-                        every { fullName } returns "Andrea Schneider"
-                    }
 
-                    every { vaccination } returns mockk {
-                        every { doseNumber } returns 1
-                        every { totalSeriesOfDoses } returns 2
-                        every { vaccinatedOn } returns LocalDate.parse("2021-10-17")
-                        every { personIdentifier } returns CertificatePersonIdentifier(
-                            dateOfBirthFormatted = "1980-06-01",
-                            lastNameStandardized = "Schneider",
-                            firstNameStandardized = "Andrea"
-                        )
-                    }
+                every { vaccination } returns mockk {
+                    every { doseNumber } returns 2
+                    every { totalSeriesOfDoses } returns 2
+                    every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
+                    every { personIdentifier } returns CertificatePersonIdentifier(
+                        dateOfBirthFormatted = "1980-06-01",
+                        lastNameStandardized = "Schneider",
+                        firstNameStandardized = "Andrea"
+                    )
                 }
-            )
+            }
+        ),
+        DccReissuanceCertificateCard.Item(
+            mockk<VaccinationDccV1> {
+                every { nameData } returns mockk {
+                    every { fullName } returns "Andrea Schneider"
+                }
+
+                every { vaccination } returns mockk {
+                    every { doseNumber } returns 1
+                    every { totalSeriesOfDoses } returns 2
+                    every { vaccinatedOn } returns LocalDate.parse("2021-10-17")
+                    every { personIdentifier } returns CertificatePersonIdentifier(
+                        dateOfBirthFormatted = "1980-06-01",
+                        lastNameStandardized = "Schneider",
+                        firstNameStandardized = "Andrea"
+                    )
+                }
+            }
         )
+    )
 
     @Before
     fun setup() {
