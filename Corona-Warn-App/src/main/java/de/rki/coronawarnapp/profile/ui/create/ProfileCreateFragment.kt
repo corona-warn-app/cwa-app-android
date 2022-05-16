@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.profile.ui.create
 
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
@@ -80,14 +82,25 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
 
             // Phone
-            phoneInputEdit.doAfterTextChanged {
-                viewModel.phoneChanged(it.toString())
+            phoneInputEdit.doOnTextChanged { text, _, _, _ ->
+                if (Patterns.PHONE.matcher(text.toString()).matches() || text.toString().isBlank()) {
+                    phoneInputLayout.error = null
+                    viewModel.phoneChanged(text.toString())
+                } else {
+                    phoneInputLayout.error = root.resources.getString(R.string.rat_profile_create_phone_error)
+                    profileSaveButton.isEnabled = false
+                }
             }
             phoneInputEdit.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-            // E-mail
-            emailInputEdit.addEmojiFilter().doAfterTextChanged {
-                viewModel.emailChanged(it.toString())
+            emailInputEdit.addEmojiFilter().doOnTextChanged { text, _, _, _ ->
+                if (Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches() || text.toString().isBlank()) {
+                    emailInputLayout.error = null
+                    viewModel.emailChanged(text.toString())
+                } else {
+                    emailInputLayout.error = root.resources.getString(R.string.rat_profile_create_email_error)
+                    profileSaveButton.isEnabled = false
+                }
             }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
