@@ -36,7 +36,7 @@ internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `schedule daily worker on setup() call`() = runTest2 {
+    fun `schedule daily worker on initialize() call`() = runTest2 {
         createScheduler(this).initialize()
 
         advanceUntilIdle()
@@ -53,7 +53,7 @@ internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
     @Test
     fun `perform update when app comes into foreground`() = runTest2 {
         createScheduler(this).apply {
-            setup()
+            initialize()
 
             isForeground.value = false
             advanceUntilIdle()

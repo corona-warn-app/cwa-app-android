@@ -295,7 +295,7 @@ class DccJWKVerificationTest : BaseTest() {
 
     private fun getInstance() = DccJWKVerification(
         mockk<SecurityProvider>().apply {
-            every { setup() } just Runs
+            every { initialize() } just Runs
         }
     )
 
