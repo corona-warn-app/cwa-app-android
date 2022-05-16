@@ -13,6 +13,7 @@ import org.joda.time.LocalTime
 import java.io.File
 import java.util.UUID
 
+@Suppress("TooManyFunctions")
 class CommonConverters {
     private val gson = Gson()
 
