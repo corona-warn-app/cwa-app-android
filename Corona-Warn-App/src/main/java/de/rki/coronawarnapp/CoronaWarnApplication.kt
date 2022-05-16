@@ -16,7 +16,7 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
-import de.rki.coronawarnapp.initializer.Initializers
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -35,7 +35,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject lateinit var initializers: Initializers
+    @Inject lateinit var initializers: Set<@JvmSuppressWildcards Initializer>
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
@@ -65,7 +65,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
 
-        initializers()
+        initializers.forEach { initializer ->
+            Timber.d("initialize => %s", initializer::class.simpleName)
+            initializer.initialize()
+        }
+
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
         Coil.setImageLoader(imageLoaderFactory)
 
