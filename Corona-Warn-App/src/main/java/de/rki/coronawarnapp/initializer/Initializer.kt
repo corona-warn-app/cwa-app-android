@@ -13,6 +13,7 @@ class Initializers @Inject constructor(
     operator fun invoke() {
         Timber.d("Setup [${initializers.size}] Initializers")
         initializers.forEach { initializer ->
+            Timber.d("initialize => %s", initializer::class.simpleName)
             initializer.initialize()
         }
     }
