@@ -56,7 +56,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
                 }
             )
         )
-        createInstance(this).setup()
+        createInstance(this).initialize()
         flow.emit(
             setOf(
                 mockk<FamilyCoronaTest>().apply {

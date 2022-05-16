@@ -4,6 +4,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -22,9 +23,9 @@ class DeadmanNotificationScheduler @Inject constructor(
     val workBuilder: DeadmanNotificationWorkBuilder,
     val onboardingSettings: OnboardingSettings,
     val enfClient: ENFClient
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.i("setup() DeadmanNotificationScheduler")
 
         combine(
