@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.BindableVH
-import org.joda.time.format.DateTimeFormat
+import de.rki.coronawarnapp.util.toUserTimeZone
+import java.time.format.DateTimeFormatter
 import timber.log.Timber
 
 class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>() {
@@ -38,7 +38,7 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
             item: LogUpload,
             payloads: List<Any>
         ) -> Unit = { item, _ ->
-            title.text = FORMATTER.print(item.uploadedAt.toUserTimeZone())
+            title.text = item.uploadedAt.toUserTimeZone().format(FORMATTER)
             description.text = "ID ${item.id}"
             itemView.setOnClickListener {
                 try {
@@ -61,6 +61,6 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
     }
 
     companion object {
-        private val FORMATTER = DateTimeFormat.forPattern("yyyy.MM.dd - HH:mm:ss")
+        private val FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm:ss")
     }
 }
