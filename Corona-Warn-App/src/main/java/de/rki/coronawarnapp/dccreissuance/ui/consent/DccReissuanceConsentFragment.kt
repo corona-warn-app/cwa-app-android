@@ -35,8 +35,6 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         }
     )
 
-    private val dccReissuanceAdapter = DccReissuanceAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,6 +44,8 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val dccReissuanceAdapter = DccReissuanceAdapter()
 
         binding.apply {
             toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
