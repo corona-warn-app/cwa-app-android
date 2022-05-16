@@ -4,9 +4,11 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -144,8 +146,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             }
             image.setOnClickListener { viewModel.openFullScreen() }
             if (!certificate.isDisplayValid) {
-                val paddingTop = requireContext().resources.getDimension(R.dimen.guideline_card).toInt()
-                image.setPadding(0, paddingTop, 0, 0)
+                val marginTop = requireContext().resources.getDimension(R.dimen.spacing_small).toInt()
+                image.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                    setMargins(0, marginTop, 0, 0)
+                }
             }
         }
     }
