@@ -34,117 +34,117 @@ import de.rki.coronawarnapp.util.WatchdogService
 
 @Suppress("TooManyFunctions")
 @Module
-class InitializerModule {
+interface InitializerModule {
 
     @Binds
     @IntoSet
-    fun watchdogService(initializer: WatchdogService) = initializer
+    fun watchdogService(initializer: WatchdogService): Initializer
 
     @Binds
     @IntoSet
-    fun configChangeDetector(initializer: ConfigChangeDetector) = initializer
+    fun configChangeDetector(initializer: ConfigChangeDetector): Initializer
 
     @Binds
     @IntoSet
-    fun ewRiskLevelChangeDetector(initializer: EwRiskLevelChangeDetector) = initializer
+    fun ewRiskLevelChangeDetector(initializer: EwRiskLevelChangeDetector): Initializer
 
     @Binds
     @IntoSet
-    fun combinedRiskLevelChangeDetector(initializer: CombinedRiskLevelChangeDetector) = initializer
+    fun combinedRiskLevelChangeDetector(initializer: CombinedRiskLevelChangeDetector): Initializer
 
     @Binds
     @IntoSet
-    fun deadmanNotificationScheduler(initializer: DeadmanNotificationScheduler) = initializer
+    fun deadmanNotificationScheduler(initializer: DeadmanNotificationScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun dataDonationAnalyticsScheduler(initializer: DataDonationAnalyticsScheduler) = initializer
+    fun dataDonationAnalyticsScheduler(initializer: DataDonationAnalyticsScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun deviceTimeHandler(initializer: DeviceTimeHandler) = initializer
+    fun deviceTimeHandler(initializer: DeviceTimeHandler): Initializer
 
     @Binds
     @IntoSet
-    fun autoSubmission(initializer: AutoSubmission) = initializer
+    fun autoSubmission(initializer: AutoSubmission): Initializer
 
     @Binds
     @IntoSet
-    fun autoCheckOut(initializer: AutoCheckOut) = initializer
+    fun autoCheckOut(initializer: AutoCheckOut): Initializer
 
     @Binds
     @IntoSet
-    fun traceLocationDbCleanUpScheduler(initializer: TraceLocationDbCleanUpScheduler) = initializer
+    fun traceLocationDbCleanUpScheduler(initializer: TraceLocationDbCleanUpScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun shareTestResultNotificationService(initializer: ShareTestResultNotificationService) = initializer
+    fun shareTestResultNotificationService(initializer: ShareTestResultNotificationService): Initializer
 
     @Binds
     @IntoSet
-    fun exposureWindowRiskWorkScheduler(initializer: ExposureWindowRiskWorkScheduler) = initializer
+    fun exposureWindowRiskWorkScheduler(initializer: ExposureWindowRiskWorkScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun presenceTracingRiskWorkScheduler(initializer: PresenceTracingRiskWorkScheduler) = initializer
+    fun presenceTracingRiskWorkScheduler(initializer: PresenceTracingRiskWorkScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun pcrResultScheduler(initializer: PCRResultScheduler) = initializer
+    fun pcrResultScheduler(initializer: PCRResultScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun raResultScheduler(initializer: RAResultScheduler) = initializer
+    fun raResultScheduler(initializer: RAResultScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun pcrTestResultAvailableNotificationService(initializer: PCRTestResultAvailableNotificationService) = initializer
+    fun pcrTestResultAvailableNotificationService(initializer: PCRTestResultAvailableNotificationService): Initializer
 
     @Binds
     @IntoSet
-    fun ratTestResultAvailableNotificationService(initializer: RATTestResultAvailableNotificationService) = initializer
+    fun ratTestResultAvailableNotificationService(initializer: RATTestResultAvailableNotificationService): Initializer
 
     @Binds
     @IntoSet
-    fun testCertificateRetrievalScheduler(initializer: TestCertificateRetrievalScheduler) = initializer
+    fun testCertificateRetrievalScheduler(initializer: TestCertificateRetrievalScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun environmentSetup(initializer: EnvironmentSetup) = initializer
+    fun environmentSetup(initializer: EnvironmentSetup): Initializer
 
     @Binds
     @IntoSet
-    fun localStatisticsRetrievalScheduler(initializer: LocalStatisticsRetrievalScheduler) = initializer
+    fun localStatisticsRetrievalScheduler(initializer: LocalStatisticsRetrievalScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun dccStateCheckScheduler(initializer: DccStateCheckScheduler) = initializer
+    fun dccStateCheckScheduler(initializer: DccStateCheckScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun securityProvider(initializer: SecurityProvider) = initializer
+    fun securityProvider(initializer: SecurityProvider): Initializer
 
     @Binds
     @IntoSet
-    fun recycleBinCleanUpScheduler(initializer: RecycleBinCleanUpScheduler) = initializer
+    fun recycleBinCleanUpScheduler(initializer: RecycleBinCleanUpScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun cclConfigurationUpdateScheduler(initializer: CclConfigurationUpdateScheduler) = initializer
+    fun cclConfigurationUpdateScheduler(initializer: CclConfigurationUpdateScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun familyTestResultRetrievalScheduler(initializer: FamilyTestResultRetrievalScheduler) = initializer
+    fun familyTestResultRetrievalScheduler(initializer: FamilyTestResultRetrievalScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun dccValidityStateChangeObserver(initializer: DccValidityStateChangeObserver) = initializer
+    fun dccValidityStateChangeObserver(initializer: DccValidityStateChangeObserver): Initializer
 
     @Binds
     @IntoSet
-    fun dccRevocationUpdateScheduler(initializer: DccRevocationUpdateScheduler) = initializer
+    fun dccRevocationUpdateScheduler(initializer: DccRevocationUpdateScheduler): Initializer
 
     @Binds
     @IntoSet
-    fun contactDiaryWorkScheduler(initializer: ContactDiaryWorkScheduler) = initializer
+    fun contactDiaryWorkScheduler(initializer: ContactDiaryWorkScheduler): Initializer
 }
