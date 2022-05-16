@@ -5,14 +5,14 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenHash
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @Reusable
 class RapidQrCodeCensor @Inject constructor() : BugCensor {
 
-    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val dayOfBirthFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override suspend fun checkLog(message: String): CensorContainer? {
 
@@ -33,7 +33,7 @@ class RapidQrCodeCensor @Inject constructor() : BugCensor {
                 newMessage = newMessage.censor(lastName, createReplacement(input = "LastName"))
             }
 
-            val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
+            val dateOfBirthString = dateOfBirth?.format(dayOfBirthFormatter) ?: return@with
 
             newMessage = newMessage.censor(dateOfBirthString, createReplacement(input = "DateOfBirth"))
         }
