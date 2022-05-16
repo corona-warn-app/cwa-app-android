@@ -62,9 +62,9 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
 @VisibleForTesting
 internal fun List<DccQrCode>.sort() = sortedByDescending {
     when (it) {
+        is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
         is VaccinationCertificateQRCode -> it.data.certificate.vaccination.vaccinatedOn
         is RecoveryCertificateQRCode -> it.data.certificate.recovery.testedPositiveOn
-        is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
         else -> null
     }
 }
