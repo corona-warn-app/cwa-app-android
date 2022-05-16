@@ -170,6 +170,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 loadingView(image, progressBar)
             }
             image.setOnClickListener { viewModel.openFullScreen() }
+            if (!certificate.isDisplayValid) {
+                val paddingTop = requireContext().resources.getDimension(R.dimen.guideline_card).toInt()
+                image.setPadding(0, paddingTop, 0, 0)
+            }
         }
     }
 

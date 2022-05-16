@@ -143,6 +143,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 loadingView(image, progressBar)
             }
             image.setOnClickListener { viewModel.openFullScreen() }
+            if (!certificate.isDisplayValid) {
+                val paddingTop = requireContext().resources.getDimension(R.dimen.guideline_card).toInt()
+                image.setPadding(0, paddingTop, 0, 0)
+            }
         }
     }
 

@@ -100,6 +100,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                         loadingView(image, progressBar)
                     }
                     image.setOnClickListener { viewModel.openFullScreen() }
+                    if (stateInValid) {
+                        val paddingTop = requireContext().resources.getDimension(R.dimen.guideline_card).toInt()
+                        image.setPadding(0, paddingTop, 0, 0)
+                    }
                 }
             }
 
