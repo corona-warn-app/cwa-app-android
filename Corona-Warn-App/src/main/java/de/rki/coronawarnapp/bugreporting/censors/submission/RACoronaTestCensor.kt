@@ -7,13 +7,14 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidNa
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.util.toJavaTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @Reusable
@@ -24,7 +25,7 @@ class RACoronaTestCensor @Inject constructor(
 
     private val mutex = Mutex()
 
-    private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val dayOfBirthFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     // We keep a history of rat corona test so that we are able to censor even after they got deleted
     private val ratCoronaTestHistory = mutableSetOf<RACoronaTest>()
@@ -50,7 +51,7 @@ class RACoronaTestCensor @Inject constructor(
                 newMessage = newMessage.censor(lastName, "RATest/LastName")
             }
 
-            ratCoronaTest.dateOfBirth?.toString(dayOfBirthFormatter)?.let { dateOfBirthString ->
+            ratCoronaTest.dateOfBirth?.toJavaTime()?.format(dayOfBirthFormatter)?.let { dateOfBirthString ->
                 newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
             }
         }
