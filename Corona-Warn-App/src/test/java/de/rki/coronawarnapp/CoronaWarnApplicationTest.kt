@@ -3,38 +3,12 @@ package de.rki.coronawarnapp
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
-import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
-import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
-import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateScheduler
-import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
-import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
-import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationUpdateScheduler
-import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
-import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
-import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
-import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
-import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
-import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
-import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
-import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
-import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
-import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsRetrievalScheduler
-import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.WatchdogService
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
@@ -46,12 +20,10 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.security.Security
@@ -110,5 +82,4 @@ class CoronaWarnApplicationTest : BaseTest() {
     }
 
     private fun createInstance() = CoronaWarnApplication()
-
 }
