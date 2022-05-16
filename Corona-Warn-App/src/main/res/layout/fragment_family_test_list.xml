@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:maxLines="2"
-            android:paddingBottom="5dp"
+            android:paddingVertical="4dp"
+            android:ellipsize="end"
             android:text="@string/family_tests_list_title"
             android:textColor="@color/colorQrCodeScanToolbar" />
 

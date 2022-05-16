@@ -36,10 +36,10 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance
+            person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()
         }
     internal val stateLiveData: LiveData<State> = reissuanceData.map {
-        // Make sure DccReissuance exist, otherwise screen is dismissed
+        // Make sure DccReissuance exists, otherwise screen is dismissed
         it!!.toState()
     }.catch {
         Timber.tag(TAG).d(it, "dccReissuanceData failed")
@@ -61,39 +61,45 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
 
     fun navigateBack() = event.postValue(Back)
 
-    private suspend fun CertificateReissuance?.toState(): State {
-        val certificates = mutableListOf<DccReissuanceItem>()
-        if (this?.certificates != null) {
-            this.certificates.forEach { dccCertificate ->
-
-                val certificateToReissue = dccQrCodeExtractor.extract(
+    private suspend fun CertificateReissuance.toState(): State {
+        val certificates = certificates?.mapNotNull { dccCertificate ->
+            try {
+                dccQrCodeExtractor.extract(
                     dccCertificate.certificateToReissue.certificateRef.barcodeData,
                     DccV1Parser.Mode.CERT_SINGLE_STRICT
-                ).data.certificate
-
-                certificates.add(
+                ).data.certificate.let {
                     DccReissuanceConsentCard.Item(
-                        certificateToReissue
+                        it
                     )
-                )
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to extract certificate")
+                null
             }
         }
+
+        val accompanyingCertificatesVisible = consolidateAccompanyingCertificates().isNotEmpty()
+
         return State(
-            certificateList = certificates,
-            divisionVisible = this?.reissuanceDivision?.visible ?: false,
-            listItemsTitle = format(this?.reissuanceDivision?.listTitleText),
-            title = format(this?.reissuanceDivision?.titleText),
-            subtitle = format(this?.reissuanceDivision?.consentSubtitleText),
-            content = format(this?.reissuanceDivision?.longText),
-            url = format(this?.reissuanceDivision?.faqAnchor)
+            certificateList = certificates ?: emptyList(),
+            accompanyingCertificatesVisible = accompanyingCertificatesVisible,
+            divisionVisible = reissuanceDivision.visible,
+            listItemsTitle = format(reissuanceDivision.listTitleText),
+            title = format(reissuanceDivision.titleText),
+            subtitle = format(reissuanceDivision.consentSubtitleText),
+            content = format(reissuanceDivision.longText),
+            url = format(reissuanceDivision.faqAnchor)
         )
     }
 
     fun openPrivacyScreen() = event.postValue(OpenPrivacyScreen)
 
+    fun openAccompanyingCertificatesScreen() = event.postValue(OpenAccompanyingCertificatesScreen)
+
     internal data class State(
         val certificateList: List<DccReissuanceItem>,
-        val divisionVisible: Boolean = false,
+        val accompanyingCertificatesVisible: Boolean,
+        val divisionVisible: Boolean,
         val listItemsTitle: String?,
         val title: String?,
         val subtitle: String?,
@@ -106,6 +112,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal object ReissuanceSuccess : Event()
     internal object Back : Event()
     internal object OpenPrivacyScreen : Event()
+    internal object OpenAccompanyingCertificatesScreen : Event()
     internal data class ReissuanceError(val error: Throwable) : Event()
 
     @AssistedFactory
