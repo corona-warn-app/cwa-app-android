@@ -1,11 +1,9 @@
-package de.rki.coronawarnapp.dccreissuance.ui.consent
+package de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts
 
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.liveData
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
@@ -13,6 +11,8 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceItem
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -24,15 +24,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.betterScrollTo
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
-class DccReissuanceConsentFragmentTest : BaseUITest() {
+class DccReissuanceAccCertsFragmentTest : BaseUITest() {
 
-    @RelaxedMockK lateinit var viewModel: DccReissuanceConsentViewModel
+    @RelaxedMockK lateinit var viewModel: DccReissuanceAccCertsViewModel
 
     private val navController = TestNavHostController(
         context = ApplicationProvider.getApplicationContext()
@@ -40,14 +39,13 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
         UiThreadStatement.runOnUiThread {
             setViewModelStore(ViewModelStore())
             setGraph(R.navigation.covid_certificates_graph)
-            setCurrentDestination(R.id.dccReissuanceConsentFragment)
+            setCurrentDestination(R.id.dccReissuanceAccCertsFragment)
         }
     }
 
-    private val args = DccReissuanceConsentFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
+    private val args = DccReissuanceAccCertsFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
 
-    private val state = DccReissuanceConsentViewModel.State(
-        certificateList = mutableListOf<DccReissuanceItem>(
+    private val certificateList = mutableListOf<DccReissuanceItem>(
             DccReissuanceCertificateCard.Item(
                 mockk<VaccinationDccV1> {
                     every { nameData } returns mockk {
@@ -59,7 +57,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
                         every { totalSeriesOfDoses } returns 2
                         every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
                         every { personIdentifier } returns CertificatePersonIdentifier(
-                            dateOfBirthFormatted = "2020-01-01",
+                            dateOfBirthFormatted = "1980-06-01",
                             lastNameStandardized = "Schneider",
                             firstNameStandardized = "Andrea"
                         )
@@ -73,36 +71,28 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
                     }
 
                     every { vaccination } returns mockk {
-                        every { doseNumber } returns 2
+                        every { doseNumber } returns 1
                         every { totalSeriesOfDoses } returns 2
-                        every { vaccinatedOn } returns LocalDate.parse("2022-01-17")
+                        every { vaccinatedOn } returns LocalDate.parse("2021-10-17")
                         every { personIdentifier } returns CertificatePersonIdentifier(
-                            dateOfBirthFormatted = "2020-01-01",
+                            dateOfBirthFormatted = "1980-06-01",
                             lastNameStandardized = "Schneider",
                             firstNameStandardized = "Andrea"
                         )
                     }
                 }
             )
-        ),
-        divisionVisible = true,
-        listItemsTitle = "Zu erneuernde Zertifikate:",
-        title = "Zertifikat aktualisieren",
-        subtitle = "Neuausstellung direkt über die App vornehmen.",
-        content = "Die Spezifikationen der EU für Zertifikate von Auffrischimpfungen wurden geändert. Dieses Zertifikat entspricht nicht den aktuellen Spezifikationen. Das Impfzertifikat ist zwar weiterhin gültig, es kann jedoch sein, dass bei einer Prüfung die Auffrischimpfung nicht erkannt wird. Bitte lassen Sie sich daher ein neues Impfzertifikat ausstellen.\n\nSie können ein neues Impfzertifikat direkt kostenlos über die App anfordern. Hierfür ist Ihr Einverständnis erforderlich.",
-        url = null,
-        accompanyingCertificatesVisible = true
-    )
+        )
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { viewModel.stateLiveData } returns liveData { emit(state) }
+        every { viewModel.certificatesLiveData } returns liveData { emit(certificateList) }
 
         setupMockViewModel(
-            factory = object : DccReissuanceConsentViewModel.Factory {
-                override fun create(personIdentifierCode: String): DccReissuanceConsentViewModel = viewModel
+            factory = object : DccReissuanceAccCertsViewModel.Factory {
+                override fun create(personIdentifierCode: String): DccReissuanceAccCertsViewModel = viewModel
             }
         )
     }
@@ -114,30 +104,22 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<DccReissuanceConsentFragment>(fragmentArgs = args)
+        launchFragment2<DccReissuanceAccCertsFragment>(fragmentArgs = args)
     }
 
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchFragmentInContainer2<DccReissuanceConsentFragment>(
+        launchFragmentInContainer2<DccReissuanceAccCertsFragment>(
             testNavHostController = navController,
             fragmentArgs = args
         )
-        takeScreenshot<DccReissuanceConsentFragment>("1")
-
-        // Take hint and consent part screenshot
-        Espresso.onView(ViewMatchers.withId(R.id.dcc_reissuance_consent)).perform(betterScrollTo())
-        takeScreenshot<DccReissuanceConsentFragment>("2")
-
-        // Take more info part screenshot
-        Espresso.onView(ViewMatchers.withId(R.id.privacy_information)).perform(betterScrollTo())
-        takeScreenshot<DccReissuanceConsentFragment>("3")
+        takeScreenshot<DccReissuanceAccCertsFragment>("1")
     }
 }
 
 @Module
-abstract class DccReissuanceConsentFragmentTestModule {
+abstract class DccReissuanceAccCertsFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun dccReissuanceConsentFragment(): DccReissuanceConsentFragment
+    abstract fun dccReissuanceAccCertsFragment(): DccReissuanceAccCertsFragment
 }

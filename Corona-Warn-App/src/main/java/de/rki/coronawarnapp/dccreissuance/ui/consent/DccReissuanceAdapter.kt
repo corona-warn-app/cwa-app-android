@@ -23,7 +23,7 @@ class DccReissuanceAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<DccReissuanceItem, ItemVH<DccReissuanceItem, ViewBinding>>(data),
-                TypedVHCreatorMod({ data[it] is DccReissuanceConsentCard.Item }) { DccReissuanceConsentCard(it) }
+                TypedVHCreatorMod({ data[it] is DccReissuanceCertificateCard.Item }) { DccReissuanceCertificateCard(it) }
             )
         )
 

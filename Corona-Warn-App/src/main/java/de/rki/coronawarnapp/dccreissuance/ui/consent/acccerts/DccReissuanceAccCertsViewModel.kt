@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentCard
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceItem
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -47,7 +47,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
                 null
             }
         }.sort().map {
-            DccReissuanceConsentCard.Item(it.data.certificate)
+            DccReissuanceCertificateCard.Item(it.data.certificate)
         }
     }
 
@@ -62,9 +62,9 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
 @VisibleForTesting
 internal fun List<DccQrCode>.sort() = sortedByDescending {
     when (it) {
-        is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
         is VaccinationCertificateQRCode -> it.data.certificate.vaccination.vaccinatedOn
         is RecoveryCertificateQRCode -> it.data.certificate.recovery.testedPositiveOn
+        is TestCertificateQRCode -> it.data.certificate.test.sampleCollectedAt?.toLocalDateUserTz()
         else -> null
     }
 }

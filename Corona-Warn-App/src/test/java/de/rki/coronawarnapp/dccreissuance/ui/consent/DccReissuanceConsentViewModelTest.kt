@@ -82,7 +82,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     @Test
     fun `getState works`() {
         viewModel().stateLiveData.getOrAwaitValue() shouldBe DccReissuanceConsentViewModel.State(
-            certificateList = listOf(DccReissuanceConsentCard.Item(metadata)),
+            certificateList = listOf(DccReissuanceCertificateCard.Item(metadata)),
             divisionVisible = true,
             listItemsTitle = "",
             title = "Zertifikat ersetzen",
