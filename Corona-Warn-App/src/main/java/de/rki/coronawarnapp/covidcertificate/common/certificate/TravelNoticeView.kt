@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import android.widget.LinearLayout
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.widget.LinearLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.IncludeTravelNoticeCardBinding
 import setTextWithUrl
@@ -34,6 +34,7 @@ class TravelNoticeView @JvmOverloads constructor(
                     R.string.green_certificate_travel_notice_link_de,
                     R.string.green_certificate_travel_notice_link_de
                 )
+                travelNoticeGerman.setLinkTextColor(resources.getColor(R.color.colorTextTint, null))
             }
 
             if (travelNoticeEnglish.text ==
@@ -44,6 +45,7 @@ class TravelNoticeView @JvmOverloads constructor(
                     R.string.green_certificate_travel_notice_link_en,
                     R.string.green_certificate_travel_notice_link_en
                 )
+                travelNoticeEnglish.setLinkTextColor(resources.getColor(R.color.colorTextTint, null))
             }
         }
     }
