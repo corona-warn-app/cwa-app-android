@@ -8,8 +8,7 @@ interface Initializer {
 }
 
 class Initializers @Inject constructor(
-    @JvmSuppressWildcards
-    private val initializers: Set<Initializer>
+    private val initializers: Set<@JvmSuppressWildcards Initializer>
 ) {
     operator fun invoke() {
         Timber.d("Setup [${initializers.size}] Initializers")
