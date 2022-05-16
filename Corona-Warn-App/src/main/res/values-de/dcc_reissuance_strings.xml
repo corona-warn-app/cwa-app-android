@@ -35,7 +35,7 @@
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
-    <string name="dcc_reissuance_acc_certs_content">Folgende Zertifikate werden bei der Erneuerung als Zusatzinformation übermittelt, damit die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufgenommen werden kann. Diese Zertifikate verbleiben unverändert auf Ihrem Gerät.</string>
+    <string name="dcc_reissuance_acc_certs_content">Folgende Zertifikate werden bei der Erneuerung als Zusatzinformation übermittelt, damit die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufgenommen werden kann. Diese Zertifikate werden nicht erneuert.</string>
     <!-- XTXT: DCC Reissuance accompanying certificates title -->
     <string name="dcc_reissuance_acc_certs_title">Zusätzlich übermittelte Zertifikate</string>
     <!-- XTXT: DCC Reissuance third bullet point-->

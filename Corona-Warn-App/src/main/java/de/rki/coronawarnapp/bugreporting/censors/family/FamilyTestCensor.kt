@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.util.toJavaTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +24,7 @@ class FamilyTestCensor @Inject constructor(
 ) : BugCensor {
 
     private val mutex = Mutex()
-    private val dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val names = mutableSetOf<String>()
     private val dates = mutableSetOf<LocalDate>()
     private val registrationTokens = mutableSetOf<String>()
@@ -45,7 +46,7 @@ class FamilyTestCensor @Inject constructor(
                         test.coronaTest.additionalInfo?.let { info ->
                             info.firstName?.let { names.add(it) }
                             info.lastName?.let { names.add(it) }
-                            info.dateOfBirth?.let { dates.add(it) }
+                            info.dateOfBirth?.let { dates.add(it.toJavaTime()) }
                         }
                     }
                 }
@@ -67,7 +68,7 @@ class FamilyTestCensor @Inject constructor(
                 }
             }
             dates.forEach {
-                container = container.censor(it.toString(dateFormatter), "#dateOfBirth")
+                container = container.censor(it.format(dateFormatter), "#dateOfBirth")
             }
         }
         return container.nullIfEmpty()

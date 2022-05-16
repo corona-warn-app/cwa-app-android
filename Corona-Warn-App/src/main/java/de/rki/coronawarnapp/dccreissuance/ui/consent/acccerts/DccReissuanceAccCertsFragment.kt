@@ -32,8 +32,6 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
         }
     )
 
-    private val dccReissuanceAdapter = DccReissuanceAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,6 +41,8 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val dccReissuanceAdapter = DccReissuanceAdapter()
 
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }

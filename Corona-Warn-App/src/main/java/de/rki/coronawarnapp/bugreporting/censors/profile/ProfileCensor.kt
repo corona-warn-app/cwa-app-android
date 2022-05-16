@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPh
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidZipCode
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.util.toJavaTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @Reusable
@@ -28,7 +29,7 @@ class ProfileCensor @Inject constructor(
 ) : BugCensor {
 
     private val mutex = Mutex()
-    private val dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val names = mutableSetOf<String>()
     private val dates = mutableSetOf<String>()
     private val emails = mutableSetOf<String>()
@@ -50,7 +51,7 @@ class ProfileCensor @Inject constructor(
                         withValidName(profile.lastName) {
                             names.add(it)
                         }
-                        profile.birthDate?.let { dates.add(it.toString(dateFormatter)) }
+                        profile.birthDate?.let { dates.add(it.toJavaTime().format(dateFormatter)) }
                         withValidEmail(profile.email) {
                             emails.add(it)
                         }
