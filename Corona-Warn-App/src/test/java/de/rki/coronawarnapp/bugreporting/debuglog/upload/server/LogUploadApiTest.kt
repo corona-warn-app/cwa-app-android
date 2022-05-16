@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.files.determineMimeType
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -73,7 +73,7 @@ class LogUploadApiTest : BaseIOTest() {
     }
 
     @Test
-    fun `happy upload`(): Unit = runBlocking {
+    fun `happy upload`(): Unit = runTest {
         """
             {
                 id :  "$expectedId",
@@ -108,7 +108,7 @@ class LogUploadApiTest : BaseIOTest() {
     }
 
     @Test
-    fun `server returns 500`(): Unit = runBlocking {
+    fun `server returns 500`(): Unit = runTest {
         """
             {
                 id :  "$expectedId",

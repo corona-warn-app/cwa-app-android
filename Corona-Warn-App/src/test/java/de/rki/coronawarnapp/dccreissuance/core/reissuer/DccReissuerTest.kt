@@ -24,7 +24,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -215,7 +214,7 @@ class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `forwards errors`() = runBlockingTest {
+    fun `forwards errors`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_400
         coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } throws DccReissuanceException(
             errorCode = errorCode

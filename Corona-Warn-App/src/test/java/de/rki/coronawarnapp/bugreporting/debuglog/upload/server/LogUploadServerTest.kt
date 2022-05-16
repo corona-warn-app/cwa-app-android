@@ -9,7 +9,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -55,7 +55,7 @@ class LogUploadServerTest : BaseIOTest() {
     )
 
     @Test
-    fun `log upload`() = runBlocking {
+    fun `log upload`() = runTest {
         val instance = createInstance()
 
         instance.uploadLog(uploadOtp = uploadOtp, snapshot = snapshot) shouldBe LogUpload(

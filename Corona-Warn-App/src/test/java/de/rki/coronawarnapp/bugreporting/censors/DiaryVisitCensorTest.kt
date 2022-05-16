@@ -10,7 +10,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -145,7 +144,7 @@ class DiaryVisitCensorTest : BaseTest() {
             Runtime.getRuntime().exit(1)
         }
 
-        runBlocking {
+        runTest {
             val instance = createInstance(this)
 
             val processedLine = try {

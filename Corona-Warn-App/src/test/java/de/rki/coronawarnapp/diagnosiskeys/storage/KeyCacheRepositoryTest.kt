@@ -10,7 +10,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -120,7 +120,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
         coVerify(exactly = 0) { keyFileDao.updateDownloadState(any()) }
 
-        runBlocking {
+        runTest {
             repo.getAllCachedKeys()
             coVerify(exactly = 2) { keyFileDao.allEntries() }
             coVerify(exactly = 1) { keyFileDao.deleteEntry(lostKeyFile) }
@@ -137,7 +137,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
         coEvery { keyFileDao.insertEntry(any()) } returns Unit
 
-        runBlocking {
+        runTest {
             val (keyFile, path) = repo.createCacheEntry(
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
@@ -158,7 +158,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         coEvery { keyFileDao.insertEntry(any()) } returns Unit
         coEvery { keyFileDao.updateDownloadState(any()) } returns Unit
 
-        runBlocking {
+        runTest {
             val (keyFile, _) = repo.createCacheEntry(
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
@@ -182,7 +182,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         coEvery { keyFileDao.insertEntry(any()) } returns Unit
         coEvery { keyFileDao.deleteEntry(any()) } returns Unit
 
-        runBlocking {
+        runTest {
             val (keyFile, path) = repo.createCacheEntry(
                 location = LocationCode("NL"),
                 dayIdentifier = LocalDate.parse("2020-09-09"),
@@ -220,7 +220,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         keyFilePath.createNewFile() shouldBe true
         keyFilePath.exists() shouldBe true
 
-        runBlocking {
+        runTest {
             repo.reset()
 
             coVerify { keyFileDao.deleteEntry(keyFileToClear) }

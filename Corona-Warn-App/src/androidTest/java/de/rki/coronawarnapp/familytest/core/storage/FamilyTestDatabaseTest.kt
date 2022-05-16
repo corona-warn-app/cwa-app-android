@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.After
@@ -72,7 +72,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun testInsertAndDelete() = runBlocking {
+    fun testInsertAndDelete() = runTest {
         val entity = test.toEntity()
         dao.insert(entity)
 
@@ -90,7 +90,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun testListUpdate() = runBlocking {
+    fun testListUpdate() = runTest {
         val entity = test.toEntity()
         dao.insert(entity)
         dao.insert(test2.toEntity())
@@ -117,7 +117,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun testMoveToRecycleBin() = runBlocking {
+    fun testMoveToRecycleBin() = runTest {
         val entity = test.toEntity()
         dao.insert(entity)
         dao.insert(test2.toEntity())
@@ -131,7 +131,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun testLifeCycle() = runBlocking {
+    fun testLifeCycle() = runTest {
         val entity = test.toEntity()
         dao.insert(entity)
 
