@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
