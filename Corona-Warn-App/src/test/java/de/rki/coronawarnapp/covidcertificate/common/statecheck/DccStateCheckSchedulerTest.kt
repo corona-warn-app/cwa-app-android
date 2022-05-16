@@ -60,7 +60,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
 
     @Test
     fun `schedule expiration worker on setup`() = runTest2 {
-        createInstance(this).setup()
+        createInstance(this).initialize()
 
         advanceUntilIdle()
 

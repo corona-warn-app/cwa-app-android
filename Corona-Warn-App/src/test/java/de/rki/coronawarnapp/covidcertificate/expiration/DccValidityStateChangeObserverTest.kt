@@ -44,7 +44,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     private val certRecycled = createCert(Recycled)
 
     @BeforeEach
-    fun setup() {
+    fun initialize() {
         MockKAnnotations.init(this)
 
         certificateContainerFlow = MutableStateFlow(createContainer(emptySet()))
@@ -54,7 +54,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     @Test
     fun `does trigger on initial emission`() = runTest2 {
         certificateContainerFlow.value = createContainer(setOf(certExpired))
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
 
         advanceUntilIdle()
 
@@ -65,7 +65,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does not trigger when empty`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.value = createContainer(emptySet())
 
         advanceUntilIdle()
@@ -77,7 +77,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does not trigger on Valid`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certValid)) }
 
         advanceUntilIdle()
@@ -89,7 +89,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Invalid`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certInvalid)) }
 
         advanceUntilIdle()
@@ -101,7 +101,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Recycled`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRecycled)) }
 
         advanceUntilIdle()
@@ -113,7 +113,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Blocked`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certBlocked)) }
 
         advanceUntilIdle()
@@ -125,7 +125,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Revoked`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRevoked)) }
 
         advanceUntilIdle()
@@ -137,7 +137,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Expired`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
 
         advanceUntilIdle()
@@ -149,7 +149,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on ExpiringSoon`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
 
         advanceUntilIdle()
@@ -161,7 +161,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `only triggers if changed`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
 

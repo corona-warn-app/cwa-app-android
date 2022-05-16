@@ -39,7 +39,7 @@ internal class DccRevocationUpdateSchedulerTest : BaseTest() {
 
     @Test
     fun `schedule daily worker on setup() call`() = runTest2 {
-        createScheduler(this).setup()
+        createScheduler(this).initialize()
 
         advanceUntilIdle()
 
