@@ -5,28 +5,32 @@ import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.di.ApplicationComponent
+import io.github.classgraph.ClassGraph
+import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.security.Security
+import javax.inject.Inject
 
 class CoronaWarnApplicationTest : BaseTest() {
 
@@ -37,11 +41,11 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var autoCheckOut: AutoCheckOut
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
 
-    @ExperimentalCoroutinesApi
+    @Inject lateinit var initializers: Set<@JvmSuppressWildcards Initializer>
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -69,16 +73,37 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.androidInjector = androidInjector
                 app.foregroundState = foregroundState
                 app.workManager = workManager
-
+                app.initializers = initializers
                 app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
-                    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-                        // NOOP
-                    }
+                    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
                 }
                 app.imageLoaderFactory = imageLoaderFactory
             }
         }
+    }
+
+    @Test
+    fun `test initializers`() {
+        createInstance().onCreate()
+
+        coVerify {
+            initializers.forEach { initializer -> initializer.initialize() }
+        }
+
+        val scanResult = ClassGraph()
+            .acceptPackages("de.rki.coronawarnapp")
+            .enableClassInfo()
+            .scan()
+
+        val initializersClasses = scanResult
+            .getClassesImplementing(Initializer::class.java)
+            .filterNot { it.isAbstract }
+
+        println("initializersClasses [${initializersClasses.size}]")
+        val injected = initializers.map { it::class.simpleName }.toSet()
+        val existing = initializersClasses.map { it.simpleName }.toSet()
+        injected shouldContainAll existing
     }
 
     private fun createInstance() = CoronaWarnApplication()
