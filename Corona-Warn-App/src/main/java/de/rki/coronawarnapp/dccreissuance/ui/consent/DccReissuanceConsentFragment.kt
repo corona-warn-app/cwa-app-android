@@ -35,8 +35,6 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         }
     )
 
-    private val dccReissuanceAdapter = DccReissuanceAdapter()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,12 +45,17 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val dccReissuanceAdapter = DccReissuanceAdapter()
+
         binding.apply {
             toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
             cancelButton.setOnClickListener { viewModel.navigateBack() }
             privacyInformation.setOnClickListener { viewModel.openPrivacyScreen() }
             agreeButton.defaultButton.setOnClickListener {
                 viewModel.startReissuance()
+            }
+            accompanyingCertificatesText.setOnClickListener {
+                viewModel.openAccompanyingCertificatesScreen()
             }
 
             certificateRecycler.apply {
@@ -62,6 +65,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
                     reissuanceGroup.isVisible = it.divisionVisible
+                    accompanyingCertificatesGroup.isVisible = it.accompanyingCertificatesVisible
                     listTitleText.text = it.listItemsTitle
                     dccReissuanceTitle.text = it.title
                     dccReissuanceSubtitle.text = it.subtitle
@@ -95,6 +99,13 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                         DccReissuanceConsentViewModel.OpenPrivacyScreen -> findNavController().navigate(
                             R.id.informationPrivacyFragment
                         )
+                        DccReissuanceConsentViewModel.OpenAccompanyingCertificatesScreen ->
+                            findNavController().navigate(
+                                DccReissuanceConsentFragmentDirections
+                                    .actionDccReissuanceConsentFragmentToAccCertsFragment(
+                                        args.personIdentifierCode
+                                    )
+                            )
                     }
                 }
             }

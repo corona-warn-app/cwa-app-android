@@ -5,6 +5,7 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
@@ -81,39 +82,24 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
             zipCodeInputEdit.doAfterTextChanged { viewModel.zipCodeChanged(it.toString()) }
 
             // Phone
-            phoneInputEdit.doAfterTextChanged {
-                // Propagate phone number to view model if it matches the pattern
-                if (Patterns.PHONE.matcher(it.toString()).matches()) {
-                    viewModel.phoneChanged(it.toString())
-                } else {
-                    viewModel.phoneChanged("")
-                }
-            }
-            phoneInputEdit.setOnFocusChangeListener { _, hasFocus ->
-                // Validate phone number
-                if (!hasFocus && !Patterns.PHONE.matcher(phoneInputEdit.text.toString()).matches()) {
-                    phoneInputLayout.error = root.resources.getString(R.string.rat_profile_create_phone_error)
-                } else {
+            phoneInputEdit.doOnTextChanged { text, _, _, _ ->
+                if (Patterns.PHONE.matcher(text.toString()).matches() || text.toString().isBlank()) {
                     phoneInputLayout.error = null
+                    viewModel.phoneChanged(text.toString())
+                } else {
+                    phoneInputLayout.error = root.resources.getString(R.string.rat_profile_create_phone_error)
+                    profileSaveButton.isEnabled = false
                 }
             }
             phoneInputEdit.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-            // E-mail
-            emailInputEdit.addEmojiFilter().doAfterTextChanged {
-                // Propagate email to view model if it matches the pattern
-                if (Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
-                    viewModel.emailChanged(it.toString())
-                } else {
-                    viewModel.emailChanged("")
-                }
-            }
-            emailInputEdit.setOnFocusChangeListener { _, hasFocus ->
-                // Validate email
-                if (!hasFocus && !Patterns.EMAIL_ADDRESS.matcher(emailInputEdit.text.toString()).matches()) {
-                    emailInputLayout.error = root.resources.getString(R.string.rat_profile_create_email_error)
-                } else {
+            emailInputEdit.addEmojiFilter().doOnTextChanged { text, _, _, _ ->
+                if (Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches() || text.toString().isBlank()) {
                     emailInputLayout.error = null
+                    viewModel.emailChanged(text.toString())
+                } else {
+                    emailInputLayout.error = root.resources.getString(R.string.rat_profile_create_email_error)
+                    profileSaveButton.isEnabled = false
                 }
             }
 
