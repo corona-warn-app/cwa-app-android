@@ -4,12 +4,10 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.core.view.isGone
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -172,12 +170,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 loadingView(image, progressBar)
             }
             image.setOnClickListener { viewModel.openFullScreen() }
-            if (!certificate.isDisplayValid) {
-                val marginTop = requireContext().resources.getDimension(R.dimen.spacing_small).toInt()
-                image.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                    setMargins(0, marginTop, 0, 0)
-                }
-            }
         }
     }
 
