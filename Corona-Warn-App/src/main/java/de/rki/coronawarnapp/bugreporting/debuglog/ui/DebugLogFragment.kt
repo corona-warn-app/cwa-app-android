@@ -23,8 +23,8 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import setTextWithUrl
 import javax.inject.Inject
 
@@ -142,7 +142,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
             val now = Instant.now()
 
-            if (lastLog != null && Duration(lastLog, now).standardSeconds < 3) {
+            if (lastLog != null && Duration.between(lastLog, now).toSeconds() < 3) {
                 binding.scrollview.fullScroll(NestedScrollView.FOCUS_DOWN)
 
                 binding.debugLogHistoryContainer.apply {

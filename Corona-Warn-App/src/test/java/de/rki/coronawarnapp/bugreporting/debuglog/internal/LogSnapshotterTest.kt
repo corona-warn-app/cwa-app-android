@@ -2,14 +2,14 @@ package de.rki.coronawarnapp.bugreporting.debuglog.internal
 
 import android.content.Context
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toUserTimeZone
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,9 +28,9 @@ class LogSnapshotterTest : BaseIOTest() {
     private val runningLogFake = File(testDir, "running.log")
 
     private val snapshotDir = File(cacheDir, "debuglog_snapshots")
-    private val fileNameDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH_mm_ss.SSS")
+    private val fileNameDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH_mm_ss.SSS")
     private val userTime = Instant.EPOCH.toUserTimeZone()
-    private val expectedSnapshot = File(snapshotDir, "CWA Log ${userTime.toString(fileNameDateFormatter)}.zip")
+    private val expectedSnapshot = File(snapshotDir, "CWA Log ${userTime.format(fileNameDateFormatter)}.zip")
 
     @BeforeEach
     fun setup() {
@@ -42,7 +42,7 @@ class LogSnapshotterTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { debugLogger.runningLog } returns runningLogFake
-        every { timeStamper.nowUTC } returns userTime.toInstant()
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
 
         runningLogFake.parentFile!!.mkdirs()
         runningLogFake.writeText("1 Doge = 1 Doge")
