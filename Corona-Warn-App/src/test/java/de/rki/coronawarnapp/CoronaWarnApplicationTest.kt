@@ -2,6 +2,7 @@ package de.rki.coronawarnapp
 
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
+import dagger.Lazy
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -42,6 +43,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
+    private val initializers = DaggerInitializersTestComponent.create().initializers
 
     @BeforeEach
     fun setup() {
@@ -70,7 +72,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.androidInjector = androidInjector
                 app.foregroundState = foregroundState
                 app.workManager = workManager
-                app.initializers = DaggerInitializersTestComponent.create().initializers
+                app.initializers = Lazy { initializers }
                 app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
@@ -95,12 +97,12 @@ class CoronaWarnApplicationTest : BaseTest() {
             .filterNot { it.isAbstract }
 
         println("initializersClasses [${initializersClasses.size}]")
-        val injected = app.initializers.map { it::class.simpleName }.toSet()
+        val injected = app.initializers.get().map { it::class.simpleName }.toSet()
         val existing = initializersClasses.map { it.simpleName }.toSet()
         injected shouldContainAll existing
 
         coVerify {
-            app.initializers.forEach { initializer -> initializer.initialize() }
+            app.initializers.get().forEach { initializer -> initializer.initialize() }
         }
     }
 

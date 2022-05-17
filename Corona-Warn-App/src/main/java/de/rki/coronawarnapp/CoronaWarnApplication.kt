@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.WorkManager
 import coil.Coil
 import coil.ImageLoaderFactory
+import dagger.Lazy
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -38,7 +39,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
-    @Inject lateinit var initializers: Set<@JvmSuppressWildcards Initializer>
+    @Inject lateinit var initializers: Lazy<Set<@JvmSuppressWildcards Initializer>>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -61,7 +62,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             compPreview.inject(this)
         }
 
-        initializers.forEach { initializer ->
+        initializers.get().forEach { initializer ->
             Timber.d("initialize => %s", initializer::class.simpleName)
             initializer.initialize()
         }
