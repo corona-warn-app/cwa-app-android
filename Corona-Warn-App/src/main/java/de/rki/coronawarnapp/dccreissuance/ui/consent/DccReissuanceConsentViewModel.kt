@@ -68,7 +68,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
                     dccCertificate.certificateToReissue.certificateRef.barcodeData,
                     DccV1Parser.Mode.CERT_SINGLE_STRICT
                 ).data.certificate.let {
-                    DccReissuanceConsentCard.Item(
+                    DccReissuanceCertificateCard.Item(
                         it
                     )
                 }

@@ -48,7 +48,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
 
     private val state = DccReissuanceConsentViewModel.State(
         certificateList = mutableListOf<DccReissuanceItem>(
-            DccReissuanceConsentCard.Item(
+            DccReissuanceCertificateCard.Item(
                 mockk<VaccinationDccV1> {
                     every { nameData } returns mockk {
                         every { fullName } returns "Andrea Schneider"
@@ -66,7 +66,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
                     }
                 }
             ),
-            DccReissuanceConsentCard.Item(
+            DccReissuanceCertificateCard.Item(
                 mockk<VaccinationDccV1> {
                     every { nameData } returns mockk {
                         every { fullName } returns "Andrea Schneider"
