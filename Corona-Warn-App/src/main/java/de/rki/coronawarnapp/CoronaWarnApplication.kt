@@ -59,16 +59,15 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
             Timber.v("Completing application injection")
             compPreview.inject(this)
+            compPreview.initializers.forEach { initializer ->
+                Timber.d("initialize => %s", initializer::class.simpleName)
+                initializer.initialize()
+            }
         }
 
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
-
-        initializers.forEach { initializer ->
-            Timber.d("initialize => %s", initializer::class.simpleName)
-            initializer.initialize()
-        }
 
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
         Coil.setImageLoader(imageLoaderFactory)
@@ -94,26 +93,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             disableAppLauncherPreviewAndScreenshots(activity)
         }
 
-        override fun onActivityStarted(activity: Activity) {
-            enableAppLauncherPreviewAndScreenshots(activity)
-        }
-
-        override fun onActivityDestroyed(activity: Activity) {
-            // NOOP
-        }
-
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-            // NOOP
-        }
-
-        override fun onActivityStopped(activity: Activity) {
-            disableAppLauncherPreviewAndScreenshots(activity)
-        }
-
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            // NOOP
-        }
-
         override fun onActivityResumed(activity: Activity) {
             errorReceiver?.let {
                 localBM.unregisterReceiver(it)
@@ -125,6 +104,14 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             }
             enableAppLauncherPreviewAndScreenshots(activity)
         }
+
+
+        override fun onActivityStarted(activity: Activity) = enableAppLauncherPreviewAndScreenshots(activity)
+        override fun onActivityStopped(activity: Activity) = disableAppLauncherPreviewAndScreenshots(activity)
+
+        override fun onActivityDestroyed(activity: Activity) = Unit
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
+        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
     }
 
     private fun enableAppLauncherPreviewAndScreenshots(activity: Activity) {
