@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.event
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.UUID
 
 @Entity
