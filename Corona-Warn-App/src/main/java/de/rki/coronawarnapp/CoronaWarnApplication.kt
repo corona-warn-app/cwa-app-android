@@ -35,10 +35,10 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var component: ApplicationComponent
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject lateinit var initializers: Set<@JvmSuppressWildcards Initializer>
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
+    @Inject lateinit var initializers: Set<@JvmSuppressWildcards Initializer>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 
@@ -59,10 +59,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
             Timber.v("Completing application injection")
             compPreview.inject(this)
-            compPreview.initializers.forEach { initializer ->
-                Timber.d("initialize => %s", initializer::class.simpleName)
-                initializer.initialize()
-            }
+        }
+
+        initializers.forEach { initializer ->
+            Timber.d("initialize => %s", initializer::class.simpleName)
+            initializer.initialize()
         }
 
         Timber.plant(rollingLogHistory)

@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp
 
-import android.content.Context
-import androidx.core.content.ContextCompat
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
@@ -28,13 +26,11 @@ import io.mockk.mockkStatic
 import kotlinx.coroutines.test.TestScope
 import org.conscrypt.Conscrypt
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.security.Security
 
-@Disabled
 class CoronaWarnApplicationTest : BaseTest() {
 
     @MockK lateinit var applicationComponent: ApplicationComponent
@@ -46,16 +42,12 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
-    @MockK lateinit var context: Context
-
-    lateinit var initializers: Set<Initializer>
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
         mockkStatic(Conscrypt::class)
-        mockkStatic(ContextCompat::class)
         every { Conscrypt.newProvider() } returns mockk()
 
         mockkStatic(Security::class)
@@ -78,7 +70,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.androidInjector = androidInjector
                 app.foregroundState = foregroundState
                 app.workManager = workManager
-                app.initializers = initializers
+                app.initializers = DaggerInitializersTestComponent.create().initializers
                 app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
@@ -90,11 +82,8 @@ class CoronaWarnApplicationTest : BaseTest() {
 
     @Test
     fun `test initializers`() {
-        createInstance().onCreate()
-
-        coVerify {
-            initializers.forEach { initializer -> initializer.initialize() }
-        }
+        val app = createInstance()
+        app.onCreate()
 
         val scanResult = ClassGraph()
             .acceptPackages("de.rki.coronawarnapp")
@@ -106,9 +95,13 @@ class CoronaWarnApplicationTest : BaseTest() {
             .filterNot { it.isAbstract }
 
         println("initializersClasses [${initializersClasses.size}]")
-        val injected = initializers.map { it::class.simpleName }.toSet()
+        val injected = app.initializers.map { it::class.simpleName }.toSet()
         val existing = initializersClasses.map { it.simpleName }.toSet()
         injected shouldContainAll existing
+
+        coVerify {
+            app.initializers.forEach { initializer -> initializer.initialize() }
+        }
     }
 
     private fun createInstance() = CoronaWarnApplication()
