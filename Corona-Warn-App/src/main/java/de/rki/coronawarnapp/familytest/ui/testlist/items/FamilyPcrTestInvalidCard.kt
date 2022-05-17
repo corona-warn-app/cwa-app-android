@@ -34,9 +34,11 @@ class FamilyPcrTestInvalidCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        title.text = latestItem!!.familyCoronaTest.personName
-        notificationBadge.isVisible = latestItem!!.familyCoronaTest.hasBadge
-        itemView.setOnClickListener { latestItem!!.onClickAction(item) }
+        latestItem?.let { latest ->
+            title.text = latest.familyCoronaTest.personName
+            notificationBadge.isVisible = latest.familyCoronaTest.hasBadge
+            itemView.setOnClickListener { latest.onClickAction(latest) }
+        }
     }
 
     data class Item(
