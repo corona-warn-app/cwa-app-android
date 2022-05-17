@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth
 
-import org.joda.time.Instant
+import java.time.Instant
 
 data class LogUploadOtp(
     val otp: String,
