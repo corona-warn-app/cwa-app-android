@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 
 import de.rki.coronawarnapp.databinding.ViewCrashreportListItemBinding
-import org.joda.time.DateTimeZone
+import de.rki.coronawarnapp.util.toUserTimeZone
 
 class CrashReportAdapter(private val itemClickListener: (bugEvent: BugEvent) -> Unit) :
     RecyclerView.Adapter<CrashReportAdapter.CrashHolder>() {
@@ -40,7 +40,7 @@ class CrashReportAdapter(private val itemClickListener: (bugEvent: BugEvent) -> 
             binding.crashReportTitle = "#${pos + 1} ${bugEvent.exceptionClass}"
             binding.message = bugEvent.info ?: bugEvent.exceptionMessage
             binding.crashReportDateFormatted =
-                bugEvent.createdAt.toDateTime(DateTimeZone.getDefault()).toString()
+                bugEvent.createdAt.toUserTimeZone().toString()
                     .replace("T", "  ")
         }
     }
