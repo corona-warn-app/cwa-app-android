@@ -54,6 +54,7 @@
         app:layout_constraintLeft_toLeftOf="@id/guideline_start"
         app:layout_constraintRight_toRightOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
+        app:layout_goneMarginTop="@dimen/spacing_small"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
