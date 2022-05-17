@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog
 
 import android.util.Log
-import org.joda.time.Instant
+import java.time.Instant
 import java.io.PrintWriter
 import java.io.StringWriter
 

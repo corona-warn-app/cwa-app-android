@@ -710,7 +710,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Gemeinsam Corona bekämpfen"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationales Public-Health-Institut veröffentlicht die Corona-Warn-App im Auftrag der Bundesregierung. Die App ist die digitale Ergänzung zu Abstandhalten, Hygiene und Alltagsmaske."</string>
+    <string name="information_about_body_emphasized">"Das Robert Koch-Institut (RKI) als zentrale Einrichtung des Bundes im Bereich der Öffentlichen Gesundheit und als nationales Public-Health-Institut veröffentlicht die Corona-Warn-App im Auftrag der Bundesregierung. Die App ist die digitale Ergänzung zu den Hygieneregeln, wie z. B. das Tragen einer Maske oder Abstandhalten."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Wer sie nutzt, hilft, Infektionsketten schnell nachzuverfolgen und zu durchbrechen. Die App speichert dezentral – auf Ihrem Smartphone – Begegnungen mit anderen. Sie werden informiert, wenn Sie Begegnungen mit nachweislich infizierten Personen hatten. Ihre Privatsphäre bleibt dabei bestens geschützt."</string>
     <!-- XACT: describes illustration -->
