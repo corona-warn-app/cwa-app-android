@@ -105,7 +105,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             enableAppLauncherPreviewAndScreenshots(activity)
         }
 
-
         override fun onActivityStarted(activity: Activity) = enableAppLauncherPreviewAndScreenshots(activity)
         override fun onActivityStopped(activity: Activity) = disableAppLauncherPreviewAndScreenshots(activity)
 
