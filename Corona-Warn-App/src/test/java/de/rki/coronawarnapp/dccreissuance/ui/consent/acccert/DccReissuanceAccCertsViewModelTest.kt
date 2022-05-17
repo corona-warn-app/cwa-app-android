@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentCard
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
 import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -71,7 +71,7 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
     @Test
     fun `getState works`() {
         viewModel().certificatesLiveData.getOrAwaitValue() shouldBe listOf(
-            DccReissuanceConsentCard.Item(metadata)
+            DccReissuanceCertificateCard.Item(metadata)
         )
     }
 
