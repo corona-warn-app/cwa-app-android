@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.environment.EnvironmentModule
 import de.rki.coronawarnapp.familytest.core.FamilyTestModule
 import de.rki.coronawarnapp.gstatus.ui.GStatusModule
 import de.rki.coronawarnapp.http.HttpModule
-import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.initializer.InitializerModule
 import de.rki.coronawarnapp.main.MainModule
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -127,8 +126,6 @@ interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
     val taskController: TaskController
 
     @AppScope val appScope: AppCoroutineScope
-
-    val initializers: Set<@JvmSuppressWildcards Initializer>
 
     val bugReporter: BugReporter
 
