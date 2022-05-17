@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.history
 
-import org.joda.time.Instant
+import java.time.Instant
 
 data class LogUpload(
     val id: String,
