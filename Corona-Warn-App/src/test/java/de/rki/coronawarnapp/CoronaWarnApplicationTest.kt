@@ -2,7 +2,6 @@ package de.rki.coronawarnapp
 
 import androidx.work.WorkManager
 import coil.ImageLoaderFactory
-import dagger.Lazy
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
