@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.local.source
 
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -18,7 +19,7 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
     localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     @AppScope private val appScope: CoroutineScope,
     private val localStatisticsProvider: LocalStatisticsProvider
-) {
+) : Initializer {
     private val lastActivePackages = mutableSetOf<FederalStateToPackageId>()
 
     private val updateStatsTrigger = combine(
@@ -37,7 +38,7 @@ class LocalStatisticsRetrievalScheduler @Inject constructor(
         isInForeground || statsChanged
     }
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).i("setup()")
 
         updateStatsTrigger

@@ -40,7 +40,7 @@ class DscSignatureValidator @Inject constructor(
     }
 
     init {
-        securityProvider.setup()
+        securityProvider.initialize()
     }
 
     private val vcOids = setOf(

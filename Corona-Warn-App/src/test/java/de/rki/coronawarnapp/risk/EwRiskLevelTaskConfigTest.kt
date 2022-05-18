@@ -7,7 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -42,7 +42,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
                 )
             )
         )
-        runBlocking {
+        runTest {
             EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
@@ -53,7 +53,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
     @Test
     fun `risk level preconditions are not met, because there are no detections`() {
         every { exposureDetectionTracker.calculations } returns MutableStateFlow(emptyMap())
-        runBlocking {
+        runTest {
             EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
@@ -73,7 +73,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
                 )
             )
         )
-        runBlocking {
+        runTest {
             EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
@@ -92,7 +92,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
                 )
             )
         )
-        runBlocking {
+        runTest {
             EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()

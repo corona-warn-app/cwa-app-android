@@ -59,8 +59,8 @@ class DccStateCheckSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `schedule expiration worker on setup`() = runTest2 {
-        createInstance(this).setup()
+    fun `schedule expiration worker on initialize`() = runTest2 {
+        createInstance(this).initialize()
 
         advanceUntilIdle()
 
@@ -76,7 +76,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     @Test
     fun `refresh dsc data when app comes into foreground`() = runTest2 {
         createInstance(this).apply {
-            setup()
+            initialize()
 
             advanceUntilIdle()
 
@@ -101,7 +101,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     fun `do not refresh dsc data when last refresh was recent`() = runTest2 {
         every { mockDscData.updatedAt } returns Instant.ofEpochSecond(1234567).minus(Duration.standardHours(12))
         createInstance(this).apply {
-            setup()
+            initialize()
 
             advanceUntilIdle()
 

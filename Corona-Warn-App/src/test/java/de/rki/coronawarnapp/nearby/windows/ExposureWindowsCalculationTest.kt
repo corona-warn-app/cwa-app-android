@@ -37,7 +37,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeConstants
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -83,7 +83,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
     }
 
     @Test
-    fun `one test to rule them all`(): Unit = runBlocking {
+    fun `one test to rule them all`(): Unit = runTest {
         // 1 - Load and parse json file
         val jsonFile = Paths.get("src", "test", "resources", fileName).toFile()
         jsonFile shouldNotBe null

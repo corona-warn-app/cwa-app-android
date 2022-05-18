@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.USE_EUR_KEY_PKGS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION
 import de.rki.coronawarnapp.environment.EnvironmentSetup.EnvKey.VERIFICATION_KEYS
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 class EnvironmentSetup @Inject constructor(
     @AppContext private val context: Context,
     @BaseJackson private val objectMapper: ObjectMapper,
-) {
+) : Initializer {
 
     enum class EnvKey(val rawKey: String) {
         USE_EUR_KEY_PKGS("USE_EUR_KEY_PKGS"),
@@ -136,7 +137,7 @@ class EnvironmentSetup @Inject constructor(
         }
     }
 
-    fun sanityCheck() {
+    override fun initialize() {
         EnvKey.values().forEach { getEnvironmentValue(it) }
         Timber.i("sanityCheck() - passed")
     }

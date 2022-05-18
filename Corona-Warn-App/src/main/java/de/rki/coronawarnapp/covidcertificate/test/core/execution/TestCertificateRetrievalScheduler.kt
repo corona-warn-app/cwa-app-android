@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine
@@ -34,8 +35,9 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     private val familyTestRepository: FamilyTestRepository,
     foregroundState: ForegroundState,
 ) : ResultScheduler(
-    workManager = workManager
-) {
+        workManager = workManager
+    ),
+    Initializer {
     private val processedNewCerts = mutableSetOf<TestCertificateContainerId>()
     private var lastForegroundState = false
 
@@ -70,7 +72,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
         (foregroundChange || hasNewCert) && hasWorkToDo
     }
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).i("setup() - TestCertificateRetrievalScheduler")
 
         // Create a certificate entry for each viable test that has none

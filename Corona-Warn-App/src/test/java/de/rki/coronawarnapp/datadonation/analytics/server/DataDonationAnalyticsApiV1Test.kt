@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.Instant
@@ -48,7 +48,7 @@ class DataDonationAnalyticsApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `test submitAndroidAnalytics`(): Unit = runBlocking {
+    fun `test submitAndroidAnalytics`(): Unit = runTest {
         val api = createAPI()
 
         val baseTime = Instant.ofEpochMilli(0)
