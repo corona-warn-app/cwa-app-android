@@ -1745,7 +1745,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="settings_interoperability_subtitle">Teilnehmende Länder</string>
 
     <!-- XHED: Header of interoperability information/configuration view -->
-    <string name="interoperability_configuration_title">Länderübergreifende Risiko-Ermittlung</string>
+    <string name="interoperability_configuration_title">Länder\u00ADübergreifende Risiko-Ermittlung</string>
     <!-- XTXT: First section after the header of the interoperability information/configuration view -->
     <string name="interoperability_configuration_first_section">Mehrere Länder arbeiten zusammen, um über den gemeinsam betriebenen Austausch-Server  länderübergreifende Warnungen zu ermöglichen. So können bei der Risiko-Ermittlung auch die Kontakte  mit Nutzern einer offiziellen Corona-App anderer teilnehmender Länder berücksichtigt werden.</string>
     <!-- XTXT: Second section after the header of the interoperability information/configuration view -->
