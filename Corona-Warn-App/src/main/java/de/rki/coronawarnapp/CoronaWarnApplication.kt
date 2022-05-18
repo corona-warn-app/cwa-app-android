@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
@@ -39,7 +40,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var workManager: WorkManager
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var foregroundState: ForegroundState
-    @Inject lateinit var initializers: Lazy<Set<@JvmSuppressWildcards Initializer>>
+    @Inject lateinit var initializers: Provider<Set<@JvmSuppressWildcards Initializer>>
     @AppScope @Inject lateinit var appScope: CoroutineScope
     @LogHistoryTree @Inject lateinit var rollingLogHistory: Timber.Tree
 

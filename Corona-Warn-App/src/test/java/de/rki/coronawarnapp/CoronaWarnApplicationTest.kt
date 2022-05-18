@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.security.Security
+import javax.inject.Provider
 
 class CoronaWarnApplicationTest : BaseTest() {
 
@@ -72,7 +73,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.androidInjector = androidInjector
                 app.foregroundState = foregroundState
                 app.workManager = workManager
-                app.initializers = Lazy { initializers }
+                app.initializers = Provider { initializers }
                 app.appScope = TestScope()
                 app.rollingLogHistory = object : Timber.Tree() {
                     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) = Unit
