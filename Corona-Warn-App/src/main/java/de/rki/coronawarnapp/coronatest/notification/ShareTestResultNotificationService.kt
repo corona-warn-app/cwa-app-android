@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RAT_RESULT_NOTIFICATION_ID
@@ -29,9 +30,9 @@ class ShareTestResultNotificationService @Inject constructor(
     private val cwaSettings: CWASettings,
     private val coronaTestRepository: CoronaTestRepository,
     private val notification: ShareTestResultNotification
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.d("setup()")
         schedulePositiveTestsReminder()
         // if no PCR test is stored or if it was deleted, we reset the reminder

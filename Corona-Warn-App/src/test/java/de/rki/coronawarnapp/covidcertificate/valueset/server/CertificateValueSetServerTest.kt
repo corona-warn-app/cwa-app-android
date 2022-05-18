@@ -13,7 +13,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.Cache
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -103,7 +103,7 @@ class CertificateValueSetServerTest : BaseTest() {
     }
 
     @Test
-    fun `reset invalidates cache`() = runBlockingTest {
+    fun `reset invalidates cache`() = runTest {
         every { cache.evictAll() } just runs
         createInstance().reset()
         verify { cache.evictAll() }

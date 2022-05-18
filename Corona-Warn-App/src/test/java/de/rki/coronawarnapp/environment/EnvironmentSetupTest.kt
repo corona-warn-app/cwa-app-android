@@ -141,12 +141,12 @@ class EnvironmentSetupTest : BaseTest() {
 
     @Test
     fun `sanity check throws if key is missing`() {
-        createEnvSetup().sanityCheck()
+        createEnvSetup().initialize()
 
         every { BuildConfigWrap.ENVIRONMENT_JSONDATA } returns GOOD_JSON.replace("DCC_SERVER_URL", "?")
 
         createEnvSetup().apply {
-            val errorMessage = shouldThrow<IllegalStateException> { sanityCheck() }.message
+            val errorMessage = shouldThrow<IllegalStateException> { initialize() }.message
             errorMessage shouldContain "DCC"
             errorMessage shouldContain "Failed to retrieve"
         }
@@ -159,7 +159,7 @@ class EnvironmentSetupTest : BaseTest() {
 
         createEnvSetup().apply {
             currentEnvironment = EnvironmentSetup.Type.PRODUCTION
-            sanityCheck()
+            initialize()
         }
     }
 
@@ -171,7 +171,7 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.values().forEach { type ->
             createEnvSetup().apply {
                 currentEnvironment = type
-                sanityCheck()
+                initialize()
             }
         }
     }
@@ -184,7 +184,7 @@ class EnvironmentSetupTest : BaseTest() {
 
         createEnvSetup().apply {
             currentEnvironment = EnvironmentSetup.Type.PRODUCTION
-            sanityCheck()
+            initialize()
         }
     }
 
@@ -198,7 +198,7 @@ class EnvironmentSetupTest : BaseTest() {
         EnvironmentSetup.Type.values().forEach { type ->
             createEnvSetup().apply {
                 currentEnvironment = type
-                sanityCheck()
+                initialize()
             }
         }
     }

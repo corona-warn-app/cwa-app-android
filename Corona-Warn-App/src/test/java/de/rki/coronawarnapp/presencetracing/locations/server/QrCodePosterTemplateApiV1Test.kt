@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.presencetracing.locations.server.qrcodepostertemplat
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
@@ -53,7 +53,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("QR-Code Poster Template"))
 
-        runBlocking {
+        runTest {
             createAPI().getQrCodePosterTemplate().apply {
                 body()!!.string() shouldBe "QR-Code Poster Template"
             }
@@ -76,7 +76,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
                 .setHeader("ETag", "ETAG_OF_MOCKED_RESPONSE")
         )
 
-        runBlocking {
+        runTest {
             createAPI().getQrCodePosterTemplate().apply {
                 // we should receive the body and ETag
                 code() shouldBe 200
@@ -97,7 +97,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
                 .setHeader("ETag", "ETAG_OF_MOCKED_RESPONSE")
         )
 
-        runBlocking {
+        runTest {
             createAPI().getQrCodePosterTemplate().apply {
                 code() shouldBe 200
                 raw().cacheResponse shouldNotBe null
@@ -130,7 +130,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
                 .setHeader("Cache-Control", "public,max-age=300")
         )
 
-        runBlocking {
+        runTest {
             createAPI().getQrCodePosterTemplate().apply {
                 // we should receive the body and ETag
                 code() shouldBe 200
@@ -149,7 +149,7 @@ class QrCodePosterTemplateApiV1Test : BaseIOTest() {
         )
 
         // ... and in this case, okhttp should serve the cached response
-        runBlocking {
+        runTest {
             createAPI().getQrCodePosterTemplate().apply {
                 code() shouldBe 200
                 raw().cacheResponse shouldNotBe null

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -38,17 +39,19 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val repository: FamilyTestRepository,
     private val timeStamper: TimeStamper,
-) : ResultScheduler(workManager = workManager) {
+) : ResultScheduler(workManager = workManager), Initializer {
 
-    fun setup() = appScope.launch {
-        Timber.d("setup $PERIODIC_WORK_NAME")
-        // adjust for added or removed tests by user
-        repository.familyTests
-            .drop(1) // Drop first value on app start
-            .distinctUntilChangedBy { it.sortedIdentifierSet }
-            .collectLatest {
-                checkPollingSchedule()
-            }
+    override fun initialize() {
+        appScope.launch {
+            Timber.d("setup $PERIODIC_WORK_NAME")
+            // adjust for added or removed tests by user
+            repository.familyTests
+                .drop(1) // Drop first value on app start
+                .distinctUntilChangedBy { it.sortedIdentifierSet }
+                .collectLatest {
+                    checkPollingSchedule()
+                }
+        }
     }
 
     suspend fun checkPollingSchedule() {

@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
-import android.annotation.SuppressLint
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.task.TaskController
@@ -26,12 +26,12 @@ class PresenceTracingRiskWorkScheduler @Inject constructor(
     private val backgroundModeStatus: BackgroundModeStatus,
     private val presenceTracingSettings: TraceLocationSettings,
 ) : RiskWorkScheduler(
-    workManager = workManager,
-    logTag = TAG,
-) {
+        workManager = workManager,
+        logTag = TAG,
+    ),
+    Initializer {
 
-    @SuppressLint("BinaryOperationInTimber")
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).i("setup() PresenceTracingRiskWorkScheduler")
         combine(
             backgroundModeStatus.isAutoModeEnabled,

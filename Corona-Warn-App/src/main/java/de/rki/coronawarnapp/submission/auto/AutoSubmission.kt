@@ -7,6 +7,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.task.TaskController
@@ -28,7 +29,7 @@ class AutoSubmission @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val workManager: WorkManager,
     private val taskController: TaskController
-) {
+) : Initializer {
 
     private fun List<TaskInfo>.isSubmissionTaskRunning() = any {
         it.taskState.isActive && it.taskState.request.type == SubmissionTask::class
@@ -36,7 +37,7 @@ class AutoSubmission @Inject constructor(
 
     val isSubmissionRunning = taskController.tasks.map { it.isSubmissionTaskRunning() }
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).v("setup()")
 
         if (submissionSettings.autoSubmissionEnabled.value) {

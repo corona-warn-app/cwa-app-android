@@ -35,8 +35,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -92,7 +92,7 @@ class TestCertificateRepositoryTest : BaseTest() {
             coEvery { storage.load() } answers { storageSet }
         }
 
-        runBlocking {
+        runTest {
             qrCodeExtractor.apply {
                 coEvery { extract(any(), any()) } returns testData.personATest1CertQRCode()
                 coEvery { extract(testData.personATest1CertQRCodeString) } returns testData.personATest1CertQRCode()

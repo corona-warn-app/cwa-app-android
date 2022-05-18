@@ -5,6 +5,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -29,9 +30,9 @@ class DccStateCheckScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val dscRepository: DscRepository,
     private val timeStamper: TimeStamper,
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.d("setup()")
 
         // Due to KEEP policy, we just call to make sure it's scheduled

@@ -8,7 +8,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -58,7 +58,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(5) shouldBe true
         }
 
@@ -74,7 +74,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(3) shouldBe true
             quota.consumeQuota(3) shouldBe true
             quota.consumeQuota(1) shouldBe false
@@ -87,7 +87,7 @@ class SubmissionQuotaTest : BaseTest() {
     fun `consumption of 0 quota is handled`() {
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(0) shouldBe true
             quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(0) shouldBe true
@@ -101,7 +101,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(4) shouldBe true
             quota.consumeQuota(1) shouldBe true
             quota.consumeQuota(2) shouldBe false
@@ -115,7 +115,7 @@ class SubmissionQuotaTest : BaseTest() {
         // Reset is at 00:00:00UTC, we trigger at 1 milisecond after midnight
         val timeTravelTarget = Instant.parse("2020-12-24T00:00:00.001Z")
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(6) shouldBe false
 
@@ -139,7 +139,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
 
@@ -164,25 +164,25 @@ class SubmissionQuotaTest : BaseTest() {
     fun `large time gaps are no issue`() {
         val startTime = Instant.parse("2020-12-24T20:00:00.000Z")
 
-        runBlocking {
+        runTest {
             every { timeStamper.nowUTC } returns startTime
             val quota = createQuota()
             quota.consumeQuota(3) shouldBe true
         }
 
-        runBlocking {
+        runTest {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365))
             val quota = createQuota()
             quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
         }
 
-        runBlocking {
+        runTest {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 2))
             val quota = createQuota()
             quota.consumeQuota(3) shouldBe true
         }
-        runBlocking {
+        runTest {
             every { timeStamper.nowUTC } returns startTime.plus(Duration.standardDays(365 * 3))
             val quota = createQuota()
             quota.consumeQuota(3) shouldBe true
@@ -199,7 +199,7 @@ class SubmissionQuotaTest : BaseTest() {
 
         val quota = createQuota()
 
-        runBlocking {
+        runTest {
             quota.consumeQuota(6) shouldBe true
             quota.consumeQuota(1) shouldBe false
 

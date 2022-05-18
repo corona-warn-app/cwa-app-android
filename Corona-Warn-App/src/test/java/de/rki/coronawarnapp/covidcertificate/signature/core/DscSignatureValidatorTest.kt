@@ -44,7 +44,7 @@ class DscSignatureValidatorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this, true)
         every { dscRepository.dscSignatureList } returns flowOf(dscData)
-        every { securityProvider.setup() } just Runs
+        every { securityProvider.initialize() } just Runs
 
         // Add RSA algorithm in unit tests context.
         Security.addProvider(BouncyCastleProvider())
