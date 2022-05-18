@@ -226,8 +226,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     )
 
-    fun recycleCertificate(certificate: CwaCovidCertificate) = launch {
-        stateNotification.showNotification(certificate.containerId, true)
+    fun recycleCertificate(certificate: CwaCovidCertificate, updateNotification: Boolean = false) = launch {
+        if (updateNotification) {
+            stateNotification.showNotification(certificate.containerId, true)
+        }
         recycledCertificatesProvider.recycleCertificate(certificate.containerId)
     }
 

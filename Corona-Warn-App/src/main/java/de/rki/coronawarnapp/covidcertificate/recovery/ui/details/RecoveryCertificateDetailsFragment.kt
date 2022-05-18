@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.ui.details
 
+import android.app.NotificationManager
+import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +24,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
+import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
@@ -215,9 +218,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun showCertificateDeletionRequest() {
+        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val existingNotification = notificationManager.activeNotifications
+        val shouldUpdateNotification =
+            existingNotification.any { it.id == NotificationConstants.DCC_STATE_CHECK_NOTIFICATION_ID }
         RecycleBinDialogType.RecycleCertificateConfirmation.show(
             fragment = this,
-            positiveButtonAction = { viewModel.recycleRecoveryCertificateConfirmed() }
+            positiveButtonAction = { viewModel.recycleRecoveryCertificateConfirmed(shouldUpdateNotification) }
         )
     }
 

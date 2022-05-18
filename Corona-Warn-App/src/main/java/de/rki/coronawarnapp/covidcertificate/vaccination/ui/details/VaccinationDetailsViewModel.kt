@@ -49,9 +49,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
-    fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
+    fun recycleVaccinationCertificateConfirmed(updateNotification: Boolean = false) = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
-        stateNotification.showNotification(containerId, true)
+        if (updateNotification) {
+            stateNotification.showNotification(containerId, true)
+        }
         vaccinationCertificateRepository.recycleCertificate(containerId)
         events.postValue(VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }

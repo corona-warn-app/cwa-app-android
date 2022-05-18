@@ -45,9 +45,11 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCode?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun recycleTestCertificateConfirmed() = launch(scope = appScope) {
+    fun recycleTestCertificateConfirmed(updateNotification: Boolean = false) = launch(scope = appScope) {
         Timber.d("Recycling Test Certificate=$containerId")
-        stateNotification.showNotification(containerId, true)
+        if (updateNotification) {
+            stateNotification.showNotification(containerId, true)
+        }
         testCertificateRepository.recycleCertificate(containerId)
         events.postValue(TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }
