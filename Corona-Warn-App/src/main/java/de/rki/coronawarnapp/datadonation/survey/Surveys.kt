@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.datadonation.storage.OTPRepository
 import de.rki.coronawarnapp.datadonation.survey.server.SurveyServer
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -70,12 +71,13 @@ class Surveys @Inject constructor(
     suspend fun requestDetails(type: Type): Survey {
         val config = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", config)
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
         oneTimePasswordRepo.otpAuthorizationResult?.apply {
-            if (authorized && redeemedAt.toDateTime().monthOfYear() == now.toDateTime().monthOfYear()) {
+            if (authorized && redeemedAt.toLocalDateUtc().month == now.toLocalDateUtc().month) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
+            val a: org.joda.time.Instant
         }
 
         // generate OTP

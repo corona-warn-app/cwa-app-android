@@ -16,7 +16,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -118,8 +118,8 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
 
         // SubmissionLocalData
         every { submissionSettings.registrationTokenMigration = any() } just Runs
-        every { submissionSettings.initialTestResultReceivedAtMigration = Instant.ofEpochMilli(10101010L) } just Runs
-        every { submissionSettings.devicePairingSuccessfulAtMigration = Instant.ofEpochMilli(10101010L) } just Runs
+        every { submissionSettings.initialTestResultReceivedAtMigration = org.joda.time.Instant.ofEpochMilli(10101010L) } just Runs
+        every { submissionSettings.devicePairingSuccessfulAtMigration = org.joda.time.Instant.ofEpochMilli(10101010L) } just Runs
         every { submissionSettings.isSubmissionSuccessfulMigration = true } just Runs
         every { submissionSettings.isAllowedToSubmitKeysMigration = true } just Runs
 

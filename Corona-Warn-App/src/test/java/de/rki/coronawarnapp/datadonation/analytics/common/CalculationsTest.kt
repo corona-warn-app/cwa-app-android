@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -53,8 +54,8 @@ class CalculationsTest : BaseTest() {
             ptRisk3,
             ptRisk4,
             ptRisk5
-        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant()
+        ).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
@@ -97,8 +98,8 @@ class CalculationsTest : BaseTest() {
             ptRisk3,
             ptRisk4,
             ptRisk5
-        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant()
+        ).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
@@ -141,8 +142,8 @@ class CalculationsTest : BaseTest() {
             ptRisk3,
             ptRisk4,
             ptRisk5
-        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant()
+        ).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
@@ -185,7 +186,7 @@ class CalculationsTest : BaseTest() {
             ptRisk3,
             ptRisk4,
             ptRisk5
-        ).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
+        ).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
             null
     }
 
@@ -197,14 +198,14 @@ class CalculationsTest : BaseTest() {
             calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
+        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
             null
     }
 
     @Test
     fun `getLastChangeToHighRiskPt works 6`() {
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf<PtRiskLevelResult>().getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
+        listOf<PtRiskLevelResult>().getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
             null
     }
 
@@ -216,8 +217,8 @@ class CalculationsTest : BaseTest() {
             calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant()
+        listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
@@ -227,8 +228,8 @@ class CalculationsTest : BaseTest() {
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf(ewRisk0).getLastChangeToHighEwRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant()
+        listOf(ewRisk0).getLastChangeToHighEwRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
@@ -265,14 +266,14 @@ class CalculationsTest : BaseTest() {
             risk3,
             risk4,
             risk5
-        ).getLastChangeToHighEwRiskBefore(registeredAt) shouldBe
-            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant()
+        ).getLastChangeToHighEwRiskBefore(registeredAt.toJavaInstant()) shouldBe
+            LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant().toJavaInstant()
     }
 
     @Test
     fun `getLastChangeToHighEwRiskBefore works 3`() {
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
-        listOf<EwRiskLevelResult>().getLastChangeToHighEwRiskBefore(registeredAt) shouldBe
+        listOf<EwRiskLevelResult>().getLastChangeToHighEwRiskBefore(registeredAt.toJavaInstant()) shouldBe
             null
     }
 }

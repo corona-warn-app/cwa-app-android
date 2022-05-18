@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +28,7 @@ abstract class AnalyticsKeySubmissionDonor(
 ) : DonorModule {
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val hours = request.currentConfig.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata
-        val timeSinceTestResultToSubmit = Duration.standardHours(hours.toLong())
+        val timeSinceTestResultToSubmit = Duration.ofHours(hours.toLong())
         return if (shouldSubmitData(timeSinceTestResultToSubmit)) {
             object : DonorModule.Contribution {
                 override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) {
@@ -85,7 +85,7 @@ abstract class AnalyticsKeySubmissionDonor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
-        timeStamper.nowUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
+        timeStamper.nowJavaUTC.minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
     override suspend fun deleteData() {
         repository.reset()
