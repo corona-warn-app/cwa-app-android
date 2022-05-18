@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -18,9 +19,9 @@ class ContactDiaryWorkScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val workBuilder: ContactDiaryWorkBuilder,
     private val onboardingSettings: OnboardingSettings
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         onboardingSettings.isOnboardedFlow.onEach { isOnboarded ->
             if (isOnboarded) {
                 schedulePeriodic()

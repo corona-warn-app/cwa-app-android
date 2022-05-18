@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk.changedetection
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -37,9 +38,9 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val notificationHelper: GeneralNotifications,
     private val tracingSettings: TracingSettings,
     private val riskCardDisplayInfo: RiskCardDisplayInfo
-) {
+) : Initializer {
 
-    fun launch() {
+    override fun initialize() {
         Timber.v("Monitoring combined risk level changes.")
 
         // send notifications when risk changes from LOW to HIGH or HIGH TO LOW

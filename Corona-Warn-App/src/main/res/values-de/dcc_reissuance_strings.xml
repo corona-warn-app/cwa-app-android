@@ -2,11 +2,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
-    <string name="dcc_reissuance_success_screen_title">Zertifikat aktualisiert</string>
+    <string name="dcc_reissuance_success_screen_title">Zertifikate erneuert</string>
     <!-- YTXT: Headline for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_headline">Ihr Zertifikat wurde erfolgreich aktualisiert</string>
+    <string name="dcc_reissuance_success_screen_headline">Ihre Zertifikate wurden erfolgreich erneuert</string>
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun in der Zertifikate-Registerkarte.</string>
+    <string name="dcc_reissuance_success_screen_body">Sie finden die erneuerten Zertifikate nun in der Zertifikate-Registerkarte.</string>
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">Fertig</string>
 
@@ -25,7 +25,7 @@
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one">Die Aktualisierung des Zertifikats ist freiwillig und kostenlos.</string>
+    <string name="dcc_reissuance_bulletpoint_one">Die Erneuerung der Zertifikate ist freiwillig und kostenlos.</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
     <!-- XTXT: DCC Reissuance deletion hint-->

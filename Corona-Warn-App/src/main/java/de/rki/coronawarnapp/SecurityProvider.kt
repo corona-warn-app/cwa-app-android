@@ -5,6 +5,7 @@ import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
 import com.nimbusds.jose.util.X509CertUtils
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.http.HttpModule
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
 import org.bouncycastle.jce.provider.BouncyCastleProvider
@@ -18,7 +19,7 @@ import javax.inject.Singleton
  * Installs common security providers once during App lifecycle
  */
 @Singleton
-class SecurityProvider @Inject constructor() {
+class SecurityProvider @Inject constructor() : Initializer {
 
     private var isSetup: Boolean = false
 
@@ -27,7 +28,7 @@ class SecurityProvider @Inject constructor() {
      * Multiple calls have no additional effects.
      */
     @Synchronized
-    fun setup() {
+    override fun initialize() {
         if (isSetup) {
             Timber.tag(TAG).d("SecurityProvider setup() was already called.")
             return

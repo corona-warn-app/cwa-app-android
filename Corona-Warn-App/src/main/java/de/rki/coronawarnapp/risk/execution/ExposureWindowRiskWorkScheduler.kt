@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.risk.execution
 
-import android.annotation.SuppressLint
 import androidx.work.WorkManager
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorkBuilder
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -32,12 +32,12 @@ class ExposureWindowRiskWorkScheduler @Inject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val enfClient: ENFClient
 ) : RiskWorkScheduler(
-    workManager = workManager,
-    logTag = TAG,
-) {
+        workManager = workManager,
+        logTag = TAG,
+    ),
+    Initializer {
 
-    @SuppressLint("BinaryOperationInTimber")
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).i("setup() ExposureWindowRiskWorkScheduler")
         combine(
             backgroundModeStatus.isAutoModeEnabled,

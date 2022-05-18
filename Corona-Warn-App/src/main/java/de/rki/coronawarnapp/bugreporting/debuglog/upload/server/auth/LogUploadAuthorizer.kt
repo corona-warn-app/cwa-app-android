@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
 import kotlinx.coroutines.flow.first
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject

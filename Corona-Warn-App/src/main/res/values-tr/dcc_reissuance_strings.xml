@@ -16,6 +16,8 @@
     <string name="dcc_reissuance_error_handling_text_key_no_network">"İnternet bağlantınız kesilmiş olabilir. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
     <!-- XTXT: Text Key - Try Again -->
     <string name="dcc_reissuance_error_handling_text_key_try_again">"Sertifikanız güncellenirken bir hata oluştu. Lütfen tekrar deneyin. Hata devam ederse lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin. "</string>
+    <!-- XTXT: Text Key - Rate limit -->
+    <string name="dcc_reissuance_error_handling_text_key_rate_limit">"Sertifika zaten üç kez yeniden düzenlenmiş. Tekrar yeniden düzenlenemez."<br/>"Yeniden düzenlenen sertifikanızı PDF olarak dışa aktarıp yazdırmanızı öneririz. Ardından dilediğiniz zaman tarayabilirsiniz."</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Sertifikanız güncellenemiyor. Lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
 
@@ -24,9 +26,19 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Sertifikanızı güncellemeniz gönüllülük esasına bağlı ve ücretsiz bir işlemdir."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"Sertifikaların yalnızca bir kez güncellenebilmesini sağlamak adına eski sertifikanızın tanıtıcısı RKI tarafından belgelenir."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"Sertifikaların yalnızca bir kez güncellenebilmesini sağlamak adına eski ve yeni sertifikalarınızın tanıtıcısı RKI tarafından belgelenir. Sertifikalarınıza ilişkin diğer veriler, yenileme işleminin hemen ardından RKI tarafından silinir."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Eski sertifika otomatik olarak geri dönüşüm kutusuna taşınır ve 30 gün sonra silinir. Sertifika, bu 30 günlük süre içinde dilediğiniz zaman geri yüklenebilir."</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">"Şimdi iptal ederseniz dilediğiniz zaman sertifikaya genel bakış bölümünde güncelleme talebi oluşturabilirsiniz."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates tile -->
+    <string name="dcc_reissuance_accompanying_certificates">"Düzenlenen Diğer Sertifikalar"</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates content -->
+    <string name="dcc_reissuance_acc_certs_content">"Önceki aşı ve iyileşme sırasını yeni sertifikaya dahil etmek için yenileme sırasında ek bilgi olarak aşağıdaki sertifikalar düzenlenecektir. Bu sertifikalar yenilenmeyecektir."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates title -->
+    <string name="dcc_reissuance_acc_certs_title">"Düzenlenen Diğer Sertifikalar"</string>
+    <!-- XTXT: DCC Reissuance third bullet point-->
+    <string name="dcc_reissuance_bulletpoint_three">"Aile üyelerine ait sertifikaları yenilemeden önce lütfen ilgili kişilerin izin verdiğinden emin olun."</string>
+    <!-- XTXT: DCC Reissuance fourth bullet point-->
+    <string name="dcc_reissuance_bulletpoint_four">"Bazı durumlarda yenileme için sertifikaya ek olarak ilave sertifikalar düzenlenir. Bu işlem, önceki aşı ve iyileşme sırasını yeni sertifikaya dahil etmek için gereklidir."</string>
 </resources>

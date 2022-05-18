@@ -34,7 +34,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -101,7 +100,7 @@ class PCRProcessorTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        runBlocking { PcrTeleTanCensor.clearTans() }
+        runTest { PcrTeleTanCensor.clearTans() }
     }
 
     fun createInstance() = PCRTestProcessor(

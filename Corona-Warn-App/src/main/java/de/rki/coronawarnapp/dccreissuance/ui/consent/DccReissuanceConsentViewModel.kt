@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
+import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.sort
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -62,26 +63,24 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     fun navigateBack() = event.postValue(Back)
 
     private suspend fun CertificateReissuance.toState(): State {
-        val certificates = certificates?.mapNotNull { dccCertificate ->
+        val certificates = certificates?.mapNotNull {
             try {
                 dccQrCodeExtractor.extract(
-                    dccCertificate.certificateToReissue.certificateRef.barcodeData,
+                    it.certificateToReissue.certificateRef.barcodeData,
                     DccV1Parser.Mode.CERT_SINGLE_STRICT
-                ).data.certificate.let {
-                    DccReissuanceConsentCard.Item(
-                        it
-                    )
-                }
+                )
             } catch (e: Exception) {
                 Timber.e(e, "Failed to extract certificate")
                 null
             }
+        }.orEmpty().sort().map {
+            DccReissuanceCertificateCard.Item(it.data.certificate)
         }
 
         val accompanyingCertificatesVisible = consolidateAccompanyingCertificates().isNotEmpty()
 
         return State(
-            certificateList = certificates ?: emptyList(),
+            certificateList = certificates,
             accompanyingCertificatesVisible = accompanyingCertificatesVisible,
             divisionVisible = reissuanceDivision.visible,
             listItemsTitle = format(reissuanceDivision.listTitleText),

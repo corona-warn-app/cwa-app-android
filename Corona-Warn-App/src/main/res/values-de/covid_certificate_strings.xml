@@ -266,7 +266,7 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Wenn dies Ihr aktuell verwendetes Zertifikat ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Ab 28 Tage vor Ablauf können Sie solche Zertifikate direkt über die App erneuern lassen. Sie finden die Option "Zertifikate erneuern" dann in Ihrer Zertifikatsübersicht unter der Kachel "Status-Nachweis".</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Das Ablaufdatum wurde überschritten. Bitte erneuern Sie das Zertifikat. Sie können die Erneuerung bis maximal 3 Monate nach Ablauf über den Hinweis in Ihrer Zertifikatsübersicht anfordern. "</string>
+    <string name="expired_certificate_info">"Das Ablaufdatum wurde überschritten. Bitte erneuern Sie das Zertifikat. Sie können die Erneuerung bis maximal 90 Tage nach Ablauf über den Hinweis in Ihrer Zertifikatsübersicht anfordern. "</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Das Zertifikat wurde von einer nicht autorisierten Stelle oder fehlerhaft ausgestellt. Bitte lassen Sie das Zertifikat von einer autorisierten Stelle erneut ausstellen. "</string>
 

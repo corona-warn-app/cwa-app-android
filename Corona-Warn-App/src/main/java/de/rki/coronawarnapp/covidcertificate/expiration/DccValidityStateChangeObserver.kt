@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -21,9 +22,9 @@ class DccValidityStateChangeObserver @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val certificateProvider: CertificateProvider,
     private val dccValidityStateNotificationService: DccValidityStateNotificationService
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).d("setup()")
 
         certificateProvider.certificateContainer

@@ -9,9 +9,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
-import org.joda.time.Duration
-import org.joda.time.Instant
+import kotlinx.coroutines.test.runTest
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,7 +25,7 @@ class LogUploadServerTest : BaseIOTest() {
     @MockK private lateinit var uploadApiV1: LogUploadApiV1
     private val uploadOtp = LogUploadOtp(
         otp = "1",
-        expirationDate = Instant.EPOCH.plus(Duration.standardDays(1))
+        expirationDate = Instant.EPOCH.plus(Duration.ofDays(1))
     )
     private val snapshot = LogSnapshotter.Snapshot(
         path = File(testDir, "snapshot.zip")
@@ -41,7 +41,7 @@ class LogUploadServerTest : BaseIOTest() {
         MockKAnnotations.init(this)
 
         coEvery { uploadApiV1.uploadLog(any(), any()) } returns uploadResponse
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach
@@ -55,7 +55,7 @@ class LogUploadServerTest : BaseIOTest() {
     )
 
     @Test
-    fun `log upload`() = runBlocking {
+    fun `log upload`() = runTest {
         val instance = createInstance()
 
         instance.uploadLog(uploadOtp = uploadOtp, snapshot = snapshot) shouldBe LogUpload(
