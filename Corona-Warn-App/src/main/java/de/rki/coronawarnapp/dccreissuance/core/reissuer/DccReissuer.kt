@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuanceItem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
@@ -79,7 +80,13 @@ class DccReissuer @Inject constructor(
 
     private suspend fun register(qrCodeString: QrCodeString) {
         val qrCode = qrCodeString.extract()
-        dccQrCodeHandler.register(qrCode)
+        try {
+            dccQrCodeHandler.register(qrCode)
+        } catch (e: InvalidVaccinationCertificateException) {
+            // ignore if already there
+            if (e.errorCode != InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
+                throw e
+        }
     }
 
     private suspend fun QrCodeString.extract() = dccQrCodeExtractor.extract(this)
