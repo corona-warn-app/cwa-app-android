@@ -263,9 +263,9 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Діє до %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Не забудьте вчасно отримати новий цифровий сертифікат."</string>
+    <string name="expiration_info">"Якщо ви зараз користуєтеся цим сертифікатом, не забудьте вчасно поновити його. Ви можете поновити такі сертифікати безпосередньо в застосунку, якщо строк їх дії закінчиться протягом наступних 28 днів. У цьому випадку опція «Поновити сертифікати» з’явиться в огляді вашого сертифіката під плиткою «Підтвердження статусу»."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Дата закінчення строку дії минула. Отримайте новий цифровий сертифікат."</string>
+    <string name="expired_certificate_info">"Строк придатності минув. Поновіть сертифікат. Ви можете подати запит на поновлення протягом 90 днів після закінчення строку дії сертифіката, натиснувши нотатку в огляді сертифіката."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Довідка видана неуповноваженим органом або була видана неправильно. Попросіть уповноважений орган видати вам новий сертифікат. "</string>
 

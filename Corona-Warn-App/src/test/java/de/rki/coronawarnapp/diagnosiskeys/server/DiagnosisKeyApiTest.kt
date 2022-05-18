@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -55,7 +55,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("[\"DE\",\"NL\"]"))
 
-        runBlocking {
+        runTest {
             api.getLocationIndex() shouldBe listOf("DE", "NL")
         }
 
@@ -70,7 +70,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("[\"2020-08-19\",\"2020-08-20\"]"))
 
-        runBlocking {
+        runTest {
             api.getDayIndex("DE") shouldBe listOf("2020-08-19", "2020-08-20")
         }
 
@@ -85,7 +85,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("[22,23]"))
 
-        runBlocking {
+        runTest {
             api.getHourIndex("DE", "2020-08-19") shouldBe listOf("22", "23")
         }
 
@@ -100,7 +100,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("~daykeyfile"))
 
-        runBlocking {
+        runTest {
             api.downloadKeyFileForDay("DE", "2020-09-09").body()!!.string() shouldBe "~daykeyfile"
         }
 
@@ -115,7 +115,7 @@ class DiagnosisKeyApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("~hourkeyfile"))
 
-        runBlocking {
+        runTest {
             api.downloadKeyFileForHour("DE", "2020-09-09", "23").body()!!
                 .string() shouldBe "~hourkeyfile"
         }

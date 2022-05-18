@@ -19,7 +19,7 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -62,7 +62,7 @@ class DefaultPlaybookTest : BaseTest() {
     )
 
     @Test
-    fun `initial registration pattern matches`(): Unit = runBlocking {
+    fun `initial registration pattern matches`(): Unit = runTest {
         coEvery { verificationServer.retrieveRegistrationToken(any()) } returns "response"
 
         createPlaybook().initialRegistration(requestTan)
@@ -76,7 +76,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun ` registration pattern matches despite token failure`(): Unit = runBlocking {
+    fun ` registration pattern matches despite token failure`(): Unit = runTest {
         coEvery {
             verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
@@ -94,7 +94,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submission matches request pattern`(): Unit = runBlocking {
+    fun `submission matches request pattern`(): Unit = runTest {
         coEvery { verificationServer.retrieveTan(any()) } returns "tan"
 
         createPlaybook().submit(
@@ -118,7 +118,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `tan retrieval throws human readable exception`(): Unit = runBlocking {
+    fun `tan retrieval throws human readable exception`(): Unit = runTest {
         coEvery { verificationServer.retrieveTan(any()) } throws BadRequestException(null)
         try {
             createPlaybook().submit(
@@ -140,7 +140,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `keys submission throws human readable exception`(): Unit = runBlocking {
+    fun `keys submission throws human readable exception`(): Unit = runTest {
         coEvery { submissionServer.submitPayload(any()) } throws BadRequestException(null)
         try {
             createPlaybook().submit(
@@ -162,7 +162,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submission matches request pattern despite missing authcode`(): Unit = runBlocking {
+    fun `submission matches request pattern despite missing authcode`(): Unit = runTest {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {
@@ -189,7 +189,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `test result retrieval matches pattern`(): Unit = runBlocking {
+    fun `test result retrieval matches pattern`(): Unit = runTest {
         createPlaybook().testResult("token")
 
         coVerifySequence {
@@ -201,7 +201,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `dummy request pattern matches`(): Unit = runBlocking {
+    fun `dummy request pattern matches`(): Unit = runTest {
         createPlaybook().dummy()
 
         coVerifySequence {
@@ -213,7 +213,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `failures during dummy requests should be ignored`(): Unit = runBlocking {
+    fun `failures during dummy requests should be ignored`(): Unit = runTest {
         val expectedToken = "token"
         coEvery { verificationServer.retrieveRegistrationToken(any()) } returns expectedToken
         val expectedResult = CoronaTestResult.PCR_OR_RAT_PENDING
@@ -236,7 +236,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `registration pattern matches despire token failure`(): Unit = runBlocking {
+    fun `registration pattern matches despire token failure`(): Unit = runTest {
         coEvery {
             verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
@@ -253,7 +253,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `registration pattern matches despite test result failure`(): Unit = runBlocking {
+    fun `registration pattern matches despite test result failure`(): Unit = runTest {
         coEvery { verificationServer.pollTestResult(any()) } throws TestException()
 
         shouldThrow<TestException> {
@@ -269,7 +269,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `test result pattern matches despite failure`(): Unit = runBlocking {
+    fun `test result pattern matches despite failure`(): Unit = runTest {
         coEvery { verificationServer.pollTestResult(any()) } throws TestException()
 
         shouldThrow<TestException> {
@@ -285,7 +285,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submission pattern matches despite tan failure`(): Unit = runBlocking {
+    fun `submission pattern matches despite tan failure`(): Unit = runTest {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {

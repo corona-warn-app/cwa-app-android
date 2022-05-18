@@ -118,7 +118,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     fun `scheduled work should be cancelled if onboarding wasn't yet done `() = runTest(UnconfinedTestDispatcher()) {
         every { onboardingSettings.isOnboardedFlow } returns flowOf(false)
 
-        createScheduler(this).apply { setup() }
+        createScheduler(this).apply { initialize() }
 
         verifyCancelScheduledWork()
         verifyPeriodicWorkScheduled(exactly = 0)
@@ -128,7 +128,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     fun `scheduled work should be cancelled if tracing is disabled`() = runTest(UnconfinedTestDispatcher()) {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
-        createScheduler(this).apply { setup() }
+        createScheduler(this).apply { initialize() }
 
         verifyCancelScheduledWork()
         verifyPeriodicWorkScheduled(exactly = 0)

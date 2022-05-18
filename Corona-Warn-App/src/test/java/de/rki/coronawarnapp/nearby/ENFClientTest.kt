@@ -24,7 +24,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -64,12 +64,12 @@ class ENFClientTest : BaseTest() {
         val keyFiles = listOf(File("test"))
 
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
-        runBlocking {
+        runTest {
             client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe true
         }
 
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns false
-        runBlocking {
+        runTest {
             client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe false
         }
 
@@ -87,7 +87,7 @@ class ENFClientTest : BaseTest() {
         val keyFiles = emptyList<File>()
 
         coEvery { diagnosisKeyProvider.provideDiagnosisKeys(any(), any()) } returns true
-        runBlocking {
+        runTest {
             client.provideDiagnosisKeys(keyFiles, mockk()) shouldBe true
         }
 
@@ -97,7 +97,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `tracing status check is forwarded to the right module`() = runBlocking {
+    fun `tracing status check is forwarded to the right module`() = runTest {
         every { tracingStatus.isTracingEnabled } returns flowOf(true)
 
         val client = createClient()
@@ -109,7 +109,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `locationless scanning support check is forwarded to the right module`() = runBlocking {
+    fun `locationless scanning support check is forwarded to the right module`() = runTest {
         every { scanningSupport.isLocationLessScanningSupported } returns flowOf(true)
 
         val client = createClient()
@@ -122,7 +122,7 @@ class ENFClientTest : BaseTest() {
 
     @Test
     fun `calculation state depends on the last started calculation`() {
-        runBlocking {
+        runTest {
             every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to TrackedExposureDetection(
@@ -141,7 +141,7 @@ class ENFClientTest : BaseTest() {
             createClient().isPerformingExposureDetection().first() shouldBe false
         }
 
-        runBlocking {
+        runTest {
             every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to TrackedExposureDetection(
@@ -159,7 +159,7 @@ class ENFClientTest : BaseTest() {
             createClient().isPerformingExposureDetection().first() shouldBe true
         }
 
-        runBlocking {
+        runTest {
             every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to TrackedExposureDetection(
@@ -184,7 +184,7 @@ class ENFClientTest : BaseTest() {
 
     @Test
     fun `validate that we only get the last finished calcluation`() {
-        runBlocking {
+        runTest {
             every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
                     "1" to TrackedExposureDetection(
@@ -216,7 +216,7 @@ class ENFClientTest : BaseTest() {
             createClient().lastSuccessfulTrackedExposureDetection().first()!!.identifier shouldBe "2"
         }
 
-        runBlocking {
+        runTest {
             every { exposureDetectionTracker.calculations } returns flowOf(
                 mapOf(
                     "0" to TrackedExposureDetection(
@@ -255,7 +255,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `exposure windows check is forwarded to the right module`() = runBlocking {
+    fun `exposure windows check is forwarded to the right module`() = runTest {
         val exposureWindowList = emptyList<ExposureWindow>()
         coEvery { exposureWindowProvider.exposureWindows() } returns exposureWindowList
 
@@ -268,7 +268,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `enf version check is forwarded to the right module`() = runBlocking {
+    fun `enf version check is forwarded to the right module`() = runTest {
         coEvery { enfVersion.getENFClientVersion() } returns Long.MAX_VALUE
 
         createClient().getENFClientVersion() shouldBe Long.MAX_VALUE
@@ -277,7 +277,7 @@ class ENFClientTest : BaseTest() {
     }
 
     @Test
-    fun `tek history provider calls are forwarded to the right module`() = runBlocking {
+    fun `tek history provider calls are forwarded to the right module`() = runTest {
         val mockTEK = mockk<TemporaryExposureKey>()
         coEvery { tekHistoryProvider.getTEKHistory() } returns listOf(mockTEK)
 

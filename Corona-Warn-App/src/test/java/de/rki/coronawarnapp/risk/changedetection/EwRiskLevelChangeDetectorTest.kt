@@ -91,7 +91,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -112,7 +112,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -133,7 +133,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -154,7 +154,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -177,7 +177,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -207,7 +207,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
 
             advanceUntilIdle()
 
@@ -237,7 +237,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
             advanceUntilIdle()
         }
 
@@ -257,7 +257,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
 
         runTest {
             val instance = createInstance(scope = this)
-            instance.launch()
+            instance.initialize()
             advanceUntilIdle()
         }
     }

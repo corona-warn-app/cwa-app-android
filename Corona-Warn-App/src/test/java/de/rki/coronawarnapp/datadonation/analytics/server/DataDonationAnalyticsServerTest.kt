@@ -10,7 +10,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -30,7 +30,6 @@ class DataDonationAnalyticsServerTest : BaseTest() {
 
     private val testDir = File(BaseIOTest.IO_TEST_BASEDIR, this::class.java.simpleName)
     private val cacheDir = File(testDir, "cache")
-    private val httpCacheDir = File(cacheDir, "http_submission")
 
     @BeforeEach
     fun setup() {
@@ -55,7 +54,7 @@ class DataDonationAnalyticsServerTest : BaseTest() {
     ) = DataDonationAnalyticsServer(api = { customApi })
 
     @Test
-    fun `normal submission`(): Unit = runBlocking {
+    fun `normal submission`(): Unit = runTest {
         val server = createServer()
 
         val baseTime = Instant.ofEpochMilli(0)

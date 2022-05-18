@@ -4,6 +4,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -22,9 +23,9 @@ class CclConfigurationUpdateScheduler @Inject constructor(
     private val foregroundState: ForegroundState,
     private val cclConfigurationUpdater: CclConfigurationUpdater,
     private val workManager: WorkManager
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.d("setup()")
 
         // perform update every time the app comes into the foreground
