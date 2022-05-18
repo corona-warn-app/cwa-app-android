@@ -25,7 +25,7 @@
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">Ihr Einverständnis</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one">Die Aktualisierung des Zertifikats ist freiwillig und kostenlos.</string>
+    <string name="dcc_reissuance_bulletpoint_one">Die Erneuerung der Zertifikate ist freiwillig und kostenlos.</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
