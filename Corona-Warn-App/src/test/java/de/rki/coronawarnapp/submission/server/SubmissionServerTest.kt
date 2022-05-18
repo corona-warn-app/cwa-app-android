@@ -24,7 +24,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -82,7 +82,7 @@ class SubmissionServerTest : BaseTest() {
     )
 
     @Test
-    fun `genuine submission - empty checkInPadding`(): Unit = runBlocking {
+    fun `genuine submission - empty checkInPadding`(): Unit = runTest {
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)
         val unencryptedCheckIn = CheckInOuterClass.CheckIn.newBuilder()
             .setEndIntervalNumber(0)
@@ -132,7 +132,7 @@ class SubmissionServerTest : BaseTest() {
     }
 
     @Test
-    fun `genuine submission - non empty checkInPadding`(): Unit = runBlocking {
+    fun `genuine submission - non empty checkInPadding`(): Unit = runTest {
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer(
@@ -211,7 +211,7 @@ class SubmissionServerTest : BaseTest() {
     }
 
     @Test
-    fun `fake submission`(): Unit = runBlocking {
+    fun `fake submission`(): Unit = runTest {
         val server = createServer()
         coEvery { submissionApi.submitPayload(any(), any(), any(), any()) } answers {
             arg<String>(0) shouldBe "" // cwa-authorization
@@ -253,7 +253,7 @@ class SubmissionServerTest : BaseTest() {
     }
 
     @Test
-    fun allRequestHaveSameFootprintForPlausibleDeniability(): Unit = runBlocking {
+    fun allRequestHaveSameFootprintForPlausibleDeniability(): Unit = runTest {
         val server = createServer(createRealApi())
 
         val testKeyData = ByteString.copyFrom("TestKeyDataGoogle", Charsets.UTF_8)

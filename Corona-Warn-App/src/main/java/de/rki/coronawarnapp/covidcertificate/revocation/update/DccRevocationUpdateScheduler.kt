@@ -4,6 +4,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -27,9 +28,9 @@ class DccRevocationUpdateScheduler @Inject constructor(
     private val revocationListUpdater: DccRevocationListUpdater,
     private val foregroundState: ForegroundState,
     private val workManager: WorkManager
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).d("setup()")
         foregroundState.isInForeground
             .onStart { scheduleDailyWorker() }

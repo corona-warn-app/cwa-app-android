@@ -15,7 +15,6 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -56,16 +55,15 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     )
 
     @Test
-    fun `provide diagnosis keys with outdated ENF versions`() {
+    fun `provide diagnosis keys with outdated ENF versions`() = runTest {
         coEvery { enfVersion.requireMinimumVersion(any()) } throws OutdatedENFVersionException(
             current = 9000,
             required = 5000
         )
 
         val provider = createProvider()
-
         assertThrows<OutdatedENFVersionException> {
-            runTest { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe false
+            provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) shouldBe false
         }
 
         coVerify {
@@ -75,13 +73,10 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `key provision is used with DiagnosisKeyFileProvider on ENF versions from 1_7 upwards`() {
+    fun `key provision is used with DiagnosisKeyFileProvider on ENF versions from 1_7 upwards`() = runTest {
         coEvery { enfVersion.isAtLeast(any()) } returns true
-
         val provider = createProvider()
-
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
-
+        provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) shouldBe true
         coVerifySequence {
             submissionQuota.consumeQuota(1)
             googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
@@ -89,13 +84,10 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `key provision is used with key list on ENF versions 1_6`() {
+    fun `key provision is used with key list on ENF versions 1_6`() = runTest {
         coEvery { enfVersion.isAtLeast(any()) } returns false
-
         val provider = createProvider()
-
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
-
+        provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) shouldBe true
         coVerifySequence {
             submissionQuota.consumeQuota(1)
             googleENFClient.provideDiagnosisKeys(exampleKeyFiles)
@@ -103,14 +95,11 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `quota is just monitored`() {
+    fun `quota is just monitored`() = runTest {
         coEvery { submissionQuota.consumeQuota(any()) } returns false
         coEvery { enfVersion.isAtLeast(any()) } returns true
-
         val provider = createProvider()
-
-        runBlocking { provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) } shouldBe true
-
+        provider.provideDiagnosisKeys(exampleKeyFiles, mockk()) shouldBe true
         coVerifySequence {
             submissionQuota.consumeQuota(1)
             googleENFClient.provideDiagnosisKeys(any<DiagnosisKeyFileProvider>())
@@ -118,11 +107,9 @@ class DefaultDiagnosisKeyProviderTest : BaseTest() {
     }
 
     @Test
-    fun `provide empty key list`() {
+    fun `provide empty key list`() = runTest {
         val provider = createProvider()
-
-        runBlocking { provider.provideDiagnosisKeys(emptyList(), mockk()) } shouldBe true
-
+        provider.provideDiagnosisKeys(emptyList(), mockk()) shouldBe true
         coVerify {
             googleENFClient wasNot Called
             submissionQuota wasNot Called

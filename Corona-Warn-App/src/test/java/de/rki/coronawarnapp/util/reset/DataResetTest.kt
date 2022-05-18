@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.util.reset
 
 import io.mockk.coEvery
 import io.mockk.coVerify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -11,7 +11,7 @@ class DataResetTest : BaseTest() {
     private fun createResettableSet() = DaggerResetTestComponent.create().resettableSet
 
     @Test
-    fun `resets ever resettable`() = runBlockingTest {
+    fun `resets ever resettable`() = runTest {
         val resettableSet = createResettableSet()
         DataReset(resettableDataProvider = { resettableSet }).clearAllLocalData()
 
@@ -21,7 +21,7 @@ class DataResetTest : BaseTest() {
     }
 
     @Test
-    fun `errors do not interrupt resetting`() = runBlockingTest {
+    fun `errors do not interrupt resetting`() = runTest {
         val resettableSet = createResettableSet()
 
         resettableSet.forEach {

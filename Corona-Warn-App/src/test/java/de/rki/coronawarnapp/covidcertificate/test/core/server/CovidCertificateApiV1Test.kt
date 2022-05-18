@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.server
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -45,7 +45,7 @@ class CovidCertificateApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `test upload`(): Unit = runBlocking {
+    fun `test upload`(): Unit = runTest {
         val api = createAPI()
         """
             {

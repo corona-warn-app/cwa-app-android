@@ -99,7 +99,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             }
         )
 
-        instance.setup()
+        instance.initialize()
 
         verify(exactly = 1) {
             shareTestResultNotification.scheduleSharePositiveTestResultReminder(
@@ -144,7 +144,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 }
             )
 
-            instance.setup()
+            instance.initialize()
             verify(exactly = 0) {
                 shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                     PCR,
@@ -214,7 +214,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         coronaTestFlow.value = emptySet()
 
-        instance.setup()
+        instance.initialize()
 
         advanceUntilIdle()
 

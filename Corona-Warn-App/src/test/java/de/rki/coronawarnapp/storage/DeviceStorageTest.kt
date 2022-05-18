@@ -15,7 +15,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -85,7 +85,7 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `check private storage space`() {
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
@@ -103,7 +103,7 @@ class DeviceStorageTest : BaseIOTest() {
     fun `check private storage space, sub API26`() {
         every { BuildVersionWrap.SDK_INT } returns legacyApiLevel
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
@@ -118,7 +118,7 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `request space from private storage successfully`() {
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
@@ -134,7 +134,7 @@ class DeviceStorageTest : BaseIOTest() {
     fun `request space from private storage successfully, sub API26`() {
         every { BuildVersionWrap.SDK_INT } returns legacyApiLevel
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = defaultFreeSpace) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
@@ -148,7 +148,7 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `request space from private storage wth allocation`() {
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             val targetBytes = defaultFreeSpace + defaultAllocatableBytes
             deviceStorage.checkSpacePrivateStorage(requiredBytes = targetBytes) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
@@ -165,7 +165,7 @@ class DeviceStorageTest : BaseIOTest() {
     @Test
     fun `request space from private storage unsuccessfully`() {
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = false,
@@ -184,7 +184,7 @@ class DeviceStorageTest : BaseIOTest() {
         every { BuildVersionWrap.SDK_INT } returns legacyApiLevel
 
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage(requiredBytes = Long.MAX_VALUE) shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = false,
@@ -200,7 +200,7 @@ class DeviceStorageTest : BaseIOTest() {
         every { storageManager.getUuidForPath(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             deviceStorage.checkSpacePrivateStorage() shouldBe DeviceStorage.CheckResult(
                 path = privateDataDir,
                 isSpaceAvailable = true,
@@ -218,7 +218,7 @@ class DeviceStorageTest : BaseIOTest() {
         every { statsFsProvider.createStats(privateDataDir) } throws IOException("uh oh")
 
         val deviceStorage = buildInstance()
-        runBlocking {
+        runTest {
             shouldThrow<IOException> { deviceStorage.checkSpacePrivateStorage() }
         }
     }

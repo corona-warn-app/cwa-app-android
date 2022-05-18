@@ -4,7 +4,6 @@ import io.kotest.matchers.file.shouldBeEmpty
 import io.kotest.matchers.file.shouldNotBeEmptyDirectory
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -54,7 +53,7 @@ class DccTicketingAllowListStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `clear erases all data`() = runBlocking {
+    fun `clear erases all data`() = runTest {
         with(instance) {
             localStorage.shouldBeEmpty()
             save(data = data)

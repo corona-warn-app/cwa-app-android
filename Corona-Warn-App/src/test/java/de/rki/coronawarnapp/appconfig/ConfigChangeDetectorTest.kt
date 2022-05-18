@@ -57,7 +57,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
         every { riskLevelSettings.lastUsedConfigIdentifier } returns null
 
-        createInstance(this).launch()
+        createInstance(this).initialize()
 
         coVerify(exactly = 0) {
             taskController.submit(any())
@@ -69,7 +69,7 @@ class ConfigChangeDetectorTest : BaseTest() {
     fun `new identifier results in new risk level calculation`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "I'm a new identifier"
 
-        createInstance(this).launch()
+        createInstance(this).initialize()
 
         coVerifySequence {
             riskLevelStorage.clearResults()
@@ -86,7 +86,7 @@ class ConfigChangeDetectorTest : BaseTest() {
     fun `same identifier results in no op`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
-        createInstance(this).launch()
+        createInstance(this).initialize()
 
         coVerify(exactly = 0) {
             taskController.submit(any())
@@ -98,7 +98,7 @@ class ConfigChangeDetectorTest : BaseTest() {
     fun `new emissions keep triggering the check`() = runTest2 {
         every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
 
-        createInstance(this).launch()
+        createInstance(this).initialize()
         currentConfigFake.value = mockConfigId("Straw")
         currentConfigFake.value = mockConfigId("berry")
 

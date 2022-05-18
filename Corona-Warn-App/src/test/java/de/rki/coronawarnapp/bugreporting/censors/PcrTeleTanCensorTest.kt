@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +29,7 @@ class PcrTeleTanCensorTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        runBlocking { PcrTeleTanCensor.clearTans() }
+        runTest { PcrTeleTanCensor.clearTans() }
     }
 
     private fun createInstance() = PcrTeleTanCensor()

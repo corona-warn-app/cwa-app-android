@@ -28,7 +28,7 @@ import javax.inject.Inject
 class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider) {
 
     init {
-        securityProvider.setup()
+        securityProvider.initialize()
     }
 
     @Throws(DccTicketingJwtException::class)
