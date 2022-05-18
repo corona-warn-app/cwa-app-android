@@ -222,11 +222,11 @@
 
     <!-- DCC Reissuance Consent Screen -->
     <!-- XTXT: DCC Reissuance legal header-->
-    <string name="dcc_reissuance_legal_header" translatable="false">„Kabul Et“ üzerine tıklayarak aşağıdaki adımları kabul edersiniz:</string>
+    <string name="dcc_reissuance_legal_header" translatable="false">“Kabul ediyorum” seçeneğine tıklayarak, şu adımlara onay vermiş olursunuz:</string>
     <!-- XTXT: DCC Reissuance legal first bullet point-->
-    <string name="dcc_reissuance_legal_one" translatable="false">Uygulama, kontrol amaçlı olarak aşı sertifikasını RKI’ya iletir.</string>
+    <string name="dcc_reissuance_legal_one" translatable="false">Uygulama, belirtilen sertifikaları doğrulama için RKI\'ye iletir.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
-    <string name="dcc_reissuance_legal_two" translatable="false">RKI aşı sertifikasını kontrol eder ve güncel bir sertifika oluşturur ve bunu uygulamanıza aktarır.</string>
+    <string name="dcc_reissuance_legal_two" translatable="false">RKI, sertifikaları kontrol eder, yenilenen sertifikaları işleme alır ve bunları uygulamanıza iletir.</string>
 
     <!-- Family Consent Screen -->
     <!-- XTXT: Family Consent Screen: Legal: Title -->

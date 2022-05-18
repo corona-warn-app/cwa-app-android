@@ -224,9 +224,9 @@
     <!-- XTXT: DCC Reissuance legal header-->
     <string name="dcc_reissuance_legal_header" translatable="false">By tapping on “Accept”, you consent to the following steps:</string>
     <!-- XTXT: DCC Reissuance legal first bullet point-->
-    <string name="dcc_reissuance_legal_one" translatable="false">The app will transmit the vaccination certificate to the RKI for verification.</string>
+    <string name="dcc_reissuance_legal_one" translatable="false">The app will transmit the aforementioned certificates to the RKI for verification.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
-    <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the vaccination certificate, issue an updated certificate and send this to your app.</string>
+    <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the certificates, issue renewed certificates and send these to your app.</string>
 
     <!-- Family Consent Screen -->
     <!-- XTXT: Family Consent Screen: Legal: Title -->
