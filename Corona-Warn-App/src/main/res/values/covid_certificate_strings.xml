@@ -263,9 +263,9 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Valid until %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Please make sure to get a new digital certificate in time."</string>
+    <string name="expiration_info">"If this is the certificate you currently use, please be sure to renew it on time. You can renew such certificates directly in the app if they will expire within the next 28 days. In this case, the “Renew Certificates” option appears in your certificate overview, below the “Proof of Status” tile."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"The expiration date has passed. Please get a new digital certificate."</string>
+    <string name="expired_certificate_info">"The expiration date has passed. Please renew the certificate. You can request a renewal up to 90 days after a certificate expires, by clicking the note in your certificate overview."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"The certificate was issued by an unauthorized body or was issued incorrectly. Please have an authorized body issue you a new certificate. "</string>
 
