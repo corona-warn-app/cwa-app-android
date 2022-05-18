@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
@@ -34,7 +33,6 @@ class FamilyTestListAdapter :
                 DataBinderMod<FamilyTestListItem, FamilyTestListVH<FamilyTestListItem, ViewBinding>>(data),
                 // PCR
                 TypedVHCreatorMod({ data[it] is FamilyPcrTestCard.Item }) { FamilyPcrTestCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyPcrTestInvalidCard.Item }) { FamilyPcrTestInvalidCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyPcrTestRedeemedCard.Item }) { FamilyPcrTestRedeemedCard(it) },
                 // Rapid
                 TypedVHCreatorMod({ data[it] is FamilyRapidTestPendingCard.Item }) { FamilyRapidTestPendingCard(it) },

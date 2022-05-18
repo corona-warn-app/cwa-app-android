@@ -46,9 +46,10 @@ class FamilyPcrTestCard(parent: ViewGroup) :
                 it.familyCoronaTest.isPositive -> positive()
                 it.familyCoronaTest.isNegative -> negative()
                 it.familyCoronaTest.isPending -> pending()
+                it.familyCoronaTest.isInvalid -> invalid()
+                else -> invalid() // fallback
             }
         }
-
     }
 
     private fun FamilyPcrTestCardBinding.negative() {
@@ -56,7 +57,7 @@ class FamilyPcrTestCard(parent: ViewGroup) :
         status.setText(R.string.ag_homescreen_card_status_negative)
         icon.setImageResource(R.drawable.ic_test_result_illustration_negative_card)
         body.isVisible = false
-        coronaName.isVisible = true
+        targetDisease.isVisible = true
     }
 
     private fun FamilyPcrTestCardBinding.positive() {
@@ -64,15 +65,26 @@ class FamilyPcrTestCard(parent: ViewGroup) :
         status.setText(R.string.ag_homescreen_card_status_positiv)
         icon.setImageResource(R.drawable.ic_test_result_illustration_positive_card)
         body.isVisible = false
-        coronaName.isVisible = true
+        targetDisease.isVisible = true
     }
 
     private fun FamilyPcrTestCardBinding.pending() {
         status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
         status.setText(R.string.ag_homescreen_card_status_no_result)
         icon.setImageResource(R.drawable.ic_test_result_illustration_pending_card)
+        body.setText(R.string.family_tests_cards_pcr_pending_body)
         body.isVisible = true
-        coronaName.isVisible = false
+        targetDisease.isVisible = false
+    }
+
+    private fun FamilyPcrTestCardBinding.invalid() {
+        status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
+        status.setText(R.string.ag_homescreen_card_status_error)
+        icon.setImageResource(R.drawable.ic_test_result_illustration_invalid_card)
+        body.isVisible = true
+        body.setText(R.string.family_tests_cards_invalid_body)
+        targetDisease.isVisible = false
+        date.isVisible = false
     }
 
     data class Item(

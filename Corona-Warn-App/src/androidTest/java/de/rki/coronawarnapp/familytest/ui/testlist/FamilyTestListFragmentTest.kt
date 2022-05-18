@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
@@ -126,7 +125,7 @@ class FamilyTestListFragmentTest : BaseUITest() {
                     )
                 )
                 add(
-                    FamilyPcrTestInvalidCard.Item(
+                    FamilyPcrTestCard.Item(
                         familyCoronaTest = pcrInvalid,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }

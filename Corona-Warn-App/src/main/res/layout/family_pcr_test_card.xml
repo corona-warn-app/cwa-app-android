@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/spacing_medium">
 
     <TextView
         android:id="@+id/title"
@@ -49,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
-        android:id="@+id/corona_name"
+        android:id="@+id/target_disease"
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
         android:textColor="@color/colorTextSemanticGreen"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corona_name" />
+        app:layout_constraintTop_toBottomOf="@+id/target_disease" />
 
     <TextView
         android:id="@+id/body"
@@ -97,11 +98,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
         android:text="@string/family_tests_cards_pcr_date"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/body" />
