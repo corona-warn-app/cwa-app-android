@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServer
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -24,7 +25,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -215,7 +215,7 @@ class DccReissuerTest : BaseTest() {
     }
 
     @Test
-    fun `forwards errors`() = runBlockingTest {
+    fun `forwards errors`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_400
         coEvery { dccReissuanceServer.requestDccReissuance(any(), any()) } throws DccReissuanceException(
             errorCode = errorCode
@@ -224,6 +224,17 @@ class DccReissuerTest : BaseTest() {
         shouldThrow<DccReissuanceException> {
             instance().startReissuance(certificateReissuance = certificateReissuance)
         }.errorCode shouldBe errorCode
+    }
+
+    @Test
+    fun `ignores already registered`() = runTest {
+        coEvery { dccQrCodeHandler.register(any()) } throws InvalidHealthCertificateException(
+            errorCode = InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+        )
+
+        shouldNotThrowAny {
+            instance().startReissuance(certificateReissuance = certificateReissuance)
+        }
     }
 
     private fun instance() = DccReissuer(
