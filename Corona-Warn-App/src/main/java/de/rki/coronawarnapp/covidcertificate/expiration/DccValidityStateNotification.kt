@@ -12,11 +12,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentArgs
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
@@ -29,9 +26,6 @@ import javax.inject.Inject
 @Reusable
 class DccValidityStateNotification @Inject constructor(
     @AppContext private val context: Context,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
-    private val testCertificateRepository: TestCertificateRepository,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
