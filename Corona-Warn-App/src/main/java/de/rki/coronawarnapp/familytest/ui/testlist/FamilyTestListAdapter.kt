@@ -3,10 +3,8 @@ package de.rki.coronawarnapp.familytest.ui.testlist
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestInvalidCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestNegativeCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestPendingCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
@@ -35,9 +33,7 @@ class FamilyTestListAdapter :
                 StableIdMod(data),
                 DataBinderMod<FamilyTestListItem, FamilyTestListVH<FamilyTestListItem, ViewBinding>>(data),
                 // PCR
-                TypedVHCreatorMod({ data[it] is FamilyPcrTestPendingCard.Item }) { FamilyPcrTestPendingCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyPcrTestNegativeCard.Item }) { FamilyPcrTestNegativeCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyPcrTestPositiveCard.Item }) { FamilyPcrTestPositiveCard(it) },
+                TypedVHCreatorMod({ data[it] is FamilyPcrTestCard.Item }) { FamilyPcrTestCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyPcrTestInvalidCard.Item }) { FamilyPcrTestInvalidCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyPcrTestRedeemedCard.Item }) { FamilyPcrTestRedeemedCard(it) },
                 // Rapid

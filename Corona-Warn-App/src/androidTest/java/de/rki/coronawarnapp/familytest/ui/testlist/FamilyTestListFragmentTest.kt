@@ -13,10 +13,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestInvalidCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestNegativeCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestPendingCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
@@ -86,7 +84,7 @@ class FamilyTestListFragmentTest : BaseUITest() {
                     )
                 )
                 add(
-                    FamilyPcrTestPositiveCard.Item(
+                    FamilyPcrTestCard.Item(
                         familyCoronaTest = pcrPositive,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
@@ -100,7 +98,7 @@ class FamilyTestListFragmentTest : BaseUITest() {
                     )
                 )
                 add(
-                    FamilyPcrTestNegativeCard.Item(
+                    FamilyPcrTestCard.Item(
                         familyCoronaTest = pcrNegative,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
@@ -114,7 +112,7 @@ class FamilyTestListFragmentTest : BaseUITest() {
                     )
                 )
                 add(
-                    FamilyPcrTestPendingCard.Item(
+                    FamilyPcrTestCard.Item(
                         familyCoronaTest = pcrPending,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }

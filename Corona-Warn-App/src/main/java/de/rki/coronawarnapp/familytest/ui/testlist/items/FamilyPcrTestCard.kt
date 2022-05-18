@@ -4,15 +4,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FamilyPcrTestCardFinalBinding
+import de.rki.coronawarnapp.databinding.FamilyPcrTestCardBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListAdapter
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestNegativeCard.Item
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard.Item
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class FamilyPcrTestNegativeCard(parent: ViewGroup) :
-    FamilyTestListAdapter.FamilyTestListVH<Item, FamilyPcrTestCardFinalBinding>(
+class FamilyPcrTestCard(parent: ViewGroup) :
+    FamilyTestListAdapter.FamilyTestListVH<Item, FamilyPcrTestCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ),
@@ -25,11 +25,11 @@ class FamilyPcrTestNegativeCard(parent: ViewGroup) :
     }
 
     override val viewBinding = lazy {
-        FamilyPcrTestCardFinalBinding
+        FamilyPcrTestCardBinding
             .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: FamilyPcrTestCardFinalBinding.(
+    override val onBindData: FamilyPcrTestCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
@@ -42,11 +42,37 @@ class FamilyPcrTestNegativeCard(parent: ViewGroup) :
             itemView.setOnClickListener { _ ->
                 it.onClickAction(item)
             }
+            when  {
+                it.familyCoronaTest.isPositive -> positive()
+                it.familyCoronaTest.isNegative -> negative()
+                it.familyCoronaTest.isPending -> pending()
+            }
         }
 
-        status.setTextColor(parent.resources.getColor(R.color.colorTextSemanticGreen, null))
+    }
+
+    private fun FamilyPcrTestCardBinding.negative() {
+        status.setTextColor(resources.getColor(R.color.colorTextSemanticGreen, null))
         status.setText(R.string.ag_homescreen_card_status_negative)
         icon.setImageResource(R.drawable.ic_test_result_illustration_negative_card)
+        body.isVisible = false
+        coronaName.isVisible = true
+    }
+
+    private fun FamilyPcrTestCardBinding.positive() {
+        status.setTextColor(resources.getColor(R.color.colorTextSemanticRed, null))
+        status.setText(R.string.ag_homescreen_card_status_positiv)
+        icon.setImageResource(R.drawable.ic_test_result_illustration_positive_card)
+        body.isVisible = false
+        coronaName.isVisible = true
+    }
+
+    private fun FamilyPcrTestCardBinding.pending() {
+        status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
+        status.setText(R.string.ag_homescreen_card_status_no_result)
+        icon.setImageResource(R.drawable.ic_test_result_illustration_pending_card)
+        body.isVisible = true
+        coronaName.isVisible = false
     }
 
     data class Item(

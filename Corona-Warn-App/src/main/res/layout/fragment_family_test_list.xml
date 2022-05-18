@@ -43,7 +43,7 @@
             android:clipToPadding="false"
             android:paddingBottom="@dimen/spacing_fab_padding"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/family_pcr_test_card_final" />
+            tools:listitem="@layout/family_pcr_test_card" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
