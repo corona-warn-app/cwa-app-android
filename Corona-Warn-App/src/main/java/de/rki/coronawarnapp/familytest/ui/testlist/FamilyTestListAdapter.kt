@@ -3,14 +3,10 @@ package de.rki.coronawarnapp.familytest.ui.testlist
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestOutdatedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPendingCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestRedeemedCard
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
@@ -31,14 +27,8 @@ class FamilyTestListAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<FamilyTestListItem, FamilyTestListVH<FamilyTestListItem, ViewBinding>>(data),
-                // PCR
-                TypedVHCreatorMod({ data[it] is FamilyPcrTestCard.Item }) { FamilyPcrTestCard(it) },
+                TypedVHCreatorMod({ data[it] is FamilyTestListCard.Item }) { FamilyTestListCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyPcrTestRedeemedCard.Item }) { FamilyPcrTestRedeemedCard(it) },
-                // Rapid
-                TypedVHCreatorMod({ data[it] is FamilyRapidTestPendingCard.Item }) { FamilyRapidTestPendingCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyRapidTestNegativeCard.Item }) { FamilyRapidTestNegativeCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyRapidTestPositiveCard.Item }) { FamilyRapidTestPositiveCard(it) },
-                TypedVHCreatorMod({ data[it] is FamilyRapidTestInvalidCard.Item }) { FamilyRapidTestInvalidCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyRapidTestOutdatedCard.Item }) { FamilyRapidTestOutdatedCard(it) },
                 TypedVHCreatorMod({ data[it] is FamilyRapidTestRedeemedCard.Item }) { FamilyRapidTestRedeemedCard(it) },
             )

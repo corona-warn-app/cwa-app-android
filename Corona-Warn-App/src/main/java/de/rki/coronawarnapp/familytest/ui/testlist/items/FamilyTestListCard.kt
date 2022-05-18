@@ -4,15 +4,16 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FamilyPcrTestCardBinding
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.databinding.FamilyTestListCardBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListAdapter
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard.Item
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListCard.Item
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class FamilyPcrTestCard(parent: ViewGroup) :
-    FamilyTestListAdapter.FamilyTestListVH<Item, FamilyPcrTestCardBinding>(
+class FamilyTestListCard(parent: ViewGroup) :
+    FamilyTestListAdapter.FamilyTestListVH<Item, FamilyTestListCardBinding>(
         R.layout.home_card_container_layout,
         parent
     ),
@@ -25,34 +26,46 @@ class FamilyPcrTestCard(parent: ViewGroup) :
     }
 
     override val viewBinding = lazy {
-        FamilyPcrTestCardBinding
+        FamilyTestListCardBinding
             .inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    override val onBindData: FamilyPcrTestCardBinding.(
+    override val onBindData: FamilyTestListCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         latestItem?.let {
-            title.text = it.familyCoronaTest.personName
             val userDate = it.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
-            date.text = resources.getString(R.string.family_tests_cards_pcr_date, userDate)
-            notificationBadge.isVisible = it.familyCoronaTest.hasBadge
-            itemView.setOnClickListener { _ ->
-                it.onClickAction(item)
+
+            when (it.familyCoronaTest.type) {
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> {
+                    findings.setText(R.string.family_tests_cards_rapid_title)
+                    date.text = resources.getString(R.string.family_tests_cards_rapid_date, userDate)
+                }
+                BaseCoronaTest.Type.PCR -> {
+                    findings.setText(R.string.family_tests_cards_pcr_title)
+                    date.text = resources.getString(R.string.family_tests_cards_pcr_date, userDate)
+                }
             }
-            when  {
+
+            when {
                 it.familyCoronaTest.isPositive -> positive()
                 it.familyCoronaTest.isNegative -> negative()
                 it.familyCoronaTest.isPending -> pending()
                 it.familyCoronaTest.isInvalid -> invalid()
                 else -> invalid() // fallback
             }
+
+            title.text = it.familyCoronaTest.personName
+            notificationBadge.isVisible = it.familyCoronaTest.hasBadge
+            itemView.setOnClickListener { _ ->
+                it.onClickAction(item)
+            }
         }
     }
 
-    private fun FamilyPcrTestCardBinding.negative() {
+    private fun FamilyTestListCardBinding.negative() {
         status.setTextColor(resources.getColor(R.color.colorTextSemanticGreen, null))
         status.setText(R.string.ag_homescreen_card_status_negative)
         icon.setImageResource(R.drawable.ic_test_result_illustration_negative_card)
@@ -60,7 +73,7 @@ class FamilyPcrTestCard(parent: ViewGroup) :
         targetDisease.isVisible = true
     }
 
-    private fun FamilyPcrTestCardBinding.positive() {
+    private fun FamilyTestListCardBinding.positive() {
         status.setTextColor(resources.getColor(R.color.colorTextSemanticRed, null))
         status.setText(R.string.ag_homescreen_card_status_positiv)
         icon.setImageResource(R.drawable.ic_test_result_illustration_positive_card)
@@ -68,7 +81,7 @@ class FamilyPcrTestCard(parent: ViewGroup) :
         targetDisease.isVisible = true
     }
 
-    private fun FamilyPcrTestCardBinding.pending() {
+    private fun FamilyTestListCardBinding.pending() {
         status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
         status.setText(R.string.ag_homescreen_card_status_no_result)
         icon.setImageResource(R.drawable.ic_test_result_illustration_pending_card)
@@ -77,7 +90,7 @@ class FamilyPcrTestCard(parent: ViewGroup) :
         targetDisease.isVisible = false
     }
 
-    private fun FamilyPcrTestCardBinding.invalid() {
+    private fun FamilyTestListCardBinding.invalid() {
         status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
         status.setText(R.string.ag_homescreen_card_status_error)
         icon.setImageResource(R.drawable.ic_test_result_illustration_invalid_card)

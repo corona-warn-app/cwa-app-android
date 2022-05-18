@@ -10,14 +10,10 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest.State
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestOutdatedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPendingCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestRedeemedCard
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -116,7 +112,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
         when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
-            State.PENDING, State.NEGATIVE, State.POSITIVE, State.INVALID -> FamilyPcrTestCard.Item(
+            State.PENDING, State.NEGATIVE, State.POSITIVE, State.INVALID -> FamilyTestListCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {
                     events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
@@ -134,7 +130,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
             )
             // Should not be possible
             State.OUTDATED,
-            State.RECYCLED -> FamilyPcrTestCard.Item(
+            State.RECYCLED -> FamilyTestListCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { _, _ -> }
@@ -143,34 +139,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
         when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
-            State.PENDING -> FamilyRapidTestPendingCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.NEGATIVE -> FamilyRapidTestNegativeCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.POSITIVE -> FamilyRapidTestPositiveCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.INVALID -> FamilyRapidTestInvalidCard.Item(
+            State.PENDING,
+            State.NEGATIVE,
+            State.POSITIVE,
+            State.INVALID -> FamilyTestListCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {
                     events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
@@ -194,7 +166,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 onDeleteTest = { events.postValue(FamilyTestListEvent.DeleteTest(this)) }
             )
             // Should not be possible
-            State.RECYCLED -> FamilyRapidTestInvalidCard.Item(
+            State.RECYCLED -> FamilyTestListCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { _, _ -> }

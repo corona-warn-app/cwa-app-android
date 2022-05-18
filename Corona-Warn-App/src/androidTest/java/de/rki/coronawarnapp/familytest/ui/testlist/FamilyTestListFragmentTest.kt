@@ -13,14 +13,10 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestRedeemedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestInvalidCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestOutdatedCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPendingCard
-import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestRedeemedCard
+import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -76,56 +72,56 @@ class FamilyTestListFragmentTest : BaseUITest() {
         MutableLiveData(
             mutableListOf<FamilyTestListItem>().apply {
                 add(
-                    FamilyRapidTestPositiveCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = ratPositive,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyPcrTestCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = pcrPositive,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyRapidTestNegativeCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = ratNegative,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyPcrTestCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = pcrNegative,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyRapidTestPendingCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = ratPending,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyPcrTestCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = pcrPending,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyRapidTestInvalidCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = ratInvalid,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
                     )
                 )
                 add(
-                    FamilyPcrTestCard.Item(
+                    FamilyTestListCard.Item(
                         familyCoronaTest = pcrInvalid,
                         onClickAction = {},
                         onSwipeItem = { _, _ -> }
