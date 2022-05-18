@@ -118,8 +118,14 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
 
         // SubmissionLocalData
         every { submissionSettings.registrationTokenMigration = any() } just Runs
-        every { submissionSettings.initialTestResultReceivedAtMigration = org.joda.time.Instant.ofEpochMilli(10101010L) } just Runs
-        every { submissionSettings.devicePairingSuccessfulAtMigration = org.joda.time.Instant.ofEpochMilli(10101010L) } just Runs
+        every {
+            submissionSettings.initialTestResultReceivedAtMigration =
+                org.joda.time.Instant.ofEpochMilli(10101010L)
+        } just Runs
+        every {
+            submissionSettings.devicePairingSuccessfulAtMigration =
+                org.joda.time.Instant.ofEpochMilli(10101010L)
+        } just Runs
         every { submissionSettings.isSubmissionSuccessfulMigration = true } just Runs
         every { submissionSettings.isAllowedToSubmitKeysMigration = true } just Runs
 

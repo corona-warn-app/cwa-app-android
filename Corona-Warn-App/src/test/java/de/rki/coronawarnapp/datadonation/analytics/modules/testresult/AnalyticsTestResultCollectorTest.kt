@@ -68,7 +68,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns org.joda.time.Instant.parse("2021-03-02T09:57:11.00Z")
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns
+            org.joda.time.Instant.parse("2021-03-02T09:57:11.00Z")
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
             org.joda.time.Instant.parse("2021-03-02T09:57:11.00Z").toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
