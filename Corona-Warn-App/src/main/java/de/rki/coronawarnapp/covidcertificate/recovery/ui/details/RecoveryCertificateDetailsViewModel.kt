@@ -5,6 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -22,6 +23,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val containerId: RecoveryCertificateContainerId,
     @Assisted private val fromScanner: Boolean,
+    private val stateNotification: DccValidityStateNotification,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope
@@ -44,6 +46,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
 
     fun recycleRecoveryCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Recovery Certificate=$containerId")
+        stateNotification.showNotification(containerId, true)
         recoveryCertificateRepository.recycleCertificate(containerId)
         events.postValue(RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }

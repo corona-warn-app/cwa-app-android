@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
-import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -42,7 +41,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -69,14 +67,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                if (it == null) {
-                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    goBack()
-                    return@observe
-                }
-
-                bindCertificateViews(it)
-                val stateInValid = !it.isDisplayValid
+                it?.let { certificate -> bindCertificateViews(certificate) }
+                val stateInValid = it?.isDisplayValid == false
                 val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
 
                 val (background, starsTint) = when {
@@ -94,7 +86,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 )
 
                 qrCodeCard.apply {
-                    val request = it.getValidQrCode(showBlocked = true)
+                    val request = it?.getValidQrCode(showBlocked = true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
@@ -132,14 +124,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> goBack()
+                    VaccinationDetailsNavigation.Back -> popBackStack()
                     VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                         if (args.numberOfCertificates == 1) {
                             doNavigate(
                                 VaccinationDetailsFragmentDirections
                                     .actionVaccinationDetailsFragmentToPersonOverviewFragment()
                             )
-                        } else goBack()
+                        } else popBackStack()
                     }
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
@@ -167,8 +159,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 }
             }
         }
-
-    private fun goBack() = popBackStack()
 
     override fun onStop() {
         super.onStop()
@@ -250,8 +240,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     companion object {
-        private val TAG = tag<VaccinationDetailsFragment>()
-
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
             return "cwa://vaccination-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()

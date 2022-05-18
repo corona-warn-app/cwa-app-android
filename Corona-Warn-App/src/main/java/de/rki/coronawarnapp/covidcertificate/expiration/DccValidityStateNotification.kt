@@ -12,8 +12,11 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.details.RecoveryCertificateDetailsFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentArgs
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
@@ -26,20 +29,24 @@ import javax.inject.Inject
 @Reusable
 class DccValidityStateNotification @Inject constructor(
     @AppContext private val context: Context,
+    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
+    private val testCertificateRepository: TestCertificateRepository,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
-    fun showNotification(containerId: CertificateContainerId): Boolean {
+    fun showNotification(containerId: CertificateContainerId, isDeletedCert: Boolean = false): Boolean {
         Timber.d("showNotification(containerId=$containerId)")
-        showNotification(containerId, R.string.notification_body_certificate)
+        showNotification(containerId, R.string.notification_body_certificate, isDeletedCert)
         return true // we always show it independent of foreground state
     }
 
     private fun showNotification(
         containerId: CertificateContainerId,
-        @StringRes text: Int
+        @StringRes text: Int,
+        isDeletedCert: Boolean
     ) {
-        val pendingIntent = buildPendingIntent(containerId)
+        val pendingIntent = buildPendingIntent(containerId, isDeletedCert)
 
         val notification = notificationHelper.newBaseBuilder().apply {
             setContentIntent(pendingIntent)
@@ -53,8 +60,8 @@ class DccValidityStateNotification @Inject constructor(
         )
     }
 
-    private fun buildPendingIntent(containerId: CertificateContainerId): PendingIntent {
-        val destination = when (containerId) {
+    private fun buildPendingIntent(containerId: CertificateContainerId, isDeletedCert: Boolean): PendingIntent {
+        val destination = if (isDeletedCert) R.id.personOverviewFragment else when (containerId) {
             is VaccinationCertificateContainerId -> R.id.vaccinationDetailsFragment
             is TestCertificateContainerId -> R.id.testCertificateDetailsFragment
             is RecoveryCertificateContainerId -> R.id.recoveryCertificateDetailsFragment

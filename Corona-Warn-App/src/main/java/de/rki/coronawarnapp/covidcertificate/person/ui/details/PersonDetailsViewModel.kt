@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.VaccinationState
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
@@ -49,6 +50,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
+    private val stateNotification: DccValidityStateNotification,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
@@ -225,6 +227,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     )
 
     fun recycleCertificate(certificate: CwaCovidCertificate) = launch {
+        stateNotification.showNotification(certificate.containerId, true)
         recycledCertificatesProvider.recycleCertificate(certificate.containerId)
     }
 
