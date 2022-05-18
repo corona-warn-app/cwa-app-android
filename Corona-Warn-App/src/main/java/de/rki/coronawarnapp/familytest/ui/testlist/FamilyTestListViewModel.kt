@@ -112,7 +112,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
         when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
-            State.PENDING, State.NEGATIVE, State.POSITIVE, State.INVALID -> FamilyTestListCard.Item(
+            State.PENDING,
+            State.NEGATIVE,
+            State.POSITIVE,
+            State.INVALID -> FamilyTestListCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {
                     events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
