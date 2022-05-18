@@ -263,9 +263,9 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Валидно до %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Моля, снабдете се с нов цифров сертификат навреме."</string>
+    <string name="expiration_info">"Ако това е сертификатът, който използвате в момента, погрижете се да бъде подновен навреме. Можете да подновявате подобни сертификати директно в приложението, ако изтичат в следващите 28 дни. В такъв случай в прегледа на сертификата ви се показва опцията “Подновяване на сертификата”, под плочка “Доказателство за статус”."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Срокът на валидност е изтекъл. Моля, снабдете се с нов цифров сертификат."</string>
+    <string name="expired_certificate_info">"Срокът на валидност е изтекъл. Моля, подновете сертификата. Можете да заявите подновяване до 90 дни след изтичането на сертификата, като кликнете върху бележката в прегледа на вашия сертификат."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Сертификатът е издаден от неоторизиран орган или неправилно. Моля, заявете нов сертификат от оторизиран орган. "</string>
 
