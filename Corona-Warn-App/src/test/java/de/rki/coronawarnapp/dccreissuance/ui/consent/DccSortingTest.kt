@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccreissuance.ui.consent.acccert
+package de.rki.coronawarnapp.dccreissuance.ui.consent
 
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class SortTest : BaseTest() {
+class DccSortingTest : BaseTest() {
 
     @MockK lateinit var vacQrCode: VaccinationCertificateQRCode
     @MockK lateinit var recQrCode: RecoveryCertificateQRCode
