@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Цей період включається в обчислення."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Ваш ризик зараження можна обчислити лише для періодів, протягом яких була активна реєстрація ризиків зараження. Таким чином, функція реєстрації повинна залишатися активною постійно. Реєстрація ризиків зараження охоплює останні %d днів."</string>
+    <string name="risk_details_information_body_period_logged">"Коли реєстрація ризику зараження активна, застосунок обчислює ваш особистий ризик зараження. Це робиться шляхом вимірювання тривалості та близькості вашого контакту з людьми, у яких був діагностований коронавірус протягом останніх %d днів. При реєстрації ризику зараження також враховуються ваші реєстрації. Вас попереджають, якщо ви перебували в одній кімнаті одночасно з людиною, у якої був діагностований коронавірус, або до 30 хвилин після цього."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Застосунок Corona-Warn-App було встановлено сьогодні. Ризик зараження обчислюється за періоди, протягом яких була активна реєстрація ризиків зараження. Якщо ви зустрілися з іншими людьми і реєстрація ризиків зараження була активна, обчислюється ваш ризик зараження."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -709,7 +709,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Давайте боротися з коронавірусом разом"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Інститут Роберта Коха (RKI) є федеральним державним органом охорони здоров’я Німеччини. RKI публікує Corona-Warn-App від імені федерального уряду. Застосунок призначений як цифрове доповнення до вже запроваджених заходів охорони здоров’я: соціального дистанціювання, гігієни та масок для обличчя."</string>
+    <string name="information_about_body_emphasized">"Інститут Роберта Коха (RKI) є федеральним державним органом охорони здоров’я Німеччини. RKI публікує Corona-Warn-App від імені федерального уряду. Застосунок призначений як цифрове доповнення до гігієнічних заходів, таких як носіння масок і соціальне дистанціювання."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Люди, які користуються застосунком, допомагають відстежувати та розривати ланцюжки зараження. Застосунок зберігає зустрічі з іншими людьми локально на вашому пристрої. Ви отримаєте сповіщення, якщо ви зустрілися з людьми, у яких пізніше був діагностований коронавірус. Ваша особистість і конфіденційність завжди захищені."</string>
     <!-- XACT: describes illustration -->
@@ -773,7 +773,7 @@
     <!-- YTXT: subtitle for legal information page, publisher section -->
     <string name="information_legal_subtitle_publisher">"(відповідальний відповідно до § 5 (1) TMG, § 18 (1) MStV)"</string>
     <!-- YTXT: body for legal information page, publisher section -->
-    <string name="information_legal_body_publisher">"Інститут Роберта Коха"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Берлін"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"представлений своїм президентом"</string>
+    <string name="information_legal_body_publisher">"Інститут Роберта Коха"<xliff:g id="line_break">"\n"</xliff:g>"Нордуфер 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Берлін, Німеччина"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"представлений своїм президентом"</string>
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Контакт"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
@@ -1800,6 +1800,12 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Скасувати"</string>
 
+    <!-- XHED: Title of scanner app shortcut -->
+    <string name="app_shortcut_scanner_title">"Сканувати QR-коди"</string>
+    <!-- XHED: Title of certificates app shortcut -->
+    <string name="app_shortcut_certificates_title">"Відобразити сертифікати"</string>
+    <!-- XHED: Title of check-ins app shortcut -->
+    <string name="app_shortcut_check_ins_title">"Відобразити реєстрації"</string>
     <!-- XHED: Title of contact diary app shortcut -->
     <string name="app_shortcut_contact_diary_title">"Додати запис"</string>
 

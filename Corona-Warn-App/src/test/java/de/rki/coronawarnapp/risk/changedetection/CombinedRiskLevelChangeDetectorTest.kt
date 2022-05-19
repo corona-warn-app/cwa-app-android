@@ -152,7 +152,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             flowOf(createLastCombinedRiskResults(riskSequence.first(), LocalDate.parse("2022-01-01")))
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -185,7 +185,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -217,7 +217,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -249,7 +249,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -280,7 +280,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -309,7 +309,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -345,7 +345,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -375,7 +375,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 
@@ -399,7 +399,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         )
 
         runTest {
-            createInstance(scope = this).launch()
+            createInstance(scope = this).initialize()
 
             advanceUntilIdle()
 

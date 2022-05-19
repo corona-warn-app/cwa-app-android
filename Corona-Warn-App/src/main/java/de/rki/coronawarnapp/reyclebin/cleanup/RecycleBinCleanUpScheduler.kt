@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.cleanup
 
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,9 @@ class RecycleBinCleanUpScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val foregroundState: ForegroundState,
     private val recycleBinCleanUpService: RecycleBinCleanUpService
-) {
+) : Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.d("setup()")
 
         foregroundState.isInForeground

@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -151,14 +151,14 @@ class DefaultTracingStatusTest : BaseTest() {
             }
         }
 
-        runBlocking {
+        runTest {
             tracingStatus.disableTracingIfEnabled()
             verify(exactly = 0) { tracingStatus.setTracing(any(), any(), any(), any()) }
         }
 
         enabledFlow.value = true
 
-        runBlocking {
+        runTest {
             tracingStatus.disableTracingIfEnabled() shouldBe true
             verify(exactly = 1) { tracingStatus.setTracing(any(), any(), any(), any()) }
         }

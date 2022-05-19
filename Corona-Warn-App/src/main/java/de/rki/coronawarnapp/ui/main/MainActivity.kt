@@ -317,7 +317,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onResume() {
         super.onResume()
         viewModel.doBackgroundNoiseCheck()
-        dataDonationAnalyticsScheduler.schedulePeriodic()
+        dataDonationAnalyticsScheduler.initialize()
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {

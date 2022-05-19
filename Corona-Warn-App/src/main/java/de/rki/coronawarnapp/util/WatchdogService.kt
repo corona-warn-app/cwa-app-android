@@ -5,6 +5,7 @@ import android.net.wifi.WifiManager
 import android.os.PowerManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -25,7 +26,7 @@ class WatchdogService @Inject constructor(
     @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
     private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
     private val presenceTracingRiskRepository: PresenceTracingRiskWorkScheduler,
-) {
+) : Initializer {
 
     private val powerManager by lazy {
         context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -34,7 +35,7 @@ class WatchdogService @Inject constructor(
         context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
 
-    fun launch() {
+    override fun initialize() {
         val isAutoModeEnable = runBlocking { backgroundModeStatus.isAutoModeEnabled.first() }
         // Only do this if the background jobs are enabled
         if (!isAutoModeEnable) {

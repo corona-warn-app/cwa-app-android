@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -22,9 +23,9 @@ class ConfigChangeDetector @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val riskLevelSettings: RiskLevelSettings,
     private val riskLevelStorage: RiskLevelStorage
-) {
+) : Initializer {
 
-    fun launch() {
+    override fun initialize() {
         Timber.tag(TAG).v("Monitoring config changes.")
         appConfigProvider.currentConfig
             .distinctUntilChangedBy { it.identifier }

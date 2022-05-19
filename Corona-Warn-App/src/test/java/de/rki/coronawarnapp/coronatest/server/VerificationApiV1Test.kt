@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -67,7 +67,7 @@ class VerificationApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `test getRegistrationToken - GUID`(): Unit = runBlocking {
+    fun `test getRegistrationToken - GUID`(): Unit = runTest {
         val api = createAPI()
 
         """
@@ -109,7 +109,7 @@ class VerificationApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `test getRegistrationToken - TAN`(): Unit = runBlocking {
+    fun `test getRegistrationToken - TAN`(): Unit = runTest {
         val api = createAPI()
 
         """
@@ -149,7 +149,7 @@ class VerificationApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `test getTestResult`(): Unit = runBlocking {
+    fun `test getTestResult`(): Unit = runTest {
         val api = createAPI()
 
         """
@@ -187,7 +187,7 @@ class VerificationApiV1Test : BaseIOTest() {
     }
 
     @Test
-    fun `test getTAN`(): Unit = runBlocking {
+    fun `test getTAN`(): Unit = runTest {
         val api = createAPI()
 
         """

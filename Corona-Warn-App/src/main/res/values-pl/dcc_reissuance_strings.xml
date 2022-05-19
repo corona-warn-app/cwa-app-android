@@ -16,6 +16,8 @@
     <string name="dcc_reissuance_error_handling_text_key_no_network">"Połączenie internetowe mogło zostać utracone. Sprawdź połączenie i spróbuj ponownie."</string>
     <!-- XTXT: Text Key - Try Again -->
     <string name="dcc_reissuance_error_handling_text_key_try_again">"Podczas aktualizacji certyfikatu wystąpił błąd. Spróbuj ponownie. Jeśli błąd będzie nadal występował, skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna. "</string>
+    <!-- XTXT: Text Key - Rate limit -->
+    <string name="dcc_reissuance_error_handling_text_key_rate_limit">"Certyfikat był już wydawany trzykrotnie. Nie można go ponownie wydać. Zalecamy wyeksportowanie ponownie wydanego certyfikatu do pliku PDF i wydrukowanie go. Wówczas można go będzie zeskanować ponownie w dowolnym momencie."</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Nie można aktualizować certyfikatu. Skontaktuj się z infolinią techniczną, wybierając opcje: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
 
@@ -24,9 +26,19 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Aktualizacja certyfikatu jest dobrowolna i bezpłatna."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"W celu zapewnienia, by certyfikaty mogły być aktualizowane tylko raz, identyfikator starego certyfikatu jest dokumentowany przez RKI."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"Aby certyfikaty mogły być odnawiane tylko raz, identyfikatory starych i nowych certyfikatów są dokumentowane przez RKI. Pozostałe dane z certyfikatów są usuwane przez RKI natychmiast po odnowieniu."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Stary certyfikat zostanie automatycznie przeniesiony do kosza i usunięty po 30 dniach. Certyfikat można odzyskać w dowolnym momencie w ciągu tych 30 dni."</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">"Jeśli teraz zrezygnujesz, możesz w każdej chwili zażądać aktualizacji w przeglądzie certyfikatów."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates tile -->
+    <string name="dcc_reissuance_accompanying_certificates">"Inne wydawane certyfikaty"</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates content -->
+    <string name="dcc_reissuance_acc_certs_content">"Następujące certyfikaty będą wydawane w trakcie odnawiania certyfikatu jako uzupełnienie w celu odnotowania w nowym certyfikacie wcześniejszych szczepień i przebycia choroby. Certyfikaty nie podlegają odnawianiu."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates title -->
+    <string name="dcc_reissuance_acc_certs_title">"Inne wydawane certyfikaty"</string>
+    <!-- XTXT: DCC Reissuance third bullet point-->
+    <string name="dcc_reissuance_bulletpoint_three">"Przed odnowieniem certyfikatów dla członków rodziny upewnij się, że dana osoba wyraża na to zgodę."</string>
+    <!-- XTXT: DCC Reissuance fourth bullet point-->
+    <string name="dcc_reissuance_bulletpoint_four">"W niektórych przypadkach dodatkowo oprócz certyfikatu do odnowienia wydawane są dodatkowe certyfikaty. Jest to konieczne, aby w nowym certyfikacie zawarte zostały informacje o wcześniejszych szczepieniach i przebyciu choroby."</string>
 </resources>

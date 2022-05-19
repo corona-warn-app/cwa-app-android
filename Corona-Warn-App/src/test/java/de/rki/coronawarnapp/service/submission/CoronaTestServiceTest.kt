@@ -17,7 +17,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -57,7 +57,7 @@ class CoronaTestServiceTest : BaseTest() {
     )
 
     @Test
-    fun registrationWithGUIDSucceeds() = runBlocking {
+    fun registrationWithGUIDSucceeds() = runTest {
         val request = RegistrationRequest(
             key = guid,
             type = VerificationKeyType.GUID,
@@ -70,7 +70,7 @@ class CoronaTestServiceTest : BaseTest() {
     }
 
     @Test
-    fun registrationWithTeleTANSucceeds() = runBlocking {
+    fun registrationWithTeleTANSucceeds() = runTest {
         val request = RegistrationRequest(
             key = tan,
             type = VerificationKeyType.TELETAN,
@@ -90,7 +90,7 @@ class CoronaTestServiceTest : BaseTest() {
             labId = null,
         )
 
-        runBlocking {
+        runTest {
             createInstance().checkTestResult(registrationToken) shouldBe CoronaTestResultResponse(
                 coronaTestResult = CoronaTestResult.PCR_NEGATIVE,
                 sampleCollectedAt = null,
