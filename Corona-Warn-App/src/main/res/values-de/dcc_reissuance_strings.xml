@@ -16,11 +16,11 @@
     <!-- XTXT: Text Key - No Network -->
     <string name="dcc_reissuance_error_handling_text_key_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XTXT: Text Key - Try Again -->
-    <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Aktualisierung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Erneuerung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
     <!-- XTXT: Text Key - Rate limit -->
     <string name="dcc_reissuance_error_handling_text_key_rate_limit">Das Zertifikat wurde bereits drei mal neu ausgestellt. Eine weitere Neuausstellung ist nicht möglich.<br />Wir empfehlen, Ihr bereits erneut ausgestelltes Zertifikat als PDF zu exportieren und auszudrucken. Damit können Sie es jederzeit erneut einscannen.</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
-    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht aktualisiert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht erneuert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
 
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">Ihr Einverständnis</string>
@@ -31,7 +31,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">Das alte Zertifikat wird automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Das Zertifikat kann innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Aktualisierung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
+    <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Erneuerung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
