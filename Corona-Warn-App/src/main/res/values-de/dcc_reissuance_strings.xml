@@ -29,7 +29,7 @@
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint">Das alte Zertifikat wird automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Das Zertifikat kann innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
+    <string name="dcc_reissuance_deletion_hint">Alte Zertifikate werden automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Die Zertifikate können innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Erneuerung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
