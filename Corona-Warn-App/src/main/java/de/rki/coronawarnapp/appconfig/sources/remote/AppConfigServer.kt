@@ -20,7 +20,6 @@ import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale

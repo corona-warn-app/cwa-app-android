@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import de.rki.coronawarnapp.util.security.RandomStrong
-import de.rki.coronawarnapp.util.toJavaInstant
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
