@@ -14,12 +14,15 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.CacheControl
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.Duration
+import java.time.Instant
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
@@ -60,7 +63,7 @@ class AppConfigServer @Inject constructor(
             exportBinary
         }
 
-        val localTime = timeStamper.nowUTC
+        val localTime = timeStamper.nowJavaUTC
 
         val headers = response.headers()
 
@@ -73,9 +76,9 @@ class AppConfigServer @Inject constructor(
             Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now 0")
             Duration.ZERO
         } else {
-            Duration(serverTime, localTime)
+            Duration.between(serverTime, localTime)
         }
-        Timber.tag(TAG).v("Time offset was %dms", offset.millis)
+        Timber.tag(TAG).v("Time offset was %dms", offset.toMillis())
 
         val cacheControl = CacheControl.parse(headers)
 
@@ -83,9 +86,9 @@ class AppConfigServer @Inject constructor(
             if (it == 0) {
                 // Server currently returns `Cache-Control	max-age=0, no-cache, no-store` which breaks our caching
                 Timber.tag(TAG).w("Server returned max-age=0: %s", cacheControl)
-                Duration.standardSeconds(300)
+                Duration.ofSeconds(300)
             } else {
-                Duration.standardSeconds(it.toLong())
+                Duration.ofSeconds(it.toLong())
             }
         }
 
@@ -102,7 +105,8 @@ class AppConfigServer @Inject constructor(
         val rawDate = headers()["Date"] ?: throw IllegalArgumentException(
             "Server date unavailable: ${headers()}"
         )
-        Instant.parse(rawDate, DATE_FORMAT)
+        DATE_FORMAT
+        LocalDateTime.parse(rawDate, DATE_FORMAT).toInstant(ZoneOffset.UTC) // TODO: check if offset is right
     } catch (e: Exception) {
         Timber.e("Failed to get server time.")
         null
@@ -111,8 +115,8 @@ class AppConfigServer @Inject constructor(
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
-        private val DATE_FORMAT = DateTimeFormat
-            .forPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
+        private val DATE_FORMAT = DateTimeFormatter
+            .ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
             .withLocale(Locale.ROOT)
         private val TAG = AppConfigServer::class.java.simpleName
     }

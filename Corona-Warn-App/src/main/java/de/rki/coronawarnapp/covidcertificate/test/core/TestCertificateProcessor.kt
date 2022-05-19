@@ -17,10 +17,11 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTe
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -159,14 +160,14 @@ class TestCertificateProcessor @Inject constructor(
 
         val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
 
-        val nowUTC = timeStamper.nowUTC
-        val certAvailableAt = data.publicKeyRegisteredAt!!.plus(certConfig.waitAfterPublicKeyRegistration)
-        val certAvailableIn = Duration(nowUTC, certAvailableAt)
+        val nowUTC = timeStamper.nowJavaUTC
+        val certAvailableAt = data.publicKeyRegisteredAt?.toJavaInstant()?.plus(certConfig.waitAfterPublicKeyRegistration)
+        val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
 
         if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
             Timber.tag(TAG)
-                .d("Delaying certificate retrieval by %d ms", certAvailableIn.millis)
-            delay(certAvailableIn.millis)
+                .d("Delaying certificate retrieval by %d ms", certAvailableIn.toMillis())
+            delay(certAvailableIn.toMillis())
         }
 
         val executeRequest: suspend () -> TestCertificateComponents = {
@@ -177,7 +178,7 @@ class TestCertificateProcessor @Inject constructor(
             executeRequest()
         } catch (e: TestCertificateException) {
             if (e.errorCode == ErrorCode.DCC_COMP_202) {
-                delay(certConfig.waitForRetry.millis)
+                delay(certConfig.waitForRetry.toMillis())
                 executeRequest()
             } else {
                 throw e

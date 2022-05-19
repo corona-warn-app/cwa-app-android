@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheck
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class DccStateChecker @Inject constructor(
         else -> try {
             val threshold = appConfigProvider.currentConfig.first().covidCertificateParameters.expirationThreshold
             dscSignatureValidator.validateSignature(dccData, dccValidityMeasures.dscSignatureList) // throws if invalid
-            dccExpirationChecker.getExpirationState(dccData, threshold, timeStamper.nowUTC)
+            dccExpirationChecker.getExpirationState(dccData, threshold.toJoda(), timeStamper.nowUTC)
         } catch (e: Exception) {
             Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
             Invalid()
