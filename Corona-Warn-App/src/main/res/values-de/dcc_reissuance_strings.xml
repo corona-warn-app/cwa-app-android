@@ -41,5 +41,5 @@
     <!-- XTXT: DCC Reissuance third bullet point-->
     <string name="dcc_reissuance_bulletpoint_three">Stellen Sie bitte bei der Erneuerung von Zertifikaten von Familienmitgliedern sicher, dass die betreffende Person einverstanden ist.</string>
     <!-- XTXT: DCC Reissuance fourth bullet point-->
-    <string name="dcc_reissuance_bulletpoint_four">In bestimmten Fällen werden zusätzlich zu dem zu erneuernden Zertifikat weitere Zertifikate übermittelt. Dies ist erforderlich, um die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufnehmen zu können.</string>
+    <string name="dcc_reissuance_bulletpoint_four">In bestimmten Fällen werden zusätzlich zu den zu erneuernden Zertifikaten weitere Zertifikate übermittelt. Dies ist erforderlich, um die bisherige Abfolge der Impfungen und Genesungen in den neuen Zertifikaten aufnehmen zu können.</string>
 </resources>
