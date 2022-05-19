@@ -161,7 +161,9 @@ class TestCertificateProcessor @Inject constructor(
         val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
 
         val nowUTC = timeStamper.nowJavaUTC
-        val certAvailableAt = data.publicKeyRegisteredAt?.toJavaInstant()?.plus(certConfig.waitAfterPublicKeyRegistration)
+        val certAvailableAt = data.publicKeyRegisteredAt
+            ?.toJavaInstant()
+            ?.plus(certConfig.waitAfterPublicKeyRegistration)
         val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
 
         if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
