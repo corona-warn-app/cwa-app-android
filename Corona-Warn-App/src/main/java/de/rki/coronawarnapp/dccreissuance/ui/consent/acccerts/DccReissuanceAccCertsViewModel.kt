@@ -7,9 +7,11 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.expiration.isExpired
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceItem
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -21,6 +23,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
+    private val timeStamper: TimeStamper,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = personCertificatesProvider
@@ -41,7 +44,9 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
                 null
             }
         }.sort().map {
-            DccReissuanceCertificateCard.Item(it.data.certificate)
+            DccReissuanceCertificateCard.Item(
+                it.data.certificate,
+                it.data.isExpired(timeStamper.nowUTC))
         }
     }
 

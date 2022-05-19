@@ -41,7 +41,7 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
                     curItem.certificate.vaccination.vaccinatedOn?.toShortDayFormat()
                         ?: curItem.certificate.vaccination.dt
                 )
-                setVaccination("$fullName\n$vaccinationDosesInfo\n$certificateDate")
+                setVaccination("$fullName\n$vaccinationDosesInfo\n$certificateDate", item.isExpired)
             }
             is RecoveryDccV1 -> {
                 val info = context.getString(
@@ -49,7 +49,7 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
                     curItem.certificate.recovery.testedPositiveOn?.toShortDayFormat()
                         ?: curItem.certificate.recovery.fr
                 )
-                setRecovery("$fullName\n$info")
+                setRecovery("$fullName\n$info", item.isExpired)
             }
             is TestDccV1 -> {
                 var testType = ""
@@ -68,31 +68,62 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
                     curItem.certificate.test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
                         ?: curItem.certificate.test.sc
                 )
-                setTest("$fullName\n$testType\n$info")
+                setTest("$fullName\n$testType\n$info", item.isExpired)
             }
         }
     }
 
-    private fun DccReissuanceCertificateCardBinding.setVaccination(body: String) {
+    private fun DccReissuanceCertificateCardBinding.setExpired() {
         dccReissuanceCertificateIcon.setImageDrawable(
-            AppCompatResources.getDrawable(context, vaccinationIcon)
+            AppCompatResources.getDrawable(context, expiredIcon)
         )
+        dccReissuanceCertificateBg.setImageDrawable(
+            AppCompatResources.getDrawable(context, expiredBackground)
+        )
+    }
+
+    private fun DccReissuanceCertificateCardBinding.setVaccination(
+        body: String,
+        isExpired: Boolean
+    ) {
+        if (isExpired) {
+            setExpired()
+        } else {
+            dccReissuanceCertificateIcon.setImageDrawable(
+                AppCompatResources.getDrawable(context, vaccinationIcon)
+            )
+        }
+
         dccReissuanceHeader.text = context.getString(R.string.vaccination_certificate_name)
         dccReissuanceBody.text = body
     }
 
-    private fun DccReissuanceCertificateCardBinding.setRecovery(body: String) {
-        dccReissuanceCertificateIcon.setImageDrawable(
-            AppCompatResources.getDrawable(context, recoveryIcon)
-        )
+    private fun DccReissuanceCertificateCardBinding.setRecovery(
+        body: String,
+        isExpired: Boolean
+    ) {
+        if (isExpired) {
+            setExpired()
+        } else {
+            dccReissuanceCertificateIcon.setImageDrawable(
+                AppCompatResources.getDrawable(context, recoveryIcon)
+            )
+        }
         dccReissuanceHeader.text = context.getString(R.string.recovery_certificate_name)
         dccReissuanceBody.text = body
     }
 
-    private fun DccReissuanceCertificateCardBinding.setTest(body: String) {
-        dccReissuanceCertificateIcon.setImageDrawable(
-            AppCompatResources.getDrawable(context, testIcon)
-        )
+    private fun DccReissuanceCertificateCardBinding.setTest(
+        body: String,
+        isExpired: Boolean
+    ) {
+        if (isExpired) {
+            setExpired()
+        } else {
+            dccReissuanceCertificateIcon.setImageDrawable(
+                AppCompatResources.getDrawable(context, testIcon)
+            )
+        }
         dccReissuanceHeader.text = context.getString(R.string.test_certificate_name)
         dccReissuanceBody.text = body
     }
@@ -101,9 +132,14 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
         private const val vaccinationIcon = R.drawable.ic_vaccination_immune
         private const val recoveryIcon = R.drawable.ic_recovery_certificate
         private const val testIcon = R.drawable.ic_test_certificate
+        private const val expiredIcon = R.drawable.ic_certificate_invalid
+        private const val expiredBackground = R.drawable.bg_certificate_grey
     }
 
-    data class Item(val certificate: DccV1.MetaData) : DccReissuanceItem, HasPayloadDiffer {
-        override val stableId = certificate.personIdentifier.hashCode().toLong()
+    data class Item(
+        val certificate: DccV1.MetaData,
+        val isExpired: Boolean = false,
+    ) : DccReissuanceItem, HasPayloadDiffer {
+        override val stableId = certificate.hashCode().toLong()
     }
 }
