@@ -77,7 +77,6 @@ class Surveys @Inject constructor(
             if (authorized && redeemedAt.toLocalDateUtc().month == now.toLocalDateUtc().month) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
-            val a: org.joda.time.Instant
         }
 
         // generate OTP
