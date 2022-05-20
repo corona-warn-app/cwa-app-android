@@ -82,7 +82,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 val (background, starsTint) = when {
                     isColorDefined -> args.colorShade.background to args.colorShade.starsTint
                     stateInValid -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
-                    else -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
+                    else -> PersonColorShade.COLOR_1.background to PersonColorShade.COLOR_1.starsTint
                 }
 
                 expandedImage.setImageResource(background)
@@ -191,9 +191,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         }
     }
 
-    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
-        certificate: VaccinationCertificate
-    ) {
+    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(certificate: VaccinationCertificate) {
         startValidationCheck.apply {
             isEnabled = certificate.isNotScreened
             defaultButton.isEnabled = certificate.isNotScreened
