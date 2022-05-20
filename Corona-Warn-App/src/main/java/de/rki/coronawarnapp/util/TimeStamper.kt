@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 class TimeStamper @Inject constructor() {
 
-    @Deprecated("Use java time", ReplaceWith("nowJavaUTC"))
+    // Deprecated
     val nowUTC: Instant
         get() = Instant.now()
 
