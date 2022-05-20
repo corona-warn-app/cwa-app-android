@@ -193,9 +193,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         }
     }
 
-    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
-        certificate: VaccinationCertificate
-    ) {
+    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(certificate: VaccinationCertificate) {
         startValidationCheck.apply {
             isEnabled = certificate.isNotScreened
             defaultButton.isEnabled = certificate.isNotScreened
