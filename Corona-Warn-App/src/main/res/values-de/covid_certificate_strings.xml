@@ -264,7 +264,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">Gültig bis %s, %s Uhr</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">Wenn dies Ihr aktuell verwendetes Zertifikat ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Ab 28 Tage vor Ablauf können Sie solche Zertifikate direkt über die App erneuern lassen. Sie finden die Option "Zertifikate erneuern" dann in Ihrer Zertifikatsübersicht unter der Kachel "Status-Nachweis".</string>
+    <string name="expiration_info">Wenn dies Ihr aktuell verwendetes Zertifikat ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Ab 28 Tage vor Ablauf können Sie solche Zertifikate direkt über die App erneuern lassen. Sie finden die Option "Zertifikate erneuern" dann in Ihrer Zertifikatsübersicht unter der Kachel "Status-Nachweis". Sollte dies nicht Ihr aktuell verwendetes Zertifikat sein, müssen Sie nichts weiter tun.</string>
     <!-- XTXT: Vaccination Detail Techincal expiration info -->
     <string name="expiration_technical_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
     <!-- XTXT: Expired certificate info -->
