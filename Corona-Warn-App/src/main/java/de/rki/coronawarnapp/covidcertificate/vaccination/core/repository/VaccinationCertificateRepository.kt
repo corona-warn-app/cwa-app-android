@@ -35,6 +35,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -49,7 +50,7 @@ import javax.inject.Singleton
 @Suppress("LongParameterList")
 class VaccinationCertificateRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
     private val qrCodeExtractor: DccQrCodeExtractor,
@@ -121,6 +122,19 @@ class VaccinationCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    fun findCertificateDetails(containerId: VaccinationCertificateContainerId): Flow<VaccinationCertificate?> =
+        internalData.data.map { map ->
+            val container = map[containerId]
+            if (container?.isNotRecycled == true) {
+                container.toVaccinationCertificateWrapper(
+                    valueSetsRepository.latestVaccinationValueSets.first(),
+                    dccValidityMeasuresObserver.dccValidityMeasures.first()
+                )?.vaccinationCertificate
+            } else {
+                null
+            }
+        }
 
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate
