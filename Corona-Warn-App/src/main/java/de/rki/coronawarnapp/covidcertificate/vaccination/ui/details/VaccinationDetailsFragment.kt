@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
-import android.app.NotificationManager
-import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -25,9 +23,9 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
-import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -44,6 +42,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -70,8 +69,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                it?.let { certificate -> bindCertificateViews(certificate) }
-                val stateInValid = it?.isDisplayValid == false
+                if (it == null) {
+                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
+                    popBackStack()
+                    return@observe
+                }
+
+                bindCertificateViews(it)
+                val stateInValid = !it.isDisplayValid
                 val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
 
                 val (background, starsTint) = when {
@@ -89,7 +94,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 )
 
                 qrCodeCard.apply {
-                    val request = it?.getValidQrCode(showBlocked = true)
+                    val request = it.getValidQrCode(showBlocked = true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
@@ -236,17 +241,15 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     }
 
     private fun showCertificateDeletionRequest() {
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existingNotification = notificationManager.activeNotifications
-        val shouldUpdateNotification =
-            existingNotification.any { it.id == NotificationConstants.DCC_STATE_CHECK_NOTIFICATION_ID }
         RecycleBinDialogType.RecycleCertificateConfirmation.show(
             fragment = this,
-            positiveButtonAction = { viewModel.recycleVaccinationCertificateConfirmed(shouldUpdateNotification) }
+            positiveButtonAction = { viewModel.recycleVaccinationCertificateConfirmed() }
         )
     }
 
     companion object {
+        private val TAG = tag<VaccinationDetailsFragment>()
+
         fun uri(certIdentifier: String): Uri {
             val encodedId = URLEncoder.encode(certIdentifier, "UTF-8")
             return "cwa://vaccination-certificate/?fromScanner=true&certIdentifier=$encodedId".toUri()

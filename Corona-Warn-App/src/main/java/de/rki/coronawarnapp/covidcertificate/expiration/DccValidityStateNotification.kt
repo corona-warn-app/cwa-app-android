@@ -29,18 +29,17 @@ class DccValidityStateNotification @Inject constructor(
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
-    fun showNotification(containerId: CertificateContainerId, isDeletedCert: Boolean = false): Boolean {
+    fun showNotification(containerId: CertificateContainerId): Boolean {
         Timber.d("showNotification(containerId=$containerId)")
-        showNotification(containerId, R.string.notification_body_certificate, isDeletedCert)
+        showNotification(containerId, R.string.notification_body_certificate)
         return true // we always show it independent of foreground state
     }
 
     private fun showNotification(
         containerId: CertificateContainerId,
         @StringRes text: Int,
-        isDeletedCert: Boolean
     ) {
-        val pendingIntent = buildPendingIntent(containerId, isDeletedCert)
+        val pendingIntent = buildPendingIntent(containerId)
 
         val notification = notificationHelper.newBaseBuilder().apply {
             setContentIntent(pendingIntent)
@@ -54,8 +53,8 @@ class DccValidityStateNotification @Inject constructor(
         )
     }
 
-    private fun buildPendingIntent(containerId: CertificateContainerId, isDeletedCert: Boolean): PendingIntent {
-        val destination = if (isDeletedCert) R.id.personOverviewFragment else when (containerId) {
+    private fun buildPendingIntent(containerId: CertificateContainerId): PendingIntent {
+        val destination = when (containerId) {
             is VaccinationCertificateContainerId -> R.id.vaccinationDetailsFragment
             is TestCertificateContainerId -> R.id.testCertificateDetailsFragment
             is RecoveryCertificateContainerId -> R.id.recoveryCertificateDetailsFragment

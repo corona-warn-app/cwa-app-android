@@ -4,7 +4,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
@@ -22,7 +21,6 @@ import timber.log.Timber
 class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
     @Assisted private val fromScanner: Boolean,
-    private val stateNotification: DccValidityStateNotification,
     private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
@@ -46,11 +44,8 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
-    fun recycleVaccinationCertificateConfirmed(updateNotification: Boolean = false) = launch(scope = appScope) {
+    fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
-        if (updateNotification) {
-            stateNotification.showNotification(containerId, true)
-        }
         vaccinationCertificateRepository.recycleCertificate(containerId)
         events.postValue(VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }

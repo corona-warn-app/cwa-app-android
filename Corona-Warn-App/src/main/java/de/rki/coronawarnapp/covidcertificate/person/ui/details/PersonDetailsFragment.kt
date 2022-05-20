@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.app.NotificationManager
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -19,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
-import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.view.onOffsetChange
@@ -163,13 +160,9 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun showCertificateDeletionRequest(cwaCovidCertificate: CwaCovidCertificate, position: Int) {
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existingNotification = notificationManager.activeNotifications
-        val shouldUpdateNotification =
-            existingNotification.any { it.id == NotificationConstants.DCC_STATE_CHECK_NOTIFICATION_ID }
         RecycleBinDialogType.RecycleCertificateConfirmation.show(
             fragment = this,
-            positiveButtonAction = { viewModel.recycleCertificate(cwaCovidCertificate, shouldUpdateNotification) },
+            positiveButtonAction = { viewModel.recycleCertificate(cwaCovidCertificate) },
             negativeButtonAction = { personDetailsAdapter.notifyItemChanged(position) }
         )
     }
