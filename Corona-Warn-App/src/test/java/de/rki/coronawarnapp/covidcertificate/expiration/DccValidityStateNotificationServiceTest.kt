@@ -141,7 +141,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     fun `check can be enforced`() = runTest {
         lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().run {
-            showNotificationIfStateChanged(ignoreLastCheck = true)
+            showNotificationIfStateChanged(forceCheck = true)
 
             verify {
                 vaccinationCertificateRepository.certificates

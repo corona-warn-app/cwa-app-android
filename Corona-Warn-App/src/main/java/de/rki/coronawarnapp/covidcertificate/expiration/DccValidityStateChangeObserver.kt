@@ -38,7 +38,7 @@ class DccValidityStateChangeObserver @Inject constructor(
             .filter { it.isNotEmpty() }
             .onEach {
                 Timber.tag(TAG).d("Dcc validity states: %s", it)
-                dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+                dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
             }
             .catch { Timber.tag(TAG).e("Failed to observe certs for state changes") }
             .launchIn(scope = appScope)
