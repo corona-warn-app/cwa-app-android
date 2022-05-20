@@ -184,17 +184,10 @@ data class TestCertificateContainer(
             override val isNew: Boolean
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
-            override val hasNotificationBadge: Boolean
-                get() = (isScreenedTestCert(state) && state != lastSeenStateChange) || isNew
-
             override val recycledAt: Instant?
                 get() = data.recycledAt
 
             override fun toString(): String = "TestCertificate($containerId)"
         }
     }
-}
-
-fun isScreenedTestCert(state: State): Boolean {
-    return state is Invalid || state is Blocked || state is Revoked
 }

@@ -160,9 +160,6 @@ data class RecoveryCertificateContainer(
             override val dccData: DccData<out DccV1.MetaData>
                 get() = certificateData
 
-            override val hasNotificationBadge: Boolean
-                get() = (state !is Valid && state != lastSeenStateChange) || isNew
-
             override val isNew: Boolean
                 get() = !data.certificateSeenByUser
 
