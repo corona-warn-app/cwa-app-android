@@ -143,5 +143,6 @@
 
     <!-- Padding for the collapsed floating action button -->
     <dimen name="spacing_fab_padding">80dp</dimen>
+    <dimen name="spacing_toolbar_padding">60dp</dimen>
 
 </resources>

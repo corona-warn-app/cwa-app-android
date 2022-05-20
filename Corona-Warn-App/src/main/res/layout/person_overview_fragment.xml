@@ -50,53 +50,60 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:id="@+id/empty_layout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_toolbar_padding"
             android:paddingBottom="@dimen/spacing_fab_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_default="wrap"
             tools:visibility="gone">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/person_overview_no_certificates_image_description"
-                android:focusable="true"
-                app:srcCompat="@drawable/ic_person_overview_illustration" />
-
-            <TextView
-                style="@style/subtitleMediumBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="36dp"
-                android:text="@string/person_overview_no_certificates_title" />
-
-            <TextView
-                style="@style/body2Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="@dimen/spacing_small"
                 android:gravity="center"
-                android:text="@string/person_overview_no_certificates_subtitle"
-                app:autoSizeTextType="uniform" />
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/body2Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="@string/person_overview_no_certificates_subtitle_2"
-                app:autoSizeTextType="uniform" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/person_overview_no_certificates_image_description"
+                    android:focusable="true"
+                    app:srcCompat="@drawable/ic_person_overview_illustration" />
+
+                <TextView
+                    style="@style/subtitleMediumBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="36dp"
+                    android:text="@string/person_overview_no_certificates_title" />
+
+                <TextView
+                    style="@style/body2Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/person_overview_no_certificates_subtitle"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    style="@style/body2Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/person_overview_no_certificates_subtitle_2"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+        </ScrollView>
 
         <ProgressBar
             android:id="@+id/loading_progress_bar"
