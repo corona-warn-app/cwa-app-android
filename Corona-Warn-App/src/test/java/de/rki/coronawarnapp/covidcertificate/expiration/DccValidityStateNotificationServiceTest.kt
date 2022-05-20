@@ -183,7 +183,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify { dccValidityStateNotification.showNotification(any()) }
+        coVerify(exactly = 0) { dccValidityStateNotification.showNotification(any()) }
     }
 
     @Test
@@ -193,7 +193,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify { dccValidityStateNotification.showNotification(any()) }
+        coVerify(exactly = 0) { dccValidityStateNotification.showNotification(any()) }
     }
 
     @Test
@@ -204,9 +204,17 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify(exactly = 3) { dccValidityStateNotification.showNotification(any()) }
+        coVerify(exactly = 1) { dccValidityStateNotification.showNotification(any()) }
 
-        coVerify(exactly = 1) {
+        coVerify {
+            testCertificateRepository.setNotifiedState(
+                containerId = testContainerId,
+                state = State.Blocked,
+                time = nowUtc,
+            )
+        }
+
+        coVerify(exactly = 0) {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.ExpiringSoon(expiresAt = Instant.EPOCH),
@@ -216,12 +224,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Expired(expiredAt = Instant.EPOCH),
-                time = nowUtc,
-            )
-
-            testCertificateRepository.setNotifiedState(
-                containerId = testContainerId,
-                state = State.Blocked,
                 time = nowUtc,
             )
         }
