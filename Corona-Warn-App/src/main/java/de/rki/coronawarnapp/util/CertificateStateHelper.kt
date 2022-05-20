@@ -21,7 +21,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.IncludeCertificateOverviewQrCardBinding
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -50,6 +52,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
+            setQrTitle(certificate, qrTitle, context)
+            notificationBadge.isVisible = certificate.hasNotificationBadge
             statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
             statusTitle.text = context.getString(
@@ -61,6 +65,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         is Expired -> {
+            setQrTitle(certificate, qrTitle, context)
+            notificationBadge.isVisible = certificate.hasNotificationBadge
             statusIcon.constraintLayoutParams.verticalBias = 1.0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_expired)
@@ -68,6 +74,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         is Invalid -> {
+            setQrTitle(certificate, qrTitle, context)
+            notificationBadge.isVisible = certificate.hasNotificationBadge
             statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_invalid_signature)
@@ -84,6 +92,15 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
         is Valid,
         CwaCovidCertificate.State.Recycled -> Unit
+    }
+}
+
+private fun setQrTitle(certificate: CwaCovidCertificate, qrTitle: TextView, context: Context) {
+    qrTitle.isVisible = true
+    when (certificate) {
+        is TestCertificate -> qrTitle.text = context.getString(R.string.test_certificate_name)
+        is VaccinationCertificate -> qrTitle.text = context.getString(R.string.vaccination_certificate_name)
+        is RecoveryCertificate -> qrTitle.text = context.getString(R.string.recovery_certificate_name)
     }
 }
 
