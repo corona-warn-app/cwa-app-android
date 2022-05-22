@@ -16,11 +16,11 @@
     <!-- XTXT: Text Key - No Network -->
     <string name="dcc_reissuance_error_handling_text_key_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XTXT: Text Key - Try Again -->
-    <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Aktualisierung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Erneuerung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
     <!-- XTXT: Text Key - Rate limit -->
     <string name="dcc_reissuance_error_handling_text_key_rate_limit">Das Zertifikat wurde bereits drei mal neu ausgestellt. Eine weitere Neuausstellung ist nicht möglich.<br />Wir empfehlen, Ihr bereits erneut ausgestelltes Zertifikat als PDF zu exportieren und auszudrucken. Damit können Sie es jederzeit erneut einscannen.</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
-    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht aktualisiert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht erneuert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
 
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">Ihr Einverständnis</string>
@@ -29,9 +29,9 @@
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint">Das alte Zertifikat wird automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Das Zertifikat kann innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
+    <string name="dcc_reissuance_deletion_hint">Alte Zertifikate werden automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Die Zertifikate können innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Aktualisierung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
+    <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Erneuerung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">Zusätzlich übermittelte Zertifikate</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
@@ -41,5 +41,5 @@
     <!-- XTXT: DCC Reissuance third bullet point-->
     <string name="dcc_reissuance_bulletpoint_three">Stellen Sie bitte bei der Erneuerung von Zertifikaten von Familienmitgliedern sicher, dass die betreffende Person einverstanden ist.</string>
     <!-- XTXT: DCC Reissuance fourth bullet point-->
-    <string name="dcc_reissuance_bulletpoint_four">In bestimmten Fällen werden zusätzlich zu dem zu erneuernden Zertifikat weitere Zertifikate übermittelt. Dies ist erforderlich, um die bisherige Abfolge der Impfungen und Genesungen im neuen Zertifikat aufnehmen zu können.</string>
+    <string name="dcc_reissuance_bulletpoint_four">In bestimmten Fällen werden zusätzlich zu den zu erneuernden Zertifikaten weitere Zertifikate übermittelt. Dies ist erforderlich, um die bisherige Abfolge der Impfungen und Genesungen in den neuen Zertifikaten aufnehmen zu können.</string>
 </resources>
