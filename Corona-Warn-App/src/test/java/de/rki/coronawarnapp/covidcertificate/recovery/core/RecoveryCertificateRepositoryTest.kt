@@ -203,18 +203,12 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
 
-        instance.setNotifiedState(
-            RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.certificates.first().first()
-        firstCert.recoveryCertificate.apply {
-            notifiedInvalidAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
-            notifiedExpiresSoonAt shouldBe Instant.EPOCH
+        shouldThrow<UnsupportedOperationException> {
+            instance.setNotifiedState(
+                RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
+                CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
+                Instant.EPOCH
+            )
         }
     }
 
@@ -224,18 +218,12 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
         val instance = createInstance(this)
 
-        instance.setNotifiedState(
-            RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            CwaCovidCertificate.State.Expired(Instant.EPOCH),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.certificates.first().first()
-        firstCert.recoveryCertificate.apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedInvalidAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe Instant.EPOCH
+        shouldThrow<UnsupportedOperationException> {
+            instance.setNotifiedState(
+                RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
+                CwaCovidCertificate.State.Expired(Instant.EPOCH),
+                Instant.EPOCH
+            )
         }
     }
 
