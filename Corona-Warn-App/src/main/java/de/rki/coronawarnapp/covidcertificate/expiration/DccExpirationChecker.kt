@@ -25,3 +25,7 @@ class DccExpirationChecker @Inject constructor() {
         }
     }
 }
+
+fun DccData<*>.isExpired(
+    now: Instant,
+): Boolean = header.expiresAt < now
