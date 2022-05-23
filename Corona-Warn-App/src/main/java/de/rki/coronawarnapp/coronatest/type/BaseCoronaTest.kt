@@ -31,6 +31,7 @@ interface BaseCoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
     val isPositive: Boolean
     val isNegative: Boolean
     val isPending: Boolean
+    val isInvalid: Boolean
 
     //  The ID of the lab that uploaded the test result
     val labId: String?
