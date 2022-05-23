@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -36,47 +34,20 @@ class DccValidityStateNotificationService @Inject constructor(
 ) {
     private val mutex = Mutex()
 
-    suspend fun showNotificationIfStateChanged(ignoreLastCheck: Boolean = false) = mutex.withLock {
-        Timber.tag(TAG).v("showNotificationIfStateChanged(ignoreLastCheck=%s)", ignoreLastCheck)
+    suspend fun showNotificationIfStateChanged(forceCheck: Boolean = false) = mutex.withLock {
+        Timber.tag(TAG).v("showNotificationIfStateChanged(forceCheck=%s)", forceCheck)
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
-        val timeUpdateRequired = lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()
+        val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()
 
-        if (!ignoreLastCheck && timeUpdateRequired) {
-            Timber.tag(TAG).d("Last check was within 24h, skipping.")
+        if (!forceCheck && timeBasedCheckRequired) {
+            Timber.tag(TAG).d("Last check is within the same day -> skipping for now (see you tomorrow).")
             return
         }
 
-        val vacRecCerts = getCertificates()
-
-        vacRecCerts.notifyForState<Expired> {
-            Timber.tag(TAG).w("Certificate expired: %s", it)
-            it.notifiedExpiredAt == null
-        }
-
-        vacRecCerts.notifyForState<ExpiringSoon> {
-            Timber.tag(TAG).w("Certificate expiring soon: %s", it)
-            it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
-        }
-
-        val testCerts = tcRepo.certificates.first().mapNotNull { it.testCertificate }
-        Timber.tag(TAG).d("Checking %d test certificates", testCerts.size)
-        val allCerts = vacRecCerts + testCerts
-
-        allCerts.notifyForState<Invalid> {
-            Timber.tag(TAG).w("Certificate is invalid: %s", it)
-            it.notifiedInvalidAt == null
-        }
-
-        allCerts.notifyForState<Blocked> {
-            Timber.tag(TAG).w("Certificate is blocked: %s", it)
-            it.notifiedBlockedAt == null
-        }
-
-        allCerts.notifyForState<Revoked> {
-            Timber.tag(TAG).w("Certificate is revoked: %s", it)
-            it.notifiedRevokedAt == null
-        }
-
+        val allCerts = getCertificates()
+        allCerts.notifyForState<Invalid> { it.notifiedInvalidAt == null }
+        allCerts.notifyForState<Blocked> { it.notifiedBlockedAt == null }
+        allCerts.notifyForState<Revoked> { it.notifiedRevokedAt == null }
         covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
     }
 
@@ -94,16 +65,18 @@ class DccValidityStateNotificationService @Inject constructor(
     ) = filter { it.state is S }
         .firstOrNull(predicate)
         ?.let {
+            Timber.tag(TAG).w("Certificate is ${S::class.simpleName}: %s", it)
             if (stateNotification.showNotification(it.containerId)) it.setStateNotificationShown()
         }
 
     private suspend fun getCertificates(): Set<CwaCovidCertificate> {
         val vacCerts = vcRepo.certificates.first().map { it.vaccinationCertificate }
-        Timber.tag(TAG).d("Checking %d vaccination certificates", vacCerts.size)
+        Timber.tag(TAG).d("Checking [%d] vaccination certificates", vacCerts.size)
         val recCerts = rcRepo.certificates.first().map { it.recoveryCertificate }
-        Timber.tag(TAG).d("Checking %d recovery certificates", recCerts.size)
-
-        return (vacCerts + recCerts).toSet()
+        Timber.tag(TAG).d("Checking [%d] recovery certificates", recCerts.size)
+        val testCerts = tcRepo.certificates.first().mapNotNull { it.testCertificate }
+        Timber.tag(TAG).d("Checking [%d] test certificates", testCerts.size)
+        return vacCerts.plus(recCerts).plus(testCerts).toSet()
     }
 
     companion object {

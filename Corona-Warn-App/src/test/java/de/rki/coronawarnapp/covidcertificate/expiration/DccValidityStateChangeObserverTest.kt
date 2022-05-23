@@ -59,7 +59,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -95,7 +95,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -107,7 +107,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -119,7 +119,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -131,7 +131,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -143,7 +143,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -155,7 +155,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
@@ -173,7 +173,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 3) {
-            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
     }
 
