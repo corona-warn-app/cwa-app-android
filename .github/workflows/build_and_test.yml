@@ -1,12 +1,6 @@
 name: Build, Scan and Test
 
-on:
-  pull_request:
-    # Sequence of patterns matched against refs/heads
-    branches:
-      - main
-      - 'release/**'
-  push:
+on: [ push ]
 
 concurrency:
   group: ${{ github.head_ref || github.ref }} #Cancel old runs if they have not finished yet
