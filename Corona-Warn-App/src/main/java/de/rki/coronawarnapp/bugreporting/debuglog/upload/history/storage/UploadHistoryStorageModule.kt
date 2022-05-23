@@ -3,15 +3,17 @@ package de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.dataStore
 import androidx.datastore.dataStoreFile
 import androidx.datastore.migrations.SharedPreferencesMigration
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import timber.log.Timber
@@ -39,20 +41,22 @@ object UploadHistoryStorageModule {
     @Provides
     fun provideMigration(
         @AppContext context: Context,
-        serializer: UploadHistorySerializer
+        @BaseGson gson: Gson
     ) = SharedPreferencesMigration<UploadHistory>(
         context = context,
         sharedPreferencesName = LEGACY_SHARED_PREFS
     ) { sharedPreferencesView, uploadHistory ->
         Timber.e("uploadHistory=%s", uploadHistory)
-        val json = sharedPreferencesView.getString(Key)
-        when(json == null) {
-            true -> serializer.defaultValue
-            false -> json.byteInputStream().use { serializer.readFrom(it) }
-        }
+        val migratedUploadHistory = runCatching {
+            // Data was converted with Gson before so use Gson to restore data to avoid corrupted data
+            // Gson and Jackson store Instants differently
+            sharedPreferencesView.getString(LEGACY_UPLOAD_HISTORY_KEY)?.let { gson.fromJson<UploadHistory>(it) }
+        }.getOrNull()
+
+        migratedUploadHistory ?: uploadHistory
     }
 }
 
 private const val UPLOAD_HISTORY_DATA_STORE: String = "upload_history_data_store"
 private const val LEGACY_SHARED_PREFS = "bugreporting_localdata"
-private const val Key = "upload.history"
+private const val LEGACY_UPLOAD_HISTORY_KEY = "upload.history"

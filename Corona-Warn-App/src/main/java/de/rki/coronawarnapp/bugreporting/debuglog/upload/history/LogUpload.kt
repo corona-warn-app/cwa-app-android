@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.history
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant
 
 data class LogUpload(
-    val id: String,
-    val uploadedAt: Instant
+    @JsonProperty("id") val id: String,
+    @JsonProperty("uploadedAt") val uploadedAt: Instant
 )

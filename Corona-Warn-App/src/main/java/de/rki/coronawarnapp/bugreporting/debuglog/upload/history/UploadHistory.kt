@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.history
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class UploadHistory(
-    val logs: List<LogUpload> = emptyList()
+    @JsonProperty("logs") val logs: List<LogUpload> = emptyList()
 )
