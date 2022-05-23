@@ -31,7 +31,7 @@ class UploadHistoryStorageTest : BaseTest() {
     }
 
     @Test
-    fun `upload history is empty by default`() = runTest{
+    fun `upload history is empty by default`() = runTest {
         uploadHistoryStorage.uploadHistory.first() shouldBe defaultUploadHistory
     }
 
