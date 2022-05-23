@@ -522,8 +522,16 @@ dependencies {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", System.getenv("sonar_token")
         property "sonar.organization", "corona-warn-app"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectKey", "corona-warn-app_cwa-app-android"
+        property "sonar.organization", "corona-warn-app"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/deviceRelease/jacoco.xml"
+        property "sonar.sources", "src/main/java/"
+        property "sonar.inclusions", "**/*.kt"
+        property "sonar.java.binaries", "build/tmp/kotlin-classes"
+        property "sonar.java.libraries", "libs"
+        property "sonar.kotlin.file.suffixes", ".kt"
+        property "sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml"
     }
 }
