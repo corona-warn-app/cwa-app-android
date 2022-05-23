@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -64,7 +63,7 @@ interface CwaCovidCertificate : Recyclable {
      * Expiring_Soon, Expired, Invalid, Blocked, Revoked or certificate is newly registered in the App
      * @see [isNew]
      */
-    val hasNotificationBadge: Boolean
+    val hasNotificationBadge: Boolean get() = (isScreenedCert(state) && state != lastSeenStateChange) || isNew
 
     /**
      * Certificate is newly scanned or retrieved from server in case of TC
@@ -78,7 +77,7 @@ interface CwaCovidCertificate : Recyclable {
 
     val isDisplayValid
         get() = when (this) {
-            is TestCertificate -> !isScreenedTestCert(state)
+            is TestCertificate -> !isScreenedCert(state)
             else -> state is State.Valid || state is ExpiringSoon
         }
 
@@ -137,3 +136,6 @@ interface CwaCovidCertificate : Recyclable {
         }
     }
 }
+
+fun isScreenedCert(state: CwaCovidCertificate.State): Boolean =
+    state is Invalid || state is Blocked || state is Revoked

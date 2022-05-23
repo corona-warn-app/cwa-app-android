@@ -86,8 +86,6 @@ fun testCertificate(
     override val uniqueCertificateIdentifier: String
         get() = "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
 
-    override val hasNotificationBadge: Boolean
-        get() = false
     override val notifiedInvalidAt: Instant?
         get() = null
     override val lastSeenStateChange: CwaCovidCertificate.State?
