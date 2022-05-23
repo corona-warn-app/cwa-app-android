@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
