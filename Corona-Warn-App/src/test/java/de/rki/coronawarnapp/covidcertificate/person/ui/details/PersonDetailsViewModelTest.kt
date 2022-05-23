@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
@@ -55,7 +54,6 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccValidationRepository: DccValidationRepository
-    @MockK lateinit var stateNotification: DccValidityStateNotification
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var viewModel: PersonDetailsViewModel
@@ -165,7 +163,6 @@ class PersonDetailsViewModelTest : BaseTest() {
     private fun personDetailsViewModel(personCode: String) = PersonDetailsViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         dccValidationRepository = dccValidationRepository,
-        stateNotification = stateNotification,
         personCertificatesProvider = personCertificatesProvider,
         personCertificatesSettings = personCertificatesSettings,
         recycledCertificatesProvider = recycledCertificatesProvider,
