@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.bugreporting.censors.dcc
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
@@ -106,7 +107,9 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         identifiers += uniqueCertificateIdentifier
         identifiers += targetId
 
-        testCenter?.let { testDetails += it }
+        withValidName(testCenter) {
+            testDetails += it
+        }
         testDetails += testResult
         testDetails += testType
         testName?.let { testDetails += it }
@@ -114,10 +117,18 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     private fun MutableData.addNameData(nameData: DccV1.NameData) = with(nameData) {
-        names += familyNameStandardized
-        familyName?.let { names += it }
-        givenName?.let { names += it }
-        givenNameStandardized?.let { names += it }
+        withValidName(familyNameStandardized) {
+            names += it
+        }
+        withValidName(familyName) {
+            names += it
+        }
+        withValidName(givenName) {
+            names += it
+        }
+        withValidName(givenNameStandardized) {
+            names += it
+        }
     }
 }
 
