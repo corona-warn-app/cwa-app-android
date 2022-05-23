@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import androidx.datastore.migrations.SharedPreferencesMigration
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -21,6 +22,7 @@ class UploadHistoryStorageModuleTest : BaseTest() {
 
     @MockK lateinit var context: Context
 
+    private lateinit var migration: SharedPreferencesMigration<UploadHistory>
     private lateinit var sharedPrefs: SharedPreferences
     private val gson = SerializationModule().baseGson()
 
@@ -38,6 +40,8 @@ class UploadHistoryStorageModuleTest : BaseTest() {
 
         sharedPrefs = MockSharedPreferences()
         every { context.getSharedPreferences(any(), any()) } returns sharedPrefs
+
+        migration = UploadHistoryStorageModule.provideMigration(context, gson)
     }
 
     @Test
@@ -61,7 +65,7 @@ class UploadHistoryStorageModuleTest : BaseTest() {
             putString(LEGACY_UPLOAD_HISTORY_KEY, testUploadHistoryJson)
         }
 
-        val migratedHistory = UploadHistoryStorageModule.provideMigration(context, gson).migrate(defaultUploadHistory)
+        val migratedHistory = migration.migrate(defaultUploadHistory)
         migratedHistory shouldBe testUploadHistory
     }
 
@@ -71,7 +75,7 @@ class UploadHistoryStorageModuleTest : BaseTest() {
             putString(LEGACY_UPLOAD_HISTORY_KEY, "Invalid Data")
         }
 
-        val migratedHistory = UploadHistoryStorageModule.provideMigration(context, gson).migrate(defaultUploadHistory)
+        val migratedHistory = migration.migrate(defaultUploadHistory)
         migratedHistory shouldBe defaultUploadHistory
     }
 }
