@@ -4,15 +4,14 @@
     android:id="@+id/vaccination_card"
     style="@style/Card.Vaccination.Ripple.NoPadding"
     android:layout_width="match_parent"
-    android:layout_height="126dp"
-    android:layout_marginTop="8dp">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_tiny"
+    android:padding="14dp">
 
     <ImageView
         android:id="@+id/dcc_reissuance_certificate_bg"
         android:layout_width="88dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_height="94dp"
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +33,7 @@
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginStart="@dimen/spacing_small"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +51,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/dcc_reissuance_certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_header"
-        tools:text="First Name\nLast Name\nVaccination 1 of 2\nVaccinated on 01.06.21" />
+        tools:text="FirstName LastName\nVaccination 1 of 2\nVaccinated on 01.06.21" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

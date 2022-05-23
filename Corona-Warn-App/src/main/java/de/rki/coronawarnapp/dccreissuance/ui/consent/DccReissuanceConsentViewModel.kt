@@ -8,16 +8,19 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
+import de.rki.coronawarnapp.covidcertificate.expiration.isExpired
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
 import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.sort
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -30,11 +33,13 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     private val format: CclTextFormatter,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
     private val personCertificatesSettings: PersonCertificatesSettings,
+    private val timeStamper: TimeStamper,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val event = SingleLiveEvent<Event>()
 
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+        .distinctUntilChangedBy { it?.dccWalletInfo?.certificateReissuance }
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
             person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()
@@ -44,7 +49,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         it!!.toState()
     }.catch {
         Timber.tag(TAG).d(it, "dccReissuanceData failed")
-        event.postValue(Back) // Fallback: Could happen when DccReissuance is gone while user is here for a long time
+        if (event.value !in listOf(ReissuanceInProgress, ReissuanceSuccess)) // only if not in progress
+            event.postValue(Back) // Fallback in case reissuance is removed
     }.asLiveData2()
 
     internal fun startReissuance() = launch {
@@ -74,7 +80,10 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
                 null
             }
         }.orEmpty().sort().map {
-            DccReissuanceCertificateCard.Item(it.data.certificate)
+            DccReissuanceCertificateCard.Item(
+                it.data.certificate,
+                it.data.isExpired(timeStamper.nowUTC)
+            )
         }
 
         val accompanyingCertificatesVisible = consolidateAccompanyingCertificates().isNotEmpty()

@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/spacing_medium">
 
     <TextView
         android:id="@+id/title"
         style="@style/headline6"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
         app:layout_constrainedWidth="true"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Mohamed Bernd Alexandru Juraj Chilja David Lukas" />
@@ -39,27 +40,41 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/family_tests_cards_rapid_title"
+        tools:text="@string/family_tests_cards_pcr_title"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
-        android:id="@+id/corona_name"
+        android:id="@+id/target_disease"
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_error"
+        android:text="@string/ag_homescreen_card_status_name_of_the_cause_of_this_app"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findings" />
+
+    <TextView
+        android:id="@+id/status"
+        style="@style/headline6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        tools:text="@string/ag_homescreen_card_status_negative"
+        android:textColor="@color/colorTextSemanticGreen"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_disease" />
 
     <TextView
         android:id="@+id/body"
@@ -67,21 +82,35 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/spacing_tiny"
         android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_marginBottom="32dp"
         android:focusable="false"
-        android:text="@string/family_tests_cards_invalid_body"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/family_tests_cards_pcr_pending_body"
+        app:layout_constraintBottom_toTopOf="@id/date"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/corona_name" />
+        app:layout_constraintTop_toBottomOf="@id/status"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/family_tests_cards_pcr_date"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/body" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
         android:hyphenationFrequency="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -92,11 +121,11 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:srcCompat="@drawable/ic_test_result_illustration_invalid_card" />
+        tools:src="@drawable/ic_test_result_illustration_negative_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
