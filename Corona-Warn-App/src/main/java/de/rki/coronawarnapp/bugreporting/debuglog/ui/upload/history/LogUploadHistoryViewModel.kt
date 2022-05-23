@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider

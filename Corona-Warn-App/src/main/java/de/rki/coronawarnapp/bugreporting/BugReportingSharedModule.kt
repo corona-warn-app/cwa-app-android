@@ -29,13 +29,11 @@ import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorageModule
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthApiV1
-import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadHttpClient
 import de.rki.coronawarnapp.environment.bugreporting.LogUploadServerUrl
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
