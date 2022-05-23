@@ -43,7 +43,7 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_error"
+        android:text="@string/ag_homescreen_card_status_invalid"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findings" />
