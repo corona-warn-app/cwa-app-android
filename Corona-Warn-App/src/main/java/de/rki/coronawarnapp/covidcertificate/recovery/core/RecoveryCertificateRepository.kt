@@ -117,13 +117,10 @@ class RecoveryCertificateRepository @Inject constructor(
 
     fun findCertificateDetails(containerId: RecoveryCertificateContainerId): Flow<RecoveryCertificate?> =
         internalData.data.map { map ->
-            val container = map[containerId]
-            if (container?.isNotRecycled == true) {
-                container.toRecoveryCertificateWrapper(
-                    valueSetsRepository.latestVaccinationValueSets.first(),
-                    dccValidityMeasuresObserver.dccValidityMeasures.first()
-                )?.recoveryCertificate
-            } else null
+            map[containerId].takeIf { it?.isNotRecycled == true }?.toRecoveryCertificateWrapper(
+                valueSetsRepository.latestVaccinationValueSets.first(),
+                dccValidityMeasuresObserver.dccValidityMeasures.first()
+            )?.recoveryCertificate
         }
 
     /**

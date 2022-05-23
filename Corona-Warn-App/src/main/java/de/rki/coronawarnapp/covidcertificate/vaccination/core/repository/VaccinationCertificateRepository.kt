@@ -123,13 +123,10 @@ class VaccinationCertificateRepository @Inject constructor(
 
     fun findCertificateDetails(containerId: VaccinationCertificateContainerId): Flow<VaccinationCertificate?> =
         internalData.data.map { map ->
-            val container = map[containerId]
-            if (container?.isNotRecycled == true) {
-                container.toVaccinationCertificateWrapper(
-                    valueSetsRepository.latestVaccinationValueSets.first(),
-                    dccValidityMeasuresObserver.dccValidityMeasures.first()
-                )?.vaccinationCertificate
-            } else null
+            map[containerId].takeIf { it?.isNotRecycled == true }?.toVaccinationCertificateWrapper(
+                valueSetsRepository.latestVaccinationValueSets.first(),
+                dccValidityMeasuresObserver.dccValidityMeasures.first()
+            )?.vaccinationCertificate
         }
 
     /**
