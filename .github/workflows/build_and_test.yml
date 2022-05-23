@@ -3,12 +3,12 @@ name: Build, Scan and Test
 on:
   pull_request:
     # Sequence of patterns matched against refs/heads
-    branches:    
+    branches:
       - main
       - 'release/**'
   push:
 
-concurrency: 
+concurrency:
   group: ${{ github.head_ref || github.ref }} #Cancel old runs if they have not finished yet
   cancel-in-progress: true
 
@@ -16,231 +16,231 @@ env:
   total-test-runners: 4
   JVM_OPTS: -Xmx4096m
   GRADLE_OPTS: |
-        -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
-        -Dorg.gradle.caching=true
-        -Dorg.gradle.configureondemand=true
-        -Dkotlin.compiler.execution.strategy=in-process
-        -Dkotlin.incremental=false  
-        
+    -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
+    -Dorg.gradle.caching=true
+    -Dorg.gradle.configureondemand=true
+    -Dkotlin.compiler.execution.strategy=in-process
+    -Dkotlin.incremental=false
+
 jobs:
   dependencies:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true       
-        
-  detekt:      
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
+
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+  detekt:
     runs-on: ubuntu-latest
     needs: dependencies
-   
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-        
-    - name: Corona-Warn-App:detekt
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:detekt
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - name: Archive detekt report
-      uses: actions/upload-artifact@v3.0.0
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports  
-        
-        
-  klint:      
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Corona-Warn-App:detekt
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:detekt
+
+      - name: Archive detekt report
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
+
+
+  klint:
     runs-on: ubuntu-latest
     needs: dependencies
-   
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-        
-    - name: Corona-Warn-App:ktlintCheck
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:ktlintCheck
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - name: Archive detekt report
-      uses: actions/upload-artifact@v3.0.0
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports          
-      
-  lint_device_release_check:      
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Corona-Warn-App:ktlintCheck
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:ktlintCheck
+
+      - name: Archive detekt report
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
+
+  lint_device_release_check:
     runs-on: ubuntu-latest
     needs: dependencies
-   
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-        
-    - name: Corona-Warn-App:lintDeviceRelease
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceRelease -i
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - name: Archive detekt report
-      uses: actions/upload-artifact@v3.0.0
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports  
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
 
-  lint_device_for_testers_release_check:      
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Corona-Warn-App:lintDeviceRelease
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceRelease -i
+
+      - name: Archive detekt report
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
+
+  lint_device_for_testers_release_check:
     runs-on: ubuntu-latest
     needs: dependencies
-   
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-        
-    - name: Corona-Warn-App:lintDeviceForTestersRelease
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceForTestersRelease -i
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - name: Archive detekt report
-      uses: actions/upload-artifact@v3.0.0
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports  
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Corona-Warn-App:lintDeviceForTestersRelease
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceForTestersRelease -i
+
+      - name: Archive detekt report
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
 
   quick_build_device_release_no_tests:
     runs-on: ubuntu-latest
     needs: dependencies
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-          
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - uses: actions/checkout@v3
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-    
-    - name: Quick Build
-      run: ./gradlew -PdisablePreDex assembleDeviceRelease
-        
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
+
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Quick Build
+        run: ./gradlew -PdisablePreDex assembleDeviceRelease
+
   quick_build_device_for_testers_release_no_tests:
     runs-on: ubuntu-latest
     needs: dependencies
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-        
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
-    
-    - name: Quick Build
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersRelease
-    
-    
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
+
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
+
+      - name: Quick Build
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersRelease
+
+
   unit-test-runner-indexes:
     runs-on: ubuntu-latest
     name: Generate unit test runner indexes
@@ -253,7 +253,7 @@ jobs:
           INDEX_LIST=$(seq 0 ${MAX_INDEX})
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
           echo "::set-output name=json::${INDEX_JSON}"
-          
+
   unit_tests_device_release:
     name: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
     runs-on: ubuntu-latest
@@ -264,50 +264,50 @@ jobs:
       matrix:
         runner-index: ${{ fromJSON(needs.unit-test-runner-indexes.outputs.json) }}
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-        
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
 
-    - uses: chaosaffe/split-tests@v1-alpha.1
-      id: split-tests
-      name: Split tests
-      with:
-        glob: Corona-Warn-App/**/test*/**/*.kt
-        split-total: ${{ env.total-test-runners }}
-        split-index: ${{ matrix.runner-index }}    
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
 
-    - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
-    
-    - name: Test
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
-      
-    - name: Archive Test Result
-      uses: actions/upload-artifact@v3
-      with:
-        name: testResults
-        path: Corona-Warn-App/build/test-results
-        
-    - name: Archive Test Result
-      uses: actions/upload-artifact@v3
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports
+      - uses: chaosaffe/split-tests@v1-alpha.1
+        id: split-tests
+        name: Split tests
+        with:
+          glob: Corona-Warn-App/**/test*/**/*.kt
+          split-total: ${{ env.total-test-runners }}
+          split-index: ${{ matrix.runner-index }}
+
+      - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
+
+      - name: Test
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: testResults
+          path: Corona-Warn-App/build/test-results
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
 
   unit_tests_device_for_testers_release:
     name: "Runner #${{ matrix.runner-index }}: Run test for testers suite in parallel"
@@ -319,54 +319,54 @@ jobs:
       matrix:
         runner-index: ${{ fromJSON(needs.unit-test-runner-indexes.outputs.json) }}
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Download sapmachine JDK 11
-      run: |
-        download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
-        wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-        
-    - name: Setup sapmachine JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'jdkfile'
-        jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
-        java-version: '11.0.14'
-        architecture: x64    
-        cache: 'gradle'
+      - name: Download sapmachine JDK 11
+        run: |
+          download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
+          wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
 
-    - uses: maxim-lobanov/setup-android-tools@v1
-      with:
-        cache: true
+      - name: Setup sapmachine JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'jdkfile'
+          jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
+          java-version: '11.0.14'
+          architecture: x64
+          cache: 'gradle'
 
-    - uses: chaosaffe/split-tests@v1-alpha.1
-      id: split-tests
-      name: Split tests
-      with:
-        glob: Corona-Warn-App/**/test*/**/*.kt
-        split-total: ${{ env.total-test-runners }}
-        split-index: ${{ matrix.runner-index }}    
+      - uses: maxim-lobanov/setup-android-tools@v1
+        with:
+          cache: true
 
-    - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
-    
-    - name: Test
-      run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
-      
-    - name: Archive Test Result
-      uses: actions/upload-artifact@v3
-      with:
-        name: testResults
-        path: Corona-Warn-App/build/test-results
-        
-    - name: Archive Test Result
-      uses: actions/upload-artifact@v3
-      with:
-        name: reports
-        path: Corona-Warn-App/build/reports
+      - uses: chaosaffe/split-tests@v1-alpha.1
+        id: split-tests
+        name: Split tests
+        with:
+          glob: Corona-Warn-App/**/test*/**/*.kt
+          split-total: ${{ env.total-test-runners }}
+          split-index: ${{ matrix.runner-index }}
+
+      - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
+
+      - name: Test
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: testResults
+          path: Corona-Warn-App/build/test-results
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
 
   publish_test_results:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - unit_tests_device_release
     permissions:
       checks: write
@@ -380,17 +380,17 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -R
-  
+
       - name: Publish Test Results - Device Release
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           check_name: "Unit Test Results - Device Release"
-          files: "artifacts/testDeviceReleaseUnitTest/*.xml"  
+          files: "artifacts/testDeviceReleaseUnitTest/*.xml"
 
   publish_test_for_testers_results:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - unit_tests_device_for_testers_release
     permissions:
       checks: write
@@ -404,33 +404,35 @@ jobs:
 
       - name: Display structure of downloaded files
         run: ls -R
-  
+
       - name: Publish Test Results - Device For Tester Release
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           check_name: "Unit Test Results - Device For Tester Release"
-          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"     
-          
+          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+
   run_sonar_scan:
     runs-on: ubuntu-latest
     needs: unit_tests_device_release
     if: ${{ !github.event.pull_request.head.repo.fork }}
+    env:
+      sonar_token: '${{ secrets.SONAR_TOKEN }}'
     steps:
       - uses: actions/checkout@v3
-    
+
       - name: Download sapmachine JDK 11
         run: |
           download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
           wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
+
       - name: Setup sapmachine JDK 11
         uses: actions/setup-java@v2
         with:
           distribution: 'jdkfile'
           jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
           java-version: '11.0.14'
-          architecture: x64    
+          architecture: x64
           cache: 'gradle'
 
       - uses: maxim-lobanov/setup-android-tools@v1
@@ -444,28 +446,28 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: reports
-          path: Corona-Warn-App/build/reports        
-        
+          path: Corona-Warn-App/build/reports
+
       - name: Sonar Cloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
+
   instrumentation_tests_device:
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - detekt
       - klint
     if: ${{ !github.event.pull_request.head.repo.fork }}
     env:
       GCLOUD_SERVICE_KEY_BASE64: '${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}'
-      GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'    
+      GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'
     permissions:
       checks: write
       pull-requests: write
     steps:
-  
+
       - uses: actions/checkout@v3
 
       - name: Download sapmachine JDK 11
@@ -479,25 +481,25 @@ jobs:
           distribution: 'jdkfile'
           jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
           java-version: '11.0.14'
-          architecture: x64    
+          architecture: x64
           cache: 'gradle'
 
       - uses: maxim-lobanov/setup-android-tools@v1
         with:
-          cache: true   
-       
+          cache: true
+
       - name: Build App APK
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebug
-  
+
       - name: Build Test App APK
-        run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest    
-  
-      - name: Setup Google Cloud access        
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersDebugAndroidTest
+
+      - name: Setup Google Cloud access
         run: |
           echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
           sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
           sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-  
+
       - name: Setup Testlab environment
         run: |
           echo "BUCKETDIR=`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}" >> $GITHUB_ENV
@@ -520,11 +522,11 @@ jobs:
             --orientations portrait \
             --num-flaky-test-attempts 3 \
             --no-record-video
-            
+
       - name: Create directory to store test results
         if: always()
-        run: mkdir firebase-results          
-  
+        run: mkdir firebase-results
+
       - name: Install gsutil dependency and copy test results data
         if: always()
         run: |
