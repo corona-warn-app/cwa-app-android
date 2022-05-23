@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload
 
-import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory

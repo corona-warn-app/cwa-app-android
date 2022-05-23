@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.bugreporting
 import android.content.Context
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
+import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

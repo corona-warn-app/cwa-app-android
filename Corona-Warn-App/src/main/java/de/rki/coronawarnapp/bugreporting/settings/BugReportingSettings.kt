@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.bugreporting
+package de.rki.coronawarnapp.bugreporting.settings
 
 import android.content.Context
 import com.google.gson.Gson

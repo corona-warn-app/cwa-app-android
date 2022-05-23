@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -22,13 +23,13 @@ class DebugLogViewModel @AssistedInject constructor(
     private val debugLogger: DebugLogger,
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
-    bugReportingSettings: BugReportingSettings,
+    uploadHistoryStorage: UploadHistoryStorage,
     private val logSnapshotter: LogSnapshotter
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val isActionInProgress = MutableStateFlow(false)
 
-    val logUploads = bugReportingSettings.uploadHistory.flow
+    val logUploads = uploadHistoryStorage.uploadHistory
         .asLiveData(context = dispatcherProvider.Default)
 
     val state: LiveData<State> = combine(

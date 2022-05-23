@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogViewModel
+import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.nearby.ENFClient
 import io.mockk.MockKAnnotations
 import io.mockk.every

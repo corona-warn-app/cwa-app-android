@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload
 
-import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadServer
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthorizer
 import timber.log.Timber
@@ -14,7 +14,7 @@ class SnapshotUploader @Inject constructor(
     private val snapshotter: LogSnapshotter,
     private val uploadServer: LogUploadServer,
     private val authorizer: LogUploadAuthorizer,
-    private val bugReportingSettings: BugReportingSettings
+    private val uploadHistoryStorage: UploadHistoryStorage
 ) {
 
     suspend fun uploadSnapshot(): LogUpload {
@@ -38,7 +38,7 @@ class SnapshotUploader @Inject constructor(
             }
         }
 
-        bugReportingSettings.uploadHistory.update { oldHistory ->
+        uploadHistoryStorage.update { oldHistory ->
             val newLogs = oldHistory.logs.toMutableList()
             if (newLogs.size >= 10) {
                 newLogs.removeFirst().also {

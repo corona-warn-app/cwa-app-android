@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.bugreporting.settings.BugReportingSettings
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.ccl.CclModule
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
