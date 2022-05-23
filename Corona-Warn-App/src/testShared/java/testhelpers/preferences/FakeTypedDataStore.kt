@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.updateAndGet
+import timber.log.Timber
 
 internal class FakeTypedDataStore<T>(
     private val defaultValue: T,
@@ -14,18 +15,18 @@ internal class FakeTypedDataStore<T>(
     private val internalFlow = MutableStateFlow(defaultValue)
 
     override val data: Flow<T> = internalFlow
-        .onEach { log("Emitting $it") }
+        .onEach { log("Emitting %s", it) }
 
     override suspend fun updateData(transform: suspend (t: T) -> T): T = internalFlow.updateAndGet { oldData ->
-        transform(oldData).also { log("Updated data $oldData -> $it") }
+        transform(oldData).also { log("Updated data %s -> %s", oldData, it) }
     }
 
     fun reset() {
-        log("Resetting to defaultValue0$defaultValue")
+        log("Resetting to defaultValue=%s", defaultValue)
         internalFlow.value = defaultValue
     }
 
-    private fun log(msg: String) {
-        if (shouldLog) println("FakeTypedDataStore: $msg")
+    private fun log(msg: String, vararg args: Any?) {
+        if (shouldLog) Timber.v(msg, *args)
     }
 }
