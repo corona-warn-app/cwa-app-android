@@ -14,6 +14,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Deprecated("Use UploadHistoryStorage")
 class BugReportingSettings @Inject constructor(
     @AppContext private val context: Context,
     @BaseGson private val gson: Gson
