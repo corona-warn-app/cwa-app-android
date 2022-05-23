@@ -181,9 +181,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         override val dccData: DccData<*>
             get() = mockk()
 
-        override val hasNotificationBadge: Boolean
-            get() = false
-
         override val notifiedInvalidAt: Instant?
             get() = null
 

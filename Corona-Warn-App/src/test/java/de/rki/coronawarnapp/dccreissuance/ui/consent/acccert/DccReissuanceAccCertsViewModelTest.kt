@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
 import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsViewModel
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -19,6 +20,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,6 +38,7 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
     @MockK lateinit var dccQrCode: DccQrCode
     @MockK lateinit var metadata: DccV1.MetaData
     @MockK lateinit var cwaCertificates: CwaCovidCertificate
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val identifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01.10.1982",
@@ -64,8 +67,10 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
         coEvery { dccQrCodeExtractor.extract(any(), any()) } returns dccQrCode.apply {
             every { data } returns mockk<DccData<out DccV1.MetaData>>().apply {
                 every { certificate } returns metadata
+                every { header.expiresAt } returns Instant.EPOCH
             }
         }
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     @Test
@@ -80,5 +85,6 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = "code",
         dccQrCodeExtractor = dccQrCodeExtractor,
+        timeStamper = timeStamper
     )
 }

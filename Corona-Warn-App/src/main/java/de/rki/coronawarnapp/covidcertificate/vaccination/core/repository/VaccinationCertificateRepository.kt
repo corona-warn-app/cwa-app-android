@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -196,8 +194,6 @@ class VaccinationCertificateRepository @Inject constructor(
             }
 
             val newData = when (state) {
-                is Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
-                is ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
                 is Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
                 is Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
                 is Revoked -> toUpdate.data.copy(notifiedRevokedAt = time)
