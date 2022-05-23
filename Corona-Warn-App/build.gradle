@@ -524,7 +524,7 @@ sonarqube {
     properties {
         property "sonar.organization", "corona-warn-app"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.projectKey", System.getenv("SONAR_TOKEN")
+        property "sonar.projectKey", "corona-warn-app_cwa-app-android"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/deviceRelease/jacoco.xml"
         property "sonar.sources", "src/main/java/"
         property "sonar.inclusions", "**/*.kt"
