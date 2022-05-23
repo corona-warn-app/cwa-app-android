@@ -131,9 +131,7 @@ class VaccinationCertificateRepository @Inject constructor(
                     valueSetsRepository.latestVaccinationValueSets.first(),
                     dccValidityMeasuresObserver.dccValidityMeasures.first()
                 )?.vaccinationCertificate
-            } else {
-                null
-            }
+            } else null
         }
 
     /**

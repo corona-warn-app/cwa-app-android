@@ -39,6 +39,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -54,7 +55,7 @@ import javax.inject.Singleton
 @Singleton
 @Suppress("LongParameterList")
 class TestCertificateRepository @Inject constructor(
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: TestCertificateStorage,
@@ -128,6 +129,17 @@ class TestCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    fun findCertificateDetails(containerId: TestCertificateContainerId): Flow<TestCertificate?> =
+        internalData.data.map { map ->
+            val container = map[containerId]
+            if (container?.isNotRecycled == true) {
+                container.toTestCertificateWrapper(
+                    valueSetsRepository.latestTestCertificateValueSets.first(),
+                    dccValidityMeasuresObserver.dccValidityMeasures.first()
+                )?.testCertificate
+            } else null
+        }
 
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isNotRecycled]
