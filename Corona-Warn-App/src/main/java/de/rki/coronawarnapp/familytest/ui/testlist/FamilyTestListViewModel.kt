@@ -112,35 +112,6 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
         when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
-            State.PENDING -> FamilyPcrTestPendingCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.NEGATIVE -> FamilyPcrTestNegativeCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.POSITIVE -> FamilyPcrTestPositiveCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.INVALID -> FamilyPcrTestInvalidCard.Item(
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,
@@ -171,35 +142,6 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
         when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
-            State.PENDING -> FamilyRapidTestPendingCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.NEGATIVE -> FamilyRapidTestNegativeCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.POSITIVE -> FamilyRapidTestPositiveCard.Item(
-                familyCoronaTest = this,
-                onClickAction = {
-                    events.postValue(FamilyTestListEvent.NavigateToDetails(familyCoronaTest = this))
-                },
-                onSwipeItem = { familyCoronaTest, position ->
-                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
-                }
-            )
-            State.INVALID -> FamilyRapidTestInvalidCard.Item(
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,
