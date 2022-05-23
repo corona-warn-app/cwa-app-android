@@ -63,6 +63,7 @@
                     android:layout_marginTop="@dimen/spacing_small"
                     android:accessibilityHeading="true"
                     android:text="@string/interoperability_configuration_title"
+                    android:hyphenationFrequency="full"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/interoperability_illustration" />

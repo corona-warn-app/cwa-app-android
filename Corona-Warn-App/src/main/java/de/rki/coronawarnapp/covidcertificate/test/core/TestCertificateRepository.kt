@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.isScreenedCert
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasur
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -445,7 +445,7 @@ class TestCertificateRepository @Inject constructor(
                 dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
             )
 
-            if (!isScreenedTestCert(currentState)) {
+            if (!isScreenedCert(currentState)) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
                 return@updateBlocking this
             }
@@ -484,7 +484,7 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val isValid = !isScreenedTestCert(state)
+            val isValid = !isScreenedCert(state)
             if (isValid) {
                 Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
