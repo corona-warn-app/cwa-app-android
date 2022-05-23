@@ -83,6 +83,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         Blocked, Revoked -> {
+            setQrTitle(certificate, qrTitle, context)
+            notificationBadge.isVisible = certificate.hasNotificationBadge
             statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
