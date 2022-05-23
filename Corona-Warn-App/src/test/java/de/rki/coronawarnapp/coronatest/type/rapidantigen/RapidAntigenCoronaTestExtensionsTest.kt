@@ -27,7 +27,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1010010101)
         every { coronaTestConfig.ratParameters.hoursToDeemTestOutdated } returns
-            Duration.standardHours(48)
+            java.time.Duration.ofHours(48)
     }
 
     @Test

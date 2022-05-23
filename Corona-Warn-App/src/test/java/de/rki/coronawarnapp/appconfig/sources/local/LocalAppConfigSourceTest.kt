@@ -14,8 +14,8 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,9 +36,9 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     private var expectedData = InternalConfigData(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         etag = "etag",
-        cacheValidity = Duration.standardMinutes(5)
+        cacheValidity = Duration.ofMinutes(5)
     )
 
     private var mockConfigStorage: InternalConfigData? = null
@@ -56,7 +56,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
 
     @AfterEach
@@ -93,7 +93,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
             mappedConfig = configData,
             configType = ConfigData.Type.LAST_RETRIEVED,
             identifier = expectedData.etag,
-            cacheValidity = Duration.standardMinutes(5)
+            cacheValidity = Duration.ofMinutes(5)
         )
 
         coVerifyOrder { configStorage.getStoredConfig() }

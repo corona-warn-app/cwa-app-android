@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -80,8 +80,8 @@ class TestCertificateRepositoryTest : BaseTest() {
         } returns CwaCovidCertificate.State.Invalid()
 
         covidTestCertificateConfig.apply {
-            every { waitForRetry } returns Duration.standardSeconds(10)
-            every { waitAfterPublicKeyRegistration } returns Duration.standardSeconds(10)
+            every { waitForRetry } returns Duration.ofSeconds(10)
+            every { waitAfterPublicKeyRegistration } returns Duration.ofSeconds(10)
         }
 
         storage.apply {

@@ -15,8 +15,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import okhttp3.Cache
 import okio.ByteString.Companion.decodeHex
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -40,9 +40,9 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     private var dataFromServer = InternalConfigData(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         etag = "etag",
-        cacheValidity = Duration.standardSeconds(420)
+        cacheValidity = Duration.ofSeconds(420)
     )
 
     private var mockConfigStorage: InternalConfigData? = null
@@ -62,7 +62,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
 
     @AfterEach
@@ -87,7 +87,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
             mappedConfig = configData,
             configType = ConfigData.Type.FROM_SERVER,
             identifier = "etag",
-            cacheValidity = Duration.standardSeconds(420)
+            cacheValidity = Duration.ofSeconds(420)
         )
 
         mockConfigStorage shouldBe dataFromServer
