@@ -125,6 +125,9 @@ data class CoronaTest(
     override val isPending: Boolean
         get() = state == State.PENDING
 
+    override val isInvalid: Boolean
+        get() = state == State.INVALID
+
     data class Dcc(
         @SerializedName("isDccSupportedByPoc")
         override val isDccSupportedByPoc: Boolean = true,
