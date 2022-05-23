@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
@@ -49,12 +50,13 @@ object UploadHistoryStorageModule {
         context = context,
         sharedPreferencesName = LEGACY_SHARED_PREFS
     ) { sharedPreferencesView, uploadHistory ->
-        Timber.e("uploadHistory=%s", uploadHistory)
         val migratedUploadHistory = runCatching {
             // Data was converted with Gson before so use Gson to restore data to avoid corrupted data
             // Gson and Jackson store Instants differently
             sharedPreferencesView.getString(LEGACY_UPLOAD_HISTORY_KEY)?.let { gson.fromJson<UploadHistory>(it) }
-        }.getOrNull()
+        }
+            .onFailure { Timber.tag("SharedPreferencesMigration<UploadHistory>").e(it, "Migration failed") }
+            .getOrNull()
 
         migratedUploadHistory ?: uploadHistory
     }
@@ -70,4 +72,4 @@ object UploadHistoryStorageModule {
 
 private const val UPLOAD_HISTORY_DATA_STORE: String = "upload_history_data_store"
 private const val LEGACY_SHARED_PREFS = "bugreporting_localdata"
-private const val LEGACY_UPLOAD_HISTORY_KEY = "upload.history"
+@VisibleForTesting const val LEGACY_UPLOAD_HISTORY_KEY = "upload.history"
