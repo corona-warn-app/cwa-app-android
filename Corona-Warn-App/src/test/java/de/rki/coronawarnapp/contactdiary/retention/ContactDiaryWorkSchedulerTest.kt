@@ -55,7 +55,7 @@ class ContactDiaryWorkSchedulerTest : BaseTest() {
     fun `periodic work should be scheduled after onboaring`() = runTest2 {
         val onboardingFlow = MutableStateFlow(false)
         every { onBoardingSettings.isOnboardedFlow } returns onboardingFlow
-        createScheduler(this).setup()
+        createScheduler(this).initialize()
         verifyIfWorkWasScheduled(exactly = 0)
 
         onboardingFlow.value = true

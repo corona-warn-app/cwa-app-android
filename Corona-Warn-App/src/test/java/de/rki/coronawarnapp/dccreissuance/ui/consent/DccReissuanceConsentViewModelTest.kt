@@ -76,18 +76,20 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
             }
         }
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
+        every { metadata.personIdentifier } returns identifier
     }
 
     @Test
     fun `getState works`() {
         viewModel().stateLiveData.getOrAwaitValue() shouldBe DccReissuanceConsentViewModel.State(
-            certificateList = mutableListOf<DccReissuanceItem>(),
+            certificateList = listOf(DccReissuanceCertificateCard.Item(metadata)),
             divisionVisible = true,
             listItemsTitle = "",
             title = "Zertifikat ersetzen",
             subtitle = "",
             content = "Langer Text",
-            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state"
+            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state",
+            accompanyingCertificatesVisible = true
         )
     }
 

@@ -6,7 +6,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -50,7 +50,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
         val downloadServer = createDownloadServer()
         coEvery { api.getLocationIndex() } returns listOf("DE", "NL")
 
-        runBlocking {
+        runTest {
             downloadServer.getLocationIndex() shouldBe listOf(
                 LocationCode("DE"),
                 LocationCode("NL")
@@ -68,7 +68,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
             "2000-01-02"
         )
 
-        runBlocking {
+        runTest {
             downloadServer.getDayIndex(LocationCode("DE")) shouldBe listOf(
                 "2000-01-01",
                 "2000-01-02"
@@ -88,7 +88,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
             "21"
         )
 
-        runBlocking {
+        runTest {
             downloadServer.getHourIndex(
                 LocationCode("DE"),
                 LocalDate.parse("2000-01-01")
@@ -115,7 +115,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
 
         val targetFile = File(testDir, "day-keys")
 
-        runBlocking {
+        runTest {
             downloadServer.downloadKeyFile(
                 locationCode = LocationCode("DE"),
                 day = LocalDate.parse("2000-01-01"),
@@ -132,7 +132,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     fun `download key files for hour and check hour format`() {
         val downloadServer = createDownloadServer()
 
-        runBlocking {
+        runTest {
             coEvery {
                 api.downloadKeyFileForHour(
                     "DE",
@@ -154,7 +154,7 @@ class DiagnosisKeyServerTest : BaseIOTest() {
             targetFile.readText() shouldBe "testdata-hour"
         }
 
-        runBlocking {
+        runTest {
             coEvery {
                 api.downloadKeyFileForHour(
                     "DE",

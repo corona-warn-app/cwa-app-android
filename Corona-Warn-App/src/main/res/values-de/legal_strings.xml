@@ -226,9 +226,9 @@
     <!-- XTXT: DCC Reissuance legal header-->
     <string name="dcc_reissuance_legal_header" translatable="false">Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:</string>
     <!-- XTXT: DCC Reissuance legal first bullet point-->
-    <string name="dcc_reissuance_legal_one" translatable="false">Die App übermittelt das Impfzertifikat zur Überprüfung an das RKI. </string>
+    <string name="dcc_reissuance_legal_one" translatable="false">Die App übermittelt die genannten Zertifikate zur Überprüfung an das RKI. </string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
-    <string name="dcc_reissuance_legal_two" translatable="false">Das RKI überprüft das Impfzertifikat und stellt ein aktualisiertes Zertifikat aus und übermittelt dieses an Ihre App.</string>
+    <string name="dcc_reissuance_legal_two" translatable="false">Das RKI überprüft die Zertifikate, stellt erneuerte Zertifikate aus und übermittelt diese an Ihre App.</string>
 
     <!-- Family Consent Screen -->
     <!-- XTXT: Family Consent Screen: Legal: Title -->

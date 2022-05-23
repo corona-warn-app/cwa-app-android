@@ -71,7 +71,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     private val foregroundFlow = MutableStateFlow(false)
 
     @BeforeEach
-    fun setup() {
+    fun initialize() {
         MockKAnnotations.init(this)
 
         workManager.apply {
@@ -110,7 +110,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
     @Test
     fun `new negative corona tests create a dcc if supported and consented`() = runTest2 {
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         coVerify {
             testCertificateRepository.requestCertificate(mockTest)
             coronaTestRepository.markDccAsCreated("identifier1", true)
@@ -124,7 +124,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     fun `certificates only for negative results`() = runTest2 {
         every { mockTest.isNegative } returns false
         every { mockFamilyTest.isNegative } returns false
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
@@ -133,7 +133,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     fun `no duplicate certificates for flaky test results`() = runTest2 {
         every { mockTest.isDccDataSetCreated } returns true
         every { mockFamilyTest.isDccDataSetCreated } returns true
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
@@ -142,7 +142,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     fun `refresh on foreground`() = runTest2 {
         testsFlow.value = emptySet()
 
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 1) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }
 
@@ -154,7 +154,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     @Test
     fun `refresh on new certificate entry`() = runTest2 {
         testsFlow.value = emptySet()
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
 
         advanceUntilIdle()
         coVerify(exactly = 1) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }

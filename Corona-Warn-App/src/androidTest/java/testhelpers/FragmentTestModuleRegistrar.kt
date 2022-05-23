@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
+import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
@@ -133,6 +134,7 @@ import kotlinx.coroutines.test.TestScope
         PersonDetailsFragmentTestModule::class,
         BoosterInfoDetailsFragmentTestModule::class,
         DccReissuanceConsentFragmentTestModule::class,
+        DccReissuanceAccCertsFragmentTestModule::class,
 
         // -------- Profile ------------
         ProfileCreateFragmentTestModule::class,

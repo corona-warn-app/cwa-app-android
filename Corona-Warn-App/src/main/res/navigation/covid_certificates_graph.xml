@@ -350,6 +350,21 @@
             android:id="@+id/action_dccReissuanceConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
 
+        <action
+            android:id="@+id/action_dccReissuanceConsentFragment_to_accCertsFragment"
+            app:destination="@id/dccReissuanceAccCertsFragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dccReissuanceAccCertsFragment"
+        android:name="de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsFragment"
+        android:label="fragment_dcc_reissuance_acc_certs"
+        tools:layout="@layout/fragment_dcc_reissuance_acc_certs">
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
+
     </fragment>
 
     <fragment

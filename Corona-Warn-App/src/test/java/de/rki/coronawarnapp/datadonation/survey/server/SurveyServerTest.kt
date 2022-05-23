@@ -14,7 +14,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,7 +36,7 @@ class SurveyServerTest : BaseTest() {
     }
 
     @Test
-    fun `valid otp`() = runBlocking {
+    fun `valid otp`() = runTest {
         val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
         coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
@@ -52,7 +52,7 @@ class SurveyServerTest : BaseTest() {
     }
 
     @Test
-    fun `invalid otp`() = runBlocking {
+    fun `invalid otp`() = runTest {
         val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
         coEvery { surveyApi.authOTP(any()) } answers {
             arg<EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid>(0).toString() shouldBe expectedPayload()
@@ -68,7 +68,7 @@ class SurveyServerTest : BaseTest() {
     }
 
     @Test
-    fun `API fails`(): Unit = runBlocking {
+    fun `API fails`(): Unit = runTest {
         val server = SurveyServer(surveyApi = { surveyApi }, TestDispatcherProvider())
         coEvery { surveyApi.authOTP(any()) } throws (IOException())
 

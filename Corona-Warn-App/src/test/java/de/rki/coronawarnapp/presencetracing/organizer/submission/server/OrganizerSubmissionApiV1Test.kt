@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmis
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
@@ -52,7 +52,7 @@ class OrganizerSubmissionApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `check submission request`() = runBlocking {
+    fun `check submission request`() = runTest {
         webServer.enqueue(MockResponse())
 
         createApi().submitCheckInsOnBehalf(authCode = uploadTan, requestBody = requestBody)
@@ -65,7 +65,7 @@ class OrganizerSubmissionApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `delivers response codes`(): Unit = runBlocking {
+    fun `delivers response codes`(): Unit = runTest {
         val apiV1 = createApi()
 
         // Successful submission doesn't throw

@@ -48,7 +48,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
 
     private val state = DccReissuanceConsentViewModel.State(
         certificateList = mutableListOf<DccReissuanceItem>(
-            DccReissuanceConsentCard.Item(
+            DccReissuanceCertificateCard.Item(
                 mockk<VaccinationDccV1> {
                     every { nameData } returns mockk {
                         every { fullName } returns "Andrea Schneider"
@@ -66,7 +66,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
                     }
                 }
             ),
-            DccReissuanceConsentCard.Item(
+            DccReissuanceCertificateCard.Item(
                 mockk<VaccinationDccV1> {
                     every { nameData } returns mockk {
                         every { fullName } returns "Andrea Schneider"
@@ -91,6 +91,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
         subtitle = "Neuausstellung direkt über die App vornehmen.",
         content = "Die Spezifikationen der EU für Zertifikate von Auffrischimpfungen wurden geändert. Dieses Zertifikat entspricht nicht den aktuellen Spezifikationen. Das Impfzertifikat ist zwar weiterhin gültig, es kann jedoch sein, dass bei einer Prüfung die Auffrischimpfung nicht erkannt wird. Bitte lassen Sie sich daher ein neues Impfzertifikat ausstellen.\n\nSie können ein neues Impfzertifikat direkt kostenlos über die App anfordern. Hierfür ist Ihr Einverständnis erforderlich.",
         url = null,
+        accompanyingCertificatesVisible = true
     )
 
     @Before

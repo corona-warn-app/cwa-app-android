@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.checkout.auto
 
 import android.app.AlarmManager
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.CheckOutHandler
@@ -32,11 +33,11 @@ class AutoCheckOut @Inject constructor(
     private val alarmManager: AlarmManager,
     private val timeStamper: TimeStamper,
     private val intentFactory: AutoCheckOutIntentFactory,
-) {
+) : Initializer {
 
     private val mutex = Mutex()
 
-    fun setupMonitor() {
+    override fun initialize() {
         repository.allCheckIns
             .onStart { Timber.tag(TAG).v("Monitoring check-ins.") }
             .distinctUntilChanged()

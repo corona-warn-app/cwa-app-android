@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -29,15 +30,16 @@ class PCRTestResultAvailableNotificationService @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     @AppScope private val appScope: CoroutineScope,
 ) : TestResultAvailableNotificationService(
-    context,
-    foregroundState,
-    navDeepLinkBuilderFactory,
-    notificationHelper,
-    NotificationConstants.PCR_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
-    logTag = TAG,
-) {
+        context,
+        foregroundState,
+        navDeepLinkBuilderFactory,
+        notificationHelper,
+        NotificationConstants.PCR_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
+        logTag = TAG,
+    ),
+    Initializer {
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).d("setup() - PCRTestResultAvailableNotificationService")
 
         @Suppress("RedundantLambdaArrow")

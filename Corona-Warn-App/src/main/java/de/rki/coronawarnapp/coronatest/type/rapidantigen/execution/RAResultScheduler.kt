@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.DISABLED
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE1
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
@@ -31,8 +32,9 @@ class RAResultScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val coronaTestRepository: CoronaTestRepository,
 ) : ResultScheduler(
-    workManager = workManager
-) {
+        workManager = workManager
+    ),
+    Initializer {
 
     private var ratWorkerMode = DISABLED
     val ratResultPeriodicPollingMode
@@ -44,7 +46,7 @@ class RAResultScheduler @Inject constructor(
         PHASE2
     }
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).d("setup() - RAResultScheduler")
         coronaTestRepository.latestRAT
             .map { test: RACoronaTest? ->

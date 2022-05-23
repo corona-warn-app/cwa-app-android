@@ -292,6 +292,17 @@ data class CertificateReissuance(
             certificates = consolidatedCertificates
         )
     }
+
+    fun consolidateAccompanyingCertificates(): Set<Certificate> {
+        val certsToReissue = certificates.orEmpty().map {
+            it.certificateToReissue
+        }
+        return certificates.orEmpty().flatMap {
+            it.accompanyingCertificates
+        }.toMutableSet().apply {
+            removeAll(certsToReissue)
+        }
+    }
 }
 
 data class CertificateReissuanceItem(

@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/ic_certificate_background_border"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/spacing_normal"
+    android:background="@drawable/ic_certificate_background_border"
     android:paddingBottom="@dimen/spacing_small">
 
     <androidx.constraintlayout.widget.Guideline
@@ -54,6 +54,7 @@
         app:layout_constraintLeft_toLeftOf="@id/guideline_start"
         app:layout_constraintRight_toRightOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
+        app:layout_goneMarginTop="@dimen/spacing_small"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
@@ -101,6 +102,32 @@
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image" />
 
+    <TextView
+        android:id="@+id/qr_title"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="@string/test_certificate_name"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/notification_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_badge"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/qr_title"
+        app:layout_constraintStart_toEndOf="@id/qr_title"
+        app:layout_constraintTop_toTopOf="@id/qr_title"
+        tools:visibility="visible" />
+
     <ImageView
         android:id="@+id/status_icon"
         android:layout_width="wrap_content"
@@ -122,7 +149,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/status_icon"
-        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:layout_constraintTop_toBottomOf="@+id/qr_title"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="visible" />
 

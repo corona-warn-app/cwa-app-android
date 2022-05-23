@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
     <string name="dcc_reissuance_success_screen_title">"Certificate Updated"</string>
@@ -18,7 +17,7 @@
     <!-- XTXT: Text Key - Try Again -->
     <string name="dcc_reissuance_error_handling_text_key_try_again">"An error occurred during the update of your certificate. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline. "</string>
     <!-- XTXT: Text Key - Rate limit -->
-    <string name="dcc_reissuance_error_handling_text_key_rate_limit">Das Zertifikat wurde bereits drei mal neu ausgestellt. Eine weitere Neuausstellung ist nicht möglich.<br />Wir empfehlen, Ihr bereits erneut ausgestelltes Zertifikat als PDF zu exportieren und auszudrucken. Damit können Sie es jederzeit erneut einscannen.</string>
+    <string name="dcc_reissuance_error_handling_text_key_rate_limit">"The certificate has already been reissued three times. It cannot be reissued again."<br/>"We recommend exporting your reissued certificate as a PDF and printing it out. You can then scan it again at any time."</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Your certificate cannot be updated. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
 
@@ -27,9 +26,19 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Updating your certificate is voluntary and free of charge."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be updated once, the identifier of the old certificate is documented by the RKI."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be renewed once, the identifiers of the old and new certificates are documented by the RKI. The other data from your certificates is deleted by the RKI immediately after the renewal."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"The old certificate will be moved automatically to the recycle bin and deleted after 30 days. The certificate can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">"If you cancel now, you can request an update in the certificate overview at any time."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates tile -->
+    <string name="dcc_reissuance_accompanying_certificates">"Other Certificates Issued"</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates content -->
+    <string name="dcc_reissuance_acc_certs_content">"The following certificates will be issued during the renewal as additional information, to adopt the previous sequence of vaccinations and recoveries in the new certificate. These certificates will not be renewed."</string>
+    <!-- XTXT: DCC Reissuance accompanying certificates title -->
+    <string name="dcc_reissuance_acc_certs_title">"Other Certificates Issued"</string>
+    <!-- XTXT: DCC Reissuance third bullet point-->
+    <string name="dcc_reissuance_bulletpoint_three">"Before renewing certificates of family members, please make sure that the person involved consents."</string>
+    <!-- XTXT: DCC Reissuance fourth bullet point-->
+    <string name="dcc_reissuance_bulletpoint_four">"In certain cases, further certificates are issued in addition to the certificate for renewal. This is necessary to adopt the previous sequence of vaccinations and recoveries in the new certificate."</string>
 </resources>

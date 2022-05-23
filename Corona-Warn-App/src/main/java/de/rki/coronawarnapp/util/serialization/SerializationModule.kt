@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
@@ -53,6 +54,7 @@ class SerializationModule {
         val baseGson: Gson by lazy {
             GsonBuilder()
                 .registerTypeAdapter(Instant::class.java, InstantAdapter())
+                .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
                 .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
                 .registerTypeAdapter(Duration::class.java, DurationAdapter())
                 .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())

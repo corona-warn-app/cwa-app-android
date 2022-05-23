@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
+    <string name="risk_details_information_body_period_logged">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -709,7 +709,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Let’s fight coronavirus together"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App on behalf of the Federal Government. The app is intended as a digital complement to public health measures already introduced: social distancing, hygiene, and face masks."</string>
+    <string name="information_about_body_emphasized">"The Robert Koch Institute (RKI) is Germany’s federal public health body. The RKI publishes the Corona-Warn-App on behalf of the Federal Government. The app is intended as a digital complement to hygiene measures, such as wearing face masks and social distancing."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"People who use the app help to trace and break chains of infection. The app saves encounters with other people locally on your device. You are notified if you have encountered people who were later diagnosed with coronavirus. Your identity and privacy are always protected."</string>
     <!-- XACT: describes illustration -->
@@ -773,7 +773,7 @@
     <!-- YTXT: subtitle for legal information page, publisher section -->
     <string name="information_legal_subtitle_publisher">"(responsible in accordance with § 5 (1) TMG, § 18 (1) MStV)"</string>
     <!-- YTXT: body for legal information page, publisher section -->
-    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"represented by its president"</string>
+    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin, Germany"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"represented by its president"</string>
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"Contact"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
@@ -1801,11 +1801,11 @@
     <string name="submission_test_result_positive_no_consent_button_abort">"Cancel"</string>
 
     <!-- XHED: Title of scanner app shortcut -->
-    <string name="app_shortcut_scanner_title">"Scan QR codes"</string>
+    <string name="app_shortcut_scanner_title">"Scan QR Codes"</string>
     <!-- XHED: Title of certificates app shortcut -->
-    <string name="app_shortcut_certificates_title">"Show certificates"</string>
+    <string name="app_shortcut_certificates_title">"Display Certificates"</string>
     <!-- XHED: Title of check-ins app shortcut -->
-    <string name="app_shortcut_check_ins_title">"Show check-ins"</string>
+    <string name="app_shortcut_check_ins_title">"Display Check-Ins"</string>
     <!-- XHED: Title of contact diary app shortcut -->
     <string name="app_shortcut_contact_diary_title">"Add Entry"</string>
 

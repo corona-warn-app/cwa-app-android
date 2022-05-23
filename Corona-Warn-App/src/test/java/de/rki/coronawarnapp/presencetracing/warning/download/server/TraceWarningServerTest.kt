@@ -5,7 +5,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,7 +33,7 @@ internal class TraceWarningServerTest : BaseTest() {
     }
 
     @Test
-    fun `downloadPackage UNENCRYPTED`() = runBlocking {
+    fun `downloadPackage UNENCRYPTED`() = runTest {
         server().downloadPackage(TraceWarningApi.Mode.UNENCRYPTED, LocationCode("DE"), 1L)
         coVerify(exactly = 1) {
             unencryptedApi.downloadKeyFileForHour(any(), any())
@@ -45,7 +45,7 @@ internal class TraceWarningServerTest : BaseTest() {
     }
 
     @Test
-    fun `downloadPackage ENCRYPTED`() = runBlocking {
+    fun `downloadPackage ENCRYPTED`() = runTest {
         server().downloadPackage(TraceWarningApi.Mode.ENCRYPTED, LocationCode("DE"), 1L)
         coVerify(exactly = 0) {
             unencryptedApi.downloadKeyFileForHour(any(), any())
@@ -57,7 +57,7 @@ internal class TraceWarningServerTest : BaseTest() {
     }
 
     @Test
-    fun `getAvailableIds UNENCRYPTED`() = runBlocking {
+    fun `getAvailableIds UNENCRYPTED`() = runTest {
         server().getAvailableIds(TraceWarningApi.Mode.UNENCRYPTED, LocationCode("DE"))
         coVerify(exactly = 1) {
             unencryptedApi.getWarningPackageIds(any())
@@ -69,7 +69,7 @@ internal class TraceWarningServerTest : BaseTest() {
     }
 
     @Test
-    fun `getAvailableIds ENCRYPTED`() = runBlocking {
+    fun `getAvailableIds ENCRYPTED`() = runTest {
         server().getAvailableIds(TraceWarningApi.Mode.ENCRYPTED, LocationCode("DE"))
         coVerify(exactly = 0) {
             unencryptedApi.getWarningPackageIds(any())

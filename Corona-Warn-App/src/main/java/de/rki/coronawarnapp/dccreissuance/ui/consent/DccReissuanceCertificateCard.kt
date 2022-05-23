@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class DccReissuanceConsentCard(parent: ViewGroup) :
-    DccReissuanceAdapter.ItemVH<DccReissuanceConsentCard.Item, DccReissuanceCertificateCardBinding>(
+class DccReissuanceCertificateCard(parent: ViewGroup) :
+    DccReissuanceAdapter.ItemVH<DccReissuanceCertificateCard.Item, DccReissuanceCertificateCardBinding>(
         layoutRes = R.layout.dcc_reissuance_certificate_card,
         parent = parent
     ) {
