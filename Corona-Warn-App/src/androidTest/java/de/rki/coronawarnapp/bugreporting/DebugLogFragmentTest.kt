@@ -103,6 +103,7 @@ class DebugLogFragmentTest : BaseUITest() {
                 )
             )
         }
+        
         return vm
     }
 }
