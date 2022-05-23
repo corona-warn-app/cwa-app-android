@@ -47,7 +47,6 @@ import javax.inject.Singleton
 @Module(
     includes = [
         BugReportingSharedModule.BindsModule::class,
-        BugReportingSharedModule.ResetModule::class,
         UploadHistoryStorageModule::class
     ]
 )
@@ -91,14 +90,6 @@ object BugReportingSharedModule {
     @DebuggerScope
     @Provides
     fun scope(): CoroutineScope = DebugLoggerScope
-
-    @Module
-    internal interface ResetModule {
-
-        @Binds
-        @IntoSet
-        fun bindResettableBugReportingSettings(resettable: BugReportingSettings): Resettable
-    }
 
     @Module
     internal interface BindsModule {

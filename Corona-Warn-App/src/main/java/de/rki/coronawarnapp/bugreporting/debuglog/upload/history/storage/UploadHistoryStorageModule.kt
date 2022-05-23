@@ -6,12 +6,15 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.datastore.migrations.SharedPreferencesMigration
 import com.google.gson.Gson
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +22,7 @@ import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [UploadHistoryStorageModule.ResetModule::class])
 object UploadHistoryStorageModule {
 
     @Singleton
@@ -54,6 +57,14 @@ object UploadHistoryStorageModule {
         }.getOrNull()
 
         migratedUploadHistory ?: uploadHistory
+    }
+
+    @Module
+    internal interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableUploadHistoryStorage(resettable: UploadHistoryStorage): Resettable
     }
 }
 
