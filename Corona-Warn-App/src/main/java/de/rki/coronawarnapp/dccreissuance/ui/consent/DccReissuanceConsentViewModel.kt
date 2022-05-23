@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -38,6 +39,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal val event = SingleLiveEvent<Event>()
 
     private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+        .distinctUntilChangedBy { it?.dccWalletInfo?.certificateReissuance }
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
             person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()
@@ -47,7 +49,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         it!!.toState()
     }.catch {
         Timber.tag(TAG).d(it, "dccReissuanceData failed")
-        event.postValue(Back) // Fallback: Could happen when DccReissuance is gone while user is here for a long time
+        if (event.value !in listOf(ReissuanceInProgress, ReissuanceSuccess)) // only if not in progress
+            event.postValue(Back) // Fallback in case reissuance is removed
     }.asLiveData2()
 
     internal fun startReissuance() = launch {
