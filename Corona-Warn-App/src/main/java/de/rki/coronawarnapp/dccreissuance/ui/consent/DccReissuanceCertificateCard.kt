@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.dccreissuance.ui.consent
 
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -27,53 +29,81 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
 
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val fullName = curItem.certificate.nameData.fullName
         when (curItem.certificate) {
             is VaccinationDccV1 -> {
-                val vaccinationDosesInfo = context.getString(
-                    R.string.vaccination_certificate_doses,
-                    curItem.certificate.vaccination.doseNumber,
-                    curItem.certificate.vaccination.totalSeriesOfDoses
+                setCertificate(
+                    vaccinationIcon,
+                    vaccinationHeader,
+                    curItem.certificate.getBodyText(),
+                    item.isExpired,
                 )
-
-                val certificateDate = context.getString(
-                    R.string.vaccination_certificate_vaccinated_on,
-                    curItem.certificate.vaccination.vaccinatedOn?.toShortDayFormat()
-                        ?: curItem.certificate.vaccination.dt
-                )
-                setVaccination("$fullName\n$vaccinationDosesInfo\n$certificateDate", item.isExpired)
             }
             is RecoveryDccV1 -> {
-                val info = context.getString(
-                    R.string.recovery_certificate_sample_collection,
-                    curItem.certificate.recovery.testedPositiveOn?.toShortDayFormat()
-                        ?: curItem.certificate.recovery.fr
+                setCertificate(
+                    recoveryIcon,
+                    recoveryHeader,
+                    curItem.certificate.getBodyText(),
+                    item.isExpired,
                 )
-                setRecovery("$fullName\n$info", item.isExpired)
             }
             is TestDccV1 -> {
-                var testType = ""
-                when {
-                    // PCR Test
-                    curItem.certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
-                    // RAT Test
-                    curItem.certificate.isRapidAntigenTestCertificate -> R.string.test_certificate_rapid_test_type
-                    else -> null
-                }?.let {
-                    testType = context.getString(it)
-                }
-
-                val info = context.getString(
-                    R.string.test_certificate_sampled_on,
-                    curItem.certificate.test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
-                        ?: curItem.certificate.test.sc
+                setCertificate(
+                    testIcon,
+                    testHeader,
+                    curItem.certificate.getBodyText(),
+                    item.isExpired,
                 )
-                setTest("$fullName\n$testType\n$info", item.isExpired)
             }
         }
     }
 
-    private fun DccReissuanceCertificateCardBinding.setExpired() {
+    private fun VaccinationDccV1.getBodyText(): String {
+        val fullName = nameData.fullName
+        val vaccinationDosesInfo = context.getString(
+            R.string.vaccination_certificate_doses,
+            vaccination.doseNumber,
+            vaccination.totalSeriesOfDoses
+        )
+        val certificateDate = context.getString(
+            R.string.vaccination_certificate_vaccinated_on,
+            vaccination.vaccinatedOn?.toShortDayFormat()
+                ?: vaccination.dt
+        )
+        return "$fullName\n$vaccinationDosesInfo\n$certificateDate"
+    }
+
+    private fun RecoveryDccV1.getBodyText(): String {
+        val fullName = nameData.fullName
+        val info = context.getString(
+            R.string.recovery_certificate_sample_collection,
+            recovery.testedPositiveOn?.toShortDayFormat()
+                ?: recovery.fr
+        )
+        return "$fullName\n$info"
+    }
+
+    private fun TestDccV1.getBodyText(): String {
+        val fullName = nameData.fullName
+        var testType = ""
+        when {
+            // PCR Test
+            isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
+            // RAT Test
+            isRapidAntigenTestCertificate -> R.string.test_certificate_rapid_test_type
+            else -> null
+        }?.let {
+            testType = context.getString(it)
+        }
+
+        val info = context.getString(
+            R.string.test_certificate_sampled_on,
+            test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
+                ?: test.sc
+        )
+        return "$fullName\n$testType\n$info"
+    }
+
+    private fun DccReissuanceCertificateCardBinding.setExpiredIcon() {
         dccReissuanceCertificateIcon.setImageDrawable(
             AppCompatResources.getDrawable(context, expiredIcon)
         )
@@ -82,50 +112,40 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
         )
     }
 
-    private fun DccReissuanceCertificateCardBinding.setVaccination(
-        body: String,
-        isExpired: Boolean
+    private fun DccReissuanceCertificateCardBinding.setIcon(
+        @DrawableRes iconRes: Int
     ) {
-        if (isExpired) {
-            setExpired()
-        } else {
-            dccReissuanceCertificateIcon.setImageDrawable(
-                AppCompatResources.getDrawable(context, vaccinationIcon)
-            )
-        }
-
-        dccReissuanceHeader.text = context.getString(R.string.vaccination_certificate_name)
-        dccReissuanceBody.text = body
+        dccReissuanceCertificateIcon.setImageDrawable(
+            AppCompatResources.getDrawable(context, iconRes)
+        )
     }
 
-    private fun DccReissuanceCertificateCardBinding.setRecovery(
-        body: String,
-        isExpired: Boolean
+    private fun DccReissuanceCertificateCardBinding.setHeader(
+        @StringRes text: Int
     ) {
-        if (isExpired) {
-            setExpired()
-        } else {
-            dccReissuanceCertificateIcon.setImageDrawable(
-                AppCompatResources.getDrawable(context, recoveryIcon)
-            )
-        }
-        dccReissuanceHeader.text = context.getString(R.string.recovery_certificate_name)
-        dccReissuanceBody.text = body
+        dccReissuanceHeader.text = context.getString(text)
     }
 
-    private fun DccReissuanceCertificateCardBinding.setTest(
+    private fun DccReissuanceCertificateCardBinding.setBody(
+        text: String
+    ) {
+        dccReissuanceBody.text = text
+    }
+
+    private fun DccReissuanceCertificateCardBinding.setCertificate(
+        @DrawableRes icon: Int,
+        @StringRes header: Int,
         body: String,
-        isExpired: Boolean
+        isExpired: Boolean,
     ) {
         if (isExpired) {
-            setExpired()
+            setExpiredIcon()
         } else {
-            dccReissuanceCertificateIcon.setImageDrawable(
-                AppCompatResources.getDrawable(context, testIcon)
-            )
+            setIcon(icon)
         }
-        dccReissuanceHeader.text = context.getString(R.string.test_certificate_name)
-        dccReissuanceBody.text = body
+
+        setHeader(header)
+        setBody(body)
     }
 
     companion object {
@@ -134,6 +154,9 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
         private const val testIcon = R.drawable.ic_test_certificate
         private const val expiredIcon = R.drawable.ic_certificate_invalid
         private const val expiredBackground = R.drawable.bg_certificate_grey
+        private const val vaccinationHeader = R.string.vaccination_certificate_name
+        private const val recoveryHeader = R.string.recovery_certificate_name
+        private const val testHeader = R.string.test_certificate_name
     }
 
     data class Item(
