@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -44,6 +45,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     @MockK lateinit var dccQrCode: DccQrCode
     @MockK lateinit var metadata: DccV1.MetaData
     @MockK lateinit var cwaCertificates: CwaCovidCertificate
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val identifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01.10.1982",
@@ -73,10 +75,12 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         coEvery { dccQrCodeExtractor.extract(any(), any()) } returns dccQrCode.apply {
             every { data } returns mockk<DccData<out DccV1.MetaData>>().apply {
                 every { certificate } returns metadata
+                every { header.expiresAt } returns Instant.EPOCH
             }
         }
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
         every { metadata.personIdentifier } returns identifier
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     @Test
@@ -160,6 +164,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         dccReissuer = dccReissuer,
         format = CclTextFormatter(cclJsonFunctions = mockk(), SerializationModule.jacksonBaseMapper),
         dccQrCodeExtractor = dccQrCodeExtractor,
-        personCertificatesSettings = personCertificatesSettings
+        personCertificatesSettings = personCertificatesSettings,
+        timeStamper
     )
 }
