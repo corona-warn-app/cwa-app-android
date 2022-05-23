@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.datastore
 
+import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.fasterxml.jackson.databind.ObjectMapper
 import timber.log.Timber
@@ -13,7 +14,7 @@ abstract class BaseJsonSerializer<T : Any>(
     private val type get() = defaultValue::class.java
 
     override suspend fun readFrom(input: InputStream): T = runCatching { objectMapper.readValue(input, type) }
-        .onFailure { Timber.tag(TAG).w(it, "Failed to read data of type=$type") }
+        .onFailure { throw CorruptionException("Failed to read data of type=$type", it) }
         .getOrThrow()
 
     override suspend fun writeTo(t: T, output: OutputStream) {
