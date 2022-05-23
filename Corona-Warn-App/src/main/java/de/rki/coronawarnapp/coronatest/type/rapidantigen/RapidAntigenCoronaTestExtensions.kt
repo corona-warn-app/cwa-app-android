@@ -21,21 +21,24 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.Test
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import org.joda.time.Instant
 
-fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig) = when {
-    this == null -> NoTest
-    isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
-    isProcessing -> FetchingResult
-    lastError is BadRequestException -> TestInvalid
-    else -> when (getState(nowUTC, coronaTestConfig)) {
-        INVALID -> TestError
-        POSITIVE -> {
-            if (isViewed) TestPositive(testRegisteredAt = testTakenAt)
-            else TestResultReady
+fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig): SubmissionStateRAT {
+    if (this == null) return NoTest
+    val state = getState(nowUTC, coronaTestConfig)
+    return when {
+        isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
+        isProcessing && state == PENDING-> FetchingResult
+        lastError is BadRequestException -> TestInvalid
+        else -> when (state) {
+            INVALID -> TestError
+            POSITIVE -> {
+                if (isViewed) TestPositive(testRegisteredAt = testTakenAt)
+                else TestResultReady
+            }
+            NEGATIVE -> TestNegative(testRegisteredAt = testTakenAt)
+            REDEEMED -> TestInvalid
+            PENDING -> TestPending
+            OUTDATED -> TestOutdated
+            RECYCLED -> NoTest
         }
-        NEGATIVE -> TestNegative(testRegisteredAt = testTakenAt)
-        REDEEMED -> TestInvalid
-        PENDING -> TestPending
-        OUTDATED -> TestOutdated
-        RECYCLED -> NoTest
     }
 }
