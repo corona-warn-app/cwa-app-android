@@ -70,193 +70,214 @@ class FamilyTestListFragmentTest : BaseUITest() {
 
     private fun testCards(): LiveData<List<FamilyTestListItem>> =
         MutableLiveData(
-            mutableListOf<FamilyTestListItem>().apply {
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = ratPositive,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
+            listOf<FamilyTestListItem>(
+                FamilyTestListCard.Item(
+                    familyCoronaTest = ratPositive,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = pcrPositive,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = ratNegative,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = pcrNegative,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = ratPending,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = pcrPending,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = ratInvalid,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyTestListCard.Item(
+                    familyCoronaTest = pcrInvalid,
+                    onClickAction = {},
+                    onSwipeItem = { _, _ -> }
+                ),
+                FamilyRapidTestRedeemedCard.Item(
+                    familyCoronaTest = ratRedeemed,
+                    onSwipeItem = { _, _ -> },
+                    onDeleteTest = {}
+                ),
+                FamilyPcrTestRedeemedCard.Item(
+                    familyCoronaTest = pcrRedeemed,
+                    onSwipeItem = { _, _ -> },
+                    onDeleteTest = {}
+                ),
+                FamilyRapidTestOutdatedCard.Item(
+                    familyCoronaTest = ratOutdated,
+                    onSwipeItem = { _, _ -> },
+                    onDeleteTest = {}
                 )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = pcrPositive,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = ratNegative,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = pcrNegative,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = ratPending,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = pcrPending,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = ratInvalid,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyTestListCard.Item(
-                        familyCoronaTest = pcrInvalid,
-                        onClickAction = {},
-                        onSwipeItem = { _, _ -> }
-                    )
-                )
-                add(
-                    FamilyRapidTestRedeemedCard.Item(
-                        familyCoronaTest = ratRedeemed,
-                        onSwipeItem = { _, _ -> },
-                        onDeleteTest = {}
-                    )
-                )
-                add(
-                    FamilyPcrTestRedeemedCard.Item(
-                        familyCoronaTest = pcrRedeemed,
-                        onSwipeItem = { _, _ -> },
-                        onDeleteTest = {}
-                    )
-                )
-                add(
-                    FamilyRapidTestOutdatedCard.Item(
-                        familyCoronaTest = ratOutdated,
-                        onSwipeItem = { _, _ -> },
-                        onDeleteTest = {}
-                    )
-                )
-            }
+            )
         )
 
     private val ratPositive: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.RAT_POSITIVE
-
+        every { it.testResult } returns CoronaTestResult.RAT_POSITIVE
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { it.coronaTest } returns test
         every { it.personName } returns "Lara Schneider"
         every { it.hasBadge } returns true
+        every { it.isNegative } returns false
+        every { it.isPositive } returns true
+        every { it.isPending } returns false
+        every { it.isInvalid } returns false
     }
 
     private val pcrPositive: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.PCR
+        every { it.type } returns BaseCoronaTest.Type.PCR
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.PCR_POSITIVE
+        every { it.testResult } returns CoronaTestResult.PCR_POSITIVE
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Oma"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns true
+        every { it.isPending } returns false
+        every { it.isInvalid } returns false
     }
 
     private val ratNegative: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.RAT_NEGATIVE
+        every { it.testResult } returns CoronaTestResult.RAT_NEGATIVE
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Clara"
+        every { it.isPositive } returns false
+        every { it.isNegative } returns true
+        every { it.isPending } returns false
+        every { it.isInvalid } returns false
     }
 
     private val pcrNegative: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.PCR
+        every { it.type } returns BaseCoronaTest.Type.PCR
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.PCR_NEGATIVE
+        every { it.testResult } returns CoronaTestResult.PCR_NEGATIVE
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Hans-Dieter"
+        every { it.isPositive } returns false
+        every { it.isNegative } returns true
+        every { it.isPending } returns false
+        every { it.isInvalid } returns false
     }
 
     private val ratPending: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
+        every { it.testResult } returns CoronaTestResult.RAT_PENDING
         every { test.testResult } returns CoronaTestResult.RAT_PENDING
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Maximilian"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isInvalid } returns false
+        every { it.isPending } returns true
     }
 
     private val pcrPending: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.PCR
+        every { it.type } returns BaseCoronaTest.Type.PCR
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
+        every { it.testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
         every { test.testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Miriam"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isInvalid } returns false
+        every { it.isPending } returns true
     }
 
     private val ratInvalid: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.RAT_INVALID
+        every { it.testResult } returns CoronaTestResult.RAT_INVALID
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Leroy"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isPending } returns false
+        every { it.isInvalid } returns true
     }
 
     private val pcrInvalid: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.PCR
+        every { it.type } returns BaseCoronaTest.Type.PCR
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.PCR_INVALID
+        every { it.testResult } returns CoronaTestResult.PCR_INVALID
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Jenkins"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isPending } returns false
+        every { it.isInvalid } returns true
     }
 
     private val ratRedeemed: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
+        every { it.testResult } returns CoronaTestResult.RAT_REDEEMED
         every { test.testResult } returns CoronaTestResult.RAT_REDEEMED
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Sarah"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isRedeemed } returns true
     }
 
     private val pcrRedeemed: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
+        every { it.type } returns BaseCoronaTest.Type.PCR
         every { test.type } returns BaseCoronaTest.Type.PCR
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
+        every { it.testResult } returns CoronaTestResult.PCR_OR_RAT_REDEEMED
         every { test.testResult } returns CoronaTestResult.PCR_OR_RAT_REDEEMED
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Parker"
+        every { it.isNegative } returns false
+        every { it.isPositive } returns false
+        every { it.isRedeemed } returns true
     }
 
     private val ratOutdated: FamilyCoronaTest = mockk<FamilyCoronaTest>(relaxed = true).also {
         val test: CoronaTest = mockk(relaxed = true)
-        every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+        every { it.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
-        every { test.testResult } returns CoronaTestResult.RAT_NEGATIVE
+        every { it.testResult } returns CoronaTestResult.RAT_NEGATIVE
         every { test.getUiState(any(), any()) } returns CoronaTest.State.OUTDATED
 
         every { it.coronaTest } returns test
