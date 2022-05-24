@@ -104,8 +104,7 @@ class AppConfigServer @Inject constructor(
         val rawDate = headers()["Date"] ?: throw IllegalArgumentException(
             "Server date unavailable: ${headers()}"
         )
-        DATE_FORMAT
-        LocalDateTime.parse(rawDate, DATE_FORMAT).toInstant(ZoneOffset.UTC) // TODO: check if offset is right
+        LocalDateTime.parse(rawDate, DATE_FORMAT).toInstant(ZoneOffset.UTC)
     } catch (e: Exception) {
         Timber.e("Failed to get server time.")
         null
