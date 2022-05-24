@@ -4,8 +4,6 @@ import android.app.Notification
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
@@ -26,6 +24,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -38,17 +37,18 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
-import testhelpers.preferences.MockSharedPreferences
-import testhelpers.preferences.mockFlowPreference
 
 @Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
@@ -63,15 +63,12 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notification: Notification
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
 
-    lateinit var tracingSettings: TracingSettings
-    lateinit var dataStore: DataStore<Preferences>
+    private val dataStore = FakeDataStore()
+    private val tracingSettings = TracingSettings(dataStore)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        dataStore = FakeDataStore()
-        tracingSettings = spyk(TracingSettings(dataStore))
 
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
@@ -87,6 +84,11 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
+    }
+
+    @AfterEach
+    fun cleanup() {
+        dataStore.reset()
     }
 
     private fun createEwRiskLevel(
@@ -164,9 +166,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 notificationHelper wasNot Called
             }
 
-            verify(exactly = 0) {
-                tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
+            with(tracingSettings) {
+                isUserToBeNotifiedOfAdditionalHighRiskLevel.first() shouldBe false
+                isUserToBeNotifiedOfLoweredRiskLevel.first() shouldBe false
             }
         }
     }
@@ -196,9 +198,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             verify {
                 notificationManagerCompat wasNot Called
             }
-            coVerify(exactly = 0) {
-                tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(any())
-                tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(any())
+
+            with(tracingSettings) {
+                isUserToBeNotifiedOfAdditionalHighRiskLevel.first() shouldBe false
+                isUserToBeNotifiedOfLoweredRiskLevel.first() shouldBe false
             }
         }
     }
@@ -225,10 +228,13 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
+            with(tracingSettings) {
+                isUserToBeNotifiedOfLoweredRiskLevel.first() shouldBe true
+                showRiskLevelBadge.first() shouldBe true
+            }
+
             verify(exactly = 1) {
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
                 notificationHelper.sendNotification(any(), any())
-                tracingSettings.showRiskLevelBadge
             }
         }
     }
@@ -257,10 +263,13 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
+            with(tracingSettings) {
+                isUserToBeNotifiedOfLoweredRiskLevel.first() shouldBe false
+                showRiskLevelBadge.first() shouldBe false
+            }
+
             verify(exactly = 0) {
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
                 notificationHelper.sendNotification(any(), any())
-                tracingSettings.showRiskLevelBadge
             }
         }
     }
@@ -288,9 +297,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
+            tracingSettings.showRiskLevelBadge.first() shouldBe false
+
             verify {
                 notificationHelper wasNot Called
-                tracingSettings.showRiskLevelBadge wasNot Called
             }
         }
     }
@@ -317,9 +327,12 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
+            with(tracingSettings) {
+                showRiskLevelBadge.first() shouldBe true
+            }
+
             verify(exactly = 1) {
                 notificationHelper.sendNotification(any(), any())
-                tracingSettings.showRiskLevelBadge
             }
         }
     }
@@ -356,11 +369,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             // 3 notifications in total ...
             verify(exactly = 3) { notificationHelper.sendNotification(any(), any()) }
 
-            // ... 1 initial notification ...
-            verify(exactly = 1) { tracingSettings.showRiskLevelBadge }
-
-            // ... and 2 additional high risk notifications
-            verify(exactly = 2) { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel }
+            with(tracingSettings) {
+                showRiskLevelBadge.first() shouldBe true
+                isUserToBeNotifiedOfAdditionalHighRiskLevel.first() shouldBe true
+            }
         }
     }
 
@@ -383,7 +395,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { tracingSettings.updateLastHighRiskDate(date = null) }
+            tracingSettings.lastHighRiskDate.first() shouldBe null
         }
     }
 
@@ -407,7 +419,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
-            coVerify(exactly = 0) { tracingSettings.updateLastHighRiskDate(date = null) }
+            tracingSettings.lastHighRiskDate.first() shouldNotBe null
         }
     }
 

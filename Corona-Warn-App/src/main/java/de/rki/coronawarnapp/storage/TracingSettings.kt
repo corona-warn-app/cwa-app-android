@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -93,11 +94,22 @@ class TracingSettings @Inject constructor(
     }
 
     companion object {
-        private val TRACING_ACTIVATION_TIMESTAMP = booleanPreferencesKey("tracing.activation.timestamp")
-        private val TEST_RESULT_NOTIFICATION_SENT = booleanPreferencesKey("test.notification.sent")
-        private val LOWERED_RISK_LEVEL = booleanPreferencesKey("notification.risk.lowered")
-        private val ADDITIONAL_HIGH_RISK_LEVEL = booleanPreferencesKey("notification.risk.additionalhigh")
-        private val LAST_HIGH_RISK_LOCALDATE = longPreferencesKey("tracing.lasthighrisk.localdate")
-        private val PKEY_SHOW_RISK_LEVEL_BADGE = booleanPreferencesKey("notifications.risk.level.change.badge")
+        @VisibleForTesting
+        val TRACING_ACTIVATION_TIMESTAMP = booleanPreferencesKey("tracing.activation.timestamp")
+
+        @VisibleForTesting
+        val TEST_RESULT_NOTIFICATION_SENT = booleanPreferencesKey("test.notification.sent")
+
+        @VisibleForTesting
+        val LOWERED_RISK_LEVEL = booleanPreferencesKey("notification.risk.lowered")
+
+        @VisibleForTesting
+        val ADDITIONAL_HIGH_RISK_LEVEL = booleanPreferencesKey("notification.risk.additionalhigh")
+
+        @VisibleForTesting
+        val LAST_HIGH_RISK_LOCALDATE = longPreferencesKey("tracing.lasthighrisk.localdate")
+
+        @VisibleForTesting
+        val PKEY_SHOW_RISK_LEVEL_BADGE = booleanPreferencesKey("notifications.risk.level.change.badge")
     }
 }
