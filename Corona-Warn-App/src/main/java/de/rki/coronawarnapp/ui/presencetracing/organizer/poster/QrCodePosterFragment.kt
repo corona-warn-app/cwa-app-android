@@ -125,7 +125,6 @@ class QrCodePosterFragment : Fragment(R.layout.qr_code_poster_fragment), AutoInj
         textEndGuideline.setGuidelinePercent(1 - textBox.offsetX)
         textStartGuideline.setGuidelinePercent(textBox.offsetX)
         textTopGuideline.setGuidelinePercent(textBox.offsetY)
-        // TODO setTypeface()
     }
 
     private fun onShareIntent(fileIntent: FileSharing.FileIntentProvider) {
