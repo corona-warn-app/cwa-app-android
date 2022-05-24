@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.LogUploadConfig
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
 import de.rki.coronawarnapp.appconfig.SurveyConfig
-import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 
 interface ConfigMapping :
     CWAConfig,
