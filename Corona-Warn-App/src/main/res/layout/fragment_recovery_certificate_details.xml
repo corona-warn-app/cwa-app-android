@@ -138,21 +138,21 @@
                     android:padding="16dp">
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/covid_certificate_attribute_name" />
 
                     <TextView
                         android:id="@+id/fullname"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="Andrea Schneider" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -160,14 +160,14 @@
 
                     <TextView
                         android:id="@+id/icaoname"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="SCHNEIDER, ANDREA" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -175,14 +175,14 @@
 
                     <TextView
                         android:id="@+id/date_of_birth"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="1943-02-23" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -190,14 +190,14 @@
 
                     <TextView
                         android:id="@+id/recovered_from_disease"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="COVID-19" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -205,14 +205,14 @@
 
                     <TextView
                         android:id="@+id/date_of_first_positive_test_result"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="2021-05-23" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -220,14 +220,14 @@
 
                     <TextView
                         android:id="@+id/certificate_country"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="Germany" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -235,14 +235,14 @@
 
                     <TextView
                         android:id="@+id/certificate_issuer"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="G05930482748454836478695764787840" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -250,7 +250,7 @@
 
                     <TextView
                         android:id="@+id/certificate_id"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
