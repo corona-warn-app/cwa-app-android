@@ -175,13 +175,8 @@ class OrganizerPlaybook @Inject constructor(
             ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
             ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
         }
-        // HTTP status code 5XX
-        is CwaServerError -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
-        }
-        // Blame the server ¯\_(ツ)_/¯
+
+        // Blame the server ¯\_(ツ)_/¯ or  HTTP status code 5XX
         else -> when (type) {
             ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
             ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
