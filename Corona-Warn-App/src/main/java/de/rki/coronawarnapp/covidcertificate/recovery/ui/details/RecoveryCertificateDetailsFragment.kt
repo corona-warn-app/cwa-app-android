@@ -98,9 +98,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshCertState()
+    override fun onPause() {
+        viewModel.markAsSeen()
+        super.onPause()
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
