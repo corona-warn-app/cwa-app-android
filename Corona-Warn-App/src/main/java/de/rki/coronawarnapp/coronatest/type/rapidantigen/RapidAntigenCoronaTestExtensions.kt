@@ -21,12 +21,15 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.Test
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import org.joda.time.Instant
 
-fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig): SubmissionStateRAT {
+fun RACoronaTest?.toSubmissionState(
+    nowUTC: Instant = Instant.now(),
+    coronaTestConfig: CoronaTestConfig
+): SubmissionStateRAT {
     if (this == null) return NoTest
     val state = getState(nowUTC, coronaTestConfig)
     return when {
         isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
-        isProcessing && state == PENDING-> FetchingResult
+        isProcessing && state == PENDING -> FetchingResult
         lastError is BadRequestException -> TestInvalid
         else -> when (state) {
             INVALID -> TestError
