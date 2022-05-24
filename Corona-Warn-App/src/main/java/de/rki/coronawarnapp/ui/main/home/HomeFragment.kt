@@ -125,14 +125,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.markRiskBadgeAsSeen()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.initAppShortcuts()
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.refreshRequiredData()
+        viewModel.initAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
