@@ -133,7 +133,6 @@ class SubmissionRepository @Inject constructor(
     }
 }
 
-// TODO Temporary, mapping should be replaced with **[CoronaTest]**
 fun CoronaTestResult?.toDeviceUIState(): DeviceUIState = when (this) {
     CoronaTestResult.PCR_NEGATIVE -> DeviceUIState.PAIRED_NEGATIVE
     CoronaTestResult.PCR_POSITIVE -> DeviceUIState.PAIRED_POSITIVE
