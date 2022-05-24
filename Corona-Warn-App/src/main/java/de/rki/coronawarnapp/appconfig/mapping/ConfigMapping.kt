@@ -18,8 +18,6 @@ interface ConfigMapping :
     ExposureDetectionConfig,
     ExposureWindowRiskCalculationConfig {
 
-    @Deprecated("Try to access a more specific config type, avoid the RAW variant.")
-    val rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid
     val survey: SurveyConfig
     val analytics: AnalyticsConfig
     val logUpload: LogUploadConfig
