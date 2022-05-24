@@ -74,9 +74,9 @@ class Surveys @Inject constructor(
         val now = timeStamper.nowJavaUTC
 
         oneTimePasswordRepo.otpAuthorizationResult?.apply {
-            if (authorized
-                && redeemedAt.toLocalDateUtc().month == now.toLocalDateUtc().month
-                && redeemedAt.toLocalDateUtc().year == now.toLocalDateUtc().year
+            if (authorized &&
+                redeemedAt.toLocalDateUtc().month == now.toLocalDateUtc().month &&
+                redeemedAt.toLocalDateUtc().year == now.toLocalDateUtc().year
             ) {
                 throw SurveyException(SurveyException.Type.ALREADY_PARTICIPATED_THIS_MONTH)
             }
