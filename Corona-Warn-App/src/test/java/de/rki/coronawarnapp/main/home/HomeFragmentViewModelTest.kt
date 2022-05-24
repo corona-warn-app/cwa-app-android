@@ -104,7 +104,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { errorResetTool.isResetNoticeToBeShown } returns false
         every { cwaSettings.wasTracingExplanationDialogShown } returns true
         every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
-        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns flowOf(false)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
         every { familyTestRepository.familyTests } returns flowOf()

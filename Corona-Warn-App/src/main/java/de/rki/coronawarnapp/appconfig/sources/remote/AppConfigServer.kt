@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.SignatureValidation
+import kotlinx.coroutines.flow.first
 import okhttp3.CacheControl
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -69,7 +70,7 @@ class AppConfigServer @Inject constructor(
             ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
 
         val serverTime = response.getServerDate() ?: localTime
-        val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.value) {
+        val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.first()) {
             Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now 0")
             Duration.ZERO
         } else {

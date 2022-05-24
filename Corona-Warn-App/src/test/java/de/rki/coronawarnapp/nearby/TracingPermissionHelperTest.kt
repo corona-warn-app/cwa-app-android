@@ -35,7 +35,7 @@ class TracingPermissionHelperTest : BaseTest() {
         coEvery { enfClient.isTracingEnabled } returns flowOf(false)
         coEvery { enfClient.setTracing(any(), any(), any(), any()) } just Runs
 
-        every { tracingSettings.isConsentGiven } returns true
+        coEvery { tracingSettings.isConsentGiven() } returns true
     }
 
     fun createInstance(scope: CoroutineScope, callback: TracingPermissionHelper.Callback) = TracingPermissionHelper(
@@ -63,7 +63,7 @@ class TracingPermissionHelperTest : BaseTest() {
 
     @Test
     fun `if consent is missing then we continue after it was given`() = runTest(UnconfinedTestDispatcher()) {
-        every { tracingSettings.isConsentGiven } returns false
+        coEvery { tracingSettings.isConsentGiven() } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val consentCallbackSlot = slot<(Boolean) -> Unit>()
@@ -87,7 +87,7 @@ class TracingPermissionHelperTest : BaseTest() {
 
     @Test
     fun `if consent was declined then we do nothing`() = runTest(UnconfinedTestDispatcher()) {
-        every { tracingSettings.isConsentGiven } returns false
+        coEvery { tracingSettings.isConsentGiven() } returns false
 
         val callback = mockk<TracingPermissionHelper.Callback>(relaxUnitFun = true)
         val consentCallbackSlot = slot<(Boolean) -> Unit>()

@@ -59,7 +59,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         GsonBuilder().setPrettyPrinting().create()
     }
 
-    val fakeWindowsState = testSettings.fakeExposureWindows.flow.asLiveData()
+    val fakeWindowsState = testSettings.fakeExposureWindows.asLiveData()
 
     init {
         Timber.d("CWAViewModel: %s", this)
@@ -211,8 +211,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         }
     }
 
-    fun selectFakeExposureWindowMode(newMode: TestSettings.FakeExposureWindowTypes) {
-        testSettings.fakeExposureWindows.update { newMode }
+    fun selectFakeExposureWindowMode(newMode: TestSettings.FakeExposureWindowTypes) = launch {
+        testSettings.updateFakeExposureWindows(type = newMode)
     }
 
     @AssistedFactory

@@ -61,9 +61,9 @@ class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider = dispatcherProvider
 ) {
 
-    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone.flow.map { done ->
-        !done
-    }.asLiveData2()
+    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone
+        .map { done -> done.not() }
+        .asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
@@ -91,7 +91,7 @@ class MainActivityViewModel @AssistedInject constructor(
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
         familyTestRepository.familyTests,
-        tracingSettings.showRiskLevelBadge.flow
+        tracingSettings.showRiskLevelBadge
     ) { personalTests, familyTests, showBadge ->
         personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
     }.asLiveData2()
@@ -113,8 +113,8 @@ class MainActivityViewModel @AssistedInject constructor(
         valueSetRepository.triggerUpdateValueSet()
 
         launch {
-            if (!onboardingSettings.isBackgroundCheckDone) {
-                onboardingSettings.isBackgroundCheckDone = true
+            if (!onboardingSettings.isBackgroundCheckDone.first()) {
+                onboardingSettings.updateBackgroundCheckDone(isDone = true)
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
                     showBackgroundJobDisabledNotification.postValue(Unit)
                 } else {
@@ -176,8 +176,8 @@ class MainActivityViewModel @AssistedInject constructor(
         event.postValue(MainActivityEvent.OpenScanner)
     }
 
-    fun dismissTooltip() {
-        onboardingSettings.fabScannerOnboardingDone.update { true }
+    fun dismissTooltip() = launch {
+        onboardingSettings.updateFabScannerOnboardingDone(isDone = true)
     }
 
     @AssistedFactory

@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
@@ -176,8 +177,8 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun stopDueToTimeSinceOnboarding(): Boolean {
-        val onboarding = onboardingSettings.onboardingCompletedTimestamp.value ?: return true
+    suspend fun stopDueToTimeSinceOnboarding(): Boolean {
+        val onboarding = onboardingSettings.onboardingCompletedTimestamp.first() ?: return true
         return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
     }
 

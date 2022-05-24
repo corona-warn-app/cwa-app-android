@@ -74,7 +74,7 @@ class TracingPermissionHelper @AssistedInject constructor(
         return true
     }
 
-    private fun isConsentGiven(): Boolean = tracingSettings.isConsentGiven
+    private suspend fun isConsentGiven(): Boolean = tracingSettings.isConsentGiven()
 
     interface Callback {
         fun onUpdateTracingStatus(isTracingEnabled: Boolean)

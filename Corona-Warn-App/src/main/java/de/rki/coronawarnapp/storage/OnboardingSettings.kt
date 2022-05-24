@@ -1,63 +1,63 @@
 package de.rki.coronawarnapp.storage
 
-import android.content.Context
-import androidx.core.content.edit
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
-import de.rki.coronawarnapp.util.reset.Resettable
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.map
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OnboardingSettings @Inject constructor(
-    @AppContext private val context: Context
-) : Resettable {
-    private val prefs by lazy {
-        context.getSharedPreferences("onboarding_localdata", Context.MODE_PRIVATE)
-    }
+    @StorageDataStore private val dataStore: DataStore<Preferences>
+) {
 
-    val onboardingCompletedTimestamp: FlowPreference<Instant?> = prefs.createFlowPreference(
-        key = ONBOARDING_COMPLETED_TIMESTAMP,
-        reader = {
-            val raw = getLong(it, 0L)
-            if (raw != 0L) {
-                Instant.ofEpochMilli(raw)
-            } else null
-        },
-        writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
-        }
+    val onboardingCompletedTimestamp = dataStore.dataRecovering
+        .map(ONBOARDING_COMPLETED_TIMESTAMP, 0L)
+        .map { if (it != 0L) Instant.ofEpochMilli(it) else null }
+        .distinctUntilChanged()
+
+    suspend fun updateOnboardingCompletedTimestamp(timeStamp: Instant?) = dataStore.trySetValue(
+        preferencesKey = ONBOARDING_COMPLETED_TIMESTAMP,
+        value = timeStamp?.millis ?: 0L
     )
 
-    val isOnboarded: Boolean
-        get() = onboardingCompletedTimestamp.value != null
+    val isOnboardedFlow: Flow<Boolean> = onboardingCompletedTimestamp.map { it != null }
 
-    val isOnboardedFlow: Flow<Boolean>
-        get() = onboardingCompletedTimestamp.flow.map { it != null }
+    suspend fun isOnboarded() = isOnboardedFlow.first()
 
-    val fabScannerOnboardingDone = prefs.createFlowPreference(
+    val fabScannerOnboardingDone = dataStore.dataRecovering.distinctUntilChanged(
         key = ONBOARDING_FAB_SCANNER_DONE,
         defaultValue = false
     )
 
-    var isBackgroundCheckDone: Boolean
-        get() = prefs.getBoolean(BACKGROUND_CHECK_DONE, false)
-        set(value) = prefs.edit { putBoolean(BACKGROUND_CHECK_DONE, value) }
+    suspend fun updateFabScannerOnboardingDone(isDone: Boolean) = dataStore.trySetValue(
+        preferencesKey = ONBOARDING_FAB_SCANNER_DONE,
+        value = isDone
+    )
 
-    override suspend fun reset() {
-        Timber.d("reset()")
-        prefs.clearAndNotify()
-    }
+    val isBackgroundCheckDone = dataStore.dataRecovering.distinctUntilChanged(
+        key = BACKGROUND_CHECK_DONE,
+        defaultValue = false
+    )
+
+    suspend fun updateBackgroundCheckDone(isDone: Boolean) = dataStore.trySetValue(
+        preferencesKey = BACKGROUND_CHECK_DONE,
+        value = isDone
+    )
 
     companion object {
-        private const val ONBOARDING_COMPLETED_TIMESTAMP = "onboarding.done.timestamp"
-        private const val BACKGROUND_CHECK_DONE = "onboarding.background.checked"
-        private const val ONBOARDING_FAB_SCANNER_DONE = "onboarding.fab.scanner.done"
+        private val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
+        private val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
+        private val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
     }
 }

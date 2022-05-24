@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -72,14 +73,14 @@ class MainActivityViewModelTest : BaseTest() {
 
         mockkObject(CWADebug)
 
-        every { onboardingSettings.isOnboarded } returns true
-        every { onboardingSettings.fabScannerOnboardingDone } returns mockFlowPreference(true)
+        coEvery { onboardingSettings.isOnboarded() } returns true
+        every { onboardingSettings.fabScannerOnboardingDone } returns flowOf(true)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
         every { environmentSetup.launchEnvironment } returns null
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
             TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         )
-        every { onboardingSettings.isBackgroundCheckDone } returns true
+        every { onboardingSettings.isBackgroundCheckDone } returns flowOf(true)
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { coronTestRepository.coronaTests } returns flowOf()
         every { valueSetsRepository.context } returns mockk()
@@ -91,7 +92,7 @@ class MainActivityViewModelTest : BaseTest() {
             every { personsBadgeCount } returns flowOf(0)
         }
 
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { familyTestRepository.familyTests } returns flowOf(setOf())
     }
 

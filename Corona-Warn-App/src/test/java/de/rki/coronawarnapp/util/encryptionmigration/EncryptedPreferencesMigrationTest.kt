@@ -11,6 +11,7 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -77,7 +78,6 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
             putBoolean(EncryptedPreferencesMigration.OnboardingLocalData.PKEY_BACKGROUND_CHECK_DONE, true)
 
             // TracingLocalData
-            putLong(EncryptedPreferencesMigration.TracingLocalData.PKEY_POOLING_TEST_RESULT_STARTED, 10101010L)
             putBoolean(EncryptedPreferencesMigration.TracingLocalData.PKEY_TEST_RESULT_NOTIFICATION, true)
             putBoolean(EncryptedPreferencesMigration.TracingLocalData.PKEY_HAS_RISK_STATUS_LOWERED, true)
             putLong(EncryptedPreferencesMigration.TracingLocalData.PKEY_TRACING_ACTIVATION_TIME, 10101010L)
@@ -110,11 +110,10 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { onboardingSettings.isBackgroundCheckDone = true } just Runs
 
         // TracingLocalData
-        every { tracingSettings.initialPollingForTestResultTimeStampMigration = 10101010L } just Runs
         every { tracingSettings.isTestResultAvailableNotificationSentMigration = true } just Runs
         val mockNotificationPreference = mockFlowPreference(false)
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockNotificationPreference
-        every { tracingSettings.isConsentGiven = true } just Runs
+        coEvery { tracingSettings.updateConsentGiven(isConsentGiven = true) } just Runs
 
         // SubmissionLocalData
         every { submissionSettings.registrationTokenMigration = any() } just Runs

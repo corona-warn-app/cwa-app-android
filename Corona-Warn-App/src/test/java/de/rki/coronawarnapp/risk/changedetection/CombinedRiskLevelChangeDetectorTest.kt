@@ -28,6 +28,7 @@ import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -67,7 +68,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { context.getSharedPreferences("tracing_settings", Context.MODE_PRIVATE) } returns MockSharedPreferences()
         tracingSettings = spyk(TracingSettings(context))
 
-        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns flowOf(false)
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
@@ -192,9 +193,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             verify {
                 notificationManagerCompat wasNot Called
             }
-            verify(exactly = 0) {
+            coVerify(exactly = 0) {
                 tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update(any())
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update(any())
+                tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(any())
             }
         }
     }

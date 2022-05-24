@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class EncryptedPreferencesMigration @Inject constructor(
         Timber.d("Migration finish")
     }
 
-    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
+    private fun copyData(encryptedSharedPreferences: SharedPreferences) = runBlocking {
         Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
@@ -57,17 +58,16 @@ class EncryptedPreferencesMigration @Inject constructor(
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {
-            onboardingSettings.onboardingCompletedTimestamp.update {
-                onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
-            }
-            onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
+            onboardingSettings.updateOnboardingCompletedTimestamp(
+                timeStamp = onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
+            )
+            onboardingSettings.updateBackgroundCheckDone(isDone = isBackgroundCheckDone())
         }
         @Suppress("DEPRECATION")
         TracingLocalData(encryptedSharedPreferences).apply {
-            tracingSettings.initialPollingForTestResultTimeStampMigration = initialPollingForTestResultTimeStamp()
-            tracingSettings.isTestResultAvailableNotificationSentMigration = isTestResultAvailableNotificationSent()
-            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
-            tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
+            tracingSettings.updateTestResultAvailableNotificationSentMigration(isTestResultAvailableNotificationSent())
+            tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(isUserToBeNotifiedOfLoweredRiskLevel())
+            tracingSettings.updateConsentGiven(isConsentGiven = initialTracingActivationTimestamp() != 0L)
         }
         @Suppress("DEPRECATION")
         SubmissionLocalData(encryptedSharedPreferences).apply {
@@ -147,8 +147,6 @@ class EncryptedPreferencesMigration @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     class TracingLocalData(private val sharedPreferences: SharedPreferences) {
 
-        fun initialPollingForTestResultTimeStamp() = sharedPreferences.getLong(PKEY_POOLING_TEST_RESULT_STARTED, 0L)
-
         fun isTestResultAvailableNotificationSent() = sharedPreferences.getBoolean(PKEY_TEST_RESULT_NOTIFICATION, false)
 
         fun isUserToBeNotifiedOfLoweredRiskLevel() = sharedPreferences.getBoolean(PKEY_HAS_RISK_STATUS_LOWERED, false)
@@ -156,9 +154,6 @@ class EncryptedPreferencesMigration @Inject constructor(
         fun initialTracingActivationTimestamp(): Long = sharedPreferences.getLong(PKEY_TRACING_ACTIVATION_TIME, 0L)
 
         companion object {
-            @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-            const val PKEY_POOLING_TEST_RESULT_STARTED = "preference_polling_test_result_started"
-
             @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
             const val PKEY_TEST_RESULT_NOTIFICATION = "preference_test_result_notification"
 
