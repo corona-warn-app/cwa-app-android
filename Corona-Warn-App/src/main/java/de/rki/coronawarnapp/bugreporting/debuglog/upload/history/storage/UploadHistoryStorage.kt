@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage
 
 import androidx.datastore.core.DataStore
 import dagger.Reusable
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.catch

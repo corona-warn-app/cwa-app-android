@@ -11,7 +11,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext

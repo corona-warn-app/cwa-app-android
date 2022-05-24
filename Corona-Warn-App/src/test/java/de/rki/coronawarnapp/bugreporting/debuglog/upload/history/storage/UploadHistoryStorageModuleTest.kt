@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.datastore.migrations.SharedPreferencesMigration
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

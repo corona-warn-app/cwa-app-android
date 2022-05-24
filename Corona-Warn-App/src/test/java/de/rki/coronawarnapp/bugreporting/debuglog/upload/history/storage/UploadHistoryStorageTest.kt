@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage
 
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.UploadHistory
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHistory
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload
 
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadServer
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadAuthorizer
