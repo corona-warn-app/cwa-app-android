@@ -47,7 +47,7 @@ class DccValidationServer @Inject constructor(
                 DccValidationRule.Type.ACCEPTANCE -> {
                     val response = rulesApi.acceptanceRules()
                     val source = getSource(response)
-                    Timber.tag(TAG).v("Source of rule set: %s", source)
+                    Timber.tag(TAG).v("Source of acceptanceRules: %s", source)
 
                     val ruleSet = response.parseAndValidate(
                         ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
@@ -60,7 +60,7 @@ class DccValidationServer @Inject constructor(
 
                     val response = rulesApi.invalidationRules()
                     val source = getSource(response)
-                    Timber.tag(TAG).v("Source of rule set: %s", source)
+                    Timber.tag(TAG).v("Source of invalidationRules: %s", source)
 
                     val ruleSet = response.parseAndValidate(
                         ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
@@ -74,7 +74,7 @@ class DccValidationServer @Inject constructor(
 
                     val response = rulesApi.boosterNotificationRules()
                     val source = getSource(response)
-                    Timber.tag(TAG).v("Source of rule set: %s", source)
+                    Timber.tag(TAG).v("Source of boosterNotificationRules: %s", source)
 
                     val ruleSet = response.parseAndValidate(
                         ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
