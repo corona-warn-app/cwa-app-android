@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Instant
 import timber.log.Timber
 
-@Deprecated("Switch to DataStore")
 class FlowPreference<T> constructor(
     private val preferences: SharedPreferences,
     private val key: String,
@@ -100,7 +99,6 @@ class FlowPreference<T> constructor(
     }
 }
 
-@Deprecated("Switch to DataStore")
 inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
     key: String,
     defaultValue: T = null as T,
@@ -111,7 +109,6 @@ inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
     writer = FlowPreference.basicWriter()
 )
 
-@Deprecated("Switch to DataStore")
 inline fun <reified T : Any?> SharedPreferences.createFlowPreference(
     key: String,
     noinline reader: SharedPreferences.(key: String) -> T,
