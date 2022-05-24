@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:maskColor="@color/colorQrCodeScanMask"
-        app:maskPosition="0.4"
+        app:maskPosition="0.38"
         app:maskSize="@dimen/scan_qr_code_viewfinder_size" />
 
     <TextView
@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="@id/scanner_preview"
         app:layout_constraintStart_toStartOf="@id/scanner_preview"
         app:layout_constraintTop_toTopOf="@id/scanner_preview"
-        app:layout_constraintVertical_bias="0.34" />
+        app:layout_constraintVertical_bias="0.29" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/qr_code_scan_spinner"
@@ -138,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.36" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/qr_code_scan_toolbar"

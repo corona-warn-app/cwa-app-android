@@ -106,7 +106,7 @@
 
     <!-- QR Code Scan -->
     <dimen name="scan_qr_code_viewfinder_size">300dp</dimen>
-    <dimen name="scan_qr_code_viewfinder_center_offset">150dp</dimen>
+    <dimen name="scan_qr_code_viewfinder_center_offset">160dp</dimen>
     <dimen name="scan_qr_code_text_length">250dp</dimen>
 
     <!-- Submission Country Select -->
@@ -143,5 +143,6 @@
 
     <!-- Padding for the collapsed floating action button -->
     <dimen name="spacing_fab_padding">80dp</dimen>
+    <dimen name="spacing_toolbar_padding">60dp</dimen>
 
 </resources>
