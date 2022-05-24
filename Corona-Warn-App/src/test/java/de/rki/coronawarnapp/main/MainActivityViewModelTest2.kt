@@ -81,13 +81,13 @@ class MainActivityViewModelTest2 : BaseTest() {
 
         mockkObject(CWADebug)
 
-        every { onboardingSettings.isOnboarded } returns true
-        every { onboardingSettings.fabScannerOnboardingDone } returns mockFlowPreference(true)
+        coEvery { onboardingSettings.isOnboarded() } returns true
+        every { onboardingSettings.fabScannerOnboardingDone } returns flowOf(true)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
             TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         )
-        every { onboardingSettings.isBackgroundCheckDone } returns true
+        every { onboardingSettings.isBackgroundCheckDone } returns flowOf(true)
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { coronTestRepository.coronaTests } returns flowOf()
         every { valueSetsRepository.context } returns mockk()
@@ -99,7 +99,7 @@ class MainActivityViewModelTest2 : BaseTest() {
             every { personsBadgeCount } returns flowOf(0)
         }
 
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { familyTestRepository.familyTests } returns flowOf(setOf())
     }
 
@@ -128,7 +128,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     fun `Home screen badge count shows tests badges only`() {
         val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns true }
         val familyCoronaTest = mockk<FamilyCoronaTest>().apply { every { hasBadge } returns true }
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
         every { familyTestRepository.familyTests } returns flowOf(setOf(familyCoronaTest))
 
@@ -137,7 +137,7 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @Test
     fun `Home screen badge count shows risk badges only`() {
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(true)
         every { coronTestRepository.coronaTests } returns flowOf(emptySet())
 
         createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 1
@@ -148,7 +148,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns true }
         val familyCoronaTest = mockk<FamilyCoronaTest>().apply { every { hasBadge } returns true }
 
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(true)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
         every { familyTestRepository.familyTests } returns flowOf(setOf(familyCoronaTest))
 
@@ -158,7 +158,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     @Test
     fun `Home screen badge count shows risk + tests badges is ZERO`() {
         val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns false }
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
         createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 0

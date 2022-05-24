@@ -4,6 +4,8 @@ import android.app.Notification
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
@@ -44,11 +46,13 @@ import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.FakeDataStore
 import testhelpers.preferences.MockSharedPreferences
 import testhelpers.preferences.mockFlowPreference
 
 @Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
+
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -60,16 +64,15 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
 
     lateinit var tracingSettings: TracingSettings
+    lateinit var dataStore: DataStore<Preferences>
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { context.getSharedPreferences("tracing_settings", Context.MODE_PRIVATE) } returns MockSharedPreferences()
-        tracingSettings = spyk(TracingSettings(context))
+        dataStore = FakeDataStore()
+        tracingSettings = spyk(TracingSettings(dataStore))
 
-        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns flowOf(false)
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
@@ -194,7 +197,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 notificationManagerCompat wasNot Called
             }
             coVerify(exactly = 0) {
-                tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update(any())
+                tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(any())
                 tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(any())
             }
         }
@@ -380,7 +383,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
-            verify(exactly = 1) { tracingSettings.lastHighRiskDate = null }
+            coVerify(exactly = 1) { tracingSettings.updateLastHighRiskDate(date = null) }
         }
     }
 
@@ -404,7 +407,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             advanceUntilIdle()
 
-            verify(exactly = 0) { tracingSettings.lastHighRiskDate = null }
+            coVerify(exactly = 0) { tracingSettings.updateLastHighRiskDate(date = null) }
         }
     }
 

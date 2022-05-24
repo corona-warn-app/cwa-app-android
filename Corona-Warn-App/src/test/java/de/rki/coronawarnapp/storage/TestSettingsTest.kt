@@ -1,36 +1,27 @@
 package de.rki.coronawarnapp.storage
 
-import android.content.Context
-import com.google.gson.Gson
-import de.rki.coronawarnapp.util.CWADebug
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockkObject
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseTest
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 
 class TestSettingsTest : BaseTest() {
 
-    @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
-    private val gson = Gson()
+    private val objectMapper = SerializationModule().jacksonObjectMapper()
+    private lateinit var dataStore: DataStore<Preferences>
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockkObject(CWADebug)
-
-        mockPreferences = MockSharedPreferences()
-        every {
-            context.getSharedPreferences("test_settings", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        dataStore = FakeDataStore()
     }
 
     private fun buildInstance(): TestSettings = TestSettings(
-        context = context,
-        gson = gson
+        dataStore = dataStore,
+        objectMapper = objectMapper
     )
 }

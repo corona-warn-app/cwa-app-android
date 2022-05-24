@@ -36,8 +36,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,7 +49,6 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
@@ -99,11 +100,11 @@ class HomeFragmentViewModelTest : BaseTest() {
         }
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
 
         every { errorResetTool.isResetNoticeToBeShown } returns false
         every { cwaSettings.wasTracingExplanationDialogShown } returns true
-        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns flowOf(false)
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns flowOf(false)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
@@ -205,9 +206,10 @@ class HomeFragmentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() {
-        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(true)
-        createInstance().userHasAcknowledgedAdditionalHighRiskLevel()
-        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value shouldBe false
-    }
+    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() =
+        runTest {
+            every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns flowOf(true)
+            createInstance().userHasAcknowledgedAdditionalHighRiskLevel()
+            tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.first() shouldBe false
+        }
 }

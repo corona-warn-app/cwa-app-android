@@ -8,22 +8,22 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.MockSharedPreferences
-import testhelpers.preferences.mockFlowPreference
 import java.io.File
 
 @Suppress("DEPRECATION")
@@ -105,15 +105,16 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MAX_VALUE } just Runs
 
         // OnboardingLocalData
-        val mockOnboardingCompletedTimestamp = mockFlowPreference(Instant.ofEpochMilli(10101010L))
+        val mockOnboardingCompletedTimestamp = flowOf(Instant.ofEpochMilli(10101010L))
         every { onboardingSettings.onboardingCompletedTimestamp } returns mockOnboardingCompletedTimestamp
-        every { onboardingSettings.isBackgroundCheckDone = true } just Runs
+        coEvery { onboardingSettings.updateBackgroundCheckDone(isDone = true) } just Runs
+        coEvery { onboardingSettings.updateOnboardingCompletedTimestamp(any()) } just Runs
 
         // TracingLocalData
-        every { tracingSettings.isTestResultAvailableNotificationSentMigration = true } just Runs
-        val mockNotificationPreference = mockFlowPreference(false)
-        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockNotificationPreference
+        coEvery { tracingSettings.updateTestResultAvailableNotificationSentMigration(sent = true) } just Runs
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns flowOf(false)
         coEvery { tracingSettings.updateConsentGiven(isConsentGiven = true) } just Runs
+        coEvery { tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(any()) } just Runs
 
         // SubmissionLocalData
         every { submissionSettings.registrationTokenMigration = any() } just Runs
@@ -126,8 +127,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
 
         migrationInstance.doMigration()
 
-        // TracingLocalData
-        mockNotificationPreference.value shouldBe true
+        coVerify { tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(notify = true) }
 
         // SubmissionLocalData
         verify { submissionSettings.registrationTokenMigration = "super_secret_token" }

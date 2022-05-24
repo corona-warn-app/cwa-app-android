@@ -69,9 +69,8 @@ import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsServer
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsCache
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
-import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.StorageModule
-import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.storage.StorageReset
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -104,7 +103,7 @@ import javax.inject.Singleton
         PresenceTracingWarningModule.ResetModule::class,
         RiskModule.ResetModule::class,
         StatisticsModule.ResetModule::class,
-        StorageModule::class,
+        StorageModule.ResetModule::class,
         SubmissionModule.ResetModule::class
     ]
 )
@@ -257,10 +256,7 @@ object MockProvider {
     fun provideLocalStatisticsCache(): LocalStatisticsCache = mockk(relaxed = true)
 
     @Provides
-    fun provideOnboardingSettings(): OnboardingSettings = mockk(relaxed = true)
-
-    @Provides
-    fun provideTracingSettings(): TracingSettings = mockk(relaxed = true)
+    fun provideStorageReset(): StorageReset = mockk(relaxed = true)
 
     @Provides
     fun provideSubmissionSettings(): SubmissionSettings = mockk(relaxed = true)

@@ -31,6 +31,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
 import org.joda.time.Instant
@@ -71,7 +72,7 @@ class AnalyticsTest : BaseTest() {
 
         val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { onboardingSettings.onboardingCompletedTimestamp } returns mockFlowPreference(twoDaysAgo)
+        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
 
@@ -195,7 +196,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to time since onboarding`() {
-        every { onboardingSettings.onboardingCompletedTimestamp } returns mockFlowPreference(baseTime)
+        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(baseTime)
 
         val analytics = createInstance()
 

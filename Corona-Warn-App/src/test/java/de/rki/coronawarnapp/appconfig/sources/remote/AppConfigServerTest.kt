@@ -16,6 +16,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -27,7 +28,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseIOTest
-import testhelpers.preferences.mockFlowPreference
 import java.io.File
 
 class AppConfigServerTest : BaseIOTest() {
@@ -49,7 +49,7 @@ class AppConfigServerTest : BaseIOTest() {
 
         mockkObject(CWADebug)
         every { CWADebug.isDeviceForTestersBuild } returns false
-        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(false)
+        every { testSettings.fakeCorrectDeviceTime } returns flowOf(false)
     }
 
     @AfterEach
@@ -195,7 +195,7 @@ class AppConfigServerTest : BaseIOTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns true
-        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(true)
+        every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)
         createInstance().downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
@@ -219,7 +219,7 @@ class AppConfigServerTest : BaseIOTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns false
-        every { testSettings.fakeCorrectDeviceTime } returns mockFlowPreference(true)
+        every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)
         createInstance().downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
