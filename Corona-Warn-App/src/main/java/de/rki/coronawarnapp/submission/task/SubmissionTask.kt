@@ -245,7 +245,7 @@ class SubmissionTask @Inject constructor(
     }
 
     data class Config(
-        override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
+        override val executionTimeout: Duration = Duration.standardMinutes(8),
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
