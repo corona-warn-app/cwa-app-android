@@ -33,52 +33,61 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:visibility="visible" />
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/empty_list_info_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:paddingTop="@dimen/spacing_toolbar_padding"
         android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="wrap"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:visibility="visible">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/trace_location_checkins_empty_illustration_accessibility"
-            app:srcCompat="@drawable/trace_location_my_check_ins_empty_illustration" />
-
-        <TextView
-            style="@style/subtitleMediumBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="36dp"
-            android:text="@string/trace_location_checkins_empty_label" />
-
-        <TextView
-            style="@style/body2Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
             android:gravity="center"
-            android:text="@string/trace_location_checkins_empty_description_1"
-            app:autoSizeTextType="uniform" />
+            android:orientation="vertical">
 
-        <TextView
-            style="@style/body2Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/trace_location_checkins_empty_description_2"
-            app:autoSizeTextType="uniform" />
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/trace_location_checkins_empty_illustration_accessibility"
+                app:srcCompat="@drawable/trace_location_my_check_ins_empty_illustration" />
+
+            <TextView
+                style="@style/subtitleMediumBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:gravity="center"
+                android:text="@string/trace_location_checkins_empty_label" />
+
+            <TextView
+                style="@style/body2Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/trace_location_checkins_empty_description_1"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                style="@style/body2Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:gravity="center"
+                android:text="@string/trace_location_checkins_empty_description_2"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
