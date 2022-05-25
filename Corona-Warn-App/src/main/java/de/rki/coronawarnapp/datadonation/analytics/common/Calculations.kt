@@ -4,9 +4,9 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.toJavaInstant
-import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
     lastDateAtRiskLevel: LocalDate?,
@@ -15,10 +15,7 @@ fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
     testRegisteredAt ?: return -1
     lastDateAtRiskLevel ?: return -1
     if (lastDateAtRiskLevel.isAfter(testRegisteredAt)) return -1
-    return Duration.between(
-        lastDateAtRiskLevel.atStartOfDay(),
-        testRegisteredAt.atStartOfDay()
-    ).toDays().toInt()
+    return ChronoUnit.DAYS.between(lastDateAtRiskLevel, testRegisteredAt).toInt()
 }
 
 fun List<PtRiskLevelResult>.getLastChangeToHighPtRiskBefore(testRegisteredAt: Instant): Instant? {

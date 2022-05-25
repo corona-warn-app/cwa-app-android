@@ -32,7 +32,8 @@
             android:text="@string/main_about_headline"
             app:layout_constraintEnd_toStartOf="@+id/main_card_header_icon_end"
             app:layout_constraintStart_toEndOf="@+id/main_card_header_icon"
-            app:layout_constraintTop_toTopOf="@id/main_card_header_icon" />
+            app:layout_constraintTop_toTopOf="@id/main_card_header_icon"
+            app:layout_constraintBottom_toTopOf="@id/top_barrier"/>
 
         <ImageView
             android:id="@+id/main_card_header_icon_end"

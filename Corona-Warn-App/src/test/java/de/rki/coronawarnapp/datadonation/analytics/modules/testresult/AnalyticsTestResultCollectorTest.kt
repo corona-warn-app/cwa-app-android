@@ -37,6 +37,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.OffsetDateTime
 
 class AnalyticsTestResultCollectorTest : BaseTest() {
 
@@ -59,7 +60,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-02T09:57:11.00Z")
+        every { timeStamper.nowJavaUTC } returns OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant()
         every { pcrTestResultSettings.clear() } just Runs
         every { raTestResultSettings.clear() } just Runs
 
@@ -69,9 +70,9 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ewRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11.00Z")
+            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00")
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11.00Z").toLocalDateUtc()
+            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
         every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)
@@ -226,7 +227,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(PCR_OR_RAT_PENDING)
             every { pcrTestResultSettings.finalTestResultReceivedAt } returns
-                mockFlowPreference(Instant.parse("2021-03-02T09:57:11.00Z"))
+                mockFlowPreference(OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant())
             analyticsTestResultCollector.reportTestResultReceived(PCR_NEGATIVE, PCR)
 
             verify {
@@ -238,7 +239,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
             every { raTestResultSettings.testResult } returns mockFlowPreference(PCR_OR_RAT_PENDING)
             every { raTestResultSettings.finalTestResultReceivedAt } returns
-                mockFlowPreference(Instant.parse("2021-03-02T09:57:11.00Z"))
+                mockFlowPreference(OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant())
             analyticsTestResultCollector.reportTestResultReceived(RAT_NEGATIVE, RAPID_ANTIGEN)
 
             verify {
