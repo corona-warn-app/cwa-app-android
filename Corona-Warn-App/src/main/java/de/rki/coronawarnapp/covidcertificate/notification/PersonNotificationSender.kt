@@ -23,6 +23,7 @@ class PersonNotificationSender @Inject constructor(
 ) {
     fun showNotification(
         personIdentifier: CertificatePersonIdentifier,
+        type: Int,
         @StringRes messageRes: Int = R.string.notification_body,
     ) {
         Timber.tag(TAG).d("showNotification(personIdentifier=${personIdentifier.codeSHA256})")
@@ -34,7 +35,7 @@ class PersonNotificationSender @Inject constructor(
         }.build()
 
         notificationHelper.sendNotification(
-            System.identityHashCode(personIdentifier),
+            System.identityHashCode(personIdentifier) + type,
             notification
         )
     }

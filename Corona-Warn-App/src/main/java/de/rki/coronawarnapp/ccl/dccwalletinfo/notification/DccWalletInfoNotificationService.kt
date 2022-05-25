@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 
 interface DccWalletInfoNotificationService {
 
+    val notificationSenderType: Int
+
     suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
         oldWalletInfo: DccWalletInfo?,
