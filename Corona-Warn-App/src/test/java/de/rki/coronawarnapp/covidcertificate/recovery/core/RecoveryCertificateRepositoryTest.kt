@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -105,12 +106,10 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @Test
     fun `register recovery certificate`() = runTest2 {
         val instance = createInstance(this)
-        advanceUntilIdle()
         instance.certificates.first() shouldBe emptySet()
 
         val qrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as RecoveryCertificateQRCode
         instance.registerCertificate(qrCode)
-        advanceUntilIdle()
 
         instance.certificates.first().first().apply {
             recoveryCertificate.qrCodeToDisplay.content shouldBe RecoveryQrCodeTestData.recoveryQrCode1
@@ -118,6 +117,18 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         }
 
         testStorage.first().recoveryCertificateQrCode shouldBe RecoveryQrCodeTestData.recoveryQrCode1
+    }
+
+    @Test
+    fun `register new cert and access it immediately - opening details after scan`() = runTest2 {
+        val instance = createInstance(this)
+        instance.certificates.first() shouldBe emptySet()
+
+        val dccQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as RecoveryCertificateQRCode
+        val containerId = RecoveryCertificateContainerId(dccQrCode.qrCode.toSHA256())
+        instance.findCertificateDetails(containerId).first() shouldBe null
+        instance.registerCertificate(dccQrCode)
+        instance.findCertificateDetails(containerId).first() shouldNotBe null
     }
 
     @Test

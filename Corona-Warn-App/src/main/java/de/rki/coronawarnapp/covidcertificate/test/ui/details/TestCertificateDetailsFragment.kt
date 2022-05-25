@@ -87,7 +87,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    goBack()
+                    popBackStack()
                 }
             }
         }
@@ -190,14 +190,14 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun FragmentTestCertificateDetailsBinding.onNavEvent(event: TestCertificateDetailsNavigation) {
         when (event) {
-            TestCertificateDetailsNavigation.Back -> goBack()
+            TestCertificateDetailsNavigation.Back -> popBackStack()
             TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
                     doNavigate(
                         TestCertificateDetailsFragmentDirections
                             .actionTestCertificateDetailsFragmentToPersonOverviewFragment()
                     )
-                } else goBack()
+                } else popBackStack()
             }
             is TestCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
@@ -225,8 +225,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 )
         }
     }
-
-    private fun goBack() = popBackStack()
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
