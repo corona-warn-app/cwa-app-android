@@ -58,8 +58,11 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun markAsSeen() = launch(scope = appScope) {
         Timber.v("markAsSeen()")
-        if (!fromScanner) testCertificateRepository.markCertificateAsSeenByUser(containerId)
-        testCertificateRepository.acknowledgeState(containerId)
+        if (covidCertificate.value?.isNew == true && !fromScanner) {
+            testCertificateRepository.markCertificateAsSeenByUser(containerId)
+        } else {
+            testCertificateRepository.acknowledgeState(containerId)
+        }
     }
 
     fun onExport() {
