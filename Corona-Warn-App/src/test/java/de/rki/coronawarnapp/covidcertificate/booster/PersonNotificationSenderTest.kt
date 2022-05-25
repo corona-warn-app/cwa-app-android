@@ -59,7 +59,7 @@ class PersonNotificationSenderTest : BaseTest() {
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized"
         )
-        createInstance().showNotification(personIdentifier)
+        createInstance().showNotification(personIdentifier, 0)
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 }

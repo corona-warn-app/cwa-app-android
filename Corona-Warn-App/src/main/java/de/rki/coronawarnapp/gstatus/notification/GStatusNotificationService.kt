@@ -16,6 +16,8 @@ class GStatusNotificationService @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings
 ) : DccWalletInfoNotificationService {
 
+    override val notificationSenderType: Int = 0xCCDDEE
+
     override suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
         oldWalletInfo: DccWalletInfo?,
@@ -27,7 +29,10 @@ class GStatusNotificationService @Inject constructor(
         when {
             newGStatusId != null && oldGStatusId != null && newGStatusId != oldGStatusId -> {
                 Timber.tag(TAG).d("Notifying person =%s about G status change", personIdentifier.codeSHA256)
-                personNotificationSender.showNotification(personIdentifier)
+                personNotificationSender.showNotification(
+                    personIdentifier = personIdentifier,
+                    type = notificationSenderType
+                )
                 personCertificatesSettings.setGStatusNotifiedAt(personIdentifier)
             }
             newGStatusId == null -> {

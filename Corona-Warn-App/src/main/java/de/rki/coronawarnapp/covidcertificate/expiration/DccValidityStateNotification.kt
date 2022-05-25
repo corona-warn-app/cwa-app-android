@@ -37,7 +37,7 @@ class DccValidityStateNotification @Inject constructor(
 
     private fun showNotification(
         containerId: CertificateContainerId,
-        @StringRes text: Int
+        @StringRes text: Int,
     ) {
         val pendingIntent = buildPendingIntent(containerId)
 
