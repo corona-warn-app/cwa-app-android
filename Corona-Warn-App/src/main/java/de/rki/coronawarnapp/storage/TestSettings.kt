@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -84,9 +85,18 @@ class TestSettings @Inject constructor(
         @JsonProperty("LOW_RISK_DEFAULT")
         LOW_RISK_DEFAULT
     }
-}
 
-private val FAKE_CORRECT_DEVICE_TIME = booleanPreferencesKey("config.devicetimecheck.fake.correct")
-private val FAKE_METERED_CONNECTION = booleanPreferencesKey("connections.metered.fake")
-private val FAKE_EXPOSURE_WINDOWS_TYPE = stringPreferencesKey("riskleve.exposurewindows.fake")
-private val SKIP_SAFETYNET_TIME_CHECK = booleanPreferencesKey("safetynet.skip.timecheck")
+    companion object {
+        @VisibleForTesting
+        val FAKE_CORRECT_DEVICE_TIME = booleanPreferencesKey("config.devicetimecheck.fake.correct")
+
+        @VisibleForTesting
+        val FAKE_METERED_CONNECTION = booleanPreferencesKey("connections.metered.fake")
+
+        @VisibleForTesting
+        val FAKE_EXPOSURE_WINDOWS_TYPE = stringPreferencesKey("riskleve.exposurewindows.fake")
+
+        @VisibleForTesting
+        val SKIP_SAFETYNET_TIME_CHECK = booleanPreferencesKey("safetynet.skip.timecheck")
+    }
+}
