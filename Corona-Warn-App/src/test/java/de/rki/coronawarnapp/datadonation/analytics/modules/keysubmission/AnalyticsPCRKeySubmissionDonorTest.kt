@@ -13,8 +13,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -34,7 +34,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
         every { configData.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata } returns 6
     }
 
@@ -50,7 +50,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
 
     @Test
     fun `no contribution when neither submitted nor enough time passed`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
+        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
         every { repository.submitted } returns false
         runTest {
             val donor = createInstance()
@@ -60,7 +60,7 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
 
     @Test
     fun `regular contribution when keys submitted`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
+        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
         every { repository.advancedConsentGiven } returns true
         every { repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
         every { repository.ewHoursSinceHighRiskWarningAtTestRegistration } returns 1
@@ -92,12 +92,12 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
 
     @Test
     fun `submit contribution after enough time has passed`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.standardHours(4)).millis
+        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
         every { repository.submitted } returns true
-        val minTimePassedToSubmit = Duration.standardHours(3)
+        val minTimePassedToSubmit = Duration.ofHours(3)
         runTest {
             val donor = createInstance()
-            donor.enoughTimeHasPassedSinceResult(Duration.standardHours(3)) shouldBe true
+            donor.enoughTimeHasPassedSinceResult(Duration.ofHours(3)) shouldBe true
             donor.shouldSubmitData(minTimePassedToSubmit) shouldBe true
         }
     }

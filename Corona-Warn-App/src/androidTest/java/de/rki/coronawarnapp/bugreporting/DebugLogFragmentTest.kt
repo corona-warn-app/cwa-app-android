@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment
 import de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogViewModel
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
 import de.rki.coronawarnapp.nearby.ENFClient
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -29,7 +30,7 @@ class DebugLogFragmentTest : BaseUITest() {
 
     @MockK lateinit var debugLogger: DebugLogger
     @MockK lateinit var enfClient: ENFClient
-    @MockK lateinit var bugReportingSettings: BugReportingSettings
+    @MockK lateinit var uploadHistoryStorage: UploadHistoryStorage
     @MockK lateinit var logSnapshotter: LogSnapshotter
 
     private lateinit var inactiveViewModel: DebugLogViewModel
@@ -85,11 +86,11 @@ class DebugLogFragmentTest : BaseUITest() {
     ): DebugLogViewModel {
         val vm = spyk(
             DebugLogViewModel(
-                debugLogger,
-                TestDispatcherProvider(),
-                enfClient,
-                bugReportingSettings,
-                logSnapshotter
+                debugLogger = debugLogger,
+                dispatcherProvider = TestDispatcherProvider(),
+                enfClient = enfClient,
+                uploadHistoryStorage = uploadHistoryStorage,
+                logSnapshotter = logSnapshotter
             )
         )
         with(vm) {

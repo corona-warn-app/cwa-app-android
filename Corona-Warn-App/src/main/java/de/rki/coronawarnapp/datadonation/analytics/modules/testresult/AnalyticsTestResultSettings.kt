@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,7 +45,7 @@ open class AnalyticsTestResultSettings(
             }
         },
         writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
+            putLong(key, value?.toEpochMilli() ?: 0L)
         }
     )
 
@@ -81,7 +81,7 @@ open class AnalyticsTestResultSettings(
             }
         },
         writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
+            putLong(key, value?.toEpochMilli() ?: 0L)
         }
     )
 
