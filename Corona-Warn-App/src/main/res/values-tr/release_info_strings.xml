@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Teknik nedenlerle aşı sertifikalarının geçerliliği 365 günle sınırlıdır ancak uygulama içinde yeni sertifika talebi oluşturabilirsiniz. Sertifikanın geçerlilik süresi sona ermeden 28 gün öncesine ve sona erdikten 90 gün sonrasına dek yeniden sertifika düzenlenebilir Uygulama, sertifikanızın geçerlilik süresinin sona ermek üzere olduğuna ya da sona erdiğine dair bir bildirim içerir."</item>
+        <item>"Teknik nedenlerle şu anda kullanılan sertifikanın geçerliliği 365 günle sınırlıdır. Güncel sertifikanızın süresi dolarsa uygulama sertifikanızı yenilemenize olanak sağlar. Sertifikanın geçerlilik süresi sona ermeden 28 gün öncesine ve sona erdikten 90 gün sonrasına dek sertifika yenilenebilir. Uygulamada sertifikanızın yenilenmesi teklif edilmiyorsa sertifikanın uzatılmasına gerek yoktur ve başka bir işlem yapmanız gerekmez."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
