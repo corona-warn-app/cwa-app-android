@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccreissuance.notification
 
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -27,10 +28,8 @@ class DccReissuanceNotificationService @Inject constructor(
         val oldCertReissuance = oldWalletInfo?.certificateReissuance
         val newCertReissuance = newWalletInfo.certificateReissuance
         when {
-            newCertReissuance != null &&
-                newCertReissuance.reissuanceDivision.identifier !=
-                oldCertReissuance?.reissuanceDivision?.identifier -> {
-                Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
+            newCertReissuance.hasNewReissuance(oldCertReissuance?.reissuanceDivision?.identifier) -> {
+                Timber.tag(TAG).d("Notify person=%s about reissuance", personIdentifier.codeSHA256)
                 personNotificationSender.showNotification(
                     personIdentifier = personIdentifier,
                     type = notificationSenderType,
@@ -39,16 +38,21 @@ class DccReissuanceNotificationService @Inject constructor(
                 personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
             }
             // New calculation says no Dcc Reissuance anymore
-            newCertReissuance == null -> {
-                Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
-                Timber.tag(TAG).d("Dismiss badge of Dcc reissuance for person=%s", personIdentifier.codeSHA256)
+            newCertReissuance == null || !newCertReissuance.reissuanceDivision.visible -> {
+                Timber.tag(TAG).d("Dismiss badge for person=%s", personIdentifier.codeSHA256)
                 personCertificatesSettings.dismissReissuanceBadge(personIdentifier)
             }
             // Otherwise nothing
             else -> {
-                Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
+                Timber.tag(TAG).d("Person=%s has no changes", personIdentifier.codeSHA256)
             }
         }
+    }
+
+    private fun CertificateReissuance?.hasNewReissuance(oldIdentifier: String?): Boolean {
+        return this != null &&
+            this.reissuanceDivision.visible &&
+            this.reissuanceDivision.identifier != oldIdentifier
     }
 
     companion object {
