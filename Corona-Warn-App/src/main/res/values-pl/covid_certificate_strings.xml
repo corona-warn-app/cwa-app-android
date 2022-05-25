@@ -263,7 +263,9 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Ważny do %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Jeśli jest to certyfikat, którego obecnie używasz, pamiętaj o odnowieniu go na czas. Możesz odnowić takie certyfikaty bezpośrednio w aplikacji, jeśli wygasną w ciągu najbliższych 28 dni. W takim przypadku opcja „Odnów certyfikaty” pojawia się w przeglądzie certyfikatów, pod kafelkiem „Dowód statusu”."</string>
+    <string name="expiration_info">"Jeśli jest to certyfikat, którego obecnie używasz, pamiętaj o odnowieniu go na czas. Możesz odnowić takie certyfikaty bezpośrednio w aplikacji, jeśli wygasną w ciągu najbliższych 28 dni. W takim przypadku opcja „Odnów certyfikaty” pojawia się w przeglądzie certyfikatów, pod kafelkiem „Dowód statusu”. Jeśli nie jest to certyfikat, którego obecnie używasz, nie trzeba go przedłużać i nie musisz podejmować żadnych działań."</string>
+    <!-- XTXT: Vaccination Detail Techincal expiration info -->
+    <string name="expiration_technical_info">"Pamiętaj o terminowym pobraniu nowego certyfikatu cyfrowego."</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"Minęła data ważności. Odnów certyfikat. Możesz poprosić o odnowienie do 90 dni po wygaśnięciu certyfikatu, klikając notatkę w przeglądzie certyfikatu."</string>
     <!-- XTXT: Invalid certificate signature info -->
