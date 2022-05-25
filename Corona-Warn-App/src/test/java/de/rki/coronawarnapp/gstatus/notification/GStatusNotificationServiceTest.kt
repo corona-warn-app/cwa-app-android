@@ -60,7 +60,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -80,7 +80,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -100,7 +100,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -124,7 +124,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
