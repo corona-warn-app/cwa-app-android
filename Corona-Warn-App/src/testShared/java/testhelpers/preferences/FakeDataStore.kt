@@ -26,7 +26,7 @@ class FakeDataStore : DataStore<Preferences> {
     operator fun <T> get(key: Preferences.Key<T>): T? {
         return preferences.value[key]
     }
-    
+
     operator fun <T : Any> set(key: Preferences.Key<T>, value: T) {
         preferences.update {
             it.toMutablePreferences()
