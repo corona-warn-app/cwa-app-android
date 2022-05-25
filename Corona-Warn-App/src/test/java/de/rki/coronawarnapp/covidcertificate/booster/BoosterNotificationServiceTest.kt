@@ -135,7 +135,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
-        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier,any(), R.string.notification_body) }
+        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body) }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
