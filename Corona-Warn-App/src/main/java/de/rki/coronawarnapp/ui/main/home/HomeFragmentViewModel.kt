@@ -82,7 +82,8 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.combineFlows
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -206,7 +207,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    val homeItems: LiveData<List<HomeItem>> = combine(
+    val homeItems: LiveData<List<HomeItem>> = combineFlows(
         tracingCardItems,
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,

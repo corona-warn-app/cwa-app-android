@@ -40,7 +40,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.combineFlows
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -86,7 +87,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
     private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
-    val listItems = combine(
+    val listItems = combineFlows(
         datesFlow,
         locationVisitsFlow,
         personEncountersFlow,
