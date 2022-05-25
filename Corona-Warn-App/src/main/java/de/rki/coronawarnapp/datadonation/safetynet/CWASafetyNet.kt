@@ -14,11 +14,12 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import de.rki.coronawarnapp.util.security.RandomStrong
 import kotlinx.coroutines.flow.first
+import de.rki.coronawarnapp.util.toJavaInstant
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -111,16 +112,17 @@ class CWASafetyNet @Inject constructor(
             }
         }
 
+
         val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.first()
-        val nowUTC = timeStamper.nowUTC
-        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
-        val timeSinceOnboarding = Duration(firstReliableTimeStamp, nowUTC)
+        val nowUTC = timeStamper.nowJavaUTC
+        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime.toJavaInstant()
+        val timeSinceOnboarding = Duration.between(firstReliableTimeStamp, nowUTC)
         Timber.d("firstReliableTimeStamp=%s, now=%s", firstReliableTimeStamp, nowUTC)
-        Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.standardHours)
+        Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.toHours())
 
         if (firstReliableTimeStamp == Instant.EPOCH) {
             throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "No first reliable timestamp available")
-        } else if (!skip24hCheck && timeSinceOnboarding < Duration.standardHours(24)) {
+        } else if (!skip24hCheck && timeSinceOnboarding < Duration.ofHours(24)) {
             throw SafetyNetException(Type.TIME_SINCE_ONBOARDING_UNVERIFIED, "Time since first reliable timestamp <24h")
         }
     }

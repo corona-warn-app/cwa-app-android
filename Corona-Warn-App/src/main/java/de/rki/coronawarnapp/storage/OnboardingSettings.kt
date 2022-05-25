@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +28,7 @@ class OnboardingSettings @Inject constructor(
 
     suspend fun updateOnboardingCompletedTimestamp(timeStamp: Instant?) = dataStore.trySetValue(
         preferencesKey = ONBOARDING_COMPLETED_TIMESTAMP,
-        value = timeStamp?.millis ?: 0L
+        value = timeStamp?.toEpochMilli() ?: 0L
     )
 
     val isOnboardedFlow: Flow<Boolean> = onboardingCompletedTimestamp.map { it != null }

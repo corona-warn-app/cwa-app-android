@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 

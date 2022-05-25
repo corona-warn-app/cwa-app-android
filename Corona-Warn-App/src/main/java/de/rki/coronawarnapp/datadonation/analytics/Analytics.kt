@@ -24,8 +24,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
-import org.joda.time.Hours
 import timber.log.Timber
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -143,7 +143,7 @@ class Analytics @Inject constructor(
 
         if (result.successful) {
             settings.lastSubmittedTimestamp.update {
-                timeStamper.nowUTC
+                timeStamper.nowJavaUTC
             }
 
             logger.storeAnalyticsData(analyticsProto)
@@ -172,14 +172,14 @@ class Analytics @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToLastSubmittedTimestamp(): Boolean {
         val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
-        return lastSubmit.plus(Hours.hours(LAST_SUBMISSION_MIN_AGE_HOURS).toStandardDuration())
-            .isAfter(timeStamper.nowUTC)
+        return lastSubmit.plus(Duration.ofHours(LAST_SUBMISSION_MIN_AGE_HOURS))
+            .isAfter(timeStamper.nowJavaUTC)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     suspend fun stopDueToTimeSinceOnboarding(): Boolean {
         val onboarding = onboardingSettings.onboardingCompletedTimestamp.first() ?: return true
-        return onboarding.plus(Hours.hours(ONBOARDING_DELAY_HOURS).toStandardDuration()).isAfter(timeStamper.nowUTC)
+        return onboarding.plus(Duration.ofHours(ONBOARDING_DELAY_HOURS)).isAfter(timeStamper.nowJavaUTC)
     }
 
     suspend fun submitIfWanted(): Result = submissionLockoutMutex.withLock {
@@ -245,8 +245,8 @@ class Analytics @Inject constructor(
 
     companion object {
         private val TAG = Analytics::class.java.simpleName
-        private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23
-        private const val ONBOARDING_DELAY_HOURS = 24
+        private const val LAST_SUBMISSION_MIN_AGE_HOURS = 23L
+        private const val ONBOARDING_DELAY_HOURS = 24L
 
         data class PPADeviceAttestationRequest(
             val ppaData: PpaData.PPADataAndroid

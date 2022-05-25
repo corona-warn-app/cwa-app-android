@@ -12,13 +12,13 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
 
     private val gson by lazy {
         baseGson.newBuilder()
-            .registerTypeAdapter(Instant::class.java, InstantAdapter())
+            .registerTypeAdapter(Instant::class.java, JavaInstantAdapter())
             .registerTypeAdapter(PpaData.PPADataAndroid::class.java, PPADataAndroidAdapter())
             .create()
     }
@@ -46,7 +46,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
             }
 
             val dataObject = LastAnalyticsSubmission(
-                timestamp = timeStamper.nowUTC,
+                timestamp = timeStamper.nowJavaUTC,
                 ppaDataAndroid = analyticsProto
             )
 

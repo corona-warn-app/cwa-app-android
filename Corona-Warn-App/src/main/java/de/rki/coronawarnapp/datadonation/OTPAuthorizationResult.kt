@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.datadonation
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.UUID
 
 @Keep
