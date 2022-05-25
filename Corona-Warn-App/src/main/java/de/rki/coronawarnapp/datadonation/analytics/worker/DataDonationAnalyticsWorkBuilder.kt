@@ -7,20 +7,16 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.worker.BackgroundConstants
-import org.joda.time.DateTimeConstants
-import org.joda.time.Duration
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Reusable
 class DataDonationAnalyticsWorkBuilder @Inject constructor() {
     fun buildPeriodicWork(initialDelay: Duration): PeriodicWorkRequest =
-        PeriodicWorkRequestBuilder<DataDonationAnalyticsPeriodicWorker>(
-            DateTimeConstants.HOURS_PER_DAY.toLong(),
-            TimeUnit.HOURS
-        )
+        PeriodicWorkRequestBuilder<DataDonationAnalyticsPeriodicWorker>(Duration.ofDays(1))
             .setInitialDelay(
-                initialDelay.standardHours,
+                initialDelay.toHours(),
                 TimeUnit.HOURS
             )
             .setBackoffCriteria(

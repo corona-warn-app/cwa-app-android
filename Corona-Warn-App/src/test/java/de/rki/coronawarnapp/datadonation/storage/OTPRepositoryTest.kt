@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,7 +36,7 @@ class OTPRepositoryTest : BaseTest() {
         lastOTP shouldNotBe null
         lastOTP!!.apply {
             uuid shouldBe uuid
-            time.millis shouldBe 1612381131014
+            time.toEpochMilli() shouldBe 1612381131014
         }
     }
 

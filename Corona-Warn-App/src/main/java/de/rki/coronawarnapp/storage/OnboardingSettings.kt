@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +31,7 @@ class OnboardingSettings @Inject constructor(
             } else null
         },
         writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
+            putLong(key, value?.toEpochMilli() ?: 0L)
         }
     )
 

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -50,10 +50,10 @@ abstract class AnalyticsTestResultDonor(
             return TestResultMetadataNoContribution
         }
 
-        val hoursSinceTestRegistrationTime = Duration(
+        val hoursSinceTestRegistrationTime = Duration.between(
             timestampAtRegistration,
-            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowUTC
-        ).standardHours.toInt()
+            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowJavaUTC
+        ).toHours().toInt()
 
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours

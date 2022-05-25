@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -83,7 +83,7 @@ class AnalyticsSettings @Inject constructor(
             }
         },
         writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
+            putLong(key, value?.toEpochMilli() ?: 0L)
         }
     )
 
