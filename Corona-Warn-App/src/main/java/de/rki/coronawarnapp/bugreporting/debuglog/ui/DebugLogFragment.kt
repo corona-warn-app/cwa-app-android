@@ -142,7 +142,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
 
             val now = Instant.now()
 
-            if (lastLog != null && Duration.between(lastLog, now).toSeconds() < 3) {
+            if (lastLog != null && Duration.between(lastLog, now).seconds < 3) {
                 binding.scrollview.fullScroll(NestedScrollView.FOCUS_DOWN)
 
                 binding.debugLogHistoryContainer.apply {

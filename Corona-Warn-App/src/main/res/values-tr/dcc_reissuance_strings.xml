@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
-    <string name="dcc_reissuance_success_screen_title">"Sertifika Güncellendi"</string>
+    <string name="dcc_reissuance_success_screen_title">"Yenilenen Sertifikalar"</string>
     <!-- YTXT: Headline for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_headline">"Sertifikanız başarıyla güncellendi"</string>
+    <string name="dcc_reissuance_success_screen_headline">"Sertifikalarınız başarıyla yenilendi"</string>
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">"Güncellenen sertifikayı \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
+    <string name="dcc_reissuance_success_screen_body">"Yenilenen sertifikaları \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">"Tamamlandı"</string>
 
@@ -15,22 +15,22 @@
     <!-- XTXT: Text Key - No Network -->
     <string name="dcc_reissuance_error_handling_text_key_no_network">"İnternet bağlantınız kesilmiş olabilir. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
     <!-- XTXT: Text Key - Try Again -->
-    <string name="dcc_reissuance_error_handling_text_key_try_again">"Sertifikanız güncellenirken bir hata oluştu. Lütfen tekrar deneyin. Hata devam ederse lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin. "</string>
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"Sertifikanız yenilenirken bir hata oluştu. Lütfen tekrar deneyin. Hata devam ederse lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Text Key - Rate limit -->
     <string name="dcc_reissuance_error_handling_text_key_rate_limit">"Sertifika zaten üç kez yeniden düzenlenmiş. Tekrar yeniden düzenlenemez."<br/>"Yeniden düzenlenen sertifikanızı PDF olarak dışa aktarıp yazdırmanızı öneririz. Ardından dilediğiniz zaman tarayabilirsiniz."</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
-    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Sertifikanız güncellenemiyor. Lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Sertifikanız yenilenemiyor. Lütfen Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
 
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">"İzniniz"</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one">"Sertifikanızı güncellemeniz gönüllülük esasına bağlı ve ücretsiz bir işlemdir."</string>
+    <string name="dcc_reissuance_bulletpoint_one">"Sertifikalarınızı yenilemeniz gönüllülük esasına bağlı ve ücretsiz bir işlemdir."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">"Sertifikaların yalnızca bir kez güncellenebilmesini sağlamak adına eski ve yeni sertifikalarınızın tanıtıcısı RKI tarafından belgelenir. Sertifikalarınıza ilişkin diğer veriler, yenileme işleminin hemen ardından RKI tarafından silinir."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint">"Eski sertifika otomatik olarak geri dönüşüm kutusuna taşınır ve 30 gün sonra silinir. Sertifika, bu 30 günlük süre içinde dilediğiniz zaman geri yüklenebilir."</string>
+    <string name="dcc_reissuance_deletion_hint">"Eski sertifikalar otomatik olarak geri dönüşüm kutusuna taşınır ve 30 gün sonra silinir. Sertifikalar, bu 30 günlük süre içinde dilediğiniz zaman geri yüklenebilir."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Şimdi iptal ederseniz dilediğiniz zaman sertifikaya genel bakış bölümünde güncelleme talebi oluşturabilirsiniz."</string>
+    <string name="dcc_reissuance_update_hint">"Şimdi iptal ederseniz dilediğiniz zaman sertifikaya genel bakış bölümünde yenileme talebi oluşturabilirsiniz."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Düzenlenen Diğer Sertifikalar"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->

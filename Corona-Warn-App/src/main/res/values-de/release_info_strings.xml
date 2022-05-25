@@ -22,7 +22,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Die Gültigkeit von Impfzertifikaten ist technisch auf 365 Tage begrenzt. Sie können in der App jedoch ein neues Zertifikat anfordern. Die Neuausstellung kann 28 Tage vor Ablauf der Gültigkeit und bis zu 90 Tage nach Ablauf der Gültigkeit vorgenommen werden. In der App finden Sie einen Hinweis, der Sie über den Ablauf der Gültigkeit Ihres Zertifikats informiert.</item>
+        <item>Die Gültigkeit von Ihrem aktuell genutzten Zertifikat ist technisch auf 365 Tage begrenzt. Falls Ihr aktuell genutztes Zertifikat abläuft bietet die App Ihnen eine Erneuerung an. Die Erneuerung kann 28 Tage vor Ablauf der Gültigkeit und bis zu 90 Tage nach Ablauf der Gültigkeit vorgenommen werden. Falls Ihnen keine Erneuerung angeboten wird dann muss das Zertifikat nicht verlängert werden und keine weiteren Schritten Ihrerseits werden benötigt.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

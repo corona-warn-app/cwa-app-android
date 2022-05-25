@@ -17,6 +17,8 @@ class DccReissuanceNotificationService @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : DccWalletInfoNotificationService {
 
+    override val notificationSenderType: Int = 0xDCCAEE
+
     override suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
         oldWalletInfo: DccWalletInfo?,
@@ -31,6 +33,7 @@ class DccReissuanceNotificationService @Inject constructor(
                 Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
                 personNotificationSender.showNotification(
                     personIdentifier = personIdentifier,
+                    type = notificationSenderType,
                     messageRes = R.string.notification_body_certificate
                 )
                 personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
