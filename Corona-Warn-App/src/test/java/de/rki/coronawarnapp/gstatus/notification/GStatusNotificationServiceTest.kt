@@ -40,7 +40,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { personCertificatesSettings.setGStatusNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.dismissGStatusBadge(any()) } just Runs
-        every { personNotificationSender.showNotification(any(), any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
         every { oldWalletInfo.admissionState } returns oldAdmissionState
         every { newWalletInfo.admissionState } returns newAdmissionState
     }

@@ -39,7 +39,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
-        every { personNotificationSender.showNotification(any(), any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
 
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.clearBoosterRuleInfo(any()) } just Runs
@@ -135,7 +135,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
-        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier, R.string.notification_body) }
+        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier,any(), R.string.notification_body) }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
