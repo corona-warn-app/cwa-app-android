@@ -4,9 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
@@ -72,16 +72,16 @@ class TestSettings @Inject constructor(
         .getOrNull() ?: FakeExposureWindowTypes.DISABLED
 
     enum class FakeExposureWindowTypes {
-        @SerializedName("DISABLED")
+        @JsonProperty("DISABLED")
         DISABLED,
 
-        @SerializedName("INCREASED_RISK_DEFAULT")
+        @JsonProperty("INCREASED_RISK_DEFAULT")
         INCREASED_RISK_DEFAULT,
 
-        @SerializedName("INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT")
+        @JsonProperty("INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT")
         INCREASED_RISK_DUE_LOW_RISK_ENCOUNTER_DEFAULT,
 
-        @SerializedName("LOW_RISK_DEFAULT")
+        @JsonProperty("LOW_RISK_DEFAULT")
         LOW_RISK_DEFAULT
     }
 }
