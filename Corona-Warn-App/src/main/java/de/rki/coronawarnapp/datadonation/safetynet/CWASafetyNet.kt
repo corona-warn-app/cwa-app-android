@@ -112,7 +112,6 @@ class CWASafetyNet @Inject constructor(
             }
         }
 
-
         val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.first()
         val nowUTC = timeStamper.nowJavaUTC
         val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime.toJavaInstant()
