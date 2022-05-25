@@ -139,12 +139,6 @@
                 android:text="Backend Parameters" />
 
             <TextView
-                android:id="@+id/label_backend_parameters"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-            <TextView
                 android:id="@+id/label_exposure_window_title"
                 style="@style/headline6"
                 android:layout_width="match_parent"

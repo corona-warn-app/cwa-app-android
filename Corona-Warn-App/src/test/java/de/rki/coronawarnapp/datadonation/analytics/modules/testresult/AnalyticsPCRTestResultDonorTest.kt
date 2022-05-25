@@ -18,8 +18,8 @@ import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -68,7 +68,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
             every { exposureWindowsUntilTestResult } returns
                 mockFlowPreference(listOf(analyticsExposureWindow, analyticsExposureWindow))
         }
-        every { timeStamper.nowUTC } returns baseTime
+        every { timeStamper.nowJavaUTC } returns baseTime
 
         testResultDonor = AnalyticsPCRTestResultDonor(
             testResultSettings,
@@ -118,7 +118,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
         runTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
-            val timeDayBefore = baseTime.minus(Duration.standardDays(1))
+            val timeDayBefore = baseTime.minus(Duration.ofDays(1))
             every { testResultSettings.testRegisteredAt } returns mockFlowPreference(timeDayBefore)
             every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
 
@@ -193,7 +193,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
                 Instant.parse("2021-03-20T00:00:00Z")
             )
         }
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T00:00:00Z")
 
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -221,7 +221,7 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
             every { ewRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
         }
 
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T00:00:00Z")
 
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
