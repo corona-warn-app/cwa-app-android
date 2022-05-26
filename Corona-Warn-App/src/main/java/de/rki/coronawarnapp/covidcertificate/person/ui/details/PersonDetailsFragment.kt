@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
