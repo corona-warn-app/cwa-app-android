@@ -27,8 +27,10 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     @MockK lateinit var newDccWalletInfo: DccWalletInfo
     @MockK lateinit var oldCertificateReissuance: CertificateReissuance
     @MockK lateinit var newCertificateReissuance: CertificateReissuance
+    @MockK lateinit var crookedCertificateReissuance: CertificateReissuance
     @MockK lateinit var oldReissuanceDivision: ReissuanceDivision
     @MockK lateinit var newReissuanceDivision: ReissuanceDivision
+    @MockK lateinit var crookedReissuanceDivision: ReissuanceDivision
 
     private val personIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01-01-2010",
@@ -43,9 +45,14 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
         every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
         every { oldReissuanceDivision.identifier } returns "renew"
+        every { oldReissuanceDivision.visible } returns true
         every { newReissuanceDivision.identifier } returns "extend"
+        every { newReissuanceDivision.visible } returns true
+        every { crookedReissuanceDivision.identifier } returns "extend"
+        every { crookedReissuanceDivision.visible } returns false
         every { oldCertificateReissuance.reissuanceDivision } returns oldReissuanceDivision
         every { newCertificateReissuance.reissuanceDivision } returns newReissuanceDivision
+        every { crookedCertificateReissuance.reissuanceDivision } returns crookedReissuanceDivision
         every { newDccWalletInfo.certificateReissuance } returns newCertificateReissuance
     }
 
@@ -111,6 +118,29 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personIdentifier = personIdentifier,
             oldWalletInfo = newDccWalletInfo,
             newWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns null }
+        )
+
+        coEvery {
+            personCertificatesSettings.dismissReissuanceBadge(personIdentifier)
+        }
+
+        coVerify(exactly = 0) {
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body_certificate)
+            personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
+        }
+    }
+
+    @Test
+    fun `dismiss the badge if the new dcc reissuance is invisible`() = runTest {
+        DccReissuanceNotificationService(
+            personCertificatesSettings = personCertificatesSettings,
+            personNotificationSender = personNotificationSender
+        ).notifyIfNecessary(
+            personIdentifier = personIdentifier,
+            oldWalletInfo = newDccWalletInfo,
+            newWalletInfo = mockk<DccWalletInfo>().apply {
+                every { certificateReissuance } returns crookedCertificateReissuance
+            }
         )
 
         coEvery {
