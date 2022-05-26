@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
@@ -59,9 +59,7 @@ class PersonCertificatesProvider @Inject constructor(
                 )
 
                 val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
-                val hasDccReissuanceBadge = settings.hasReissuanceBadge(
-                    dccWalletInfo?.certificateReissuance?.reissuanceDivision
-                )
+                val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
                 val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
                 val badgeCount = certs.count { it.hasNotificationBadge } +
                     hasBoosterBadge.toInt() + hasDccReissuanceBadge.toInt() + hasNewAdmissionStateBadge.toInt()
@@ -110,9 +108,9 @@ class PersonCertificatesProvider @Inject constructor(
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
 
-    private fun PersonSettings?.hasReissuanceBadge(reissuanceDivision: ReissuanceDivision?): Boolean {
-        if (this == null || reissuanceDivision == null) return false
-        return showDccReissuanceBadge && reissuanceDivision.visible
+    private fun PersonSettings?.hasReissuanceBadge(info: DccWalletInfo?): Boolean {
+        if (this == null || info == null) return false
+        return showDccReissuanceBadge && info.hasReissuance
     }
 
     private fun PersonSettings?.hasAdmissionStateChangedBadge(): Boolean {
