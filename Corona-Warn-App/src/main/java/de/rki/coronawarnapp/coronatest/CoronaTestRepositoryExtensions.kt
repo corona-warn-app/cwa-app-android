@@ -13,22 +13,12 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 val CoronaTestRepository.latestPCRT: Flow<PCRCoronaTest?>
-    get() = this.coronaTests
-        .map { allTests ->
-            allTests.singleOrNull {
-                it.type == BaseCoronaTest.Type.PCR
-            } as? PCRCoronaTest
-        }
-        .distinctUntilChanged()
+    get() = coronaTests.map { it.latestOf<PCRCoronaTest>() }.distinctUntilChanged()
 
 val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
-    get() = this.coronaTests
-        .map { allTests ->
-            allTests.singleOrNull {
-                it.type == BaseCoronaTest.Type.RAPID_ANTIGEN
-            } as? RACoronaTest
-        }
-        .distinctUntilChanged()
+    get() = coronaTests.map { it.latestOf<RACoronaTest>() }.distinctUntilChanged()
+
+inline fun <reified T> Set<PersonalCoronaTest>.latestOf() = singleOrNull { it is T } as? T
 
 val CoronaTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
     get() = combine(latestPCRT, latestRAT) { testPcr, testRat ->
@@ -40,21 +30,18 @@ val CoronaTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
 private val consumedErrors = mutableMapOf<String, Throwable?>()
 
 val CoronaTestRepository.testErrorsSingleEvent: Flow<List<PersonalCoronaTest>>
-    get() = coronaTests
-        .map { tests ->
-            tests
-                .filter {
-                    val consumedClass = consumedErrors[it.identifier]?.javaClass
-                    consumedClass != it.lastError?.javaClass
-                }
-                .onEach {
-                    Timber.v("Unconsumed error for %s: %s", it.identifier, it.lastError?.toString())
-                    consumedErrors[it.identifier] = it.lastError
-                }
-                .filter { it.lastError != null }
+    get() = coronaTests.map { tests ->
+        tests.filter {
+            val consumedClass = consumedErrors[it.identifier]?.javaClass
+            consumedClass != it.lastError?.javaClass
+        }.onEach {
+            Timber.v("Unconsumed error for %s: %s", it.identifier, it.lastError?.toString())
+            consumedErrors[it.identifier] = it.lastError
+        }.filter {
+            it.lastError != null
         }
-        .flatMapMerge { tests ->
-            // First we emit the tests with errors
-            // then an empty list because the errors should only be displayed once
-            flowOf(tests, emptyList())
-        }
+    }.flatMapMerge { tests ->
+        // First we emit the tests with errors
+        // then an empty list because the errors should only be displayed once
+        flowOf(tests, emptyList())
+    }

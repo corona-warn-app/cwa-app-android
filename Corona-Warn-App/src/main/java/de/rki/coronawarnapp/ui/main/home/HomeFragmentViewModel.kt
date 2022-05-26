@@ -8,8 +8,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
-import de.rki.coronawarnapp.coronatest.latestPCRT
-import de.rki.coronawarnapp.coronatest.latestRAT
+import de.rki.coronawarnapp.coronatest.latestOf
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
@@ -82,7 +81,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.flow.combineFlows
 import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -207,18 +205,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
         )
     }
 
-    val homeItems: LiveData<List<HomeItem>> = combineFlows(
+    val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
-        coronaTestRepository.latestPCRT,
-        coronaTestRepository.latestRAT,
+        coronaTestRepository.coronaTests,
         combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         familyTestRepository.familyTests
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, familyTests ->
+    ) { tracingItem, coronaTests, statsData, coronaTestParameters, familyTests ->
         mutableListOf<HomeItem>().apply {
             addRiskLevelCard(tracingItem)
             addIncompatibleCard()
-            addTestCards(testPCR, testRAT, coronaTestParameters, familyTests)
+            addTestCards(
+                coronaTests.latestOf<PCRCoronaTest>(),
+                coronaTests.latestOf<RACoronaTest>(),
+                coronaTestParameters,
+                familyTests
+            )
             addStatisticsCard(statsData)
             addTraceLocationCard()
             addFaqCard()
