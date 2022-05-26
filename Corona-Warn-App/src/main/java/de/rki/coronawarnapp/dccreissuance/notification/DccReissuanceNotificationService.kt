@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.notification
 
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -25,10 +24,9 @@ class DccReissuanceNotificationService @Inject constructor(
         oldWalletInfo: DccWalletInfo?,
         newWalletInfo: DccWalletInfo
     ) {
-        val oldCertReissuance = oldWalletInfo?.certificateReissuance
-        val newCertReissuance = newWalletInfo.certificateReissuance
+        val oldIdentifier = oldWalletInfo?.certificateReissuance?.reissuanceDivision?.identifier
         when {
-            newCertReissuance.hasNewReissuance(oldCertReissuance?.reissuanceDivision?.identifier) -> {
+            newWalletInfo.hasNewReissuance(oldIdentifier) -> {
                 Timber.tag(TAG).d("Notify person=%s about reissuance", personIdentifier.codeSHA256)
                 personNotificationSender.showNotification(
                     personIdentifier = personIdentifier,
@@ -37,22 +35,21 @@ class DccReissuanceNotificationService @Inject constructor(
                 )
                 personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
             }
-            // New calculation says no Dcc Reissuance anymore
-            newCertReissuance == null || !newCertReissuance.reissuanceDivision.visible -> {
+            // no action needed
+            newWalletInfo.hasReissuance -> {
+                Timber.tag(TAG).d("Person=%s has no changes", personIdentifier.codeSHA256)
+            }
+            // no reissuance -> dismiss
+            else -> {
                 Timber.tag(TAG).d("Dismiss badge for person=%s", personIdentifier.codeSHA256)
                 personCertificatesSettings.dismissReissuanceBadge(personIdentifier)
-            }
-            // Otherwise nothing
-            else -> {
-                Timber.tag(TAG).d("Person=%s has no changes", personIdentifier.codeSHA256)
             }
         }
     }
 
-    private fun CertificateReissuance?.hasNewReissuance(oldIdentifier: String?): Boolean {
-        return this != null &&
-            this.reissuanceDivision.visible &&
-            this.reissuanceDivision.identifier != oldIdentifier
+    private fun DccWalletInfo.hasNewReissuance(oldIdentifier: String?): Boolean {
+        return this.hasReissuance &&
+            certificateReissuance?.reissuanceDivision?.identifier != oldIdentifier
     }
 
     companion object {

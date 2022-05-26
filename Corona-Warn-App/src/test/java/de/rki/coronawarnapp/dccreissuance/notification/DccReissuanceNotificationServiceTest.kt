@@ -27,10 +27,8 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     @MockK lateinit var newDccWalletInfo: DccWalletInfo
     @MockK lateinit var oldCertificateReissuance: CertificateReissuance
     @MockK lateinit var newCertificateReissuance: CertificateReissuance
-    @MockK lateinit var crookedCertificateReissuance: CertificateReissuance
     @MockK lateinit var oldReissuanceDivision: ReissuanceDivision
     @MockK lateinit var newReissuanceDivision: ReissuanceDivision
-    @MockK lateinit var crookedReissuanceDivision: ReissuanceDivision
 
     private val personIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01-01-2010",
@@ -48,12 +46,10 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         every { oldReissuanceDivision.visible } returns true
         every { newReissuanceDivision.identifier } returns "extend"
         every { newReissuanceDivision.visible } returns true
-        every { crookedReissuanceDivision.identifier } returns "extend"
-        every { crookedReissuanceDivision.visible } returns false
         every { oldCertificateReissuance.reissuanceDivision } returns oldReissuanceDivision
         every { newCertificateReissuance.reissuanceDivision } returns newReissuanceDivision
-        every { crookedCertificateReissuance.reissuanceDivision } returns crookedReissuanceDivision
         every { newDccWalletInfo.certificateReissuance } returns newCertificateReissuance
+        every { newDccWalletInfo.hasReissuance } returns true
     }
 
     @Test
@@ -81,7 +77,10 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
             oldWalletInfo = mockk<DccWalletInfo>()
-                .apply { every { certificateReissuance } returns newCertificateReissuance },
+                .apply {
+                    every { certificateReissuance } returns newCertificateReissuance
+                    every { hasReissuance } returns true
+                    },
             newWalletInfo = newDccWalletInfo,
         )
 
@@ -99,7 +98,10 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
             oldWalletInfo = mockk<DccWalletInfo>()
-                .apply { every { certificateReissuance } returns oldCertificateReissuance },
+                .apply {
+                    every { certificateReissuance } returns oldCertificateReissuance
+                    every { hasReissuance } returns true
+                },
             newWalletInfo = newDccWalletInfo
         )
 
@@ -117,7 +119,9 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         ).notifyIfNecessary(
             personIdentifier = personIdentifier,
             oldWalletInfo = newDccWalletInfo,
-            newWalletInfo = mockk<DccWalletInfo>().apply { every { certificateReissuance } returns null }
+            newWalletInfo = mockk<DccWalletInfo>().apply {
+                every { hasReissuance } returns false
+            }
         )
 
         coEvery {
@@ -139,7 +143,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
             personIdentifier = personIdentifier,
             oldWalletInfo = newDccWalletInfo,
             newWalletInfo = mockk<DccWalletInfo>().apply {
-                every { certificateReissuance } returns crookedCertificateReissuance
+                every { hasReissuance } returns false
             }
         )
 
