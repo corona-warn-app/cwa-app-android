@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -43,7 +44,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RecoveryCertificateRepository @Inject constructor(
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
     dispatcherProvider: DispatcherProvider,
     @AppScope private val appScope: CoroutineScope,
     private val timeStamper: TimeStamper,
@@ -113,6 +114,14 @@ class RecoveryCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    fun findCertificateDetails(containerId: RecoveryCertificateContainerId): Flow<RecoveryCertificate?> =
+        internalData.data.map { map ->
+            map[containerId].takeIf { it?.isNotRecycled == true }?.toRecoveryCertificateWrapper(
+                valueSetsRepository.latestVaccinationValueSets.first(),
+                dccValidityMeasuresObserver.dccValidityMeasures.first()
+            )?.recoveryCertificate
+        }
 
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isNotRecycled]

@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Din motive tehnice, valabilitatea certificatelor de vaccinare este limitată la 365 de zile, dar puteți solicita un certificat nou din aplicație. Un certificat poate fi reemis cu maximum 28 de zile înainte de expirarea valabilității și în decurs de cel mult 90 de zile de la expirare. Aplicația conține o notă care vă anunță dacă valabilitatea certificatului va expira în curând sau dacă a expirat deja."</item>
+        <item>"Din motive tehnice, valabilitatea certificatului de vaccinare utilizat în prezent este limitată la 365 de zile. Dacă certificatul dvs. curent expiră, aplicația vă permite să îl reînnoiți. Un certificat poate fi reînnoit cu maximum 28 de zile înainte de expirarea valabilității și în decurs de cel mult 90 de zile de la expirare. Dacă aplicația nu vă oferă opțiunea de a vă reînnoi certificatul, acesta nu trebuie prelungit și nu este necesară nicio altă acțiune din partea dvs."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
