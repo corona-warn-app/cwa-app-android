@@ -256,11 +256,9 @@ android {
             }
         }
         test {
-            java.srcDirs += "$projectDir/src/testShared/java"
             resources.srcDirs += "src/main/assets"
         }
         androidTest {
-            java.srcDirs += "$projectDir/src/testShared/java"
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }

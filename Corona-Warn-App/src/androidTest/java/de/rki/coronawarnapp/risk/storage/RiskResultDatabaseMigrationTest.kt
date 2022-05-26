@@ -32,8 +32,7 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        RiskResultDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        RiskResultDatabase::class.java
     )
 
     /**
@@ -280,7 +279,9 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
             riskLevel.id shouldBe riskLevelValues["id"]
             riskLevel.calculatedAt shouldBe Instant.parse(riskLevelValues["calculatedAt"] as String)
             riskLevel.aggregatedRiskResult shouldNotBe null
-            riskLevel.aggregatedRiskResult?.totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(riskLevelValues["totalRiskLevel"] as Int)
+            riskLevel.aggregatedRiskResult?.totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
+                riskLevelValues["totalRiskLevel"] as Int
+            )
             riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithLowRisk"]
             riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithHighRisk"]
             riskLevel.aggregatedRiskResult?.mostRecentDateWithLowRisk shouldBe Instant.parse(riskLevelValues["mostRecentDateWithLowRisk"] as String)

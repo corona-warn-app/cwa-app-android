@@ -37,8 +37,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        ContactDiaryDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        ContactDiaryDatabase::class.java
     )
 
     /**

@@ -5,9 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
-import testhelpers.BaseTestInstrumentation
 
-class DccHolderNameComponentsTest : BaseTestInstrumentation() {
+class DccHolderNameComponentsTest : testhelpers.BaseTest() {
 
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderNameComponentsTestCaseProvider::class)

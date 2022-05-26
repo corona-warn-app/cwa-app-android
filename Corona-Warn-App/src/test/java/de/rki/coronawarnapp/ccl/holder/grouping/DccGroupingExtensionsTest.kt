@@ -8,9 +8,9 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import testhelpers.BaseTestInstrumentation
 
-class DccGroupingExtensionsTest : BaseTestInstrumentation() {
+
+class DccGroupingExtensionsTest : testhelpers.BaseTest() {
 
     @Test
     fun `first grouping check`() {
