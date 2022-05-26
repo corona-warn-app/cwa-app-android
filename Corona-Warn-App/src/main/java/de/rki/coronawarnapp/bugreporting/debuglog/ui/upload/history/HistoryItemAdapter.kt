@@ -5,7 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH

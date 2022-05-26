@@ -403,6 +403,7 @@ dependencies {
     implementation("org.boofcv:boofcv-android:$boofCV_version") {
         exclude group: 'com.google.protobuf'
     }
+
     constraints {
         implementation('net.lingala.zip4j:zip4j:2.10.0') {
             because 'fixing zip4j vulnerability'
@@ -487,7 +488,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.guava:guava:30.0-android'
     implementation "joda-time:joda-time:2.10.13"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.2"
+
+    // Jackson
+    def jackson = "2.13.2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
     implementation 'com.networknt:json-schema-validator:1.0.69'
     implementation 'net.swiftzer.semver:semver:1.2.0'
