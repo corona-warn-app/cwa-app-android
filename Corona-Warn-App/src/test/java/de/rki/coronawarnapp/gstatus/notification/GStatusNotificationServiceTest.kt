@@ -40,7 +40,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { personCertificatesSettings.setGStatusNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.dismissGStatusBadge(any()) } just Runs
-        every { personNotificationSender.showNotification(any(), any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
         every { oldWalletInfo.admissionState } returns oldAdmissionState
         every { newWalletInfo.admissionState } returns newAdmissionState
     }
@@ -60,7 +60,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -80,7 +80,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -100,7 +100,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
@@ -124,7 +124,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }

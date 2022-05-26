@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
-    <string name="dcc_reissuance_success_screen_title">"Certificate Updated"</string>
+    <string name="dcc_reissuance_success_screen_title">"Certificates Renewed"</string>
     <!-- YTXT: Headline for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_headline">"Your certificate has been updated successfully"</string>
+    <string name="dcc_reissuance_success_screen_headline">"Your certificates have been renewed successfully"</string>
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">"The updated certificate is now available on the “Certificates” tab."</string>
+    <string name="dcc_reissuance_success_screen_body">"The renewed certificates are now available on the “Certificates” tab."</string>
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">"Done"</string>
 
@@ -15,22 +15,22 @@
     <!-- XTXT: Text Key - No Network -->
     <string name="dcc_reissuance_error_handling_text_key_no_network">"Your Internet connection may have been lost. Please check the connection and try again."</string>
     <!-- XTXT: Text Key - Try Again -->
-    <string name="dcc_reissuance_error_handling_text_key_try_again">"An error occurred during the update of your certificate. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline. "</string>
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"An error occurred during the renewal of your certificate. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Text Key - Rate limit -->
     <string name="dcc_reissuance_error_handling_text_key_rate_limit">"The certificate has already been reissued three times. It cannot be reissued again."<br/>"We recommend exporting your reissued certificate as a PDF and printing it out. You can then scan it again at any time."</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
-    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Your certificate cannot be updated. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Your certificate cannot be renewed. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
 
     <!-- XTXT: DCC Reissuance title-->
     <string name="dcc_reissuance_consent_title">"Your Consent"</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one">"Updating your certificate is voluntary and free of charge."</string>
+    <string name="dcc_reissuance_bulletpoint_one">"Renewing your certificates is voluntary and free of charge."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
     <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be renewed once, the identifiers of the old and new certificates are documented by the RKI. The other data from your certificates is deleted by the RKI immediately after the renewal."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint">"The old certificate will be moved automatically to the recycle bin and deleted after 30 days. The certificate can be restored at any time within these 30 days."</string>
+    <string name="dcc_reissuance_deletion_hint">"Old certificates will be moved automatically to the recycle bin and deleted after 30 days. Certificates can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"If you cancel now, you can request an update in the certificate overview at any time."</string>
+    <string name="dcc_reissuance_update_hint">"If you cancel now, you can request a renewal in the certificate overview at any time."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Other Certificates Issued"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
@@ -40,5 +40,5 @@
     <!-- XTXT: DCC Reissuance third bullet point-->
     <string name="dcc_reissuance_bulletpoint_three">"Before renewing certificates of family members, please make sure that the person involved consents."</string>
     <!-- XTXT: DCC Reissuance fourth bullet point-->
-    <string name="dcc_reissuance_bulletpoint_four">"In certain cases, further certificates are issued in addition to the certificate for renewal. This is necessary to adopt the previous sequence of vaccinations and recoveries in the new certificate."</string>
+    <string name="dcc_reissuance_bulletpoint_four">"In certain cases, further certificates are issued in addition to the certificates for renewal. This is necessary to adopt the previous sequence of vaccinations and recoveries in the new certificates."</string>
 </resources>
