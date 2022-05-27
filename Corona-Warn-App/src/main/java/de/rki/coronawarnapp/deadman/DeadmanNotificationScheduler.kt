@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
