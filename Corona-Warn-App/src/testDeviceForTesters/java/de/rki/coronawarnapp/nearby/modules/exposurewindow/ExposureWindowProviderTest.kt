@@ -9,10 +9,9 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.BaseTestInstrumentation
 import testhelpers.gms.MockGMSTask
 
-class ExposureWindowProviderTest : BaseTestInstrumentation() {
+class ExposureWindowProviderTest : testhelpers.BaseTest() {
     @MockK lateinit var googleENFClient: ExposureNotificationClient
     @MockK lateinit var testSettings: TestSettings
     @MockK lateinit var fakeExposureWindowProvider: FakeExposureWindowProvider

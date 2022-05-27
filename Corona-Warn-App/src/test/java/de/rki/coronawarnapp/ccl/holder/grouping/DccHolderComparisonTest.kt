@@ -7,9 +7,8 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
-import testhelpers.BaseTestInstrumentation
 
-class DccHolderComparisonTest : BaseTestInstrumentation() {
+class DccHolderComparisonTest : testhelpers.BaseTest() {
 
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderComparisonTestCaseProvider::class)
