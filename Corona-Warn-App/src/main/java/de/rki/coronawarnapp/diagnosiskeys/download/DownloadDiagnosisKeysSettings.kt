@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.security.HashHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -218,7 +218,7 @@ class VerificationServer @Inject constructor(
          * Test is available for this long on the server.
          * After this period the server will delete it and return PENDING if the regtoken is polled again.
          */
-        val TestAvailabilityDuration: Duration = Duration.standardDays(60)
+        val TestAvailabilityDuration: Duration = Duration.ofDays(60)
 
         private const val TAG = "VerificationServer"
     }

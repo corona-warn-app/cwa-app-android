@@ -19,7 +19,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -45,7 +45,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
 
         allCertificatesFlow.value = certificateSet
         every { certificatesProvider.allCertificates } returns allCertificatesFlow
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
 
         coEvery { dccRevocationUpdateSettings.getLastUpdateTime() } returns Instant.EPOCH
         coEvery { dccRevocationUpdateSettings.setUpdateTimeToNow(any()) } just Runs
@@ -72,7 +72,7 @@ internal class DccRevocationListUpdaterTest : BaseTest() {
 
     @Test
     fun `update is triggered when day is different`() = runTest2 {
-        every { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2000-01-01T00:00:00Z")
         getInstance(this).updateRevocationList(false)
 
         coVerify(exactly = 1) {

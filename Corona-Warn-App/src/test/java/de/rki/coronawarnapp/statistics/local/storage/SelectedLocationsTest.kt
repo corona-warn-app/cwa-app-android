@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty

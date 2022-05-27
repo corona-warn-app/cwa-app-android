@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest

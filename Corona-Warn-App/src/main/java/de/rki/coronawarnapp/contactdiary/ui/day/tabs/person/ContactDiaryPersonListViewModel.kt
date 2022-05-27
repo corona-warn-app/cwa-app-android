@@ -23,7 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(

@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -219,7 +219,7 @@ class VaccinationCertificateRepository @Inject constructor(
                 .d("Acknowledging state change to %s -> %s.", toUpdate.data.lastSeenStateChange, currentState)
             val newData = toUpdate.data.copy(
                 lastSeenStateChange = currentState,
-                lastSeenStateChangeAt = timeStamper.nowUTC,
+                lastSeenStateChangeAt = timeStamper.nowJavaUTC,
             )
 
             Timber.tag(TAG).d("Updated %s", containerId)
@@ -283,7 +283,7 @@ class VaccinationCertificateRepository @Inject constructor(
     }
 
     private fun VaccinationCertificateContainer.setRecycled(value: Boolean): VaccinationCertificateContainer {
-        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
+        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowJavaUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
         }
     }
@@ -295,10 +295,10 @@ class VaccinationCertificateRepository @Inject constructor(
     }
 
     private fun VaccinationCertificateQRCode.createContainer(
-        nowUtc: Instant = timeStamper.nowUTC
+        nowJavaUTC: Instant = timeStamper.nowJavaUTC
     ): VaccinationCertificateContainer =
         toVaccinationContainer(
-            scannedAt = nowUtc,
+            scannedAt = nowJavaUTC,
             qrCodeExtractor = qrCodeExtractor,
             certificateSeenByUser = false,
         )

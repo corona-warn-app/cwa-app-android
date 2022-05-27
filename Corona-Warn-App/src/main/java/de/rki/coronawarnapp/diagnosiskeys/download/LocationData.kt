@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 sealed class LocationData {
 

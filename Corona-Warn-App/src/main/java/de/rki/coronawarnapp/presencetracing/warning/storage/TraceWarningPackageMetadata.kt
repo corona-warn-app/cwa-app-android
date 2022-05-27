@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.warning.WarningPackageId
 import de.rki.coronawarnapp.util.HourInterval
-import org.joda.time.Instant
+import java.time.Instant
 
 @Entity(tableName = "TraceWarningPackageMetadata")
 data class TraceWarningPackageMetadata(

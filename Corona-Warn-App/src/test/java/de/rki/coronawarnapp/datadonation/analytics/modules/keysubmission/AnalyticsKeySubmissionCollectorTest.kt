@@ -20,12 +20,12 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Duration
 
 class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
@@ -38,7 +38,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
     private val now = Instant.now()
-    private val nowJoda = org.joda.time.Instant.now()
 
     @BeforeEach
     fun setup() {
@@ -53,8 +52,8 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.calculatedAt } returns nowJoda
-        every { ptRiskLevelResult.calculatedAt } returns nowJoda
+        every { ewRiskLevelResult.calculatedAt } returns now
+        every { ptRiskLevelResult.calculatedAt } returns now
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         every { ptRiskLevelResult.wasSuccessfullyCalculated } returns true
 
@@ -93,9 +92,9 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsPcrKeySubmissionStorage.clear() } just Runs
         every { analyticsRaKeySubmissionStorage.clear() } just Runs
 
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns nowJoda.minus(Days.days(2).toStandardDuration())
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns now.minus(Duration.ofDays(2))
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            nowJoda.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
+            now.minus(Duration.ofDays(2)).toLocalDateUtc()
 
         runTest {
             val collector = createInstance()

@@ -6,11 +6,13 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 
 @Entity(tableName = "keyfiles")
 data class CachedKeyInfo(
@@ -86,18 +88,14 @@ data class CachedKeyInfo(
     )
 }
 
-val CachedKeyInfo.pkgDateTime: DateTime
+val CachedKeyInfo.pkgDateTime: OffsetDateTime
     get() = when (type) {
-        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
-        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDayUtc()
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, ZoneOffset.UTC)
     }
 
-val CachedKeyInfo.sortDateTime: DateTime
+val CachedKeyInfo.sortDateTime: OffsetDateTime
     get() = when (type) {
-        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTime(endOfDay, DateTimeZone.UTC)
-        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDayUtc()
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, ZoneOffset.UTC)
     }
-
-// use end of day to ensure correct order of packages when day and hour packages are mixed
-private val endOfDay: LocalTime
-    get() = LocalTime(23, 59, 59)

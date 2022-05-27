@@ -31,7 +31,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

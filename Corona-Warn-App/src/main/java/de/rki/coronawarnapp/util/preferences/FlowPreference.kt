@@ -7,7 +7,7 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 
 class FlowPreference<T> constructor(
@@ -91,7 +91,7 @@ class FlowPreference<T> constructor(
                 is Int -> putInt(key, value)
                 is Long -> putLong(key, value)
                 is Float -> putFloat(key, value)
-                is Instant -> putLong(key, value.millis)
+                is Instant -> putLong(key, value.toEpochMilli())
                 null -> remove(key)
                 else -> throw NotImplementedError()
             }

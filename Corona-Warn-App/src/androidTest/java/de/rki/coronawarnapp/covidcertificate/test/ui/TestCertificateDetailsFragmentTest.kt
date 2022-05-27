@@ -23,9 +23,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.OffsetDateTime
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -197,8 +197,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     }
 
     private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {
-        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
-        val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        val testDate =OffsetDateTime.parse("12.05.2021 19:00", formatter).toInstant()
 
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
             override val isNew: Boolean get() = false

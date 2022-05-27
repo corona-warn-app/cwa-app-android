@@ -16,8 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValue
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import java.util.Locale
 
 data class RecoveryCertificateContainer(

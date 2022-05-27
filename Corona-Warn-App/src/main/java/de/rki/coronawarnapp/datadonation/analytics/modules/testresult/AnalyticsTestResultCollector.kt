@@ -20,9 +20,9 @@ import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
-import de.rki.coronawarnapp.util.toLocalDateUtc
+
+
+
 import kotlinx.coroutines.flow.first
 import java.time.Duration
 import timber.log.Timber
@@ -59,14 +59,14 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.settings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState?.toJavaTime(),
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
         }

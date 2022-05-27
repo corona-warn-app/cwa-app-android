@@ -7,4 +7,4 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 
 fun Instant.toUserTimeZone(): LocalDateTime = LocalDateTime.ofInstant(this, ZoneId.systemDefault())
-fun Instant.toLocalDateUtc(): LocalDate = atZone(ZoneOffset.UTC).toLocalDate()
+//fun Instant.toLocalDateUtc(): LocalDate = atZone(ZoneOffset.UTC).toLocalDate()

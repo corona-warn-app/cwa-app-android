@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.profile.model
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 data class Profile(
     val id: ProfileId? = null,

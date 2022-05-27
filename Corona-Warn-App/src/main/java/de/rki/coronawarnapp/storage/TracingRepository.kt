@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -137,7 +137,7 @@ class TracingRepository @Inject constructor(
     }
 
     private suspend fun downloadDiagnosisKeysTaskDidNotRunRecently(): Boolean {
-        val currentDate = timeStamper.nowUTC
+        val currentDate = timeStamper.nowJavaUTC
         val taskLastFinishedAt = try {
             taskController.tasks.first()
                 .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }
@@ -148,7 +148,7 @@ class TracingRepository @Inject constructor(
             return true
         }
 
-        return currentDate.isAfter(taskLastFinishedAt.plus(Duration.standardHours(1))).also {
+        return currentDate.isAfter(taskLastFinishedAt.plus(Duration.ofHours(1))).also {
             Timber.tag(TAG)
                 .v("download did not run recently: %s (last=%s, now=%s)", it, taskLastFinishedAt, currentDate)
         }

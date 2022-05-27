@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.TextStyle
 import java.util.Locale
 
 /**
@@ -163,15 +164,15 @@ class CalendarView @JvmOverloads constructor(
         // Get day legend layout
         val dayLegendLayout = findViewById<LinearLayout>(R.id.calendar_day_legend)
         // Get current week day
-        val date = LocalDate()
-        val currentWeekDay = DateTime(Instant.now()).dayOfWeek().get()
+        val date = LocalDate.now()
+        val currentWeekDay = LocalDateTime.now().dayOfWeek.value
         for (dayId in 1..CalendarCalculation.DAYS_IN_WEEK) {
             val dayOfWeek = CalendarWeekDayView(context)
-            val weekDay = date.withDayOfWeek(dayId).dayOfWeek()
+            val weekDay = DayOfWeek.of(dayId)
             // weekDay.getAsText returns in either "Fri" or "Friday" format, substring first latter
             dayOfWeek.setUp(
-                weekDay.getAsText(Locale.getDefault()).take(1),
-                weekDay.get() == currentWeekDay
+                weekDay.getDisplayName(TextStyle.FULL, Locale.getDefault()).take(1),
+                weekDay.value == currentWeekDay
             )
             dayLegendLayout.addView(dayOfWeek)
         }

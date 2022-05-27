@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 import java.io.File
 import java.util.UUID
 
@@ -65,12 +65,6 @@ class CommonConverters {
 
     @TypeConverter
     fun fromInstant(date: Instant?): String? = date?.toString()
-
-    @TypeConverter
-    fun toJavaInstant(value: String?): java.time.Instant? = value?.let { java.time.Instant.parse(it) }
-
-    @TypeConverter
-    fun fromJavaInstant(date: java.time.Instant?): String? = date?.toString()
 
     @TypeConverter
     fun toLocationCode(value: String?): LocationCode? = value?.let { LocationCode(it) }

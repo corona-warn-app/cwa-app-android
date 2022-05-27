@@ -13,15 +13,16 @@ import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentEditCheckInBinding
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDay
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -151,11 +152,11 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTimeAtStartOfDay(DateTimeZone.UTC)?.millis)
+            .setSelection(defaultValue?.toDateTimeAtStartOfDay(ZoneOffset.UTC)?.toEpochSecond()?.let { it * 1000 })
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(LocalDate(it, DateTimeZone.UTC))
+                    callback(LocalDate.ofEpochDay(it)) // TODO: check if day or ms
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -172,14 +173,14 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             )
             .apply {
                 if (defaultValue != null) {
-                    setHour(defaultValue.hourOfDay)
-                    setMinute(defaultValue.minuteOfHour)
+                    setHour(defaultValue.hour)
+                    setMinute(defaultValue.minute)
                 }
             }
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(LocalTime(this.hour, this.minute))
+                    callback(LocalTime.of(this.hour, this.minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

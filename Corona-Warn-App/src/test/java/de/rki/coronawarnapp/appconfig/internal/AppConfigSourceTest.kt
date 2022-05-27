@@ -81,7 +81,7 @@ class AppConfigSourceTest : BaseTest() {
         }
         coEvery { defaultSource.getConfigData() } returns defaultConfig
 
-        every { timeStamper.nowUTC } returns org.joda.time.Instant.EPOCH.plus(org.joda.time.Duration.standardHours(1))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
         every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns false
@@ -90,7 +90,7 @@ class AppConfigSourceTest : BaseTest() {
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
         every { cwaSettings.firstReliableDeviceTime = any() } just Runs
 
-        every { cwaSettings.lastDeviceTimeStateChangeAt } returns org.joda.time.Instant.EPOCH
+        every { cwaSettings.lastDeviceTimeStateChangeAt } returns Instant.EPOCH
         every { cwaSettings.lastDeviceTimeStateChangeAt = any() } just Runs
         every { cwaSettings.lastDeviceTimeStateChangeState } returns ConfigData.DeviceTimeState.INCORRECT
         every { cwaSettings.lastDeviceTimeStateChangeState = any() } just Runs
@@ -121,9 +121,9 @@ class AppConfigSourceTest : BaseTest() {
             .plus(Duration.ofHours(1))
             .plus(Duration.ofSeconds(301)) // Local config has 300 seconds validity
 
-        every { timeStamper.nowUTC } returns org.joda.time.Instant.EPOCH
-            .plus(org.joda.time.Duration.standardHours(1))
-            .plus(org.joda.time.Duration.standardSeconds(301))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+            .plus(Duration.ofHours(1))
+            .plus(Duration.ofSeconds(301))
 
         val instance = createInstance()
         instance.getConfigData() shouldBe remoteConfig
@@ -253,7 +253,7 @@ class AppConfigSourceTest : BaseTest() {
 
         verify {
             cwaSettings.lastDeviceTimeStateChangeAt =
-                org.joda.time.Instant.EPOCH.plus(org.joda.time.Duration.standardHours(1))
+                Instant.EPOCH.plus(Duration.ofHours(1))
             cwaSettings.lastDeviceTimeStateChangeState = ConfigData.DeviceTimeState.CORRECT
         }
     }

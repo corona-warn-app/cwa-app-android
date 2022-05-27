@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.familytest.core.model
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import org.joda.time.Instant
+import java.time.Instant
 
 data class FamilyCoronaTest(
     @SerializedName("personName")

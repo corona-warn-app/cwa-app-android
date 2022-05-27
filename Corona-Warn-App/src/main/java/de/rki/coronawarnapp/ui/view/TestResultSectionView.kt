@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.formatter.formatTestResult
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDate
 
 /**
  * The [TestResultSectionView] Displays the appropriate test result.

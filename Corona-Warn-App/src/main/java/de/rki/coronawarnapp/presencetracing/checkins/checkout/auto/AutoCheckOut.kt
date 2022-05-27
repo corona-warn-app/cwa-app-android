@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,28 +49,28 @@ class AutoCheckOut @Inject constructor(
             .launchIn(appScope)
     }
 
-    private suspend fun findNextAutoCheckOut(nowUTC: Instant): CheckIn? = repository.allCheckIns
+    private suspend fun findNextAutoCheckOut(nowJavaUTC: Instant): CheckIn? = repository.allCheckIns
         .firstOrNull()
-        ?.filter { !it.completed && it.checkInEnd.isAfter(nowUTC) }
+        ?.filter { !it.completed && it.checkInEnd.isAfter(nowJavaUTC) }
         ?.minByOrNull { it.checkInEnd }
 
     suspend fun refreshAlarm(): Boolean = mutex.withLock {
         Timber.tag(TAG).d("refreshAlarm()")
 
-        val nowUTC = timeStamper.nowUTC
+        val nowJavaUTC = timeStamper.nowJavaUTC
         // We only create alarms that are in the future
-        val nextCheckout = findNextAutoCheckOut(nowUTC)
+        val nextCheckout = findNextAutoCheckOut(nowJavaUTC)
 
         return if (nextCheckout != null) {
             Timber.tag(TAG).d(
                 "Next check-out will be at %s (in %d min) for %s",
                 nextCheckout.checkInEnd,
-                Duration(nowUTC, nextCheckout.checkInEnd).standardMinutes,
+               Duration.between(nowJavaUTC, nextCheckout.checkInEnd).toMinutes(),
                 nextCheckout
             )
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                nextCheckout.checkInEnd.millis,
+                nextCheckout.checkInEnd.toEpochMilli(),
                 intentFactory.createIntent(nextCheckout.id)
             )
             true
@@ -85,10 +85,10 @@ class AutoCheckOut @Inject constructor(
         Timber.tag(TAG).d("processOverDueCheckouts()")
 
         val overDueCheckouts = run {
-            val nowUTC = timeStamper.nowUTC
+            val nowJavaUTC = timeStamper.nowJavaUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
-                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC.isEqual(it.checkInEnd)) }
+                .filter { !it.completed && (nowJavaUTC.isAfter(it.checkInEnd) || nowJavaUTC == it.checkInEnd) }
                 .sortedBy { it.checkInEnd }
         }.also {
             Timber.tag(TAG).d("${it.size} checkins are overdue for auto checkout: %s", it)

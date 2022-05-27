@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.notification
 
-import org.joda.time.Duration
+import java.time.Duration
 
 /**
  * The notification constants are used inside the NotificationHelper
@@ -17,8 +17,8 @@ object NotificationConstants {
     const val POSITIVE_PCR_RESULT_NOTIFICATION_ID = 101
     const val POSITIVE_RAT_RESULT_NOTIFICATION_ID = 102
     const val POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT = 2
-    val POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET: Duration = Duration.standardHours(2)
-    val POSITIVE_RESULT_NOTIFICATION_INTERVAL: Duration = Duration.standardHours(2)
+    val POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET: Duration = Duration.ofHours(2)
+    val POSITIVE_RESULT_NOTIFICATION_INTERVAL: Duration = Duration.ofHours(2)
 
     const val DEADMAN_NOTIFICATION_ID: NotificationId = 3
     const val NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID: NotificationId = 110

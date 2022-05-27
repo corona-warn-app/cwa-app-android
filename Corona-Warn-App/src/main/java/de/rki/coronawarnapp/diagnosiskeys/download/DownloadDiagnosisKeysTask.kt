@@ -15,13 +15,13 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJoda
+
 import de.rki.coronawarnapp.util.ui.toLazyString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
@@ -60,7 +60,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             throwIfCancelled()
-            val currentDate = Date(timeStamper.nowUTC.millis)
+            val currentDate = Date(timeStamper.nowJavaUTC.toEpochMilli())
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
             throwIfCancelled()
@@ -80,7 +80,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return Result()
             }
 
-            val now = timeStamper.nowUTC
+            val now = timeStamper.nowJavaUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
                 Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")
@@ -148,15 +148,15 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             return false
         }
 
-        if (lastDetection.startedAt.isAfter(now.plus(Duration.standardHours(1)))) {
+        if (lastDetection.startedAt.isAfter(now.plus(Duration.ofHours(1)))) {
             Timber.tag(TAG).w("Last detection happened in our future? Don't abort as precaution.")
             return false
         }
 
-        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections.toJoda())
+        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections)
 
-        Duration(now, nextDetectionAt).also {
-            Timber.tag(TAG).d("Next detection is available in %d min", it.standardMinutes)
+       Duration.between(now, nextDetectionAt).also {
+            Timber.tag(TAG).d("Next detection is available in %d min", it.toMinutes())
         }
 
         return (now.isBefore(nextDetectionAt)).also {
@@ -171,7 +171,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ): Boolean {
         // One forced detection every 24h, ignoring the sync results
         val lastSuccessfulDetection = trackedDetections.filter { it.isSuccessful }.maxByOrNull { it.startedAt }
-        val nextForcedDetectionAt = lastSuccessfulDetection?.startedAt?.plus(Duration.standardDays(1))
+        val nextForcedDetectionAt = lastSuccessfulDetection?.startedAt?.plus(Duration.ofDays(1))
 
         val hasRecentDetection = nextForcedDetectionAt != null && now.isBefore(nextForcedDetectionAt)
 
@@ -229,7 +229,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ) : Task.Arguments
 
     data class Config(
-        override val executionTimeout: Duration = Duration.standardMinutes(8), // TODO unit-test that not > 9 min
+        override val executionTimeout: Duration = Duration.ofMinutes(8), // TODO unit-test that not > 9 min
 
         override val collisionBehavior: CollisionBehavior = CollisionBehavior.SKIP_IF_SIBLING_RUNNING
 
@@ -241,7 +241,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ) : TaskFactory<Progress, Task.Result> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config(
-            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout.toJoda()
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
         )
 
         override val taskProvider: () -> Task<Progress, Task.Result> = {

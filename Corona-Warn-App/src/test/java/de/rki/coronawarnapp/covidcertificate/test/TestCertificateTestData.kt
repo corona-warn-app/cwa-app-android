@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertific
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")

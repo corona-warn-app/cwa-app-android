@@ -11,7 +11,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,7 +25,7 @@ class DccAdmissionCheckScenariosCalculationTest : BaseTest() {
 
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
-    private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
+    private val dateTime =OffsetDateTime.parse("2021-12-30T10:00:00.897+01:00")
     private lateinit var instance: DccAdmissionCheckScenariosCalculation
 
     @BeforeEach

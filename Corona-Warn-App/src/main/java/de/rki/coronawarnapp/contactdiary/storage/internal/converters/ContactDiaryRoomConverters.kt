@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.storage.internal.converters
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
-import org.joda.time.Duration
+import java.time.Duration
 
 class ContactDiaryRoomConverters {
     @TypeConverter
@@ -22,12 +22,12 @@ class ContactDiaryRoomConverters {
 
     @TypeConverter
     fun toJodaDuration(millis: Long?): Duration? {
-        return millis?.let { Duration.millis(it) }
+        return millis?.let { Duration.ofMillis(it) }
     }
 
     @TypeConverter
     fun fromJodaDuration(duration: Duration?): Long? {
-        return duration?.millis
+        return duration?.toMillis()
     }
 
     @TypeConverter

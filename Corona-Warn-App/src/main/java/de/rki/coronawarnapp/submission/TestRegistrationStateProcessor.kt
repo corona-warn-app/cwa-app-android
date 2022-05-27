@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.util.toJavaTime
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
@@ -99,7 +99,7 @@ class TestRegistrationStateProcessor @Inject constructor(
         return try {
             stateInternal.value = State.Working
 
-            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth?.toJavaTime()
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
             val coronaTest = with(submissionRepository) {
                 if (allowTestReplacement) tryReplaceTest(request) else registerTest(request)
             }
@@ -129,7 +129,7 @@ class TestRegistrationStateProcessor @Inject constructor(
         return try {
             stateInternal.value = State.Working
 
-            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth?.toJavaTime()
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
             val coronaTest = familyTestRepository.registerTest(request, personName)
             stateInternal.value = State.TestRegistered(test = coronaTest)
             coronaTest

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Suppress("TooManyFunctions")
 interface ContactDiaryRepository : Resettable {

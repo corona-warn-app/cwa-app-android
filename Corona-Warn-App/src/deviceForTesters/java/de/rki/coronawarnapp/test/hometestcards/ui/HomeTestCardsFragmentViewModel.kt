@@ -30,7 +30,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
+import java.time.Instant
 
 class HomeTestCardsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider

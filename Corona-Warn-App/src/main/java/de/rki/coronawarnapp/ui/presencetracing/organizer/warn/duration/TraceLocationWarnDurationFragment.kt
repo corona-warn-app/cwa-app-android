@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -26,8 +27,9 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
 import javax.inject.Inject
 
 class TraceLocationWarnDurationFragment :
@@ -135,12 +137,12 @@ class TraceLocationWarnDurationFragment :
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.toDateTime().millis)
+            .setSelection(dateTime.atZone(ZoneId.systemDefault()).toEpochSecond() * 1000)
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), dateTime.toLocalTime())
+                    showTimePicker(LocalDate.ofEpochDay(it), dateTime.toLocalTime())
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -154,12 +156,12 @@ class TraceLocationWarnDurationFragment :
         MaterialTimePicker
             .Builder()
             .setTimeFormat(timeFormat)
-            .setHour(time.hourOfDay)
-            .setMinute(time.minuteOfHour)
+            .setHour(time.hour)
+            .setMinute(time.minute)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date.toDateTime(LocalTime(hour, minute)).toLocalDateTime())
+                    viewModel.dateChanged(date.toDateTime(LocalTime.of(hour, minute)).toLocalDateTime())
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

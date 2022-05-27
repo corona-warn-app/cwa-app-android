@@ -11,8 +11,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.UUID
@@ -154,14 +154,14 @@ class RiskResultDatabaseTest {
         val date = LocalDate.parse("2021-01-21")
 
         val firstResult = PersistedAggregatedRiskPerDateResult(
-            dateMillisSinceEpoch = date.toDateTimeAtStartOfDay().millis,
+            dateMillisSinceEpoch = date.toDateTimeAtStartOfDay().toEpochMilli(),
             riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
             minimumDistinctEncountersWithLowRisk = 10,
             minimumDistinctEncountersWithHighRisk = 0
         )
 
         val secondResult = PersistedAggregatedRiskPerDateResult(
-            dateMillisSinceEpoch = date.minusDays(5).toDateTimeAtStartOfDay().millis,
+            dateMillisSinceEpoch = date.minusDays(5).toDateTimeAtStartOfDay().toEpochMilli(),
             riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
             minimumDistinctEncountersWithLowRisk = 10,
             minimumDistinctEncountersWithHighRisk = 0

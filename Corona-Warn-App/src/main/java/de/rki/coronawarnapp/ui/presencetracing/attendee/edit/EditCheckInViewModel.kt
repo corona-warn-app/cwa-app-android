@@ -8,17 +8,19 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import org.joda.time.Days
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class EditCheckInViewModel @AssistedInject constructor(
     @Assisted private val editCheckInId: Long?,
@@ -34,10 +36,10 @@ class EditCheckInViewModel @AssistedInject constructor(
             val checkIn = checkInRepository.checkInForId(editCheckInId ?: 0)
 
             if (checkInStartTime.value == null) {
-                checkInStartTime.value = checkIn.checkInStart.toDateTime().toInstant()
+                checkInStartTime.value = checkIn.checkInStart
             }
             if (checkInEndTime.value == null) {
-                checkInEndTime.value = checkIn.checkInEnd.toDateTime().toInstant()
+                checkInEndTime.value = checkIn.checkInEnd
             }
 
             checkInFlow.value = checkIn
@@ -90,20 +92,41 @@ class EditCheckInViewModel @AssistedInject constructor(
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
-                checkInStartTime.value = startDateTime?.withTime(event.localTime)?.toInstant()
+                checkInStartTime.value = startDateTime?.apply {
+                    if (event.localTime != null) {
+                        withHour(event.localTime.hour)
+                        withMinute(event.localTime.minute)
+                        withSecond(event.localTime.second)
+                    }
+                }?.toInstant(OffsetDateTime.now().offset)
             is DateTimePickerEvent.DatePickerEvent ->
-                checkInStartTime.value = startDateTime?.withDate(event.localDate)?.toInstant()
+                checkInStartTime.value = startDateTime?.apply {
+                 if (event.localDate != null) {
+                     withDayOfYear(event.localDate.dayOfYear)
+                 }
+                }?.toInstant(OffsetDateTime.now().offset)
         }
     }
 
+    // TODO: improve
     fun onEndTimeChanged(event: DateTimePickerEvent) {
         val endDateTime = checkInEndTime.value?.toDateTime()
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
-                checkInEndTime.value = endDateTime?.withTime(event.localTime)?.toInstant()
+                checkInEndTime.value = endDateTime?.apply {
+                    if (event.localTime != null) {
+                        withHour(event.localTime.hour)
+                        withMinute(event.localTime.minute)
+                        withSecond(event.localTime.second)
+                    }
+                }?.toInstant(OffsetDateTime.now().offset)
             is DateTimePickerEvent.DatePickerEvent ->
-                checkInEndTime.value = endDateTime?.withDate(event.localDate)?.toInstant()
+                checkInEndTime.value = endDateTime?.apply {
+                    if (event.localDate != null) {
+                        withDayOfYear(event.localDate.dayOfYear)
+                    }
+                }?.toInstant(OffsetDateTime.now().offset)
         }
     }
 
@@ -141,16 +164,16 @@ class EditCheckInViewModel @AssistedInject constructor(
         @get:StringRes val typeRes: Int get() = mapTraceLocationToTitleRes(checkIn.type)
         val address: String get() = checkIn.address
         val diaryWarningVisible: Boolean get() = checkIn.createJournalEntry
-        val checkInStartDate: String get() = checkInStartInstant.toDateTime().toString(dateFormatter)
-        val checkInStartTime: String get() = checkInStartInstant.toDateTime().toString(timeFormatter)
-        val checkInEndDate: String get() = checkInEndInstant.toDateTime().toString(dateFormatter)
-        val checkInEndTime: String get() = checkInEndInstant.toDateTime().toString(timeFormatter)
+        val checkInStartDate: String get() = checkInStartInstant.toDateTime().format(dateFormatter)
+        val checkInStartTime: String get() = checkInStartInstant.toDateTime().format(timeFormatter)
+        val checkInEndDate: String get() = checkInEndInstant.toDateTime().format(dateFormatter)
+        val checkInEndTime: String get() = checkInEndInstant.toDateTime().format(timeFormatter)
         val saveButtonEnabled: Boolean get() = isInputValid()
         val wrongInputErrorShown: Boolean get() = !saveButtonEnabled
 
         private fun isInputValid(): Boolean {
             val startBeforeEnd = checkInStartInstant.isBefore(checkInEndInstant)
-            val lessThan24h = Days.daysBetween(checkInStartInstant, checkInEndInstant).days < 1
+            val lessThan24h = ChronoUnit.DAYS.between(checkInStartInstant, checkInEndInstant) < 1
 
             return startBeforeEnd and lessThan24h
         }
@@ -163,9 +186,9 @@ class EditCheckInViewModel @AssistedInject constructor(
 }
 
 private val dateFormatter by lazy {
-    DateTimeFormat.forPattern("EE, dd.MM.yy")
+    DateTimeFormatter.ofPattern("EE, dd.MM.yy")
 }
 
 private val timeFormatter by lazy {
-    DateTimeFormat.forPattern("HH:mm")
+    DateTimeFormatter.ofPattern("HH:mm")
 }

@@ -91,14 +91,14 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
                     event.postValue(Events.OpenDistricts(item.data))
                 } else {
                     localStatisticsConfigStorage.activeSelections.update {
-                        it.withLocation(SelectedStatisticsLocation.SelectedFederalState(item.data, timeStamper.nowUTC))
+                        it.withLocation(SelectedStatisticsLocation.SelectedFederalState(item.data, timeStamper.nowJavaUTC))
                     }
                     event.postValue(Events.FinishEvent)
                 }
             }
             is Districts.District -> {
                 localStatisticsConfigStorage.activeSelections.update {
-                    it.withLocation(SelectedStatisticsLocation.SelectedDistrict(item.data, timeStamper.nowUTC))
+                    it.withLocation(SelectedStatisticsLocation.SelectedDistrict(item.data, timeStamper.nowJavaUTC))
                 }
                 event.postValue(Events.FinishEvent)
             }

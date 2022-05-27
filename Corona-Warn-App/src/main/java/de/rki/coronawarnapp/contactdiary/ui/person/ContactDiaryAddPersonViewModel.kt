@@ -20,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,

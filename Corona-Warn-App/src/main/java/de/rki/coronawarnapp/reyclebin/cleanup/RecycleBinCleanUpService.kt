@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class RecycleBinCleanUpService @Inject constructor(
     suspend fun clearRecycledItems() = mutex.withLock {
         Timber.tag(TAG).d("clearRecycledItems() - Started")
 
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
         Timber.tag(TAG).d("now=%s", now)
 
         deleteRecycledCerts(now)
@@ -68,7 +68,7 @@ class RecycleBinCleanUpService @Inject constructor(
         if (recycledItemsExceededRetentionDays.isEmpty()) {
             Timber.tag(TAG).d(
                 message = "No recycled item exceeded the retention time of %d days, returning early",
-                RETENTION_DAYS.standardDays
+                RETENTION_DAYS.toDays()
             )
             return
         }

@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -122,12 +122,12 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.insert(entity)
         dao.insert(test2.toEntity())
 
-        dao.moveAllToRecycleBin(listOf(identifier, identifier2), now.millis)
+        dao.moveAllToRecycleBin(listOf(identifier, identifier2), now.toEpochMilli())
 
         dao.getAllActive().first().size shouldBe 0
         val entries = dao.getAllInRecycleBin().first()
         entries.size shouldBe 2
-        entries.forEach { it!!.movedToRecycleBinAtMillis shouldBe now.millis }
+        entries.forEach { it!!.movedToRecycleBinAtMillis shouldBe now.toEpochMilli() }
     }
 
     @Test

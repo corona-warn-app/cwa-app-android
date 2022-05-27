@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.databinding.TracingDetailsItemRiskdetailsIncreasedVi
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox.Item
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class DetailsIncreasedRiskBox(
     parent: ViewGroup,

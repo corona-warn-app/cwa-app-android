@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import java.time.Duration
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -61,7 +61,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
     private var storageSet = mutableSetOf<BaseTestCertificateData>()
 
-    private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+    private var nowJavaUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
     private val identifier by lazy { testData.personATest1StoredData.testCertificateQrCode!!.toSHA256() }
 
@@ -100,7 +100,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
         every { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(12345678)
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
             DccValidityMeasures(
                 dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
@@ -184,8 +184,8 @@ class TestCertificateRepositoryTest : BaseTest() {
             this as GenericTestCertificateData
             testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             identifier.isNotEmpty() shouldBe true
-            registeredAt shouldBe timeStamper.nowUTC
-            certificateReceivedAt shouldBe timeStamper.nowUTC
+            registeredAt shouldBe timeStamper.nowJavaUTC
+            certificateReceivedAt shouldBe timeStamper.nowJavaUTC
         }
 
         shouldThrow<InvalidTestCertificateException> {
@@ -209,7 +209,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun `filter by recycled`() = runTest2 {
         val recycled = testData.personATest2StoredData.copy(
             identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
-            recycledAt = nowUTC
+            recycledAt = nowJavaUTC
         )
         val notRecycled =
             testData.personATest1StoredData.copy(

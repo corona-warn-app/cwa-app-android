@@ -10,10 +10,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.OffsetDateTimeZone
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -28,7 +28,7 @@ class TransmissionRiskVectorDeterminatorTest {
     fun setUp() {
         MockKAnnotations.init(this)
         DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC).apply {
-            every { timeStamper.nowUTC } returns this.toInstant()
+            every { timeStamper.nowJavaUTC } returns this.toInstant()
             now = this.toLocalDate()
         }
     }
@@ -36,7 +36,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of today`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE),
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(0), POSITIVE),
             now
         ).raw shouldBe intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
@@ -44,7 +44,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of yesterday`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE),
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(1), POSITIVE),
             now
         ).raw shouldBe intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
     }
@@ -52,7 +52,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of 5 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE),
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(5), POSITIVE),
             now
         ).raw shouldBe intArrayOf(2, 3, 5, 6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1)
     }
@@ -60,7 +60,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of 21 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE),
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(21), POSITIVE),
             now
         ).raw shouldBe intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }

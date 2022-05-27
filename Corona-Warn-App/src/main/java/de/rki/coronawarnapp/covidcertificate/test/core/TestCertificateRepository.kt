@@ -45,7 +45,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -522,7 +522,7 @@ class TestCertificateRepository @Inject constructor(
         }
 
         return copy(
-            data = updateRecycledAt(data, timeStamper.nowUTC)
+            data = updateRecycledAt(data, timeStamper.nowJavaUTC)
         )
     }
 
@@ -559,15 +559,15 @@ class TestCertificateRepository @Inject constructor(
         return when (data) {
             is PCRCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowUTC
+                lastSeenStateChangeAt = timeStamper.nowJavaUTC
             )
             is RACertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowUTC
+                lastSeenStateChangeAt = timeStamper.nowJavaUTC
             )
             is GenericTestCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowUTC
+                lastSeenStateChangeAt = timeStamper.nowJavaUTC
             )
         }
     }
@@ -611,11 +611,11 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowUTC): TestCertificateContainer {
+    private fun TestCertificateQRCode.createContainer(nowJavaUTC: Instant = timeStamper.nowJavaUTC): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),
-            registeredAt = nowUtc,
-            certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
+            registeredAt = nowJavaUTC,
+            certificateReceivedAt = nowJavaUTC, // Set this as we don't need to retrieve one
             testCertificateQrCode = qrCode,
             certificateSeenByUser = false // Newly added, should show badge
         )

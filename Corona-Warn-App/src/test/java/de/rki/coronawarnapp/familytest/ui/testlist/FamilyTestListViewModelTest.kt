@@ -14,7 +14,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -46,7 +46,7 @@ class FamilyTestListViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { familyTestRepository.familyTests } returns flowOf(setOf(fct1, fct2))
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
         every { appConfigProvider.currentConfig } returns flowOf(configData)
 
         viewModel = FamilyTestListViewModel(

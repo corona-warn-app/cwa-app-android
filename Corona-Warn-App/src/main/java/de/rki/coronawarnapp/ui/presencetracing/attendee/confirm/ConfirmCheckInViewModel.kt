@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -20,9 +21,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ConfirmCheckInViewModel @AssistedInject constructor(
     @Assisted private val verifiedTraceLocation: VerifiedTraceLocation,
@@ -34,7 +36,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     private val createJournalEntry = traceLocationAttendeeSettings.createJournalEntryCheckedState
 
     private val autoCheckOutLength = MutableStateFlow(
-        Duration.standardMinutes(
+        Duration.ofMinutes(
             verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes().toLong()
         )
     )
@@ -51,9 +53,9 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             traceLocation = traceLocation,
             createJournalEntry = createEntry,
             checkInEndOffset = checkInLength,
-            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
-            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC),
-            confirmButtonEnabled = checkInLength.standardMinutes > 0
+            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowJavaUTC),
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC),
+            confirmButtonEnabled = checkInLength.toMinutes() > 0
         )
     }.asLiveData()
 
@@ -63,7 +65,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     fun onConfirmTraceLocation() {
         launch {
-            val now = timeStamper.nowUTC
+            val now = timeStamper.nowJavaUTC
             checkInRepository.addCheckIn(
                 toCheckIn(
                     checkInStart = now,
@@ -131,15 +133,15 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         val typeRes get() = mapTraceLocationToTitleRes(traceLocation.type)
         val address get() = traceLocation.address
         val checkInEnd get() = checkInEndOffset.toReadableDuration()
-        val eventInFutureDateText get() = traceLocation.startDate?.toDateTime()?.toString(dateFormatter) ?: ""
-        val eventInFutureTimeText get() = traceLocation.startDate?.toDateTime()?.toString(timeFormatter) ?: ""
+        val eventInFutureDateText get() = traceLocation.startDate?.toDateTime()?.format(dateFormatter) ?: ""
+        val eventInFutureTimeText get() = traceLocation.startDate?.toDateTime()?.format(timeFormatter) ?: ""
     }
 }
 
 private val dateFormatter by lazy {
-    DateTimeFormat.forPattern("EE, dd.MM.yy")
+    DateTimeFormatter.ofPattern("EE, dd.MM.yy")
 }
 
 private val timeFormatter by lazy {
-    DateTimeFormat.forPattern("HH:mm")
+    DateTimeFormatter.ofPattern("HH:mm")
 }

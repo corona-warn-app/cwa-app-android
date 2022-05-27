@@ -26,7 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -126,7 +126,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from HIGH to LOW resets survey`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -147,7 +147,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from LOW to HIGH`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -168,12 +168,12 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from LOW to HIGH but it is has already been processed`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
+        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plusMillis(1)
 
         runTest {
             val instance = createInstance(scope = this)
@@ -198,12 +198,12 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(1)
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plusMillis(1)
 
         runTest {
             val instance = createInstance(scope = this)
@@ -223,9 +223,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(
                     INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
+                    calculatedAt = Instant.EPOCH.plusMillis(1),
                     ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
+                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plusMillis(10)
                         every { isIncreasedRisk() } returns true
                     }
                 ),
@@ -245,9 +245,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(
                     INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
+                    calculatedAt = Instant.EPOCH.plusMillis(1),
                     ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
+                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plusMillis(20)
                         every { isIncreasedRisk() } returns false
                     }
                 ),

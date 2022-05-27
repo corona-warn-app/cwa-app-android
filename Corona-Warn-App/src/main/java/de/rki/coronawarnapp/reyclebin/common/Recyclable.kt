@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.common
 
-import org.joda.time.Days
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 
 interface Recyclable {
 
@@ -24,7 +23,7 @@ interface Recyclable {
         get() = !isRecycled(recycledAt)
 
     companion object {
-        val RETENTION_DAYS: Duration = Days.days(30).toStandardDuration()
+        val RETENTION_DAYS: Duration = Duration.ofDays(30)
     }
 }
 

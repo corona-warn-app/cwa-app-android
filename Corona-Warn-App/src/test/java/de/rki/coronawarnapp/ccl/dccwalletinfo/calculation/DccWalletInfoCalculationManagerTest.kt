@@ -22,7 +22,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -76,7 +76,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         MockKAnnotations.init(this)
         every { personCertificatesProvider.personCertificates } returns
             flowOf(setOf(certificatesPersonA, certificatesPersonB))
-        every { timeStamper.nowUTC } returns Instant.EPOCH.withMillis(1000)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1000)
         every { boosterRulesRepository.rules } returns flowOf(listOf())
         every { dccValidationRepository.invalidationRules } returns flowOf(listOf())
         every { certificatesPersonA.certificates } returns listOf(vaccinationCertA)
@@ -84,8 +84,8 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPersonA.personIdentifier } returns identifierA
         every { certificatesPersonB.personIdentifier } returns identifierB
 
-        every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.withMillis(2000)
-        every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.withMillis(100)
+        every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.plusMillis(2000)
+        every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.plusMillis(100)
         every { calculation.init(any(), any()) } just Runs
         coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs

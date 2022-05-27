@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
 import com.google.gson.annotations.SerializedName
-import org.joda.time.Instant
+import java.time.Instant
 
 @Deprecated("Used only for migration of legacy data")
 data class VaccinatedPersonData(

@@ -21,9 +21,10 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.joda.time.Instant
-import org.joda.time.Minutes
+import java.time.Instant
+
 import timber.log.Timber
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -64,7 +65,7 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
 
     private fun adjustPollingSchedule(tests: Set<FamilyCoronaTest>) = when {
         tests.isEmpty() -> cancelPeriodicWorker()
-        tests.any { it.requiresFrequentPolling(timeStamper.nowUTC) } ->
+        tests.any { it.requiresFrequentPolling(timeStamper.nowJavaUTC) } ->
             enqueuePeriodicWorker(FREQUENT_INTERVAL_MINUTES)
         else -> enqueuePeriodicWorker(INTERVAL_MINUTES)
     }
@@ -115,6 +116,6 @@ internal fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
 private val Set<FamilyCoronaTest>.sortedIdentifierSet: Set<String>
     get() = map { test -> test.identifier }.sorted().toSet()
 
-private val frequentPollingDuration = Minutes.minutes(90).toStandardDuration()
+private val frequentPollingDuration = Duration.ofMinutes(90)
 private const val INTERVAL_MINUTES = 120L // every 2h
 private const val FREQUENT_INTERVAL_MINUTES = 15L // every 15min

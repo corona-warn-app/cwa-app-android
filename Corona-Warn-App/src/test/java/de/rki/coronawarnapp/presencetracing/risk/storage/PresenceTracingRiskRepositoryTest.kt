@@ -21,8 +21,8 @@ import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Days
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -42,8 +42,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     private val maxCheckInAgeInDays = 10
 
     private val ptRiskLevelResultEntity = PresenceTracingRiskLevelResultEntity(
-        calculatedAtMillis = now.millis - 1000,
-        calculatedFromMillis = now.millis - 10000,
+        calculatedAtMillis = now.toEpochMilli() - 1000,
+        calculatedFromMillis = now.toEpochMilli() - 10000,
         riskState = RiskState.LOW_RISK
     )
 
@@ -51,14 +51,14 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         checkInId = 1L,
         traceWarningPackageId = "traceWarningPackageId",
         transmissionRiskLevel = 1,
-        startTimeMillis = fifteenDaysAgo.minus(100000).millis,
-        endTimeMillis = fifteenDaysAgo.millis
+        startTimeMillis = fifteenDaysAgo.minus(100000).toEpochMilli(),
+        endTimeMillis = fifteenDaysAgo.toEpochMilli()
     )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
 
         coEvery { traceTimeIntervalMatchDao.insert(any()) } just Runs
         coEvery { traceTimeIntervalMatchDao.deleteMatchesForPackage(any()) } just Runs
@@ -87,15 +87,15 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 1L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = fifteenDaysAgo.minus(100000).millis,
-            endTimeMillis = fifteenDaysAgo.millis
+            startTimeMillis = fifteenDaysAgo.minus(100000).toEpochMilli(),
+            endTimeMillis = fifteenDaysAgo.toEpochMilli()
         )
         val entity2 = TraceTimeIntervalMatchEntity(
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).millis,
-            endTimeMillis = now.minus(80000).millis
+            startTimeMillis = now.minus(100000).toEpochMilli(),
+            endTimeMillis = now.minus(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity, entity2))
         runTest {
@@ -112,8 +112,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).millis,
-            endTimeMillis = now.minus(80000).millis
+            startTimeMillis = now.minus(100000).toEpochMilli(),
+            endTimeMillis = now.minus(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
         coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns
@@ -147,8 +147,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).millis,
-            endTimeMillis = now.minus(80000).millis
+            startTimeMillis = now.minus(100000).toEpochMilli(),
+            endTimeMillis = now.minus(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
         val dayRisk = PresenceTracingDayRisk(
@@ -169,8 +169,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         runTest {
             createInstance().deleteStaleData()
             coVerify {
-                traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
-                riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
+                traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.toEpochMilli())
+                riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.toEpochMilli())
             }
         }
     }
@@ -197,9 +197,9 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         )
 
         val result = PresenceTracingRiskLevelResultEntity(
-            calculatedAtMillis = now.millis,
+            calculatedAtMillis = now.toEpochMilli(),
             riskState = RiskState.LOW_RISK,
-            calculatedFromMillis = deadline.millis
+            calculatedFromMillis = deadline.toEpochMilli()
         )
         runTest {
             createInstance().reportCalculation(
@@ -229,9 +229,9 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         )
 
         val result = PresenceTracingRiskLevelResultEntity(
-            calculatedAtMillis = now.millis,
+            calculatedAtMillis = now.toEpochMilli(),
             riskState = RiskState.CALCULATION_FAILED,
-            calculatedFromMillis = deadline.millis
+            calculatedFromMillis = deadline.toEpochMilli()
         )
         runTest {
             createInstance().reportCalculation(

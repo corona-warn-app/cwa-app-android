@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidNa
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.util.toJavaTime
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -51,7 +51,7 @@ class RACoronaTestCensor @Inject constructor(
                 newMessage = newMessage.censor(lastName, "RATest/LastName")
             }
 
-            ratCoronaTest.dateOfBirth?.toJavaTime()?.format(dayOfBirthFormatter)?.let { dateOfBirthString ->
+            ratCoronaTest.dateOfBirth?.format(dayOfBirthFormatter)?.let { dateOfBirthString ->
                 newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
             }
         }

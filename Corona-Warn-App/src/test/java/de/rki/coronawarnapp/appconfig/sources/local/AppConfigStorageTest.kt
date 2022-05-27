@@ -182,7 +182,7 @@ class AppConfigStorageTest : BaseIOTest() {
 
     @Test
     fun `return null on errors`() = runTest {
-        every { timeStamper.nowUTC } throws Exception()
+        every { timeStamper.nowJavaUTC } throws Exception()
 
         val storage = createStorage()
         storage.getStoredConfig() shouldBe null

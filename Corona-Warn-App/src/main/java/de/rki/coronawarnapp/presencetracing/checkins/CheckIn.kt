@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import okio.ByteString
-import org.joda.time.Instant
+import java.time.Instant
 
 @Suppress("LongParameterList")
 data class CheckIn(

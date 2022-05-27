@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -61,7 +61,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
         riskCombinator = RiskCombinator(
             timeStamper = timeStamper
         )

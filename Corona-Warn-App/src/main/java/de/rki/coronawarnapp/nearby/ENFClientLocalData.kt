@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.nearby
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,7 +19,7 @@ class ENFClientLocalData @Inject constructor(
     var lastQuotaResetAt: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_QUOTA_LAST_RESET, 0L))
         set(value) = prefs.edit(true) {
-            putLong(PKEY_QUOTA_LAST_RESET, value.millis)
+            putLong(PKEY_QUOTA_LAST_RESET, value.toEpochMilli())
         }
 
     var currentQuota: Int

@@ -30,13 +30,20 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.OffsetDateTime
 
 object HomeData {
 
-    private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9, 55, 0, 0).toInstant()
+    private val todayAtNineFiftyFive = Instant.now()
+        .toDateTime()
+        .withHour(9)
+        .withMinute(55)
+        .withSecond(0)
+        .withNano(0)
+        .toInstant(OffsetDateTime.now().offset)
 
     object Tracing {
 

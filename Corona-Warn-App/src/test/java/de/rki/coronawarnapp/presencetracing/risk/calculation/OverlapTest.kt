@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.encode
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -315,6 +315,6 @@ fun createWarning(
 ): TraceWarning.TraceTimeIntervalWarning = TraceWarning.TraceTimeIntervalWarning.newBuilder()
     .setLocationIdHash(traceLocationId.decodeHex().sha256().toProtoByteString())
     .setPeriod(period)
-    .setStartIntervalNumber((Duration(Instant.parse(startIntervalDateStr).millis).standardMinutes / 10).toInt())
+    .setStartIntervalNumber((Duration(Instant.parse(startIntervalDateStr).toEpochMilli()).toMinutes() / 10).toInt())
     .setTransmissionRiskLevel(transmissionRiskLevel)
     .build()

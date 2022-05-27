@@ -10,10 +10,11 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
-import de.rki.coronawarnapp.util.toLocalDateUtc
+
+
+
 import kotlinx.coroutines.flow.first
 import java.time.Duration
 import javax.inject.Inject
@@ -80,14 +81,14 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState?.toJavaTime(),
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
         }

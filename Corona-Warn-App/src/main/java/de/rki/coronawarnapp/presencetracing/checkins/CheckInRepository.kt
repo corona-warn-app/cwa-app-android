@@ -43,7 +43,7 @@ class CheckInRepository @Inject constructor(
      * check-ins it's still possible to have stale check-ins in the database because the worker only runs once a day.
      */
     val checkInsWithinRetention: Flow<List<CheckIn>> = allCheckIns.map { checkInList ->
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
         checkInList.filter { checkIn ->
             checkIn.isWithinRetention(now)
         }

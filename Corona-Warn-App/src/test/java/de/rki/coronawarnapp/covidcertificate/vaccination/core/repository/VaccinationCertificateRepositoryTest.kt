@@ -31,7 +31,7 @@ import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -57,7 +57,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
 
     // Few days after issued dates of person A in test data.
-    private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+    private var nowJavaUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
     @BeforeEach
     fun setup() {
@@ -73,7 +73,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             )
         } returns CwaCovidCertificate.State.Invalid()
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowJavaUTC
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
@@ -130,7 +130,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             vaccinations = setOf(
                 VaccinationTestData.personAVac1StoredCertificateData,
                 VaccinationTestData.personAVac2StoredCertificateData.copy(
-                    scannedAt = nowUTC,
+                    scannedAt = nowJavaUTC,
                     certificateSeenByUser = false
                 )
             ),
@@ -166,7 +166,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         val instance = createInstance(this)
 
-        every { timeStamper.nowUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
+        every { timeStamper.nowJavaUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
         instance.registerCertificate(VaccinationTestData.personBVac1QRCode)
 
@@ -273,7 +273,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @Test
     fun `filter by recycled`() = runTest2 {
         val recycled = VaccinationTestData.personAVac2StoredCertificateData.copy(
-            recycledAt = nowUTC
+            recycledAt = nowJavaUTC
         )
         val notRecycled = VaccinationTestData.personAVac1StoredCertificateData.copy(
             recycledAt = null

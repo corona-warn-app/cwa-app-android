@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 import de.rki.coronawarnapp.util.ui.setGone
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
 
 class KeyFileDownloadAdapter(
     private val deleteAction: (CachedKeyListItem) -> Unit
@@ -40,9 +40,9 @@ class KeyFileDownloadAdapter(
     class CachedKeyViewHolder(
         val parent: ViewGroup
     ) : BaseAdapter.VH(
-            R.layout.fragment_test_keydownload_adapter_line,
-            parent
-        ),
+        R.layout.fragment_test_keydownload_adapter_line,
+        parent
+    ),
         BindableVH<CachedKeyListItem, FragmentTestKeydownloadAdapterLineBinding> {
 
         override val viewBinding = lazy { FragmentTestKeydownloadAdapterLineBinding.bind(itemView) }
@@ -60,9 +60,9 @@ class KeyFileDownloadAdapter(
             }
             timeInfo.text = when (item.info.type) {
                 CachedKeyInfo.Type.LOCATION_DAY -> "${item.info.day}"
-                CachedKeyInfo.Type.LOCATION_HOUR -> "${item.info.day} ${item.info.hour!!.hourOfDay}:00"
+                CachedKeyInfo.Type.LOCATION_HOUR -> "${item.info.day} ${item.info.hour!!.hour}:00"
             }
-            creationData.text = item.info.createdAt.toString(DOWNLOAD_TIME_FORMATTER)
+            creationData.text = DOWNLOAD_TIME_FORMATTER.format(item.info.createdAt)
             creationLabel.setGone(!item.info.isDownloadComplete)
             creationData.setGone(!item.info.isDownloadComplete)
             progressIndicator.setGone(item.info.isDownloadComplete)
@@ -70,6 +70,6 @@ class KeyFileDownloadAdapter(
     }
 
     companion object {
-        private val DOWNLOAD_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSSS")
+        private val DOWNLOAD_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSS")
     }
 }

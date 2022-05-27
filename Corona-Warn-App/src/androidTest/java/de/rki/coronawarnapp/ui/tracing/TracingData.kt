@@ -17,13 +17,20 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.OffsetDateTime
 
 object TracingData {
 
-    private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9, 55, 0, 0).toInstant()
+    private val todayAtNineFiftyFive = Instant.now()
+        .toDateTime()
+        .withHour(9)
+        .withMinute(55)
+        .withSecond(0)
+        .withNano(0)
+        .toInstant(OffsetDateTime.now().offset)
 
     val TRACING_DISABLED = Pair(
         TracingDetailsState(

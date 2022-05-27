@@ -17,7 +17,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -249,7 +249,7 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
         }
 
         val values = ContentValues().apply {
-            put("dateMillisSinceEpoch", Instant.parse("2020-12-31T16:28:25.400Z").millis)
+            put("dateMillisSinceEpoch", Instant.parse("2020-12-31T16:28:25.400Z").toEpochMilli())
             put("riskLevel", 1)
             put("minimumDistinctEncountersWithLowRisk", 0)
             put("minimumDistinctEncountersWithHighRisk", 0)

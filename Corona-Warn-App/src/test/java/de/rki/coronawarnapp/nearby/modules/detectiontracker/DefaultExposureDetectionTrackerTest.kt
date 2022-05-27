@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.mutate
-import de.rki.coronawarnapp.util.toJavaInstant
+
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -21,8 +21,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -41,8 +41,8 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.toJavaInstant()
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
 
@@ -99,7 +99,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(emptyMap())
-                timeStamper.nowUTC
+                timeStamper.nowJavaUTC
                 storage.save(calculationData)
             }
             advanceUntilIdle()
@@ -119,12 +119,12 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
-                finishedAt = Instant.EPOCH.plus(1),
+                finishedAt = Instant.EPOCH.plusMillis(1),
                 result = TrackedExposureDetection.Result.UPDATED_STATE
             )
         }
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1)
 
         createInstance(scope = this).apply {
             finishExposureDetection(calcData.identifier, TrackedExposureDetection.Result.UPDATED_STATE)
@@ -136,7 +136,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(any())
-                timeStamper.nowUTC
+                timeStamper.nowJavaUTC
                 storage.save(expectedData)
             }
             advanceUntilIdle()
@@ -148,17 +148,17 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         val calcData = TrackedExposureDetection(
             identifier = UUID.randomUUID().toString(),
             startedAt = Instant.EPOCH,
-            finishedAt = Instant.EPOCH.plus(1),
+            finishedAt = Instant.EPOCH.plusMillis(1),
             result = TrackedExposureDetection.Result.TIMEOUT
         )
         val initialData = mapOf(calcData.identifier to calcData)
         coEvery { storage.load() } returns initialData
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(2)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(2)
 
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
-                finishedAt = Instant.EPOCH.plus(2),
+                finishedAt = Instant.EPOCH.plusMillis(2),
                 result = TrackedExposureDetection.Result.UPDATED_STATE
             )
         }
@@ -177,14 +177,14 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         val calcData = (1..15L).map {
             val calcData = TrackedExposureDetection(
                 identifier = "$it",
-                startedAt = Instant.EPOCH.plus(it)
+                startedAt = Instant.EPOCH.plusMillis(it)
             )
             calcData.identifier to calcData
         }.toMap()
 
         coEvery { storage.load() } returns calcData
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1)
         createInstance(scope = this).apply {
             finishExposureDetection("7", TrackedExposureDetection.Result.UPDATED_STATE)
 
@@ -198,12 +198,12 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
     @Test
     fun `15 minute timeout on ongoing calcs`() = runTest2 {
-        every { timeStamper.nowUTC } returns Instant.EPOCH
-            .plus(Duration.standardMinutes(15))
-            .plus(2)
         every { timeStamper.nowJavaUTC } returns Instant.EPOCH
-            .plus(Duration.standardMinutes(15))
-            .plus(2).toJavaInstant()
+            .plus(Duration.ofMinutes(15))
+            .plusMillis(2)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+            .plus(Duration.ofMinutes(15))
+            .plusMillis(2)
 
         // First half will be in the timeout, last half will be ok
         val timeoutOnRunningCalc = TrackedExposureDetection(
@@ -212,29 +212,29 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         )
         val timeoutonRunningCalc2 = TrackedExposureDetection(
             identifier = "1",
-            startedAt = Instant.EPOCH.plus(1)
+            startedAt = Instant.EPOCH.plusMillis(1)
         )
         // We shouldn't care for timeouts on finished calculations
         val timeoutIgnoresFinishedCalcs = TrackedExposureDetection(
             identifier = "2",
-            startedAt = Instant.EPOCH.plus(1),
-            finishedAt = Instant.EPOCH.plus(15)
+            startedAt = Instant.EPOCH.plusMillis(1),
+            finishedAt = Instant.EPOCH.plusMillis(15)
         )
 
         // This one is right on the edge, testing <= behavior
         val timeoutRunningOnEdge = TrackedExposureDetection(
             identifier = "3",
-            startedAt = Instant.EPOCH.plus(2)
+            startedAt = Instant.EPOCH.plusMillis(2)
         )
 
         val noTimeoutCalcRunning = TrackedExposureDetection(
             identifier = "4",
-            startedAt = Instant.EPOCH.plus(4)
+            startedAt = Instant.EPOCH.plusMillis(4)
         )
         val noTimeOutCalcFinished = TrackedExposureDetection(
             identifier = "5",
-            startedAt = Instant.EPOCH.plus(5),
-            finishedAt = Instant.EPOCH.plus(15)
+            startedAt = Instant.EPOCH.plusMillis(5),
+            finishedAt = Instant.EPOCH.plusMillis(15)
         )
 
         val calcData = mapOf(
@@ -255,11 +255,11 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
                 size shouldBe 6
 
                 this["0"] shouldBe timeoutOnRunningCalc.copy(
-                    finishedAt = timeStamper.nowUTC,
+                    finishedAt = timeStamper.nowJavaUTC,
                     result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["1"] shouldBe timeoutonRunningCalc2.copy(
-                    finishedAt = timeStamper.nowUTC,
+                    finishedAt = timeStamper.nowJavaUTC,
                     result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["2"] shouldBe timeoutIgnoresFinishedCalcs

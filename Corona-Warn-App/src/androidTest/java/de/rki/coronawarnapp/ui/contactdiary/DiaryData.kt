@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 object DiaryData {
 
@@ -23,7 +23,7 @@ object DiaryData {
         ContactItem.Data(
             R.drawable.ic_contact_diary_location_item,
             "Supermarkt",
-            Duration.standardMinutes(30),
+            Duration.ofMinutes(30),
             attributes = null,
             circumstances = null,
             ContactItem.Type.LOCATION
@@ -69,7 +69,7 @@ object DiaryData {
     val LOW_RISK_EVENT_LOCATION = ContactItem.Data(
         R.drawable.ic_contact_diary_location_item,
         "Jahrestreffen der deutsche SAP Anwendergruppe",
-        Duration.standardMinutes(25),
+        Duration.ofMinutes(25),
         attributes = null,
         circumstances = "Hauptstr 3, 69115 Heidelberg",
         ContactItem.Type.LOCATION
@@ -78,7 +78,7 @@ object DiaryData {
     val HIGH_RISK_EVENT_LOCATION = ContactItem.Data(
         R.drawable.ic_contact_diary_location_item,
         "Kiosk",
-        Duration.standardMinutes(15),
+        Duration.ofMinutes(15),
         attributes = null,
         circumstances = null,
         ContactItem.Type.LOCATION
@@ -132,7 +132,7 @@ object DiaryData {
             visit = DefaultContactDiaryLocationVisit(
                 contactDiaryLocation = DefaultContactDiaryLocation(locationName = ""),
                 date = LocalDate.now(),
-                duration = Duration.standardMinutes(90)
+                duration = Duration.ofMinutes(90)
             ),
             onItemClick = {},
             onDurationChanged = { _, _ -> },

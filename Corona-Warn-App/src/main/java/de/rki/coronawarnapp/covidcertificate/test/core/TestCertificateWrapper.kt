@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import org.joda.time.Instant
+import java.time.Instant
 
 data class TestCertificateWrapper(
     private val valueSets: TestCertificateValueSets,

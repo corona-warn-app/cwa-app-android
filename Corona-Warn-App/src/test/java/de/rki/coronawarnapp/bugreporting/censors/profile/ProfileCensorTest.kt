@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -106,7 +106,7 @@ internal class ProfileCensorTest : BaseTest() {
         censored.contains(dateOfBirth) shouldBe false
     }
 
-    private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     private val dateOfBirth = "1950-08-01"
 

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.util.toJavaInstant
+
 import java.time.Instant
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -20,14 +20,14 @@ fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
 
 fun List<PtRiskLevelResult>.getLastChangeToHighPtRiskBefore(testRegisteredAt: Instant): Instant? {
     val successfulResults = filter { it.wasSuccessfullyCalculated }
-        .filter { it.calculatedAt.toJavaInstant() <= testRegisteredAt }
+        .filter { it.calculatedAt <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
     successfulResults.forEachIndexed { index, ptRiskLevelResult ->
         if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
             (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
-            return ptRiskLevelResult.calculatedAt.toJavaInstant()
+            return ptRiskLevelResult.calculatedAt
         }
     }
     return null
@@ -35,14 +35,14 @@ fun List<PtRiskLevelResult>.getLastChangeToHighPtRiskBefore(testRegisteredAt: In
 
 fun List<EwRiskLevelResult>.getLastChangeToHighEwRiskBefore(testRegisteredAt: Instant): Instant? {
     val successfulResults = filter { it.wasSuccessfullyCalculated }
-        .filter { it.calculatedAt.toJavaInstant() <= testRegisteredAt }
+        .filter { it.calculatedAt <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
     successfulResults.forEachIndexed { index, ptRiskLevelResult ->
         if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
             (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
-            return ptRiskLevelResult.calculatedAt.toJavaInstant()
+            return ptRiskLevelResult.calculatedAt
         }
     }
     return null

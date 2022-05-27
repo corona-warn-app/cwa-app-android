@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import org.joda.time.Instant
+import java.time.Instant
 
 interface CommonSubmissionStates {
     interface TestUnregistered : CommonSubmissionStates

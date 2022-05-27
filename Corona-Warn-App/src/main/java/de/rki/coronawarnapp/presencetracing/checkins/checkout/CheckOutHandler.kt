@@ -4,7 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class CheckOutHandler @Inject constructor(
      * Throw **[IllegalArgumentException]** if the check-in does not exist.
      * Could happen on raceconditions, you should catch this, should be rare though.
      */
-    suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowUTC) {
+    suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowJavaUTC) {
         Timber.d("checkOut(checkInId=$checkInId, checkOutAt=%s)", checkOutAt)
 
         var checkIn: CheckIn? = null

@@ -4,7 +4,7 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class LocalDateAdapter : TypeAdapter<LocalDate>() {
     override fun write(out: JsonWriter, value: LocalDate?) {

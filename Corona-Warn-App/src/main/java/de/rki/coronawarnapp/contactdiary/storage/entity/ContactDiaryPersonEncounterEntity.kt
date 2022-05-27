@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification
 import de.rki.coronawarnapp.util.trimToLength
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Entity(
     tableName = "personencounters",

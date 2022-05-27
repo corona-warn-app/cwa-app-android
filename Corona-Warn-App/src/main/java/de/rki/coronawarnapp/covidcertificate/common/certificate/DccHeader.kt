@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import org.joda.time.Instant
+import java.time.Instant
 
 data class DccHeader(
     val issuer: String,

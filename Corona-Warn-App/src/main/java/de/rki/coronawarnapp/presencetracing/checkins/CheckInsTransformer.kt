@@ -11,12 +11,13 @@ import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDay
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.toProtoByteString
-import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,7 +43,7 @@ class CheckInsTransformer @Inject constructor(
         val submissionParams = appConfig.presenceTracing.submissionParameters
         val trvMappings = appConfig.presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
         val unencryptedCheckIns = mutableListOf<CheckInOuterClass.CheckIn>()
         val encryptedCheckIns = mutableListOf<CheckInOuterClass.CheckInProtectedReport>()
@@ -106,7 +107,7 @@ fun CheckIn.toUnencryptedCheckIn(riskLevel: Int): CheckInOuterClass.CheckIn =
 fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: TransmissionRiskVector): Int {
     val startMidnight = checkInStart.toLocalDateUtc().toDateTimeAtStartOfDay()
     val nowMidnight = now.toLocalDateUtc().toDateTimeAtStartOfDay()
-    val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
+    val ageInDays = ChronoUnit.DAYS.between(startMidnight, nowMidnight).toInt()
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
 

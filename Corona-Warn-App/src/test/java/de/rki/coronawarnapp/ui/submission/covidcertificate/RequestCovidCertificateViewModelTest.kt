@@ -11,9 +11,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -29,7 +29,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     private val date = LocalDate.parse(
         "01.01.1987",
-        DateTimeFormat.forPattern("dd.MM.yyyy")
+        DateTimeFormatter.ofPattern("dd.MM.yyyy")
     )
 
     private val ratQRCode = CoronaTestQRCode.RapidAntigen(

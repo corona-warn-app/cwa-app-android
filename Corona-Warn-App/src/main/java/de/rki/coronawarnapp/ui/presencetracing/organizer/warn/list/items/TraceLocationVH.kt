@@ -6,7 +6,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnItemBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionAdapter
-import org.joda.time.format.DateTimeFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
+import java.text.DateFormat
+import java.time.format.DateTimeFormatter
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationSelectionAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsWarnItemBinding>(
@@ -34,20 +36,20 @@ class TraceLocationVH(parent: ViewGroup) :
 
             duration.isInvisible = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                val dateFormat = DateTimeFormat.shortDate()
-                val timeFormat = DateTimeFormat.shortTime()
+                val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT)
+                val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
-                    startTime.toString(dateFormat),
-                    startTime.toString(timeFormat),
-                    endTime.toString(timeFormat)
+                    dateFormat.format(startTime),
+                    timeFormat.format(startTime),
+                    timeFormat.format(endTime)
                 )
             } else {
-                val dateTimeFormat = DateTimeFormat.shortDateTime()
+                val dateTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration,
-                    startTime.toString(dateTimeFormat),
-                    endTime.toString(dateTimeFormat)
+                    dateTimeFormat.format(startTime),
+                    dateTimeFormat.format(endTime)
                 )
             }
         } else {

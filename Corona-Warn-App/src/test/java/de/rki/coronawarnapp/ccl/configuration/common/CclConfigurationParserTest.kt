@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
 import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

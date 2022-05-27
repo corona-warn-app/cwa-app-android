@@ -13,7 +13,9 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.withContext
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 import javax.inject.Inject
 
@@ -61,7 +63,7 @@ class ContactDiaryExporter @Inject constructor(
     }
 
     private fun generateDatesToExport(numberOfLastDaysToExport: Int) =
-        (0 until numberOfLastDaysToExport).map { timeStamper.nowUTC.toLocalDateUtc().minusDays(it) }
+        (0 until numberOfLastDaysToExport).map { timeStamper.nowJavaUTC.toLocalDateUtc().minusDays(it.toLong()) }
 
     private fun StringBuilder.appendIntro(datesToExport: List<LocalDate>) = apply {
         appendLine(
@@ -167,5 +169,5 @@ class ContactDiaryExporter @Inject constructor(
         }
 
     // According to tech spec german locale only
-    private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
+    private fun LocalDate.toFormattedString(): String = format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMAN))
 }

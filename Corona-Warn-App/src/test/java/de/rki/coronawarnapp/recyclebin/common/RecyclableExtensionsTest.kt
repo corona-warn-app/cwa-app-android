@@ -3,12 +3,12 @@ package de.rki.coronawarnapp.recyclebin.common
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
 import io.kotest.matchers.shouldBe
-import org.joda.time.Days
-import org.joda.time.Duration
-import org.joda.time.Hours
-import org.joda.time.Instant
-import org.joda.time.Minutes
-import org.joda.time.Seconds
+import java.time.Days
+import java.time.Duration
+import java.time.Hours
+import java.time.Instant
+import java.time.Minutes
+import java.time.Seconds
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -35,7 +35,7 @@ class RecyclableExtensionsTest : BaseTest() {
     @Test
     fun `Retention time calculation from recycledAt until now`() {
         recyclable.recycledAt = Instant.parse("2021-10-13T11:59:59.999Z")
-        recyclable.retentionTimeInRecycleBin(now) shouldBe Duration.millis(1)
+        recyclable.retentionTimeInRecycleBin(now) shouldBe Duration.ofMillis(1)
 
         recyclable.recycledAt = now.minus(Seconds.ONE.toStandardDuration())
         recyclable.retentionTimeInRecycleBin(now).toStandardSeconds().seconds shouldBe 1

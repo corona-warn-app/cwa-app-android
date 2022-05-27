@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -220,7 +220,7 @@ class RecoveryCertificateRepository @Inject constructor(
                 .d("Acknowledging state change to %s -> %s.", toUpdate.data.lastSeenStateChange, currentState)
             val newData = toUpdate.data.copy(
                 lastSeenStateChange = currentState,
-                lastSeenStateChangeAt = timeStamper.nowUTC,
+                lastSeenStateChangeAt = timeStamper.nowJavaUTC,
             )
 
             Timber.tag(TAG).d("Updated %s", containerId)
@@ -284,7 +284,7 @@ class RecoveryCertificateRepository @Inject constructor(
     }
 
     private fun RecoveryCertificateContainer.setRecycled(value: Boolean): RecoveryCertificateContainer {
-        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
+        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowJavaUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
         }
     }

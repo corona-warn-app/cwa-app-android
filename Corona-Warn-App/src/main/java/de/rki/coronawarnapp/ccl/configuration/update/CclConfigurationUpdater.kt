@@ -13,7 +13,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -59,7 +59,7 @@ class CclConfigurationUpdater @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowUTC): Boolean {
+    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowJavaUTC): Boolean {
         val lastExecution = cclSettings.getLastExecutionTime() ?: return true
 
         // update is needed if the last update was on a different day

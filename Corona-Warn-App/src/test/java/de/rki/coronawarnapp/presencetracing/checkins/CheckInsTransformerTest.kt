@@ -25,7 +25,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -168,9 +168,9 @@ class CheckInsTransformerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
-        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
+        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowJavaUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 submissionParameters = submissionParams,

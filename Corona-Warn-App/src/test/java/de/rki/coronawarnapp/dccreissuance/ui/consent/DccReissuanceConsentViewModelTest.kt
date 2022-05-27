@@ -26,7 +26,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -80,7 +80,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         }
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
         every { metadata.personIdentifier } returns identifier
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
     }
 
     @Test

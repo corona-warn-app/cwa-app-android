@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import org.joda.time.Instant
+import java.time.Instant
 
 class DccStateValidationTestViewModel @AssistedInject constructor(
     private val dscRepository: DscRepository,

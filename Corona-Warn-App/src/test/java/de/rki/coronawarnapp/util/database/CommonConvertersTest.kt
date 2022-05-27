@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.util.database
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File

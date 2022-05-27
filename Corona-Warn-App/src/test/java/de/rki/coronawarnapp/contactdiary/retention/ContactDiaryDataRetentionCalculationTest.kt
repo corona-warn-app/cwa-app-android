@@ -20,12 +20,13 @@ import io.mockk.mockk
 import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.OffsetDateTime
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.ZoneId
 
 class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
@@ -45,7 +46,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2020-08-20T23:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-08-20T23:00:00.000Z")
     }
 
     private fun createInstance() = ContactDiaryRetentionCalculation(
@@ -56,21 +57,22 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @Test
     fun `test days diff`() {
-        every { timeStamper.nowUTC } returns Instant.parse("2020-08-20T14:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-08-20T14:00:00.000Z")
 
         val instance = createInstance()
 
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-20T14:00:00.000Z"))) shouldBe 0
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-20T13:00:00.000Z"))) shouldBe 0
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-19T14:00:00.000Z"))) shouldBe 1
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-05T14:00:00.000Z"))) shouldBe 15
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-04T14:00:00.000Z"))) shouldBe 16
-        instance.getDaysDiff(LocalDate(Instant.parse("2020-08-03T14:00:00.000Z"))) shouldBe 17
+        // TODO: maybe change strings
+        instance.getDaysDiff(LocalDate.parse("2020-08-20T14:00:00.000Z")) shouldBe 0
+        instance.getDaysDiff(LocalDate.parse("2020-08-20T13:00:00.000Z")) shouldBe 0
+        instance.getDaysDiff(LocalDate.parse("2020-08-19T14:00:00.000Z")) shouldBe 1
+        instance.getDaysDiff(LocalDate.parse("2020-08-05T14:00:00.000Z")) shouldBe 15
+        instance.getDaysDiff(LocalDate.parse("2020-08-04T14:00:00.000Z")) shouldBe 16
+        instance.getDaysDiff(LocalDate.parse("2020-08-03T14:00:00.000Z")) shouldBe 17
     }
 
     @Test
     fun `filter by date`() {
-        val localDate = DateTime.parse("2020-08-20T23:00:00.000Z").toLocalDate()
+        val localDate =OffsetDateTime.parse("2020-08-20T23:00:00.000Z").toLocalDate()
 
         val instance = createInstance()
 
@@ -100,7 +102,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     private fun createContactDiaryLocationVisit(date: Instant): ContactDiaryLocationVisit {
         val locationVisit: ContactDiaryLocationVisit = mockk()
-        every { locationVisit.date } returns LocalDate(date)
+        every { locationVisit.date } returns date.atZone(ZoneId.systemDefault()).toLocalDate()
         return locationVisit
     }
 
@@ -120,7 +122,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     private fun createContactDiaryPersonEncounter(date: Instant): ContactDiaryPersonEncounter {
         val personEncounter: ContactDiaryPersonEncounter = mockk()
-        every { personEncounter.date } returns LocalDate(date)
+        every { personEncounter.date } returns date.atZone(ZoneId.systemDefault()).toLocalDate()
         return personEncounter
     }
 
@@ -139,7 +141,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     }
 
     private fun createAggregatedRiskPerDateResult(date: Instant) = ExposureWindowDayRisk(
-        dateMillisSinceEpoch = date.millis,
+        dateMillisSinceEpoch = date.toEpochMilli(),
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0

@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 import org.junit.Test
 import org.junit.runner.RunWith
 

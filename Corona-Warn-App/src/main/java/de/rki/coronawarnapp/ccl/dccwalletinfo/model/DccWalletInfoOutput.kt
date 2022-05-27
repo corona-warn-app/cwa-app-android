@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.node.ObjectNode
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.ACTION_RENEW
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import org.joda.time.Instant
+import java.time.Instant
 
 data class DccWalletInfo(
     @JsonProperty("admissionState")

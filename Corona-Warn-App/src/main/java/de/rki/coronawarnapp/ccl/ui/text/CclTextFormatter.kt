@@ -13,10 +13,9 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
@@ -103,7 +102,7 @@ class CclTextFormatter @Inject constructor(
 
     private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CclText? =
         runCatching {
-            val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
+            val defaultParameters = getDefaultInputParameters(OffsetDateTime.now()).toObjectNode()
             val allParameters = JsonNodeFactory.instance.objectNode()
                 .setAll<ObjectNode>(defaultParameters)
                 .setAll<ObjectNode>(parameters)
@@ -126,14 +125,13 @@ class CclTextFormatter @Inject constructor(
         Parameters.Type.UTC_DATE_TIME -> toUTCDateTime(locale)
     }
 
+    // TODO: use locale
     private fun Parameters.toUTCDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZoneUTC().withLocale(locale)),
-                )
-            }
+            "%s, %s".format(
+                OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_DATE),
+                OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_TIME)
+            )
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDateTime() failed")
             ""
@@ -142,9 +140,7 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toUTCDate(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)
-            )
+            OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_DATE)
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDate() failed")
             ""
@@ -153,12 +149,10 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZone(DateTimeZone.getDefault()).withLocale(locale)),
-                )
-            }
+            "%s, %s".format(
+                OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_DATE),
+                OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_TIME)
+            )
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDateTime() failed")
             ""
@@ -167,9 +161,7 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDate(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)
-            )
+            OffsetDateTime.parse(value.toString()).format(DateTimeFormatter.ISO_DATE)
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDate() failed")
             ""

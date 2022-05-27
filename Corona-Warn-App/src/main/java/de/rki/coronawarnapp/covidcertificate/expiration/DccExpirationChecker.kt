@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -16,7 +16,7 @@ class DccExpirationChecker @Inject constructor() {
         now: Instant
     ): CwaCovidCertificate.State = with(dccData) {
         val expiresAt = header.expiresAt
-        val timeDiffUntilExpiration = Duration(now, expiresAt)
+        val timeDiffUntilExpiration =Duration.between(now, expiresAt)
 
         return when {
             expiresAt <= now -> CwaCovidCertificate.State.Expired(expiresAt)

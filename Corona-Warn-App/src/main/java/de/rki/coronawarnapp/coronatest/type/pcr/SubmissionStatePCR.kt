@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
 import de.rki.coronawarnapp.coronatest.type.CommonSubmissionStates
-import org.joda.time.Instant
+import java.time.Instant
 
 sealed class SubmissionStatePCR {
 

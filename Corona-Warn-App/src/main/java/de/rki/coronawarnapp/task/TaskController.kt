@@ -93,14 +93,14 @@ class TaskController @Inject constructor(
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {
-            withTimeout(timeMillis = taskConfig.executionTimeout.millis) {
+            withTimeout(timeMillis = taskConfig.executionTimeout.toMillis()) {
                 task.run(newRequest.arguments)
             }
         }
 
         val activeTask = InternalTaskState(
             request = newRequest,
-            createdAt = timeStamper.nowUTC,
+            createdAt = timeStamper.nowJavaUTC,
             config = taskConfig,
             task = task,
             job = deferred
@@ -177,7 +177,7 @@ class TaskController @Inject constructor(
                 }
 
                 workMap[state.id] = state.copy(
-                    finishedAt = timeStamper.nowUTC,
+                    finishedAt = timeStamper.nowJavaUTC,
                     result = result,
                     error = error
                 )
@@ -240,14 +240,14 @@ class TaskController @Inject constructor(
         }.launchIn(taskScope)
 
         job.start()
-        return copy(startedAt = timeStamper.nowUTC).also {
+        return copy(startedAt = timeStamper.nowJavaUTC).also {
             Timber.tag(TAG).i("Starting new task: %s", it)
         }
     }
 
     private fun InternalTaskState.toSkippedState(): InternalTaskState = copy(
-        startedAt = timeStamper.nowUTC,
-        finishedAt = timeStamper.nowUTC
+        startedAt = timeStamper.nowJavaUTC,
+        finishedAt = timeStamper.nowJavaUTC
     ).also { Timber.tag(TAG).i("Task was skipped: %s", it) }
 
     private suspend fun <K, V> MutableStateFlow<Map<K, V>>.updateSafely(

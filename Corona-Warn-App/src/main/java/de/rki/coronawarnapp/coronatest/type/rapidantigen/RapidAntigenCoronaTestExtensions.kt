@@ -19,14 +19,14 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.Test
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPositive
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestResultReady
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import org.joda.time.Instant
+import java.time.Instant
 
-fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig) = when {
+fun RACoronaTest?.toSubmissionState(nowJavaUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig) = when {
     this == null -> NoTest
     isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
     lastError is BadRequestException -> TestInvalid
-    else -> when (getState(nowUTC, coronaTestConfig)) {
+    else -> when (getState(nowJavaUTC, coronaTestConfig)) {
         INVALID -> TestError
         POSITIVE -> {
             if (isViewed) TestPositive(testRegisteredAt = testTakenAt)

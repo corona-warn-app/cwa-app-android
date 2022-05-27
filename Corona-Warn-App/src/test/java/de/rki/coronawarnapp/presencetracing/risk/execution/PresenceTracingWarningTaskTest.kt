@@ -34,8 +34,8 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -63,7 +63,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
 
         coEvery { checkInsFilter.filterCheckIns(emptyList()) } returns emptyList()
         coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns
@@ -284,7 +284,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @Test
     fun `task timeout is constrained to less than 9min`() {
         // Worker execution time
-        val maxDuration = Duration.standardMinutes(9).plus(1)
+        val maxDuration = Duration.ofMinutes(9).plus(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
     }
 

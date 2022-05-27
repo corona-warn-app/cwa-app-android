@@ -50,7 +50,7 @@ class TestCertificateDccParserTest {
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
-                sampleCollectedAt shouldBe org.joda.time.Instant.parse("2021-02-20T12:34:56+00:00")
+                sampleCollectedAt shouldBe Instant.parse("2021-02-20T12:34:56+00:00")
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
                 testNameAndManufacturer shouldBe "1232"

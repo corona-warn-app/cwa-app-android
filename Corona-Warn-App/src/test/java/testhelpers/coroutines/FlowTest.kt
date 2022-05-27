@@ -18,7 +18,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.withTimeout
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 
 fun <T> Flow<T>.test(
@@ -78,10 +78,10 @@ class TestCollector<T>(
         get() = collectedValues
 
     fun await(
-        timeout: Duration = Duration.standardSeconds(10),
+        timeout: Duration = Duration.ofSeconds(10),
         condition: (List<T>, T) -> Boolean
     ): T = runBlocking {
-        withTimeout(timeMillis = timeout.millis) {
+        withTimeout(timeMillis = timeout.toMillis()) {
             emissions().first {
                 condition(collectedValues, it)
             }

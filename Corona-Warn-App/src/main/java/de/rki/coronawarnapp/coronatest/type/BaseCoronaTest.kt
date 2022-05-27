@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.type
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import org.joda.time.Instant
+import java.time.Instant
 
 // test belonging to the main user of the app
 interface PersonalCoronaTest : BaseCoronaTest, CoronaTestKeySubmission, CoronaTestProcessorState, CoronaTestLegacy

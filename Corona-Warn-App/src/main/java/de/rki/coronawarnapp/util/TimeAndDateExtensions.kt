@@ -3,17 +3,20 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.text.format.DateFormat
 import com.google.common.math.DoubleMath.roundToLong
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Days
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
-import org.joda.time.LocalTime
-import org.joda.time.chrono.GJChronology
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.math.RoundingMode
+import java.text.DateFormat.MEDIUM
+import java.text.DateFormat.SHORT
+import java.text.DateFormat.getDateInstance
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -24,28 +27,23 @@ object TimeAndDateExtensions {
     private const val MS_TO_HOURS = (1000 * 60 * 60)
     private const val MS_TO_SECONDS = 1000
 
-    private val dayFormatter = DateTimeFormat.mediumDate()
-    private val dayFormatter2DigitYear = DateTimeFormat.shortDate()
-    private val serverDateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-        .withChronology(GJChronology.getInstance())
-        .withZoneUTC()
-    private val shortTime = DateTimeFormat.shortTime()
-
-    fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
-
-    fun Date.toServerFormat(): String = serverDateFormatter.print(this.time)
-
-    fun String.parseServerFormat(): LocalDate = serverDateFormatter.parseLocalDate(this)
+    // TODO: check all formats
+    private val dayFormatter = getDateInstance(MEDIUM)
+    private val dayFormatter2DigitYear = DateTimeFormatter.ofPattern("yy-MM-dd")
+    private val serverDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val shortTime = java.text.DateFormat.getDateInstance(SHORT)
 
     fun Date.toUIFormat(context: Context): String = DateFormat.getDateFormat(context).format(this)
 
-    fun Date.logUTCFormat(): String = DateTime(this, DateTimeZone.UTC).toString()
+    fun Date.logUTCFormat(): String = shortTime.format(this)
 
     fun Long.millisecondsToSeconds(): Long = this.div(MS_TO_SECONDS)
 
     fun Long.millisecondsToHours(): Long = this.div(MS_TO_HOURS)
 
     fun Long.daysToMilliseconds(): Long = this.times(MS_TO_DAYS)
+
+    fun Instant.toDate():Date = Date.from(this)
 
     fun Long.roundUpMsToDays(): Long {
         val numberOfDays = this / MS_TO_DAYS.toDouble()
@@ -78,7 +76,7 @@ object TimeAndDateExtensions {
     /**
      * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
      */
-    fun Instant.deriveHourInterval(): HourInterval = millis / 3600000
+    fun Instant.deriveHourInterval(): HourInterval = toEpochMilli() / 3600000
 
     /**
      * Converts milliseconds to human readable format hh:mm:ss
@@ -94,17 +92,25 @@ object TimeAndDateExtensions {
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
 
-    fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
+    fun LocalDate.toDate(): Date = Date(this.year, this.monthValue, this.dayOfYear)
 
-    fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
+    fun LocalDateTime.toDate(): Date = Date(this.year, this.monthValue, this.dayOfYear)
 
-    fun Instant.toLocalDateTime(timeZone: DateTimeZone): LocalDateTime = this.toDateTime(timeZone).toLocalDateTime()
+    fun LocalDate.ageInDays(now: LocalDate) = ChronoUnit.DAYS.between(this, now)
 
-    fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(DateTimeZone.UTC).toLocalTime()
+    fun Instant.toLocalDateUtc(): LocalDate = atZone(ZoneOffset.UTC).toLocalDate()
 
-    val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
+    fun Instant.toDateTime(zoneId: ZoneId = ZoneId.systemDefault()): LocalDateTime =
+        LocalDateTime.ofInstant(this, zoneId)
 
-    fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.getDefault())
+    fun Instant.toLocalDateTime(timeZone: ZoneId): LocalDateTime =
+        LocalDateTime.ofInstant(this, timeZone)
+
+    fun Instant.toLocalTimeUtc(): LocalTime = this.toDateTime(ZoneOffset.UTC).toLocalTime()
+
+    val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(toEpochMilli())
+
+    fun Instant.toUserTimeZone(): OffsetDateTime = OffsetDateTime.ofInstant(this, ZoneId.systemDefault())
 
     fun Instant.toLocalDateUserTz(): LocalDate = this.toUserTimeZone().toLocalDate()
 
@@ -113,91 +119,109 @@ object TimeAndDateExtensions {
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of an Instant
      */
-    fun Instant.toDayFormat(): String = toString(dayFormatter)
+//    fun Instant.toDayFormat(): String = toString(dayFormatter)
 
     fun LocalDate.toInstantMidnightUtc() =
-        this.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
+        LocalDateTime.of(this, LocalTime.MIDNIGHT).toInstant(ZoneOffset.UTC)
+
+    fun LocalDate.toLocalDateTime(localTime: LocalTime) =
+        LocalDateTime.of(this, localTime)
 
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a LocalDate
      */
-    fun LocalDate.toDayFormat(): String = toString(dayFormatter)
+    fun LocalDate.toDayFormat(): String = dayFormatter.format(this)
+
+    fun OffsetDateTime.toDayFormat(): String = dayFormatter.format(this)
 
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a DateTime
      */
-    fun DateTime.toDayFormat(): String = toString(dayFormatter)
+//    fun DateTime.toDayFormat(): String = toString(dayFormatter)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of a DateTime
      */
-    fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+//    fun DateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of a LocalDateTime
      */
-    fun LocalDateTime.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+    fun LocalDateTime.toShortDayFormat(): String = dayFormatter2DigitYear.format(this)
 
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a LocalDateTime
      */
-    fun LocalDateTime.toDayFormat(): String = toString(dayFormatter)
+    fun LocalDateTime.toDayFormat(): String = dayFormatter.format(this)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy hh:mm" like 23.05.89 12:00 of a DateTime
      */
-    fun DateTime.toShortDateTimeFormat(): String = toString(DateTimeFormat.shortDateTime())
+//    fun DateTime.toShortDateTimeFormat(): String = toString(DateTimeFormat.shortDateTime())
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDate
      */
-    fun LocalDate.toShortTimeFormat(): String = toString(shortTime)
+    fun LocalDate.toShortTimeFormat(): String = shortTime.format(this)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a Instant
      */
-    fun Instant.toShortTimeFormat(): String = toString(shortTime)
+    fun Instant.toShortTimeFormat(): String = shortTime.format(this)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
      */
-    fun DateTime.toShortTimeFormat(): String = toString(shortTime)
+//    fun DateTime.toShortTimeFormat(): String = toString(shortTime)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a DateTime
      */
-    fun LocalTime.toShortTimeFormat(): String = toString(shortTime)
+    fun LocalTime.toShortTimeFormat(): String = shortTime.format(this)
 
     /**
      * Returns a readable time String with the format "hh:mm" like 12:00 of a LocalDateTime
      */
-    fun LocalDateTime.toShortTimeFormat(): String = toString(shortTime)
+    fun LocalDateTime.toShortTimeFormat(): String = shortTime.format(this)
+
+    fun OffsetDateTime.toShortTimeFormat(): String = shortTime.format(this)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
      */
-    fun Instant.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+    fun Instant.toShortDayFormat(): String = dayFormatter2DigitYear.format(this)
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate
      */
-    fun LocalDate.toShortDayFormat(): String = toString(dayFormatter2DigitYear)
+    fun LocalDate.toShortDayFormat(): String = dayFormatter2DigitYear.format(this)
+
+    fun OffsetDateTime.toShortDayFormat(): String = dayFormatter2DigitYear.format(this)
 
     /**
      * Converts this LocalDate to a full datetime at the earliest valid time for the date using timezone UTC
      */
-    fun LocalDate.toDateTimeAtStartOfDayUtc(): DateTime = toDateTimeAtStartOfDay(DateTimeZone.UTC)
+    fun LocalDate.toDateTimeAtStartOfDayUtc(): OffsetDateTime = toDateTimeAtStartOfDay(ZoneOffset.UTC)
+
+    fun LocalDate.toDateTimeAtStartOfDay(offset: ZoneOffset = ZoneOffset.UTC): OffsetDateTime =
+        OffsetDateTime.of(this, LocalTime.MIN, offset)
+
+    fun LocalDate.toDateTime(localTime: LocalTime?, offset: ZoneOffset = ZoneOffset.UTC): OffsetDateTime =
+        OffsetDateTime.of(this, localTime ?: LocalTime.MIN, offset)
+
+    fun OffsetDateTime.toDateTime(offset: ZoneOffset): OffsetDateTime =
+        OffsetDateTime.of(toLocalDateTime(), offset)
 
     /*
     * Returns date changes until
     */
     fun Instant.daysUntil(
         date: Instant,
-        timeZone: DateTimeZone = DateTimeZone.getDefault()
+        timeZone: ZoneId = ZoneId.systemDefault()
     ): Int {
         val startDate = toDateTime(timeZone).toLocalDate()
         val endDate = date.toDateTime(timeZone).toLocalDate()
-        return Days.daysBetween(startDate, endDate).days
+        return ChronoUnit.DAYS.between(startDate, endDate).toInt()
     }
 }
 

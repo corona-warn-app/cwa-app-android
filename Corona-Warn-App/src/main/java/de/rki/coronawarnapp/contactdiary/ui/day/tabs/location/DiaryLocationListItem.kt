@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.SelectableDiaryItem
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
-import org.joda.time.Duration
+import java.time.Duration
 
 data class DiaryLocationListItem(
     override val item: ContactDiaryLocation,

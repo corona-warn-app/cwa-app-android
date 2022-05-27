@@ -423,7 +423,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig, testIdentifier: TestIdentifier) =
-        when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (val state = this.toSubmissionState(timeStamper.nowJavaUTC, coronaTestConfig)) {
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }

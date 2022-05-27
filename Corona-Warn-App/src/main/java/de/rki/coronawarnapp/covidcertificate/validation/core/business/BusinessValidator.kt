@@ -9,9 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.fi
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.typeString
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 import timber.log.Timber
+import java.time.ZoneId
 import javax.inject.Inject
 
 @Reusable
@@ -24,14 +24,15 @@ class BusinessValidator @Inject constructor(
         localValidationDateTime: LocalDateTime,
         certificate: DccData<out DccV1.MetaData>,
         // best guess for tz of validation date and time, needs to be selected by the user for correct results
-        timeZone: DateTimeZone = DateTimeZone.getDefault(),
+        timeZone: ZoneId = ZoneId.systemDefault(),
     ): BusinessValidation {
 
         Timber.i("Start CertLogic validation for arrival in ${arrivalCountry.countryCode} on $localValidationDateTime.")
         Timber.i("${certificate.typeString} certificate of ${certificate.certificate.nameData.fullName}.")
         Timber.i("Certificate was issued by ${certificate.header.issuer} at ${certificate.header.issuedAt}.")
 
-        val validationDateTime = localValidationDateTime.toDateTime(timeZone)
+        val validationDateTime =
+            localValidationDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(timeZone).toOffsetDateTime()
 
         // accepted by arrival country
         Timber.i("Validating acceptance rules of ${arrivalCountry.countryCode} at $validationDateTime.")

@@ -15,7 +15,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.lang.reflect.Modifier.PRIVATE
 import java.util.concurrent.TimeUnit
@@ -169,8 +169,8 @@ internal fun CheckIn.calculateOverlap(
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
 
-    val overlapStartMillis = kotlin.math.max(checkInStart.millis, warningStartMillis)
-    val overlapEndMillis = kotlin.math.min(checkInEnd.millis, warningEndMillis)
+    val overlapStartMillis = kotlin.math.max(checkInStart.toEpochMilli(), warningStartMillis)
+    val overlapEndMillis = kotlin.math.min(checkInEnd.toEpochMilli(), warningEndMillis)
     val overlapMillis = overlapEndMillis - overlapStartMillis
 
     if (overlapMillis <= 0) {

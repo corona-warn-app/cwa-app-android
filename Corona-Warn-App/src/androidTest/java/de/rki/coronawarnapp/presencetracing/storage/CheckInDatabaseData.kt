@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.presencetracing.storage
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
+import java.time.Instant
 
 object CheckInDatabaseData {
 

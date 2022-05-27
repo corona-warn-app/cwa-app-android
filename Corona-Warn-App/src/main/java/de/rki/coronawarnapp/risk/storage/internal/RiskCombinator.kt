@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -42,7 +42,7 @@ class RiskCombinator @Inject constructor(
 
     private val ewCurrentLowRiskLevelResult
         get() = object : EwRiskLevelResult {
-            override val calculatedAt: Instant = timeStamper.nowUTC
+            override val calculatedAt: Instant = timeStamper.nowJavaUTC
             override val riskState: RiskState = RiskState.LOW_RISK
             override val failureReason: EwRiskLevelResult.FailureReason? = null
             override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
@@ -52,7 +52,7 @@ class RiskCombinator @Inject constructor(
 
     private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
         get() {
-            val now = timeStamper.nowUTC
+            val now = timeStamper.nowJavaUTC
             return PtRiskLevelResult(
                 calculatedAt = now,
                 riskState = RiskState.LOW_RISK,

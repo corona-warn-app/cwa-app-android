@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindo
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import java.time.Instant
 
 object RiskStorageTestData {
 
@@ -98,14 +98,14 @@ object RiskStorageTestData {
     }.build()
 
     val ewDayRisk = ExposureWindowDayRisk(
-        dateMillisSinceEpoch = ewCalculatedAt.millis,
+        dateMillisSinceEpoch = ewCalculatedAt.toEpochMilli(),
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0
     )
 
     val ewPersistedAggregatedRiskPerDateResult = PersistedAggregatedRiskPerDateResult(
-        dateMillisSinceEpoch = ewCalculatedAt.millis,
+        dateMillisSinceEpoch = ewCalculatedAt.toEpochMilli(),
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0

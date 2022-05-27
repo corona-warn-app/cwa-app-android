@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import org.joda.time.Days
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @Reusable
@@ -25,8 +25,8 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     }
 
     fun getDaysDiff(dateSaved: LocalDate): Int {
-        val today = LocalDate(timeStamper.nowUTC)
-        return Days.daysBetween(dateSaved, today).days
+        val today = LocalDate.now()
+        return ChronoUnit.DAYS.between(dateSaved, today).toInt()
     }
 
     fun filterContactDiaryLocationVisits(list: List<ContactDiaryLocationVisit>): List<ContactDiaryLocationVisit> {

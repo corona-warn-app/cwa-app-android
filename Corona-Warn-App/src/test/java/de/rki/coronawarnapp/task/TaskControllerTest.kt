@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -80,7 +80,7 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap[SilentErrorTask::class.java] = silentErrorFactory
         taskFactoryMap[AlertErrorTask::class.java] = alertErrorFactory
 
-        every { timeStamper.nowUTC } answers {
+        every { timeStamper.nowJavaUTC } answers {
             Instant.now()
         }
     }

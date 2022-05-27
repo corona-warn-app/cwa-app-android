@@ -26,8 +26,8 @@ import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_N
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -105,7 +105,7 @@ class GeneralNotifications @Inject constructor(
     ) {
         val pendingIntent = createPendingIntentToScheduleNotification(notificationId, testType, testIdentifier)
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        manager.setInexactRepeating(AlarmManager.RTC, initialTime.millis, interval.millis, pendingIntent)
+        manager.setInexactRepeating(AlarmManager.RTC, initialTime.toEpochMilli(), interval.toMillis(), pendingIntent)
     }
 
     private fun createPendingIntentToScheduleNotification(

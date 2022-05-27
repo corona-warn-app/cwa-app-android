@@ -16,14 +16,14 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
-import org.joda.time.Instant
+import java.text.DateFormat
+import java.time.Instant
 import java.util.Locale
 import javax.inject.Inject
 
@@ -114,7 +114,8 @@ class ValidationResultItemCreator @Inject constructor() {
                 userInput.arrivalCountry,
                 "${userInput.arrivalDateTime.toLocalDate().toShortDayFormat()} " +
                     userInput.arrivalDateTime.toLocalTime().toShortTimeFormat(),
-                validatedAt.toUserTimeZone().toShortDateTimeFormat()
+                DateFormat.getDateInstance(
+                    DateFormat.MEDIUM).format(validatedAt.toUserTimeZone())
             )
         )
 

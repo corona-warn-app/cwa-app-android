@@ -30,7 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,7 +50,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
     private var testStorage: Set<StoredRecoveryCertificateData> = emptySet()
 
-    private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+    private var nowJavaUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
     private val containerIdRecoveryQrCode2 = RecoveryQrCodeTestData.recoveryQrCode2.toSHA256()
 
@@ -59,7 +59,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowJavaUTC
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
@@ -139,7 +139,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         val recycled = mockk<StoredRecoveryCertificateData> {
             every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.recoveryQrCode2
-            every { recycledAt } returns nowUTC
+            every { recycledAt } returns nowJavaUTC
         }
 
         coEvery { storage.load() } returns setOf(recycled, notRecycled)
@@ -149,14 +149,14 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 any(),
                 any()
             )
-        } returns CwaCovidCertificate.State.Valid(nowUTC)
+        } returns CwaCovidCertificate.State.Valid(nowJavaUTC)
 
         createInstance(this).run {
             certificates.first().also {
                 it.size shouldBe 1
 
                 val wrapper = it.first()
-                wrapper.recoveryCertificate.state shouldBe CwaCovidCertificate.State.Valid(nowUTC)
+                wrapper.recoveryCertificate.state shouldBe CwaCovidCertificate.State.Valid(nowJavaUTC)
                 wrapper.recycleInfo.isNotRecycled shouldBe true
             }
 

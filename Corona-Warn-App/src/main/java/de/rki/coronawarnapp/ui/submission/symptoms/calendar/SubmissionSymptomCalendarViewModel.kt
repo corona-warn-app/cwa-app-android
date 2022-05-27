@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(

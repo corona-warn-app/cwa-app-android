@@ -19,7 +19,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
-import org.joda.time.DateTimeZone
+import java.time.OffsetDateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

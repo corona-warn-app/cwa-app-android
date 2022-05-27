@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.profile.legacy
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 // Deprecated("Legacy data class")
 data class RATProfileData(

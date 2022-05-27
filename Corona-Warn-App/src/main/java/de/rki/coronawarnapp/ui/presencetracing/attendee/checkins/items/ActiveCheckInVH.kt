@@ -3,20 +3,17 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Duration
-import org.joda.time.DurationFieldType
-import org.joda.time.Instant
-import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.PeriodFormat
-import org.joda.time.format.PeriodFormatterBuilder
+import org.apache.commons.lang3.time.DurationFormatUtils
+import java.text.DateFormat
+import java.time.Duration
+import java.time.Instant
 
+// TODO: need to be improved
 class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
         layoutRes = R.layout.trace_location_attendee_checkins_item_active,
@@ -34,10 +31,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
         TraceLocationAttendeeCheckinsItemActiveBinding.bind(itemView)
     }
 
-    private val hourPeriodFormatter by lazy {
-        PeriodFormat.wordBased(context.getLocale())
-    }
-
     override val onBindData: TraceLocationAttendeeCheckinsItemActiveBinding.(
         item: Item,
         payloads: List<Any>
@@ -48,37 +41,35 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
         highlightDuration.text = kotlin.run {
-            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
-            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
+            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now())
+            val saneDuration = if (currentDuration < Duration.ZERO) {
                 Duration.ZERO
             } else {
                 currentDuration
             }
-            highlightDurationFormatter.print(saneDuration.toPeriod())
+            "${saneDuration.toHours()}:${saneDuration.toMinutes()}"
         }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
 
         checkoutInfo.text = run {
-            val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
-                val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
-                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
-                    )
-                    it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
-                    else -> PeriodType.minutes()
+            val duration = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd)
+            val periodType = duration.let {
+                 when {
+                    it > Duration.ofHours(1) -> "HH:mm"
+                    it > Duration.ofDays(1) -> "D"
+                    else -> "mm"
                 }
-                it.toPeriod(periodType)
             }
 
-            val startDate = checkInStartUserTZ.toString(DateTimeFormat.shortDate())
-            val startTime = checkInStartUserTZ.toString(DateTimeFormat.shortTime())
+            val startDate = DateFormat.getDateInstance(DateFormat.SHORT).format(checkInStartUserTZ)
+            val startTime = DateFormat.getDateInstance(DateFormat.SHORT).format(checkInStartUserTZ)
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info_format,
                 startDate,
                 startTime,
-                hourPeriodFormatter.print(checkoutIn)
+                DurationFormatUtils.formatDuration(duration.toMillis(), periodType)
             )
         }
 
@@ -106,13 +97,4 @@ class ActiveCheckInVH(parent: ViewGroup) :
         override val stableId: Long = checkin.id
     }
 
-    companion object {
-        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
-            printZeroAlways()
-            minimumPrintedDigits(2)
-            appendHours()
-            appendSuffix(":")
-            appendMinutes()
-        }.toFormatter()
-    }
 }

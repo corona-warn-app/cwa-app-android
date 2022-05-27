@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeDetailFragme
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -28,6 +29,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
@@ -120,30 +122,32 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime!!.toDateTime()
-                    val endTime = uiState.endDateTime!!.toDateTime()
+                    val startTime = uiState.startDateTime?.toDateTime()
+                    val endTime = uiState.endDateTime?.toDateTime()
 
                     eventDate.isGone = false
 
-                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
-                    val startHour = startTime.toLocalTime().toString("HH:mm")
-                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
-                    val endHour = endTime.toLocalTime().toString("HH:mm")
-                    eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                        requireContext().getString(
-                            R.string.trace_location_organizer_detail_item_duration,
-                            startDay,
-                            startHour,
-                            endHour
-                        )
-                    } else {
-                        requireContext().getString(
-                            R.string.trace_location_organizer_detail_item_duration_multiple_days,
-                            startDay,
-                            startHour,
-                            endDay,
-                            endHour
-                        )
+                    if (startTime != null && endTime != null) {
+                        val startDay = startTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                        val startHour = startTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                        val endDay = endTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                        val endHour = endTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                        eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
+                            requireContext().getString(
+                                R.string.trace_location_organizer_detail_item_duration,
+                                startDay,
+                                startHour,
+                                endHour
+                            )
+                        } else {
+                            requireContext().getString(
+                                R.string.trace_location_organizer_detail_item_duration_multiple_days,
+                                startDay,
+                                startHour,
+                                endDay,
+                                endHour
+                            )
+                        }
                     }
                 } else {
                     eventDate.isGone = true

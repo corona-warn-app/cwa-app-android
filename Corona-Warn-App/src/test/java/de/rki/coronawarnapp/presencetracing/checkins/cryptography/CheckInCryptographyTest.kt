@@ -16,8 +16,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -41,7 +41,7 @@ internal class CheckInCryptographyTest : BaseTest() {
 
         val checkInRecord = mockCheckIn(
             start = Instant.now(),
-            end = Instant.now().plus(Duration.standardMinutes(120)),
+            end = Instant.now().plus(Duration.ofMinutes(120)),
             checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         )
 
@@ -62,8 +62,8 @@ internal class CheckInCryptographyTest : BaseTest() {
         }
 
         val checkInRecord = mockCheckIn(
-            start = Instant.EPOCH.plus(Duration.standardMinutes(2710445)),
-            end = Instant.EPOCH.plus(Duration.standardMinutes(2710473)),
+            start = Instant.EPOCH.plus(Duration.ofMinutes(2710445)),
+            end = Instant.EPOCH.plus(Duration.ofMinutes(2710473)),
             checkInTraceLocationId = "m686QDEvOYSfRtrRBA8vA58c/6EjjEHp22dTFc+tObY=".decodeBase64()!!
         )
         val output = getCryptographyInstance().encrypt(checkInRecord, 7)
@@ -81,8 +81,8 @@ internal class CheckInCryptographyTest : BaseTest() {
         }
 
         val checkInRecord = mockCheckIn(
-            start = Instant.EPOCH.plus(Duration.standardMinutes(2710117)),
-            end = Instant.EPOCH.plus(Duration.standardMinutes(2710127)),
+            start = Instant.EPOCH.plus(Duration.ofMinutes(2710117)),
+            end = Instant.EPOCH.plus(Duration.ofMinutes(2710127)),
             checkInTraceLocationId = "A61rMz1EUJnH3+D/dF7FzBMw0UnvdS82w67U7+oT9yU=".decodeBase64()!!
         )
         val output = getCryptographyInstance().encrypt(checkInRecord, 8)

@@ -38,7 +38,7 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -91,7 +91,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { localStatisticsProvider.current } returns emptyFlow()
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(100101010)
 
         bluetoothSupport.apply {
             every { isAdvertisingSupported } returns true

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -54,7 +54,7 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
     var lastHighRiskDate: LocalDate?
         get() = prefs.getLong(LAST_HIGH_RISK_LOCALDATE, 0L).toInstantOrNull()?.toLocalDateUtc()
         set(value) = prefs.edit(true) {
-            putLong(LAST_HIGH_RISK_LOCALDATE, value?.toInstantMidnightUtc()?.millis ?: 0L)
+            putLong(LAST_HIGH_RISK_LOCALDATE, value?.toInstantMidnightUtc()?.toEpochMilli() ?: 0L)
         }
 
     /**

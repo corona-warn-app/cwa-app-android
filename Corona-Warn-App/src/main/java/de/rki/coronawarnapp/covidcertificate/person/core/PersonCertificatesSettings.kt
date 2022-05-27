@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject

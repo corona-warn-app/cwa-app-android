@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
@@ -42,7 +42,7 @@ class DccWalletInfoCalculation @Inject constructor(
     suspend fun getDccWalletInfo(
         dccList: List<CwaCovidCertificate>,
         admissionScenarioId: String = "",
-        dateTime: DateTime = DateTime.now()
+        dateTime: OffsetDateTime = OffsetDateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
         val input = getDccWalletInfoInput(
             dccList = dccList,

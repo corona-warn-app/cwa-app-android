@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.locations
 
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import org.joda.time.Instant
+import java.time.Instant
 
 data class TraceLocationUserInput(
     val type: TraceLocationOuterClass.TraceLocationType,

@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import java.time.OffsetDateTimeZone
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.ZonedDateTime
@@ -26,7 +26,7 @@ class MappingsTest : BaseTest() {
             0,
             UTC_ZONE_ID
         )
-        zoned.toInstant().toEpochMilli() shouldBe original.millis
+        zoned.toInstant().toEpochMilli() shouldBe original.toEpochMilli()
     }
 
     @Test

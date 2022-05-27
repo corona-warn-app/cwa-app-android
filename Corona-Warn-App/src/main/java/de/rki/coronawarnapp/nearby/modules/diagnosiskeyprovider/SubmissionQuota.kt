@@ -2,13 +2,17 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.nearby.ENFClientLocalData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.DateTimeZone
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -61,14 +65,13 @@ class SubmissionQuota @Inject constructor(
         val oldQuota = currentQuota
         val oldQuotaReset = lastQuotaReset
 
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
-        val nextQuotaReset = lastQuotaReset
-            .toDateTime(DateTimeZone.UTC)
-            .withTimeAtStartOfDay()
-            .plus(Duration.standardDays(1))
+        val nextQuotaReset = LocalDate.from(lastQuotaReset)
+            .toDateTimeAtStartOfDayUtc()
+            .plus(Duration.ofDays(1))
 
-        if (now.isAfter(nextQuotaReset)) {
+        if (now.isAfter(nextQuotaReset.toInstant())) {
             currentQuota = DEFAULT_QUOTA
             lastQuotaReset = now
 

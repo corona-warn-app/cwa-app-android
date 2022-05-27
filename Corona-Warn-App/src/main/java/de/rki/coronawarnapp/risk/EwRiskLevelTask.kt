@@ -26,12 +26,12 @@ import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.toJoda
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -81,13 +81,13 @@ class EwRiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
-        val nowUtc = timeStamper.nowUTC.also {
+        val nowJavaUTC = timeStamper.nowJavaUTC.also {
             Timber.d("The current time is %s", it)
         }
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowUtc.minus(configData.localOffset.toJoda())
+            val currentServerTime = nowJavaUTC.minus(configData.localOffset)
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,
@@ -98,15 +98,15 @@ class EwRiskLevelTask @Inject constructor(
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUtc,
+                calculatedAt = nowJavaUTC,
                 failureReason = FailureReason.TRACING_OFF
             )
         }
 
-        if (areKeyPkgsOutDated(nowUtc)) {
+        if (areKeyPkgsOutDated(nowJavaUTC)) {
             Timber.i("Risk not calculated, results are outdated.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUtc,
+                calculatedAt = nowJavaUTC,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
                     false -> FailureReason.OUTDATED_RESULTS_MANUAL
@@ -115,12 +115,12 @@ class EwRiskLevelTask @Inject constructor(
         }
         checkCancel()
 
-        return calculateRiskLevel(configData, nowUtc)
+        return calculateRiskLevel(configData, nowJavaUTC)
     }
 
     @VisibleForTesting
-    internal suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
-        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
+    internal suspend fun areKeyPkgsOutDated(nowJavaUTC: Instant): Boolean {
+        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowJavaUTC=%s)", nowJavaUTC)
 
         val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
             it.info.sortDateTime
@@ -130,11 +130,11 @@ class EwRiskLevelTask @Inject constructor(
             return true
         }
 
-        val downloadAge = Duration(latestDownload.info.sortDateTime, nowUTC).also {
-            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
+        val downloadAge = Duration.between(latestDownload.info.sortDateTime, nowJavaUTC).also {
+            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.toHours(), latestDownload)
         }
 
-        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT)).also {
+        return (downloadAge > STALE_DOWNLOAD_LIMIT).also {
             if (it) {
                 Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because results are outdated.")
             } else {
@@ -145,14 +145,14 @@ class EwRiskLevelTask @Inject constructor(
 
     private suspend fun calculateRiskLevel(
         configData: ExposureWindowRiskCalculationConfig,
-        nowUtc: Instant
+        nowJavaUTC: Instant
     ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
 
         val exposureWindows = filter.filterByAge(
             config = configData,
             list = enfClient.exposureWindows(),
-            nowUtc = nowUtc
+            nowJavaUTC = nowJavaUTC
         )
 
         return determineRisk(configData, exposureWindows).let {
@@ -164,7 +164,7 @@ class EwRiskLevelTask @Inject constructor(
             }
 
             EwRiskLevelTaskResult(
-                calculatedAt = timeStamper.nowUTC,
+                calculatedAt = timeStamper.nowJavaUTC,
                 ewAggregatedRiskResult = it,
                 exposureWindows = exposureWindows
             )
@@ -208,7 +208,7 @@ class EwRiskLevelTask @Inject constructor(
 
     data class Config(
         private val exposureDetectionTracker: ExposureDetectionTracker,
-        override val executionTimeout: Duration = Duration.standardMinutes(8),
+        override val executionTimeout: Duration = Duration.ofMinutes(8),
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
     ) : TaskFactory.Config {
@@ -235,6 +235,6 @@ class EwRiskLevelTask @Inject constructor(
 
     companion object {
         private val TAG = tag<EwRiskLevelTask>()
-        private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
+        private val STALE_DOWNLOAD_LIMIT = Duration.ofHours(48)
     }
 }

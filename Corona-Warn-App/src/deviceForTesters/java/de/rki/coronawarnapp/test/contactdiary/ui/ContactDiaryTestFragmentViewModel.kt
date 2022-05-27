@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryReposit
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import kotlin.random.Random
 
 class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
@@ -102,9 +102,9 @@ class ContactDiaryTestFragmentViewModel @AssistedInject constructor(
     private fun getDate(outdated: Boolean): LocalDate {
         val date = LocalDate.now()
         return if (outdated) {
-            date.minusDays(Random.nextInt(17, 25))
+            date.minusDays(Random.nextLong(17, 25))
         } else {
-            date.minusDays(Random.nextInt(0, 16))
+            date.minusDays(Random.nextLong(0, 16))
         }
     }
 

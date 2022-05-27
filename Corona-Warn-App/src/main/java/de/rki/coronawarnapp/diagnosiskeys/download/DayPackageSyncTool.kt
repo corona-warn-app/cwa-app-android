@@ -20,7 +20,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -81,7 +81,7 @@ class DayPackageSyncTool @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewDayPackages(cachedDays: List<CachedKey>): Boolean {
-        val yesterday = timeStamper.nowUTC.toLocalDateUtc().minusDays(1)
+        val yesterday = timeStamper.nowJavaUTC.toLocalDateUtc().minusDays(1)
         val newestDay = cachedDays.map { it.info.pkgDateTime }.maxOrNull()?.toLocalDate()
 
         return yesterday != newestDay

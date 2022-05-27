@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.joda.time.Instant
+import java.time.Instant
 
 @Suppress("ConstructorParameterNaming")
 data class CclConfiguration(

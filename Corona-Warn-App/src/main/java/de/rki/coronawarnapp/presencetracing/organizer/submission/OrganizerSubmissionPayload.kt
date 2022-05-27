@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.organizer.submission
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import org.joda.time.Instant
+import java.time.Instant
 
 fun OrganizerSubmissionPayload.toCheckIn(): CheckIn {
     val payload = this

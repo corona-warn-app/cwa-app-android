@@ -110,7 +110,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
                 tekHistoryStorage.storeTEKData(
                     TEKHistoryStorage.TEKBatch(
                         batchId = UUID.randomUUID().toString(),
-                        obtainedAt = timeStamper.nowUTC,
+                        obtainedAt = timeStamper.nowJavaUTC,
                         keys = teks
                     )
                 )

@@ -39,7 +39,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -349,7 +349,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
             }
         }
-        every { headerExpiresAt } returns Instant.now().plus(20)
+        every { headerExpiresAt } returns Instant.now().plusMillis(20)
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
         every { dateOfBirthFormatted } returns "1943-04-18"
@@ -405,7 +405,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true
@@ -423,7 +423,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true

@@ -1,5 +1,5 @@
 package testhelpers.extensions
 
-import org.joda.time.Instant
+import java.time.Instant
 
-fun Instant.isAfterOrEqual(other: Instant) = this.millis >= other.millis
+fun Instant.isAfterOrEqual(other: Instant) = this.toEpochMilli() >= other.toEpochMilli()

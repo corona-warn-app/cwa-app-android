@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 
 data class CombinedEwPtDayRisk(
     val localDate: LocalDate,
@@ -89,7 +89,7 @@ data class LastCombinedRiskResults(
 )
 
 internal fun max(left: Instant, right: Instant): Instant {
-    return Instant.ofEpochMilli(kotlin.math.max(left.millis, right.millis))
+    return Instant.ofEpochMilli(kotlin.math.max(left.toEpochMilli(), right.toEpochMilli()))
 }
 
 internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk.result
 
 import de.rki.coronawarnapp.risk.ProtoRiskLevel
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import org.joda.time.Instant
+import java.time.Instant
 
 data class EwAggregatedRiskResult(
     val totalRiskLevel: RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel,

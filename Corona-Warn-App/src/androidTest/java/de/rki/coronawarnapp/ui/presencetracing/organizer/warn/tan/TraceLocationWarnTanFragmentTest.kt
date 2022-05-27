@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

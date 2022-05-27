@@ -9,15 +9,15 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class PersonCertificatesExtensionsTest : BaseTest() {
 
     private val time = Instant.now()
-    private val oneDayDuration = Duration.standardDays(1)
+    private val oneDayDuration = Duration.ofDays(1)
 
     @Test
     fun `certificate sort order`() {

@@ -18,8 +18,8 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -82,7 +82,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             newPackages = listOf(cachedHourKey)
         )
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(1))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(1))
 
         every { networkStateProvider.networkState } returns flowOf(networkState)
         every { networkState.isMeteredConnection } returns false

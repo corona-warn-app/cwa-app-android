@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewS
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

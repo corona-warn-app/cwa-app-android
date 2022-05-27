@@ -24,8 +24,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
-import org.joda.time.Instant
+import java.time.OffsetDateTime
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,7 +37,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
-    private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
+    private val dateTime = OffsetDateTime.parse("2021-12-30T10:00:00.897+01:00")
     private val defaultInputParameters = CclInputParameters(
         os = "android",
         language = "de",
@@ -93,7 +93,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
         dccWalletInfoInput.os shouldBe "android"
 
         val cclDateTime = dccWalletInfoInput.now
-        cclDateTime.timestamp shouldBe dateTime.millis / 1000
+        cclDateTime.timestamp shouldBe dateTime.toEpochSecond()
         cclDateTime.localDate shouldBe "2021-12-30"
         cclDateTime.localDateTime shouldBe "2021-12-30T10:00:00+01:00"
         cclDateTime.localDateTimeMidnight shouldBe "2021-12-30T00:00:00+01:00"

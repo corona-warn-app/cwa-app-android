@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.Companion.DE
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
@@ -21,9 +23,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+
+import java.time.OffsetDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 import timber.log.Timber
 import java.text.Collator
 
@@ -86,7 +89,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     }
 
     fun dateChanged(localDate: LocalDate, localTime: LocalTime) {
-        val invalidTime = localDate.toDateTime(localTime).isBefore(DateTime.now().withSecondOfMinute(0))
+        val invalidTime = localDate.toDateTime(localTime).isBefore(OffsetDateTime.now().withSecond(0))
         events.postValue(ShowTimeMessage(invalidTime))
         uiState.apply { value = value.copy(localDate = localDate, localTime = localTime) }
     }

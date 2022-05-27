@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -33,7 +33,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
 
         every { workManager.enqueueUniquePeriodicWork(any(), any(), any()) } returns mockk()
         every { workManager.cancelUniqueWork(any()) } returns mockk()
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
     }
 
     private fun createInstance(scope: CoroutineScope = TestScope()) = FamilyTestResultRetrievalScheduler(

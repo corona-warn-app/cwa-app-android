@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact
 
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayDataItem
-import org.joda.time.Duration
+import java.time.Duration
 
 data class ContactItem(
     val data: List<Data>

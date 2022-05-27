@@ -7,9 +7,9 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +33,7 @@ class ExposureKeyHistoryCalculations @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun removeOldKeys(
         keys: List<TemporaryExposureKey>,
-        now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()
+        now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()
     ) = keys.filter { it.ageInDays(now) in 0..MAX_AGE_IN_DAYS }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -41,7 +41,7 @@ class ExposureKeyHistoryCalculations @Inject constructor(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
-        now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()
+        now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()
     ): List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey> {
         val result = mutableListOf<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>()
         keys.groupBy { it.ageInDays(now) }.forEach { entry ->
@@ -66,10 +66,10 @@ class ExposureKeyHistoryCalculations @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun TemporaryExposureKey.ageInDays(now: LocalDate): Int =
         Instant.ofEpochMilli(rollingStartIntervalNumber * TEN_MINUTES_IN_MILLIS)
-            .toLocalDateUtc().ageInDays(now)
+            .toLocalDateUtc().ageInDays(now).toInt()
 
     companion object {
         const val MAX_AGE_IN_DAYS = 14
-        val TEN_MINUTES_IN_MILLIS = Duration.standardMinutes(10).millis
+        val TEN_MINUTES_IN_MILLIS = Duration.ofMinutes(10).toMillis()
     }
 }

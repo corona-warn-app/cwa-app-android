@@ -14,8 +14,8 @@ import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalDa
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

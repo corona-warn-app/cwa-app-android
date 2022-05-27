@@ -39,8 +39,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -147,7 +147,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { autoSubmission.updateMode(any()) } just Runs
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
         checkInRepository.apply {
             every { checkInsWithinRetention } returns flowOf(
@@ -332,7 +332,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `submission is skipped if user was recently active in submission`() = runTest {
-        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.standardHours(1)) }
+        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.ofHours(1)) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SKIPPED

@@ -24,15 +24,16 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
+    // TODO: check pattern
+    private val formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD")
     private val navArgs by navArgs<ProfileCreateFragmentArgs>()
     private val binding: ProfileCreateFragmentBinding by viewBinding()
     private val viewModel: ProfileCreateFragmentViewModel by cwaViewModelsAssisted(
@@ -143,7 +144,7 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    binding.birthDateInputEdit.setText(LocalDate(it).toString(formatter))
+                    binding.birthDateInputEdit.setText(formatter.format(LocalDate.ofEpochDay(it)))
                 }
             }
             .show(childFragmentManager, "ProfileCreateFragment.MaterialDatePicker")

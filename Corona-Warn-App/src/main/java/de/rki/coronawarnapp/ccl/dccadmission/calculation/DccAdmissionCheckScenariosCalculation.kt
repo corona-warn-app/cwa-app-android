@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 class DccAdmissionCheckScenariosCalculation @Inject constructor(
@@ -23,7 +23,7 @@ class DccAdmissionCheckScenariosCalculation @Inject constructor(
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getDccAdmissionCheckScenarios(
-        dateTime: DateTime = DateTime.now(),
+        dateTime: OffsetDateTime = OffsetDateTime.now(),
     ): DccAdmissionCheckScenarios = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
             "getDccAdmissionCheckScenarios",

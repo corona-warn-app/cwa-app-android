@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util.coronatest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.util.coroutine.modifyCategoryType
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

@@ -3,14 +3,15 @@ package de.rki.coronawarnapp.ccl.configuration.model
 import android.os.Build
 import android.os.LocaleList
 import de.rki.coronawarnapp.BuildConfig
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.ISODateTimeFormat
+import java.time.OffsetDateTime
 import timber.log.Timber
+import java.time.LocalTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun getDefaultInputParameters(
-    now: DateTime
+    now: OffsetDateTime
 ) = CclInputParameters(
     language = cclLanguage,
     now = CclDateTime(now)
@@ -23,10 +24,10 @@ data class CclInputParameters(
 )
 
 data class CclDateTime(
-    private val dateTime: DateTime
+    private val dateTime: OffsetDateTime
 ) {
-    private val dateTimeUtc = dateTime.toDateTime(DateTimeZone.UTC)
-    val timestamp: Long = dateTime.millis / 1000
+    private val dateTimeUtc = OffsetDateTime.ofInstant(dateTime.toInstant(), ZoneOffset.UTC)
+    val timestamp: Long = dateTime.toEpochSecond()
     val localDate: String = dateTime.toLocalDateString()
     val localDateTime: String = dateTime.toLocalDateTimeString()
     val localDateTimeMidnight: String = dateTime.toLocalDateTimeMidnightString()
@@ -48,13 +49,9 @@ val cclLanguage: String by lazy {
     }
 }
 
-private fun DateTime.toLocalDateString() = toLocalDate().toString()
+private fun OffsetDateTime.toLocalDateString() = toLocalDate().toString()
 
-private fun DateTime.toLocalDateTimeString() = toString(ISODateTimeFormat.dateTimeNoMillis())
+private fun OffsetDateTime.toLocalDateTimeString() = format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 
-private fun DateTime.toLocalDateTimeMidnightString() = withTime(
-    0,
-    0,
-    0,
-    0
-).toString(ISODateTimeFormat.dateTimeNoMillis())
+private fun OffsetDateTime.toLocalDateTimeMidnightString() =
+    OffsetDateTime.of(this.toLocalDate(), LocalTime.MIN, ZoneOffset.UTC).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)

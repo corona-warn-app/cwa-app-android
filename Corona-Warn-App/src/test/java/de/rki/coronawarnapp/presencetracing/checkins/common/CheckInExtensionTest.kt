@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -30,7 +30,7 @@ class CheckInExtensionTest : BaseTest() {
         createJournalEntry = true
     )
 
-    private fun Instant.toPrettyDate(): String = toUserTimeZone().toString(DateTimeFormat.shortDateTime())
+    private fun Instant.toPrettyDate(): String = toUserTimeZone().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
     @Test
     fun `Location name concatenates description, address and if both are set trace location start and end date`() {

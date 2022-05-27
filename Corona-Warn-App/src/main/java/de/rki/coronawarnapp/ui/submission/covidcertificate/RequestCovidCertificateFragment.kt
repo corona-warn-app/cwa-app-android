@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate), AutoInject {
@@ -135,7 +135,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->
-                    val localDate = LocalDate(timestamp)
+                    val localDate = LocalDate.ofEpochDay(timestamp)
                     binding.dateInputEdit.setText(localDate.toDayFormat())
                     viewModel.birthDateChanged(localDate)
                 }

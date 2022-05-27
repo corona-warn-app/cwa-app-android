@@ -46,7 +46,7 @@ class DiaryLocationViewHolder(
         durationInput.apply {
             val duration = item.visit?.duration
             text = duration?.toContactDiaryFormat()
-            if (duration == null || duration.millis == 0L) {
+            if (duration == null || duration.toMillis() == 0L) {
                 text = context.getString(R.string.duration_dialog_default_value)
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
                 TextViewCompat.setTextAppearance(this, R.style.bodyNeutral)

@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import de.rki.coronawarnapp.util.flow.combine as flowCombine
 

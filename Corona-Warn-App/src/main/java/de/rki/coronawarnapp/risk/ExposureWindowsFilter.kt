@@ -6,10 +6,10 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -20,10 +20,10 @@ class ExposureWindowsFilter @Inject constructor(
     internal fun filterByAge(
         config: ExposureWindowRiskCalculationConfig,
         list: List<ExposureWindow>,
-        nowUtc: Instant
+        nowJavaUTC: Instant
     ): List<ExposureWindow> = list.filterByAge(
         maxAgeInDays = config.maxEncounterAgeInDays,
-        nowUtc = nowUtc
+        nowJavaUTC = nowJavaUTC
     )
 
     internal suspend fun filterDayRisksByAge(
@@ -37,19 +37,19 @@ class ExposureWindowsFilter @Inject constructor(
         }
     }
 
-    private fun ExposureWindowRiskCalculationConfig.getDeadline(nowUtc: Instant): Instant =
-        nowUtc.minusDays(maxEncounterAgeInDays).toInstant()
+    private fun ExposureWindowRiskCalculationConfig.getDeadline(nowJavaUTC: Instant): Instant =
+        nowJavaUTC.minusDays(maxEncounterAgeInDays.toLong()).toInstant()
 }
 
 @VisibleForTesting
 internal fun List<ExposureWindow>.filterByAge(
     maxAgeInDays: Int,
-    nowUtc: Instant
+    nowJavaUTC: Instant
 ): List<ExposureWindow> {
-    val deadline = nowUtc.minusDays(maxAgeInDays).millis
+    val deadline = nowJavaUTC.minusDays(maxAgeInDays.toLong()).toEpochSecond() * 1000
     return filter {
         it.dateMillisSinceEpoch >= deadline
     }
 }
 
-private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(DateTimeZone.UTC)
+private fun Instant.minusDays(days: Long) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDayUtc()

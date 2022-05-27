@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 /**
  * Calendar day view holder
@@ -23,7 +23,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     /**
      * Accessibility talk back date format
      */
-    private val talkBackDateFormat = DateTimeFormat.forPattern("EEEE d MMMMM")
+    private val talkBackDateFormat = DateTimeFormatter.ofPattern("EEEE d MMMMM")
 
     /**
      * Bind data to view
@@ -36,7 +36,7 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         textView.text = day.date.dayOfMonth.toString()
 
         // Set day content description for talk back
-        textView.contentDescription = day.date.toString(talkBackDateFormat)
+        textView.contentDescription = talkBackDateFormat.format(day.date)
 
         // If date is after today or exceeds 21 days in the past- then disable click listener
         if (!day.date.isAfter(today) && !day.date.isBefore(today.minusDays(ONSET_PERIOD))) {
@@ -70,6 +70,6 @@ class CalendarDayViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
     companion object {
         // Max number of days for the onset of symptoms to be calculated
-        private const val ONSET_PERIOD = 21
+        private const val ONSET_PERIOD = 21L
     }
 }

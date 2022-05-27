@@ -21,8 +21,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -46,7 +46,7 @@ class DccStateCheckerTest : BaseTest() {
 
         every { configData.covidCertificateParameters } returns covidCertificateConfig
         every { covidCertificateConfig.expirationThreshold } returns java.time.Duration.ofDays(10)
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567890)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1234567890)
 
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
@@ -78,7 +78,7 @@ class DccStateCheckerTest : BaseTest() {
             dscSignatureValidator.validateSignature(mockData, mockDscData, any())
             dccExpirationChecker.getExpirationState(
                 dccData = mockData,
-                expirationThreshold = Duration.standardDays(10),
+                expirationThreshold = Duration.ofDays(10),
                 now = Instant.ofEpochSecond(1234567890)
             )
         }

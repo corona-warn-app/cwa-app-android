@@ -9,8 +9,10 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsItem
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdapter
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.list.Swipeable
-import org.joda.time.format.DateTimeFormat
+import java.text.DateFormat
+import java.time.format.DateTimeFormatter
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
@@ -45,21 +47,21 @@ class TraceLocationVH(parent: ViewGroup) :
 
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                val dateFormat = DateTimeFormat.shortDate()
-                val timeFormat = DateTimeFormat.shortTime()
+                val dateFormat = DateFormat.getDateInstance(DateFormat.SHORT)
+                val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
-                    startTime.toString(dateFormat),
-                    startTime.toString(timeFormat),
-                    endTime.toString(timeFormat)
+                    dateFormat.format(startTime),
+                    timeFormat.format(startTime),
+                    timeFormat.format(endTime)
                 )
             } else {
                 icon.setCaption(null)
-                val dateTimeFormat = DateTimeFormat.shortDateTime()
+                val dateTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration,
-                    startTime.toString(dateTimeFormat),
-                    endTime.toString(dateTimeFormat)
+                    dateTimeFormat.format(startTime),
+                    dateTimeFormat.format(endTime)
                 )
             }
         } else {

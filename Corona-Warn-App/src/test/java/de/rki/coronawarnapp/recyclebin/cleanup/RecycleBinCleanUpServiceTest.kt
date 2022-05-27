@@ -19,8 +19,8 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Days
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -37,7 +37,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
 
         coEvery { recycledCoronaTestsProvider.deleteCoronaTest(any()) } just Runs
     }

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import org.joda.time.Instant
+import java.time.Instant
 
 /**
  * For use with the UI

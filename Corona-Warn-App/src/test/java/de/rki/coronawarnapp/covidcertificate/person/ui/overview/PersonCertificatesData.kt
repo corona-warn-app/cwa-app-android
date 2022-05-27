@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.UUID
 
 object PersonCertificatesData {

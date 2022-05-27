@@ -13,9 +13,10 @@ import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Days
-import org.joda.time.Instant
+
+import java.time.Instant
 import timber.log.Timber
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -109,8 +110,8 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private suspend fun calculateRiskResult(successful: Boolean): PtRiskLevelResult {
-        val nowUtc = timeStamper.nowUTC
-        val deadline = checkInsFilter.calculateDeadline(nowUtc)
+        val nowJavaUTC = timeStamper.nowJavaUTC
+        val deadline = checkInsFilter.calculateDeadline(nowJavaUTC)
 
         val riskState = if (successful) {
             val filteredOverlaps = checkInsFilter.filterCheckInWarningsByAge(
@@ -123,7 +124,7 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
         return PtRiskLevelResult(
-            calculatedAt = nowUtc,
+            calculatedAt = nowJavaUTC,
             calculatedFrom = deadline,
             riskState = riskState
         )
@@ -131,12 +132,12 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     internal suspend fun deleteStaleData() {
         Timber.d("deleteStaleData()")
-        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.millis)
-        riskLevelResultDao.deleteOlderThan(retentionTime.millis)
+        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.toEpochMilli())
+        riskLevelResultDao.deleteOlderThan(retentionTime.toEpochMilli())
     }
 
     private val retentionTime: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+        get() = timeStamper.nowJavaUTC.minus(Duration.ofDays(15))
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")

@@ -23,15 +23,16 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.Instant
+import java.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
+import java.time.ZoneId
+import java.time.ZoneOffset
 import java.util.Locale
 import javax.inject.Inject
 
@@ -84,7 +85,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDateTime = DateTime.parse("2022-06-11T14:23:00+02:00")
+        val validationDateTime =OffsetDateTime.parse("2022-06-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
             validationDateTime = validationDateTime,
@@ -108,7 +109,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDateTime = DateTime.parse("2021-11-11T14:23:00+02:00")
+        val validationDateTime = OffsetDateTime.parse("2021-11-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule),
             validationDateTime = validationDateTime,
@@ -139,7 +140,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         val validationDateTime = LocalDateTime.parse("2021-07-20T19:10:00") // should be valid
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationDateTime = validationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            validationDateTime = OffsetDateTime.of(validationDateTime, ZoneOffset.ofHours(timeZoneOffsetBerlin)),
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -152,7 +153,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
         val evaluatedRules2 = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationDateTime = invalidationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            validationDateTime = OffsetDateTime.of(invalidationDateTime, ZoneOffset.ofHours(timeZoneOffsetBerlin)),
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -177,7 +178,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
         val certificate = extractor.extract(certLogicTestCase.dcc)
         val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
-        val validationDateTime = validationClock.toDateTime()
+        val validationDateTime = OffsetDateTime.ofInstant(validationClock, ZoneId.systemDefault())
         val acceptanceRules = certLogicTestCase.rules.filter {
             it.typeDcc == DccValidationRule.Type.ACCEPTANCE
         }.filterRelevantRules(

@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -83,7 +83,7 @@ class ContactDiaryTestFragment :
     override fun onChange(duration: Duration) {
         with(binding.durationValue) {
             text = duration.toContactDiaryFormat()
-            if (duration.millis == 0L) {
+            if (duration.toMillis() == 0L) {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
                 TextViewCompat.setTextAppearance(this, R.style.bodyNeutral)
             } else {

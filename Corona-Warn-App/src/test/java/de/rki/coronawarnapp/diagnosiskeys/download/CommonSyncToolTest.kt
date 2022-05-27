@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.storage.DeviceStorage
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -15,15 +17,15 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseIOTest
 import timber.log.Timber
 import java.io.File
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
 
 abstract class CommonSyncToolTest : BaseIOTest() {
 
@@ -65,7 +67,7 @@ abstract class CommonSyncToolTest : BaseIOTest() {
             "02:00".hour
         )
 
-        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T03:15:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T03:15:00.000Z")
 
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk()
 
@@ -161,8 +163,8 @@ fun createMockCachedKeyInfo(
         day = dayIdentifier,
         hour = hourIdentifier,
         createdAt = when (hourIdentifier) {
-            null -> dayIdentifier.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
-            else -> dayIdentifier.toLocalDateTime(hourIdentifier).toDateTime(DateTimeZone.UTC).toInstant()
+            null -> dayIdentifier.toDateTimeAtStartOfDayUtc().toInstant()
+            else -> dayIdentifier.toDateTime(hourIdentifier, ZoneOffset.UTC).toInstant()
         }
     )
     if (isComplete) {

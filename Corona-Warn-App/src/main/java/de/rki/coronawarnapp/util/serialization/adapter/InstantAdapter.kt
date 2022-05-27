@@ -4,14 +4,14 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
-import org.joda.time.Instant
+import java.time.Instant
 
 class InstantAdapter : TypeAdapter<Instant>() {
     override fun write(out: JsonWriter, value: Instant?) {
         if (value == null) {
             out.nullValue()
         } else {
-            out.value(value.millis)
+            out.value(value.toEpochMilli())
         }
     }
 

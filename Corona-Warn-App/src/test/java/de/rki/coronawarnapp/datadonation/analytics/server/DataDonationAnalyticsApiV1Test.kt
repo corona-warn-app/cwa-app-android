@@ -10,7 +10,7 @@ import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -55,7 +55,7 @@ class DataDonationAnalyticsApiV1Test : BaseTest() {
 
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseTime.millis)
+            .setMostRecentDateAtRiskLevel(baseTime.toEpochMilli())
             .setDateChangedComparedToPreviousSubmission(true)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .build()

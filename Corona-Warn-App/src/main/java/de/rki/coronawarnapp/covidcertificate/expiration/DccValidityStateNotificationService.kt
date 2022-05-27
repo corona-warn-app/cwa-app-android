@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,7 +37,7 @@ class DccValidityStateNotificationService @Inject constructor(
     suspend fun showNotificationIfStateChanged(forceCheck: Boolean = false) = mutex.withLock {
         Timber.tag(TAG).v("showNotificationIfStateChanged(forceCheck=%s)", forceCheck)
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
-        val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()
+        val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowJavaUTC.toLocalDateUtc()
 
         if (!forceCheck && timeBasedCheckRequired) {
             Timber.tag(TAG).d("Last check is within the same day -> skipping for now (see you tomorrow).")
@@ -48,11 +48,11 @@ class DccValidityStateNotificationService @Inject constructor(
         allCerts.notifyForState<Invalid> { it.notifiedInvalidAt == null }
         allCerts.notifyForState<Blocked> { it.notifiedBlockedAt == null }
         allCerts.notifyForState<Revoked> { it.notifiedRevokedAt == null }
-        covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
+        covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
     }
 
     private suspend fun CwaCovidCertificate.setStateNotificationShown(
-        time: Instant = timeStamper.nowUTC
+        time: Instant = timeStamper.nowJavaUTC
     ) = when (this) {
         is TestCertificate -> tcRepo.setNotifiedState(containerId, state, time)
         is RecoveryCertificate -> rcRepo.setNotifiedState(containerId, state, time)

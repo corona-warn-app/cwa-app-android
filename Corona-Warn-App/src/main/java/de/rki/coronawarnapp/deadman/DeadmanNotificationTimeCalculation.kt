@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeConstants
-import org.joda.time.Instant
-import org.joda.time.Minutes
+
+import java.time.Instant
 import timber.log.Timber
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @Reusable
@@ -37,7 +37,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
      */
     internal fun calculateDelay(lastSuccess: Instant?): Int {
         val minutesSinceLastSuccess = if (lastSuccess != null)
-            Minutes.minutesBetween(lastSuccess, timeStamper.nowUTC).minutes
+            ChronoUnit.MINUTES.between(lastSuccess, timeStamper.nowJavaUTC).toInt()
         else 0
         return DEADMAN_NOTIFICATION_DELAY_MINUTES - minutesSinceLastSuccess
     }
@@ -46,6 +46,6 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
         /**
          * Deadman notification background job delay set to 36 hours
          */
-        const val DEADMAN_NOTIFICATION_DELAY_MINUTES = 36 * DateTimeConstants.MINUTES_PER_HOUR
+        const val DEADMAN_NOTIFICATION_DELAY_MINUTES = 36 * 60
     }
 }

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.risk
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.task.Task
-import org.joda.time.Instant
+import java.time.Instant
 
 data class EwRiskLevelTaskResult(
     override val calculatedAt: Instant,

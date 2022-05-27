@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,7 +59,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         id = 4,
         date = date,
         fkLocationId = location.locationId,
-        duration = Duration.standardMinutes(99),
+        duration = Duration.ofMinutes(99),
         circumstances = "I had to buy snacks.",
         checkInID = 101
     )
@@ -159,7 +159,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
             id = 7,
             date = yesterday,
             fkLocationId = location.locationId,
-            duration = Duration.standardMinutes(42),
+            duration = Duration.ofMinutes(42),
             circumstances = "visit-yesterday",
             checkInID = null
         )
@@ -167,7 +167,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
             id = 8,
             date = tomorrow,
             fkLocationId = location.locationId,
-            duration = Duration.standardMinutes(1),
+            duration = Duration.ofMinutes(1),
             circumstances = "visit-today",
             checkInID = 155
         )
@@ -216,7 +216,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         locationVisitFlow.first().single() shouldBe locationVisit
 
         val updatedLocation = locationVisit.copy(
-            duration = Duration.millis(123L),
+            duration = Duration.ofMillis(123L),
             circumstances = "Suspicious"
         )
         locationVisitDao.update(updatedLocation)

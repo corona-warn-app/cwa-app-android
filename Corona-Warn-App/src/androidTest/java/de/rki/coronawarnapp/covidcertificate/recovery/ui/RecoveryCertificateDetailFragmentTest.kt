@@ -20,9 +20,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -129,7 +129,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
         every { validUntil } returns
-            LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
+            LocalDate.parse("2021-11-10", DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
         every { fullNameFormatted } returns "Mustermann, Max"
         every { headerExpiresAt } returns Instant.now().plus(21)

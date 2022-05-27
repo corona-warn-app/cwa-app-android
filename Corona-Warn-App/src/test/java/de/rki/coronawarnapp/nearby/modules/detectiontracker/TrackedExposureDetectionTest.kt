@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest

@@ -7,9 +7,10 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.TracingProgress
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.text.DateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 sealed class TracingState {
     abstract val riskState: RiskState
@@ -18,7 +19,7 @@ sealed class TracingState {
     internal fun formatRelativeDateTimeString(context: Context, date: Instant): CharSequence? =
         DateUtils.getRelativeDateTimeString(
             context,
-            date.millis,
+            date.toEpochMilli(),
             DateUtils.DAY_IN_MILLIS,
             DateUtils.DAY_IN_MILLIS * 2,
             0
@@ -81,7 +82,7 @@ data class IncreasedRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toString(DateTimeFormat.mediumDate())
+            DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastEncounterAt)
         )
     }
 }
@@ -152,7 +153,7 @@ data class LowRisk(
 
         return context.getString(
             stringRes,
-            lastEncounterAt.toString(DateTimeFormat.mediumDate())
+            DateFormat.getDateInstance(DateFormat.MEDIUM).format(lastEncounterAt)
         )
     }
 

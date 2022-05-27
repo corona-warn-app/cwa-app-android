@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 
 /**
@@ -50,9 +50,9 @@ class RAResultRetrievalWorker @AssistedInject constructor(
             coronaTestRepository.refresh(BaseCoronaTest.Type.RAPID_ANTIGEN)
             Timber.tag(TAG).d("$id: RA test result refreshed.")
 
-            val nowUTC = timeStamper.nowUTC
-            val days = Duration(rat.registeredAt, nowUTC).standardDays
-            val minutes = Duration(rat.registeredAt, nowUTC).standardMinutes
+            val nowJavaUTC = timeStamper.nowJavaUTC
+            val days =Duration.between(rat.registeredAt, nowJavaUTC).toDays()
+            val minutes =Duration.between(rat.registeredAt, nowJavaUTC).toMinutes()
             val isPhase1 = ratResultScheduler.ratResultPeriodicPollingMode == PHASE1
             Timber.tag(TAG).d("Calculated days: %d", days)
 

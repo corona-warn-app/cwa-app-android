@@ -39,8 +39,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -111,7 +111,7 @@ class PersonDetailsViewModelTest : BaseTest() {
 
         coEvery { personCertificatesProvider.setCurrentCwaUser(any()) } just Runs
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().also {

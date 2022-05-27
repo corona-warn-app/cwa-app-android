@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeStamper
@@ -17,9 +18,10 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDateTime
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlin.math.roundToInt
 
 class TraceLocationWarnDurationViewModel @AssistedInject constructor(
@@ -47,7 +49,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
     fun durationChanged(duration: Duration) {
         uiState.apply {
             value = value.copy(
-                duration = Duration.standardMinutes(duration.standardMinutes.coerceIn(15, 1425))
+                duration = Duration.ofMinutes(duration.toMinutes().coerceIn(15, 1425))
             )
         }
     }
@@ -63,25 +65,25 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
 
         if (traceLocation.startDate != null &&
             traceLocation.startDate != Instant.EPOCH &&
-            !traceLocation.isBeforeStartTime(timeStamper.nowUTC)
+            !traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC)
         ) {
             uiState.apply {
-                value = value.copy(localDateTime = traceLocation.startDate.toDateTime().toLocalDateTime())
+                value = value.copy(localDateTime = traceLocation.startDate.toDateTime())
             }
         }
 
         when {
             traceLocation.endDate != null && traceLocation.endDate != Instant.EPOCH ->
-                getNearestFifteen(Duration(traceLocation.startDate, traceLocation.endDate).standardMinutes)
+                getNearestFifteen(Duration.between(traceLocation.startDate, traceLocation.endDate).toMinutes())
             traceLocation.defaultCheckInLengthInMinutes != null && traceLocation.defaultCheckInLengthInMinutes > 0 ->
                 getNearestFifteen(traceLocation.defaultCheckInLengthInMinutes.toLong())
             else ->
-                Duration.standardHours(2)
+                Duration.ofHours(2)
         }.also { durationChanged(it) }
     }
 
     private fun getNearestFifteen(number: Long): Duration {
-        return Duration.standardMinutes(((number.toFloat() / 15).roundToInt() * 15).toLong())
+        return Duration.ofMinutes(((number.toFloat() / 15).roundToInt() * 15).toLong())
     }
 
     data class UiState(
@@ -89,7 +91,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         val startDateTime: Instant? = null,
         val endDateTime: Instant? = null,
         val localDateTime: LocalDateTime = LocalDateTime.now(),
-        val duration: Duration = Duration.standardMinutes(15)
+        val duration: Duration = Duration.ofMinutes(15)
     ) {
         fun formattedDateTime() = "${localDateTime.toDayFormat()} ${localDateTime.toShortTimeFormat()}"
 
@@ -100,7 +102,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         }
 
         fun getTraceLocationWarnDuration(traceLocation: TraceLocation): TraceLocationWarnDuration {
-            val startDate = localDateTime.toDateTime().toInstant()
+            val startDate = localDateTime.atZone(ZoneId.systemDefault()).toInstant()
             return TraceLocationWarnDuration(
                 traceLocation = traceLocation,
                 startDate = startDate,

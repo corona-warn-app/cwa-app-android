@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.installTime
 import android.content.Context
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.di.AppContext
-import org.joda.time.Days
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,5 +25,5 @@ class InstallTimeProvider @Inject constructor(
         get() = Instant.now().toLocalDateUserTz()
 
     val daysSinceInstallation: Int
-        get() = Days.daysBetween(dayOfInstallation, today).days
+        get() = ChronoUnit.DAYS.between(dayOfInstallation, today).toInt()
 }

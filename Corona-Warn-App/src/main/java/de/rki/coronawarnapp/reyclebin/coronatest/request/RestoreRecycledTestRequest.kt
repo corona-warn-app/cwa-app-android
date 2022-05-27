@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.reyclebin.coronatest.request
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.parcelize.Parcelize
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Parcelize
 data class RestoreRecycledTestRequest(

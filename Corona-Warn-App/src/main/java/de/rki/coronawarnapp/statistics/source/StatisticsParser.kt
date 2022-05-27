@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 

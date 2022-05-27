@@ -12,7 +12,7 @@ import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

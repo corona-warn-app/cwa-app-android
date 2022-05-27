@@ -10,10 +10,10 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.hashing.isSha256Hash
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.toJavaTime
+
 import okio.internal.commonToUtf8String
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import timber.log.Timber
 
 abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
@@ -31,7 +31,7 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
             hash = payload.hash,
             firstName = payload.firstName,
             lastName = payload.lastName,
-            dateOfBirth = payload.dateOfBirth?.toJavaTime()
+            dateOfBirth = payload.dateOfBirth
         )
 
         payload.requireValidData()

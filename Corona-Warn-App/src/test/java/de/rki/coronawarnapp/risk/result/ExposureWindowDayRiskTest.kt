@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.risk.result
 
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
-import org.joda.time.Days
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Days
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
@@ -35,7 +35,7 @@ class ExposureWindowDayRiskTest : BaseTest() {
     }
 
     private fun createAggregatedRiskPerDateResult(date: Instant) = ExposureWindowDayRisk(
-        dateMillisSinceEpoch = date.millis,
+        dateMillisSinceEpoch = date.toEpochMilli(),
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0

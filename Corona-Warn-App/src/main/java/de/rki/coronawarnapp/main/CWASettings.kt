@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class CWASettings @Inject constructor(
 
     var lastDeviceTimeStateChangeAt: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, 0L))
-        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value.millis) }
+        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value.toEpochMilli()) }
 
     var lastDeviceTimeStateChangeState: ConfigData.DeviceTimeState
         get() = prefs.getString(

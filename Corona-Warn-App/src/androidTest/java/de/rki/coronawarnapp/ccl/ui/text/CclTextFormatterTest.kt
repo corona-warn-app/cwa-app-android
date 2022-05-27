@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation
@@ -34,7 +33,6 @@ class CclTextFormatterTest : BaseTestInstrumentation() {
 
         val timeZone = TimeZone.getTimeZone("Europe/Berlin")
         TimeZone.setDefault(timeZone)
-        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
     }
 
     @Test

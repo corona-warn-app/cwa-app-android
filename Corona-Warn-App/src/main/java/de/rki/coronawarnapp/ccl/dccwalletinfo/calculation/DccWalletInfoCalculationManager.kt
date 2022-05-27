@@ -32,7 +32,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerAfterConfigChange() - STARTED")
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
         persons.forEach { person ->
             if (configurationChanged ||
                 person.dccWalletInfo == null ||

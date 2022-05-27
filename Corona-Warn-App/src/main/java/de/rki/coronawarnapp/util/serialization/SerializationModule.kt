@@ -24,9 +24,9 @@ import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import okio.ByteString
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 
 @Module
 class SerializationModule {

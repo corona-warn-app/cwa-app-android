@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.qrcode
 
 import androidx.annotation.VisibleForTesting
-import org.joda.time.Duration
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToLong
 
@@ -43,7 +43,7 @@ fun TraceLocation.getDefaultAutoCheckoutLengthInMinutes(): Int {
             return minDefaultAutoCheckOutLengthInMinutes
         }
 
-        val minutesUntilEndDate = Duration(startDate, endDate).standardMinutes.toInt()
+        val minutesUntilEndDate =Duration.between(startDate, endDate).toMinutes().toInt()
 
         if (minutesUntilEndDate < minDefaultAutoCheckOutLengthInMinutes) {
             return minDefaultAutoCheckOutLengthInMinutes
@@ -65,9 +65,9 @@ fun TraceLocation.getDefaultAutoCheckoutLengthInMinutes(): Int {
 fun roundToNearest15Minutes(minutes: Int): Int {
     val roundingStepInMinutes = 15
     return Duration
-        .standardMinutes(
+        .ofMinutes(
             (minutes.toFloat() / roundingStepInMinutes)
                 .roundToLong() * roundingStepInMinutes
         )
-        .standardMinutes.toInt()
+        .toMinutes().toInt()
 }

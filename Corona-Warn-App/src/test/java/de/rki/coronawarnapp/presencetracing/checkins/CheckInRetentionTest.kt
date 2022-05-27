@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.presencetracing.checkins
 
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 
 internal class CheckInRetentionTest {

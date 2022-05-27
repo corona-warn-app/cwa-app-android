@@ -17,7 +17,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

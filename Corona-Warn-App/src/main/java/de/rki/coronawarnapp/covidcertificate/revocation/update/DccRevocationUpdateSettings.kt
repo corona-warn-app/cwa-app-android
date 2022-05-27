@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject

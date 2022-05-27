@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -108,7 +108,7 @@ class KeyCacheRepository @Inject constructor(
             location = location,
             day = dayIdentifier,
             hour = hourIdentifier,
-            createdAt = timeStamper.nowUTC
+            createdAt = timeStamper.nowJavaUTC
         )
 
         val targetFile = getPathForKey(keyInfo)

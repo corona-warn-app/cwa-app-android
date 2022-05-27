@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.recyclebin.common
 
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -40,6 +40,6 @@ class RecyclableTest : BaseTest() {
 
     @Test
     fun `Check days of retention for recycle bin`() {
-        Recyclable.RETENTION_DAYS.standardDays shouldBe 30
+        Recyclable.RETENTION_DAYS.toDays() shouldBe 30
     }
 }

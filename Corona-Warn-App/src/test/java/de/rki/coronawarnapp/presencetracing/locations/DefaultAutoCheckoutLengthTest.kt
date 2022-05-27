@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.getDefaultAutoChecko
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import testhelpers.BaseTest

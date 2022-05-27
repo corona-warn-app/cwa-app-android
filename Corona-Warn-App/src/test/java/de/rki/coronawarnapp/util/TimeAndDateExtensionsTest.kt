@@ -5,22 +5,18 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.daysUntil
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.getCurrentHourUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.mockkObject
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 /**
  * TimeAndDateExtensions test.
@@ -35,23 +31,17 @@ class TimeAndDateExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun getCurrentHourUTCTest() {
-        val result = getCurrentHourUTC()
-        MatcherAssert.assertThat(result, CoreMatchers.`is`(DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()))
-    }
-
-    @Test
     fun test_daysAgo() {
-        LocalDate(2012, 3, 4).ageInDays(
-            LocalDate(2012, 3, 4)
+        LocalDate.of(2012, 3, 4).ageInDays(
+            LocalDate.of(2012, 3, 4)
         ) shouldBe 0
 
-        LocalDate(2013, 12, 31).ageInDays(
-            LocalDate(2014, 1, 2)
+        LocalDate.of(2013, 12, 31).ageInDays(
+            LocalDate.of(2014, 1, 2)
         ) shouldBe 2
 
-        LocalDate(2014, 5, 2).ageInDays(
-            LocalDate(2014, 5, 5)
+        LocalDate.of(2014, 5, 2).ageInDays(
+            LocalDate.of(2014, 5, 5)
         ) shouldBe 3
     }
 
@@ -108,28 +98,28 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun `days until`() {
         Instant.parse("2021-02-15T13:52:05+00:00").daysUntil(
             date = Instant.parse("2021-02-15T13:52:05+02:00"),
-            timeZone = DateTimeZone.forOffsetHours(2)
+            timeZone = ZoneOffset.ofHours(2)
         ) shouldBe 0
 
         Instant.parse("2021-02-13T23:00:05+00:00").daysUntil(
             date = Instant.parse("2021-02-15T00:52:05+02:00"),
-            timeZone = DateTimeZone.forOffsetHours(2)
+            timeZone = ZoneOffset.ofHours(2)
         ) shouldBe 1
 
         Instant.parse("2021-02-15T00:00:05+00:00").daysUntil(
             date = Instant.parse("2021-02-14T00:52:05+02:00"),
-            timeZone = DateTimeZone.forOffsetHours(2)
+            timeZone = ZoneOffset.ofHours(2)
         ) shouldBe -1
 
         Instant.parse("2021-02-15T00:00:05+02:00").daysUntil(
             date = Instant.parse("2021-02-14T00:52:05+00:00"),
-            timeZone = DateTimeZone.forOffsetHours(0)
+            timeZone = ZoneOffset.ofHours(0)
         ) shouldBe 0
     }
 
     @Test
     fun `toDateTimeAtStartOfDayUtc returns a date on the same day if converted to instant`() {
-        val day = LocalDate(2021, 2, 15)
+        val day = LocalDate.of(2021, 2, 15)
         val startOfDayUtc = day.toDateTimeAtStartOfDayUtc()
         val timeStampUtc = startOfDayUtc.toInstant().seconds
         val tsuInstantString = timeStampUtc.secondsToInstant().toString()

@@ -34,7 +34,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     suspend fun moveToReported(
         wrapperEntities: List<AnalyticsExposureWindowEntityWrapper>
     ): List<AnalyticsReportedExposureWindowEntity> {
-        return dao.moveToReported(wrapperEntities, timeStamper.nowUTC.millis)
+        return dao.moveToReported(wrapperEntities, timeStamper.nowJavaUTC.toEpochMilli())
     }
 
     suspend fun rollback(

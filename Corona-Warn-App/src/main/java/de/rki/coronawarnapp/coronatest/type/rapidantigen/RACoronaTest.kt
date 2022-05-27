@@ -14,9 +14,9 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.util.toJavaInstant
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+
+import java.time.Instant
+import java.time.LocalDate
 
 data class RACoronaTest(
     @SerializedName("identifier")
@@ -93,12 +93,12 @@ data class RACoronaTest(
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
-        testTakenAt.toJavaInstant().plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+    private fun isOutdated(nowJavaUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
+        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowJavaUTC)
 
-    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
+    fun getState(nowJavaUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED
-        testResult == RAT_NEGATIVE && isOutdated(nowUTC.toJavaInstant(), testConfig) -> State.OUTDATED
+        testResult == RAT_NEGATIVE && isOutdated(nowJavaUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {
             PCR_OR_RAT_PENDING,
             RAT_PENDING -> State.PENDING

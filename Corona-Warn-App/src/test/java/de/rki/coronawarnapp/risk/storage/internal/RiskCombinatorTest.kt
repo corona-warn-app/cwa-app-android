@@ -17,8 +17,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -31,7 +31,7 @@ class RiskCombinatorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234567890)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234567890)
     }
 
     private fun createInstance() = RiskCombinator(
@@ -55,62 +55,62 @@ class RiskCombinatorTest : BaseTest() {
     @Test
     fun `combineRisk works`() {
         val ptRisk0 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 19),
+            localDateUtc = LocalDate.of(2021, 3, 19),
             riskState = LOW_RISK
         )
         val ptRisk1 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 20),
+            localDateUtc = LocalDate.of(2021, 3, 20),
             riskState = INCREASED_RISK
         )
         val ptRisk2 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 21),
+            localDateUtc = LocalDate.of(2021, 3, 21),
             riskState = LOW_RISK
         )
         val ptRisk3 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 22),
+            localDateUtc = LocalDate.of(2021, 3, 22),
             riskState = CALCULATION_FAILED
         )
         val ptRisk4 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 23),
+            localDateUtc = LocalDate.of(2021, 3, 23),
             riskState = LOW_RISK
         )
         val ptRisk5 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 24),
+            localDateUtc = LocalDate.of(2021, 3, 24),
             riskState = INCREASED_RISK
         )
 
         val ewRisk0 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-24T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-24T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk1 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-23T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-23T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk2 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk3 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.LOW,
             0,
             0
         )
         val ewRisk4 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
         )
         val ewRisk5 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
@@ -122,28 +122,28 @@ class RiskCombinatorTest : BaseTest() {
         result.size shouldBe 7
 
         result.single {
-            it.localDate == LocalDate(2021, 3, 15)
+            it.localDate == LocalDate.of(2021, 3, 15)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 19)
+            it.localDate == LocalDate.of(2021, 3, 19)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 20)
+            it.localDate == LocalDate.of(2021, 3, 20)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 21)
+            it.localDate == LocalDate.of(2021, 3, 21)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 22)
+            it.localDate == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 22)
+            it.localDate == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 23)
+            it.localDate == LocalDate.of(2021, 3, 23)
         }.riskState shouldBe INCREASED_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 24)
+            it.localDate == LocalDate.of(2021, 3, 24)
         }.riskState shouldBe INCREASED_RISK
     }
 

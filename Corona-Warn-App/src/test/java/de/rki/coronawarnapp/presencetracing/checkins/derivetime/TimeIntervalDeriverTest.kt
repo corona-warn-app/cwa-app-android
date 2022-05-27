@@ -1,19 +1,15 @@
 package de.rki.coronawarnapp.presencetracing.checkins.derivetime
 
 import de.rki.coronawarnapp.appconfig.PresenceTracingSubmissionParamContainer
-import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
-import de.rki.coronawarnapp.server.protocols.internal.v2
-    .PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.AerosoleDecayFunctionLinear
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingSubmissionParameters.DurationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
 import io.kotest.matchers.shouldBe
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 /**
@@ -21,6 +17,8 @@ import java.util.concurrent.TimeUnit
  * proposal/event-registration-mvp/test-cases/pt-derive-time-interval-data.json]
  */
 internal class TimeIntervalDeriverTest : BaseTest() {
+
+    private val timeZoneOffsetBerlin = 2 // Berlin
 
     /* "defaultConfiguration": {
     "durationFilters": [
@@ -53,8 +51,8 @@ internal class TimeIntervalDeriverTest : BaseTest() {
     ]
   } */
 
-    private val timeFormat: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm Z")
-        .withZone(DateTimeZone.forID("Europe/Berlin"))
+    private val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm Z")
+        .withZone(ZoneOffset.ofHours(timeZoneOffsetBerlin))
 
     private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
         durationFilters = listOf(
@@ -271,11 +269,11 @@ internal class TimeIntervalDeriverTest : BaseTest() {
     }
 
     private fun timeInSeconds(dateTime: String): Long {
-        val millis = timeFormat.parseDateTime(dateTime).millis
+        val millis = Instant.parse(dateTime).toEpochMilli()
         return TimeUnit.MILLISECONDS.toSeconds(millis)
     }
 
     private fun timeToString(timeInSecond: Long): String {
-        return DateTime(TimeUnit.SECONDS.toMillis(timeInSecond)).toString(timeFormat)
+        return timeFormat.format(Instant.ofEpochSecond(TimeUnit.SECONDS.toMillis(timeInSecond)))
     }
 }

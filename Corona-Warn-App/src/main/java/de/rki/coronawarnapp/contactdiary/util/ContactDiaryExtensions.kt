@@ -10,8 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 fun ViewPager2.registerOnPageChangeCallback(cb: (position: Int) -> Unit) {
@@ -34,14 +35,15 @@ fun Context.getLocale(): Locale {
     }
 }
 
-fun LocalDate.toFormattedDay(locale: Locale): String = toString("EEEE, ${locale.shortDatePattern()}", locale)
+fun LocalDate.toFormattedDay(locale: Locale): String =
+    format(DateTimeFormatter.ofPattern("EEEE, ${locale.shortDatePattern()}", locale))
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Longdate)
     // because the custom pattern of toString() does not localize characters like "/" or "."
     // For accessibility DateTimeFormat.longDate() is required since shortDate() may read the date in the wrong format
-    return "${toString("EEEE", locale)}, " +
-        DateTimeFormat.longDate().withLocale(locale).print(this)
+    return "${format(DateTimeFormatter.ofPattern("EEEE", locale))}, " +
+        DateFormat.getDateInstance(DateFormat.LONG, locale).format(this)
 }
 
 fun EditText.focusAndShowKeyboard() {

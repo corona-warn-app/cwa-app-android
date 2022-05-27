@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,7 +40,7 @@ class FamilyTestStorage @Inject constructor(
     }
 
     suspend fun moveAllToRecycleBin(identifiers: List<TestIdentifier>, atInstant: Instant) {
-        dao.moveAllToRecycleBin(identifiers, atInstant.millis)
+        dao.moveAllToRecycleBin(identifiers, atInstant.toEpochMilli())
     }
 
     override suspend fun reset() {
@@ -52,7 +52,7 @@ class FamilyTestStorage @Inject constructor(
 fun FamilyCoronaTest.toEntity(): FamilyCoronaTestEntity {
     return FamilyCoronaTestEntity(
         identifier = coronaTest.identifier,
-        movedToRecycleBinAtMillis = coronaTest.recycledAt?.millis,
+        movedToRecycleBinAtMillis = coronaTest.recycledAt?.toEpochMilli(),
         test = this,
     )
 }

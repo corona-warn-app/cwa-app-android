@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.util.toJavaTime
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -46,7 +46,7 @@ class FamilyTestCensor @Inject constructor(
                         test.coronaTest.additionalInfo?.let { info ->
                             info.firstName?.let { names.add(it) }
                             info.lastName?.let { names.add(it) }
-                            info.dateOfBirth?.let { dates.add(it.toJavaTime()) }
+                            info.dateOfBirth?.let { dates.add(it) }
                         }
                     }
                 }

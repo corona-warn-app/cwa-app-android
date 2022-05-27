@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBindin
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import org.joda.time.Duration
+import java.time.Duration
 
 class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
 

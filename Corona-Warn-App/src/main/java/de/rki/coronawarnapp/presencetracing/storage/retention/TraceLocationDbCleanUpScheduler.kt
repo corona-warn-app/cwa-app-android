@@ -5,7 +5,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dagger.Reusable
 import de.rki.coronawarnapp.initializer.Initializer
-import org.joda.time.DateTimeConstants
+
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class TraceLocationDbCleanUpScheduler @Inject constructor(
 ) : Initializer {
 
     private val periodicWorkRequest = PeriodicWorkRequestBuilder<TraceLocationDbCleanUpPeriodicWorker>(
-        DateTimeConstants.HOURS_PER_DAY.toLong(),
+        24,
         TimeUnit.HOURS
     ).build()
 

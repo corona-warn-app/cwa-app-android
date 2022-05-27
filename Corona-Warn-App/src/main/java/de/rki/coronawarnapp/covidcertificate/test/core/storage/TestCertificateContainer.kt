@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateV
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.Locale
 
 data class TestCertificateContainer(

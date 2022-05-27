@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

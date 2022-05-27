@@ -18,15 +18,16 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.text.DateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
-    val today = LocalDate()
+    val today = LocalDate.now()
     val yesterday = today.minusDays(1)
-    val updatedAtDate = LocalDate(updatedAt.toUserTimeZone())
-    val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
+    val updatedAtDate = LocalDate.from(updatedAt.toUserTimeZone())
+    val dateTimeFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, context.getLocale())
 
     return when (this) {
         is InfectionStats,
@@ -35,7 +36,7 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
         is OccupiedIntensiveCareStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.print(updatedAtDate)
+            else -> dateTimeFormatter.format(updatedAtDate)
         }
         is PersonsVaccinatedOnceStats,
         is IncidenceAndHospitalizationStats,
@@ -43,40 +44,40 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
         is PersonsVaccinatedWithBoosterStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
         }
         is SevenDayRValue -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_current)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
         }
     }
 }
 
 fun getSecondaryLabel(context: Context, updatedAt: Instant): String {
-    val today = LocalDate()
+    val today = LocalDate.now()
     val yesterday = today.minusDays(1)
-    val updatedAtDate = LocalDate(updatedAt.toUserTimeZone())
-    val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
+    val updatedAtDate = LocalDate.from(updatedAt.toUserTimeZone())
+    val dateTimeFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, context.getLocale())
 
     return when (updatedAtDate) {
         today -> context.getString(R.string.statistics_primary_value_until_today)
         yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-        else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
+        else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
     }
 }
 
 fun LocalStatsItem.getPrimaryLabel(context: Context, localUpdatedAt: Instant = updatedAt): String {
-    val today = LocalDate()
+    val today = LocalDate.now()
     val yesterday = today.minusDays(1)
-    val updatedAtDate = LocalDate(localUpdatedAt.toUserTimeZone())
-    val dateTimeFormatter = DateTimeFormat.mediumDate().withLocale(context.getLocale())
+    val updatedAtDate = LocalDate.from(updatedAt.toUserTimeZone())
+    val dateTimeFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, context.getLocale())
 
     return when (this) {
         is LocalIncidenceAndHospitalizationStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
         }
     }
 }

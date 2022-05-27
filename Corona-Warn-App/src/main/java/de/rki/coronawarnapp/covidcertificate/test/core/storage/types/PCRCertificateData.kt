@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
-import org.joda.time.Instant
+import java.time.Instant
 
 data class PCRCertificateData internal constructor(
     @SerializedName("identifier")

@@ -12,8 +12,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,7 +26,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var profileRepository: ProfileRepository
 
-    private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     private val birthDate: LocalDate = formatter.parseDateTime("01.01.1980").toLocalDate()
 
     @BeforeEach

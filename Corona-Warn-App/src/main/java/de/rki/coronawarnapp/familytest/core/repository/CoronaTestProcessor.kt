@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -53,7 +53,7 @@ class CoronaTestProcessor @Inject constructor(
         return CoronaTest(
             type = qrCode.type,
             identifier = qrCode.identifier,
-            registeredAt = timeStamper.nowUTC,
+            registeredAt = timeStamper.nowJavaUTC,
             registrationToken = registrationData.registrationToken,
             testResult = testResult,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
@@ -72,7 +72,7 @@ class CoronaTestProcessor @Inject constructor(
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
             } catch (e: BadRequestException) {
-                if (test.isOlderThan21Days(timeStamper.nowUTC)) {
+                if (test.isOlderThan21Days(timeStamper.nowJavaUTC)) {
                     Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
                     CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
                 } else {

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.test.submission.ui
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.util.lists.HasStableId
-import org.joda.time.Instant
+import java.time.Instant
 
 data class TEKHistoryItem(
     val obtainedAt: Instant,

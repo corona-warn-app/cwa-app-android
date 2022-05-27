@@ -10,8 +10,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,7 +25,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1010010101)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1010010101)
         every { coronaTestConfig.ratParameters.hoursToDeemTestOutdated } returns
             java.time.Duration.ofHours(48)
     }
@@ -33,7 +33,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     @Test
     fun `state determination, unregistered test`() = runTest {
         val test: RACoronaTest? = null
-        test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.NoTest
+        test.toSubmissionState(timeStamper.nowJavaUTC, coronaTestConfig) shouldBe SubmissionStateRAT.NoTest
     }
 
     @Test
@@ -51,7 +51,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             lastName = null,
             lastUpdatedAt = Instant.EPOCH,
         )
-        test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
+        test.toSubmissionState(timeStamper.nowJavaUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
             testRegisteredAt = Instant.ofEpochMilli(123)
         )
     }
@@ -72,7 +72,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             lastError = SocketException("Connection reset")
         )
         test.toSubmissionState(
-            timeStamper.nowUTC,
+            timeStamper.nowJavaUTC,
             coronaTestConfig
         ) shouldBe instanceOf(SubmissionStateRAT.TestResultReady::class)
     }
@@ -92,7 +92,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             lastError = BadRequestException("")
         )
         test.toSubmissionState(
-            timeStamper.nowUTC,
+            timeStamper.nowJavaUTC,
             coronaTestConfig
         ) shouldBe instanceOf(SubmissionStateRAT.TestInvalid::class)
     }
@@ -109,10 +109,10 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             firstName = null,
             lastName = null,
             lastUpdatedAt = Instant.EPOCH,
-            recycledAt = timeStamper.nowUTC
+            recycledAt = timeStamper.nowJavaUTC
         )
         test.toSubmissionState(
-            timeStamper.nowUTC,
+            timeStamper.nowJavaUTC,
             coronaTestConfig
         ) shouldBe SubmissionStateRAT.NoTest
     }

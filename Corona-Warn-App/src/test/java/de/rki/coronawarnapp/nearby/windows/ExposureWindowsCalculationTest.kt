@@ -38,9 +38,9 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTimeConstants
+
 import java.time.Duration
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -73,7 +73,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.now()
+        every { timeStamper.nowJavaUTC } returns Instant.now()
     }
 
     private fun debugLog(s: String, toShow: LogLevel = LogLevel.ALL) {
@@ -147,7 +147,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
     private fun getTestCaseDate(expAge: Long?): Instant? {
         if (expAge == null) return null
-        return timeStamper.nowUTC - expAge * DateTimeConstants.MILLIS_PER_DAY
+        return Instant.ofEpochMilli(timeStamper.nowJavaUTC.toEpochMilli() - expAge * MILLIS_PER_DAY)
     }
 
     private fun comparisonDebugTable(ewAggregated: EwAggregatedRiskResult, case: TestCase): String {
@@ -224,7 +224,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
         for (
-            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+        filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
         ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
@@ -430,7 +430,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         every { exposureWindow.calibrationConfidence } returns json.calibrationConfidence
         every { exposureWindow.dateMillisSinceEpoch } returns
-            timeStamper.nowUTC.millis - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
+            timeStamper.nowJavaUTC.toEpochMilli() - (MILLIS_PER_DAY * json.ageInDays)
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->
@@ -451,4 +451,6 @@ class ExposureWindowsCalculationTest : BaseTest() {
         every { scanInstance.typicalAttenuationDb } returns json.typicalAttenuation
         return scanInstance
     }
+
+    private val MILLIS_PER_DAY = 1000 * 60 * 60 *24L
 }

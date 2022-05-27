@@ -18,9 +18,9 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -131,7 +131,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     }
 
     private fun vaccinationCertificate(): VaccinationCertificate {
-        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         return mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
             every { fullNameStandardizedFormatted } returns "MUSTERMANN<<MAX"

@@ -32,8 +32,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import timber.log.Timber
 import java.io.File
 
@@ -180,8 +180,8 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Creating text file for Exposure Windows")
         launch {
             val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
-            val fileNameCompatibleTimestamp = timeStamper.nowUTC.toString(
-                DateTimeFormat.forPattern("yyyy-MM-DD-HH-mm-ss")
+            val fileNameCompatibleTimestamp = DateTimeFormatter.ofPattern("yyyy-MM-DD-HH-mm-ss").format(
+                timeStamper.nowJavaUTC
             )
 
             val path = File(context.cacheDir, "share/")

@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

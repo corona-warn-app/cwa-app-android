@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
@@ -46,9 +47,9 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.Days
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
+import java.time.Duration
 import kotlin.concurrent.fixedRateTimer
 
 @Suppress("LongParameterList")
@@ -65,7 +66,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
     val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private fun TimeStamper.localDate(): LocalDate = nowUTC.toUserTimeZone().toLocalDate()
+    private fun TimeStamper.localDate(): LocalDate = nowJavaUTC.toUserTimeZone().toLocalDate()
 
     private fun dates() = (0 until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
     private val datesFlow = MutableStateFlow(dates())
@@ -74,7 +75,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         name = "Reload-contact-journal-dates-timer-thread",
         daemon = true,
         startAt = timeStamper.localDate().plusDays(1).toDate(),
-        period = Days.ONE.toStandardDuration().millis,
+        period = Duration.ofDays(1).toMillis(),
         action = { datesFlow.value = dates() }
     )
 
@@ -352,7 +353,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 personEncountersFlow.first(),
                 locationVisitsFlow.first(),
                 testResultsFlow.first(),
-                DAY_COUNT
+                DAY_COUNT.toInt()
             )
 
             exportLocationsAndPersons.postValue(export)
@@ -369,6 +370,6 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     companion object {
         // Today + 14 days
-        const val DAY_COUNT = 15
+        const val DAY_COUNT = 15L
     }
 }

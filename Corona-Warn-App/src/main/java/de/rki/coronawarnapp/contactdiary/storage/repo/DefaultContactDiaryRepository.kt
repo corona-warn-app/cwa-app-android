@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

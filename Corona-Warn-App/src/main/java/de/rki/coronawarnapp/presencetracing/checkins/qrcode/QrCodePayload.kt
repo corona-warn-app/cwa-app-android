@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.toOkioByteString
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
+import java.time.Instant
 
 fun TraceLocation.qrCodePayload(): QRCodePayload {
     val vendorData = CWALocationData.newBuilder()

@@ -16,21 +16,19 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationDateTime: DateTime,
+    validationDateTime: OffsetDateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     // convert to utc - engine does not like other tz
     val validationClock = validationDateTime
-        .toDateTime(DateTimeZone.UTC)
         .asZonedDateTime(UTC_ZONE_ID)
 
     return ExternalParameter(
@@ -122,7 +120,7 @@ private val String.asExternalCertificateType: RuleCertificateType
     }
 
 fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
-    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
+    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.toEpochMilli()), zoneId)
 }
 
 @VisibleForTesting
@@ -151,7 +149,7 @@ internal val DccData<out DccV1.MetaData>.typeString: String
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationDateTime: DateTime,
+    validationDateTime: OffsetDateTime,
     certificateType: String,
     country: DccCountry,
 ): List<DccValidationRule> = this
@@ -170,13 +168,13 @@ internal fun List<DccValidationRule>.filterRelevantRules(
     }
     .toList()
 
-fun DateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
+fun OffsetDateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
     year,
-    monthOfYear,
+    monthValue,
     dayOfMonth,
-    hourOfDay,
-    minuteOfHour,
-    secondOfMinute,
+    hour,
+    minute,
+    second,
     0,
     zoneId
 )

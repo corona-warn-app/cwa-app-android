@@ -31,7 +31,7 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
@@ -56,7 +56,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns currentInstant
+        every { timeStamper.nowJavaUTC } returns currentInstant
 
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent

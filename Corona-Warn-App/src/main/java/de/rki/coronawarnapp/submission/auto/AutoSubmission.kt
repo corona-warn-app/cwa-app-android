@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -54,7 +54,7 @@ class AutoSubmission @Inject constructor(
 
         when (newMode) {
             Mode.DISABLED -> disableAutoSubmission()
-            Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
+            Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowJavaUTC)
             Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
         }
     }
@@ -122,7 +122,7 @@ class AutoSubmission @Inject constructor(
      */
     fun updateLastSubmissionUserActivity() {
         Timber.tag(TAG).d("updateLastSubmissionUserActivity()")
-        submissionSettings.lastSubmissionUserActivityUTC.update { timeStamper.nowUTC }
+        submissionSettings.lastSubmissionUserActivityUTC.update { timeStamper.nowJavaUTC }
     }
 
     enum class Mode {

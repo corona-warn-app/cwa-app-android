@@ -7,8 +7,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
-import org.joda.time.format.ISODateTimeFormat
+import java.time.Instant
+import java.time.format.ISODateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -21,7 +21,7 @@ class VCardTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.parse("1995-10-31T22:27:10Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("1995-10-31T22:27:10Z")
     }
 
     @Test

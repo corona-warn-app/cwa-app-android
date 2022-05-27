@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
+import java.time.OffsetDateTime
+import java.time.OffsetDateTimeZone
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -13,9 +13,9 @@ class ExposureKeyHistoryCalculationsTest {
 
     private lateinit var instance: ExposureKeyHistoryCalculations
     private lateinit var converter: KeyConverter
-    private lateinit var todayMidnight: DateTime
-    private lateinit var thisMorning: DateTime
-    private lateinit var thisEvening: DateTime
+    private lateinit var todayMidnight: OffsetDateTime
+    private lateinit var thisMorning: OffsetDateTime
+    private lateinit var thisEvening: OffsetDateTime
 
     private var timeStamper = TimeStamper()
 
@@ -192,6 +192,6 @@ class ExposureKeyHistoryCalculationsTest {
         TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setRollingStartIntervalNumber(rollingStartIntervalNumber).build()
 
-    private fun createKey(dateTime: DateTime) =
-        createKey((dateTime.millis / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt())
+    private fun createKey(dateTime: OffsetDateTime) =
+        createKey((dateTime.toEpochMilli() / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt())
 }

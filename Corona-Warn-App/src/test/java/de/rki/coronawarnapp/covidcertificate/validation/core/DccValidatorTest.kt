@@ -19,8 +19,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDateTime
+import java.time.Instant
+import java.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -45,7 +45,7 @@ class DccValidatorTest : BaseTest() {
         every { dccJsonSchemaValidator.isValid(any()) } returns JsonSchemaValidator.Result(emptySet())
         coEvery { businessValidator.validate(any(), any(), any()) } returns
             BusinessValidation(emptySet(), emptySet())
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1625827095)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1625827095)
         coEvery { dscSignatureValidator.validateSignature(any()) } just Runs
         dccValidator = DccValidator(
             businessValidator = businessValidator,

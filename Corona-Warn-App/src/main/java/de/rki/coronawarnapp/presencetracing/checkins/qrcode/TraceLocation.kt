@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 
 @Parcelize
 data class TraceLocation(

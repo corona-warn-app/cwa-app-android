@@ -17,7 +17,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -28,11 +28,11 @@ class CoronaTestProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var coronaTestService: CoronaTestService
 
-    private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val nowJavaUTC = Instant.parse("2021-03-15T05:45:00.000Z")
     private val test = CoronaTest(
         type = BaseCoronaTest.Type.PCR,
         identifier = "identifier",
-        registeredAt = nowUTC,
+        registeredAt = nowJavaUTC,
         registrationToken = "regtoken",
         testResult = CoronaTestResult.PCR_OR_RAT_PENDING
     )
@@ -41,7 +41,7 @@ class CoronaTestProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowJavaUTC
 
         coronaTestService.apply {
             coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
@@ -89,7 +89,7 @@ class CoronaTestProcessorTest : BaseTest() {
         val test = CoronaTest(
             identifier = "familyTest1",
             type = BaseCoronaTest.Type.PCR,
-            registeredAt = nowUTC,
+            registeredAt = nowJavaUTC,
             registrationToken = "registrationToken1"
         )
 

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultTechnica
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 class TechnicalValidationFailedVH(
     parent: ViewGroup

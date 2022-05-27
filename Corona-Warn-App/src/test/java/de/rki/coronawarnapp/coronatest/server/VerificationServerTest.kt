@@ -17,8 +17,8 @@ import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -274,6 +274,6 @@ class VerificationServerTest : BaseIOTest() {
 
     @Test
     fun `test availability constant`() {
-        VerificationServer.TestAvailabilityDuration shouldBe Duration.standardDays(60)
+        VerificationServer.TestAvailabilityDuration shouldBe Duration.ofDays(60)
     }
 }
