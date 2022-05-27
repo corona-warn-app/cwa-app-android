@@ -70,7 +70,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             statusIcon.constraintLayoutParams.verticalBias = 1.0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_expired)
-            statusBody.text = context.getText(R.string.expired_certificate_info)
+            statusBody.text = context.getText(R.string.expiration_info)
         }
 
         is Invalid -> {
