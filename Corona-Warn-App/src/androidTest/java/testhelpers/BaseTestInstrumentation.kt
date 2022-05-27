@@ -2,7 +2,6 @@ package testhelpers
 
 import io.mockk.unmockkAll
 import org.junit.AfterClass
-import testhelpers.logging.JUnitTree
 import timber.log.Timber
 
 abstract class BaseTestInstrumentation {
