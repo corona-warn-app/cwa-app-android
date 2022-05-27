@@ -284,7 +284,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @Test
     fun `task timeout is constrained to less than 9min`() {
         // Worker execution time
-        val maxDuration = Duration.ofMinutes(9).plus(1)
+        val maxDuration = Duration.ofMinutes(9).plusMillis(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
     }
 

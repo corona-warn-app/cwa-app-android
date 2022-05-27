@@ -38,7 +38,7 @@ object RiskStorageTestData {
 
     val ewRiskResult2Low = PersistedRiskLevelResultDao(
         id = "id2",
-        calculatedAt = ewCalculatedAt.minus(1000L),
+        calculatedAt = ewCalculatedAt.minusMillis(1000L),
         failureReason = null,
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
@@ -119,8 +119,8 @@ object RiskStorageTestData {
 
     // PT data
 
-    val ptCalculatedAt = ewCalculatedAt.plus(100L)
-    const val maxCheckInAgeInDays = 10
+    val ptCalculatedAt = ewCalculatedAt.plusMillis(100L)
+    const val maxCheckInAgeInDays = 10L
 
     val ptDayRisk = PresenceTracingDayRisk(
         Instant.now().toLocalDateUtc(),
@@ -133,15 +133,15 @@ object RiskStorageTestData {
         riskState = RiskState.LOW_RISK
     )
     val ptResult2Failed = PtRiskLevelResult(
-        calculatedAt = ptCalculatedAt.minus(1000L),
+        calculatedAt = ptCalculatedAt.minusMillis(1000L),
         presenceTracingDayRisk = null,
         riskState = RiskState.CALCULATION_FAILED,
-        calculatedFrom = ptCalculatedAt.minus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+        calculatedFrom = ptCalculatedAt.minusMillis(1000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
     )
     val ptResult3 = PtRiskLevelResult(
-        calculatedAt = ewCalculatedAt.minus(2000L),
+        calculatedAt = ewCalculatedAt.minusMillis(2000L),
         presenceTracingDayRisk = listOf(ptDayRisk),
         riskState = RiskState.INCREASED_RISK,
-        calculatedFrom = ptCalculatedAt.minus(2000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+        calculatedFrom = ptCalculatedAt.minusMillis(2000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
     )
 }

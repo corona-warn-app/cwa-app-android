@@ -10,12 +10,12 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import java.time.OffsetDateTime
-import java.time.OffsetDateTimeZone
-import java.time.Instant
-import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 class TransmissionRiskVectorDeterminatorTest {
 
@@ -27,8 +27,8 @@ class TransmissionRiskVectorDeterminatorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC).apply {
-            every { timeStamper.nowJavaUTC } returns this.toInstant()
+        LocalDateTime.of(2012, 10, 15, 10, 0,0,0).apply {
+            every { timeStamper.nowJavaUTC } returns this.toInstant(ZoneOffset.UTC)
             now = this.toLocalDate()
         }
     }
@@ -107,6 +107,6 @@ class TransmissionRiskVectorDeterminatorTest {
         ).raw shouldBe intArrayOf(5, 6, 7, 7, 7, 6, 4, 3, 2, 1, 1, 1, 1, 1, 1)
     }
 
-    private fun Instant.startMinusDays(days: Int): Symptoms.StartOf =
+    private fun Instant.startMinusDays(days: Long): Symptoms.StartOf =
         Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days))
 }

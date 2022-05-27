@@ -4,10 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import java.time.OffsetDateTime
-import java.time.OffsetDateTimeZone
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.time.ZoneOffset
 
 class ExposureKeyHistoryCalculationsTest {
 
@@ -21,9 +21,9 @@ class ExposureKeyHistoryCalculationsTest {
 
     @Before
     fun setUp() {
-        todayMidnight = DateTime(2012, 10, 15, 0, 0, DateTimeZone.UTC)
-        thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
-        thisEvening = DateTime(2012, 10, 15, 20, 0, DateTimeZone.UTC)
+        todayMidnight = OffsetDateTime.of(2012, 10, 15, 0, 0,0,0, ZoneOffset.UTC)
+        thisMorning = OffsetDateTime.of(2012, 10, 15, 10, 0,0,0, ZoneOffset.UTC)
+        thisEvening = OffsetDateTime.of(2012, 10, 15, 20, 0, 0,0,ZoneOffset.UTC)
 
         converter = object : KeyConverter {
             override fun toExternalFormat(
@@ -192,6 +192,8 @@ class ExposureKeyHistoryCalculationsTest {
         TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setRollingStartIntervalNumber(rollingStartIntervalNumber).build()
 
-    private fun createKey(dateTime: OffsetDateTime) =
-        createKey((dateTime.toEpochMilli() / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt())
+    // TODO  (dateTime.toEpochMilli() / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS.toMillis()).toInt()
+    private fun createKey(dateTime: OffsetDateTime) = createKey(
+       1
+    )
 }

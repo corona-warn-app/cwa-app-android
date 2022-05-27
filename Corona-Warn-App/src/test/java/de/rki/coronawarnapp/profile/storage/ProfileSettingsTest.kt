@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
+import java.time.LocalDate
 
 internal class ProfileSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
@@ -22,7 +23,7 @@ internal class ProfileSettingsTest : BaseTest() {
     private val profile = RATProfile(
         firstName = "First name",
         lastName = "Last name",
-        birthDate = formatter.parseLocalDate("1950-08-01"),
+        birthDate = LocalDate.parse("1950-08-01",formatter),
         street = "Main street",
         zipCode = "12132",
         city = "London",

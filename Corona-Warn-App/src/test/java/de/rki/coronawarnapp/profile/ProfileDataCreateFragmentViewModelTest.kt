@@ -27,7 +27,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
     @MockK lateinit var profileRepository: ProfileRepository
 
     private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-    private val birthDate: LocalDate = formatter.parseDateTime("01.01.1980").toLocalDate()
+    private val birthDate: LocalDate = LocalDate.parse("01.01.1980", formatter)
 
     @BeforeEach
     fun setup() {
@@ -67,7 +67,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
-            birthDateChanged(savedProfile.birthDate?.toString(formatter))
+            birthDateChanged(savedProfile.birthDate?.format(formatter))
             streetChanged(savedProfile.street)
             zipCodeChanged(savedProfile.zipCode)
             cityChanged(savedProfile.city)

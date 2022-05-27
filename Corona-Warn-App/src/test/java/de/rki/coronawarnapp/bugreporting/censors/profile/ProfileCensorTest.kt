@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.LocalDate
 
 @Suppress("MaxLineLength")
 internal class ProfileCensorTest : BaseTest() {
@@ -113,7 +114,7 @@ internal class ProfileCensorTest : BaseTest() {
     private val profile = Profile(
         firstName = "First name",
         lastName = "Last name",
-        birthDate = formatter.parseLocalDate(dateOfBirth),
+        birthDate = LocalDate.parse(dateOfBirth, formatter),
         street = "Main street",
         zipCode = "12132",
         city = "London",

@@ -149,45 +149,45 @@ class RiskCombinatorTest : BaseTest() {
 
     @Test
     fun `combineEwPtRiskLevelResults works`() {
-        val maxCheckInAge = 10
+        val maxCheckInAge = 10L
         val startInstant = Instant.ofEpochMilli(10000)
 
         val ptResult = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(1000L),
+            calculatedAt = startInstant.plusMillis(1000L),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plusMillis(1000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult2 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(3000L),
+            calculatedAt = startInstant.plusMillis(3000L),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(3000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plusMillis(3000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult3 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(6000L),
+            calculatedAt = startInstant.plusMillis(6000L),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(6000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plusMillis(6000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult4 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(7000L),
+            calculatedAt = startInstant.plusMillis(7000L),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(7000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plusMillis(7000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
 
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)
         val ewResult = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(2000L),
+            calculatedAt = startInstant.plusMillis(2000L),
             riskState = LOW_RISK
         )
         val ewResult2 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(4000L),
+            calculatedAt = startInstant.plusMillis(4000L),
             riskState = INCREASED_RISK
         )
         val ewResult3 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(5000L),
+            calculatedAt = startInstant.plusMillis(5000L),
             riskState = CALCULATION_FAILED
         )
         val ewResult4 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(8000L),
+            calculatedAt = startInstant.plusMillis(8000L),
             riskState = CALCULATION_FAILED
         )
         val ewResults = listOf(ewResult, ewResult4, ewResult2, ewResult3)
@@ -198,21 +198,21 @@ class RiskCombinatorTest : BaseTest() {
 
         result.size shouldBe 8
         result[0].riskState shouldBe CALCULATION_FAILED
-        result[0].calculatedAt shouldBe startInstant.plus(8000L)
+        result[0].calculatedAt shouldBe startInstant.plusMillis(8000L)
         result[1].riskState shouldBe CALCULATION_FAILED
-        result[1].calculatedAt shouldBe startInstant.plus(7000L)
+        result[1].calculatedAt shouldBe startInstant.plusMillis(7000L)
         result[2].riskState shouldBe CALCULATION_FAILED
-        result[2].calculatedAt shouldBe startInstant.plus(6000L)
+        result[2].calculatedAt shouldBe startInstant.plusMillis(6000L)
         result[3].riskState shouldBe CALCULATION_FAILED
-        result[3].calculatedAt shouldBe startInstant.plus(5000L)
+        result[3].calculatedAt shouldBe startInstant.plusMillis(5000L)
         result[4].riskState shouldBe INCREASED_RISK
-        result[4].calculatedAt shouldBe startInstant.plus(4000L)
+        result[4].calculatedAt shouldBe startInstant.plusMillis(4000L)
         result[5].riskState shouldBe LOW_RISK
-        result[5].calculatedAt shouldBe startInstant.plus(3000L)
+        result[5].calculatedAt shouldBe startInstant.plusMillis(3000L)
         result[6].riskState shouldBe LOW_RISK
-        result[6].calculatedAt shouldBe startInstant.plus(2000L)
+        result[6].calculatedAt shouldBe startInstant.plusMillis(2000L)
         result[7].riskState shouldBe LOW_RISK
-        result[7].calculatedAt shouldBe startInstant.plus(1000L)
+        result[7].calculatedAt shouldBe startInstant.plusMillis(1000L)
     }
 
     @Test

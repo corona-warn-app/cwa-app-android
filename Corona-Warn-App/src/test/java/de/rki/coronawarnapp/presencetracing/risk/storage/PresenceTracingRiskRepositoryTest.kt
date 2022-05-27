@@ -21,11 +21,11 @@ import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import java.time.Days
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
 
 class PresenceTracingRiskRepositoryTest : BaseTest() {
 
@@ -38,8 +38,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @MockK lateinit var checkInsFilter: CheckInsFilter
 
     private val now = Instant.parse("2022-02-02T11:59:59Z")
-    private val fifteenDaysAgo = now.minus(Days.days(15).toStandardDuration())
-    private val maxCheckInAgeInDays = 10
+    private val fifteenDaysAgo = now.minus(Duration.ofDays(15))
+    private val maxCheckInAgeInDays = 10L
 
     private val ptRiskLevelResultEntity = PresenceTracingRiskLevelResultEntity(
         calculatedAtMillis = now.toEpochMilli() - 1000,
@@ -51,7 +51,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         checkInId = 1L,
         traceWarningPackageId = "traceWarningPackageId",
         transmissionRiskLevel = 1,
-        startTimeMillis = fifteenDaysAgo.minus(100000).toEpochMilli(),
+        startTimeMillis = fifteenDaysAgo.minusMillis(100000).toEpochMilli(),
         endTimeMillis = fifteenDaysAgo.toEpochMilli()
     )
 
@@ -87,15 +87,15 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 1L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = fifteenDaysAgo.minus(100000).toEpochMilli(),
+            startTimeMillis = fifteenDaysAgo.minusMillis(100000).toEpochMilli(),
             endTimeMillis = fifteenDaysAgo.toEpochMilli()
         )
         val entity2 = TraceTimeIntervalMatchEntity(
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).toEpochMilli(),
-            endTimeMillis = now.minus(80000).toEpochMilli()
+            startTimeMillis = now.minusMillis(100000).toEpochMilli(),
+            endTimeMillis = now.minusMillis(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity, entity2))
         runTest {
@@ -112,20 +112,20 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).toEpochMilli(),
-            endTimeMillis = now.minus(80000).toEpochMilli()
+            startTimeMillis = now.minusMillis(100000).toEpochMilli(),
+            endTimeMillis = now.minusMillis(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
         coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns
             listOf(entity.toCheckInWarningOverlap())
         val time = CheckInNormalizedTime(
             checkInId = 2L,
-            localDateUtc = now.minus(100000).toLocalDateUtc(),
+            localDateUtc = now.minusMillis(100000).toLocalDateUtc(),
             normalizedTime = 20.0
         )
         val riskPerDay = CheckInRiskPerDay(
             checkInId = 2L,
-            localDateUtc = now.minus(100000).toLocalDateUtc(),
+            localDateUtc = now.minusMillis(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
         coEvery {
@@ -147,12 +147,12 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).toEpochMilli(),
-            endTimeMillis = now.minus(80000).toEpochMilli()
+            startTimeMillis = now.minusMillis(100000).toEpochMilli(),
+            endTimeMillis = now.minusMillis(80000).toEpochMilli()
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
         val dayRisk = PresenceTracingDayRisk(
-            localDateUtc = now.minus(100000).toLocalDateUtc(),
+            localDateUtc = now.minusMillis(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
         coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)

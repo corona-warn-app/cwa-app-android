@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.common
 
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 
 import io.kotest.matchers.shouldBe
 import java.time.Instant

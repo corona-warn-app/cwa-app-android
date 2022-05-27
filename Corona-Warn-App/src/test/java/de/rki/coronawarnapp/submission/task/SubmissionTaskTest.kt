@@ -73,7 +73,7 @@ class SubmissionTaskTest : BaseTest() {
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
 
-    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
+    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plusMillis(1))
 
     private val coronaTestsFlow = MutableStateFlow(
         setOf(
@@ -101,7 +101,7 @@ class SubmissionTaskTest : BaseTest() {
         cryptographicSeed = mockk(),
         cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
-        checkInEnd = Instant.EPOCH.plus(9000),
+        checkInEnd = Instant.EPOCH.plusMillis(9000),
         completed = true,
         createJournalEntry = false,
         isSubmitted = false,

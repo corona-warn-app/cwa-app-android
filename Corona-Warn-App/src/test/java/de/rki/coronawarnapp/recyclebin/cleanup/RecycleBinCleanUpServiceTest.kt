@@ -19,11 +19,11 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import java.time.Days
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
 
 class RecycleBinCleanUpServiceTest : BaseTest() {
 
@@ -48,7 +48,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         timeStamper = timeStamper
     )
 
-    private fun createCert(days: Int) = createCert(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+    private fun createCert(days: Int) = createCert(recycleTime = now.minus(Duration.ofDays(days.toLong())))
 
     private fun createCert(recycleTime: Instant): CwaCovidCertificate {
         val mockContainerId = mockk<CertificateContainerId>()
@@ -58,8 +58,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         }
     }
 
-    private fun createTest(days: Int) = createTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
-    private fun familyTest(days: Int) = createFamilyTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+    private fun createTest(days: Int) = createTest(recycleTime = now.minus(Duration.ofDays(days.toLong())))
+    private fun familyTest(days: Int) = createFamilyTest(recycleTime = now.minus(Duration.ofDays(days.toLong())))
 
     private fun createTest(recycleTime: Instant): PersonalCoronaTest = mockk {
         every { recycledAt } returns recycleTime
@@ -116,8 +116,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     @Test
     fun `Time difference between recycledAt and now is greater than 30 days with ms precision`() = runTest {
-        val nowMinus30Days = now.minus(Days.days(30).toStandardDuration())
-        val nowMinus30DaysAnd1Ms = nowMinus30Days.minus(1)
+        val nowMinus30Days = now.minus(Duration.ofDays(30))
+        val nowMinus30DaysAnd1Ms = nowMinus30Days.minusMillis(1)
 
         val certExact30Days = createCert(nowMinus30Days)
         val cert30DaysAnd1Ms = createCert(nowMinus30DaysAnd1Ms)
