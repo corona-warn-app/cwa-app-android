@@ -37,11 +37,15 @@ class MockSharedPreferences : SharedPreferences {
         dataMap.putAll(newData)
     }
 
-    override fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+    override fun registerOnSharedPreferenceChangeListener(
+        listener: SharedPreferences.OnSharedPreferenceChangeListener
+    ) {
         listeners.add(listener)
     }
 
-    override fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+    override fun unregisterOnSharedPreferenceChangeListener(
+        listener: SharedPreferences.OnSharedPreferenceChangeListener
+    ) {
         listeners.remove(listener)
     }
 

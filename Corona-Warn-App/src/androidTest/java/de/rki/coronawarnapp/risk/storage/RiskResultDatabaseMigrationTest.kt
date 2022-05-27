@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.risk.storage
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
