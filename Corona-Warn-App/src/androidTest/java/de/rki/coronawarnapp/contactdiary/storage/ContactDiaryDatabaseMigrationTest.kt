@@ -4,10 +4,10 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitWrapper
@@ -17,13 +17,19 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration3To4
+import de.rki.coronawarnapp.util.di.AppInjector
+import de.rki.coronawarnapp.util.di.ApplicationComponent
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.LocalDate
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,9 +43,21 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        ContactDiaryDatabase::class.java.canonicalName,
-        FrameworkSQLiteOpenHelperFactory()
+        ContactDiaryDatabase::class.java
     )
+
+    @Before
+    fun setup() {
+        mockkObject(CoronaWarnApplication)
+        mockkObject(AppInjector)
+        every { AppInjector.component } returns mockk<ApplicationComponent>(relaxed = true)
+            .apply {
+                every { bugReporter } returns mockk(
+                    relaxed = true
+                )
+            }
+        every { CoronaWarnApplication.getAppContext() } returns ApplicationProvider.getApplicationContext()
+    }
 
     /**
      * Test migration to add new optional attributes
