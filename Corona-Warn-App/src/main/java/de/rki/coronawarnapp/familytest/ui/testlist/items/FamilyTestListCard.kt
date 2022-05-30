@@ -52,7 +52,7 @@ class FamilyTestListCard(parent: ViewGroup) :
             when {
                 it.familyCoronaTest.isPositive -> positive()
                 it.familyCoronaTest.isNegative -> negative()
-                it.familyCoronaTest.isPending -> pending()
+                it.familyCoronaTest.isPending -> pending(it.familyCoronaTest.type)
                 it.familyCoronaTest.isInvalid -> invalid()
                 else -> invalid() // fallback
             }
@@ -81,11 +81,14 @@ class FamilyTestListCard(parent: ViewGroup) :
         targetDisease.isVisible = true
     }
 
-    private fun FamilyTestListCardBinding.pending() {
+    private fun FamilyTestListCardBinding.pending(type: BaseCoronaTest.Type) {
         status.setTextColor(resources.getColor(R.color.colorOnPrimary, null))
         status.setText(R.string.ag_homescreen_card_status_no_result)
         icon.setImageResource(R.drawable.ic_test_result_illustration_pending_card)
-        body.setText(R.string.family_tests_cards_pcr_pending_body)
+        when (type) {
+            BaseCoronaTest.Type.PCR -> body.setText(R.string.family_tests_cards_pcr_pending_body)
+            BaseCoronaTest.Type.RAPID_ANTIGEN -> body.setText(R.string.family_tests_cards_rapid_pending_body)
+        }
         body.isVisible = true
         targetDisease.isVisible = false
     }

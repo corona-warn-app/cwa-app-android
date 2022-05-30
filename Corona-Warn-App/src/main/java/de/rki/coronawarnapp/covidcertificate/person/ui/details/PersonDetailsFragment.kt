@@ -9,7 +9,10 @@ import androidx.core.view.get
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -17,8 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -70,6 +71,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                itemAnimator = DefaultItemAnimator()
                 setupSwipe(context = requireContext())
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
@@ -155,16 +158,24 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
                     .also { viewModel.dismissAdmissionStateBadge() }
-            is RecycleCertificate -> showCertificateDeletionRequest(event.cwaCovidCertificate, event.position)
+            is RecycleCertificate -> onDeleteCertificateDialog(event.cwaCovidCertificate, event.position)
         }
     }
 
-    private fun showCertificateDeletionRequest(cwaCovidCertificate: CwaCovidCertificate, position: Int) {
-        RecycleBinDialogType.RecycleCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.recycleCertificate(cwaCovidCertificate) },
-            negativeButtonAction = { personDetailsAdapter.notifyItemChanged(position) }
+    private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) {
+        val (title, message, button) = Triple(
+            R.string.recycle_bin_recycle_certificate_dialog_title,
+            R.string.recycle_bin_recycle_certificate_dialog_message,
+            R.string.recycle_bin_recycle_certificate_dialog_positive_button
         )
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(button) { _, _ -> viewModel.recycleCertificate(certificate) }
+            .setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
+            .setOnDismissListener {
+                position.let { personDetailsAdapter.notifyItemChanged(position) }
+            }.show()
     }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
