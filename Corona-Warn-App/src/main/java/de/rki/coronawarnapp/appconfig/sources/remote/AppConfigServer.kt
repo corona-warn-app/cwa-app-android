@@ -14,13 +14,11 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import okhttp3.CacheControl
-import java.time.Duration
-import java.time.Instant
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.Duration
+import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
@@ -104,7 +102,7 @@ class AppConfigServer @Inject constructor(
         val rawDate = headers()["Date"] ?: throw IllegalArgumentException(
             "Server date unavailable: ${headers()}"
         )
-        LocalDateTime.parse(rawDate, DATE_FORMAT).toInstant(ZoneOffset.UTC)
+        DATE_FORMAT.parse(rawDate, Instant::from)
     } catch (e: Exception) {
         Timber.e("Failed to get server time.")
         null
