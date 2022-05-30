@@ -27,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.ZoneId
+import java.time.ZoneOffset
 
 class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
@@ -62,12 +63,12 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         val instance = createInstance()
 
         // TODO: maybe change strings
-        instance.getDaysDiff(LocalDate.parse("2020-08-20T14:00:00.000Z")) shouldBe 0
-        instance.getDaysDiff(LocalDate.parse("2020-08-20T13:00:00.000Z")) shouldBe 0
-        instance.getDaysDiff(LocalDate.parse("2020-08-19T14:00:00.000Z")) shouldBe 1
-        instance.getDaysDiff(LocalDate.parse("2020-08-05T14:00:00.000Z")) shouldBe 15
-        instance.getDaysDiff(LocalDate.parse("2020-08-04T14:00:00.000Z")) shouldBe 16
-        instance.getDaysDiff(LocalDate.parse("2020-08-03T14:00:00.000Z")) shouldBe 17
+        instance.getDaysDiff(Instant.parse("2020-08-20T14:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 0
+        instance.getDaysDiff(Instant.parse("2020-08-20T13:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 0
+        instance.getDaysDiff(Instant.parse("2020-08-19T14:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 1
+        instance.getDaysDiff(Instant.parse("2020-08-05T14:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 15
+        instance.getDaysDiff(Instant.parse("2020-08-04T14:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 16
+        instance.getDaysDiff(Instant.parse("2020-08-03T14:00:00.000Z").atZone(ZoneOffset.UTC).toLocalDate()) shouldBe 17
     }
 
     @Test
