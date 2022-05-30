@@ -80,7 +80,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
                 .apply {
                     every { certificateReissuance } returns newCertificateReissuance
                     every { hasReissuance } returns true
-                    },
+                },
             newWalletInfo = newDccWalletInfo,
         )
 

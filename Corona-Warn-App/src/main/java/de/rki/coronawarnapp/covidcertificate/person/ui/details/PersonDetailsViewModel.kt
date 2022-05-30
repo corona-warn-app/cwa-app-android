@@ -81,37 +81,40 @@ class PersonDetailsViewModel @AssistedInject constructor(
             return UiState(name = "", emptyList())
         }
 
-        val dccWalletInfo = personCertificates.dccWalletInfo
-        val certificateItems = mutableListOf<CertificateItem>().apply {
-            val color = if (priorityCertificate.isDisplayValid) colorShade else PersonColorShade.COLOR_INVALID
-            colorShadeData.postValue(color)
-            dccWalletInfo?.let { info ->
-                // 1. Admission state tile
-                if (info.admissionState.visible) add(admissionStateItem(info.admissionState, personCertificates))
-                // 2. Dcc reissuance tile
-                if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
-                    add(dccReissuanceItem(division, personCertificates))
-                }
-                // 3. Booster notification tile
-                if (info.boosterNotification.visible) add(boosterItem(info.boosterNotification, personCertificates))
-                // 4.Vaccination state tile
-                if (info.vaccinationState.visible) add(vaccinationInfoItem(info.vaccinationState))
-            }
+        val color = if (priorityCertificate.isDisplayValid) colorShade else PersonColorShade.COLOR_INVALID
+        colorShadeData.postValue(color)
 
-            // Person details tile
-            add(cwaUserCard(personCertificates))
-            // Certificates tiles
-            personCertificates.certificates // `certificates` are already sorted by date
-                // Sorting by `whether it is high prio certificate` will bring this certificate to the top
-                .sortedByDescending { it.containerId == priorityCertificate.containerId }
-                .forEach { cwaCert ->
-                    addCardItem(
-                        certificate = cwaCert,
-                        priorityCertificate = priorityCertificate,
-                        isLoading = isLoading
-                    )
-                }
+        val certificateItems = mutableListOf<CertificateItem>()
+        personCertificates.dccWalletInfo?.let { info ->
+            // 1. Admission state tile
+            if (info.admissionState.visible)
+                certificateItems.add(admissionStateItem(info.admissionState, personCertificates))
+            // 2. Dcc reissuance tile
+            if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
+                certificateItems.add(dccReissuanceItem(division, personCertificates))
+            }
+            // 3. Booster notification tile
+            if (info.boosterNotification.visible)
+                certificateItems.add(boosterItem(info.boosterNotification, personCertificates))
+            // 4.Vaccination state tile
+            if (info.vaccinationState.visible)
+                certificateItems.add(vaccinationInfoItem(info.vaccinationState))
         }
+
+        // Person details tile
+        certificateItems.add(cwaUserCard(personCertificates))
+
+        // Certificates tiles
+        personCertificates.certificates // `certificates` are already sorted by date
+            // Sorting by `whether it is high prio certificate` will bring this certificate to the top
+            .sortedByDescending { it.containerId == priorityCertificate.containerId }
+            .forEach { cwaCert ->
+                certificateItems.addCardItem(
+                    certificate = cwaCert,
+                    priorityCertificate = priorityCertificate,
+                    isLoading = isLoading
+                )
+            }
 
         return UiState(
             name = priorityCertificate.fullName,
