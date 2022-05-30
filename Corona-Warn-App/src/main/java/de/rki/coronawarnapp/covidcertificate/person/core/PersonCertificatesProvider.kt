@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
@@ -57,11 +58,11 @@ class PersonCertificatesProvider @Inject constructor(
                     settings
                 )
 
-                val hasBooster = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
-                val hasDccReissuance = settings?.showDccReissuanceBadge ?: false
-                val hasNewAdmissionState = settings?.showAdmissionStateChangedBadge ?: false
+                val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
+                val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
+                val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
                 val badgeCount = certs.count { it.hasNotificationBadge } +
-                    hasBooster.toInt() + hasDccReissuance.toInt() + hasNewAdmissionState.toInt()
+                    hasBoosterBadge.toInt() + hasDccReissuanceBadge.toInt() + hasNewAdmissionStateBadge.toInt()
                 Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
 
                 PersonCertificates(
@@ -69,9 +70,9 @@ class PersonCertificatesProvider @Inject constructor(
                     isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                     badgeCount = badgeCount,
                     dccWalletInfo = dccWalletInfo,
-                    hasBoosterBadge = hasBooster,
-                    hasDccReissuanceBadge = hasDccReissuance,
-                    hasNewAdmissionState = hasNewAdmissionState
+                    hasBoosterBadge = hasBoosterBadge,
+                    hasDccReissuanceBadge = hasDccReissuanceBadge,
+                    hasNewAdmissionState = hasNewAdmissionStateBadge
                 )
             }.toSet()
     }.shareLatest(scope = appScope)
@@ -98,7 +99,7 @@ class PersonCertificatesProvider @Inject constructor(
         }
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
-        if (boosterNotification == null) return false
+        if (boosterNotification == null || !boosterNotification.visible) return false
         return hasBoosterRuleNotYetSeen(this, boosterNotification)
     }
 
@@ -106,6 +107,15 @@ class PersonCertificatesProvider @Inject constructor(
         personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
+
+    private fun PersonSettings?.hasReissuanceBadge(info: DccWalletInfo?): Boolean {
+        if (this == null || info == null) return false
+        return showDccReissuanceBadge && info.hasReissuance
+    }
+
+    private fun PersonSettings?.hasAdmissionStateChangedBadge(): Boolean {
+        return this?.showAdmissionStateChangedBadge ?: false
+    }
 
     private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
 
