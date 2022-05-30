@@ -143,7 +143,7 @@ class TracingDetailsFragmentTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_2")
 
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3, additionalY = 400))
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_3")
 
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5, additionalY = 800))
