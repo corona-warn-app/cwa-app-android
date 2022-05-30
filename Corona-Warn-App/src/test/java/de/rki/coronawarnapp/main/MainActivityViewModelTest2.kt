@@ -101,13 +101,15 @@ class MainActivityViewModelTest2 : BaseTest() {
 
         every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { familyTestRepository.familyTests } returns flowOf(setOf())
+
+        every { diarySettings.isOnboardingDone } returns flowOf(false)
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         environmentSetup = environmentSetup,
         backgroundModeStatus = backgroundModeStatus,
-        contactDiarySettings = diarySettings,
+        contactDiaryUiSettings = diarySettings,
         backgroundNoise = backgroundNoise,
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
