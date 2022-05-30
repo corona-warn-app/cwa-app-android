@@ -9,13 +9,12 @@ import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import testhelpers.BaseTestInstrumentation
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
 @ExtendWith(InstantExecutorExtension::class)
-class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
+class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
     @MockK private lateinit var dscRepository: DscRepository

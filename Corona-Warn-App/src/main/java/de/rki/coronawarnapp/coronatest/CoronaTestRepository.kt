@@ -166,13 +166,11 @@ class CoronaTestRepository @Inject constructor(
 
         internalData.updateBlocking {
             val toBeRemoved = values.singleOrNull { it.identifier == identifier }
-                ?: throw CoronaTestNotFoundException("No found for $identifier")
-
-            getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
+                ?: throw CoronaTestNotFoundException("Identifier $identifier not found")
 
             toMutableMap().apply {
                 removedTest = remove(toBeRemoved.identifier)
-                Timber.tag(TAG).d("Removed: %s", removedTest)
+                Timber.tag(TAG).d("Removed: %s", identifier)
             }
         }
 
