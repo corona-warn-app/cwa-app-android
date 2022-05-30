@@ -41,7 +41,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { personCertificatesSettings.setDccReissuanceNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
-        every { personNotificationSender.showNotification(any(), any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
         every { oldReissuanceDivision.identifier } returns "renew"
         every { newReissuanceDivision.identifier } returns "extend"
         every { oldCertificateReissuance.reissuanceDivision } returns oldReissuanceDivision
@@ -61,7 +61,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body_certificate)
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }
@@ -97,7 +97,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 1) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body_certificate)
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }
@@ -118,7 +118,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body_certificate)
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -58,7 +58,7 @@ abstract class AnalyticsKeySubmissionRepository(
             if (submittedAt <= 0) return -1
             if (testResultReceivedAt <= 0) return -1
             if (submittedAt < testResultReceivedAt) return -1
-            return Duration.millis(submittedAt - testResultReceivedAt).toStandardHours().hours
+            return Duration.ofMillis(submittedAt - testResultReceivedAt).toHours().toInt()
         }
 
     val hoursSinceTestRegistration: Int
@@ -66,7 +66,7 @@ abstract class AnalyticsKeySubmissionRepository(
             if (submittedAt <= 0) return -1
             if (testRegisteredAt <= 0) return -1
             if (submittedAt < testRegisteredAt) return -1
-            return Duration.millis(submittedAt - testRegisteredAt).toStandardHours().hours
+            return Duration.ofMillis(submittedAt - testRegisteredAt).toHours().toInt()
         }
 
     val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int

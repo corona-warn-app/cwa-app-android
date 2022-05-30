@@ -17,6 +17,9 @@ class BoosterNotificationService @Inject constructor(
     private val timeStamper: TimeStamper,
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : DccWalletInfoNotificationService {
+
+    override val notificationSenderType: Int = 0xB00CC
+
     override suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
         oldWalletInfo: DccWalletInfo?,
@@ -43,7 +46,10 @@ class BoosterNotificationService @Inject constructor(
 
         if (newRuleId != oldRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
-            personNotificationSender.showNotification(personIdentifier)
+            personNotificationSender.showNotification(
+                personIdentifier = personIdentifier,
+                type = notificationSenderType
+            )
             // Clears booster rule last seen badge, to be shown in conjunction with notification
             personCertificatesSettings.clearBoosterRuleInfo(personIdentifier)
             personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)

@@ -10,10 +10,12 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 
 class AnalyticsKeySubmissionCollector @Inject constructor(
@@ -32,14 +34,14 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         if (disabled) return
         // do not overwrite once set
         if (type.storage.testResultReceivedAt.value > 0) return
-        type.storage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
+        type.storage.testResultReceivedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (disabled) return
 
-        val testRegisteredAt = timeStamper.nowUTC
-        type.storage.testRegisteredAt.update { testRegisteredAt.millis }
+        val testRegisteredAt = timeStamper.nowJavaUTC
+        type.storage.testRegisteredAt.update { testRegisteredAt.toEpochMilli() }
 
         val lastResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
@@ -51,10 +53,10 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                 .first()
                 .getLastChangeToHighEwRiskBefore(testRegisteredAt)
                 ?.let {
-                    val hours = Duration(
+                    val hours = Duration.between(
                         it,
                         testRegisteredAt
-                    ).standardHours.toInt()
+                    ).toHours().toInt()
                     type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
                         hours
                     }
@@ -66,10 +68,10 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                 .first()
                 .getLastChangeToHighPtRiskBefore(testRegisteredAt)
                 ?.let {
-                    val hours = Duration(
+                    val hours = Duration.between(
                         it,
                         testRegisteredAt
-                    ).standardHours.toInt()
+                    ).toHours().toInt()
                     type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
                         hours
                     }
@@ -78,14 +80,14 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState?.toJavaTime(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
@@ -94,7 +96,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     fun reportSubmitted(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submitted.update { true }
-        type.storage.submittedAt.update { timeStamper.nowUTC.millis }
+        type.storage.submittedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
     }
 
     fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {

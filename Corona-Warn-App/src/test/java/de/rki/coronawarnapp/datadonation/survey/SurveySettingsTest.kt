@@ -10,7 +10,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,7 +50,7 @@ class SurveySettingsTest : BaseTest() {
         val value = instance.oneTimePassword
         value shouldNotBe null
         value!!.uuid.toString() shouldBe "e103c755-0975-4588-a639-d0cd1ba421a1"
-        value.time.millis shouldBe 1612381217442
+        value.time.toEpochMilli() shouldBe 1612381217442
     }
 
     @Test
@@ -104,7 +104,7 @@ class SurveySettingsTest : BaseTest() {
         value shouldNotBe null
         value!!.uuid.toString() shouldBe "e103c755-0975-4588-a639-d0cd1ba421a1"
         value.authorized shouldBe true
-        value.redeemedAt.millis shouldBe 1612381217443
+        value.redeemedAt.toEpochMilli() shouldBe 1612381217443
         value.invalidated shouldBe true
     }
 

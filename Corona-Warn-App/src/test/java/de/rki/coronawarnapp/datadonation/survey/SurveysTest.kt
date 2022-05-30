@@ -17,7 +17,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,7 +36,7 @@ internal class SurveysTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
     }
 
     private fun createInstance() = Surveys(
@@ -60,7 +60,7 @@ internal class SurveysTest : BaseTest() {
         every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
             UUID.randomUUID(),
             authorized = false,
-            redeemedAt = timeStamper.nowUTC,
+            redeemedAt = timeStamper.nowJavaUTC,
             invalidated = false
         )
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -72,7 +72,7 @@ internal class SurveysTest : BaseTest() {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = timeStamper.nowUTC,
+                redeemedAt = timeStamper.nowJavaUTC,
                 invalidated = true
             )
             createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -84,7 +84,7 @@ internal class SurveysTest : BaseTest() {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = timeStamper.nowUTC,
+                redeemedAt = timeStamper.nowJavaUTC,
                 invalidated = false
             )
             coEvery { urlProvider.provideUrl(any(), any()) } returns ""

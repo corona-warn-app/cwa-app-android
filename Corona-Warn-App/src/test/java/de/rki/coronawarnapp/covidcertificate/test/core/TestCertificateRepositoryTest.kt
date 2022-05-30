@@ -196,6 +196,27 @@ class TestCertificateRepositoryTest : BaseTest() {
     }
 
     @Test
+    fun `register new cert and access it immediately - opening details after scan`() = runTest2 {
+        val instance = createInstance(scope = this)
+
+        instance.registerCertificate(
+            qrCode = testData.personATest1CertQRCode()
+        ).apply {
+            this.qrCodeExtractor shouldBe qrCodeExtractor
+
+            data.testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
+            qrCodeHash shouldBe testData.personATest1CertQRCode().hash
+
+            isCertificateRetrievalPending shouldBe false
+            isUpdatingData shouldBe false
+        }
+
+        instance.findCertificateDetails(
+            TestCertificateContainerId(testData.personATest1CertQRCodeString.toSHA256())
+        ).first() shouldNotBe null
+    }
+
+    @Test
     fun `storage is not written on init`() = runTest2 {
         val instance = createInstance(this)
         instance.certificates.first()

@@ -32,12 +32,12 @@ import io.mockk.slot
 import io.mockk.spyk
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Duration
 
 class AnalyticsTest : BaseTest() {
     @MockK lateinit var dataDonationAnalyticsServer: DataDonationAnalyticsServer
@@ -62,14 +62,14 @@ class AnalyticsTest : BaseTest() {
 
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
 
-        every { timeStamper.nowUTC } returns baseTime
+        every { timeStamper.nowJavaUTC } returns baseTime
 
         every { analyticsConfig.analyticsEnabled } returns true
 
         every { settings.analyticsEnabled } returns mockFlowPreference(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
 
-        val twoDaysAgo = baseTime.minus(Days.TWO.toStandardDuration())
+        val twoDaysAgo = baseTime.minus(Duration.ofDays(2))
         every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
         every { onboardingSettings.onboardingCompletedTimestamp } returns mockFlowPreference(twoDaysAgo)
 
@@ -224,7 +224,7 @@ class AnalyticsTest : BaseTest() {
     fun `submit analytics data`() {
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseTime.millis)
+            .setMostRecentDateAtRiskLevel(baseTime.toEpochMilli())
             .setDateChangedComparedToPreviousSubmission(true)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .build()

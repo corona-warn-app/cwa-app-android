@@ -21,7 +21,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,11 +38,12 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
     private val now = Instant.now()
+    private val nowJoda = org.joda.time.Instant.now()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
     }
 
     @Test
@@ -52,8 +53,8 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.calculatedAt } returns now
-        every { ptRiskLevelResult.calculatedAt } returns now
+        every { ewRiskLevelResult.calculatedAt } returns nowJoda
+        every { ptRiskLevelResult.calculatedAt } returns nowJoda
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         every { ptRiskLevelResult.wasSuccessfullyCalculated } returns true
 
@@ -65,10 +66,10 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(ewRiskLevelResult))
         coEvery { riskLevelStorage.allPtRiskLevelResults } returns flowOf(listOf(ptRiskLevelResult))
 
-        val pcrTestRegisteredAt = mockFlowPreference(now.millis)
+        val pcrTestRegisteredAt = mockFlowPreference(now.toEpochMilli())
         coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns pcrTestRegisteredAt
 
-        val raTestRegisteredAt = mockFlowPreference(now.millis)
+        val raTestRegisteredAt = mockFlowPreference(now.toEpochMilli())
         coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns raTestRegisteredAt
 
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
@@ -92,9 +93,9 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsPcrKeySubmissionStorage.clear() } just Runs
         every { analyticsRaKeySubmissionStorage.clear() } just Runs
 
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns now.minus(Days.days(2).toStandardDuration())
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns nowJoda.minus(Days.days(2).toStandardDuration())
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            now.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
+            nowJoda.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
 
         runTest {
             val collector = createInstance()
@@ -118,7 +119,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val submittedFlow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submitted } returns submittedFlow
-        val submittedAtFlow = mockFlowPreference(now.millis)
+        val submittedAtFlow = mockFlowPreference(now.toEpochMilli())
         every { analyticsPcrKeySubmissionStorage.submittedAt } returns submittedAtFlow
         runTest {
             val collector = createInstance()
@@ -180,7 +181,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `PCR positive test result received is not overwritten`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(now.millis)
+        val flow = mockFlowPreference(now.toEpochMilli())
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
         runTest {

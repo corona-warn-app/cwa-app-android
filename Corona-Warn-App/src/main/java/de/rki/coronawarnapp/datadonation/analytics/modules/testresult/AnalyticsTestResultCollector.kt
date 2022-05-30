@@ -20,8 +20,11 @@ import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -46,7 +49,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (analyticsDisabled) return
 
-        val testRegisteredAt = timeStamper.nowUTC
+        val testRegisteredAt = timeStamper.nowJavaUTC
         type.settings.testRegisteredAt.update { testRegisteredAt }
 
         val lastResult = riskLevelStorage
@@ -56,14 +59,14 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.settings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState?.toJavaTime(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
@@ -72,10 +75,10 @@ class AnalyticsTestResultCollector @Inject constructor(
             riskLevelStorage.allEwRiskLevelResults
                 .first()
                 .getLastChangeToHighEwRiskBefore(testRegisteredAt)?.let {
-                    val hours = Duration(
+                    val hours = Duration.between(
                         it,
                         testRegisteredAt
-                    ).standardHours.toInt()
+                    ).toHours().toInt()
                     type.settings.ewHoursSinceHighRiskWarningAtTestRegistration.update {
                         hours
                     }
@@ -86,10 +89,10 @@ class AnalyticsTestResultCollector @Inject constructor(
             riskLevelStorage.allPtRiskLevelResults
                 .first()
                 .getLastChangeToHighPtRiskBefore(testRegisteredAt)?.let {
-                    val hours = Duration(
+                    val hours = Duration.between(
                         it,
                         testRegisteredAt
-                    ).standardHours.toInt()
+                    ).toHours().toInt()
                     type.settings.ptHoursSinceHighRiskWarningAtTestRegistration.update {
                         hours
                     }
@@ -128,7 +131,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.testResult.update { testResult }
 
         if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.value == null) {
-            type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+            type.settings.finalTestResultReceivedAt.update { timeStamper.nowJavaUTC }
 
             val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
                 type.settings.exposureWindowsAtTestRegistration.value
