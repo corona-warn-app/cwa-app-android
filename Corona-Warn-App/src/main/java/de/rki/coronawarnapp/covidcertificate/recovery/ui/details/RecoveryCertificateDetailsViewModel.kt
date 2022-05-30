@@ -55,7 +55,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun refreshCertState() = launch(scope = appScope) {
+    fun markAsSeen() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
         recoveryCertificateRepository.acknowledgeState(containerId)
         if (!fromScanner) recoveryCertificateRepository.markAsSeenByUser(containerId)
