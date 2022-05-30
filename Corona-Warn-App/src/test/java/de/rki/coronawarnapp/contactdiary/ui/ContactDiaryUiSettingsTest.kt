@@ -1,49 +1,65 @@
 package de.rki.coronawarnapp.contactdiary.ui
 
-import de.rki.coronawarnapp.util.preferences.FlowPreference
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsStorage
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-class ContactDiaryUiSettingsTest {
+class ContactDiaryUiSettingsTest : BaseTest() {
 
-    @MockK lateinit var preferences: ContactDiaryPreferences
-    @MockK lateinit var intPreference: FlowPreference<Int>
+    @RelaxedMockK lateinit var contactDiarySettingsStorage: ContactDiarySettingsStorage
+
+    private val instance: ContactDiaryUiSettings
+        get() = ContactDiaryUiSettings(contactDiarySettingsStorage)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { preferences.onboardingStatusOrder } returns intPreference
     }
 
     @Test
-    fun `not onboarded`() {
-        every { intPreference.value } returns 0
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
+    fun `not onboarded`() = runTest {
+        every { contactDiarySettingsStorage.contactDiarySettings } returns createContactDiarySettingsFlow(
+            onboardingStatus = ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        )
+
+        with(instance) {
+            onboardingStatus.first() shouldBe ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+            isOnboardingDone.first() shouldBe false
+        }
     }
 
     @Test
-    fun `bad preference values`() {
-        every { intPreference.value } returns 42
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
+    fun `is onboarded`() = runTest {
+        every { contactDiarySettingsStorage.contactDiarySettings } returns createContactDiarySettingsFlow(
+            onboardingStatus = ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        )
 
-        every { intPreference.value } returns -42
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
-
-        every { intPreference.value } returns Int.MAX_VALUE
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
-
-        every { intPreference.value } returns Int.MIN_VALUE
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
+        with(instance) {
+            onboardingStatus.first() shouldBe ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+            isOnboardingDone.first() shouldBe true
+        }
     }
 
     @Test
-    fun onboarded() {
-        every { intPreference.value } returns 1
-        ContactDiaryUiSettings(preferences).onboardingStatus shouldBe
-            ContactDiaryUiSettings.OnboardingStatus.RISK_STATUS_1_12
+    fun `updates storage`() = runTest {
+        instance.updateOnboardingStatus(onboardingStatus = ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12)
+
+        coVerify {
+            contactDiarySettingsStorage.updateContactDiarySettings(any())
+        }
     }
+
+    private fun createContactDiarySettingsFlow(
+        onboardingStatus: ContactDiarySettings.OnboardingStatus
+    ) = flowOf(ContactDiarySettings(onboardingStatus = onboardingStatus))
 }
