@@ -100,13 +100,13 @@ class ConfigDataContainerTest : BaseTest() {
 
         forOffset(Duration.ZERO).isDeviceTimeCorrect shouldBe true
 
-        forOffset(Duration.ofHours(1)).isDeviceTimeCorrect shouldBe true
-        forOffset(Duration.ofHours(-1)).isDeviceTimeCorrect shouldBe true
+        forOffset(Duration.ofHours(2).minusMillis(1)).isDeviceTimeCorrect shouldBe true
+        forOffset(Duration.ofHours(-2).plusMillis(1)).isDeviceTimeCorrect shouldBe true
 
         forOffset(Duration.ofHours(2)).isDeviceTimeCorrect shouldBe false
         forOffset(Duration.ofHours(-2)).isDeviceTimeCorrect shouldBe false
 
-        forOffset(Duration.ofHours(3)).isDeviceTimeCorrect shouldBe false
-        forOffset(Duration.ofHours(-3)).isDeviceTimeCorrect shouldBe false
+        forOffset(Duration.ofHours(2).plusMillis(1)).isDeviceTimeCorrect shouldBe false
+        forOffset(Duration.ofHours(-2).minusMillis(1)).isDeviceTimeCorrect shouldBe false
     }
 }
