@@ -17,7 +17,6 @@ class DccTicketingQrCodeSettings @Inject constructor(
     @DccTicketingDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
 
-
     val checkServiceIdentity: Flow<Boolean> = dataStore.dataRecovering.distinctUntilChanged(
         key = PREFS_KEY_CHECK_SERVICE_IDENTITY,
         defaultValue = true
