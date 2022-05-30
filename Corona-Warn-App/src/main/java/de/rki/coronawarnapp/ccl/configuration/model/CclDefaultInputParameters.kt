@@ -8,6 +8,7 @@ import timber.log.Timber
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Locale
 
 fun getDefaultInputParameters(
@@ -51,7 +52,11 @@ val cclLanguage: String by lazy {
 
 private fun OffsetDateTime.toLocalDateString() = toLocalDate().toString()
 
-private fun OffsetDateTime.toLocalDateTimeString() = format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+private fun OffsetDateTime.toLocalDateTimeString() = truncatedTo(ChronoUnit.SECONDS)
+    .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 
-private fun OffsetDateTime.toLocalDateTimeMidnightString() =
-    OffsetDateTime.of(this.toLocalDate(), LocalTime.MIN, ZoneOffset.UTC).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+private fun OffsetDateTime.toLocalDateTimeMidnightString() = withHour(0)
+    .withMinute(0)
+    .withSecond(0)
+    .withNano(0)
+    .toLocalDateTimeString()

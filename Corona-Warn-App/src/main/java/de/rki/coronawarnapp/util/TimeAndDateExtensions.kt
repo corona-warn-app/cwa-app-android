@@ -189,7 +189,7 @@ object TimeAndDateExtensions {
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an Instant
      */
-    fun Instant.toShortDayFormat(): String = dayFormatter2DigitYear.format(this)
+    fun Instant.toShortDayFormat(): String = dayFormatter2DigitYear.format(toUserTimeZone())
 
     /**
      * Returns a readable date String with the format "dd.MM.yy" like 23.05.89 of an LocalDate

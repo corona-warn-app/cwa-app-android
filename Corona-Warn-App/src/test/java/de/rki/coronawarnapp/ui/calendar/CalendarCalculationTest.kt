@@ -8,14 +8,11 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class CalendarCalculationTest : BaseTest() {
@@ -43,8 +40,7 @@ class CalendarCalculationTest : BaseTest() {
     @Test
     fun calculateSameYearSameMonth() {
         val input = "27.08.2020"
-        val dateTime =
-            LocalDate.parse(input, formatter)
+        val dateTime = LocalDate.parse(input, formatter)
         val dates = createInstance().getDates(dateTime.toDateTimeAtStartOfDayUtc())
 
         // First day - 3 of August
