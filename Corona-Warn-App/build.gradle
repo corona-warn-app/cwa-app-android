@@ -391,7 +391,7 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // JFN
-    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-db9f290.jar")
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-1de55db.jar")
 
     // boofCV
     def boofCV_version = "0.40.1"
