@@ -104,7 +104,7 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
-            FindDetailsInJournalBox.Item( riskState = RiskState.LOW_RISK ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.LOW_RISK),
             AdditionalInfoLowRiskBox.Item,
             BehaviorNormalRiskBox.Item(
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -137,7 +137,7 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
-            FindDetailsInJournalBox.Item( riskState = RiskState.LOW_RISK ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.LOW_RISK),
             AdditionalInfoLowRiskBox.Item,
             BehaviorNormalRiskBox.Item(
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -169,7 +169,7 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
-            FindDetailsInJournalBox.Item( riskState = RiskState.INCREASED_RISK ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.INCREASED_RISK),
             BehaviorIncreasedRiskBox.Item,
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 5,
