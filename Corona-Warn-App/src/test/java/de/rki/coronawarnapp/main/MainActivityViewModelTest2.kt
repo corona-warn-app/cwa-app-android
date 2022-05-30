@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.main
 
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -57,7 +57,7 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var diarySettings: ContactDiarySettings
+    @MockK lateinit var diarySettings: ContactDiaryUiSettings
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings

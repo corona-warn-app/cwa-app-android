@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.main
 
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
@@ -49,7 +49,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var diarySettings: ContactDiarySettings
+    @MockK lateinit var diarySettings: ContactDiaryUiSettings
     @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
@@ -152,7 +152,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        every { diarySettings.onboardingStatus } returns ContactDiaryUiSettings.OnboardingStatus.NOT_ONBOARDED
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
@@ -161,7 +161,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { diarySettings.onboardingStatus } returns ContactDiaryUiSettings.OnboardingStatus.RISK_STATUS_1_12
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
@@ -170,7 +170,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { diarySettings.onboardingStatus } returns ContactDiaryUiSettings.OnboardingStatus.RISK_STATUS_1_12
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
@@ -179,7 +179,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { diarySettings.onboardingStatus } returns ContactDiaryUiSettings.OnboardingStatus.RISK_STATUS_1_12
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()

@@ -12,9 +12,9 @@ import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.configuration.storage.DownloadedCclConfigurationStorage
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryStorageModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsStorage
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
@@ -139,7 +139,7 @@ object MockProvider {
     fun provideDccWalletInfoRepository(): DccWalletInfoRepository = mockk(relaxed = true)
 
     @Provides
-    fun provideContactDiaryPreferences(): ContactDiaryPreferences = mockk(relaxed = true)
+    fun provideContactDiarySettingsStorage(): ContactDiarySettingsStorage = mockk(relaxed = true)
 
     @Provides
     fun provideDefaultContactDiaryRepository(): DefaultContactDiaryRepository = mockk(relaxed = true)

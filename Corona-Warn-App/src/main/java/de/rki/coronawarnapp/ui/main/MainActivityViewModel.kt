@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
@@ -42,7 +42,7 @@ class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val contactDiarySettings: ContactDiarySettings,
+    contactDiaryUiSettings: ContactDiaryUiSettings,
     private val backgroundNoise: BackgroundNoise,
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
@@ -75,8 +75,7 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
-    private val mutableIsContactDiaryOnboardingDone = MutableLiveData<Boolean>()
-    val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
+    val isContactDiaryOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone.asLiveData2()
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
     private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
@@ -137,7 +136,6 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onBottomNavSelected() {
-        mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
         mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
