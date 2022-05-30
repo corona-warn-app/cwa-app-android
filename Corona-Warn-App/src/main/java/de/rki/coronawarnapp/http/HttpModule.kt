@@ -42,16 +42,6 @@ class HttpModule {
             callTimeout(TimeVariables.getTransactionTimeout(), TimeUnit.MILLISECONDS)
 
             interceptors.forEach { addInterceptor(it) }
-            addInterceptor(
-                Interceptor {
-                    val requestWithTestHeaders = it.request()
-                        .newBuilder()
-                        .header("cwa-test-device-model", android.os.Build.MODEL)
-                        .header("cwa-test-device-sdk", android.os.Build.VERSION.SDK_INT.toString())
-                        .build()
-                    it.proceed(requestWithTestHeaders)
-                }
-            )
         }.build()
     }
 
