@@ -74,7 +74,8 @@ class DccTicketingQrCodeHandler @Inject constructor(
         }
     }
 
-    private suspend fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceIdentity(serviceIdentity: String) {
+    private suspend fun Set<DccTicketingServiceProviderAllowListEntry>
+    .validateServiceIdentity(serviceIdentity: String) {
         if (!qrCodeSettings.checkServiceIdentity.first()) {
             Timber.i("Service identity check is turned off.")
             return
