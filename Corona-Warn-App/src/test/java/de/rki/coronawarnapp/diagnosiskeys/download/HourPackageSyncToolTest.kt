@@ -91,7 +91,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         every { downloadConfig.revokedHourPackages } returns listOf(
             RevokedKeyPackage.Hour(
                 day = invalidHour.info.day,
-                hour = LocalTime.of(invalidHour.info.hour!!.hour, 0),
+                hour = invalidHour.info.hour!!,
                 region = invalidHour.info.location,
                 etag = invalidHour.info.etag!!
             )

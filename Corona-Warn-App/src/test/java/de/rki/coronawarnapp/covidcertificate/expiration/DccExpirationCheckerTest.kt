@@ -11,6 +11,7 @@ import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
 class DccExpirationCheckerTest : BaseTest() {
@@ -39,31 +40,31 @@ class DccExpirationCheckerTest : BaseTest() {
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = Instant.parse("2021-06-03T10:12:48.000+02:00"),
+            now = OffsetDateTime.parse("2021-06-03T10:12:48+02:00").toInstant(),
         ) shouldBe CwaCovidCertificate.State.ExpiringSoon(exp)
 
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = Instant.parse("2021-06-04T00:12:48.000+02:00"),
+            now = OffsetDateTime.parse("2021-06-04T00:12:48.000+02:00").toInstant(),
         ) shouldBe CwaCovidCertificate.State.Expired(exp)
 
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = Instant.parse("2021-05-24T10:12:48.000Z"),
+            now = OffsetDateTime.parse("2021-05-24T10:12:48.000Z").toInstant(),
         ) shouldBe CwaCovidCertificate.State.ExpiringSoon(exp)
 
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = Instant.parse("2021-05-23T23:59:59.000+02:00"),
+            now = OffsetDateTime.parse("2021-05-23T23:59:59.000+02:00").toInstant(),
         ) shouldBe CwaCovidCertificate.State.Valid(exp)
 
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = Instant.parse("2021-05-03T10:12:48.000Z"),
+            now = OffsetDateTime.parse("2021-05-03T10:12:48.000Z").toInstant(),
         ) shouldBe CwaCovidCertificate.State.Valid(exp)
     }
 }
