@@ -57,7 +57,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             }
 
             when {
-                item.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
+                item.certificate.isDisplayValid -> RecoveryCertificate.icon
                 else -> R.drawable.ic_certificate_invalid
             }.also { certificateIcon.setImageResource(it) }
 

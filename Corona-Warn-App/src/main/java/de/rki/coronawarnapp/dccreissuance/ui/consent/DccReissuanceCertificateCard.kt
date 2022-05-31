@@ -9,6 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.DccReissuanceCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -29,28 +32,28 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
 
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        when (curItem.certificate) {
+        when (val certificate = curItem.certificate) {
             is VaccinationDccV1 -> {
                 setCertificate(
-                    vaccinationIcon,
+                    certificate.getIcon(),
                     vaccinationHeader,
-                    curItem.certificate.getBodyText(),
+                    certificate.getBodyText(),
                     item.isExpired,
                 )
             }
             is RecoveryDccV1 -> {
                 setCertificate(
-                    recoveryIcon,
+                    RecoveryCertificate.icon,
                     recoveryHeader,
-                    curItem.certificate.getBodyText(),
+                    certificate.getBodyText(),
                     item.isExpired,
                 )
             }
             is TestDccV1 -> {
                 setCertificate(
-                    testIcon,
+                    TestCertificate.icon,
                     testHeader,
-                    curItem.certificate.getBodyText(),
+                    certificate.getBodyText(),
                     item.isExpired,
                 )
             }
@@ -70,6 +73,11 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
                 ?: vaccination.dt
         )
         return "$fullName\n$vaccinationDosesInfo\n$certificateDate"
+    }
+
+    private fun VaccinationDccV1.getIcon() = when {
+        isSeriesCompletingShot -> VaccinationCertificate.iconComplete
+        else -> VaccinationCertificate.iconIncomplete
     }
 
     private fun RecoveryDccV1.getBodyText(): String {
@@ -149,9 +157,6 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
     }
 
     companion object {
-        private const val vaccinationIcon = R.drawable.ic_vaccination_immune
-        private const val recoveryIcon = R.drawable.ic_recovery_certificate
-        private const val testIcon = R.drawable.ic_test_certificate
         private const val expiredIcon = R.drawable.ic_certificate_invalid
         private const val expiredBackground = R.drawable.bg_certificate_grey
         private const val vaccinationHeader = R.string.vaccination_certificate_name
