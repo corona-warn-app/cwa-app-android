@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -86,7 +87,7 @@ class EwRiskLevelTask @Inject constructor(
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowUtc.minus(configData.localOffset)
+            val currentServerTime = nowUtc.minus(configData.localOffset.toJoda())
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,

@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJoda
 import de.rki.coronawarnapp.util.ui.toLazyString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -152,7 +153,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             return false
         }
 
-        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections)
+        val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections.toJoda())
 
         Duration(now, nextDetectionAt).also {
             Timber.tag(TAG).d("Next detection is available in %d min", it.standardMinutes)
@@ -240,7 +241,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     ) : TaskFactory<Progress, Task.Result> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config(
-            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout.toJoda()
         )
 
         override val taskProvider: () -> Task<Progress, Task.Result> = {

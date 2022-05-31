@@ -12,8 +12,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -35,9 +35,9 @@ class AppConfigStorageTest : BaseIOTest() {
     private val testConfigDownload = InternalConfigData(
         rawData = APPCONFIG_RAW,
         serverTime = Instant.parse("2020-11-03T05:35:16.000Z"),
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         etag = "I am an ETag :)!",
-        cacheValidity = Duration.standardSeconds(123)
+        cacheValidity = Duration.ofSeconds(123)
     )
 
     @BeforeEach
@@ -45,7 +45,7 @@ class AppConfigStorageTest : BaseIOTest() {
         MockKAnnotations.init(this)
         every { context.filesDir } returns privateFiles
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach
@@ -163,7 +163,7 @@ class AppConfigStorageTest : BaseIOTest() {
             serverTime = Instant.ofEpochMilli(legacyConfigPath.lastModified()),
             localOffset = Duration.ZERO,
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(0)
+            cacheValidity = Duration.ofSeconds(0)
         )
     }
 

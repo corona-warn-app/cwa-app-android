@@ -41,14 +41,14 @@ class TraceWarningPackageDownloader @Inject constructor(
         mode: TraceWarningApi.Mode,
         location: LocationCode,
         hourIntervals: List<HourInterval>,
-        downloadTimeout: Duration
+        downloadTimeout: java.time.Duration
     ): DownloadResult {
         Timber.tag(TAG).d("Launching %d downloads ($location): %s", hourIntervals.size, hourIntervals)
 
         val launcher: CoroutineScope.(HourInterval) -> Deferred<TraceWarningPackageMetadata?> = { hourInterval ->
             async {
                 val metadata = repository.createMetadata(location, hourInterval)
-                withTimeout(downloadTimeout.millis) {
+                withTimeout(downloadTimeout.toMillis()) {
                     downloadPackageForMetaData(mode, metadata)
                 }
             }

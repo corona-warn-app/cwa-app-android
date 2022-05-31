@@ -10,12 +10,14 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaDurationAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -32,6 +34,8 @@ class AppConfigStorage @Inject constructor(
         baseGson.newBuilder()
             .registerTypeAdapter(Instant::class.java, InstantAdapter())
             .registerTypeAdapter(Duration::class.java, DurationAdapter())
+            .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
+            .registerTypeAdapter(java.time.Duration::class.java, JavaDurationAdapter())
             .create()
     }
     private val configDir = File(context.filesDir, "appconfig_storage")
@@ -52,7 +56,7 @@ class AppConfigStorage @Inject constructor(
                     serverTime = Instant.ofEpochMilli(legacyConfigFile.lastModified()),
                     localOffset = Duration.ZERO,
                     etag = "legacy.migration",
-                    cacheValidity = Duration.standardSeconds(0)
+                    cacheValidity = Duration.ofSeconds(0)
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Legacy config exits but couldn't be read.")
