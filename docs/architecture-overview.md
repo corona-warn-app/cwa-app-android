@@ -51,14 +51,6 @@ Licensing: [Apache License 2.0](https://github.com/lessthanoptimal/BoofCV/blob/S
 
 [GitHub](https://github.com/lessthanoptimal/BoofCV)
 
-### Joda Time
-Easy to use standard date and time classes. Used for date calculations, calendar and timezone handling.
-
-Licensing: [Apache License 2.0](https://github.com/JodaOrg/joda-time/blob/master/LICENSE.txt)
-
-[GitHub](https://github.com/JodaOrg/joda-time)
-
-
 ### Room
 Room is a persistence library that provides an abstraction layer over SQLite. As opposed to SharedPreferences, Room is used for storing more complex data.
 
