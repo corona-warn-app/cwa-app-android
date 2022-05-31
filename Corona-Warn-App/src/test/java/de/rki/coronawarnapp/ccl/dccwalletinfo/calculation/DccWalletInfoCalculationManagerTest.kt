@@ -76,7 +76,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         MockKAnnotations.init(this)
         every { personCertificatesProvider.personCertificates } returns
             flowOf(setOf(certificatesPersonA, certificatesPersonB))
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1000)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plusMillis(1000)
         every { boosterRulesRepository.rules } returns flowOf(listOf())
         every { dccValidationRepository.invalidationRules } returns flowOf(listOf())
         every { certificatesPersonA.certificates } returns listOf(vaccinationCertA)

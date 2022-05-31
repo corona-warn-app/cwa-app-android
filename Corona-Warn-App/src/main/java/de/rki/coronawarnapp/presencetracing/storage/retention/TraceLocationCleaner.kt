@@ -16,7 +16,7 @@ class TraceLocationCleaner @Inject constructor(
     suspend fun cleanUp() {
         Timber.d("Starting to clean up stale trace locations.")
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
         traceLocationRepository.allTraceLocations.first()
             .filter { traceLocation ->
                 traceLocation.isOutOfRetention(now)

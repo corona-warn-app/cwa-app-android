@@ -91,12 +91,12 @@ class SubmissionTask @Inject constructor(
     }
 
     private fun hasRecentUserActivity(): Boolean {
-        val nowJavaUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.value
-        val userInactivity =Duration.between(lastUserActivity, nowJavaUTC)
+        val userInactivity =Duration.between(lastUserActivity, nowUTC)
         Timber.tag(TAG).d(
             "now=%s, lastUserActivity=%s, userInactivity=%dmin",
-            nowJavaUTC,
+            nowUTC,
             lastUserActivity,
             userInactivity.toMinutes()
         )
@@ -120,7 +120,7 @@ class SubmissionTask @Inject constructor(
         } else {
             Timber.tag(TAG).d("Within the attempts limit, continuing.")
             submissionSettings.autoSubmissionAttemptsCount.update { it + 1 }
-            submissionSettings.autoSubmissionAttemptsLast.update { timeStamper.nowJavaUTC }
+            submissionSettings.autoSubmissionAttemptsLast.update { timeStamper.nowUTC }
             false
         }
     }

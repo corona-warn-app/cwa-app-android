@@ -25,7 +25,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     }
 
     fun getDaysDiff(dateSaved: LocalDate): Int {
-        val today = timeStamper.nowJavaUTC.toLocalDateUtc()
+        val today = timeStamper.nowUTC.toLocalDateUtc()
         return ChronoUnit.DAYS.between(dateSaved, today).toInt()
     }
 

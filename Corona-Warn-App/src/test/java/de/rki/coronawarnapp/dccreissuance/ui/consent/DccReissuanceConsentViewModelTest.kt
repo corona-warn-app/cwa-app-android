@@ -80,7 +80,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         }
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
         every { metadata.personIdentifier } returns identifier
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     @Test

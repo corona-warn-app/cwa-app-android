@@ -70,7 +70,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
 
     fun completeOnboarding() {
         onboardingSettings.onboardingCompletedTimestamp.update {
-            timeStamper.nowJavaUTC
+            timeStamper.nowUTC
         }
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }

@@ -42,7 +42,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
     }
 
     @Test

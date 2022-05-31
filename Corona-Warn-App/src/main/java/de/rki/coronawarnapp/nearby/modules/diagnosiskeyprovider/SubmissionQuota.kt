@@ -65,7 +65,7 @@ class SubmissionQuota @Inject constructor(
         val oldQuota = currentQuota
         val oldQuotaReset = lastQuotaReset
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         val nextQuotaReset = LocalDate.from(lastQuotaReset)
             .toDateTimeAtStartOfDayUtc()

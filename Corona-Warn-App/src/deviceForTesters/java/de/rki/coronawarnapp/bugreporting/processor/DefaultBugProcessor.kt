@@ -23,7 +23,7 @@ class DefaultBugProcessor @Inject constructor(
     override suspend fun processor(throwable: Throwable, tag: String?, info: String?): BugEvent {
         val formattedError = throwable.tryHumanReadableError(context)
 
-        val crashedAt = timeStamper.nowJavaUTC
+        val crashedAt = timeStamper.nowUTC
         val exceptionClass = throwable::class.java.simpleName
         val stacktrace = Log.getStackTraceString(throwable)
         val deviceInfo = "${Build.MANUFACTURER} ${Build.MODEL} (${Build.DEVICE})"

@@ -86,8 +86,8 @@ class TestCertificateProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1234567)
-        every { timeStamper.nowJavaUTC } returns java.time.Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowUTC } returns java.time.Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
@@ -190,7 +190,7 @@ class TestCertificateProcessorTest : BaseTest() {
 
         raCertificateData.publicKeyRegisteredAt shouldBe null
 
-        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowJavaUTC
+        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC
 
         coVerify(exactly = 1) {
             certificateServer.registerPublicKeyForTest(

@@ -26,9 +26,9 @@ data class ConfigDataContainer(
 
     override val updatedAt: Instant = serverTime.plus(localOffset)
 
-    override fun isValid(nowJavaUTC: Instant): Boolean = if (cacheValidity == Duration.ZERO) {
+    override fun isValid(nowUTC: Instant): Boolean = if (cacheValidity == Duration.ZERO) {
         false
     } else {
-        Duration.between(nowJavaUTC, updatedAt).abs() <= cacheValidity
+        Duration.between(nowUTC, updatedAt).abs() <= cacheValidity
     }
 }

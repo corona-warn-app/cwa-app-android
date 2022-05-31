@@ -22,11 +22,11 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import java.time.Instant
 
 fun RACoronaTest?.toSubmissionState(
-    nowJavaUTC: Instant = Instant.now(),
+    nowUTC: Instant = Instant.now(),
     coronaTestConfig: CoronaTestConfig
 ): SubmissionStateRAT {
     if (this == null) return NoTest
-    val state = getState(nowJavaUTC, coronaTestConfig)
+    val state = getState(nowUTC, coronaTestConfig)
     return when {
         isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
         isProcessing && state == PENDING -> FetchingResult

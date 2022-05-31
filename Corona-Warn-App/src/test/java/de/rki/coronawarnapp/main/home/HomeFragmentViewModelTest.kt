@@ -91,7 +91,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { localStatisticsProvider.current } returns emptyFlow()
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(100101010)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
 
         bluetoothSupport.apply {
             every { isAdvertisingSupported } returns true

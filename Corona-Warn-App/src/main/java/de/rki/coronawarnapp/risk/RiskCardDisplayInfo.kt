@@ -44,6 +44,6 @@ class RiskCardDisplayInfo @Inject constructor(
             is RACoronaTest -> testTakenAt to coronaTestConfig.ratParameters.durationToShowRiskCard
             else -> error("Unsupported test type=$type")
         }
-        return java.time.Duration.between(testTimestamp, timeStamper.nowJavaUTC) >= thresholdDuration
+        return java.time.Duration.between(testTimestamp, timeStamper.nowUTC) >= thresholdDuration
     }
 }

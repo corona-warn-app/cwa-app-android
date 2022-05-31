@@ -50,11 +50,11 @@ class PCRProcessorTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
-    private val nowJavaUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
     private val defaultTest = PCRCoronaTest(
         identifier = "identifier",
         lastUpdatedAt = Instant.EPOCH,
-        registeredAt = nowJavaUTC,
+        registeredAt = nowUTC,
         registrationToken = "regtoken",
         testResult = PCR_OR_RAT_PENDING
     )
@@ -63,7 +63,7 @@ class PCRProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowJavaUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
             coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
@@ -121,7 +121,7 @@ class PCRProcessorTest : BaseTest() {
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = pcrTest.copy(
-            registeredAt = nowJavaUTC.minus(Duration.ofDays(61))
+            registeredAt = nowUTC.minus(Duration.ofDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe PCR_OR_RAT_REDEEMED
@@ -242,7 +242,7 @@ class PCRProcessorTest : BaseTest() {
         val instance = createInstance()
 
         val pcrTest = defaultTest.copy(
-            registeredAt = nowJavaUTC.minus(Duration.ofDays(22)),
+            registeredAt = nowUTC.minus(Duration.ofDays(22)),
             testResult = PCR_OR_RAT_REDEEMED,
         )
 
@@ -273,7 +273,7 @@ class PCRProcessorTest : BaseTest() {
         }
 
         // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
-        instance.pollServer(pcrTest.copy(registeredAt = nowJavaUTC.minus(Duration.ofDays(22)))).apply {
+        instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.ofDays(22)))).apply {
             testResult shouldBe PCR_OR_RAT_REDEEMED
             lastError shouldBe null
         }
@@ -375,7 +375,7 @@ class PCRProcessorTest : BaseTest() {
         val pcrTest = PCRCoronaTest(
             identifier = "identifier",
             lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowJavaUTC,
+            registeredAt = nowUTC,
             registrationToken = "regtoken",
             testResult = PCR_POSITIVE,
         )
@@ -386,7 +386,7 @@ class PCRProcessorTest : BaseTest() {
 
         coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = PCR_OR_RAT_PENDING,
-            sampleCollectedAt = nowJavaUTC,
+            sampleCollectedAt = nowUTC,
             labId = "labId",
         )
 
@@ -400,13 +400,13 @@ class PCRProcessorTest : BaseTest() {
         val pcrTest = defaultTest.copy(recycledAt = null)
 
         createInstance().run {
-            recycle(pcrTest) shouldBe pcrTest.copy(recycledAt = nowJavaUTC)
+            recycle(pcrTest) shouldBe pcrTest.copy(recycledAt = nowUTC)
         }
     }
 
     @Test
     fun `restore clears recycledAt`() = runTest {
-        val pcrTest = defaultTest.copy(recycledAt = nowJavaUTC)
+        val pcrTest = defaultTest.copy(recycledAt = nowUTC)
 
         createInstance().run {
             restore(pcrTest) shouldBe pcrTest.copy(recycledAt = null)
@@ -420,11 +420,11 @@ class PCRProcessorTest : BaseTest() {
 
             createInstance().create(request = request).also {
                 it.identifier shouldBe request.identifier
-                it.registeredAt shouldBe nowJavaUTC
-                it.lastUpdatedAt shouldBe nowJavaUTC
+                it.registeredAt shouldBe nowUTC
+                it.lastUpdatedAt shouldBe nowUTC
                 it.registrationToken shouldBe registrationData.registrationToken
                 it.testResult shouldBe resultResponse.coronaTestResult
-                it.testResultReceivedAt shouldBe nowJavaUTC
+                it.testResultReceivedAt shouldBe nowUTC
                 it.isDccSupportedByPoc shouldBe request.isDccSupportedByPoc
                 it.isDccConsentGiven shouldBe request.isDccConsentGiven
                 it.labId shouldBe resultResponse.labId
@@ -459,12 +459,12 @@ class PCRProcessorTest : BaseTest() {
 
     private fun createRapidPcCRTestData(coronaTestResult: CoronaTestResult) = RapidPCRTestData(
         coronaTestResult = coronaTestResult,
-        nowJavaUTC = nowJavaUTC
+        nowUTC = nowUTC
     )
 
     data class RapidPCRTestData(
         private val coronaTestResult: CoronaTestResult,
-        private val nowJavaUTC: Instant
+        private val nowUTC: Instant
     ) {
         val request = CoronaTestQRCode.RapidPCR(
             dateOfBirth = LocalDate.parse("2022-02-10"),
@@ -472,7 +472,7 @@ class PCRProcessorTest : BaseTest() {
             isDccSupportedByPoc = true,
             rawQrCode = "rawQrCode",
             hash = "hash",
-            createdAt = nowJavaUTC
+            createdAt = nowUTC
         )
 
         val serverRequest = RegistrationRequest(
@@ -483,7 +483,7 @@ class PCRProcessorTest : BaseTest() {
 
         val resultResponse = CoronaTestResultResponse(
             coronaTestResult = coronaTestResult,
-            sampleCollectedAt = nowJavaUTC,
+            sampleCollectedAt = nowUTC,
             labId = "labId"
         )
 

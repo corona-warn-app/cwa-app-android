@@ -46,12 +46,12 @@ class RAProcessorTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
-    private val nowJavaUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
     private val defaultTest = RACoronaTest(
         identifier = "identifier",
         lastUpdatedAt = Instant.EPOCH,
-        registeredAt = nowJavaUTC,
+        registeredAt = nowUTC,
         registrationToken = "regtoken",
         testResult = RAT_PENDING,
         testedAt = Instant.EPOCH,
@@ -61,7 +61,7 @@ class RAProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowJavaUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         submissionService.apply {
             coEvery { checkTestResult(any()) } returns CoronaTestResultResponse(
@@ -116,7 +116,7 @@ class RAProcessorTest : BaseTest() {
         instance.pollServer(raTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = raTest.copy(
-            registeredAt = nowJavaUTC.minus(Duration.ofDays(61))
+            registeredAt = nowUTC.minus(Duration.ofDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe RAT_REDEEMED
@@ -236,7 +236,7 @@ class RAProcessorTest : BaseTest() {
         val instance = createInstance()
 
         val raTest = defaultTest.copy(
-            registeredAt = nowJavaUTC.minus(Duration.ofDays(22)),
+            registeredAt = nowUTC.minus(Duration.ofDays(22)),
             testResult = RAT_REDEEMED,
         )
 
@@ -259,7 +259,7 @@ class RAProcessorTest : BaseTest() {
         val raTest = RACoronaTest(
             identifier = "identifier",
             lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowJavaUTC,
+            registeredAt = nowUTC,
             registrationToken = "regtoken",
             testResult = RAT_POSITIVE,
             testedAt = Instant.EPOCH,
@@ -272,7 +272,7 @@ class RAProcessorTest : BaseTest() {
         }
 
         // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
-        instance.pollServer(raTest.copy(registeredAt = nowJavaUTC.minus(Duration.ofDays(22)))).apply {
+        instance.pollServer(raTest.copy(registeredAt = nowUTC.minus(Duration.ofDays(22)))).apply {
             testResult shouldBe RAT_REDEEMED
             lastError shouldBe null
         }
@@ -380,7 +380,7 @@ class RAProcessorTest : BaseTest() {
         val raTest = RACoronaTest(
             identifier = "identifier",
             lastUpdatedAt = Instant.EPOCH,
-            registeredAt = nowJavaUTC,
+            registeredAt = nowUTC,
             registrationToken = "regtoken",
             testResult = RAT_POSITIVE,
             testedAt = Instant.EPOCH,
@@ -393,12 +393,12 @@ class RAProcessorTest : BaseTest() {
 
         coEvery { submissionService.checkTestResult(any()) } returns CoronaTestResultResponse(
             coronaTestResult = PCR_OR_RAT_PENDING,
-            sampleCollectedAt = nowJavaUTC,
+            sampleCollectedAt = nowUTC,
             labId = "labId",
         )
 
         (instance.pollServer(raTest) as RACoronaTest).apply {
-            sampleCollectedAt shouldBe nowJavaUTC
+            sampleCollectedAt shouldBe nowUTC
             labId shouldBe "labId"
         }
     }
@@ -408,13 +408,13 @@ class RAProcessorTest : BaseTest() {
         val raTest = defaultTest.copy(recycledAt = null)
 
         createInstance().run {
-            recycle(raTest) shouldBe raTest.copy(recycledAt = nowJavaUTC)
+            recycle(raTest) shouldBe raTest.copy(recycledAt = nowUTC)
         }
     }
 
     @Test
     fun `restore clears recycledAt`() = runTest {
-        val raTest = defaultTest.copy(recycledAt = nowJavaUTC)
+        val raTest = defaultTest.copy(recycledAt = nowUTC)
 
         createInstance().run {
             restore(raTest) shouldBe raTest.copy(recycledAt = null)

@@ -80,7 +80,7 @@ class TaskControllerTest : BaseIOTest() {
         taskFactoryMap[SilentErrorTask::class.java] = silentErrorFactory
         taskFactoryMap[AlertErrorTask::class.java] = alertErrorFactory
 
-        every { timeStamper.nowJavaUTC } answers {
+        every { timeStamper.nowUTC } answers {
             Instant.now()
         }
     }

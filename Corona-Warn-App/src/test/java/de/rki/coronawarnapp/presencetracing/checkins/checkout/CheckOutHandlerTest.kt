@@ -48,13 +48,13 @@ class CheckOutHandlerTest : BaseTest() {
     )
 
     private var updatedCheckIn: CheckIn? = null
-    private val nowJavaUTC = Instant.ofEpochMilli(50)
+    private val nowUTC = Instant.ofEpochMilli(50)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowJavaUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         coEvery { repository.updateCheckIn(42, any()) } coAnswers {
             val callback: (CheckIn) -> CheckIn = arg(1)
@@ -80,7 +80,7 @@ class CheckOutHandlerTest : BaseTest() {
         val instance = createInstance()
         instance.checkOut(42)
         updatedCheckIn shouldBe testCheckIn.copy(
-            checkInEnd = nowJavaUTC,
+            checkInEnd = nowUTC,
             completed = true
         )
 

@@ -81,13 +81,13 @@ class EwRiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
-        val nowJavaUTC = timeStamper.nowJavaUTC.also {
+        val nowUTC = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
         }
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowJavaUTC.minus(configData.localOffset)
+            val currentServerTime = nowUTC.minus(configData.localOffset)
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,
@@ -98,15 +98,15 @@ class EwRiskLevelTask @Inject constructor(
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowJavaUTC,
+                calculatedAt = nowUTC,
                 failureReason = FailureReason.TRACING_OFF
             )
         }
 
-        if (areKeyPkgsOutDated(nowJavaUTC)) {
+        if (areKeyPkgsOutDated(nowUTC)) {
             Timber.i("Risk not calculated, results are outdated.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowJavaUTC,
+                calculatedAt = nowUTC,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
                     false -> FailureReason.OUTDATED_RESULTS_MANUAL
@@ -115,12 +115,12 @@ class EwRiskLevelTask @Inject constructor(
         }
         checkCancel()
 
-        return calculateRiskLevel(configData, nowJavaUTC)
+        return calculateRiskLevel(configData, nowUTC)
     }
 
     @VisibleForTesting
-    internal suspend fun areKeyPkgsOutDated(nowJavaUTC: Instant): Boolean {
-        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowJavaUTC=%s)", nowJavaUTC)
+    internal suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
+        Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
 
         val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
             it.info.sortDateTime
@@ -130,7 +130,7 @@ class EwRiskLevelTask @Inject constructor(
             return true
         }
 
-        val downloadAge = Duration.between(latestDownload.info.sortDateTime, nowJavaUTC).also {
+        val downloadAge = Duration.between(latestDownload.info.sortDateTime, nowUTC).also {
             Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.toHours(), latestDownload)
         }
 
@@ -145,14 +145,14 @@ class EwRiskLevelTask @Inject constructor(
 
     private suspend fun calculateRiskLevel(
         configData: ExposureWindowRiskCalculationConfig,
-        nowJavaUTC: Instant
+        nowUTC: Instant
     ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
 
         val exposureWindows = filter.filterByAge(
             config = configData,
             list = enfClient.exposureWindows(),
-            nowJavaUTC = nowJavaUTC
+            nowUTC = nowUTC
         )
 
         return determineRisk(configData, exposureWindows).let {
@@ -164,7 +164,7 @@ class EwRiskLevelTask @Inject constructor(
             }
 
             EwRiskLevelTaskResult(
-                calculatedAt = timeStamper.nowJavaUTC,
+                calculatedAt = timeStamper.nowUTC,
                 ewAggregatedRiskResult = it,
                 exposureWindows = exposureWindows
             )

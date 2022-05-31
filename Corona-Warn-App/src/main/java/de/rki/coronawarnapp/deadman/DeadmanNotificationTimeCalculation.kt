@@ -37,7 +37,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
      */
     internal fun calculateDelay(lastSuccess: Instant?): Int {
         val minutesSinceLastSuccess = if (lastSuccess != null)
-            ChronoUnit.MINUTES.between(lastSuccess, timeStamper.nowJavaUTC).toInt()
+            ChronoUnit.MINUTES.between(lastSuccess, timeStamper.nowUTC).toInt()
         else 0
         return DEADMAN_NOTIFICATION_DELAY_MINUTES - minutesSinceLastSuccess
     }

@@ -37,7 +37,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
 
         coEvery { recycledCoronaTestsProvider.deleteCoronaTest(any()) } just Runs
     }

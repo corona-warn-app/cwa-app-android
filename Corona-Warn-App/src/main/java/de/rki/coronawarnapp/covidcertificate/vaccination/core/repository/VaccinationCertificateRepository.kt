@@ -219,7 +219,7 @@ class VaccinationCertificateRepository @Inject constructor(
                 .d("Acknowledging state change to %s -> %s.", toUpdate.data.lastSeenStateChange, currentState)
             val newData = toUpdate.data.copy(
                 lastSeenStateChange = currentState,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC,
+                lastSeenStateChangeAt = timeStamper.nowUTC,
             )
 
             Timber.tag(TAG).d("Updated %s", containerId)
@@ -283,7 +283,7 @@ class VaccinationCertificateRepository @Inject constructor(
     }
 
     private fun VaccinationCertificateContainer.setRecycled(value: Boolean): VaccinationCertificateContainer {
-        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowJavaUTC else null)).also {
+        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
         }
     }
@@ -295,10 +295,10 @@ class VaccinationCertificateRepository @Inject constructor(
     }
 
     private fun VaccinationCertificateQRCode.createContainer(
-        nowJavaUTC: Instant = timeStamper.nowJavaUTC
+        nowUTC: Instant = timeStamper.nowUTC
     ): VaccinationCertificateContainer =
         toVaccinationContainer(
-            scannedAt = nowJavaUTC,
+            scannedAt = nowUTC,
             qrCodeExtractor = qrCodeExtractor,
             certificateSeenByUser = false,
         )

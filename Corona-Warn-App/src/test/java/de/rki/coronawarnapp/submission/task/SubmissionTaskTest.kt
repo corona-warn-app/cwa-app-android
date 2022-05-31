@@ -147,7 +147,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { autoSubmission.updateMode(any()) } just Runs
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
         checkInRepository.apply {
             every { checkInsWithinRetention } returns flowOf(

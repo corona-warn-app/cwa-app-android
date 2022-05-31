@@ -49,7 +49,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             flow<Unit> {
                 while (true) {
                     hd.updateBlocking {
-                        val timeNow = timeStamper.nowJavaUTC
+                        val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
                         val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
                         mutate {
@@ -57,7 +57,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                                 if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {
                                     Timber.w("Calculation timeout on %s", it)
                                     this[it.identifier] = it.copy(
-                                        finishedAt = timeStamper.nowJavaUTC,
+                                        finishedAt = timeStamper.nowUTC,
                                         result = Result.TIMEOUT
                                     )
                                 }
@@ -89,7 +89,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             mutate {
                 this[identifier] = TrackedExposureDetection(
                     identifier = identifier,
-                    startedAt = timeStamper.nowJavaUTC,
+                    startedAt = timeStamper.nowUTC,
                     enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             }
@@ -146,7 +146,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             }
             this[identifier] = existing.copy(
                 result = result,
-                finishedAt = timeStamper.nowJavaUTC
+                finishedAt = timeStamper.nowUTC
             )
         } else {
             Timber.e(
@@ -157,8 +157,8 @@ class DefaultExposureDetectionTracker @Inject constructor(
             this[identifier] = TrackedExposureDetection(
                 identifier = identifier,
                 result = result,
-                startedAt = timeStamper.nowJavaUTC,
-                finishedAt = timeStamper.nowJavaUTC
+                startedAt = timeStamper.nowUTC,
+                finishedAt = timeStamper.nowUTC
             )
         }
     }

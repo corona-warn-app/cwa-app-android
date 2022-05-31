@@ -124,11 +124,11 @@ class TestCertificateProcessor @Inject constructor(
             }
         }
 
-        val nowJavaUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
 
         return when (dataToSave) {
-            is PCRCertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowJavaUTC)
-            is RACertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowJavaUTC)
+            is PCRCertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowUTC)
+            is RACertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowUTC)
         }
     }
 
@@ -160,9 +160,9 @@ class TestCertificateProcessor @Inject constructor(
 
         val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
 
-        val nowJavaUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         val certAvailableAt = data.publicKeyRegisteredAt?.plus(certConfig.waitAfterPublicKeyRegistration)
-        val certAvailableIn = Duration.between(nowJavaUTC, certAvailableAt)
+        val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
 
         if (certAvailableIn > Duration.ZERO && certAvailableIn <= certConfig.waitAfterPublicKeyRegistration) {
             Timber.tag(TAG)
@@ -205,11 +205,11 @@ class TestCertificateProcessor @Inject constructor(
         return when (data) {
             is PCRCertificateData -> data.copy(
                 testCertificateQrCode = extractedData.qrCode,
-                certificateReceivedAt = nowJavaUTC,
+                certificateReceivedAt = nowUTC,
             )
             is RACertificateData -> data.copy(
                 testCertificateQrCode = extractedData.qrCode,
-                certificateReceivedAt = nowJavaUTC,
+                certificateReceivedAt = nowUTC,
             )
         }
     }

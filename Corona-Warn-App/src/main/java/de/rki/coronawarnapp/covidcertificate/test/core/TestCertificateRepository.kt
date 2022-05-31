@@ -522,7 +522,7 @@ class TestCertificateRepository @Inject constructor(
         }
 
         return copy(
-            data = updateRecycledAt(data, timeStamper.nowJavaUTC)
+            data = updateRecycledAt(data, timeStamper.nowUTC)
         )
     }
 
@@ -559,15 +559,15 @@ class TestCertificateRepository @Inject constructor(
         return when (data) {
             is PCRCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
             is RACertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
             is GenericTestCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
         }
     }
@@ -611,11 +611,11 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private fun TestCertificateQRCode.createContainer(nowJavaUTC: Instant = timeStamper.nowJavaUTC): TestCertificateContainer {
+    private fun TestCertificateQRCode.createContainer(nowUTC: Instant = timeStamper.nowUTC): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),
-            registeredAt = nowJavaUTC,
-            certificateReceivedAt = nowJavaUTC, // Set this as we don't need to retrieve one
+            registeredAt = nowUTC,
+            certificateReceivedAt = nowUTC, // Set this as we don't need to retrieve one
             testCertificateQrCode = qrCode,
             certificateSeenByUser = false // Newly added, should show badge
         )

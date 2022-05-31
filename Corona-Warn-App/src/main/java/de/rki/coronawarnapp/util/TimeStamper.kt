@@ -6,6 +6,6 @@ import javax.inject.Singleton
 @Singleton
 class TimeStamper @Inject constructor() {
 
-    val nowJavaUTC: java.time.Instant
+    val nowUTC: java.time.Instant
         get() = java.time.Instant.now()
 }

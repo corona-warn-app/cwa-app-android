@@ -28,7 +28,7 @@ class TransmissionRiskVectorDeterminatorTest {
     fun setUp() {
         MockKAnnotations.init(this)
         LocalDateTime.of(2012, 10, 15, 10, 0,0,0).apply {
-            every { timeStamper.nowJavaUTC } returns this.toInstant(ZoneOffset.UTC)
+            every { timeStamper.nowUTC } returns this.toInstant(ZoneOffset.UTC)
             now = this.toLocalDate()
         }
     }
@@ -36,7 +36,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of today`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowJavaUTC.startMinusDays(0), POSITIVE),
+            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE),
             now
         ).raw shouldBe intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
@@ -44,7 +44,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of yesterday`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowJavaUTC.startMinusDays(1), POSITIVE),
+            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE),
             now
         ).raw shouldBe intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
     }
@@ -52,7 +52,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of 5 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowJavaUTC.startMinusDays(5), POSITIVE),
+            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE),
             now
         ).raw shouldBe intArrayOf(2, 3, 5, 6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1)
     }
@@ -60,7 +60,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication with the exact date of 21 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowJavaUTC.startMinusDays(21), POSITIVE),
+            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE),
             now
         ).raw shouldBe intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }

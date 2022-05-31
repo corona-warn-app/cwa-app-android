@@ -142,7 +142,7 @@ class Analytics @Inject constructor(
 
         if (result.successful) {
             settings.lastSubmittedTimestamp.update {
-                timeStamper.nowJavaUTC
+                timeStamper.nowUTC
             }
 
             logger.storeAnalyticsData(analyticsProto)
@@ -172,13 +172,13 @@ class Analytics @Inject constructor(
     fun stopDueToLastSubmittedTimestamp(): Boolean {
         val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
         return lastSubmit.plus(Duration.ofHours(LAST_SUBMISSION_MIN_AGE_HOURS))
-            .isAfter(timeStamper.nowJavaUTC)
+            .isAfter(timeStamper.nowUTC)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToTimeSinceOnboarding(): Boolean {
         val onboarding = onboardingSettings.onboardingCompletedTimestamp.value ?: return true
-        return onboarding.plus(Duration.ofHours(ONBOARDING_DELAY_HOURS)).isAfter(timeStamper.nowJavaUTC)
+        return onboarding.plus(Duration.ofHours(ONBOARDING_DELAY_HOURS)).isAfter(timeStamper.nowUTC)
     }
 
     suspend fun submitIfWanted(): Result = submissionLockoutMutex.withLock {

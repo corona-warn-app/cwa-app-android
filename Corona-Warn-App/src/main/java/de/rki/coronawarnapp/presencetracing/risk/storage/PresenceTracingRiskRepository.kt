@@ -110,8 +110,8 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private suspend fun calculateRiskResult(successful: Boolean): PtRiskLevelResult {
-        val nowJavaUTC = timeStamper.nowJavaUTC
-        val deadline = checkInsFilter.calculateDeadline(nowJavaUTC)
+        val nowUTC = timeStamper.nowUTC
+        val deadline = checkInsFilter.calculateDeadline(nowUTC)
 
         val riskState = if (successful) {
             val filteredOverlaps = checkInsFilter.filterCheckInWarningsByAge(
@@ -124,7 +124,7 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
         return PtRiskLevelResult(
-            calculatedAt = nowJavaUTC,
+            calculatedAt = nowUTC,
             calculatedFrom = deadline,
             riskState = riskState
         )
@@ -137,7 +137,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private val retentionTime: Instant
-        get() = timeStamper.nowJavaUTC.minus(Duration.ofDays(15))
+        get() = timeStamper.nowUTC.minus(Duration.ofDays(15))
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")

@@ -41,7 +41,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
             // Check if the numberOfDaysToRunPlaybook are over
             if (
                 initialPairingDate.plus(Duration.ofDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK))
-                    .isBefore(timeStamper.nowJavaUTC)
+                    .isBefore(timeStamper.nowUTC)
             ) {
                 stopWorker()
                 return result

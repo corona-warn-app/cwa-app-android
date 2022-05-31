@@ -168,9 +168,9 @@ class CheckInsTransformerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-11T10:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
-        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowJavaUTC.toLocalDateUtc())
+        every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { presenceTracing } returns PresenceTracingConfigContainer(
                 submissionParameters = submissionParams,

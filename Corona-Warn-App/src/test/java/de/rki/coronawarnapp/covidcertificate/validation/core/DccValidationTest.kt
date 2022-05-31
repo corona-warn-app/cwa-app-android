@@ -14,11 +14,11 @@ import java.time.ZoneOffset
 
 class DccValidationTest : BaseTest() {
 
-    private val nowJavaUTC = Instant.ofEpochSecond(1625827095)
+    private val nowUTC = Instant.ofEpochSecond(1625827095)
 
     private val userInput = ValidationUserInput(
         DccCountry("PT"),
-        nowJavaUTC.toLocalDateTime(ZoneOffset.UTC),
+        nowUTC.toLocalDateTime(ZoneOffset.UTC),
     )
 
     @Test
@@ -29,7 +29,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
@@ -46,7 +46,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
@@ -61,7 +61,7 @@ class DccValidationTest : BaseTest() {
         val rule2 = getRule(DccValidationRule.Result.OPEN)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = false,
@@ -78,7 +78,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = true,
             expirationCheckPassed = false,
             jsonSchemaCheckPassed = true,
@@ -95,7 +95,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = false,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,
@@ -112,7 +112,7 @@ class DccValidationTest : BaseTest() {
         val rule4 = getRule(DccValidationRule.Result.PASSED)
         DccValidation(
             userInput,
-            nowJavaUTC,
+            nowUTC,
             signatureCheckPassed = true,
             expirationCheckPassed = true,
             jsonSchemaCheckPassed = true,

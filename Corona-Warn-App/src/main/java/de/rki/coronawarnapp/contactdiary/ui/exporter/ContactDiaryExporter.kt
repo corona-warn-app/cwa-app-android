@@ -63,7 +63,7 @@ class ContactDiaryExporter @Inject constructor(
     }
 
     private fun generateDatesToExport(numberOfLastDaysToExport: Int) =
-        (0 until numberOfLastDaysToExport).map { timeStamper.nowJavaUTC.toLocalDateUtc().minusDays(it.toLong()) }
+        (0 until numberOfLastDaysToExport).map { timeStamper.nowUTC.toLocalDateUtc().minusDays(it.toLong()) }
 
     private fun StringBuilder.appendIntro(datesToExport: List<LocalDate>) = apply {
         appendLine(

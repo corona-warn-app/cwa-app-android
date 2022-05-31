@@ -16,7 +16,7 @@ class TransmissionRiskVectorDeterminator @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()) = TransmissionRiskVector(
+    fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()) = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is StartOf.Date -> {

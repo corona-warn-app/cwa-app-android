@@ -45,7 +45,7 @@ class AppConfigStorageTest : BaseIOTest() {
         MockKAnnotations.init(this)
         every { context.filesDir } returns privateFiles
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach
@@ -182,7 +182,7 @@ class AppConfigStorageTest : BaseIOTest() {
 
     @Test
     fun `return null on errors`() = runTest {
-        every { timeStamper.nowJavaUTC } throws Exception()
+        every { timeStamper.nowUTC } throws Exception()
 
         val storage = createStorage()
         storage.getStoredConfig() shouldBe null

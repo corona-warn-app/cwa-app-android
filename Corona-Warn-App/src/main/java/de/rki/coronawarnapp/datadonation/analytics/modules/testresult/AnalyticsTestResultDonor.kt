@@ -52,7 +52,7 @@ abstract class AnalyticsTestResultDonor(
 
         val hoursSinceTestRegistrationTime = Duration.between(
             timestampAtRegistration,
-            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowJavaUTC
+            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowUTC
         ).toHours().toInt()
 
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata

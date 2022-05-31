@@ -54,7 +54,7 @@ class AutoSubmission @Inject constructor(
 
         when (newMode) {
             Mode.DISABLED -> disableAutoSubmission()
-            Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowJavaUTC)
+            Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
             Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
         }
     }
@@ -122,7 +122,7 @@ class AutoSubmission @Inject constructor(
      */
     fun updateLastSubmissionUserActivity() {
         Timber.tag(TAG).d("updateLastSubmissionUserActivity()")
-        submissionSettings.lastSubmissionUserActivityUTC.update { timeStamper.nowJavaUTC }
+        submissionSettings.lastSubmissionUserActivityUTC.update { timeStamper.nowUTC }
     }
 
     enum class Mode {

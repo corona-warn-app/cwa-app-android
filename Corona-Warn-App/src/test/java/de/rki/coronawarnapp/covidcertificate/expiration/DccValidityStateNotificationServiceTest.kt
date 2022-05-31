@@ -54,13 +54,13 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     private val testContainerId = TestCertificateContainerId("test")
 
     private val lastDccStateBackgroundCheck = mockFlowPreference(Instant.EPOCH)
-    private val nowJavaUTC = Instant.EPOCH.plus(Duration.ofDays(7))
+    private val nowUTC = Instant.EPOCH.plus(Duration.ofDays(7))
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowJavaUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
 
@@ -125,7 +125,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().apply {
             showNotificationIfStateChanged()
 
@@ -139,7 +139,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `check can be enforced`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().run {
             showNotificationIfStateChanged(forceCheck = true)
 
@@ -210,7 +210,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
 
@@ -218,13 +218,13 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.ExpiringSoon(expiresAt = Instant.EPOCH),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
 
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Expired(expiredAt = Instant.EPOCH),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -242,7 +242,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
 
@@ -250,13 +250,13 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
 
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -272,7 +272,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -288,7 +288,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -304,7 +304,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Invalid(),
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -322,7 +322,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
 
@@ -330,13 +330,13 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
 
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -352,7 +352,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -368,7 +368,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }
@@ -384,7 +384,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Blocked,
-                time = nowJavaUTC,
+                time = nowUTC,
             )
         }
     }

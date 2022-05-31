@@ -33,7 +33,7 @@ class ExposureKeyHistoryCalculations @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun removeOldKeys(
         keys: List<TemporaryExposureKey>,
-        now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()
+        now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()
     ) = keys.filter { it.ageInDays(now) in 0..MAX_AGE_IN_DAYS }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -41,7 +41,7 @@ class ExposureKeyHistoryCalculations @Inject constructor(
         keys: List<TemporaryExposureKey>,
         transmissionRiskVector: TransmissionRiskVector,
         daysSinceOnsetOfSymptomsVector: DaysSinceOnsetOfSymptomsVector,
-        now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()
+        now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()
     ): List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey> {
         val result = mutableListOf<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>()
         keys.groupBy { it.ageInDays(now) }.forEach { entry ->

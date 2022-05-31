@@ -50,9 +50,9 @@ class RAResultRetrievalWorker @AssistedInject constructor(
             coronaTestRepository.refresh(BaseCoronaTest.Type.RAPID_ANTIGEN)
             Timber.tag(TAG).d("$id: RA test result refreshed.")
 
-            val nowJavaUTC = timeStamper.nowJavaUTC
-            val days =Duration.between(rat.registeredAt, nowJavaUTC).toDays()
-            val minutes =Duration.between(rat.registeredAt, nowJavaUTC).toMinutes()
+            val nowUTC = timeStamper.nowUTC
+            val days =Duration.between(rat.registeredAt, nowUTC).toDays()
+            val minutes =Duration.between(rat.registeredAt, nowUTC).toMinutes()
             val isPhase1 = ratResultScheduler.ratResultPeriodicPollingMode == PHASE1
             Timber.tag(TAG).d("Calculated days: %d", days)
 

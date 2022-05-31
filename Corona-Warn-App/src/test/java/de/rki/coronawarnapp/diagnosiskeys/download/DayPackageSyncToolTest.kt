@@ -54,7 +54,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_DAY)
-            timeStamper.nowJavaUTC
+            timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
             keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-02".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
@@ -70,9 +70,9 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
         val instance = createInstance()
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-03T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-03T12:12:12.000Z")
         instance.determineMissingDayPackages("EUR".loc, false) shouldBe null
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         instance.determineMissingDayPackages("EUR".loc, false) shouldBe LocationDays(
             location = "EUR".loc,
             dayData = listOf("2020-01-03".day)
@@ -86,7 +86,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
         val instance = createInstance()
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-02T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-02T12:12:12.000Z")
         instance.determineMissingDayPackages("EUR".loc, true) shouldBe LocationDays(
             location = "EUR".loc,
             dayData = listOf("2020-01-03".day)
@@ -100,11 +100,11 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
         val instance = createInstance()
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-01T01:02:03.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-01T01:02:03.000Z")
         instance.expectNewDayPackages(listOf(cachedKey1)) shouldBe true
         instance.expectNewDayPackages(listOf(cachedKey1, cachedKey2)) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-10-31T01:02:03.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-10-31T01:02:03.000Z")
         instance.expectNewDayPackages(listOf(cachedKey1, cachedKey2)) shouldBe true
     }
 
@@ -125,7 +125,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_DAY)
-            timeStamper.nowJavaUTC
+            timeStamper.nowUTC
             keyServer.getDayIndex("EUR".loc)
             keyCache.createCacheEntry(Type.LOCATION_DAY, "EUR".loc, "2020-01-01".day, null)
             downloadTool.downloadKeyFile(any(), downloadConfig)
@@ -172,7 +172,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if keys were revoked skip the EXPECT packages check`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
         mockCachedDay("EUR".loc, "2020-01-03".day).apply {
@@ -192,7 +192,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if force-sync is set we skip the EXPECT packages check`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
         mockCachedDay("EUR".loc, "2020-01-03".day)
@@ -203,7 +203,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T12:12:12.000Z")
         mockCachedDay("EUR".loc, "2020-01-01".day)
         mockCachedDay("EUR".loc, "2020-01-02".day)
         mockCachedDay("EUR".loc, "2020-01-03".day)

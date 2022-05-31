@@ -108,7 +108,7 @@ class KeyCacheRepository @Inject constructor(
             location = location,
             day = dayIdentifier,
             hour = hourIdentifier,
-            createdAt = timeStamper.nowJavaUTC
+            createdAt = timeStamper.nowUTC
         )
 
         val targetFile = getPathForKey(keyInfo)

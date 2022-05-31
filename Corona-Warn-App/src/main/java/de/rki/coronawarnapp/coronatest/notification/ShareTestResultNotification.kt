@@ -33,7 +33,7 @@ class ShareTestResultNotification @Inject constructor(
         notificationHelper.scheduleRepeatingNotification(
             testType,
             testIdentifier,
-            timeStamper.nowJavaUTC.plus(NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
+            timeStamper.nowUTC.plus(NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
             NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL,
             notificationId,
         )

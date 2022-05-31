@@ -36,7 +36,7 @@ internal class SurveysTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
     }
 
     private fun createInstance() = Surveys(
@@ -60,7 +60,7 @@ internal class SurveysTest : BaseTest() {
         every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
             UUID.randomUUID(),
             authorized = false,
-            redeemedAt = timeStamper.nowJavaUTC,
+            redeemedAt = timeStamper.nowUTC,
             invalidated = false
         )
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -72,7 +72,7 @@ internal class SurveysTest : BaseTest() {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = timeStamper.nowJavaUTC,
+                redeemedAt = timeStamper.nowUTC,
                 invalidated = true
             )
             createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
@@ -84,7 +84,7 @@ internal class SurveysTest : BaseTest() {
             every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = true,
-                redeemedAt = timeStamper.nowJavaUTC,
+                redeemedAt = timeStamper.nowUTC,
                 invalidated = false
             )
             coEvery { urlProvider.provideUrl(any(), any()) } returns ""

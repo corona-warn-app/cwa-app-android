@@ -82,7 +82,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             newPackages = listOf(cachedHourKey)
         )
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(1))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofDays(1))
 
         every { networkStateProvider.networkState } returns flowOf(networkState)
         every { networkState.isMeteredConnection } returns false

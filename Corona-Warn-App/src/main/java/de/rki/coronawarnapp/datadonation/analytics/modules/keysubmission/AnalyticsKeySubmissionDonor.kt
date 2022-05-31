@@ -86,7 +86,7 @@ abstract class AnalyticsKeySubmissionDonor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
         timeStamper
-            .nowJavaUTC
+            .nowUTC
             .minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
 
     override suspend fun deleteData() {

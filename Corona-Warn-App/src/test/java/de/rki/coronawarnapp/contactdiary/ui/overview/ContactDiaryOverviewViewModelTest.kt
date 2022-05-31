@@ -75,7 +75,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
 
         mockStringsForContactDiaryExporterTests(context)
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(dateMillis)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(dateMillis)
     }
 
     private val person = DefaultContactDiaryPerson(123, "Romeo")
@@ -508,7 +508,7 @@ open class ContactDiaryOverviewViewModelTest {
     @Test
     fun `onExportPress() should post export`() {
         // In this test, now = January, 15
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
         every { contactDiaryRepository.personEncounters } returns
             flowOf(ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL)

@@ -26,13 +26,13 @@ class CoronaTestExtensionsTest : BaseTest() {
 
     @Test
     fun `is test older than 21 days - test changes`() {
-        val nowJavaUTC = Instant.EPOCH.plus(Duration.ofDays(22))
+        val nowUTC = Instant.EPOCH.plus(Duration.ofDays(22))
         mockk<BaseCoronaTest>().apply {
             every { registeredAt } returns Instant.EPOCH
-        }.isOlderThan21Days(nowJavaUTC) shouldBe true
+        }.isOlderThan21Days(nowUTC) shouldBe true
 
         mockk<BaseCoronaTest>().apply {
             every { registeredAt } returns Instant.EPOCH.plus(Duration.ofDays(1))
-        }.isOlderThan21Days(nowJavaUTC) shouldBe false
+        }.isOlderThan21Days(nowUTC) shouldBe false
     }
 }

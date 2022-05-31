@@ -33,7 +33,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
 
         every { workManager.enqueueUniquePeriodicWork(any(), any(), any()) } returns mockk()
         every { workManager.cancelUniqueWork(any()) } returns mockk()
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
     }
 
     private fun createInstance(scope: CoroutineScope = TestScope()) = FamilyTestResultRetrievalScheduler(

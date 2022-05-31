@@ -41,8 +41,8 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
 
@@ -99,7 +99,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(emptyMap())
-                timeStamper.nowJavaUTC
+                timeStamper.nowUTC
                 storage.save(calculationData)
             }
             advanceUntilIdle()
@@ -124,7 +124,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             )
         }
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plusMillis(1)
 
         createInstance(scope = this).apply {
             finishExposureDetection(calcData.identifier, TrackedExposureDetection.Result.UPDATED_STATE)
@@ -136,7 +136,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(any())
-                timeStamper.nowJavaUTC
+                timeStamper.nowUTC
                 storage.save(expectedData)
             }
             advanceUntilIdle()
@@ -154,7 +154,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         val initialData = mapOf(calcData.identifier to calcData)
         coEvery { storage.load() } returns initialData
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(2)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plusMillis(2)
 
         val expectedData = initialData.mutate {
             this[calcData.identifier] = this[calcData.identifier]!!.copy(
@@ -184,7 +184,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
         coEvery { storage.load() } returns calcData
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plusMillis(1)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plusMillis(1)
         createInstance(scope = this).apply {
             finishExposureDetection("7", TrackedExposureDetection.Result.UPDATED_STATE)
 
@@ -198,10 +198,10 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
     @Test
     fun `15 minute timeout on ongoing calcs`() = runTest2 {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.ofMinutes(15))
             .plusMillis(2)
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.ofMinutes(15))
             .plusMillis(2)
 
@@ -255,11 +255,11 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
                 size shouldBe 6
 
                 this["0"] shouldBe timeoutOnRunningCalc.copy(
-                    finishedAt = timeStamper.nowJavaUTC,
+                    finishedAt = timeStamper.nowUTC,
                     result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["1"] shouldBe timeoutonRunningCalc2.copy(
-                    finishedAt = timeStamper.nowJavaUTC,
+                    finishedAt = timeStamper.nowUTC,
                     result = TrackedExposureDetection.Result.TIMEOUT
                 )
                 this["2"] shouldBe timeoutIgnoresFinishedCalcs

@@ -100,7 +100,7 @@ class TaskController @Inject constructor(
 
         val activeTask = InternalTaskState(
             request = newRequest,
-            createdAt = timeStamper.nowJavaUTC,
+            createdAt = timeStamper.nowUTC,
             config = taskConfig,
             task = task,
             job = deferred
@@ -177,7 +177,7 @@ class TaskController @Inject constructor(
                 }
 
                 workMap[state.id] = state.copy(
-                    finishedAt = timeStamper.nowJavaUTC,
+                    finishedAt = timeStamper.nowUTC,
                     result = result,
                     error = error
                 )
@@ -240,14 +240,14 @@ class TaskController @Inject constructor(
         }.launchIn(taskScope)
 
         job.start()
-        return copy(startedAt = timeStamper.nowJavaUTC).also {
+        return copy(startedAt = timeStamper.nowUTC).also {
             Timber.tag(TAG).i("Starting new task: %s", it)
         }
     }
 
     private fun InternalTaskState.toSkippedState(): InternalTaskState = copy(
-        startedAt = timeStamper.nowJavaUTC,
-        finishedAt = timeStamper.nowJavaUTC
+        startedAt = timeStamper.nowUTC,
+        finishedAt = timeStamper.nowUTC
     ).also { Timber.tag(TAG).i("Task was skipped: %s", it) }
 
     private suspend fun <K, V> MutableStateFlow<Map<K, V>>.updateSafely(

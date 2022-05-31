@@ -46,7 +46,7 @@ class FamilyTestListViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { familyTestRepository.familyTests } returns flowOf(setOf(fct1, fct2))
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
         every { appConfigProvider.currentConfig } returns flowOf(configData)
 
         viewModel = FamilyTestListViewModel(

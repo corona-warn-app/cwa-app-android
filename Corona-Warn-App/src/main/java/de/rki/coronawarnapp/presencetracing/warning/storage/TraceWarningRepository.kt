@@ -66,7 +66,7 @@ class TraceWarningRepository @Inject constructor(
         val metadata = TraceWarningPackageMetadata(
             location = location,
             hourInterval = hourInterval,
-            createdAt = timeStamper.nowJavaUTC
+            createdAt = timeStamper.nowUTC
         )
         dao.insert(metadata)
         Timber.tag(TAG).d("Inserted new Metadata: %s", metadata)

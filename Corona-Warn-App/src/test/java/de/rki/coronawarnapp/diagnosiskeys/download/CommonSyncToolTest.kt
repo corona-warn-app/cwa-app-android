@@ -67,7 +67,7 @@ abstract class CommonSyncToolTest : BaseIOTest() {
             "02:00".hour
         )
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T03:15:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T03:15:00.000Z")
 
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk()
 

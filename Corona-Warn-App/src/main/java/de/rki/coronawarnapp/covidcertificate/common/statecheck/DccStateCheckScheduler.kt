@@ -44,7 +44,7 @@ class DccStateCheckScheduler @Inject constructor(
             .filter { it } // Only when going into foreground
             .onEach {
                 val currentDscData = dscRepository.dscSignatureList.first()
-                if (Duration.between(currentDscData.updatedAt, timeStamper.nowJavaUTC) < Duration.ofHours(12)) {
+                if (Duration.between(currentDscData.updatedAt, timeStamper.nowUTC) < Duration.ofHours(12)) {
                     Timber.tag(TAG).d("Last DSC data refresh was recent: %s", currentDscData.updatedAt)
                     return@onEach
                 }

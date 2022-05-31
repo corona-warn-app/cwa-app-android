@@ -69,7 +69,7 @@ class EwRiskLevelTaskTest : BaseTest() {
 
         mockkObject(TimeVariables)
 
-        every { timeStamper.nowJavaUTC } returns testTimeNow
+        every { timeStamper.nowUTC } returns testTimeNow
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
 
@@ -180,7 +180,7 @@ class EwRiskLevelTaskTest : BaseTest() {
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
@@ -195,7 +195,7 @@ class EwRiskLevelTaskTest : BaseTest() {
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
@@ -263,7 +263,7 @@ class EwRiskLevelTaskTest : BaseTest() {
         coEvery { enfClient.exposureWindows() } returns listOf(exposureWindow1, exposureWindow2)
         every { riskLevels.calculateRisk(any(), any()) } returns null
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,

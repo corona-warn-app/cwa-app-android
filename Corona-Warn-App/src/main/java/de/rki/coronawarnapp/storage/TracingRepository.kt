@@ -137,7 +137,7 @@ class TracingRepository @Inject constructor(
     }
 
     private suspend fun downloadDiagnosisKeysTaskDidNotRunRecently(): Boolean {
-        val currentDate = timeStamper.nowJavaUTC
+        val currentDate = timeStamper.nowUTC
         val taskLastFinishedAt = try {
             taskController.tasks.first()
                 .filter { it.taskState.type == DownloadDiagnosisKeysTask::class }

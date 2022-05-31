@@ -141,7 +141,7 @@ class HourPackageSyncTool @Inject constructor(
         // existing or checked files -> no download needed
         val cachedHours = getCachedKeys(location, Type.LOCATION_HOUR)
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         if (!forceIndexLookup && !expectNewHourPackages(cachedHours, now)) {
             Timber.tag(TAG).d("We don't expect new hour packages.")

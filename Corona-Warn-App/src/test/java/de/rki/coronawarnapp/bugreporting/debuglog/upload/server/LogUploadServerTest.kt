@@ -41,7 +41,7 @@ class LogUploadServerTest : BaseIOTest() {
         MockKAnnotations.init(this)
 
         coEvery { uploadApiV1.uploadLog(any(), any()) } returns uploadResponse
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach

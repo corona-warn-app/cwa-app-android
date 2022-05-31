@@ -22,7 +22,7 @@ class VCardTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("1995-10-31T22:27:10Z")
+        every { timeStamper.nowUTC } returns Instant.parse("1995-10-31T22:27:10Z")
     }
 
     @Test

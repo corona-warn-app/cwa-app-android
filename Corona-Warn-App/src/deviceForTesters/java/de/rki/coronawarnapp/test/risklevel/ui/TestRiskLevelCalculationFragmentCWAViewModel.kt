@@ -181,7 +181,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         launch {
             val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
             val fileNameCompatibleTimestamp = DateTimeFormatter.ofPattern("yyyy-MM-DD-HH-mm-ss").format(
-                timeStamper.nowJavaUTC
+                timeStamper.nowUTC
             )
 
             val path = File(context.cacheDir, "share/")

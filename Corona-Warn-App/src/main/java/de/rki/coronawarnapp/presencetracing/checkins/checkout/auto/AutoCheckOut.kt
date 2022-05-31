@@ -49,23 +49,23 @@ class AutoCheckOut @Inject constructor(
             .launchIn(appScope)
     }
 
-    private suspend fun findNextAutoCheckOut(nowJavaUTC: Instant): CheckIn? = repository.allCheckIns
+    private suspend fun findNextAutoCheckOut(nowUTC: Instant): CheckIn? = repository.allCheckIns
         .firstOrNull()
-        ?.filter { !it.completed && it.checkInEnd.isAfter(nowJavaUTC) }
+        ?.filter { !it.completed && it.checkInEnd.isAfter(nowUTC) }
         ?.minByOrNull { it.checkInEnd }
 
     suspend fun refreshAlarm(): Boolean = mutex.withLock {
         Timber.tag(TAG).d("refreshAlarm()")
 
-        val nowJavaUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         // We only create alarms that are in the future
-        val nextCheckout = findNextAutoCheckOut(nowJavaUTC)
+        val nextCheckout = findNextAutoCheckOut(nowUTC)
 
         return if (nextCheckout != null) {
             Timber.tag(TAG).d(
                 "Next check-out will be at %s (in %d min) for %s",
                 nextCheckout.checkInEnd,
-               Duration.between(nowJavaUTC, nextCheckout.checkInEnd).toMinutes(),
+               Duration.between(nowUTC, nextCheckout.checkInEnd).toMinutes(),
                 nextCheckout
             )
             alarmManager.setExact(
@@ -85,10 +85,10 @@ class AutoCheckOut @Inject constructor(
         Timber.tag(TAG).d("processOverDueCheckouts()")
 
         val overDueCheckouts = run {
-            val nowJavaUTC = timeStamper.nowJavaUTC
+            val nowUTC = timeStamper.nowUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
-                .filter { !it.completed && (nowJavaUTC.isAfter(it.checkInEnd) || nowJavaUTC == it.checkInEnd) }
+                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC == it.checkInEnd) }
                 .sortedBy { it.checkInEnd }
         }.also {
             Timber.tag(TAG).d("${it.size} checkins are overdue for auto checkout: %s", it)

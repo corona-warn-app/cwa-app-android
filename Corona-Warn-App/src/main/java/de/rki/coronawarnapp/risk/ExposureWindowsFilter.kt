@@ -20,10 +20,10 @@ class ExposureWindowsFilter @Inject constructor(
     internal fun filterByAge(
         config: ExposureWindowRiskCalculationConfig,
         list: List<ExposureWindow>,
-        nowJavaUTC: Instant
+        nowUTC: Instant
     ): List<ExposureWindow> = list.filterByAge(
         maxAgeInDays = config.maxEncounterAgeInDays,
-        nowJavaUTC = nowJavaUTC
+        nowUTC = nowUTC
     )
 
     internal suspend fun filterDayRisksByAge(
@@ -37,16 +37,16 @@ class ExposureWindowsFilter @Inject constructor(
         }
     }
 
-    private fun ExposureWindowRiskCalculationConfig.getDeadline(nowJavaUTC: Instant): Instant =
-        nowJavaUTC.minusDays(maxEncounterAgeInDays.toLong()).toInstant()
+    private fun ExposureWindowRiskCalculationConfig.getDeadline(nowUTC: Instant): Instant =
+        nowUTC.minusDays(maxEncounterAgeInDays.toLong()).toInstant()
 }
 
 @VisibleForTesting
 internal fun List<ExposureWindow>.filterByAge(
     maxAgeInDays: Int,
-    nowJavaUTC: Instant
+    nowUTC: Instant
 ): List<ExposureWindow> {
-    val deadline = nowJavaUTC.minusDays(maxAgeInDays.toLong()).toEpochSecond() * 1000
+    val deadline = nowUTC.minusDays(maxAgeInDays.toLong()).toEpochSecond() * 1000
     return filter {
         it.dateMillisSinceEpoch >= deadline
     }

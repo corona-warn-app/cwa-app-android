@@ -59,7 +59,7 @@ class DefaultTraceLocationRepository @Inject constructor(
      */
     override val traceLocationsWithinRetention: Flow<List<TraceLocation>>
         get() = allTraceLocations.map { traceLocationList ->
-            val now = timeStamper.nowJavaUTC
+            val now = timeStamper.nowUTC
             traceLocationList.filter { traceLocation ->
                 traceLocation.isWithinRetention(now)
             }

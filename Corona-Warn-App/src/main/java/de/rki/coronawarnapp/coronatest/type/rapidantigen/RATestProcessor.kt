@@ -81,7 +81,7 @@ class RATestProcessor @Inject constructor(
 
         val sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         return RACoronaTest(
             identifier = request.identifier,
@@ -104,7 +104,7 @@ class RATestProcessor @Inject constructor(
 
     private fun determineReceivedDate(oldTest: RACoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
         oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
-        FINAL_STATES.contains(newTestResult) -> timeStamper.nowJavaUTC
+        FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
         else -> null
     }
 
@@ -118,8 +118,8 @@ class RATestProcessor @Inject constructor(
                 return test
             }
 
-            val nowJavaUTC = timeStamper.nowJavaUTC
-            val isOlderThan21Days = test.isOlderThan21Days(nowJavaUTC)
+            val nowUTC = timeStamper.nowUTC
+            val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
             if (isOlderThan21Days && (test.testResult == RAT_REDEEMED || test.testResult == PCR_OR_RAT_REDEEMED)) {
                 Timber.tag(TAG).w("Not polling, test is older than 21 days.")
@@ -149,9 +149,9 @@ class RATestProcessor @Inject constructor(
             analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
-                testResult = check60DaysRAT(test, response.coronaTestResult, timeStamper.nowJavaUTC),
+                testResult = check60DaysRAT(test, response.coronaTestResult, timeStamper.nowUTC),
                 testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
-                lastUpdatedAt = nowJavaUTC,
+                lastUpdatedAt = nowUTC,
                 sampleCollectedAt = response.sampleCollectedAt ?: test.sampleCollectedAt,
                 labId = response.labId ?: test.labId,
                 lastError = null
@@ -223,7 +223,7 @@ class RATestProcessor @Inject constructor(
         Timber.tag(TAG).v("recycle(test=%s)", test)
         test as RACoronaTest
 
-        return test.copy(recycledAt = timeStamper.nowJavaUTC)
+        return test.copy(recycledAt = timeStamper.nowUTC)
     }
 
     override suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest {

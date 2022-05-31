@@ -17,7 +17,7 @@ class CheckInCleaner @Inject constructor(
     suspend fun cleanUp() {
         Timber.d("Starting to clean up stale check-ins.")
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
         val checkInsToDelete = checkInRepository.allCheckIns.first()
             .filter { checkIn -> checkIn.isOutOfRetention(now) }
 

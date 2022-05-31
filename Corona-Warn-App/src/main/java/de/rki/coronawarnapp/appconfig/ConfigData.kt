@@ -57,7 +57,7 @@ interface ConfigData : ConfigMapping {
      * Has the config validity expired?
      * Is this configs update date, past the maximum cache age?
      */
-    fun isValid(nowJavaUTC: Instant): Boolean
+    fun isValid(nowUTC: Instant): Boolean
 
     enum class DeviceTimeState(val key: String) {
         /**

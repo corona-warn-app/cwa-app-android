@@ -31,7 +31,7 @@ class RiskCombinatorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234567890)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234567890)
     }
 
     private fun createInstance() = RiskCombinator(

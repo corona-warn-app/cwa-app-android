@@ -60,7 +60,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant()
+        every { timeStamper.nowUTC } returns OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant()
         every { pcrTestResultSettings.clear() } just Runs
         every { raTestResultSettings.clear() } just Runs
 
@@ -76,7 +76,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
         every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)
-        every { pcrTestResultSettings.testRegisteredAt } returns mockFlowPreference(timeStamper.nowJavaUTC)
+        every { pcrTestResultSettings.testRegisteredAt } returns mockFlowPreference(timeStamper.nowUTC)
         every { pcrTestResultSettings.exposureWindowsAtTestRegistration } returns mockFlowPreference(emptyList())
         every { pcrTestResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             mockFlowPreference(1)

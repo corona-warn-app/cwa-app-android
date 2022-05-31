@@ -111,7 +111,7 @@ class PersonDetailsViewModelTest : BaseTest() {
 
         coEvery { personCertificatesProvider.setCurrentCwaUser(any()) } just Runs
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().also {

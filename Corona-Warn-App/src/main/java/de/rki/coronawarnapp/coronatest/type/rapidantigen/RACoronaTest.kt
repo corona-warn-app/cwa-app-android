@@ -92,12 +92,12 @@ data class RACoronaTest(
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowJavaUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
-        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowJavaUTC)
+    private fun isOutdated(nowUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
+        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getState(nowJavaUTC: Instant, testConfig: CoronaTestConfig) = when {
+    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED
-        testResult == RAT_NEGATIVE && isOutdated(nowJavaUTC, testConfig) -> State.OUTDATED
+        testResult == RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {
             PCR_OR_RAT_PENDING,
             RAT_PENDING -> State.PENDING

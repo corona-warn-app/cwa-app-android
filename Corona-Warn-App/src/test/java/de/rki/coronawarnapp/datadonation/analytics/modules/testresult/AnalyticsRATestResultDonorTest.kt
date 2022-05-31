@@ -66,7 +66,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 mockFlowPreference(listOf(analyticsExposureWindow, analyticsExposureWindow))
             every { exposureWindowsUntilTestResult } returns mockFlowPreference(listOf(analyticsExposureWindow))
         }
-        every { timeStamper.nowJavaUTC } returns baseTime
+        every { timeStamper.nowUTC } returns baseTime
 
         testResultDonor = AnalyticsRATestResultDonor(
             testResultSettings,
@@ -189,7 +189,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 Instant.parse("2021-03-20T00:00:00Z")
             )
         }
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T00:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
 
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -217,7 +217,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
             every { ewRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
         }
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-20T00:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
 
         val donation =
             testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution

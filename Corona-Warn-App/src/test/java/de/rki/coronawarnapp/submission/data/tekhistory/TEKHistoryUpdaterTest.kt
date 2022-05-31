@@ -41,7 +41,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         coEvery { enfClient.getTEKHistoryOrRequestPermission(any(), any()) } just Runs
         coEvery { enfClient.isTracingEnabled } returns flowOf(true)

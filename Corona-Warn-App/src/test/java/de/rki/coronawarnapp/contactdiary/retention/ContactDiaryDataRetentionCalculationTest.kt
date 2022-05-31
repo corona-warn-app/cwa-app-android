@@ -47,7 +47,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-08-20T23:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-20T23:00:00.000Z")
     }
 
     private fun createInstance() = ContactDiaryRetentionCalculation(
@@ -58,7 +58,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @Test
     fun `test days diff`() {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-08-20T14:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-20T14:00:00.000Z")
 
         val instance = createInstance()
 

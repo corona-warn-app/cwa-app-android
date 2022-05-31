@@ -65,7 +65,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
 
         if (traceLocation.startDate != null &&
             traceLocation.startDate != Instant.EPOCH &&
-            !traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC)
+            !traceLocation.isBeforeStartTime(timeStamper.nowUTC)
         ) {
             uiState.apply {
                 value = value.copy(localDateTime = traceLocation.startDate.toDateTime())

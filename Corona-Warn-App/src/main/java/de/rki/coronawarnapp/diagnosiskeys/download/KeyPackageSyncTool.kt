@@ -79,7 +79,7 @@ class KeyPackageSyncTool @Inject constructor(
         Timber.tag(TAG).d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
         syncSettings.lastDownloadDays.update {
-            DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowJavaUTC)
+            DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowUTC)
         }
 
         val syncResult = dayPackageSyncTool.syncMissingDayPackages(
@@ -92,7 +92,7 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowJavaUTC, successful = syncResult.successful)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
             }
         }
 
@@ -107,7 +107,7 @@ class KeyPackageSyncTool @Inject constructor(
 
         syncSettings.lastDownloadHours.update {
             DownloadDiagnosisKeysSettings.LastDownload(
-                startedAt = timeStamper.nowJavaUTC
+                startedAt = timeStamper.nowUTC
             )
         }
 
@@ -121,7 +121,7 @@ class KeyPackageSyncTool @Inject constructor(
                 Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
                 null
             } else {
-                it.copy(finishedAt = timeStamper.nowJavaUTC, successful = syncResult.successful)
+                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
             }
         }
 

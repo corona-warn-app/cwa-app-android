@@ -45,7 +45,7 @@ class DccValidatorTest : BaseTest() {
         every { dccJsonSchemaValidator.isValid(any()) } returns JsonSchemaValidator.Result(emptySet())
         coEvery { businessValidator.validate(any(), any(), any()) } returns
             BusinessValidation(emptySet(), emptySet())
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1625827095)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1625827095)
         coEvery { dscSignatureValidator.validateSignature(any()) } just Runs
         dccValidator = DccValidator(
             businessValidator = businessValidator,

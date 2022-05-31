@@ -11,7 +11,7 @@ class VCard @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    private val now = timeStamper.nowJavaUTC
+    private val now = timeStamper.nowUTC
 
     /**
      * Return V-Card format for [RATProfile]
