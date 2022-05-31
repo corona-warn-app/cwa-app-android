@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTe
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64

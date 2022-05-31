@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
-
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -225,7 +224,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
                     region = info.location,
                     etag = info.etag!!,
                     day = info.day,
-                    hour = LocalTime.of(info.hour!!.hour, 0)
+                    hour = info.hour!!
                 )
             )
         }

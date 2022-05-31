@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.test.ui.details
 
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -33,11 +32,9 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     val exportError = SingleLiveEvent<Unit>()
 
-    val covidCertificate = testCertificateRepository.certificates.map { certificates ->
-        certificates.find { it.containerId == containerId }?.testCertificate?.also {
-            qrCode = it.qrCodeToDisplay
-        }
-    }.asLiveData(dispatcherProvider.Default)
+    val covidCertificate = testCertificateRepository.findCertificateDetails(containerId).map { certificate ->
+        certificate?.also { qrCode = it.qrCodeToDisplay }
+    }.asLiveData2()
 
     fun onClose() = events.postValue(TestCertificateDetailsNavigation.Back)
 
@@ -59,8 +56,8 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun refreshCertState() = launch(scope = appScope) {
-        Timber.v("refreshCertState()")
+    fun markAsSeen() = launch(scope = appScope) {
+        Timber.v("markAsSeen()")
         if (covidCertificate.value?.isNew == true && !fromScanner) {
             testCertificateRepository.markCertificateAsSeenByUser(containerId)
         } else {

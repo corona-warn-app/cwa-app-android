@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheck
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject

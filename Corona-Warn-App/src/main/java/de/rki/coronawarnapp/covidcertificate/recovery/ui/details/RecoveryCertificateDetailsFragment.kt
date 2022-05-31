@@ -86,7 +86,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    goBack()
+                    popBackStack()
                 }
             }
         }
@@ -98,9 +98,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshCertState()
+    override fun onPause() {
+        viewModel.markAsSeen()
+        super.onPause()
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
@@ -158,14 +158,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
-            RecoveryCertificateDetailsNavigation.Back -> goBack()
+            RecoveryCertificateDetailsNavigation.Back -> popBackStack()
             RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
                     doNavigate(
                         RecoveryCertificateDetailsFragmentDirections
                             .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
                     )
-                } else goBack()
+                } else popBackStack()
             }
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
@@ -193,8 +193,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 )
         }
     }
-
-    private fun goBack() = popBackStack()
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)

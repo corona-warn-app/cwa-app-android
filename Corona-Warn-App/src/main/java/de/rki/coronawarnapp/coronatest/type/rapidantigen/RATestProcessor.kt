@@ -165,11 +165,6 @@ class RATestProcessor @Inject constructor(
         }
     }
 
-    override suspend fun onRemove(toBeRemoved: PersonalCoronaTest) {
-        Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
-        // Currently nothing to do
-    }
-
     override suspend fun markSubmitted(test: PersonalCoronaTest): RACoronaTest {
         Timber.tag(TAG).d("markSubmitted(test=%s)", test)
         test as RACoronaTest

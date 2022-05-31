@@ -55,7 +55,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
         runTest {
             with(testCase) {
                 every { testRepository.coronaTests } returns flowOf(testSet)
-                every { timeStamper.nowUTC } returns java.time.Instant.EPOCH.plus(durationPassed)
+                every { timeStamper.nowUTC } returns Instant.EPOCH.plus(durationPassed)
                 createInstance().shouldShowRiskCard(riskState) shouldBe showRiskCardExpectedReturnValue
             }
         }

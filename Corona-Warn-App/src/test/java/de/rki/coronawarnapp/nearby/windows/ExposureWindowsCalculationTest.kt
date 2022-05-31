@@ -38,7 +38,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-
 import java.time.Duration
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach

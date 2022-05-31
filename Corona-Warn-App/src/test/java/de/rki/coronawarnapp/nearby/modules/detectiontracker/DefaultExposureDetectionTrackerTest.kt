@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.mutate
-
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -41,7 +40,6 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH
         every { timeStamper.nowUTC } returns Instant.EPOCH
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
@@ -198,9 +196,6 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
 
     @Test
     fun `15 minute timeout on ongoing calcs`() = runTest2 {
-        every { timeStamper.nowUTC } returns Instant.EPOCH
-            .plus(Duration.ofMinutes(15))
-            .plusMillis(2)
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.ofMinutes(15))
             .plusMillis(2)

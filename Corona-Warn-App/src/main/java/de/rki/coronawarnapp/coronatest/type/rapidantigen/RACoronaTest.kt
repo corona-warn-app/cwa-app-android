@@ -92,7 +92,7 @@ data class RACoronaTest(
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
-    private fun isOutdated(nowUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
         testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
     fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {

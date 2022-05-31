@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -119,6 +120,24 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
                 )
         }
         coVerify { storage.save(any()) }
+    }
+
+    @Test
+    fun `register new cert and access it immediately - opening details after scan`() = runTest2 {
+        val instance = createInstance(this)
+        instance.registerCertificate(VaccinationTestData.personAVac1QRCode).apply {
+            Timber.i("Returned cert is %s", this)
+            this.personIdentifier shouldBe
+                CertificatePersonIdentifier(
+                    dateOfBirthFormatted = "1966-11-11",
+                    lastNameStandardized = "ASTRA<EINS",
+                    firstNameStandardized = "ANDREAS"
+                )
+        }
+
+        instance.findCertificateDetails(
+            VaccinationCertificateContainerId(VaccinationTestData.personAVac1QRCode.qrCode.toSHA256())
+        ) shouldNotBe null
     }
 
     @Test

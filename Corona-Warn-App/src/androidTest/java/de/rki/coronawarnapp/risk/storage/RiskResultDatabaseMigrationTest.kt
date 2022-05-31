@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.risk.storage
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.migrations.RiskResultDatabaseMigration1To2
@@ -298,7 +298,9 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
             riskLevel.id shouldBe riskLevelValues["id"]
             riskLevel.calculatedAt shouldBe Instant.parse(riskLevelValues["calculatedAt"] as String)
             riskLevel.aggregatedRiskResult shouldNotBe null
-            riskLevel.aggregatedRiskResult?.totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(riskLevelValues["totalRiskLevel"] as Int)
+            riskLevel.aggregatedRiskResult?.totalRiskLevel shouldBe RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.forNumber(
+                riskLevelValues["totalRiskLevel"] as Int
+            )
             riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithLowRisk"]
             riskLevel.aggregatedRiskResult?.totalMinimumDistinctEncountersWithHighRisk shouldBe riskLevelValues["totalMinimumDistinctEncountersWithHighRisk"]
             riskLevel.aggregatedRiskResult?.mostRecentDateWithLowRisk shouldBe Instant.parse(riskLevelValues["mostRecentDateWithLowRisk"] as String)

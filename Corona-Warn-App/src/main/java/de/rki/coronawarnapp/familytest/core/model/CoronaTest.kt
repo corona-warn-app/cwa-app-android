@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-
 import java.time.Instant
 import java.time.LocalDate
 
@@ -68,10 +67,10 @@ data class CoronaTest(
     val testTakenAt: Instant
         get() = (additionalInfo?.sampleCollectedAt ?: additionalInfo?.createdAt) as Instant
 
-    private fun isOutdated(nowUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
         testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getUiState(nowUTC: java.time.Instant, testConfig: CoronaTestConfig) = when {
+    fun getUiState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED
         testResult == CoronaTestResult.RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {

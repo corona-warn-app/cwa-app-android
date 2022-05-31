@@ -256,11 +256,9 @@ android {
             }
         }
         test {
-            java.srcDirs += "$projectDir/src/testShared/java"
             resources.srcDirs += "src/main/assets"
         }
         androidTest {
-            java.srcDirs += "$projectDir/src/testShared/java"
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
@@ -373,7 +371,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // DAGGER
-    def dagger_version = "2.38.1"
+    def dagger_version = "2.41"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -393,7 +391,7 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // JFN
-    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-a467904.jar")
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-1de55db.jar")
 
     // boofCV
     def boofCV_version = "0.40.1"

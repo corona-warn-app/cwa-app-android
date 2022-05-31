@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

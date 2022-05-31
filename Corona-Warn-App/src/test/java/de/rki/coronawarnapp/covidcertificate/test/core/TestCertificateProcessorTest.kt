@@ -87,7 +87,6 @@ class TestCertificateProcessorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
-        every { timeStamper.nowUTC } returns java.time.Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {

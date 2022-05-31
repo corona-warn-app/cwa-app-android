@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.ui.details
 
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -30,13 +29,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     private var qrCode: CoilQrCode? = null
 
-    val vaccinationCertificate = vaccinationCertificateRepository.certificates
-        .map { certificates ->
-            certificates.find { it.containerId == containerId }?.vaccinationCertificate?.also {
-                qrCode = it.qrCodeToDisplay
-            }
-        }
-        .asLiveData(context = dispatcherProvider.Default)
+    val vaccinationCertificate = vaccinationCertificateRepository
+        .findCertificateDetails(containerId)
+        .map { certificate ->
+            certificate?.also { qrCode = certificate.qrCodeToDisplay }
+        }.asLiveData2()
 
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
@@ -48,7 +45,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
 
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
-        Timber.d("Recycling Vaccination Certificate=$containerId")
+        Timber.d("Move vaccination certificate=$containerId to bin")
         vaccinationCertificateRepository.recycleCertificate(containerId)
         events.postValue(VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling)
     }
@@ -63,8 +60,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun refreshCertState() = launch(scope = appScope) {
-        Timber.v("refreshCertState()")
+    fun markAsSeen() = launch(scope = appScope) {
         vaccinationCertificateRepository.acknowledgeState(containerId)
         if (!fromScanner) vaccinationCertificateRepository.markAsSeenByUser(containerId)
     }

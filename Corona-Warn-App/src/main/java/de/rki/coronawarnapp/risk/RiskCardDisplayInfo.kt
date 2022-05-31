@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
-
 import kotlinx.coroutines.flow.first
 import java.time.Duration
 import javax.inject.Inject
@@ -44,6 +43,6 @@ class RiskCardDisplayInfo @Inject constructor(
             is RACoronaTest -> testTakenAt to coronaTestConfig.ratParameters.durationToShowRiskCard
             else -> error("Unsupported test type=$type")
         }
-        return java.time.Duration.between(testTimestamp, timeStamper.nowUTC) >= thresholdDuration
+        return Duration.between(testTimestamp, timeStamper.nowUTC) >= thresholdDuration
     }
 }

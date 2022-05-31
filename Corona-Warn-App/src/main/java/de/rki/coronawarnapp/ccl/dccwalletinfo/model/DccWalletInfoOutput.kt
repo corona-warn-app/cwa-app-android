@@ -39,6 +39,11 @@ data class DccWalletInfo(
     @get:JsonIgnore
     val validUntilInstant: Instant
         get() = Instant.parse(validUntil)
+
+    @get:JsonIgnore
+    val hasReissuance: Boolean
+        get() = certificateReissuance != null &&
+            certificateReissuance.reissuanceDivision.visible
 }
 
 @JsonTypeInfo(

@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    goBack()
+                    popBackStack()
                     return@observe
                 }
 
@@ -132,14 +132,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> goBack()
+                    VaccinationDetailsNavigation.Back -> popBackStack()
                     VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                         if (args.numberOfCertificates == 1) {
                             doNavigate(
                                 VaccinationDetailsFragmentDirections
                                     .actionVaccinationDetailsFragmentToPersonOverviewFragment()
                             )
-                        } else goBack()
+                        } else popBackStack()
                     }
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
@@ -168,11 +168,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
-    private fun goBack() = popBackStack()
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshCertState()
+    override fun onPause() {
+        viewModel.markAsSeen()
+        super.onPause()
     }
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {

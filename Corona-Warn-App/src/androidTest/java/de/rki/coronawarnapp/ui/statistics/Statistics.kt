@@ -26,7 +26,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
 import java.time.Instant
 import retrofit2.converter.gson.GsonConverterFactory
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.mockFlowPreference
 import timber.log.Timber
 
 object Statistics {
