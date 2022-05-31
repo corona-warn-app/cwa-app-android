@@ -22,5 +22,4 @@ interface RecoveryCertificate : CwaCovidCertificate {
     companion object {
         const val icon = R.drawable.ic_recovery_certificate
     }
-
 }

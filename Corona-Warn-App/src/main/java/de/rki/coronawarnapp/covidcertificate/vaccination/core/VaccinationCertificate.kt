@@ -31,5 +31,4 @@ interface VaccinationCertificate : CwaCovidCertificate {
         val iconComplete = R.drawable.ic_vaccination_immune
         val iconIncomplete = R.drawable.ic_vaccination_incomplete
     }
-
 }
