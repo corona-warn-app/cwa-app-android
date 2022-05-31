@@ -65,7 +65,7 @@ class AutoCheckOut @Inject constructor(
             Timber.tag(TAG).d(
                 "Next check-out will be at %s (in %d min) for %s",
                 nextCheckout.checkInEnd,
-               Duration.between(nowUTC, nextCheckout.checkInEnd).toMinutes(),
+                Duration.between(nowUTC, nextCheckout.checkInEnd).toMinutes(),
                 nextCheckout
             )
             alarmManager.setExact(

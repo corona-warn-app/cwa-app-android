@@ -259,7 +259,7 @@ fun CoronaTestResult.toValidatedRaResult(): CoronaTestResult {
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysRAT(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
-    val testAge =Duration.between(test.registeredAt, now)
+    val testAge = Duration.between(test.registeredAt, now)
     Timber.tag(RATestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.toDays(), newResult)
 
     return if ((newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&

@@ -223,7 +223,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
         for (
-        filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
         ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
@@ -451,5 +451,5 @@ class ExposureWindowsCalculationTest : BaseTest() {
         return scanInstance
     }
 
-    private val MILLIS_PER_DAY = 1000 * 60 * 60 *24L
+    private val MILLIS_PER_DAY = 1000 * 60 * 60 * 24L
 }

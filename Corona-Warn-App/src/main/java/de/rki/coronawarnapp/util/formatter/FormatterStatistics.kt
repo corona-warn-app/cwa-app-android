@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import java.text.DateFormat
 import java.time.Instant
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
     val today = LocalDate.now()

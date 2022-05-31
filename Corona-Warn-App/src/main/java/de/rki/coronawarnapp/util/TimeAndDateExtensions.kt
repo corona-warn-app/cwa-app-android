@@ -43,7 +43,7 @@ object TimeAndDateExtensions {
 
     fun Long.daysToMilliseconds(): Long = this.times(MS_TO_DAYS)
 
-    fun Instant.toDate():Date = Date.from(this)
+    fun Instant.toDate(): Date = Date.from(this)
 
     fun Long.roundUpMsToDays(): Long {
         val numberOfDays = this / MS_TO_DAYS.toDouble()

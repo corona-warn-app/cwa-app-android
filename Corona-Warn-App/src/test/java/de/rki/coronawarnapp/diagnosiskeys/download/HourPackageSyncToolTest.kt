@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.io.IOException
-import java.time.LocalTime
 
 class HourPackageSyncToolTest : CommonSyncToolTest() {
 

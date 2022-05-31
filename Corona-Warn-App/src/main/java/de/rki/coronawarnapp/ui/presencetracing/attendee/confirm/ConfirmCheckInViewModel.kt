@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import java.time.Duration
 import java.time.Instant
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ConfirmCheckInViewModel @AssistedInject constructor(

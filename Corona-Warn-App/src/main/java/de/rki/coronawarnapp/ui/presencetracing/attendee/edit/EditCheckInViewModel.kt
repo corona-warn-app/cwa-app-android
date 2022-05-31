@@ -101,9 +101,9 @@ class EditCheckInViewModel @AssistedInject constructor(
                 }?.toInstant(OffsetDateTime.now().offset)
             is DateTimePickerEvent.DatePickerEvent ->
                 checkInStartTime.value = startDateTime?.apply {
-                 if (event.localDate != null) {
-                     withDayOfYear(event.localDate.dayOfYear)
-                 }
+                    if (event.localDate != null) {
+                        withDayOfYear(event.localDate.dayOfYear)
+                    }
                 }?.toInstant(OffsetDateTime.now().offset)
         }
     }

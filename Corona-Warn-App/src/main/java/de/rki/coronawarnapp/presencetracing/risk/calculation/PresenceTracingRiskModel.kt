@@ -30,7 +30,7 @@ data class CheckInWarningOverlap(
     val endTime: Instant
 ) {
     val localDateUtc = startTime.toLocalDateUtc()
-    val overlap: Duration =Duration.ofMillis(max((endTime.toEpochMilli() - startTime.toEpochMilli()), 0))
+    val overlap: Duration = Duration.ofMillis(max((endTime.toEpochMilli() - startTime.toEpochMilli()), 0))
     val roundedMinutes = (overlap.toMillis().toDouble() / 60000.0).roundToLong()
     fun normalizedTime(transmissionRiskValue: Double) = transmissionRiskValue * roundedMinutes
 }

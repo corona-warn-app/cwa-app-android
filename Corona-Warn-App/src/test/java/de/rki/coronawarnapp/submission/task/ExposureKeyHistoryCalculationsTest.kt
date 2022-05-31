@@ -21,9 +21,9 @@ class ExposureKeyHistoryCalculationsTest {
 
     @Before
     fun setUp() {
-        todayMidnight = OffsetDateTime.of(2012, 10, 15, 0, 0,0,0, ZoneOffset.UTC)
-        thisMorning = OffsetDateTime.of(2012, 10, 15, 10, 0,0,0, ZoneOffset.UTC)
-        thisEvening = OffsetDateTime.of(2012, 10, 15, 20, 0, 0,0,ZoneOffset.UTC)
+        todayMidnight = OffsetDateTime.of(2012, 10, 15, 0, 0, 0, 0, ZoneOffset.UTC)
+        thisMorning = OffsetDateTime.of(2012, 10, 15, 10, 0, 0, 0, ZoneOffset.UTC)
+        thisEvening = OffsetDateTime.of(2012, 10, 15, 20, 0, 0, 0, ZoneOffset.UTC)
 
         converter = object : KeyConverter {
             override fun toExternalFormat(
@@ -194,6 +194,6 @@ class ExposureKeyHistoryCalculationsTest {
 
     // TODO  (dateTime.toEpochMilli() / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS.toMillis()).toInt()
     private fun createKey(dateTime: OffsetDateTime) = createKey(
-       1
+        1
     )
 }

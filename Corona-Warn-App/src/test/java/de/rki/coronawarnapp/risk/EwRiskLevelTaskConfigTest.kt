@@ -25,8 +25,10 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level task max execution time is not above 9 minutes`() {
-        (EwRiskLevelTask.Config(exposureDetectionTracker)
-            .executionTimeout < Duration.ofMinutes(9)) shouldBe true
+        (
+            EwRiskLevelTask.Config(exposureDetectionTracker)
+                .executionTimeout < Duration.ofMinutes(9)
+            ) shouldBe true
     }
 
     @Test

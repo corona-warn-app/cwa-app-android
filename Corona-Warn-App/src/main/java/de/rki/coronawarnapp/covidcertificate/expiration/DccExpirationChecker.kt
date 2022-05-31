@@ -16,7 +16,7 @@ class DccExpirationChecker @Inject constructor() {
         now: Instant
     ): CwaCovidCertificate.State = with(dccData) {
         val expiresAt = header.expiresAt
-        val timeDiffUntilExpiration =Duration.between(now, expiresAt)
+        val timeDiffUntilExpiration = Duration.between(now, expiresAt)
 
         return when {
             expiresAt <= now -> CwaCovidCertificate.State.Expired(expiresAt)

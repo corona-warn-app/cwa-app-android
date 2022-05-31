@@ -340,7 +340,7 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
-    val testAge =Duration.between(test.registeredAt, now)
+    val testAge = Duration.between(test.registeredAt, now)
     Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.toDays(), newResult)
 
     return if (newResult == PCR_OR_RAT_PENDING && testAge > VerificationServer.TestAvailabilityDuration) {

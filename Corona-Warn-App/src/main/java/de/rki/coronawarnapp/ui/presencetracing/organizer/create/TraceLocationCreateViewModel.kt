@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationUIType
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel

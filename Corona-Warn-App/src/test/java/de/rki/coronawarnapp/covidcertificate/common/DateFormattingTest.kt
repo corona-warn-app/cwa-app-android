@@ -34,7 +34,9 @@ class DateFormattingTest : BaseTest() {
         "2021-08-20T12:03:12+02".formatDateTime(tz) shouldBe "2021-08-20 12:03 UTC +02"
         "2021-08-20T12:03:12+0200".formatDateTime(tz) shouldBe "2021-08-20 12:03 UTC +02"
         "2021-08-20T12:03:12+02:00".formatDateTime(tz) shouldBe "2021-08-20 12:03 UTC +02"
-        "2021-08-20T09:03:12Z".formatDateTime(ZoneOffset.ofHours(timeZoneOffsetHawaii)) shouldBe "2021-08-19 23:03 UTC -10"
+        "2021-08-20T09:03:12Z".formatDateTime(
+            ZoneOffset.ofHours(timeZoneOffsetHawaii)
+        ) shouldBe "2021-08-19 23:03 UTC -10"
         "lorem-ipsum".formatDateTime() shouldBe "lorem-ipsum"
     }
 

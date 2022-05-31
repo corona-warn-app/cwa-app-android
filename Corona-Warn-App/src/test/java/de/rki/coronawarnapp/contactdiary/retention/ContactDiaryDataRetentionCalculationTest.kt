@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import java.time.OffsetDateTime
 import java.time.Instant
-import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -73,7 +72,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
     @Test
     fun `filter by date`() {
-        val localDate =OffsetDateTime.parse("2020-08-20T23:00:00.000Z").toLocalDate()
+        val localDate = OffsetDateTime.parse("2020-08-20T23:00:00.000Z").toLocalDate()
 
         val instance = createInstance()
 

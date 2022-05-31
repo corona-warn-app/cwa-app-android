@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import java.text.DateFormat
-import java.time.format.DateTimeFormatter
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationSelectionAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsWarnItemBinding>(

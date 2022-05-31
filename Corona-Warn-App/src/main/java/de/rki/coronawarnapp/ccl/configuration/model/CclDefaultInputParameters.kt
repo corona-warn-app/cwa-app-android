@@ -5,7 +5,6 @@ import android.os.LocaleList
 import de.rki.coronawarnapp.BuildConfig
 import java.time.OffsetDateTime
 import timber.log.Timber
-import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit

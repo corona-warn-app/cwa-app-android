@@ -60,7 +60,7 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         // and Check-in EndDate and rounding it to the closest 15-minute duration
         // Use Seconds for more precision
         val durationInMinutes = Duration.between(checkInStart, checkInEnd).toMinutes()
-        val duration = (durationInMinutes / 15.0).roundToLong()  * 15
+        val duration = (durationInMinutes / 15.0).roundToLong() * 15
         return DefaultContactDiaryLocationVisit(
             date = checkInStart.toLocalDateUtc(),
             contactDiaryLocation = location,

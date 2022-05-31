@@ -27,7 +27,7 @@ class TransmissionRiskVectorDeterminatorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        LocalDateTime.of(2012, 10, 15, 10, 0,0,0).apply {
+        LocalDateTime.of(2012, 10, 15, 10, 0, 0, 0).apply {
             every { timeStamper.nowUTC } returns this.toInstant(ZoneOffset.UTC)
             now = this.toLocalDate()
         }

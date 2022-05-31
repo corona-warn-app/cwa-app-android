@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import java.text.DateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject

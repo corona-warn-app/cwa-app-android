@@ -56,7 +56,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
         checkoutInfo.text = run {
             val duration = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd)
             val periodType = duration.let {
-                 when {
+                when {
                     it > Duration.ofHours(1) -> "HH:mm"
                     it > Duration.ofDays(1) -> "D"
                     else -> "mm"
@@ -96,5 +96,4 @@ class ActiveCheckInVH(parent: ViewGroup) :
     ) : CheckInsItem, HasPayloadDiffer {
         override val stableId: Long = checkin.id
     }
-
 }

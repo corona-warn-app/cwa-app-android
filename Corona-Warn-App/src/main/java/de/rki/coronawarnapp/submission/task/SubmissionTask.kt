@@ -93,7 +93,7 @@ class SubmissionTask @Inject constructor(
     private fun hasRecentUserActivity(): Boolean {
         val nowUTC = timeStamper.nowUTC
         val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.value
-        val userInactivity =Duration.between(lastUserActivity, nowUTC)
+        val userInactivity = Duration.between(lastUserActivity, nowUTC)
         Timber.tag(TAG).d(
             "now=%s, lastUserActivity=%s, userInactivity=%dmin",
             nowUTC,

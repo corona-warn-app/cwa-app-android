@@ -198,7 +198,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
     private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        val testDate =OffsetDateTime.parse("12.05.2021 19:00", formatter).toInstant()
+        val testDate = OffsetDateTime.parse("12.05.2021 19:00", formatter).toInstant()
 
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
             override val isNew: Boolean get() = false

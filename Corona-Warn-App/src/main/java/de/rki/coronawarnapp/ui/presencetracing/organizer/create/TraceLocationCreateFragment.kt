@@ -32,7 +32,6 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.OffsetDateTime
 import java.time.Duration
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 

@@ -21,8 +21,6 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 
-
-
 import kotlinx.coroutines.flow.first
 import java.time.Duration
 import timber.log.Timber

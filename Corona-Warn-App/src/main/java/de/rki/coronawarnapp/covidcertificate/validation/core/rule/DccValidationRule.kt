@@ -60,10 +60,10 @@ data class DccValidationRule(
 ) : Parcelable {
 
     val validFromDateTime: OffsetDateTime
-        get() =OffsetDateTime.parse(validFrom)
+        get() = OffsetDateTime.parse(validFrom)
 
     val validToDateTime: OffsetDateTime
-        get() =OffsetDateTime.parse(validTo)
+        get() = OffsetDateTime.parse(validTo)
 
     val versionSemVer: SemVer
         get() = try {

@@ -315,6 +315,8 @@ fun createWarning(
 ): TraceWarning.TraceTimeIntervalWarning = TraceWarning.TraceTimeIntervalWarning.newBuilder()
     .setLocationIdHash(traceLocationId.decodeHex().sha256().toProtoByteString())
     .setPeriod(period)
-    .setStartIntervalNumber((Duration.ofMillis(Instant.parse(startIntervalDateStr).toEpochMilli()).toMinutes() / 10).toInt())
+    .setStartIntervalNumber(
+        (Duration.ofMillis(Instant.parse(startIntervalDateStr).toEpochMilli()).toMinutes() / 10).toInt()
+    )
     .setTransmissionRiskLevel(transmissionRiskLevel)
     .build()

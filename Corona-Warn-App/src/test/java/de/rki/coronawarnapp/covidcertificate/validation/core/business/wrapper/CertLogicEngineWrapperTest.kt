@@ -85,7 +85,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDateTime =OffsetDateTime.parse("2022-06-11T14:23:00+02:00")
+        val validationDateTime = OffsetDateTime.parse("2022-06-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
             validationDateTime = validationDateTime,

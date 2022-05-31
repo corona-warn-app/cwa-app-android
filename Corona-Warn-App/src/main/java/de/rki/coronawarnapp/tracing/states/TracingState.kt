@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import java.text.DateFormat
 import java.time.Instant
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 sealed class TracingState {
     abstract val riskState: RiskState

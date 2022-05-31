@@ -154,7 +154,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
         val nextDetectionAt = lastDetection.startedAt.plus(exposureConfig.minTimeBetweenDetections)
 
-       Duration.between(now, nextDetectionAt).also {
+        Duration.between(now, nextDetectionAt).also {
             Timber.tag(TAG).d("Next detection is available in %d min", it.toMinutes())
         }
 

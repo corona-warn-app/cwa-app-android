@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.nearby.ENFClientLocalData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -12,7 +10,6 @@ import java.time.Duration
 import java.time.Instant
 import timber.log.Timber
 import java.time.LocalDate
-import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
 

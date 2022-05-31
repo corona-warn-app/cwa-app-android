@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe

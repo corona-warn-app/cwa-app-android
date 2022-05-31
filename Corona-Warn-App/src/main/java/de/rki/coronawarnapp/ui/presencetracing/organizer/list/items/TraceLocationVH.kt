@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdap
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTime
 import de.rki.coronawarnapp.util.list.Swipeable
 import java.text.DateFormat
-import java.time.format.DateTimeFormatter
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(

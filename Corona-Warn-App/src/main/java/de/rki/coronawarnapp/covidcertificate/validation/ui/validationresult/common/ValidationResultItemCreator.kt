@@ -115,7 +115,8 @@ class ValidationResultItemCreator @Inject constructor() {
                 "${userInput.arrivalDateTime.toLocalDate().toShortDayFormat()} " +
                     userInput.arrivalDateTime.toLocalTime().toShortTimeFormat(),
                 DateFormat.getDateInstance(
-                    DateFormat.MEDIUM).format(validatedAt.toUserTimeZone())
+                    DateFormat.MEDIUM
+                ).format(validatedAt.toUserTimeZone())
             )
         )
 

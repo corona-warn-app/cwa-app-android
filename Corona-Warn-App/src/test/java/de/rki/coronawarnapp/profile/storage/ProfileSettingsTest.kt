@@ -23,7 +23,7 @@ internal class ProfileSettingsTest : BaseTest() {
     private val profile = RATProfile(
         firstName = "First name",
         lastName = "Last name",
-        birthDate = LocalDate.parse("1950-08-01",formatter),
+        birthDate = LocalDate.parse("1950-08-01", formatter),
         street = "Main street",
         zipCode = "12132",
         city = "London",

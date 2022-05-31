@@ -17,7 +17,7 @@ internal fun String.formatDate(): String {
 // TODO: test if it's working
 internal fun String.formatDateTime(tz: ZoneOffset = OffsetDateTime.now().offset): String = try {
     val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm 'UTC' ZZ")
-   OffsetDateTime.parse(
+    OffsetDateTime.parse(
         this,
         DateTimeFormatterBuilder()
             .append(DateTimeFormatter.ISO_DATE)
