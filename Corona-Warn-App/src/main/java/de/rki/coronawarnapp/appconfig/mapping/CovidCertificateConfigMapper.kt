@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.DgcParameters
 import de.rki.coronawarnapp.util.toOkioByteString
 import okio.ByteString
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -40,7 +40,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
                         Timber.e("Invalid value for waitAfterPublicKeyRegistration: %s", it)
                         TestCertificateConfigContainer().waitAfterPublicKeyRegistration
                     } else {
-                        Duration.standardSeconds(it.toLong())
+                        Duration.ofSeconds(it.toLong())
                     }
                 },
                 waitForRetry = waitForRetryInSeconds.let {
@@ -48,7 +48,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
                         Timber.e("Invalid value for waitForRetryInSeconds: %s", it)
                         TestCertificateConfigContainer().waitForRetry
                     } else {
-                        Duration.standardSeconds(it.toLong())
+                        Duration.ofSeconds(it.toLong())
                     }
                 }
             )
@@ -60,7 +60,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
             return DEFAULT_EXPIRATION_THRESHOLD
         }
 
-        return Duration.standardDays(expirationThresholdInDays.toLong())
+        return Duration.ofDays(expirationThresholdInDays.toLong())
     }
 
     private fun DgcParameters.DGCParameters.mapReissueServicePublicKeyDigest(): ByteString = try {
@@ -78,11 +78,11 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
     ) : CovidCertificateConfig
 
     data class TestCertificateConfigContainer(
-        override val waitAfterPublicKeyRegistration: Duration = Duration.standardSeconds(10),
-        override val waitForRetry: Duration = Duration.standardSeconds(10),
+        override val waitAfterPublicKeyRegistration: Duration = Duration.ofSeconds(10),
+        override val waitForRetry: Duration = Duration.ofSeconds(10),
     ) : CovidCertificateConfig.TestCertificate
 
     companion object {
-        private val DEFAULT_EXPIRATION_THRESHOLD: Duration get() = Duration.standardDays(14)
+        private val DEFAULT_EXPIRATION_THRESHOLD: Duration get() = Duration.ofDays(14)
     }
 }

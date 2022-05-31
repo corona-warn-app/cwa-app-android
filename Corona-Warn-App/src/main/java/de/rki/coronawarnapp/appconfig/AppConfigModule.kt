@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import org.joda.time.Duration
+import java.time.Duration
 import retrofit2.Retrofit
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -41,10 +41,10 @@ object AppConfigModule {
 
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
-            connectTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
-            readTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
-            writeTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
-            callTimeout(HTTP_TIMEOUT_APPCONFIG.millis, TimeUnit.MILLISECONDS)
+            connectTimeout(HTTP_TIMEOUT_APPCONFIG.toMillis(), TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT_APPCONFIG.toMillis(), TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT_APPCONFIG.toMillis(), TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT_APPCONFIG.toMillis(), TimeUnit.MILLISECONDS)
         }.build()
 
         return Retrofit.Builder()
@@ -106,5 +106,5 @@ object AppConfigModule {
     }
 }
 
-private val HTTP_TIMEOUT_APPCONFIG = Duration.standardSeconds(10)
+private val HTTP_TIMEOUT_APPCONFIG = Duration.ofSeconds(10)
 private const val DEFAULT_CACHE_SIZE = 2 * 1024 * 1024L // 5MB

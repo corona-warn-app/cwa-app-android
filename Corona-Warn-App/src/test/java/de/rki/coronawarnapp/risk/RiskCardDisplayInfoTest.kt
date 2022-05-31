@@ -15,7 +15,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtensionContext
@@ -39,10 +39,10 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
         val configData = mockk<ConfigData> {
             every { coronaTestParameters } returns mockk {
                 every { ratParameters } returns mockk {
-                    every { durationToShowRiskCard } returns Duration.standardHours(1)
+                    every { durationToShowRiskCard } returns Duration.ofHours(1)
                 }
                 every { pcrParameters } returns mockk {
-                    every { durationToShowRiskCard } returns Duration.standardHours(1)
+                    every { durationToShowRiskCard } returns Duration.ofHours(1)
                 }
             }
         }
@@ -55,7 +55,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
         runTest {
             with(testCase) {
                 every { testRepository.coronaTests } returns flowOf(testSet)
-                every { timeStamper.nowUTC } returns Instant.EPOCH.plus(durationPassed)
+                every { timeStamper.nowJavaUTC } returns java.time.Instant.EPOCH.plus(durationPassed)
                 createInstance().shouldShowRiskCard(riskState) shouldBe showRiskCardExpectedReturnValue
             }
         }
@@ -128,19 +128,19 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positiveRatTest),
-                    durationPassed = Duration.standardHours(1).minus(Duration.standardSeconds(1)),
+                    durationPassed = Duration.ofHours(1).minus(Duration.ofSeconds(1)),
                     showRiskCardExpectedReturnValue = false
                 ),
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positivePcrTest),
-                    durationPassed = Duration.standardHours(1).minus(Duration.standardSeconds(1)),
+                    durationPassed = Duration.ofHours(1).minus(Duration.ofSeconds(1)),
                     showRiskCardExpectedReturnValue = false
                 ),
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positiveRatTest, positivePcrTest),
-                    durationPassed = Duration.standardHours(1).minus(Duration.standardSeconds(1)),
+                    durationPassed = Duration.ofHours(1).minus(Duration.ofSeconds(1)),
                     showRiskCardExpectedReturnValue = false
                 ),
 
@@ -148,19 +148,19 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positiveRatTest),
-                    durationPassed = Duration.standardHours(1),
+                    durationPassed = Duration.ofHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positivePcrTest),
-                    durationPassed = Duration.standardHours(1),
+                    durationPassed = Duration.ofHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
                 TestCase(
                     riskState = RiskState.LOW_RISK,
                     testSet = setOf(positiveRatTest, positivePcrTest),
-                    durationPassed = Duration.standardHours(1),
+                    durationPassed = Duration.ofHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
 
@@ -174,13 +174,13 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
                 TestCase(
                     riskState = RiskState.CALCULATION_FAILED,
                     testSet = setOf(positivePcrTest),
-                    durationPassed = Duration.standardHours(1).minus(Duration.standardSeconds(1)),
+                    durationPassed = Duration.ofHours(1).minus(Duration.ofSeconds(1)),
                     showRiskCardExpectedReturnValue = false
                 ),
                 TestCase(
                     riskState = RiskState.CALCULATION_FAILED,
                     testSet = setOf(positiveRatTest, positivePcrTest),
-                    durationPassed = Duration.standardHours(1),
+                    durationPassed = Duration.ofHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
 
@@ -194,13 +194,13 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
                 TestCase(
                     riskState = null,
                     testSet = setOf(positivePcrTest),
-                    durationPassed = Duration.standardHours(1).minus(Duration.standardSeconds(1)),
+                    durationPassed = Duration.ofHours(1).minus(Duration.ofSeconds(1)),
                     showRiskCardExpectedReturnValue = false
                 ),
                 TestCase(
                     riskState = null,
                     testSet = setOf(positiveRatTest, positivePcrTest),
-                    durationPassed = Duration.standardHours(1),
+                    durationPassed = Duration.ofHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
             ).map { Arguments.of(it) }.stream()

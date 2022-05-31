@@ -21,8 +21,8 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -44,7 +44,7 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(123456789)
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
 
         mockkObject(CWADebug)
@@ -84,12 +84,12 @@ class AppConfigServerTest : BaseIOTest() {
         configDownload shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T08:46:03.000Z"),
-            localOffset = Duration(
+            localOffset = Duration.between(
                 Instant.parse("2020-11-03T08:46:03.000Z"),
                 Instant.ofEpochMilli(123456789)
             ),
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(123)
+            cacheValidity = Duration.ofSeconds(123)
         )
 
         verify(exactly = 1) { signatureValidation.hasValidSignature(any(), any()) }
@@ -140,7 +140,7 @@ class AppConfigServerTest : BaseIOTest() {
             serverTime = Instant.ofEpochMilli(123456789),
             localOffset = Duration.ZERO,
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
+            cacheValidity = Duration.ofSeconds(300)
         )
     }
 
@@ -168,16 +168,16 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         val downloadServer = createInstance()
 
         downloadServer.downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-1),
+            localOffset = Duration.ofHours(-1),
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
+            cacheValidity = Duration.ofSeconds(300)
         )
     }
 
@@ -192,7 +192,7 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)
@@ -201,7 +201,7 @@ class AppConfigServerTest : BaseIOTest() {
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.ZERO,
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
+            cacheValidity = Duration.ofSeconds(300)
         )
     }
 
@@ -216,16 +216,16 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)
         createInstance().downloadAppConfig() shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-1),
+            localOffset = Duration.ofHours(-1),
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
+            cacheValidity = Duration.ofSeconds(300)
         )
     }
 
@@ -249,12 +249,12 @@ class AppConfigServerTest : BaseIOTest() {
         configDownload shouldBe InternalConfigData(
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T08:46:03.000Z"),
-            localOffset = Duration(
+            localOffset = Duration.between(
                 Instant.parse("2020-11-03T08:46:03.000Z"),
                 Instant.ofEpochMilli(123456789)
             ),
             etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
+            cacheValidity = Duration.ofSeconds(300)
         )
     }
 

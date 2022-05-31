@@ -40,9 +40,9 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_CERT_GROUPING_MIGRATION, false)
         set(value) = prefs.edit { putBoolean(PKEY_CERT_GROUPING_MIGRATION, value) }
 
-    var firstReliableDeviceTime: Instant
-        get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
-        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, value.millis) }
+    var firstReliableDeviceTime: java.time.Instant
+        get() = java.time.Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
+        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, value.toEpochMilli()) }
 
     var lastDeviceTimeStateChangeAt: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, 0L))

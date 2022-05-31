@@ -14,8 +14,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,12 +47,12 @@ class AppConfigProviderTest : BaseIOTest() {
             mappedConfig = configData,
             identifier = "identifier",
             configType = ConfigData.Type.FROM_SERVER,
-            cacheValidity = Duration.standardMinutes(5)
+            cacheValidity = Duration.ofMinutes(5)
         )
         coEvery { appConfigSource.clear() } just Runs
         coEvery { appConfigSource.getConfigData(any()) } returns testConfigDownload
 
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
 
     @AfterEach
@@ -76,7 +76,7 @@ class AppConfigProviderTest : BaseIOTest() {
                 mappedConfig = configData,
                 identifier = "${++counter}",
                 configType = ConfigData.Type.FROM_SERVER,
-                cacheValidity = Duration.standardMinutes(5)
+                cacheValidity = Duration.ofMinutes(5)
             )
         }
 

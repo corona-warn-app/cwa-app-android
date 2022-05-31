@@ -6,10 +6,10 @@ import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters.KeyDownloadParametersAndroid
-import org.joda.time.Duration
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
-import org.joda.time.format.DateTimeFormat
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,17 +34,17 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
     // If we are outside the valid data range, fallback to default value.
     private fun KeyDownloadParametersAndroid?.individualTimeout(): Duration =
         if (this == null || downloadTimeoutInSeconds > 1800 || downloadTimeoutInSeconds <= 0) {
-            Duration.standardSeconds(60)
+            Duration.ofSeconds(60)
         } else {
-            Duration.standardSeconds(downloadTimeoutInSeconds.toLong())
+            Duration.ofSeconds(downloadTimeoutInSeconds.toLong())
         }
 
     // If we are outside the valid data range, fallback to default value.
     private fun KeyDownloadParametersAndroid?.overAllTimeout(): Duration =
         if (this == null || overallTimeoutInSeconds > 1800 || overallTimeoutInSeconds <= 0) {
-            Duration.standardMinutes(8)
+            Duration.ofMinutes(8)
         } else {
-            Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+            Duration.ofSeconds(overallTimeoutInSeconds.toLong())
         }
 
     private fun KeyDownloadParametersAndroid?.mapDayEtags(): List<RevokedKeyPackage.Day> {
@@ -106,8 +106,8 @@ class KeyDownloadParametersMapper @Inject constructor() : KeyDownloadConfig.Mapp
     ) : KeyDownloadConfig
 
     companion object {
-        private val DAY_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd")
-        private val HOUR_FORMATTER = DateTimeFormat.forPattern("H")
+        private val DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        private val HOUR_FORMATTER = DateTimeFormatter.ofPattern("H")
     }
 }
 

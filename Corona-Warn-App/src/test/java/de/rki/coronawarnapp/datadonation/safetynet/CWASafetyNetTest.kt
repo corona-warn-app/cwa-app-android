@@ -82,11 +82,7 @@ class CWASafetyNetTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns appConfigData
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.CORRECT
 
-        every { cwaSettings.firstReliableDeviceTime } returns org.joda.time.Instant.EPOCH.plus(
-            org.joda.time.Duration.standardDays(
-                7
-            )
-        )
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.ofDays(7))
         every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(8))
 
         every { testSettings.skipSafetyNetTimeCheck } returns flowOf(false)
@@ -255,7 +251,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `first reliable devicetime timestamp needs to be set`() = runTest {
-        every { cwaSettings.firstReliableDeviceTime } returns org.joda.time.Instant.EPOCH
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }

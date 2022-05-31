@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
 import okio.ByteString
-import org.joda.time.Duration
+import java.time.Duration
 
 interface CovidCertificateConfig {
 

@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
@@ -173,7 +174,7 @@ class PresenceTracingWarningTask @Inject constructor(
     ) : TaskFactory<PresenceTracingWarningTaskProgress, Task.Result> {
 
         override suspend fun createConfig(): TaskFactory.Config = Config(
-            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout
+            executionTimeout = appConfigProvider.getAppConfig().overallDownloadTimeout.toJoda()
         )
 
         override val taskProvider: () -> Task<PresenceTracingWarningTaskProgress, Task.Result> = {

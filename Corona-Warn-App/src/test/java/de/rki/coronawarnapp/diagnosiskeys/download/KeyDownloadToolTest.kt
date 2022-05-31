@@ -22,7 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
@@ -65,7 +65,7 @@ class KeyDownloadToolTest : BaseIOTest() {
         every { cachedKey.path } returns testFile
         every { cachedKey.info } returns cachedKeyInfo
 
-        every { downloadConfig.individualDownloadTimeout } returns Duration.millis(9000L)
+        every { downloadConfig.individualDownloadTimeout } returns Duration.ofMillis(9000L)
 
         coEvery { keyCache.markKeyComplete(any(), any()) } just Runs
         coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
