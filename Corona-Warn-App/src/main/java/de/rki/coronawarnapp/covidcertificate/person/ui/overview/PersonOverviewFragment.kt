@@ -143,6 +143,15 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     true
                 }
 
+                R.id.menu_export_all -> {
+                    setupAxisTransition()
+                    doNavigate(
+                        PersonOverviewFragmentDirections
+                            .actionPersonOverviewFragmentToCertificatesPdfExportInfoFragment()
+                    )
+                    true
+                }
+
                 else -> onOptionsItemSelected(it)
             }
         }
