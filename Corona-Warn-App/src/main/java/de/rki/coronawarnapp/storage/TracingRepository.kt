@@ -100,7 +100,6 @@ class TracingRepository @Inject constructor(
     /**
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
      */
-    // TODO temp place, this needs to go somewhere better
     suspend fun refreshRiskLevel() {
         // check if the network is enabled to make the server fetch
         val isNetworkEnabled = networkStateProvider.networkState.first().isInternetAvailable

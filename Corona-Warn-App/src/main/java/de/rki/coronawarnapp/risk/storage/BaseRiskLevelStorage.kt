@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import timber.log.Timber
-import de.rki.coronawarnapp.util.flow.combine as flowCombine
+import kotlinx.coroutines.flow.combine as flowCombine
 
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
