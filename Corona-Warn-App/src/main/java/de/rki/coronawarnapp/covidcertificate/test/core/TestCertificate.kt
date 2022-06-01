@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -43,4 +44,8 @@ interface TestCertificate : CwaCovidCertificate {
         get() = null
 
     override val rawCertificate: TestDccV1
+
+    companion object {
+        const val icon = R.drawable.ic_test_certificate
+    }
 }

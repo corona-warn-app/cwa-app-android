@@ -19,7 +19,7 @@
         android:focusable="true">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/submissionicon"
             style="@style/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:text="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintStart_toEndOf="@+id/submissionicon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_status_card_positive_result_contagious" />
     </androidx.constraintlayout.widget.ConstraintLayout>

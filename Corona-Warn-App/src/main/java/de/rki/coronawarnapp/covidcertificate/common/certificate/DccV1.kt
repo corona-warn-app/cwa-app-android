@@ -172,6 +172,8 @@ data class VaccinationDccV1(
 ) : DccV1.MetaData {
     override val payload: DccV1.Payload
         get() = vaccination
+
+    val isSeriesCompletingShot get() = vaccination.doseNumber >= vaccination.totalSeriesOfDoses
 }
 
 data class TestDccV1(
