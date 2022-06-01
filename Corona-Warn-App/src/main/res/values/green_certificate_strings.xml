@@ -35,10 +35,8 @@
     <string name="certification_screen_title">"Certificates"</string>
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">"Information"</string>
-    <!-- XTXT: Green certificate main screen header text -->
-    <!-- XTXT: Green certificate info card title 1st line -->
-    <!-- XTXT: Green certificate info card title 2nd line  -->
-    <!-- XTXT: Green certificate info card body  -->
+    <!-- XTXT: Green certificate menu item -->
+    <string name="menu_certification_all">Export All</string>
 
     <!-- XTXT: Test certificate time -->
     <!-- XTXT: Test certificate registration time -->
