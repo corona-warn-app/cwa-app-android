@@ -7,11 +7,9 @@ import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 @Suppress("MaxLineLength")
-@Disabled
 class OrganizerRegistrationTokenCensorTest {
 
     private val tans = listOf(
