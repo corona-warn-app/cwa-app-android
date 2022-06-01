@@ -65,9 +65,9 @@ class VaccinationCertificateCard(parent: ViewGroup) :
                 // Invalid state first
                 !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
                 // Final shot
-                certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
+                certificate.isSeriesCompletingShot -> VaccinationCertificate.iconComplete
                 // Other shots
-                else -> R.drawable.ic_vaccination_incomplete
+                else -> VaccinationCertificate.iconIncomplete
             }.also { certificateIcon.setImageResource(it) }
 
             when {

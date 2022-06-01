@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
 import de.rki.coronawarnapp.tracing.states.TracingFailed
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState
+import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
+import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -75,7 +77,6 @@ object TracingData {
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
                 riskState = RiskState.LOW_RISK
             ),
-
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -103,11 +104,12 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.LOW_RISK),
+            AdditionalInfoLowRiskBox.Item,
             BehaviorNormalRiskBox.Item(
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
                 riskState = RiskState.LOW_RISK
             ),
-
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -135,11 +137,12 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.LOW_RISK),
+            AdditionalInfoLowRiskBox.Item,
             BehaviorNormalRiskBox.Item(
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
                 riskState = RiskState.LOW_RISK
             ),
-
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
@@ -166,6 +169,7 @@ object TracingData {
                     lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
                 )
             ),
+            FindDetailsInJournalBox.Item(riskState = RiskState.INCREASED_RISK),
             BehaviorIncreasedRiskBox.Item,
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 5,
