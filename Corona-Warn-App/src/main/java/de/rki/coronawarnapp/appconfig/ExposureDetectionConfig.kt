@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.ExposureDetectionParameters
-import org.joda.time.Duration
+import java.time.Duration
 
 interface ExposureDetectionConfig {
 

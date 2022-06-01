@@ -5,7 +5,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.ExposureDetectionParameters.ExposureDetectionParametersAndroid
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 
 @Reusable
@@ -36,9 +36,9 @@ class ExposureDetectionConfigMapper @Inject constructor() : ExposureDetectionCon
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 fun ExposureDetectionParametersAndroid?.overAllDetectionTimeout(): Duration =
     if (this == null || overallTimeoutInSeconds > 3600 || overallTimeoutInSeconds <= 0) {
-        Duration.standardMinutes(15)
+        Duration.ofMinutes(15)
     } else {
-        Duration.standardSeconds(overallTimeoutInSeconds.toLong())
+        Duration.ofSeconds(overallTimeoutInSeconds.toLong())
     }
 
 // If we are outside the valid data range, fallback to default value.
@@ -54,8 +54,8 @@ fun ExposureDetectionParametersAndroid?.maxExposureDetectionsPerDay(): Int =
 fun ExposureDetectionParametersAndroid?.minTimeBetweenExposureDetections(): Duration {
     val detectionsPerDay = this.maxExposureDetectionsPerDay()
     return if (detectionsPerDay == 0) {
-        Duration.standardDays(1)
+        Duration.ofDays(1)
     } else {
-        (24 / detectionsPerDay).let { Duration.standardHours(it.toLong()) }
+        (24 / detectionsPerDay).let { Duration.ofHours(it.toLong()) }
     }
 }

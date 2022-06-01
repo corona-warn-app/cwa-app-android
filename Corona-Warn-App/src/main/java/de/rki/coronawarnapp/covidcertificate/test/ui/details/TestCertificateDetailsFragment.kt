@@ -173,9 +173,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshCertState()
+    override fun onPause() {
+        viewModel.markAsSeen()
+        super.onPause()
     }
 
     private fun FragmentTestCertificateDetailsBinding.onError(error: Throwable) {

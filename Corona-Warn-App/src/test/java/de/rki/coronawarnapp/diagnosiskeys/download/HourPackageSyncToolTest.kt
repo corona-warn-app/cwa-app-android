@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.io.IOException
+import java.time.LocalTime
 
 class HourPackageSyncToolTest : CommonSyncToolTest() {
 
@@ -88,8 +90,8 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
         every { downloadConfig.revokedHourPackages } returns listOf(
             RevokedKeyPackage.Hour(
-                day = invalidHour.info.day,
-                hour = invalidHour.info.hour!!,
+                day = invalidHour.info.day.toJavaTime(),
+                hour = LocalTime.of(invalidHour.info.hour!!.hourOfDay, 0),
                 region = invalidHour.info.location,
                 etag = invalidHour.info.etag!!
             )
@@ -222,8 +224,8 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
                 RevokedKeyPackage.Hour(
                     region = info.location,
                     etag = info.etag!!,
-                    day = info.day,
-                    hour = info.hour!!
+                    day = info.day.toJavaTime(),
+                    hour = LocalTime.of(info.hour!!.hourOfDay, 0)
                 )
             )
         }

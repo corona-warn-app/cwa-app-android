@@ -111,7 +111,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,
@@ -141,7 +141,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
         }
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,

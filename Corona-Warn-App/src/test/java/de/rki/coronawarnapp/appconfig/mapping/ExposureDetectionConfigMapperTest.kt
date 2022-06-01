@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.ExposureDetectionParameters.ExposureDetectionParametersAndroid
 import io.kotest.matchers.shouldBe
-import org.joda.time.Duration
+import java.time.Duration
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -27,7 +27,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            minTimeBetweenDetections shouldBe Duration.standardDays(1)
+            minTimeBetweenDetections shouldBe Duration.ofDays(1)
             maxExposureDetectionsPerUTCDay shouldBe 0
         }
     }
@@ -41,7 +41,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 3)
+            minTimeBetweenDetections shouldBe Duration.ofHours(24 / 3)
             maxExposureDetectionsPerUTCDay shouldBe 3
         }
     }
@@ -55,7 +55,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            overallDetectionTimeout shouldBe Duration.standardMinutes(10)
+            overallDetectionTimeout shouldBe Duration.ofMinutes(10)
         }
     }
 
@@ -68,7 +68,7 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
             .setExposureDetectionParameters(exposureDetectionParameters)
             .build()
         createInstance().map(rawConfig).apply {
-            overallDetectionTimeout shouldBe Duration.standardMinutes(15)
+            overallDetectionTimeout shouldBe Duration.ofMinutes(15)
         }
     }
 
@@ -77,8 +77,8 @@ class ExposureDetectionConfigMapperTest : BaseTest() {
         val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .build()
         createInstance().map(rawConfig).apply {
-            overallDetectionTimeout shouldBe Duration.standardMinutes(15)
-            minTimeBetweenDetections shouldBe Duration.standardHours(24 / 6)
+            overallDetectionTimeout shouldBe Duration.ofMinutes(15)
+            minTimeBetweenDetections shouldBe Duration.ofHours(24 / 6)
             maxExposureDetectionsPerUTCDay shouldBe 6
         }
     }
