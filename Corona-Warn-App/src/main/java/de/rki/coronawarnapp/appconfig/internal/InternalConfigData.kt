@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.appconfig.internal
 
 import com.google.gson.annotations.SerializedName
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 
 data class InternalConfigData(
     @SerializedName("rawData") val rawData: ByteArray,

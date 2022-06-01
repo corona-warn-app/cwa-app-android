@@ -45,11 +45,11 @@ class CWASettingsTest : BaseTest() {
         createInstance().apply {
             preferences.dataMapPeek.isEmpty() shouldBe true
 
-            firstReliableDeviceTime shouldBe Instant.EPOCH
-            firstReliableDeviceTime = Instant.ofEpochMilli(12345L)
+            firstReliableDeviceTime shouldBe java.time.Instant.EPOCH
+            firstReliableDeviceTime = java.time.Instant.ofEpochMilli(12345L)
             preferences.dataMapPeek["devicetime.correct.first"] shouldBe 12345L
 
-            firstReliableDeviceTime = Instant.ofEpochMilli(9999L)
+            firstReliableDeviceTime = java.time.Instant.ofEpochMilli(9999L)
             preferences.dataMapPeek["devicetime.correct.first"] shouldBe 9999L
         }
     }

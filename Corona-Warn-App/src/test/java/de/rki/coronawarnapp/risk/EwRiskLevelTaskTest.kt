@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.toJoda
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -29,7 +30,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -129,9 +130,9 @@ class EwRiskLevelTaskTest : BaseTest() {
     @Test
     fun `risk calculation is skipped if device time is incorrect`() = runTest {
         every { configData.isDeviceTimeCorrect } returns false
-        every { configData.localOffset } returns Duration.standardHours(5)
+        every { configData.localOffset } returns Duration.ofHours(5)
 
-        val serverTime = testTimeNow.minus(configData.localOffset)
+        val serverTime = testTimeNow.minus(configData.localOffset.toJoda())
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = serverTime,

@@ -29,7 +29,7 @@ class DeviceTimeHandler @Inject constructor(
             // ForegroundState.isInForeground has a day when opening the app.
             .sample(5000)
             .onEach {
-                Timber.tag(TAG).v("Current device time offset is: %dms", it.localOffset.millis)
+                Timber.tag(TAG).v("Current device time offset is: %dms", it.localOffset.toMillis())
                 if (it.isDeviceTimeCorrect) {
                     Timber.v("Dismissing any notification, device time is correct again.")
                     notification.dismiss()

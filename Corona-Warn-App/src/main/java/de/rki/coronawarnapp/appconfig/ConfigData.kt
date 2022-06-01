@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapping
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 
 interface ConfigData : ConfigMapping {
 
@@ -77,6 +77,6 @@ interface ConfigData : ConfigMapping {
     }
 
     companion object {
-        val DEVICE_TIME_GRACE_RANGE: Duration = Duration.standardHours(2)
+        val DEVICE_TIME_GRACE_RANGE: Duration = Duration.ofHours(2)
     }
 }

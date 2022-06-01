@@ -28,7 +28,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -87,6 +87,7 @@ class TestCertificateProcessorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowJavaUTC } returns java.time.Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
@@ -94,8 +95,8 @@ class TestCertificateProcessorTest : BaseTest() {
         }
 
         covidTestCertificateConfig.apply {
-            every { waitForRetry } returns Duration.standardSeconds(10)
-            every { waitAfterPublicKeyRegistration } returns Duration.standardSeconds(10)
+            every { waitForRetry } returns java.time.Duration.ofSeconds(10)
+            every { waitAfterPublicKeyRegistration } returns Duration.ofSeconds(10)
         }
 
         certificateServer.apply {

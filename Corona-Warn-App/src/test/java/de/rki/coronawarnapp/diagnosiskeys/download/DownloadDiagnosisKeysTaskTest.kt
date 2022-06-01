@@ -69,7 +69,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         appConfig.apply {
             every { maxExposureDetectionsPerUTCDay } returns 5
-            every { minTimeBetweenDetections } returns Duration.standardHours(24 / 6)
+            every { minTimeBetweenDetections } returns java.time.Duration.ofHours(24 / 6)
             every { diagnosisKeysDataMapping } returns diagnosisKeyDataMapping
             every { isDeviceTimeCorrect } returns true
         }
@@ -233,7 +233,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `we do not submit keys if device time is incorrect`() = runTest {
         every { appConfig.isDeviceTimeCorrect } returns false
-        every { appConfig.localOffset } returns Duration.standardHours(5)
+        every { appConfig.localOffset } returns java.time.Duration.ofHours(5)
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
