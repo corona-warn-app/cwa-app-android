@@ -80,10 +80,8 @@ class DefaultTraceLocationRepository @Inject constructor(
         }
     }
 
-    override fun deleteAllTraceLocations() {
-        appScope.launch {
-            Timber.d("Delete all trace locations.")
-            traceLocationDao.deleteAll()
-        }
+    override suspend fun reset() {
+        Timber.d("Delete all trace locations.")
+        traceLocationDao.deleteAll()
     }
 }

@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    goBack()
+                    popBackStack()
                     return@observe
                 }
 
@@ -82,7 +82,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 val (background, starsTint) = when {
                     isColorDefined -> args.colorShade.background to args.colorShade.starsTint
                     stateInValid -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
-                    else -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
+                    else -> PersonColorShade.COLOR_1.background to PersonColorShade.COLOR_1.starsTint
                 }
 
                 expandedImage.setImageResource(background)
@@ -132,14 +132,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
                 when (event) {
-                    VaccinationDetailsNavigation.Back -> goBack()
+                    VaccinationDetailsNavigation.Back -> popBackStack()
                     VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                         if (args.numberOfCertificates == 1) {
                             doNavigate(
                                 VaccinationDetailsFragmentDirections
                                     .actionVaccinationDetailsFragmentToPersonOverviewFragment()
                             )
-                        } else goBack()
+                        } else popBackStack()
                     }
                     is VaccinationDetailsNavigation.FullQrCode -> findNavController().navigate(
                         R.id.action_global_qrCodeFullScreenFragment,
@@ -168,8 +168,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
-    private fun goBack() = popBackStack()
-
     override fun onStop() {
         super.onStop()
         viewModel.refreshCertState()
@@ -193,9 +191,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         }
     }
 
-    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
-        certificate: VaccinationCertificate
-    ) {
+    private fun FragmentVaccinationDetailsBinding.bindCertificateViews(certificate: VaccinationCertificate) {
         startValidationCheck.apply {
             isEnabled = certificate.isNotScreened
             defaultButton.isEnabled = certificate.isNotScreened

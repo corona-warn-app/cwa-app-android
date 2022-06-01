@@ -40,6 +40,7 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
 
         every { environmentSetup.currentEnvironment = any() } answers { currentEnvironment = arg(0) }
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }
+        every { environmentSetup.launchEnvironment } returns null
     }
 
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
@@ -54,10 +55,10 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         val vm = createViewModel()
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
 
-        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.DEV.rawKey)
+        vm.selectEnvironmentType(EnvironmentSetup.Type.DEV.rawKey)
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.DEV
 
-        vm.selectEnvironmentTytpe(EnvironmentSetup.Type.WRU_XA.rawKey)
+        vm.selectEnvironmentType(EnvironmentSetup.Type.WRU_XA.rawKey)
         vm.environmentState.getOrAwaitValue().current shouldBe EnvironmentSetup.Type.WRU_XA
     }
 }

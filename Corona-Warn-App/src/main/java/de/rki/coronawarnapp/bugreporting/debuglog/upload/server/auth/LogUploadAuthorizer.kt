@@ -8,8 +8,9 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.ElsOtpRequestAndroid
 import kotlinx.coroutines.flow.first
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
+import java.time.OffsetDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -53,7 +54,12 @@ class LogUploadAuthorizer @Inject constructor(
         }
 
         val expirationDate = if (authResponse.expirationDate.isNotEmpty()) {
-            Instant.parse(authResponse.expirationDate)
+            try {
+                OffsetDateTime.parse(authResponse.expirationDate).toInstant()
+            } catch (e: Exception) {
+                Timber.e(e, "Can't parse expirationDate: ${authResponse.expirationDate}")
+                Instant.EPOCH
+            }
         } else {
             Instant.EPOCH
         }

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import java.io.ByteArrayOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -85,7 +85,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `happy path - getRevocationKidList`() = runBlockingTest2 {
+    fun `happy path - getRevocationKidList`() = runTest2 {
         val kidList = RevocationKidList(
             items = setOf(
                 RevocationKidListItem(
@@ -107,7 +107,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `happy path - getRevocationKidTypeIndex`() = runBlockingTest2 {
+    fun `happy path - getRevocationKidTypeIndex`() = runTest2 {
         val kidTypeIndex = CachedRevocationKidTypeIndex(
             kid = kid,
             hashType = hashType,
@@ -134,7 +134,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `happy path - getRevocationChunk`() = runBlockingTest2 {
+    fun `happy path - getRevocationChunk`() = runTest2 {
         val chunk = CachedRevocationChunk(
             coordinates = RevocationEntryCoordinates(
                 kid = kid,
@@ -157,7 +157,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `reports invalid signature`() = runBlockingTest2 {
+    fun `reports invalid signature`() = runTest2 {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         with(instance) {
@@ -208,7 +208,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `reports no network`() = runBlockingTest2 {
+    fun `reports no network`() = runTest2 {
         val error = NetworkConnectTimeoutException(message = "Test error")
         coEvery { revocationApi.getRevocationKidList() } throws error
         coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
@@ -230,7 +230,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `reports client error`() = runBlockingTest2 {
+    fun `reports client error`() = runTest2 {
         val error = CwaClientError(statusCode = 400, message = "Test error")
         coEvery { revocationApi.getRevocationKidList() } throws error
         coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
@@ -252,7 +252,7 @@ class DccRevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `reports server error`() = runBlockingTest2 {
+    fun `reports server error`() = runTest2 {
         val error = CwaServerError(statusCode = 500, message = "Test error")
         coEvery { revocationApi.getRevocationKidList() } throws error
         coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error

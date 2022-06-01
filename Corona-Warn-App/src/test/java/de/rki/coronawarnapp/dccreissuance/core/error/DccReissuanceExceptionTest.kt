@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.dccreissuance.core.error
 
 import android.content.Context
 import de.rki.coronawarnapp.R
-import org.junit.jupiter.api.Test
-import testhelpers.BaseTest
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.ErrorCode
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.TextKey
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
@@ -12,6 +10,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
 @Suppress("MaxLineLength")
 class DccReissuanceExceptionTest : BaseTest() {
@@ -22,6 +22,7 @@ class DccReissuanceExceptionTest : BaseTest() {
     private val noNetwork = "no network"
     private val tryAgain = "try again"
     private val reissuanceNotSupported = "reissuance not supported"
+    private val rateLimit = "Rate limit, One finds limits by pushing them."
 
     @BeforeEach
     fun setup() {
@@ -39,19 +40,22 @@ class DccReissuanceExceptionTest : BaseTest() {
         every {
             context.getString(R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported)
         } returns reissuanceNotSupported
+
+        every {
+            context.getString(R.string.dcc_reissuance_error_handling_text_key_rate_limit)
+        } returns rateLimit
     }
 
     @Test
     fun `check error code text key mapping`() {
         ErrorCode.DCC_RI_PIN_MISMATCH.textKey shouldBe TextKey.CONTACT_SUPPORT
         ErrorCode.DCC_RI_PARSE_ERR.textKey shouldBe TextKey.CONTACT_SUPPORT
-        ErrorCode.DCC_RI_NO_RELATION.textKey shouldBe TextKey.CONTACT_SUPPORT
 
         ErrorCode.DCC_RI_NO_NETWORK.textKey shouldBe TextKey.NO_NETWORK
 
         ErrorCode.DCC_RI_400.textKey shouldBe TextKey.TRY_AGAIN
         ErrorCode.DCC_RI_406.textKey shouldBe TextKey.TRY_AGAIN
-        ErrorCode.DCC_RI_429.textKey shouldBe TextKey.TRY_AGAIN
+        ErrorCode.DCC_RI_429.textKey shouldBe TextKey.RATE_LIMIT
         ErrorCode.DCC_RI_500.textKey shouldBe TextKey.TRY_AGAIN
         ErrorCode.DCC_RI_CLIENT_ERR.textKey shouldBe TextKey.TRY_AGAIN
         ErrorCode.DCC_RI_SERVER_ERR.textKey shouldBe TextKey.TRY_AGAIN
@@ -66,6 +70,7 @@ class DccReissuanceExceptionTest : BaseTest() {
         DccReissuanceException(errorCode = ErrorCode.DCC_RI_NO_NETWORK).errorMessage.get(context) shouldBe noNetwork
         DccReissuanceException(errorCode = ErrorCode.DCC_RI_400).errorMessage.get(context) shouldBe tryAgain
         DccReissuanceException(errorCode = ErrorCode.DCC_RI_401).errorMessage.get(context) shouldBe reissuanceNotSupported
+        DccReissuanceException(errorCode = ErrorCode.DCC_RI_429).errorMessage.get(context) shouldBe rateLimit
     }
 
     @Test

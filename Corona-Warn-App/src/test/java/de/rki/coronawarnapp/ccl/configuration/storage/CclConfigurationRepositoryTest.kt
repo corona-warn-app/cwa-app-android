@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class CclConfigurationRepositoryTest : BaseTest() {
 
@@ -70,7 +70,7 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `loads default ccl config if storage is empty`() = runBlockingTest2(ignoreActive = true) {
+    fun `loads default ccl config if storage is empty`() = runTest2 {
         coEvery { downloadedCclConfigurationStorage.load() } returns null
 
         createInstance(scope = this).getCclConfigurations() shouldBe listOf(defaultCclConfig)
@@ -83,7 +83,7 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `loads and merges ccl config from storage`() = runBlockingTest2(ignoreActive = true) {
+    fun `loads and merges ccl config from storage`() = runTest2 {
         createInstance(scope = this).getCclConfigurations().run {
             // merged config
             size shouldBe 2
@@ -98,16 +98,16 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `clear calls storage clear`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(scope = this).clear()
+    fun `clear causes reload of default ccl config`() = runTest2 {
+        createInstance(scope = this).reset()
 
-        coVerify {
-            downloadedCclConfigurationStorage.clear()
+        coVerify(exactly = 2) {
+            downloadedCclConfigurationStorage.load()
         }
     }
 
     @Test
-    fun `provides default ccl config after clearing`() = runBlockingTest2(ignoreActive = true) {
+    fun `provides default ccl config after clearing`() = runTest2 {
         coEvery { downloadedCclConfigurationStorage.load() } returns storageCclConfigRaw andThen null
 
         with(createInstance(scope = this)) {
@@ -117,22 +117,21 @@ class CclConfigurationRepositoryTest : BaseTest() {
                 contains(storageCclConfig) shouldBe true
                 contains(defaultCclConfig) shouldBe true
             }
-            clear()
+            reset()
             getCclConfigurations() shouldBe listOf(defaultCclConfig)
         }
 
         coVerifyOrder {
             cclConfigurationParser.parseCClConfigurations(rawData = storageCclConfigRaw)
-            downloadedCclConfigurationStorage.clear()
             cclConfigurationParser.parseCClConfigurations(rawData = defaultCclConfigRaw)
         }
     }
 
     @Test
-    fun `getCclConfigurations returns the actual item of cclConfigurations`() = runBlockingTest2(ignoreActive = true) {
+    fun `getCclConfigurations returns the actual item of cclConfigurations`() = runTest2 {
         createInstance(scope = this).run {
             getCclConfigurations() shouldBe cclConfigurations.first()
-            clear()
+            reset()
             getCclConfigurations() shouldBe cclConfigurations.first()
             updateCclConfiguration() shouldBe UpdateResult.UPDATE
             getCclConfigurations() shouldBe cclConfigurations.first()
@@ -140,7 +139,7 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `update returns true only if ccl config was updated`() = runBlockingTest2(ignoreActive = true) {
+    fun `update returns true only if ccl config was updated`() = runTest2 {
         val serverCclConfig2: CclConfiguration = mockk {
             every { identifier } returns "serverCCLConfig2"
             every { version } returns "1"
@@ -194,7 +193,7 @@ class CclConfigurationRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `faulty server data will not ruin existing data`() = runBlockingTest2(ignoreActive = true) {
+    fun `faulty server data will not ruin existing data`() = runTest2 {
         val error = CBORException("Test error")
         every { cclConfigurationParser.parseCClConfigurations(rawData = serverCclConfigRaw) } throws error
 

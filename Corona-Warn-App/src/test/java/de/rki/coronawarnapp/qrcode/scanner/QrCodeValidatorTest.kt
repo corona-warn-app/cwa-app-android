@@ -18,7 +18,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -38,15 +38,15 @@ class QrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator uses recognises DccQrCode`() = runBlockingTest {
-        qrCodeValidator.validate(testData.personAVac1QRCodeString).apply {
+    fun `validator uses recognises DccQrCode`() = runTest {
+        qrCodeValidator.validate(VaccinationTestData.personAVac1QRCodeString).apply {
             this as DccQrCode
-            hash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+            hash shouldBe VaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
     @Test
-    fun `validator uses recognises CheckInQrCode`() = runBlockingTest {
+    fun `validator uses recognises CheckInQrCode`() = runTest {
         val checkInUrl =
             "https://e.coronawarn.app?v=1#CAESLAgBEhFNeSBCaXJ0aGRheSBQYXJ0eRoLYXQgbXkgcGxhY2Uo04ekATD3h6QBGmoIAR" +
                 "JgOMTa6eYSiaDv8lW13xdYEvGHOZ1EYTiFSxt51HEoPCD7CNnvCUiIYPhax1MpkN0UfNClCm9ZWYy0JH01CDVD9eq-vox" +
@@ -59,12 +59,12 @@ class QrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator uses recognises PCR QrCode`() = runBlockingTest {
+    fun `validator uses recognises PCR QrCode`() = runTest {
         qrCodeValidator.validate(pcrQrCode1) should beInstanceOf(CoronaTestQRCode.PCR::class)
     }
 
     @Test
-    fun `validator uses recognises RAT QrCode`() = runBlockingTest {
+    fun `validator uses recognises RAT QrCode`() = runTest {
         qrCodeValidator.validate(raQrCode3).also {
             it should beInstanceOf(CoronaTestQRCode.Rapid::class)
             it should beInstanceOf(CoronaTestQRCode.RapidAntigen::class)
@@ -72,7 +72,7 @@ class QrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator uses recognises Rapid PCR QrCode`() = runBlockingTest {
+    fun `validator uses recognises Rapid PCR QrCode`() = runTest {
         qrCodeValidator.validate(raPcrCode1).also {
             it should beInstanceOf(CoronaTestQRCode.Rapid::class)
             it should beInstanceOf(CoronaTestQRCode.RapidPCR::class)
@@ -80,14 +80,14 @@ class QrCodeValidatorTest : BaseTest() {
     }
 
     @Test
-    fun `validator throws unsupported Error`() = runBlockingTest {
+    fun `validator throws unsupported Error`() = runTest {
         shouldThrow<UnsupportedQrCodeException> {
             qrCodeValidator.validate("some text")
         }.errorCode shouldBe UnsupportedQrCodeException.ErrorCode.UNSUPPORTED_QR_CODE
     }
 
     @Test
-    fun `valid codes are extracted by corresponding extractor`() = runBlockingTest {
+    fun `valid codes are extracted by corresponding extractor`() = runTest {
         (qrCodeValidator.validate(pcrQrCode1) as CoronaTestQRCode).type shouldBe BaseCoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode2) as CoronaTestQRCode).type shouldBe BaseCoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode3) as CoronaTestQRCode).type shouldBe BaseCoronaTest.Type.PCR

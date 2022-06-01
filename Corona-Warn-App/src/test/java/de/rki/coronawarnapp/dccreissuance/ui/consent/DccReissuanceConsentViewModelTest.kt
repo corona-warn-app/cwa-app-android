@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.ui.consent
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dccWalletInfoWithReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dccWalletInfoWithReissuanceLegacy
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -29,7 +30,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
@@ -45,6 +45,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     @MockK lateinit var dccQrCode: DccQrCode
     @MockK lateinit var metadata: DccV1.MetaData
     @MockK lateinit var cwaCertificates: CwaCovidCertificate
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val identifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01.10.1982",
@@ -66,7 +67,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         every { personCertificatesProvider.findPersonByIdentifierCode(any()) } returns flowOf(
             PersonCertificates(
                 certificates = listOf(vaccinationCertA),
-                dccWalletInfo = dccWalletInfoWithReissuance
+                dccWalletInfo = dccWalletInfoWithReissuanceLegacy
             )
         )
 
@@ -74,20 +75,25 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         coEvery { dccQrCodeExtractor.extract(any(), any()) } returns dccQrCode.apply {
             every { data } returns mockk<DccData<out DccV1.MetaData>>().apply {
                 every { certificate } returns metadata
+                every { header.expiresAt } returns Instant.EPOCH
             }
         }
         coEvery { personCertificatesSettings.dismissReissuanceBadge(any()) } just Runs
+        every { metadata.personIdentifier } returns identifier
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     @Test
     fun `getState works`() {
         viewModel().stateLiveData.getOrAwaitValue() shouldBe DccReissuanceConsentViewModel.State(
-            certificate = metadata,
+            certificateList = listOf(DccReissuanceCertificateCard.Item(metadata)),
             divisionVisible = true,
+            listItemsTitle = "",
             title = "Zertifikat ersetzen",
-            subtitle = "Text",
+            subtitle = "",
             content = "Langer Text",
-            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state"
+            url = "https://www.coronawarn.app/en/faq/#dcc_admission_state",
+            accompanyingCertificatesVisible = true
         )
     }
 
@@ -158,6 +164,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
         dccReissuer = dccReissuer,
         format = CclTextFormatter(cclJsonFunctions = mockk(), SerializationModule.jacksonBaseMapper),
         dccQrCodeExtractor = dccQrCodeExtractor,
-        personCertificatesSettings = personCertificatesSettings
+        personCertificatesSettings = personCertificatesSettings,
+        timeStamper
     )
 }

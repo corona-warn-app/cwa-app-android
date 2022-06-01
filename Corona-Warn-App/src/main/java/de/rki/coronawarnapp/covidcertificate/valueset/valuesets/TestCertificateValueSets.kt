@@ -21,7 +21,7 @@ data class TestCertificateValueSets(
 
     override fun toString(): String {
         // reduce output for logging
-        return return "value set for language $languageCode ..."
+        return "value set for language $languageCode ..."
     }
 }
 

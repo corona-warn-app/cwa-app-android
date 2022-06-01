@@ -1,6 +1,7 @@
 package testhelpers
 
 import dagger.Module
+import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
 import de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragmentTestModule
@@ -11,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
+import de.rki.coronawarnapp.dccreissuance.ui.consent.acccerts.DccReissuanceAccCertsFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
@@ -63,6 +65,9 @@ import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModul
 import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModule
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.TestScope
 
 @Module(
     includes = [
@@ -129,6 +134,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         PersonDetailsFragmentTestModule::class,
         BoosterInfoDetailsFragmentTestModule::class,
         DccReissuanceConsentFragmentTestModule::class,
+        DccReissuanceAccCertsFragmentTestModule::class,
 
         // -------- Profile ------------
         ProfileCreateFragmentTestModule::class,
@@ -159,4 +165,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         FamilyTestsListFragmentTestModule::class,
     ]
 )
-class FragmentTestModuleRegistrar
+class FragmentTestModuleRegistrar {
+    @Provides
+    @AppScope
+    fun appScope(): CoroutineScope = TestScope()
+}

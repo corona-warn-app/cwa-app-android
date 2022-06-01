@@ -15,10 +15,11 @@ import io.mockk.just
 import io.mockk.runs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 class RecycleBinCleanUpSchedulerTest : BaseTest() {
 
@@ -41,9 +42,9 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `start recycle bin clean up when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
+    fun `start recycle bin clean up when app comes into foreground`() = runTest2 {
         createInstance(this).run {
-            setup()
+            initialize()
             advanceUntilIdle()
 
             isForeground.value = false
@@ -69,11 +70,11 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `clean up errors won't break scheduling`() = runBlockingTest2(ignoreActive = true) {
+    fun `clean up errors won't break scheduling`() = runTest2 {
         coEvery { recycleBinCleanUpService.clearRecycledItems() } throws Exception("Test error")
 
         createInstance(this).run {
-            setup()
+            initialize()
             advanceUntilIdle()
 
             shouldNotThrowAny {

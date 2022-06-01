@@ -124,9 +124,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_tiny"
                         android:text="@string/settings_interoperability_title"
-                        app:layout_constraintBottom_toBottomOf="@id/flag_eu"
                         app:layout_constraintStart_toEndOf="@id/flag_eu"
-                        app:layout_constraintTop_toTopOf="@id/flag_eu" />
+                        app:layout_constraintTop_toTopOf="@id/flag_eu"
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
                     <ImageView
                         android:id="@+id/flag_ch"

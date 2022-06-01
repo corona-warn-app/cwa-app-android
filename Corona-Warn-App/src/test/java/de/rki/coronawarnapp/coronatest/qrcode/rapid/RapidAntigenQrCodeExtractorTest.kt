@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalDa
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
@@ -30,7 +30,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     private val instance = RapidAntigenQrCodeExtractor()
 
     @Test
-    fun `valid codes are recognized`() = runBlockingTest {
+    fun `valid codes are recognized`() = runTest {
         listOf(
             raQrCode1,
             raQrCode2,
@@ -46,14 +46,14 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `invalid codes are rejected`() = runBlockingTest {
+    fun `invalid codes are rejected`() = runTest {
         listOf(pcrQrCode1, pcrQrCode2, pcrQrCode3).forEach {
             instance.canHandle(it) shouldBe false
         }
     }
 
     @Test
-    fun `extracting valid codes does not throw exception`() = runBlockingTest {
+    fun `extracting valid codes does not throw exception`() = runTest {
         listOf(
             raQrCode1,
             raQrCode2,
@@ -69,7 +69,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `personal data is extracted`() = runBlockingTest {
+    fun `personal data is extracted`() = runTest {
         val data = instance.extract(raQrCode3)
         data.type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "7dce08db0d4abd5ac1d2498b571afb221ca947c75c847d05466b4cfe9d95dc66"
@@ -80,7 +80,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `empty strings are treated as null or not set`() = runBlockingTest {
+    fun `empty strings are treated as null or not set`() = runTest {
         val data = instance.extract(raQrAnonymousValidHash)
         data.type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "61df099207704a072fb2a97d31687523ca50f5bb031fc58bcd325bd9a976fd68"
@@ -91,17 +91,17 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `personal data is only valid if complete or completely missing`() = runBlockingTest {
+    fun `personal data is only valid if complete or completely missing`() = runTest {
         shouldThrow<InvalidQRCodeException> { instance.extract(raQrIncompletePersonalData) }
     }
 
     @Test
-    fun `invalid hash anonymous throws exception`() = runBlockingTest {
+    fun `invalid hash anonymous throws exception`() = runTest {
         shouldThrow<InvalidQRCodeException> { instance.extract(raQrAnonymousInvalidHash) }
     }
 
     @Test
-    fun `invalid json throws exception`() = runBlockingTest {
+    fun `invalid json throws exception`() = runTest {
         val invalidCode = "https://s.coronawarn.app/?v=1#eyJ0aW1lc3RhbXAiOjE2"
         shouldThrow<InvalidQRCodeException> {
             RapidAntigenQrCodeExtractor().extract(invalidCode)
@@ -109,7 +109,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `isDccSupportedByPoc is true only if dgc is true`() = runBlockingTest {
+    fun `isDccSupportedByPoc is true only if dgc is true`() = runTest {
         val prefix = "https://s.coronawarn.app?v=1#"
         val qrCodeWithDgcAndFullPersonalData = prefix + rawPayloadWithDgcAndFullPersonalData
         val qrCodeWithDgcWithoutPersonalData = prefix + rawPayloadWithDgcWithoutPersonalData

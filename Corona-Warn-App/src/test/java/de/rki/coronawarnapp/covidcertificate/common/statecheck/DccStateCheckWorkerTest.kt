@@ -13,7 +13,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,7 +46,7 @@ class DccStateCheckWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `happy path`() = runBlockingTest {
+    fun `happy path`() = runTest {
         createWorker().doWork() shouldBe ListenableWorker.Result.success()
 
         coVerifySequence {
@@ -55,7 +55,7 @@ class DccStateCheckWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `retry on errors`() = runBlockingTest {
+    fun `retry on errors`() = runTest {
         coEvery { dccValidityStateNotificationService.showNotificationIfStateChanged() } throws RuntimeException()
 
         createWorker().doWork() shouldBe ListenableWorker.Result.retry()

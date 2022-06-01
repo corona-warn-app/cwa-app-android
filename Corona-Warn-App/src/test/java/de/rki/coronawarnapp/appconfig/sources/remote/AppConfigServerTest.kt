@@ -16,7 +16,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.ByteString.Companion.decodeHex
@@ -65,7 +65,7 @@ class AppConfigServerTest : BaseIOTest() {
     )
 
     @Test
-    fun `application config download`() = runBlockingTest {
+    fun `application config download`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
@@ -96,7 +96,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `application config data is faulty`() = runBlockingTest {
+    fun `application config data is faulty`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             "123ABC".decodeHex().toResponseBody()
         )
@@ -109,7 +109,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `application config verification fails`() = runBlockingTest {
+    fun `application config verification fails`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody()
         )
@@ -123,7 +123,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `missing server date leads to local time fallback`() = runBlockingTest {
+    fun `missing server date leads to local time fallback`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
@@ -145,7 +145,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `missing server etag leads to exception`() = runBlockingTest {
+    fun `missing server etag leads to exception`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody()
         )
@@ -158,7 +158,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `local offset is the difference between server time and local time`() = runBlockingTest {
+    fun `local offset is the difference between server time and local time`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
@@ -182,7 +182,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `test setting can override device time offset on tester builds`() = runBlockingTest {
+    fun `test setting can override device time offset on tester builds`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
@@ -206,7 +206,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `test setting can not override device time offset on prod builds`() = runBlockingTest {
+    fun `test setting can not override device time offset on prod builds`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
@@ -230,7 +230,7 @@ class AppConfigServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `cache control with max-age=0 defaults to 300 seconds`() = runBlockingTest {
+    fun `cache control with max-age=0 defaults to 300 seconds`() = runTest {
         coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(

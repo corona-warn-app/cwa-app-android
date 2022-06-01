@@ -17,12 +17,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Schnelltest-Profile für Familie</item>
+        <item>Neuausstellung von Zertifikaten</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt Schnelltest-Profile für die Mitglieder Ihrer Familie anlegen. Sie können damit die Registrierung an einer Teststelle beschleunigen. Für die Erfasssung der persönlichen Daten muss dann nur der jeweilige QR-Code des Schnelltest-Profils gescannt werden.</item>
+        <item>Die Gültigkeit von Ihrem aktuell genutzten Zertifikat ist technisch auf 365 Tage begrenzt. Falls Ihr aktuell genutztes Zertifikat abläuft, bietet die App Ihnen eine Erneuerung an. Die Erneuerung kann 28 Tage vor Ablauf der Gültigkeit und bis zu 90 Tage nach Ablauf der Gültigkeit vorgenommen werden. Falls Ihnen keine Erneuerung angeboten wird, muss das Zertifikat nicht verlängert werden und keine weiteren Schritte Ihrerseits werden benötigt.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

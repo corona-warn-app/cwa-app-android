@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.ByteString.Companion.decodeBase64
@@ -42,7 +42,7 @@ class SurveyApiV1Test : BaseTest() {
     private fun createAPI(): SurveyApiV1 {
         val httpModule = HttpModule()
 
-        return SurveyModule().let {
+        return SurveyModule.let {
             val downloadHttpClient = httpModule.defaultHttpClient()
             it.provideSurveyApi(
                 client = downloadHttpClient,
@@ -54,7 +54,7 @@ class SurveyApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `test auth`(): Unit = runBlocking {
+    fun `test auth`(): Unit = runTest {
         val api = createAPI()
         """
             {
@@ -90,7 +90,7 @@ class SurveyApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `server returns 500`(): Unit = runBlocking {
+    fun `server returns 500`(): Unit = runTest {
         val api = createAPI()
         """
             {

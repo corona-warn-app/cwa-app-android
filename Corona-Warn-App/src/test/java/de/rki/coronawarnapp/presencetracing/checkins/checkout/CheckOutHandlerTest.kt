@@ -11,7 +11,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -76,7 +76,7 @@ class CheckOutHandlerTest : BaseTest() {
     )
 
     @Test
-    fun `manual checkout`() = runBlockingTest {
+    fun `manual checkout`() = runTest {
         val instance = createInstance()
         instance.checkOut(42)
         updatedCheckIn shouldBe testCheckIn.copy(
@@ -92,7 +92,7 @@ class CheckOutHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `Creates entry if create journal entry is true`() = runBlockingTest {
+    fun `Creates entry if create journal entry is true`() = runTest {
         createInstance().apply {
             checkOut(42)
         }
@@ -105,7 +105,7 @@ class CheckOutHandlerTest : BaseTest() {
     }
 
     @Test
-    fun `Does not create entry if create journal entry is false`() = runBlockingTest {
+    fun `Does not create entry if create journal entry is false`() = runTest {
         createInstance().apply {
             checkOut(43)
         }

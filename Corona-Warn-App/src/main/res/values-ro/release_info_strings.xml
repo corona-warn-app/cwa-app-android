@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Profiluri de test rapid pentru membrii familiei"</item>
+        <item>"Reemitere certificate"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți crea profiluri de test rapid pentru membrii familiei dvs., pentru a grăbi înregistrarea în punctele de testare. După ce efectuați acest lucru, trebuie doar să prezentați codul QR pentru respectivul profil de test rapid, pentru a pune la dispoziție informațiile personale."</item>
+        <item>"Din motive tehnice, valabilitatea certificatului de vaccinare utilizat în prezent este limitată la 365 de zile. Dacă certificatul dvs. curent expiră, aplicația vă permite să îl reînnoiți. Un certificat poate fi reînnoit cu maximum 28 de zile înainte de expirarea valabilității și în decurs de cel mult 90 de zile de la expirare. Dacă aplicația nu vă oferă opțiunea de a vă reînnoi certificatul, acesta nu trebuie prelungit și nu este necesară nicio altă acțiune din partea dvs."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

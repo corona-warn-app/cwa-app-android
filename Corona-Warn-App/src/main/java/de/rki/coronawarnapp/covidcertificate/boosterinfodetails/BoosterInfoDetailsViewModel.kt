@@ -29,7 +29,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
             val boosterNotification = person!!.dccWalletInfo!!.boosterNotification
             boosterNotification.identifier?.let { id ->
                 personCertificatesSettings.acknowledgeBoosterRule(
-                    personIdentifier = person.personIdentifier!!,
+                    personIdentifier = person.personIdentifier,
                     boosterIdentifier = id
                 )
             }

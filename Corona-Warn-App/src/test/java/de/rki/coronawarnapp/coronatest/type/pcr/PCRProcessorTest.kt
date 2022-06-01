@@ -34,8 +34,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -101,7 +100,7 @@ class PCRProcessorTest : BaseTest() {
 
     @AfterEach
     fun teardown() {
-        runBlocking { PcrTeleTanCensor.clearTans() }
+        runTest { PcrTeleTanCensor.clearTans() }
     }
 
     fun createInstance() = PCRTestProcessor(
@@ -112,7 +111,7 @@ class PCRProcessorTest : BaseTest() {
     )
 
     @Test
-    fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runBlockingTest {
+    fun `if we receive a pending result 60 days after registration, we map to REDEEMED`() = runTest {
         val instance = createInstance()
 
         val pcrTest = defaultTest.copy(
@@ -129,7 +128,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `registering a new test maps invalid results to INVALID state`() = runBlockingTest {
+    fun `registering a new test maps invalid results to INVALID state`() = runTest {
         var registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -172,7 +171,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling maps invalid results to INVALID state`() = runBlockingTest {
+    fun `polling maps invalid results to INVALID state`() = runTest {
         var pollResult: CoronaTestResult = PCR_OR_RAT_PENDING
         coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
@@ -213,7 +212,7 @@ class PCRProcessorTest : BaseTest() {
 
     // TANs are automatically positive, there is no test result available screen that should be reached
     @Test
-    fun `registering a TAN test automatically consumes the notification flag`() = runBlockingTest {
+    fun `registering a TAN test automatically consumes the notification flag`() = runTest {
         val instance = createInstance()
 
         instance.create(CoronaTestTAN.PCR(tan = "thisIsATan")).apply {
@@ -231,7 +230,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runBlockingTest {
+    fun `polling is skipped if test is older than 21 days and state was already REDEEMED`() = runTest {
         coEvery { submissionService.checkTestResult(any()) } answers {
             CoronaTestResultResponse(
                 coronaTestResult = PCR_POSITIVE,
@@ -257,7 +256,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runBlockingTest {
+    fun `http 400 errors map to REDEEMED (EXPIRED) state after 21 days`() = runTest {
         val ourBadRequest = BadRequestException("Who?")
         coEvery { submissionService.checkTestResult(any()) } throws ourBadRequest
 
@@ -281,7 +280,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `giving submission consent`() = runBlockingTest {
+    fun `giving submission consent`() = runTest {
         val instance = createInstance()
 
         instance.updateSubmissionConsent(defaultTest, true) shouldBe defaultTest.copy(
@@ -293,7 +292,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `request parameters for dcc are mapped`() = runBlockingTest {
+    fun `request parameters for dcc are mapped`() = runTest {
         val registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -333,7 +332,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `marking dcc as created`() = runBlockingTest {
+    fun `marking dcc as created`() = runTest {
         val instance = createInstance()
 
         instance.markDccCreated(defaultTest, true) shouldBe defaultTest.copy(
@@ -345,7 +344,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `response parameters are stored during initial registration`() = runBlockingTest {
+    fun `response parameters are stored during initial registration`() = runTest {
         val registrationData = RegistrationData(
             registrationToken = "regtoken",
             testResultResponse = CoronaTestResultResponse(
@@ -371,7 +370,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `new data received during polling is stored in the test`() = runBlockingTest {
+    fun `new data received during polling is stored in the test`() = runTest {
         val instance = createInstance()
         val pcrTest = PCRCoronaTest(
             identifier = "identifier",
@@ -397,7 +396,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `recycle sets recycledAt`() = runBlockingTest {
+    fun `recycle sets recycledAt`() = runTest {
         val pcrTest = defaultTest.copy(recycledAt = null)
 
         createInstance().run {
@@ -406,7 +405,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `restore clears recycledAt`() = runBlockingTest {
+    fun `restore clears recycledAt`() = runTest {
         val pcrTest = defaultTest.copy(recycledAt = nowUTC)
 
         createInstance().run {
@@ -415,7 +414,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `creates test for Rapid PCR request`() = runBlockingTest {
+    fun `creates test for Rapid PCR request`() = runTest {
         createRapidPcCRTestData(coronaTestResult = PCR_NEGATIVE).run {
             coEvery { submissionService.registerTest(tokenRequest = serverRequest) } returns registrationData
 
@@ -447,7 +446,7 @@ class PCRProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `reports positive Rapid PCR result`() = runBlockingTest {
+    fun `reports positive Rapid PCR result`() = runTest {
         createRapidPcCRTestData(coronaTestResult = PCR_POSITIVE).run {
             coEvery { submissionService.registerTest(tokenRequest = serverRequest) } returns registrationData
             createInstance().create(request = request)

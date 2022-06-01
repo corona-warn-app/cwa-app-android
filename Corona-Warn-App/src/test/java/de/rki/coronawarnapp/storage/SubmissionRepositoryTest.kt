@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -19,7 +18,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.slot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,7 +28,6 @@ import testhelpers.preferences.mockFlowPreference
 class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
-    @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
@@ -61,12 +59,11 @@ class SubmissionRepositoryTest : BaseTest() {
     fun createInstance(scope: CoroutineScope) = SubmissionRepository(
         scope = scope,
         submissionSettings = submissionSettings,
-        tekHistoryStorage = tekHistoryStorage,
         coronaTestRepository = coronaTestRepository,
     )
 
     @Test
-    fun `tryReplaceTest overrides register test conditions`() = runBlockingTest {
+    fun `tryReplaceTest overrides register test conditions`() = runTest {
         val precondition = slot<(Collection<BaseCoronaTest>) -> Boolean>()
         val postcondition = slot<(BaseCoronaTest) -> Boolean>()
 

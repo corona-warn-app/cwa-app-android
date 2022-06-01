@@ -65,7 +65,7 @@ class TestCertificateCard(parent: ViewGroup) :
             }
 
             when {
-                item.certificate.isDisplayValid -> R.drawable.ic_test_certificate
+                item.certificate.isDisplayValid -> TestCertificate.icon
                 else -> R.drawable.ic_certificate_invalid
             }.also { certificateIcon.setImageResource(it) }
 

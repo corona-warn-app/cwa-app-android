@@ -33,14 +33,61 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
-                android:id="@+id/dcc_reissuance_certificate_card"
+            <TextView
+                android:id="@+id/list_title_text"
+                style="@style/subtitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Zu erneurende Zertifikate:" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/certificate_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:clipToPadding="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/list_title_text"
+                tools:itemCount="2"
+                tools:listitem="@layout/dcc_reissuance_certificate_card" />
+
+            <TextView
+                android:id="@+id/accompanying_certificates_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:paddingVertical="12dp"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/certificate_recycler"
+                android:text="@string/dcc_reissuance_accompanying_certificates" />
+
+            <View
+                android:id="@+id/accompanying_certificates_divider"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:background="@color/dividerColor"
+                app:layout_constraintTop_toBottomOf="@id/accompanying_certificates_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/accompanying_certificates_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="accompanying_certificates_text, accompanying_certificates_divider" />
 
             <TextView
                 android:id="@+id/dcc_reissuance_title"
@@ -50,7 +97,7 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_medium"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_certificate_card"
+                app:layout_constraintTop_toBottomOf="@id/accompanying_certificates_text"
                 tools:text="Zertifikat aktualisieren" />
 
             <TextView
@@ -202,6 +249,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_consent" />
 
+
             <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
                 android:id="@+id/dcc_reissuance_bulletpoint_two"
                 android:layout_width="0dp"
@@ -212,6 +260,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_one" />
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_three"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/dcc_reissuance_bulletpoint_three"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two" />
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_four"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/dcc_reissuance_bulletpoint_four"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_three" />
 
             <TextView
                 android:id="@+id/dcc_reissuance_link"
@@ -224,7 +294,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_four"
                 tools:text="@string/confirmed_status_faq_text"
                 tools:visibility="visible" />
 

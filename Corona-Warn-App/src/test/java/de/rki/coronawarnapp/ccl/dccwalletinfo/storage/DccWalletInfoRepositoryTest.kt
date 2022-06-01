@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 
 internal class DccWalletInfoRepositoryTest : BaseTest() {
 
@@ -41,12 +41,12 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getDccWalletInfo() = runBlockingTest2(ignoreActive = true) {
-        repo(this).personWallets.first() shouldBe listOf()
+    fun getDccWalletInfo() = runTest2 {
+        repo(this).personWallets.first() shouldBe setOf()
     }
 
     @Test
-    fun save() = runBlockingTest2(ignoreActive = true) {
+    fun save() = runTest2 {
         val personId = CertificatePersonIdentifier(
             firstNameStandardized = "Erika",
             lastNameStandardized = "MusterFrau",
@@ -62,15 +62,15 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun clear() = runBlockingTest2(ignoreActive = true) {
-        repo(this).clear()
+    fun clear() = runTest2 {
+        repo(this).reset()
         coVerify {
             dao.deleteAll()
         }
     }
 
     @Test
-    fun delete() = runBlockingTest2(ignoreActive = true) {
+    fun delete() = runTest2 {
         repo(this).delete(setOf("id"))
         coVerify {
             dao.deleteBy(any())
@@ -78,7 +78,7 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `check blockedCertificateQrCodeHashes mapping`() = runBlockingTest2(ignoreActive = true) {
+    fun `check blockedCertificateQrCodeHashes mapping`() = runTest2 {
         val barCodeData = "barCodeData"
         val barCodeData2 = "barCodeData2"
         val barCodeData3 = "barCodeData3"

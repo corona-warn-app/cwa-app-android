@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Profile szybkich testów dla członków rodziny"</item>
+        <item>"Ponowne wydanie certyfikatów"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz tworzyć profile szybkich testów dla członków swojej rodziny, aby przyspieszyć rejestrację w punktach testowania. Po utworzeniu profilu wystarczy okazać kod QR odpowiedniego profilu szybkiego testu, aby podać dane osobowe."</item>
+        <item>"Ze względów technicznych okres ważności aktualnie używanego certyfikatu jest ograniczony do 365 dni. Jeśli Twój aktualny certyfikat wygaśnie, aplikacja umożliwi Ci jego odnowienie. Certyfikat można odnowić do 28 dni przed upływem jego ważności i do 90 dni po tym terminie. Jeśli aplikacja nie oferuje możliwości odnowienia certyfikatu, nie trzeba go przedłużać i nie musisz wykonywać żadnych dodatkowych działań."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -5,13 +5,15 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.reset.Resettable
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ContactDiaryPreferences @Inject constructor(
     @AppContext val context: Context
-) {
+) : Resettable {
 
     private val prefs by lazy {
         context.getSharedPreferences("contact_diary_localdata", Context.MODE_PRIVATE)
@@ -22,7 +24,8 @@ class ContactDiaryPreferences @Inject constructor(
         defaultValue = ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED.ordinal
     )
 
-    fun clear() {
+    override suspend fun reset() {
+        Timber.d("reset()")
         prefs.clearAndNotify()
     }
 }

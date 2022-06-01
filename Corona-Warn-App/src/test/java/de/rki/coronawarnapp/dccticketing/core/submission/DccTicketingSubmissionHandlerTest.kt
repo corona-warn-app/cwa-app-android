@@ -22,7 +22,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -151,7 +151,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
             resultToken = "resultToken",
             resultTokenPayload = resultToken
         )
-        runBlockingTest {
+        runTest {
             shouldNotThrowAny {
                 handler.submitDcc(ctx)
             }
@@ -160,7 +160,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
 
     @Test
     fun `missing encryption key throws exception`() {
-        runBlockingTest {
+        runTest {
             shouldThrow<DccTicketingException> {
                 handler.submitDcc(transactionContext)
             }.errorCode shouldBe VS_ID_NO_ENC_KEY
@@ -173,7 +173,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = setOf(dccJWK)
         )
         every { converter.createPublicKey(any()) } returns publicKey
-        runBlockingTest {
+        runTest {
             shouldThrow<DccTicketingException> {
                 handler.submitDcc(ctx)
             }.errorCode shouldBe VS_ID_CLIENT_ERR

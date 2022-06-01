@@ -12,7 +12,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -97,7 +97,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get registration token via GUID - with dobHash`(): Unit = runBlocking {
+    fun `get registration token via GUID - with dobHash`(): Unit = runTest {
         val server = createServer()
         coEvery { verificationApi.getRegistrationToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -119,7 +119,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get registration token via GUID - without dobHash`(): Unit = runBlocking {
+    fun `get registration token via GUID - without dobHash`(): Unit = runTest {
         val server = createServer()
         coEvery { verificationApi.getRegistrationToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -143,7 +143,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get registration token via TELETAN`() = runBlocking {
+    fun `get registration token via TELETAN`() = runTest {
         val server = createServer()
         coEvery { verificationApi.getRegistrationToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -165,7 +165,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get test result`(): Unit = runBlocking {
+    fun `get test result`(): Unit = runTest {
         val server = createServer()
         coEvery { verificationApi.getTestResult(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -187,7 +187,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get TAN`(): Unit = runBlocking {
+    fun `get TAN`(): Unit = runTest {
         val server = createServer()
         coEvery { verificationApi.getTAN(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "0"
@@ -205,7 +205,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `get TAN with fake data`(): Unit = runBlocking {
+    fun `get TAN with fake data`(): Unit = runTest {
         val server = createServer()
         coEvery { verificationApi.getTAN(any(), any(), any()) } answers {
             arg<String>(0) shouldBe "1"
@@ -223,7 +223,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `all requests have the same footprint for pleasible deniability`(): Unit = runBlocking {
+    fun `all requests have the same footprint for pleasible deniability`(): Unit = runTest {
         val registrationTokenExample = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
 
         val requests = mutableListOf<RecordedRequest>()

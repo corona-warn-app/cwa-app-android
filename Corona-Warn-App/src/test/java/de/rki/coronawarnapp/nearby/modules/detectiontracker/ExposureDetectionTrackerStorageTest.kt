@@ -8,7 +8,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -87,7 +87,7 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     )
 
     @Test
-    fun `init is sideeffect free`() = runBlockingTest {
+    fun `init is sideeffect free`() = runTest {
         createStorage()
         storageDir.exists() shouldBe false
         createStorage().save(emptyMap())
@@ -95,12 +95,12 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `load empty on non-existing file`() = runBlockingTest {
+    fun `load empty on non-existing file`() = runTest {
         createStorage().load() shouldBe emptyMap()
     }
 
     @Test
-    fun `save on unchanged data does nothing`() = runBlockingTest {
+    fun `save on unchanged data does nothing`() = runTest {
         storageDir.mkdirs()
         storageFile.writeText(demoJsonString)
 
@@ -115,7 +115,7 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `saving data creates a json file`() = runBlockingTest {
+    fun `saving data creates a json file`() = runTest {
         createStorage().save(demoData)
         storageFile.exists() shouldBe true
 
@@ -134,7 +134,7 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     }
 
     @Test
-    fun `we catch empty json data and prevent unsafely initialized maps`() = runBlockingTest {
+    fun `we catch empty json data and prevent unsafely initialized maps`() = runTest {
         storageDir.mkdirs()
         storageFile.writeText("")
 

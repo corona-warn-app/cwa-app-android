@@ -16,7 +16,8 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -69,7 +70,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `one time work was scheduled`() = runBlockingTest {
+    fun `one time work was scheduled`() = runTest(UnconfinedTestDispatcher()) {
         coEvery { timeCalculation.getDelayInMinutes() } returns 10L
 
         createScheduler(this).scheduleOneTime()
@@ -84,7 +85,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `one time work was not scheduled`() = runBlockingTest {
+    fun `one time work was not scheduled`() = runTest(UnconfinedTestDispatcher()) {
         coEvery { timeCalculation.getDelayInMinutes() } returns -10L
 
         createScheduler(this).scheduleOneTime()
@@ -107,29 +108,29 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `test periodic work was scheduled`() = runBlockingTest {
+    fun `test periodic work was scheduled`() = runTest(UnconfinedTestDispatcher()) {
         createScheduler(this).schedulePeriodic()
 
         verifyPeriodicWorkScheduled()
     }
 
     @Test
-    fun `scheduled work should be cancelled if onboarding wasn't yet done `() = runBlockingTest {
+    fun `scheduled work should be cancelled if onboarding wasn't yet done `() = runTest(UnconfinedTestDispatcher()) {
         every { onboardingSettings.isOnboardedFlow } returns flowOf(false)
 
-        createScheduler(this).apply { setup() }
+        createScheduler(this).apply { initialize() }
 
-        verifyCancelScheduledWork(exactly = 1)
+        verifyCancelScheduledWork()
         verifyPeriodicWorkScheduled(exactly = 0)
     }
 
     @Test
-    fun `scheduled work should be cancelled if tracing is disabled`() = runBlockingTest {
+    fun `scheduled work should be cancelled if tracing is disabled`() = runTest(UnconfinedTestDispatcher()) {
         every { enfClient.isTracingEnabled } returns flowOf(false)
 
-        createScheduler(this).apply { setup() }
+        createScheduler(this).apply { initialize() }
 
-        verifyCancelScheduledWork(exactly = 1)
+        verifyCancelScheduledWork()
         verifyPeriodicWorkScheduled(exactly = 0)
     }
 
@@ -143,11 +144,11 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         }
     }
 
-    private fun verifyCancelScheduledWork(exactly: Int = 1) {
-        verify(exactly = exactly) {
+    private fun verifyCancelScheduledWork() {
+        verify(exactly = 1) {
             workManager.cancelUniqueWork(DeadmanNotificationScheduler.PERIODIC_WORK_NAME)
         }
-        verify(exactly = exactly) {
+        verify(exactly = 1) {
             workManager.cancelUniqueWork(DeadmanNotificationScheduler.ONE_TIME_WORK_NAME)
         }
     }

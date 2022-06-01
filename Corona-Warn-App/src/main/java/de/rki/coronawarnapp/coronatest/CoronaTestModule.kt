@@ -8,21 +8,30 @@ import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestProcessor
 import de.rki.coronawarnapp.profile.ProfileModule
+import de.rki.coronawarnapp.util.reset.Resettable
 
 @Module(
-    includes = [VerificationModule::class, ProfileModule::class]
+    includes = [CoronaTestModule.ResetModule::class, VerificationModule::class, ProfileModule::class]
 )
-abstract class CoronaTestModule {
+interface CoronaTestModule {
 
     @Binds
     @IntoSet
-    abstract fun pcrProcessor(
+    fun pcrProcessor(
         processor: PCRTestProcessor
     ): PersonalCoronaTestProcessor
 
     @Binds
     @IntoSet
-    abstract fun ratProcessor(
+    fun ratProcessor(
         processor: RATestProcessor
     ): PersonalCoronaTestProcessor
+
+    @Module
+    interface ResetModule {
+
+        @Binds
+        @IntoSet
+        fun bindResettableCoronaTestRepository(resettable: CoronaTestRepository): Resettable
+    }
 }

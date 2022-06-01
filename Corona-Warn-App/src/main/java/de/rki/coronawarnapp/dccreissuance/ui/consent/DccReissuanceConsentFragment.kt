@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -44,6 +45,8 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val dccReissuanceAdapter = DccReissuanceAdapter()
+
         binding.apply {
             toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
             cancelButton.setOnClickListener { viewModel.navigateBack() }
@@ -51,10 +54,19 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             agreeButton.defaultButton.setOnClickListener {
                 viewModel.startReissuance()
             }
+            accompanyingCertificatesText.setOnClickListener {
+                viewModel.openAccompanyingCertificatesScreen()
+            }
+
+            certificateRecycler.apply {
+                adapter = dccReissuanceAdapter
+            }
 
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
                     reissuanceGroup.isVisible = it.divisionVisible
+                    accompanyingCertificatesGroup.isVisible = it.accompanyingCertificatesVisible
+                    listTitleText.text = it.listItemsTitle
                     dccReissuanceTitle.text = it.title
                     dccReissuanceSubtitle.text = it.subtitle
                     dccReissuanceContent.text = it.content
@@ -67,7 +79,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                             url = url
                         )
                     }
-                    dccReissuanceCertificateCard.certificate = it.certificate
+                    dccReissuanceAdapter.update(it.certificateList)
                 }
 
                 event.observe2(this@DccReissuanceConsentFragment) { event ->
@@ -87,6 +99,13 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                         DccReissuanceConsentViewModel.OpenPrivacyScreen -> findNavController().navigate(
                             R.id.informationPrivacyFragment
                         )
+                        DccReissuanceConsentViewModel.OpenAccompanyingCertificatesScreen ->
+                            findNavController().navigate(
+                                DccReissuanceConsentFragmentDirections
+                                    .actionDccReissuanceConsentFragmentToAccCertsFragment(
+                                        args.personIdentifierCode
+                                    )
+                            )
                     }
                 }
             }

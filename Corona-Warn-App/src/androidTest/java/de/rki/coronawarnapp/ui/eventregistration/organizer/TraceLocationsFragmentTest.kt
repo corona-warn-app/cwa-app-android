@@ -18,6 +18,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
 import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
@@ -97,7 +98,8 @@ class TraceLocationsFragmentTest : BaseUITest() {
     private fun createViewModel() = TraceLocationsViewModel(
         checkInsRepository = checkInsRepository,
         traceLocationRepository = traceLocationRepository,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        appScope = TestScope()
     )
 }
 

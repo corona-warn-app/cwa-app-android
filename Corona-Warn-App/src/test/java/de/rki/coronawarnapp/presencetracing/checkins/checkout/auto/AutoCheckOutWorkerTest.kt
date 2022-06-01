@@ -14,7 +14,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,7 +53,7 @@ class AutoCheckOutWorkerTest : BaseTest() {
     )
 
     @Test
-    fun `triggered via alarm`() = runBlockingTest {
+    fun `triggered via alarm`() = runTest {
         every { workerParams.inputData } returns Data.Builder().apply {
             putBoolean("autoCheckout.overdue", true)
             putLong("autoCheckout.checkInId", 42L)
@@ -71,7 +71,7 @@ class AutoCheckOutWorkerTest : BaseTest() {
     }
 
     @Test
-    fun `triggered on reboot or update`() = runBlockingTest {
+    fun `triggered on reboot or update`() = runTest {
         coEvery { autoCheckOut.processOverDueCheckouts() } returns emptyList()
         every { workerParams.inputData } returns Data.Builder().apply {
             putBoolean("autoCheckout.overdue", true)

@@ -15,13 +15,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.slot
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.Instant
+import kotlinx.coroutines.test.runTest
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
+import java.time.OffsetDateTime
 import java.util.UUID
 
 class LogUploadAuthorizerTest : BaseIOTest() {
@@ -39,7 +40,7 @@ class LogUploadAuthorizerTest : BaseIOTest() {
     private val attestationRequestSlot = slot<DeviceAttestation.Request>()
 
     private val uploadResponse = LogUploadAuthApiV1.AuthResponse(
-        expirationDate = Instant.EPOCH.toString()
+        expirationDate = "2021-05-16T08:34:00+00:00"
     )
 
     @BeforeEach
@@ -70,7 +71,22 @@ class LogUploadAuthorizerTest : BaseIOTest() {
     )
 
     @Test
-    fun `otp generation`() = runBlockingTest {
+    fun `otp generation`() = runTest {
+        val expectedOtp = UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894")
+        val instance = createInstance()
+
+        instance.getAuthorizedOTP(otp = expectedOtp).apply {
+            otp shouldBe expectedOtp.toString()
+            expirationDate shouldBe OffsetDateTime.parse("2021-05-16T08:34:00+00:00").toInstant()
+        }
+
+        attestationRequestSlot.captured.configData shouldBe configData
+        attestationRequestSlot.captured.checkDeviceTime shouldBe false
+    }
+
+    @Test
+    fun `broken otp response`() = runTest {
+        coEvery { authApiV1.authOTP(any()) } returns LogUploadAuthApiV1.AuthResponse("MALFORMED-DATE")
         val expectedOtp = UUID.fromString("15cff19f-af26-41bc-94f2-c1a65075e894")
         val instance = createInstance()
 

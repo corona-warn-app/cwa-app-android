@@ -263,9 +263,11 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Valabil până la %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Asigurați-vă că obțineți un certificat digital nou la timp."</string>
+    <string name="expiration_info">"Dacă acesta este certificatul pe care îl utilizați în prezent, aveți grijă să îl reînnoiți la timp. Puteți reînnoi astfel de certificate direct în aplicație, dacă vor expira în următoarele 28 de zile. În acest caz, opțiunea „Reînnoire certificate” apare în sumarul certificatului dvs., sub mozaicul „Dovada stării”. Dacă acesta nu este certificatul pe care îl utilizați în prezent, nu trebuie să îl prelungiți și nu este necesară nicio acțiune din partea dvs."</string>
+    <!-- XTXT: Vaccination Detail Techincal expiration info -->
+    <string name="expiration_technical_info">"Asigurați-vă că obțineți un certificat digital nou la timp."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Data de expirare a trecut. Obțineți un certificat digital nou."</string>
+    <string name="expired_certificate_info">"Data de expirare a trecut. Vă rugăm să vă reînnoiți certificatul. Puteți solicita o reînnoire în decurs de maximum 90 de zile de la expirarea certificatului, făcând click pe nota din sumarul certificatului dvs."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Certificatul a fost emis de un organism neautorizat sau a fost emis incorect. Adresați-vă unui organism autorizat pentru eliberarea unui certificat nou. "</string>
 

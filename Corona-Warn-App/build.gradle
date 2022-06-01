@@ -183,10 +183,10 @@ android {
 
             freeCompilerArgs += [
                     "-Xno-kotlin-nothing-value-exception",
-                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
-                    "-Xuse-experimental=kotlin.time.ExperimentalTime",
-                    "-Xopt-in=kotlin.RequiresOptIn"
+                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-opt-in=kotlinx.coroutines.FlowPreview",
+                    "-opt-in=kotlin.time.ExperimentalTime",
+                    "-opt-in=kotlin.RequiresOptIn"
             ]
         }
     }
@@ -312,7 +312,6 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
 configurations.all {
     resolutionStrategy {
         force "androidx.test:monitor:1.4.0"
-        force "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
     }
 }
 
@@ -338,7 +337,7 @@ dependencies {
 
     implementation "org.bouncycastle:bcpkix-jdk15on:1.69"
     // KOTLIN
-    def coroutineVersion = "1.5.0"
+    def coroutineVersion = "1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
@@ -349,7 +348,7 @@ dependencies {
     // ANDROID STANDARD
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -394,7 +393,7 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // JFN
-    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-a467904.jar")
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-db9f290.jar")
 
     // boofCV
     def boofCV_version = "0.40.1"
@@ -418,7 +417,7 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.12.2"
+    testImplementation "io.mockk:mockk:1.12.3"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
@@ -435,14 +434,14 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = "4.3.2"
+    def kotest_version = "5.3.0"
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-property-jvm:$kotest_version"
 
-    testImplementation "io.github.classgraph:classgraph:4.8.138"
+    testImplementation "io.github.classgraph:classgraph:4.8.146"
 
     // Testing - Instrumentation
     androidTestImplementation "junit:junit:$junit_version"
@@ -461,7 +460,7 @@ dependencies {
     // Play Services
     implementation 'com.google.android.play:core:1.10.3'
     implementation 'com.google.android.gms:play-services-base:18.0.1'
-    implementation 'com.google.android.gms:play-services-basement:18.0.0'
+    implementation 'com.google.android.gms:play-services-basement:18.0.2'
     implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
     implementation 'com.google.android.gms:play-services-tasks:18.0.1'
 
@@ -488,13 +487,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.guava:guava:30.0-android'
     implementation "joda-time:joda-time:2.10.13"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.2"
 
-    implementation 'com.networknt:json-schema-validator:1.0.58'
-    implementation 'net.swiftzer.semver:semver:1.1.1'
+    implementation 'com.networknt:json-schema-validator:1.0.69'
+    implementation 'net.swiftzer.semver:semver:1.2.0'
 
     //JWT
-    implementation 'com.nimbusds:nimbus-jose-jwt:9.15.2'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.22'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
@@ -504,7 +503,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1@aar'
 
     // ANIMATIONS
-    implementation "com.airbnb.android:lottie:3.5.0"
+    implementation "com.airbnb.android:lottie:5.0.3"
 
     // HCert
     implementation("com.upokecenter:cbor:4.5.2")
@@ -513,7 +512,7 @@ dependencies {
     implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
     // CameraX
-    def camerax_version = "1.1.0-beta02"
+    def camerax_version = "1.1.0-beta03"
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"

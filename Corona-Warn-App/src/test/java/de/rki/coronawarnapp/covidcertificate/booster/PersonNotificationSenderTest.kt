@@ -16,7 +16,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -53,13 +53,13 @@ class PersonNotificationSenderTest : BaseTest() {
     )
 
     @Test
-    fun `show booster notification`() = runBlockingTest {
+    fun `show booster notification`() = runTest {
         val personIdentifier = CertificatePersonIdentifier(
             dateOfBirthFormatted = "1990-10-10",
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized"
         )
-        createInstance().showNotification(personIdentifier)
+        createInstance().showNotification(personIdentifier, 0)
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 }

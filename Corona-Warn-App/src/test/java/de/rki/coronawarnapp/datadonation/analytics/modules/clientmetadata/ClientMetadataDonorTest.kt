@@ -15,10 +15,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
 
 class ClientMetadataDonorTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
@@ -67,7 +67,7 @@ class ClientMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runBlockingTest2 {
+        runTest {
             val contribution = createInstance().beginDonation(
                 object : DonorModule.Request {
                     override val currentConfig: ConfigData = mockk()

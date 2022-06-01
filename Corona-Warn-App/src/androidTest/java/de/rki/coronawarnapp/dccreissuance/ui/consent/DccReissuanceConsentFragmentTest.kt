@@ -11,6 +11,7 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -46,22 +47,51 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
     private val args = DccReissuanceConsentFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
 
     private val state = DccReissuanceConsentViewModel.State(
-        certificate = mockk<VaccinationDccV1> {
-            every { nameData } returns mockk {
-                every { fullName } returns "Andrea Schneider"
-            }
+        certificateList = mutableListOf<DccReissuanceItem>(
+            DccReissuanceCertificateCard.Item(
+                mockk<VaccinationDccV1> {
+                    every { nameData } returns mockk {
+                        every { fullName } returns "Andrea Schneider"
+                    }
 
-            every { vaccination } returns mockk {
-                every { doseNumber } returns 2
-                every { totalSeriesOfDoses } returns 2
-                every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
-            }
-        },
+                    every { vaccination } returns mockk {
+                        every { doseNumber } returns 2
+                        every { totalSeriesOfDoses } returns 2
+                        every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
+                        every { personIdentifier } returns CertificatePersonIdentifier(
+                            dateOfBirthFormatted = "2020-01-01",
+                            lastNameStandardized = "Schneider",
+                            firstNameStandardized = "Andrea"
+                        )
+                    }
+                }
+            ),
+            DccReissuanceCertificateCard.Item(
+                mockk<VaccinationDccV1> {
+                    every { nameData } returns mockk {
+                        every { fullName } returns "Andrea Schneider"
+                    }
+
+                    every { vaccination } returns mockk {
+                        every { doseNumber } returns 2
+                        every { totalSeriesOfDoses } returns 2
+                        every { vaccinatedOn } returns LocalDate.parse("2022-01-17")
+                        every { personIdentifier } returns CertificatePersonIdentifier(
+                            dateOfBirthFormatted = "2020-01-01",
+                            lastNameStandardized = "Schneider",
+                            firstNameStandardized = "Andrea"
+                        )
+                    }
+                }
+            )
+        ),
         divisionVisible = true,
+        listItemsTitle = "Zu erneuernde Zertifikate:",
         title = "Zertifikat aktualisieren",
         subtitle = "Neuausstellung direkt über die App vornehmen.",
         content = "Die Spezifikationen der EU für Zertifikate von Auffrischimpfungen wurden geändert. Dieses Zertifikat entspricht nicht den aktuellen Spezifikationen. Das Impfzertifikat ist zwar weiterhin gültig, es kann jedoch sein, dass bei einer Prüfung die Auffrischimpfung nicht erkannt wird. Bitte lassen Sie sich daher ein neues Impfzertifikat ausstellen.\n\nSie können ein neues Impfzertifikat direkt kostenlos über die App anfordern. Hierfür ist Ihr Einverständnis erforderlich.",
         url = null,
+        accompanyingCertificatesVisible = true
     )
 
     @Before

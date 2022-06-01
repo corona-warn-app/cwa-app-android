@@ -12,7 +12,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -46,21 +46,21 @@ class RootDetectionCheckTest : BaseTest() {
     }
 
     @Test
-    fun `device is rooted`() = runBlockingTest {
+    fun `device is rooted`() = runTest {
         every { rootBeer.isRooted } returns true
         createInstance().isRooted() shouldBe true
         verify { rootBeer.isRooted }
     }
 
     @Test
-    fun `device is not rooted`() = runBlockingTest {
+    fun `device is not rooted`() = runTest {
         every { rootBeer.isRooted } returns false
         createInstance().isRooted() shouldBe false
         verify { rootBeer.isRooted }
     }
 
     @Test
-    fun `fallback to false in case of an error`() = runBlockingTest {
+    fun `fallback to false in case of an error`() = runTest {
         every { rootBeer.isRooted } throws Exception("Test error")
         createInstance().isRooted() shouldBe false
         verify { rootBeer.isRooted }
@@ -68,7 +68,7 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `device is rooted and current version is greater than last suppress root info version code`() =
-        runBlockingTest {
+        runTest {
             lastSuppressRootInfoVersionCode.update { 9L }
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 
@@ -83,7 +83,7 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `device is not rooted and current version is greater than last suppress root info version code`() =
-        runBlockingTest {
+        runTest {
             lastSuppressRootInfoVersionCode.update { 9L }
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 
@@ -98,7 +98,7 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `device is rooted but current version is less than or equal to last suppress root info version code`() =
-        runBlockingTest {
+        runTest {
             lastSuppressRootInfoVersionCode.update { 10 }
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 

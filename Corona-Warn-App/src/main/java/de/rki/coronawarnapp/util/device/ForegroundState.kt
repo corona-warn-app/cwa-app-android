@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.util.device
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import de.rki.coronawarnapp.util.di.ProcessLifecycle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,17 +19,15 @@ class ForegroundState @Inject constructor(
 
     val isInForeground: Flow<Boolean> by lazy {
         MutableStateFlow(false).apply {
-            val foregroundStateUpdater = object : LifecycleObserver {
-                @Suppress("unused")
-                @OnLifecycleEvent(Lifecycle.Event.ON_START)
-                fun onAppForegrounded() {
+            val foregroundStateUpdater = object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    super.onStart(owner)
                     Timber.v("App is in the foreground")
                     tryEmit(true)
                 }
 
-                @Suppress("unused")
-                @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-                fun onAppBackgrounded() {
+                override fun onStop(owner: LifecycleOwner) {
+                    super.onStop(owner)
                     Timber.v("App is in the background")
                     tryEmit(false)
                 }

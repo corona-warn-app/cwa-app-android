@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
@@ -52,7 +52,7 @@ class SubmissionApiV1Test : BaseTest() {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
 
-        return SubmissionModule().let {
+        return SubmissionModule.let {
             val downloadHttpClient = it.cdnHttpClient(
                 defaultHttpClient,
                 listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS)
@@ -68,7 +68,7 @@ class SubmissionApiV1Test : BaseTest() {
     }
 
     @Test
-    fun `test submitKeys`(): Unit = runBlocking {
+    fun `test submitKeys`(): Unit = runTest {
         val api = createAPI()
 
         """

@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Rapid Test Profiles for Family Members"</item>
+        <item>"Reissue of Certificates"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now create rapid test profiles for your family members, to speed up registration at testing points. Once you do, you only have to present the QR code for the respective rapid test profile to provide the personal information."</item>
+        <item>"Due to technical reasons, the validity of the currently used certificate is limited to 365 days. If your current certificate expires, the app enables you to renew it. A certificate can be renewed up to 28 days before its validity expires and up to 90 days afterwards. If the app does not offer to renew your certificate, it does not need to be extended and no further action is required on your part."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -22,7 +22,7 @@ import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -112,7 +112,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     )
 
     @Test
-    fun `enf v1 to v2 change flag is checked and set`() = runBlockingTest {
+    fun `enf v1 to v2 change flag is checked and set`() = runTest {
         every { downloadSettings.lastVersionCode } returns -1L
 
         val task = createInstance()
@@ -131,7 +131,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `normal execution on first run`() = runBlockingTest {
+    fun `normal execution on first run`() = runTest {
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
         coVerifySequence {
@@ -143,7 +143,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `not marked as checked if submission fails`() = runBlockingTest {
+    fun `not marked as checked if submission fails`() = runTest {
         coEvery { enfClient.provideDiagnosisKeys(any(), any()) } returns false
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
@@ -156,7 +156,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `execution is skipped if last detection was recent`() = runBlockingTest {
+    fun `execution is skipped if last detection was recent`() = runTest {
         // Last detection was at T+2h
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(2))
 
@@ -173,7 +173,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `execution is NOT skipped if last detection is in our future`() = runBlockingTest {
+    fun `execution is NOT skipped if last detection is in our future`() = runTest {
         // Last detection was at T, i.e. our time is now T-1h, so it was in our future.
         every { timeStamper.nowUTC } returns Instant.EPOCH.minus(Duration.standardHours(1).plus(1))
 
@@ -185,7 +185,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `wasLastDetectionPerformedRecently honors paramters from config`() = runBlockingTest {
+    fun `wasLastDetectionPerformedRecently honors paramters from config`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(4))
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
@@ -198,7 +198,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `hasRecentDetectionAndNoNewFiles checks for new files`() = runBlockingTest {
+    fun `hasRecentDetectionAndNoNewFiles checks for new files`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(4))
 
         every { syncResult.newKeys } returns emptyList()
@@ -216,7 +216,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `hasRecentDetectionAndNoNewFiles ignores amount of files if we didn't update for a day`() = runBlockingTest {
+    fun `hasRecentDetectionAndNoNewFiles ignores amount of files if we didn't update for a day`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(25))
 
         every { syncResult.newKeys } returns emptyList()
@@ -231,7 +231,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     }
 
     @Test
-    fun `we do not submit keys if device time is incorrect`() = runBlockingTest {
+    fun `we do not submit keys if device time is incorrect`() = runTest {
         every { appConfig.isDeviceTimeCorrect } returns false
         every { appConfig.localOffset } returns Duration.standardHours(5)
 

@@ -54,6 +54,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
             is FamilyTestListEvent.NavigateBack -> popBackStack()
             is FamilyTestListEvent.ConfirmSwipeTest -> showRemovalConfirmation(event.familyCoronaTest, event.position)
             is FamilyTestListEvent.ConfirmRemoveTest -> showRemovalConfirmation(event.familyCoronaTest, null)
+            is FamilyTestListEvent.DeleteTest -> viewModel.deleteTest(event.familyCoronaTest)
             is FamilyTestListEvent.ConfirmRemoveAllTests -> showRemovalConfirmation(null, null)
             is FamilyTestListEvent.NavigateToDetails -> openDetailsScreen(event.familyCoronaTest)
         }

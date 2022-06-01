@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.risk.changedetection
 
 import de.rki.coronawarnapp.datadonation.survey.Surveys
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -26,8 +27,9 @@ class EwRiskLevelChangeDetector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val surveys: Surveys,
 
-) {
-    fun launch() {
+) : Initializer {
+
+    override fun initialize() {
         Timber.v("Monitoring risk level changes.")
         riskLevelStorage.allEwRiskLevelResults
             .map { results ->

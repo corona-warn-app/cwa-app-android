@@ -14,7 +14,7 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +38,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
 
     @Test
     fun `updateIfRequired() should update booster rules, invalidation rules and ccl configuration if required`() =
-        runBlockingTest {
+        runTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
             coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
@@ -65,7 +65,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
 
     @Test
     fun `updateIfRequired() should NOT update if NOT required but should trigger DccWalletInfo recalculation`() =
-        runBlockingTest {
+        runTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
             coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
 
@@ -82,7 +82,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
 
     @Test
     fun `updateConfiguration() should return true if anything was downloaded or false otherwise`() =
-        runBlockingTest {
+        runTest {
 
             val updater = getInstance()
 
@@ -116,7 +116,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
 
     @Test
     fun `updateConfiguration() should not store execution time if any network request fails`() =
-        runBlockingTest {
+        runTest {
 
             val updater = getInstance()
 
@@ -144,7 +144,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
         }
 
     @Test
-    fun `isUpdateRequires() should return true after one day`() = runBlockingTest {
+    fun `isUpdateRequires() should return true after one day`() = runTest {
 
         val updater = getInstance()
 

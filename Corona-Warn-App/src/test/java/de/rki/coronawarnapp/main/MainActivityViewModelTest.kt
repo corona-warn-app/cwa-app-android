@@ -39,12 +39,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
+@ExtendWith(InstantExecutorExtension::class)
 class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
@@ -76,6 +75,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { onboardingSettings.isOnboarded } returns true
         every { onboardingSettings.fabScannerOnboardingDone } returns mockFlowPreference(true)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
+        every { environmentSetup.launchEnvironment } returns null
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
             TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         )
@@ -173,7 +173,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe false
+        vm.isCertificatesConsentGiven.value shouldBe false
     }
 
     @Test
@@ -182,6 +182,6 @@ class MainActivityViewModelTest : BaseTest() {
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe true
+        vm.isCertificatesConsentGiven.value shouldBe true
     }
 }

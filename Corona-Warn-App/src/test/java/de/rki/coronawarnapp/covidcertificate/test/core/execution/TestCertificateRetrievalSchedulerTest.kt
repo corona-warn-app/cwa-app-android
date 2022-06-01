@@ -21,10 +21,11 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.coroutines.runBlockingTest2
+import testhelpers.coroutines.runTest2
 import testhelpers.gms.MockListenableFuture
 
 class TestCertificateRetrievalSchedulerTest : BaseTest() {
@@ -70,7 +71,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     private val foregroundFlow = MutableStateFlow(false)
 
     @BeforeEach
-    fun setup() {
+    fun initialize() {
         MockKAnnotations.init(this)
 
         workManager.apply {
@@ -108,8 +109,8 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     )
 
     @Test
-    fun `new negative corona tests create a dcc if supported and consented`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(scope = this).setup()
+    fun `new negative corona tests create a dcc if supported and consented`() = runTest2 {
+        createInstance(scope = this).initialize()
         coVerify {
             testCertificateRepository.requestCertificate(mockTest)
             coronaTestRepository.markDccAsCreated("identifier1", true)
@@ -120,28 +121,28 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `certificates only for negative results`() = runBlockingTest2(ignoreActive = true) {
+    fun `certificates only for negative results`() = runTest2 {
         every { mockTest.isNegative } returns false
         every { mockFamilyTest.isNegative } returns false
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
 
     @Test
-    fun `no duplicate certificates for flaky test results`() = runBlockingTest2(ignoreActive = true) {
+    fun `no duplicate certificates for flaky test results`() = runTest2 {
         every { mockTest.isDccDataSetCreated } returns true
         every { mockFamilyTest.isDccDataSetCreated } returns true
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
 
     @Test
-    fun `refresh on foreground`() = runBlockingTest2(ignoreActive = true) {
+    fun `refresh on foreground`() = runTest2 {
         testsFlow.value = emptySet()
 
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
         advanceUntilIdle()
         coVerify(exactly = 1) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }
 
@@ -151,9 +152,9 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `refresh on new certificate entry`() = runBlockingTest2(ignoreActive = true) {
+    fun `refresh on new certificate entry`() = runTest2 {
         testsFlow.value = emptySet()
-        createInstance(scope = this).setup()
+        createInstance(scope = this).initialize()
 
         advanceUntilIdle()
         coVerify(exactly = 1) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }

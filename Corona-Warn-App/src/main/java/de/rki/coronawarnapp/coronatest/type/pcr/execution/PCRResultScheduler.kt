@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
@@ -29,8 +30,9 @@ class PCRResultScheduler @Inject constructor(
     private val workManager: WorkManager,
     private val coronaTestRepository: CoronaTestRepository,
 ) : ResultScheduler(
-    workManager = workManager
-) {
+        workManager = workManager
+    ),
+    Initializer {
 
     @VisibleForTesting
     internal val shouldBePolling = coronaTestRepository.latestPCRT
@@ -40,7 +42,7 @@ class PCRResultScheduler @Inject constructor(
         }
         .distinctUntilChanged()
 
-    fun setup() {
+    override fun initialize() {
         Timber.tag(TAG).i("setup() - PCRResultScheduler")
         shouldBePolling
             .onEach { shouldBePolling ->

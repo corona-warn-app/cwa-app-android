@@ -7,16 +7,16 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.certificate.isScreenedCert
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
-import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -32,12 +32,14 @@ import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -53,7 +55,7 @@ import javax.inject.Singleton
 @Singleton
 @Suppress("LongParameterList")
 class TestCertificateRepository @Inject constructor(
-    valueSetsRepository: ValueSetsRepository,
+    private val valueSetsRepository: ValueSetsRepository,
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: TestCertificateStorage,
@@ -63,7 +65,7 @@ class TestCertificateRepository @Inject constructor(
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccState: DccStateChecker,
     private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
-) {
+) : Resettable {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
@@ -127,6 +129,14 @@ class TestCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    fun findCertificateDetails(containerId: TestCertificateContainerId): Flow<TestCertificate?> =
+        internalData.data.map { map ->
+            map[containerId].takeIf { it?.isNotRecycled == true }?.toTestCertificateWrapper(
+                valueSetsRepository.latestTestCertificateValueSets.first(),
+                dccValidityMeasuresObserver.dccValidityMeasures.first()
+            )?.testCertificate
+        }
 
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isNotRecycled]
@@ -391,7 +401,7 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    suspend fun clear() {
+    override suspend fun reset() {
         Timber.tag(TAG).i("clear()")
         internalData.updateBlocking { emptyMap() }
     }
@@ -444,7 +454,7 @@ class TestCertificateRepository @Inject constructor(
                 dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
             )
 
-            if (!isScreenedTestCert(currentState)) {
+            if (!isScreenedCert(currentState)) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
                 return@updateBlocking this
             }
@@ -483,7 +493,7 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val isValid = !isScreenedTestCert(state)
+            val isValid = !isScreenedCert(state)
             if (isValid) {
                 Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
@@ -548,28 +558,6 @@ class TestCertificateRepository @Inject constructor(
             )
 
             mutate { this[containerId] = updated }
-        }
-    }
-
-    suspend fun replaceCertificate(
-        certificateToReplace: TestCertificateContainerId,
-        newCertificateQrCode: TestCertificateQRCode
-    ) {
-        internalData.updateBlocking {
-
-            val recycledCertificate = this[certificateToReplace]?.setRecycled()
-            val newCertificate = newCertificateQrCode.createContainer()
-
-            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
-
-            mutate {
-                // recycle old
-                recycledCertificate?.let {
-                    this[certificateToReplace] = it
-                }
-                // add new
-                this[newCertificate.containerId] = newCertificate
-            }
         }
     }
 

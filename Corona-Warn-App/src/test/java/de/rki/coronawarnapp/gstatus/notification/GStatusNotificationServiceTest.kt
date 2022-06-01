@@ -13,7 +13,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -40,13 +40,13 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
         coEvery { personCertificatesSettings.setGStatusNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.dismissGStatusBadge(any()) } just Runs
-        every { personNotificationSender.showNotification(any(), any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
         every { oldWalletInfo.admissionState } returns oldAdmissionState
         every { newWalletInfo.admissionState } returns newAdmissionState
     }
 
     @Test
-    fun `don't notify person if admission state is calculated for the first time`() = runBlockingTest {
+    fun `don't notify person if admission state is calculated for the first time`() = runTest {
         every { oldAdmissionState.identifier } returns null
         every { newAdmissionState.identifier } returns "1"
 
@@ -60,13 +60,13 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
 
     @Test
-    fun `notify person if admission state for person changes`() = runBlockingTest {
+    fun `notify person if admission state for person changes`() = runTest {
         every { oldAdmissionState.identifier } returns "1"
         every { newAdmissionState.identifier } returns "2"
 
@@ -80,13 +80,13 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
 
     @Test
-    fun `don't notify person if admission state has not changed`() = runBlockingTest {
+    fun `don't notify person if admission state has not changed`() = runTest {
         every { oldAdmissionState.identifier } returns "1"
         every { newAdmissionState.identifier } returns "1"
 
@@ -100,13 +100,13 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }
 
     @Test
-    fun `dismiss the badge if the new admission state calculation doesn't exist`() = runBlockingTest {
+    fun `dismiss the badge if the new admission state calculation doesn't exist`() = runTest {
         every { oldAdmissionState.identifier } returns "1"
         every { newAdmissionState.identifier } returns null
 
@@ -124,7 +124,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier, R.string.notification_body)
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
     }

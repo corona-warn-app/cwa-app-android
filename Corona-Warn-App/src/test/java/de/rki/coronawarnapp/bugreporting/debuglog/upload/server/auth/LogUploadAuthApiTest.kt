@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -52,7 +52,7 @@ class LogUploadAuthApiTest : BaseTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        return BugReportingSharedModule().logUploadAuthApi(
+        return BugReportingSharedModule.logUploadAuthApi(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,
@@ -61,7 +61,7 @@ class LogUploadAuthApiTest : BaseTest() {
     }
 
     @Test
-    fun `test auth`(): Unit = runBlocking {
+    fun `test auth`(): Unit = runTest {
         """
             {
                 expirationDate : "2020-08-20T14:00:00.000Z"
@@ -83,7 +83,7 @@ class LogUploadAuthApiTest : BaseTest() {
     }
 
     @Test
-    fun `server returns 500`(): Unit = runBlocking {
+    fun `server returns 500`(): Unit = runTest {
         """
             {
                 errorCode: "Nope"

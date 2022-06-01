@@ -263,9 +263,11 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Geçerlilik bitişi: %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Lütfen zamanında yeni bir dijital sertifika aldığınızdan emin olun."</string>
+    <string name="expiration_info">"Bu, şu anda kullandığınız sertifikaysa lütfen zamanında yenilediğinizden emin olun. Önümüzdeki 28 gün içinde süreleri sona ererse bu sertifikaları doğrudan uygulama içinde yenileyebilirsiniz. Böyle bir durumda, \"Durum Kanıtı\" kutucuğunun altında, sertifikaya genel bakış kısmında \"Sertifikaları Yenile\" seçeneği görüntülenir. Bu, şu anda kullandığınız sertifika değilse uzatılmasına gerek yoktur ve herhangi bir işlem yapmanız gerekmez."</string>
+    <!-- XTXT: Vaccination Detail Techincal expiration info -->
+    <string name="expiration_technical_info">"Lütfen zamanında yeni bir dijital sertifika aldığınızdan emin olun."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Sona erme tarihi dolmadı. Lütfen yeni bir dijital sertifika alın."</string>
+    <string name="expired_certificate_info">"Sona erme tarihi geçti. Lütfen sertifikayı yenileyin. Bir sertifikanın süresi sona erdikten sonraki 90 güne kadar sertifikaya genel bakış kısmında nota tıklayarak yenileme talebinde bulunabilirsiniz."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Sertifika onaylanmamış bir kuruluş tarafından veya yanlış düzenlenmiş. Lütfen onaylanmış bir kuruluşa yeni bir sertifika düzenletin. "</string>
 

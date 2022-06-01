@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.test.runBlockingTest
-import org.joda.time.LocalDate
+import kotlinx.coroutines.test.runTest
+import java.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ internal class RapidQrCodeCensorTest {
     private fun createInstance() = RapidQrCodeCensor()
 
     @Test
-    fun `checkLog() should return censored LogLine`() = runBlockingTest {
+    fun `checkLog() should return censored LogLine`() = runTest {
         RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
             rawString = testRawString,
             hash = testHash,
@@ -47,7 +47,7 @@ internal class RapidQrCodeCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if no data to censor was set`() = runBlockingTest {
+    fun `checkLog() should return null if no data to censor was set`() = runTest {
         val censor = createInstance()
 
         val logLineNotToCensor = "Here comes the hash: $testHash"
@@ -56,7 +56,7 @@ internal class RapidQrCodeCensorTest {
     }
 
     @Test
-    fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
+    fun `checkLog() should return null if nothing should be censored`() = runTest {
         RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
             rawString = testRawString,
             hash = testHash.replace("8", "9"),

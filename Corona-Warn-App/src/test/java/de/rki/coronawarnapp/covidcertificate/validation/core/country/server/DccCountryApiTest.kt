@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.statistics.StatisticsModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -51,9 +51,9 @@ class DccCountryApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        val cache = StatisticsModule().httpCache(cacheDir)
+        val cache = StatisticsModule.httpCache(cacheDir)
 
-        return DccValidationModule().countryApi(
+        return DccValidationModule.countryApi(
             httpClient = cdnHttpClient,
             url = serverAddress,
             cache = cache
@@ -66,7 +66,7 @@ class DccCountryApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("[\"DE\"]"))
 
-        runBlocking {
+        runTest {
             api.onboardedCountries().apply {
                 body()!!.string() shouldBe "[\"DE\"]"
             }

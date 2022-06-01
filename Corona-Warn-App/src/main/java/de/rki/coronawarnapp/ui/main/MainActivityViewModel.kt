@@ -79,8 +79,8 @@ class MainActivityViewModel @AssistedInject constructor(
     val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
-    private val mutableIsVaccinationOnboardingDone = MutableLiveData<Boolean>()
-    val isVaccinationConsentGiven: LiveData<Boolean> = mutableIsVaccinationOnboardingDone
+    private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
+    val isCertificatesConsentGiven: LiveData<Boolean> = mutableIsCertificatesOnboardingDone
 
     val activeCheckIns = checkInRepository.checkInsWithinRetention
         .map { checkins -> checkins.filter { !it.completed }.size }
@@ -99,9 +99,13 @@ class MainActivityViewModel @AssistedInject constructor(
     init {
         if (CWADebug.isDeviceForTestersBuild) {
             launch {
-                val current = environmentSetup.currentEnvironment
-                if (current != EnvironmentSetup.Type.PRODUCTION) {
-                    showEnvironmentHint.postValue(current.rawKey)
+                val current = if (environmentSetup.launchEnvironment != null)
+                    "base64 data"
+                else
+                    environmentSetup.currentEnvironment.rawKey
+
+                if (current != EnvironmentSetup.Type.PRODUCTION.rawKey) {
+                    showEnvironmentHint.postValue(current)
                 }
             }
         }
@@ -135,7 +139,7 @@ class MainActivityViewModel @AssistedInject constructor(
     fun onBottomNavSelected() {
         mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
-        mutableIsVaccinationOnboardingDone.value = covidCertificateSettings.isOnboarded.value
+        mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

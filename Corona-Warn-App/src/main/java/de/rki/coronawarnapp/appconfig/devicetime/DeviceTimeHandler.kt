@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.devicetime
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.devicetime.ui.IncorrectDeviceTimeNotification
+import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -19,9 +20,9 @@ class DeviceTimeHandler @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val notification: IncorrectDeviceTimeNotification,
     private val cwaSettings: CWASettings
-) {
+) : Initializer {
 
-    fun launch() {
+    override fun initialize() {
         appConfigProvider.currentConfig
             .onStart { Timber.tag(TAG).d("Observing device time.") }
             // If we don't delay emissions, we will consume the event before the UI "wasDeviceTimeIncorrectAcknowledged"

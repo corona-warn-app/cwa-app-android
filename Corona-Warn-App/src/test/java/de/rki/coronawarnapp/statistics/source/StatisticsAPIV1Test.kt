@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.statistics.StatisticsModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -50,9 +50,9 @@ class StatisticsAPIV1Test : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        val cache = StatisticsModule().httpCache(cacheDir)
+        val cache = StatisticsModule.httpCache(cacheDir)
 
-        return StatisticsModule().api(
+        return StatisticsModule.api(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,
@@ -66,7 +66,7 @@ class StatisticsAPIV1Test : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("~look at me, I'm statistics"))
 
-        runBlocking {
+        runTest {
             api.getStatistics().apply {
                 body()!!.string() shouldBe "~look at me, I'm statistics"
             }

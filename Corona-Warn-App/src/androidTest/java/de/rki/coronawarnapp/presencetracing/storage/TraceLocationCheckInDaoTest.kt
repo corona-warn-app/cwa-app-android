@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Test
@@ -30,14 +30,14 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoShouldReturnNoEntriesInitially() = runBlocking {
+    fun traceLocationCheckInDaoShouldReturnNoEntriesInitially() = runTest {
         val checkInsFlow = checkInDao.allEntries()
 
         checkInsFlow.first() shouldBe emptyList()
     }
 
     @Test
-    fun traceLocationCheckInDaoShouldSuccessfullyInsertCheckIn() = runBlocking {
+    fun traceLocationCheckInDaoShouldSuccessfullyInsertCheckIn() = runTest {
         val checkInsFlow = checkInDao.allEntries()
 
         val generatedId = checkInDao.insert(testCheckIn)
@@ -46,7 +46,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoShouldSuccessfullyInsertMultipleCheckIns() = runBlocking {
+    fun traceLocationCheckInDaoShouldSuccessfullyInsertMultipleCheckIns() = runTest {
         val checkInsFlow = checkInDao.allEntries()
 
         val testCheckInGeneratedId = checkInDao.insert(testCheckIn)
@@ -59,7 +59,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoShouldSuccessfullyUpdateCheckIn() = runBlocking {
+    fun traceLocationCheckInDaoShouldSuccessfullyUpdateCheckIn() = runTest {
         val checkInsFlow = checkInDao.allEntries()
 
         val testCheckInGeneratedId = checkInDao.insert(testCheckInWithoutCheckOutTime)
@@ -75,7 +75,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoShouldSuccessfullyDeleteAllCheckIns() = runBlocking {
+    fun traceLocationCheckInDaoShouldSuccessfullyDeleteAllCheckIns() = runTest {
         val checkInsFlow = checkInDao.allEntries()
 
         checkInDao.insert(testCheckIn)
@@ -87,7 +87,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoRetrieveById() = runBlocking {
+    fun traceLocationCheckInDaoRetrieveById() = runTest {
         val generatedId1 = checkInDao.insert(testCheckIn)
         val generatedId2 = checkInDao.insert(testCheckIn)
 
@@ -96,7 +96,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoDeleteById() = runBlocking {
+    fun traceLocationCheckInDaoDeleteById() = runTest {
         val generatedId1 = checkInDao.insert(testCheckIn)
         val generatedId2 = checkInDao.insert(testCheckIn)
 
@@ -106,7 +106,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoUpdateById() = runBlocking {
+    fun traceLocationCheckInDaoUpdateById() = runTest {
         val generatedId1 = checkInDao.insert(testCheckIn)
 
         checkInDao.updateEntityById(generatedId1) {
@@ -116,7 +116,7 @@ class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
     }
 
     @Test
-    fun traceLocationCheckInDaoUpdateById_raceCondition1(): Unit = runBlocking {
+    fun traceLocationCheckInDaoUpdateById_raceCondition1(): Unit = runTest {
         shouldThrow<IllegalStateException> {
             checkInDao.updateEntityById(123) {
                 mockk()

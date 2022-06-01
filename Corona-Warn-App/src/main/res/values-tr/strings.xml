@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son %d günü kapsar."</string>
+    <string name="risk_details_information_body_period_logged">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son %d günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir. Maruz kalma günlüğü check-in\'lerinizi de hesaba katar. Koronavirüs tanısı almış bir kişiyle aynı anda ya da koronavirüs tanısı almış bir kişiden 30 dakika sonra aynı yerde bulunmuşsanız size uyarı verilir."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Corona-Warn-App bugün yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -709,7 +709,7 @@
     <!-- XHED: Subtitle for about information page -->
     <string name="information_about_headline">"Koronavirüs ile birlikte mücadele edelim"</string>
     <!-- YTXT: Body text for about information page -->
-    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, daha önce açıklanan kamu sağlığı önlemlerine ilişkin dijital bir tamamlayıcı niteliğindedir: sosyal mesafe, hijyen uygulamaları ve yüz maskeleri."</string>
+    <string name="information_about_body_emphasized">"Robert Koch Institute (RKI), Almanya\'nın federal kamu sağlığı kurumudur. RKI, Federal Hükûmet adına Corona-Warn-App uygulamasını yayınlamaktadır. Uygulama, yüz maskeleri takma ve sosyal mesafe uygulama gibi hijyen önlemlerine ilişkin dijital bir tamamlayıcı niteliğindedir."</string>
     <!-- YTXT: Body text for about information page -->
     <string name="information_about_body">"Uygulamayı kullanan kişiler, enfeksiyon zincirlerinin takip edilmesine ve kırılmasına yardımcı olur. Uygulama, diğer kişilerle karşılaşmaları cihazınızda yerel olarak kaydeder. Daha sonra koronavirüs tanısı konan kişilerle karşılaşmışsanız size bildirim gönderilir. Kimliğiniz ve gizliliğiniz daima koruma altındadır."</string>
     <!-- XACT: describes illustration -->
@@ -773,7 +773,7 @@
     <!-- YTXT: subtitle for legal information page, publisher section -->
     <string name="information_legal_subtitle_publisher">"(§ 5 (1) TMG, § 18 (1) MStV uyarınca sorumludur)"</string>
     <!-- YTXT: body for legal information page, publisher section -->
-    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"Başkanı tarafından temsil edilir"</string>
+    <string name="information_legal_body_publisher">"Robert Koch Institute"<xliff:g id="line_break">"\n"</xliff:g>"Nordufer 20"<xliff:g id="line_break">"\n"</xliff:g>"13353 Berlin, Almanya"<xliff:g id="line_break">"\n"</xliff:g><xliff:g id="line_break">"\n"</xliff:g>"başkanı tarafından temsil edilir"</string>
     <!-- XHED: Headline for legal information page, contact section -->
     <string name="information_legal_headline_contact">"İletişim"</string>
     <!-- YTXT: subtitle for legal information page, contact section -->
@@ -1800,6 +1800,12 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"İptal"</string>
 
+    <!-- XHED: Title of scanner app shortcut -->
+    <string name="app_shortcut_scanner_title">"QR Kodları Tara"</string>
+    <!-- XHED: Title of certificates app shortcut -->
+    <string name="app_shortcut_certificates_title">"Sertifikaları Görüntüle"</string>
+    <!-- XHED: Title of check-ins app shortcut -->
+    <string name="app_shortcut_check_ins_title">"Check-İn\'leri Görüntüle"</string>
     <!-- XHED: Title of contact diary app shortcut -->
     <string name="app_shortcut_contact_diary_title">"Giriş Ekle"</string>
 

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.familytest.ui.consent
 
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,7 +28,7 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
 
     val isSubmittable = combine(personName, registrationStateProcessor.state) { name, state ->
         name.isNotEmpty() && state !is TestRegistrationStateProcessor.State.Working
-    }.asLiveData()
+    }.asLiveData2()
 
     fun nameChanged(value: String) {
         personName.value = value

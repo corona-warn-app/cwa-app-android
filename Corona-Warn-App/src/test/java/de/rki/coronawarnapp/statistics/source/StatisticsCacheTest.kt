@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.statistics.source
 
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -53,10 +54,10 @@ class StatisticsCacheTest : BaseIOTest() {
     }
 
     @Test
-    fun `deleting data`() {
+    fun `reset cache`() = runTest {
         cacheFile.parentFile?.mkdirs()
         cacheFile.writeBytes(testData)
-        createInstance().save(null)
+        createInstance().reset()
         cacheFile.exists() shouldBe false
     }
 }

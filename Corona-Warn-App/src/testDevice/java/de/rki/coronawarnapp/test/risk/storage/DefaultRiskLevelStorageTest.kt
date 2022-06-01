@@ -21,7 +21,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -107,7 +107,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `we are NOT storing or cleaning up exposure windows`() = runBlockingTest {
+    fun `we are NOT storing or cleaning up exposure windows`() = runTest {
         val instance = createInstance()
         instance.storeResult(testRisklevelResult)
 

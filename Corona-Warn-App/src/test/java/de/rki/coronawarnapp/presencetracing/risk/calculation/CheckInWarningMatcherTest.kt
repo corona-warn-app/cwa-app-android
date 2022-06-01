@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -68,7 +68,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 checkIns = listOf(checkIn1, checkIn2),
                 warningPackages = listOf(warningPackage)
@@ -125,7 +125,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 checkIns = listOf(checkIn1, checkIn2),
                 warningPackages = listOf(warningPackage),
@@ -165,7 +165,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 warningPackages = listOf(warningPackage),
                 checkIns = listOf(checkIn1, checkIn2),
@@ -208,7 +208,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 checkIns = listOf(checkIn1, checkIn2),
                 warningPackages = listOf(warningPackage),
@@ -258,7 +258,7 @@ class CheckInWarningMatcherTest : BaseTest() {
             override val packageId: WarningPackageId = "id2"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 checkIns = listOf(checkIn1, checkIn2),
                 warningPackages = listOf(warningPackage1, warningPackage2),
@@ -315,7 +315,7 @@ class CheckInWarningMatcherTest : BaseTest() {
                 get() = "id"
         }
 
-        runBlockingTest {
+        runTest {
             val result = createInstance().process(
                 checkIns = listOf(checkIn1, checkIn2),
                 warningPackages = listOf(warningPackage)

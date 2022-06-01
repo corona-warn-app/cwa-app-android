@@ -44,15 +44,17 @@ class DccWalletInfoCalculation @Inject constructor(
         admissionScenarioId: String = "",
         dateTime: DateTime = DateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
+        val input = getDccWalletInfoInput(
+            dccList = dccList,
+            boosterNotificationRules = boosterRulesNode,
+            defaultInputParameters = getDefaultInputParameters(dateTime),
+            scenarioIdentifier = admissionScenarioId,
+            invalidationRules = invalidationRulesNode
+        ).toJsonNode()
+
         val output = cclJsonFunctions.evaluateFunction(
             "getDccWalletInfo",
-            getDccWalletInfoInput(
-                dccList = dccList,
-                boosterNotificationRules = boosterRulesNode,
-                defaultInputParameters = getDefaultInputParameters(dateTime),
-                scenarioIdentifier = admissionScenarioId,
-                invalidationRules = invalidationRulesNode
-            ).toJsonNode()
+            input
         )
 
         mapper.treeToValue(output, DccWalletInfo::class.java)
@@ -100,7 +102,6 @@ class DccWalletInfoCalculation @Inject constructor(
     }
 
     private fun DccWalletInfoInput.toJsonNode(): JsonNode = mapper.valueToTree(this)
-
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
     private fun List<DccValidationRule>.toJsonNode(): JsonNode = gson.toJson(this).toJsonNode()
 }

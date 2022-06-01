@@ -1,14 +1,12 @@
 package de.rki.coronawarnapp.appconfig.sources.remote
 
-import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
 import de.rki.coronawarnapp.http.HttpModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockResponse
@@ -21,8 +19,6 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 
 class AppConfigApiTest : BaseIOTest() {
-
-    @MockK private lateinit var context: Context
 
     private lateinit var webServer: MockWebServer
     private lateinit var serverAddress: String
@@ -58,7 +54,7 @@ class AppConfigApiTest : BaseIOTest() {
             .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS))
             .build()
 
-        return AppConfigModule().provideAppConfigApi(
+        return AppConfigModule.provideAppConfigApi(
             client = cdnHttpClient,
             url = serverAddress,
             gsonConverterFactory = gsonConverterFactory,
@@ -72,7 +68,7 @@ class AppConfigApiTest : BaseIOTest() {
 
         webServer.enqueue(MockResponse().setBody("~appconfig"))
 
-        runBlocking {
+        runTest {
             api.getApplicationConfiguration().apply {
                 body()!!.string() shouldBe "~appconfig"
             }

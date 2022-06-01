@@ -10,8 +10,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -40,7 +40,7 @@ class DiaryEncounterCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring replaces the logline message`() = runBlockingTest {
+    fun `censoring replaces the logline message`() = runTest {
         every { diaryRepo.personEncounters } returns flowOf(
             listOf(
                 mockEncounter(1, _circumstances = ""),
@@ -56,6 +56,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             two persons Spilled coffee on each others laptops,
             everyone disliked that.
             """.trimIndent()
+        advanceUntilIdle()
 
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
@@ -66,7 +67,7 @@ class DiaryEncounterCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring should still work after encounters are deleted`() = runBlockingTest {
+    fun `censoring should still work after encounters are deleted`() = runTest {
         every { diaryRepo.personEncounters } returns flowOf(
             listOf(
                 mockEncounter(1, _circumstances = ""),
@@ -87,6 +88,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             two persons Spilled coffee on each others laptops,
             everyone disliked that.
             """.trimIndent()
+        advanceUntilIdle()
 
         instance.checkLog(censorMe)!!.compile()!!.censored shouldBe
             """
@@ -97,7 +99,7 @@ class DiaryEncounterCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if all circumstances are blank`() = runBlockingTest {
+    fun `censoring returns null if all circumstances are blank`() = runTest {
         every { diaryRepo.personEncounters } returns flowOf(listOf(mockEncounter(1, _circumstances = "")))
         val instance = createInstance(this)
         val notCensored = "That was strange."
@@ -105,7 +107,7 @@ class DiaryEncounterCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if there are no locations no match`() = runBlockingTest {
+    fun `censoring returns null if there are no locations no match`() = runTest {
         every { diaryRepo.personEncounters } returns flowOf(emptyList())
 
         val instance = createInstance(this)
@@ -115,7 +117,7 @@ class DiaryEncounterCensorTest : BaseTest() {
     }
 
     @Test
-    fun `censoring returns null if the message did not change`() = runBlockingTest {
+    fun `censoring returns null if the message did not change`() = runTest {
         every { diaryRepo.personEncounters } returns flowOf(
             listOf(
                 mockEncounter(1, _circumstances = "March weather"),
@@ -148,7 +150,7 @@ class DiaryEncounterCensorTest : BaseTest() {
             Runtime.getRuntime().exit(1)
         }
 
-        runBlocking {
+        runTest {
             val instance = createInstance(this)
 
             val processedLine = try {

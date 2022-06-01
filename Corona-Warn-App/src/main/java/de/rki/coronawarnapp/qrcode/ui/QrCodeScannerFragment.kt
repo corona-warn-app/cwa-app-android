@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -48,7 +49,10 @@ import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
+
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
+
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
     private var showsPermissionDialog = false
@@ -58,6 +62,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
         Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
+        appShortcutsHelper.initShortcuts()
         when {
             isGranted -> startDecode()
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> showCameraPermissionRationaleDialog()
