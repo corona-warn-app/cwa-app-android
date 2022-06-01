@@ -37,6 +37,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
                         updateTEKHistoryOrRequestPermission()
                     } else {
                         Timber.tag(TAG).w("Can't start TEK update, tracing permission was declined.")
+                        callback.onTEKPermissionDeclined()
                     }
                 }
 

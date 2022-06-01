@@ -39,13 +39,13 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
     private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
-    private val consentFlow = coronaTestFlow
+    private val consentGivenFlow = coronaTestFlow
         .map {
             if (it is PersonalCoronaTest) {
                 it.isAdvancedConsentGiven
             } else false
         }
-    val consent = consentFlow.asLiveData(dispatcherProvider.Default)
+    val consent = consentGivenFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
     val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
@@ -130,9 +130,9 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     }
 
     fun proceed() {
-        showKeysRetrievalProgress.value = true
         launch {
-            if (consentFlow.first()) {
+            if (consentGivenFlow.first()) {
+                showKeysRetrievalProgress.postValue(true)
                 Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission")
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
@@ -141,7 +141,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     if (it is PersonalCoronaTest)
                         analyticsKeySubmissionCollector.reportConsentWithdrawn(it.type)
                 }
-                showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
