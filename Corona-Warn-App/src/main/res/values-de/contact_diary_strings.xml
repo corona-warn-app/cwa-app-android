@@ -69,7 +69,7 @@
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body_extended">"Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen."</string>
     <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
-    <string name="contact_diary_trace_location_risk_body">"aufgrund ihrer Anwesenheit bei:"</string>
+    <string name="contact_diary_trace_location_risk_body">"aufgrund Ihrer Anwesenheit bei:"</string>
     <!-- XTXT: Indicates this trace location caused a high risk  -->
     <string name="contact_diary_trace_location_risk_high">"erhöhtes Risiko"</string>
     <!-- XTXT: Indicates this trace location caused a lows risk -->
