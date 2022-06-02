@@ -33,17 +33,17 @@ class TracingSettings @Inject constructor(
         value = isConsentGiven
     )
 
-    @Deprecated("Use CoronaTestRepository")
+    //region needed for migration ONLY. Use CoronaTestRepository
     suspend fun isTestResultAvailableNotificationSentMigration() = dataStore.getValueOrDefault(
         preferencesKey = TEST_RESULT_NOTIFICATION_SENT,
         defaultValue = false
     )
 
-    @Deprecated("Use CoronaTestRepository")
     suspend fun updateTestResultAvailableNotificationSentMigration(sent: Boolean) = dataStore.trySetValue(
         preferencesKey = TEST_RESULT_NOTIFICATION_SENT,
         value = sent
     )
+    //endregion needed for migration ONLY.
 
     val isUserToBeNotifiedOfLoweredRiskLevel = dataStore.dataRecovering.distinctUntilChanged(
         key = LOWERED_RISK_LEVEL,

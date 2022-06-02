@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.await
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

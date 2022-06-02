@@ -7,17 +7,14 @@ import retrofit2.http.Path
 import retrofit2.http.Streaming
 
 interface DiagnosisKeyApiV1 {
-    // TODO Let retrofit format this to CountryCode
     @GET("/version/v1/diagnosis-keys/country")
     suspend fun getLocationIndex(): List<String>
 
-    // TODO Let retrofit format this to LocalDate
     @GET("/version/v1/diagnosis-keys/country/{country}/date")
     suspend fun getDayIndex(
         @Path("country") country: String
     ): List<String>
 
-    // TODO Let retrofit format this to LocalTime
     @GET("/version/v1/diagnosis-keys/country/{country}/date/{day}/hour")
     suspend fun getHourIndex(
         @Path("country") country: String,

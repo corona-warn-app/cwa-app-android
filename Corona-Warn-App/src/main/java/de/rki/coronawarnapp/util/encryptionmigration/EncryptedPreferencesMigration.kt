@@ -63,13 +63,13 @@ class EncryptedPreferencesMigration @Inject constructor(
             )
             onboardingSettings.updateBackgroundCheckDone(isDone = isBackgroundCheckDone())
         }
-        @Suppress("DEPRECATION")
+
         TracingLocalData(encryptedSharedPreferences).apply {
             tracingSettings.updateTestResultAvailableNotificationSentMigration(isTestResultAvailableNotificationSent())
             tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(isUserToBeNotifiedOfLoweredRiskLevel())
             tracingSettings.updateConsentGiven(isConsentGiven = initialTracingActivationTimestamp() != 0L)
         }
-        @Suppress("DEPRECATION")
+
         SubmissionLocalData(encryptedSharedPreferences).apply {
             submissionSettings.registrationTokenMigration = registrationToken()
             submissionSettings.initialTestResultReceivedAtMigration =

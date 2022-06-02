@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first

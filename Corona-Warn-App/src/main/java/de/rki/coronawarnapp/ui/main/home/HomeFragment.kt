@@ -250,9 +250,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
-                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(
-                    event.identifier
-                )
+                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultKeysSharedFragment(

@@ -27,7 +27,6 @@ class BackgroundNoiseOneTimeWorker @AssistedInject constructor(
         try {
             playbook.dummy()
         } catch (e: Exception) {
-            // TODO: Should we even retry here?
             result = if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
                 Result.failure()
             } else {
