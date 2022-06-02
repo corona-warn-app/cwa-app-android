@@ -99,12 +99,12 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     fun refreshData() {
         launch {
-            tracingRepository.refreshRiskLevel()
+            tracingRepository.attemptDiagnosisKeyDownloadAndEwRiskCalculation()
         }
     }
 
     fun updateRiskDetails() {
-        tracingRepository.refreshRiskResult()
+        tracingRepository.triggerRiskCalculation()
     }
 
     fun onItemClicked(item: DetailsItem) {

@@ -40,8 +40,6 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
 
         if (!submissionQuota.consumeQuota(1)) {
             Timber.e("No key files submitted because not enough quota available.")
-            // Needs discussion until armed, concerns: Hiding other underlying issues.
-//            return false
         }
 
         val keyFilesList = keyFiles.toList()

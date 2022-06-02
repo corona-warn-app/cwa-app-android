@@ -237,7 +237,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 Timber.e(e, "refreshTest failed")
                 errorEvent.postValue(e)
             }
-            tracingRepository.refreshRiskLevel()
+            tracingRepository.attemptDiagnosisKeyDownloadAndEwRiskCalculation()
         }
     }
 
@@ -481,7 +481,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
 
     private fun refreshRiskResult() {
-        tracingRepository.refreshRiskResult()
+        tracingRepository.triggerRiskCalculation()
     }
 
     private fun tracingStateItem(tracingState: TracingState) = when (tracingState) {

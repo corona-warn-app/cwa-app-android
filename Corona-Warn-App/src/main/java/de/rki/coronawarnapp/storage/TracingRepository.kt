@@ -90,7 +90,7 @@ class TracingRepository @Inject constructor(
         it.taskState.isActive && it.taskState.request.type == EwRiskLevelTask::class
     }
 
-    fun refreshRiskResult() = scope.launch {
+    fun triggerRiskCalculation() = scope.launch {
         Timber.tag(TAG).d("refreshRiskResults()")
 
         exposureWindowRiskWorkScheduler.runRiskTasksNow(sourceTag = TAG)
@@ -101,7 +101,7 @@ class TracingRepository @Inject constructor(
      * Launches the RetrieveDiagnosisKeysTransaction and RiskLevelTransaction in the viewModel scope
      */
     // TODO temp place, this needs to go somewhere better
-    suspend fun refreshRiskLevel() {
+    suspend fun attemptDiagnosisKeyDownloadAndEwRiskCalculation() {
         // check if the network is enabled to make the server fetch
         val isNetworkEnabled = networkStateProvider.networkState.first().isInternetAvailable
 
