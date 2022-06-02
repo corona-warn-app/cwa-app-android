@@ -41,11 +41,11 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import timber.log.Timber
@@ -58,8 +58,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     contactDiaryRepository: ContactDiaryRepository,
     riskLevelStorage: RiskLevelStorage,
-    private val timeStamper: TimeStamper,
     checkInRepository: CheckInRepository,
+    private val timeStamper: TimeStamper,
     private val exporter: ContactDiaryExporter
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -79,9 +79,17 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         action = { datesFlow.value = dates() }
     )
 
-    private val locationVisitsFlow = contactDiaryRepository.locationVisits
-    private val personEncountersFlow = contactDiaryRepository.personEncounters
-    private val testResultsFlow = contactDiaryRepository.testResults
+    private val diaryDataFlow = combine(
+        contactDiaryRepository.locationVisits,
+        contactDiaryRepository.personEncounters,
+        contactDiaryRepository.testResults
+    ) { locationVisits, personEncounters, testResults ->
+        DiaryData(
+            locationVisits = locationVisits,
+            personEncounters = personEncounters,
+            testResults = testResults
+        )
+    }
 
     private val riskLevelPerDateFlow = riskLevelStorage.ewDayRiskStates
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
@@ -89,29 +97,25 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     val listItems = combine(
         datesFlow,
-        locationVisitsFlow,
-        personEncountersFlow,
+        diaryDataFlow,
         riskLevelPerDateFlow,
         traceLocationCheckInRiskFlow,
         checkInsWithinRetentionFlow,
-        testResultsFlow
     ) { dateList,
-        locationVisits,
-        personEncounters,
+        diaryData,
         riskLevelPerDateList,
         traceLocationCheckInRiskList,
-        checkInList,
-        testResults ->
+        checkInList ->
         mutableListOf<DiaryOverviewItem>().apply {
             add(OverviewSubHeaderItem)
             addAll(
                 dateList.createListItemList(
-                    locationVisits,
-                    personEncounters,
+                    diaryData.locationVisits,
+                    diaryData.personEncounters,
                     riskLevelPerDateList,
                     traceLocationCheckInRiskList,
                     checkInList,
-                    testResults
+                    diaryData.testResults
                 )
             )
         }.toList()
@@ -345,19 +349,17 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             }
         }
 
-    fun onExportPress() {
+    fun onExportPress() = launch {
         Timber.d("Exporting person and location entries")
-        launch {
-
-            val export = exporter.createExport(
-                personEncountersFlow.first(),
-                locationVisitsFlow.first(),
-                testResultsFlow.first(),
+        val export = with(diaryDataFlow.first()) {
+            exporter.createExport(
+                personEncounters,
+                locationVisits,
+                testResults,
                 DAY_COUNT.toInt()
             )
-
-            exportLocationsAndPersons.postValue(export)
         }
+        exportLocationsAndPersons.postValue(export)
     }
 
     override fun onCleared() {
@@ -372,4 +374,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         // Today + 14 days
         const val DAY_COUNT = 15L
     }
+
+    private data class DiaryData(
+        val locationVisits: List<ContactDiaryLocationVisit>,
+        val personEncounters: List<ContactDiaryPersonEncounter>,
+        val testResults: List<ContactDiaryCoronaTestEntity>
+    )
 }

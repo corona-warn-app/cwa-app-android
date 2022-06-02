@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.http.CwaClientError
-import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
@@ -175,13 +174,8 @@ class OrganizerPlaybook @Inject constructor(
             ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_CLIENT_ERROR
             ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_CLIENT_ERROR
         }
-        // HTTP status code 5XX
-        is CwaServerError -> when (type) {
-            ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
-            ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR
-            ErrorType.SUBMISSION -> OrganizerSubmissionException.ErrorCode.SUBMISSION_OB_SERVER_ERROR
-        }
-        // Blame the server ¯\_(ツ)_/¯
+
+        // Blame the server ¯\_(ツ)_/¯ or  HTTP status code 5XX
         else -> when (type) {
             ErrorType.REG_TOKEN -> OrganizerSubmissionException.ErrorCode.REGTOKEN_OB_SERVER_ERROR
             ErrorType.TAN -> OrganizerSubmissionException.ErrorCode.TAN_OB_SERVER_ERROR

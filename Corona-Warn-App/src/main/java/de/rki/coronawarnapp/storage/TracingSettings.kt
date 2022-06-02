@@ -27,19 +27,19 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
             putBoolean(TRACING_ACTIVATION_TIMESTAMP, value)
         }
 
-    @Deprecated("Use CoronaTestRepository")
+    //region needed for migration ONLY. Use CoronaTestRepository
     var initialPollingForTestResultTimeStampMigration: Long
         get() = prefs.getLong(TRACING_POOLING_TIMESTAMP, 0L)
         set(value) = prefs.edit(true) {
             putLong(TRACING_POOLING_TIMESTAMP, value)
         }
 
-    @Deprecated("Use CoronaTestRepository")
     var isTestResultAvailableNotificationSentMigration: Boolean
         get() = prefs.getBoolean(TEST_RESULT_NOTIFICATION_SENT, false)
         set(value) = prefs.edit(true) {
             putBoolean(TEST_RESULT_NOTIFICATION_SENT, value)
         }
+    //endregion needed for migration ONLY.
 
     val isUserToBeNotifiedOfLoweredRiskLevel = prefs.createFlowPreference(
         key = LOWERED_RISK_LEVEL,

@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayR
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
