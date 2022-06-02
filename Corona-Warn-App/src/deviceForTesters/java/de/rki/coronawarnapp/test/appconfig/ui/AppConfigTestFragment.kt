@@ -31,7 +31,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
         super.onViewCreated(view, savedInstanceState)
 
         vm.currentConfig.observe2(this) { data ->
-            binding.currentConfiguration.text = data.rawConfig.toString()
+            binding.currentConfiguration.text = data.toString()
             binding.lastUpdate.text = timeFormatter.format(data.updatedAt)
             binding.timeOffset.text =
                 """

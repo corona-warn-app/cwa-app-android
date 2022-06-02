@@ -98,14 +98,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 )
             )
             test.isNegative -> when (test.type) {
-                BaseCoronaTest.Type.PCR -> routeToScreen.postValue(
-                    DuplicateWarningEvent.Direction(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
-                                testIdentifier = request.identifier
-                            )
-                    )
-                )
+                BaseCoronaTest.Type.PCR,
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> routeToScreen.postValue(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
