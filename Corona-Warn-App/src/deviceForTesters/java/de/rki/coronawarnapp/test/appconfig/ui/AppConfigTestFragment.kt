@@ -32,7 +32,7 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
 
         vm.currentConfig.observe2(this) { data ->
             binding.currentConfiguration.text = data.rawConfig.toString()
-            binding.lastUpdate.text = timeFormatter.format(data.updatedAt)
+            binding.lastUpdate.text = data.updatedAt.toString()
             binding.timeOffset.text =
                 """
             ${data.localOffset.toMillis()}ms
