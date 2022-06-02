@@ -92,7 +92,7 @@ object TimeAndDateExtensions {
         TimeUnit.MILLISECONDS.toSeconds(this) % TimeUnit.MINUTES.toSeconds(1)
     )
 
-    fun LocalDate.toDate(): Date = Date(this.year, this.monthValue, this.dayOfYear)
+    fun LocalDate.toDate(): Date = Date.from(this.toInstantMidnightUtc())
 
     fun LocalDateTime.toDate(): Date = Date(this.year, this.monthValue, this.dayOfYear)
 

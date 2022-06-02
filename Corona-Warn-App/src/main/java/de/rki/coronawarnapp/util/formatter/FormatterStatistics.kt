@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import java.text.DateFormat
 import java.time.Instant
@@ -35,7 +36,7 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
         is OccupiedIntensiveCareStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_today)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> dateTimeFormatter.format(updatedAtDate)
+            else -> dateTimeFormatter.format(updatedAtDate.toDate())
         }
         is PersonsVaccinatedOnceStats,
         is IncidenceAndHospitalizationStats,
@@ -43,12 +44,15 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
         is PersonsVaccinatedWithBoosterStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
+            else -> context.getString(
+                R.string.statistics_primary_value_until,
+                dateTimeFormatter.format(updatedAtDate.toDate())
+            )
         }
         is SevenDayRValue -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_current)
             yesterday -> context.getString(R.string.statistics_primary_value_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
+            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate.toDate()))
         }
     }
 }
@@ -62,7 +66,10 @@ fun getSecondaryLabel(context: Context, updatedAt: Instant): String {
     return when (updatedAtDate) {
         today -> context.getString(R.string.statistics_primary_value_until_today)
         yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-        else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
+        else -> context.getString(
+            R.string.statistics_primary_value_until,
+            dateTimeFormatter.format(updatedAtDate.toDate())
+        )
     }
 }
 
@@ -76,7 +83,10 @@ fun LocalStatsItem.getPrimaryLabel(context: Context, localUpdatedAt: Instant = u
         is LocalIncidenceAndHospitalizationStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
-            else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.format(updatedAtDate))
+            else -> context.getString(
+                R.string.statistics_primary_value_until,
+                dateTimeFormatter.format(updatedAtDate.toDate())
+            )
         }
     }
 }
