@@ -37,7 +37,7 @@
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">Informationen</string>
     <!-- XTXT: Green certificate menu item -->
-    <string name="menu_certification_all">Alle exportieren</string>
+    <string name="menu_export_all">Alle exportieren</string>
 
     <!-- XTXT: Test certificate time -->
     <!-- XTXT: Test certificate registration time -->

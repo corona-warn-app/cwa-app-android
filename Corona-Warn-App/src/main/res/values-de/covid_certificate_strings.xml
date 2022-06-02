@@ -348,4 +348,9 @@
     <string name="certificate_migration_dialog_title">Zuordnung von Zertifikaten</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">Die Gruppierung von Zertifikaten wurde verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">Zertifikate Exportieren</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">In einem Schritt alle Ihre Zertifikate in einem gemeinsamen PDF-Dokument speichern</string>
 </resources>

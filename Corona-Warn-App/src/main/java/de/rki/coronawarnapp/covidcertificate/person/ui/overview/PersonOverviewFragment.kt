@@ -56,6 +56,10 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         viewModel.uiState.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.admissionTile.observe(viewLifecycleOwner) { binding.admissionContainer.bindAdmissionTile(it) }
+        viewModel.isExportAllTooltipVisible.observe(viewLifecycleOwner) { visible ->
+            binding.exportTooltip.root.isVisible = visible
+        }
+        binding.exportTooltip.close.setOnClickListener { viewModel.dismissExportAllToolTip() }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
@@ -161,6 +165,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         when (uiState) {
             is PersonOverviewViewModel.UiState.Done -> {
                 emptyLayout.isVisible = uiState.personCertificates.isEmpty()
+                toolbar.menu.findItem(R.id.menu_export_all).isVisible = uiState.personCertificates.isNotEmpty()
                 recyclerView.isGone = uiState.personCertificates.isEmpty()
                 personOverviewAdapter.update(uiState.personCertificates)
                 loadingLayoutGroup.isVisible = false

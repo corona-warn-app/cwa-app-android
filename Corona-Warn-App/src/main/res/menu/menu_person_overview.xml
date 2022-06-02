@@ -6,7 +6,7 @@
     <item
         android:id="@+id/menu_export_all"
         android:icon="@drawable/ic_export_all"
-        android:title="@string/menu_certification_information"
+        android:title="@string/menu_export_all"
         app:showAsAction="always" />
 
     <item

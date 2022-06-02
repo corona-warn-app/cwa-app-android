@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -38,10 +39,18 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val format: CclTextFormatter,
     private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
-    private val migrationCheck: MigrationCheck
+    private val migrationCheck: MigrationCheck,
+    private val onboardingSettings: OnboardingSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
+
+    val isExportAllTooltipVisible = combine(
+        onboardingSettings.exportAllOnboardingDone.flow,
+        certificatesProvider.personCertificates
+    ) { done, personCerts ->
+        !done && personCerts.isNotEmpty()
+    }.asLiveData2()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
         certificatesProvider.personCertificates,
@@ -139,6 +148,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 events.postValue(OpenAdmissionScenarioScreen)
             }
     }
+
+    fun dismissExportAllToolTip() = onboardingSettings.exportAllOnboardingDone.update { true }
 
     sealed class UiState {
         object Loading : UiState()
