@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragment
 import de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragmentModule
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewFragment
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewModule
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterFragment
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenarioFragmentModule
@@ -62,4 +64,7 @@ abstract class DigitalCovidCertificateUIModule {
 
     @ContributesAndroidInjector(modules = [AdmissionScenarioFragmentModule::class])
     abstract fun admissionScenariosFragment(): AdmissionScenariosFragment
+
+    @ContributesAndroidInjector(modules = [DccExportAllOverviewModule::class])
+    abstract fun dccExportAllOverviewFragment(): DccExportAllOverviewFragment
 }
