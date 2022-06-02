@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.appconfig.CoronaRapidAntigenTestParametersContainer
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.appconfig.CoronaTestConfigContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid.ApplicationConfigurationAndroid
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,10 +28,10 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
         val coronaRapidAntigenTestParameters = if (coronaTestParameters.hasCoronaRapidAntigenTestParameters()) {
             val coronaRapidAntigenTestParameters = coronaTestParameters.coronaRapidAntigenTestParameters
             CoronaRapidAntigenTestParametersContainer(
-                hoursToDeemTestOutdated = Duration.standardHours(
+                hoursToDeemTestOutdated = Duration.ofHours(
                     coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
                 ),
-                durationToShowRiskCard = Duration.standardHours(
+                durationToShowRiskCard = Duration.ofHours(
                     coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard.toLong()
                 )
             )
@@ -42,7 +42,7 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
 
         val coronaPCRTestParameters = if (coronaTestParameters.hasCoronaPCRTestParameters()) {
             CoronaPCRTestParametersContainer(
-                durationToShowRiskCard = Duration.standardHours(
+                durationToShowRiskCard = Duration.ofHours(
                     coronaTestParameters.coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard.toLong()
                 )
             )

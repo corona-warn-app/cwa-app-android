@@ -186,8 +186,6 @@ class TraceWarningPackageSyncTool @Inject constructor(
 
     companion object {
         private const val TAG = "TraceWarningSyncTool"
-
-        // TODO check size
         private const val APPROX_FILE_SIZE = 22 * 1024L // ~22KB
     }
 }

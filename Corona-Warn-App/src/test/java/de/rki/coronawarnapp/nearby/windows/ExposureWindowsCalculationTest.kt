@@ -39,7 +39,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeConstants
-import org.joda.time.Duration
+import java.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -325,8 +325,8 @@ class ExposureWindowsCalculationTest : BaseTest() {
     private fun setupTestConfiguration(json: DefaultRiskCalculationConfiguration) {
 
         testConfig = ConfigDataContainer(
-            serverTime = Instant.now(),
-            cacheValidity = Duration.standardMinutes(5),
+            serverTime = java.time.Instant.now(),
+            cacheValidity = Duration.ofMinutes(5),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
             identifier = "soup",

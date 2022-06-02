@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -24,14 +25,10 @@ interface VaccinationCertificate : CwaCovidCertificate {
 
     override val rawCertificate: VaccinationDccV1
 
-    val isSeriesCompletingShot get() = doseNumber >= totalSeriesOfDoses
+    val isSeriesCompletingShot get() = rawCertificate.isSeriesCompletingShot
 
     companion object {
-        const val BIONTECH = "EU/1/20/1528"
-        const val ASTRA = "EU/1/21/1529"
-        const val MODERNA = "EU/1/20/1507"
-        const val JOHNSON = "EU/1/20/1525"
-        val ONE_SHOT_VACCINES get() = setOf(JOHNSON)
-        val TWO_SHOT_VACCINES get() = setOf(BIONTECH, ASTRA, MODERNA)
+        val iconComplete = R.drawable.ic_vaccination_immune
+        val iconIncomplete = R.drawable.ic_vaccination_incomplete
     }
 }

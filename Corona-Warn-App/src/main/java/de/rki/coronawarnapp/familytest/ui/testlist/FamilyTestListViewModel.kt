@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -111,7 +111,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,
@@ -141,7 +141,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
         }
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,

@@ -10,7 +10,7 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Duration
+import java.time.Duration
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -54,9 +54,9 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             )
             .build()
         createInstance().map(config).apply {
-            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(60)
-            testCertificate.waitForRetry shouldBe Duration.standardSeconds(60)
-            expirationThreshold shouldBe Duration.standardDays(13)
+            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.ofSeconds(60)
+            testCertificate.waitForRetry shouldBe Duration.ofSeconds(60)
+            expirationThreshold shouldBe Duration.ofDays(13)
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }
@@ -94,9 +94,9 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             .build()
 
         createInstance().map(config).apply {
-            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
-            testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
-            expirationThreshold shouldBe Duration.standardDays(14)
+            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.ofSeconds(10)
+            testCertificate.waitForRetry shouldBe Duration.ofSeconds(10)
+            expirationThreshold shouldBe Duration.ofDays(14)
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }
@@ -115,9 +115,9 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             )
             .build()
         createInstance().map(config).apply {
-            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
-            testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
-            expirationThreshold shouldBe Duration.standardDays(14)
+            testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.ofSeconds(10)
+            testCertificate.waitForRetry shouldBe Duration.ofSeconds(10)
+            expirationThreshold shouldBe Duration.ofDays(14)
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }

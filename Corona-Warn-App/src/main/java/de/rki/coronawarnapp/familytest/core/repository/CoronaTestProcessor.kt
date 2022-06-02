@@ -112,19 +112,11 @@ class CoronaTestProcessor @Inject constructor(
                 )
             }
 
-            is CoronaTestQRCode.RapidPCR -> RegistrationRequest(
+            is CoronaTestQRCode.Rapid -> RegistrationRequest(
                 key = qrCode.registrationIdentifier,
                 dateOfBirthKey = null,
                 type = VerificationKeyType.GUID
             )
-
-            is CoronaTestQRCode.RapidAntigen -> RegistrationRequest(
-                key = qrCode.registrationIdentifier,
-                dateOfBirthKey = null,
-                type = VerificationKeyType.GUID
-            )
-
-            else -> throw IllegalArgumentException("CoronaTestProcessor: Unknown test request: $qrCode")
         }
     }
 

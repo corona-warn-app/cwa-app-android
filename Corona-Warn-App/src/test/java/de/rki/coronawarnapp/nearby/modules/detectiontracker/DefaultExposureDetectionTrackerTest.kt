@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -41,11 +42,12 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.toJavaInstant()
         coEvery { storage.load() } returns emptyMap()
         coEvery { storage.save(any()) } just Runs
 
         coEvery { configProvider.currentConfig } returns flowOf(appConfigData)
-        every { appConfigData.overallDetectionTimeout } returns Duration.standardMinutes(15)
+        every { appConfigData.overallDetectionTimeout } returns java.time.Duration.ofMinutes(15)
     }
 
     private fun createInstance(scope: CoroutineScope) = DefaultExposureDetectionTracker(
@@ -199,6 +201,9 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
             .plus(Duration.standardMinutes(15))
             .plus(2)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+            .plus(Duration.standardMinutes(15))
+            .plus(2).toJavaInstant()
 
         // First half will be in the timeout, last half will be ok
         val timeoutOnRunningCalc = TrackedExposureDetection(

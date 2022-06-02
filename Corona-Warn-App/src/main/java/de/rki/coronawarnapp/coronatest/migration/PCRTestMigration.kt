@@ -57,7 +57,6 @@ class PCRTestMigration @Inject constructor(
         val hasGivenConsent = submissionSettings.hasGivenConsentMigration
         Timber.tag(TAG).v("hasGivenConsent=%s", hasGivenConsent)
 
-        // TODO per test ?
         val testResultNotificationSent = tracingSettings.isTestResultAvailableNotificationSentMigration
         Timber.tag(TAG).v("testResultNotificationSent=%s", testResultNotificationSent)
 

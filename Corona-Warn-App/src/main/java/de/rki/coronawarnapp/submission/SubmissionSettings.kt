@@ -39,38 +39,34 @@ class SubmissionSettings @Inject constructor(
         context.getSharedPreferences("submission_localdata", Context.MODE_PRIVATE)
     }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
+    //region Needed for migration ONLY. Use CoronaTestRepository
     var registrationTokenMigration: String?
         get() = prefs.getString(TEST_REGISTRATION_TOKEN, null)
         set(value) = prefs.edit { putString(TEST_REGISTRATION_TOKEN, value) }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     var initialTestResultReceivedAtMigration: Instant?
         get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.millis ?: 0L) }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     var devicePairingSuccessfulAtMigration: Instant?
         get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).toInstantOrNull()
         set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.millis ?: 0L) }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     var isSubmissionSuccessfulMigration: Boolean
         get() = prefs.getBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, false)
         set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, value) }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     var isAllowedToSubmitKeysMigration: Boolean
         get() = prefs.getBoolean(IS_KEY_SUBMISSION_ALLOWED, false)
         set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_ALLOWED, value) }
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     val hasGivenConsentMigration: Boolean
         get() = prefs.getBoolean(SUBMISSION_CONSENT_GIVEN, false)
 
-    @Deprecated("Only available for migration, use CoronaTestRepository!")
     val hasViewedTestResultMigration: Boolean
         get() = prefs.getBoolean(SUBMISSION_RESULT_VIEWED, false)
+
+    //endregion Needed for migration ONLY.
 
     val symptoms: FlowPreference<Symptoms?> = FlowPreference(
         prefs,
@@ -111,21 +107,6 @@ class SubmissionSettings @Inject constructor(
 
     fun deleteLegacyTestData() {
         Timber.d("deleteLegacyTestData()")
-// Sourced from the behavior of SubmissionRepository.removeTestFromDevice()
-//        fun removeTestFromDevice() {
-//            submissionSettings.hasViewedTestResult.update { false }
-//            submissionSettings.hasGivenConsent.update { false }
-//            revokeConsentToSubmission()
-//            submissionSettings.registrationToken.update { null }
-//            submissionSettings.devicePairingSuccessfulAt = null
-//            tracingSettings.initialPollingForTestResultTimeStamp = 0L
-//            submissionSettings.initialTestResultReceivedAt = null
-//            submissionSettings.isAllowedToSubmitKeys = false
-//            tracingSettings.isTestResultAvailableNotificationSent = false
-//            submissionSettings.isSubmissionSuccessful = false
-//            testResultDataCollector.clear()
-//        }
-
         prefs.edit {
             remove(SUBMISSION_RESULT_VIEWED)
             remove(TEST_REGISTRATION_TOKEN)

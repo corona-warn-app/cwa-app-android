@@ -13,8 +13,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.DateTimeZone
-import org.joda.time.format.ISODateTimeFormat
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
@@ -25,19 +24,18 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
 
     private val binding: FragmentTestAppconfigBinding by viewBinding()
 
-    private val timeFormatter = ISODateTimeFormat.dateTime()
-        .withZone(DateTimeZone.forID("Europe/Berlin"))
+    private val timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd - HH:mm:ss")
 
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         vm.currentConfig.observe2(this) { data ->
-            binding.currentConfiguration.text = data.rawConfig.toString()
-            binding.lastUpdate.text = timeFormatter.print(data.updatedAt)
+            binding.currentConfiguration.text = data.toString()
+            binding.lastUpdate.text = timeFormatter.format(data.updatedAt)
             binding.timeOffset.text =
                 """
-            ${data.localOffset.millis}ms
+            ${data.localOffset.toMillis()}ms
             configType=${data.configType}
             isDeviceTimeCorrect=${data.isDeviceTimeCorrect}
                 """.trimIndent()
