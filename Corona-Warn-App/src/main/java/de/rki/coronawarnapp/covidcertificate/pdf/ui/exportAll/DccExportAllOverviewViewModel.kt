@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
 import java.lang.StringBuilder
@@ -14,7 +13,7 @@ import java.lang.StringBuilder
 class DccExportAllOverviewViewModel @AssistedInject constructor(
     dispatcher: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    certificateTemplate: CertificateTemplate,
+    template: CertificateTemplate,
 ) : CWAViewModel(dispatcher) {
 
     val dccData = personCertificatesProvider.personCertificates.map { persons ->
@@ -22,7 +21,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
             .sortedBy { cert -> cert.fullNameFormatted }
             .toCertificateSortOrder()
             .map {
-                certificateTemplate.templateFor(it)
+                template.of(it).injectData(it, it.qrCodeToDisplay.content)
             }
 
         val certs = StringBuilder().apply {
