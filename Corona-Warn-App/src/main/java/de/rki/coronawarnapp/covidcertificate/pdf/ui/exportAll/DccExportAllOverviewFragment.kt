@@ -6,6 +6,7 @@ import android.view.View
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -17,6 +18,18 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
     private val viewModel by cwaViewModels<DccExportAllOverviewViewModel> { viewModelFactory }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        toolbar.setNavigationOnClickListener { popBackStack() }
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_print -> {
+                }
+
+                R.id.action_share -> {
+                }
+            }
+
+            true
+        }
         viewModel.dccData.observe(viewLifecycleOwner) { data ->
             webView.apply {
                 settings.loadWithOverviewMode = true
