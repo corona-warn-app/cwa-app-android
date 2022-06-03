@@ -135,7 +135,8 @@
         <rect x="14.9" y="51.8" class="st7_rc" width="124.7" height="47.8" />
         <text transform="matrix(-1 0 0 -1 139.5955 93.491)" class="st4_rc st8_rc st9_rc">$du</text>
         <rect x="14.3" y="115.7" class="st7_rc" width="125.9" height="23.2" />
-        <text transform="matrix(-1 0 0 -1 140.2859 132.8612)" class="st4_rc st8_rc st9_rc">$df</text>
+        <text transform="matrix(-1 0 0 -1 140.2859 132.8612)"
+            class="st4_rc st8_rc st9_rc">$df</text>
         <rect x="13.6" y="206.1" class="st7_rc" width="125.9" height="23.2" />
         <text transform="matrix(-1 0 0 -1 139.532 223.2108)" class="st4_rc st8_rc st9_rc">$co</text>
         <rect x="13.6" y="160.7" class="st7_rc" width="125.9" height="23.2" />
@@ -155,10 +156,13 @@
             <tspan x="-0.2" y="30" class="st4_rc st5_rc st9_rc">Testergebnisses):</tspan>
             <tspan x="-0.3" y="40" class="st8_rc st9_rc">Certificate valid until</tspan>
             <tspan x="-0.4" y="50" class="st8_rc st9_rc">(not more than 180 days after</tspan>
-            <tspan x="-0.4" y="60" class="st8_rc st9_rc">the date of first positive testresult)</tspan></text>
+            <tspan x="-0.4" y="60"
+                class="st8_rc st9_rc">the date of first positive testresult)</tspan></text>
         <g id="titelG">
-		<rect id="titel_füllung_1_" x="312.1" y="634.8" class="st10_rc" width="254.8" height="6.1" />
-            <rect id="titel_kontur_1_" x="312.1" y="634.2" class="st11_rc" width="255" height="6.1" />
+		<rect id="titel_füllung_1_" x="312.1" y="634.8" class="st10_rc" width="254.8"
+            height="6.1" />
+            <rect id="titel_kontur_1_" x="312.1" y="634.2" class="st11_rc" width="255"
+                height="6.1" />
 	</g>
         <g id="grafik_Fahne_1_">
 		<g>
@@ -188,7 +192,8 @@
 				" />
                 <path class="st13_rc" d="M444.1,386.4c0,0-2.4,1.9-5,1.9c-3.7,0-5.4-1.9-5.4-1.9v10.6c0,0,1.7,1.9,5.4,1.9c2.6,0,5-1.9,5-1.9V386.4z
 				" />
-                <polygon class="st14_rc" points="433.4,385.1 434.7,384.5 434.7,387.1 			" />
+                <polygon class="st14_rc"
+                    points="433.4,385.1 434.7,384.5 434.7,387.1 			" />
 		</g>
             <path class="st11_rc" d="M312.6,375.6h100.9c-0.9,2.8-1.5,5.7-1.5,8.8c0,15.2,12.3,27.5,27.5,27.5c15.2,0,27.5-12.3,27.5-27.5
 			c0-3.1-0.5-6-1.5-8.8h100.9v-6.1H462.7c-4.9-7.6-13.4-12.6-23.1-12.6c-9.7,0-18.2,5-23.1,12.6H312.6V375.6z" />
@@ -217,7 +222,8 @@
 		<rect x="489.8" y="46.4" class="st19_rc" width="12.7" height="1.8" />
             <rect x="489.8" y="39.2" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_1_">
-			<rect id="titel_füllung_4_" x="487.1" y="43.4" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_4_" x="487.1" y="43.4" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_4_" x="487" y="43.5" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>
@@ -736,7 +742,8 @@
 		<rect x="412.6" y="46.2" class="st19_rc" width="12.7" height="1.8" />
             <rect x="412.6" y="39" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_3_">
-			<rect id="titel_füllung_2_" x="409.9" y="43.2" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_2_" x="409.9" y="43.2" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_2_" x="409.8" y="43.3" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>
@@ -1250,7 +1257,8 @@
 		<rect x="363.6" y="46.2" class="st19_rc" width="12.7" height="1.8" />
             <rect x="363.6" y="39" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_2_">
-			<rect id="titel_füllung_3_" x="360.9" y="43.2" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_3_" x="360.9" y="43.2" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_3_" x="360.8" y="43.3" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>
@@ -1429,7 +1437,8 @@
             <rect x="509.2" y="61" class="st26_rc" width="9.8" height="1.7" />
             <rect x="511.2" y="57" class="st19_rc" width="11.8" height="1.7" />
 	</g>
-        <text id="Anleitung_1_" transform="matrix(-1 0 0 -1 486.4647 92.8431)" class="st8_rc st9_rc">Anleitung zum Falten</text>
+        <text id="Anleitung_1_" transform="matrix(-1 0 0 -1 486.4647 92.8431)"
+            class="st8_rc st9_rc">Anleitung zum Falten</text>
         <g id="eu-Fahne_1_">
 		<g>
 			<g>
@@ -1565,7 +1574,8 @@
 			</g>
 		</g>
             <rect x="427.9" y="766.4" class="st7_rc" width="34.8" height="29.3" />
-            <text transform="matrix(1 0 0 1 434.1661 777.848)" class="st3_rc st1_rc st72_rc">DE</text>
+            <text transform="matrix(1 0 0 1 434.1661 777.848)"
+                class="st3_rc st1_rc st72_rc">DE</text>
 	</g>
         <g>
 		<rect x="29.1" y="435.3" class="st7_rc" width="97.6" height="187.3" />
@@ -1595,12 +1605,14 @@
             <text id="Geburt_2_" transform="matrix(1 0 0 1 28.3463 722.4912)"><tspan x="0" y="0" class="st4_rc st5_rc st9_rc">Geburtsdatum: </tspan>
                 <tspan x="0" y="10" class="st8_rc st9_rc">Date of birth:</tspan></text>
             <rect x="28.3" y="740.4" class="st7_rc" width="266.9" height="23.2" />
-            <text transform="matrix(1 0 0 1 28.3468 746.4912)" class="st73_rc st8_rc st9_rc">$dob</text>
+            <text transform="matrix(1 0 0 1 28.3468 746.4912)"
+                class="st73_rc st8_rc st9_rc">$dob</text>
             <rect x="28.3" y="761.2" class="st7_rc" width="136.9" height="23.2" />
             <text id="Eindeutige_2_" transform="matrix(1 0 0 1 28.3463 767.3239)"><tspan x="0" y="0" class="st4_rc st5_rc st9_rc">Eindeutige Zertifikatkennung:</tspan>
                 <tspan x="0" y="10" class="st8_rc st9_rc">Unique certificate identifier: </tspan></text>
             <rect x="28.3" y="785.2" class="st7_rc" width="266.9" height="23.2" />
-            <text transform="matrix(1 0 0 1 28.3468 791.324)" class="st73_rc st8_rc st9_rc">$ci</text>
+            <text transform="matrix(1 0 0 1 28.3468 791.324)"
+                class="st73_rc st8_rc st9_rc">$ci</text>
             <g id="grafik_zertifikat_6_">
 			<path class="st10_rc" d="M283.2,635.2H180.4c0.9-2.8,1.5-5.7,1.5-8.8c0-15.2-12.3-27.5-27.5-27.5c-15.2,0-27.5,12.3-27.5,27.5
 				c0,3.1,0.5,6,1.5,8.8H28.4v6.1h102.8c4.9,7.6,13.4,12.6,23.1,12.6c9.7,0,18.2-5,23.1-12.6h105.8V635.2z" />
@@ -1652,14 +1664,14 @@
         <rect x="325.2" y="84.9" class="st7_rc" width="241" height="265.1" />
         <text id="diese_Be_1_" transform="matrix(-1 0 0 -1 566.1629 343.8597)"><tspan x="0" y="0" class="st4_rc st5_rc st9_rc">Diese Bescheinigung</tspan>
             <tspan x="81.7" y="0" class="st4_rc st8_rc st9_rc"> </tspan>
-            <tspan x="83.8" y="0" class="st8_rc st9_rc">ist kein Reisedokument. Die wissenschaft</tspan>
+            <tspan x="83.8" y="0"
+                class="st8_rc st9_rc">ist kein Reisedokument. Die wissenschaft</tspan>
             <tspan x="237" y="0" class="st8_rc st9_rc">-</tspan>
             <tspan x="0" y="10" class="st8_rc st9_rc">lichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, </tspan>
             <tspan x="0" y="20" class="st8_rc st9_rc">Testung und Genesung entwickeln sich fortlaufend weiter, auch </tspan>
             <tspan x="0" y="30" class="st8_rc st9_rc">im Hinblick auf neue besorgniserregende Virusvarianten. Bitte </tspan>
             <tspan x="0" y="40" class="st8_rc st9_rc">informieren Sie sich vor Reiseantritt über die am Zielort </tspan>
-            <tspan x="0" y="50"
-                class="st8_rc st9_rc">geltenden Gesundheitsmaßnahmen und entsprechenden </tspan>
+            <tspan x="0" y="50" class="st8_rc st9_rc">geltenden Gesundheitsmaßnahmen und entsprechenden </tspan>
             <tspan x="0" y="60" class="st8_rc st9_rc">Beschränkungen. </tspan>
             <tspan x="0" y="80" class="st4_rc st5_rc st9_rc">This certificate</tspan>
             <tspan x="59.5" y="80" class="st8_rc st9_rc"> is not a travel document. The scientific evidence </tspan>
@@ -1668,7 +1680,8 @@
             <tspan x="0" y="110" class="st8_rc st9_rc">Before traveling, please check the applicable public health </tspan>
             <tspan x="0" y="120" class="st8_rc st9_rc">measures and related restrictions applied at the point of </tspan>
             <tspan x="0" y="130" class="st8_rc st9_rc">destination.</tspan>
-            <tspan x="0" y="150" class="st4_rc st5_rc st9_rc">Zusammengefasste Informationen </tspan>
+            <tspan x="0" y="150"
+                class="st4_rc st5_rc st9_rc">Zusammengefasste Informationen </tspan>
             <tspan x="140.3" y="150" class="st8_rc st9_rc">über die in den europäi</tspan>
             <tspan x="227.7" y="150" class="st8_rc st9_rc">-</tspan>
             <tspan x="0" y="160" class="st8_rc st9_rc">schen Ländern jeweils geltenden Corona-Maßnahmen und </tspan>
@@ -1692,7 +1705,8 @@
 		<rect x="489.8" y="46.4" class="st19_rc" width="12.7" height="1.8" />
             <rect x="489.8" y="39.2" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_6_">
-			<rect id="titel_füllung_7_" x="487.1" y="43.4" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_7_" x="487.1" y="43.4" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_7_" x="487" y="43.5" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>
@@ -2211,7 +2225,8 @@
 		<rect x="412.6" y="46.2" class="st19_rc" width="12.7" height="1.8" />
             <rect x="412.6" y="39" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_5_">
-			<rect id="titel_füllung_6_" x="409.9" y="43.2" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_6_" x="409.9" y="43.2" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_6_" x="409.8" y="43.3" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>
@@ -2725,7 +2740,8 @@
 		<rect x="363.6" y="46.2" class="st19_rc" width="12.7" height="1.8" />
             <rect x="363.6" y="39" class="st19_rc" width="12.7" height="1.8" />
             <g id="titelG_4_">
-			<rect id="titel_füllung_5_" x="360.9" y="43.2" class="st20_rc" width="18.3" height="0.5" />
+			<rect id="titel_füllung_5_" x="360.9" y="43.2" class="st20_rc" width="18.3"
+                height="0.5" />
                 <rect id="titel_kontur_5_" x="360.8" y="43.3" class="st21_rc" width="18.3"
                     height="0.5" />
 		</g>

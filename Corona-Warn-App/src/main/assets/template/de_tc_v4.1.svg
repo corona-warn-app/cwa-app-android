@@ -94,21 +94,21 @@
 	<text transform="matrix(-0.5422 0.8402 -0.8402 -0.5422 485.4384 490.3152)" class="st0_tc st1_tc st2_tc">DEMO</text>
 </g> -->
 <rect x="132.6" y="435.4" class="st3_tc" width="150" height="150"/>
-<rect x="8" y="330.9" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="8" y="330.9" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 119.9666 345.5838)" class="st5_tc st6_tc st7_tc">$tg</text>
-<rect x="8" y="302.6" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="8" y="302.6" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 119.9666 317.242)" class="st5_tc st6_tc st7_tc">$tt</text>
-<rect x="171.2" y="190" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="171.2" y="190" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 283.1815 204.661)" class="st5_tc st6_tc st7_tc">$ma</text>
-<rect x="6.8" y="143.5" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="6.8" y="143.5" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 118.7068 158.1532)" class="st5_tc st6_tc st7_tc">$sc</text>
-<rect x="6.4" y="105.4" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="6.4" y="105.4" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 118.3826 120.0662)" class="st5_tc st6_tc st7_tc">$tr</text>
-<rect x="6.4" y="76.8" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="6.4" y="76.8" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 118.3826 91.4891)" class="st5_tc st6_tc st7_tc">$tc</text>
-<rect x="5.7" y="50" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="5.7" y="50" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 117.66 64.6219)" class="st5_tc st6_tc st7_tc">$co</text>
-<rect x="6.7" y="22.7" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="6.7" y="22.7" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 118.6776 37.4022)" class="st5_tc st6_tc st7_tc">$is</text>
 <rect x="145.5" y="328.8" class="st4_tc" width="137.7" height="22.9"/>
 <text id="Krankheit_1_" transform="matrix(-1 0 0 -1 283.1815 345.5828)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Erreger: </tspan><tspan x="0" y="10" class="st6_tc st7_tc">Disease or agent targeted </tspan></text>
@@ -172,16 +172,16 @@
 	<g>
 		<rect x="29" y="669" class="st4_tc" width="136.9" height="23.2"/>
 		<text id="Nachn_1_" transform="matrix(1 0 0 1 28.9711 675.1045)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Name, Vorname: </tspan><tspan x="0" y="10" class="st6_tc st7_tc">Surname(s) and forename(s):</tspan></text>
-		<rect x="29" y="693" class="st4_tc" width="266.9" height="23.2" style="fill: #FF594B;"/>
+		<rect x="29" y="693" class="st4_tc" width="266.9" height="23.2" />
 		<text transform="matrix(1 0 0 1 28.9716 699.1044)" class="st5_tc st6_tc st7_tc">$nam</text>
 	</g>
 	<rect x="29" y="715.5" class="st4_tc" width="136.9" height="23.2"/>
 	<text id="Geburt_2_" transform="matrix(1 0 0 1 28.9711 721.6154)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Geburtsdatum: </tspan><tspan x="0" y="10" class="st6_tc st7_tc">Date of birth:</tspan></text>
-	<rect x="29" y="739.5" class="st4_tc" width="266.9" height="23.2" style="fill: #FF594B;"/>
+	<rect x="29" y="739.5" class="st4_tc" width="266.9" height="23.2" />
 	<text transform="matrix(1 0 0 1 28.9716 745.6154)" class="st5_tc st6_tc st7_tc">$dob</text>
 	<rect x="29" y="760.4" class="st4_tc" width="136.9" height="23.2"/>
 	<text id="Eindeutige_2_" transform="matrix(1 0 0 1 28.9711 766.448)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Eindeutige Zertifikatkennung:</tspan><tspan x="0" y="10" class="st6_tc st7_tc">Unique certificate identifier: </tspan></text>
-	<rect x="29" y="784.4" class="st4_tc" width="266.9" height="23.2" style="fill: #FF594B;"/>
+	<rect x="29" y="784.4" class="st4_tc" width="266.9" height="23.2" />
 	<text transform="matrix(1 0 0 1 28.9716 790.4481)" class="st5_tc st6_tc st7_tc">$ci</text>
 	<g id="grafik_zertifikat_2_">
 		<path class="st11_tc" d="M283,634.3H183c0.9-2.8,1.5-5.7,1.5-8.8c0-15.2-12.3-27.5-27.5-27.5c-15.2,0-27.5,12.3-27.5,27.5
@@ -214,7 +214,7 @@
 		</g>
 	</g>
 	
-		<image style="overflow:visible;" width="619" height="619" id="qr_2_" xlink:href="data:image/png;base64,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" transform="matrix(0.2427 0 0 0.2427 132.6346 435.2253)">
+		<image style="overflow:visible;" width="619" height="619" id="qr_2_" xlink:href="data:image/png;base64,$qr" transform="matrix(0.2427 0 0 0.2427 132.6346 435.2253)">
 	</image>
 </g>
 <rect x="125.9" y="135.7" class="st4_tc" width="157.3" height="28.5"/>
@@ -1574,6 +1574,6 @@
 	<rect x="427.2" y="764.1" class="st4_tc" width="34.8" height="29.3"/>
 	<text transform="matrix(1 0 0 1 433.4442 775.5457)" class="st3_tc st1_tc st81_tc">DE</text>
 </g>
-<rect x="171.2" y="237.1" class="st4_tc" width="111.9" height="20.7" style="fill: #FF594B;"/>
+<rect x="171.2" y="237.1" class="st4_tc" width="111.9" height="20.7" />
 <text transform="matrix(-1 0 0 -1 283.1815 251.7176)" class="st5_tc st6_tc st7_tc">$nm</text>
 </svg>
