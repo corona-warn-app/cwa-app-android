@@ -20,9 +20,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         val certSvgList = persons.flatMap { it.certificates }
             .sortedBy { cert -> cert.fullNameFormatted }
             .toCertificateSortOrder()
-            .map {
-                template.of(it).injectData(it, it.qrCodeToDisplay.content)
-            }
+            .map { template.of(it).injectData(it) }
 
         val certs = StringBuilder().apply {
             certSvgList.forEach { svg -> append("<div class=\"dcc_container\">$svg</div>") }
