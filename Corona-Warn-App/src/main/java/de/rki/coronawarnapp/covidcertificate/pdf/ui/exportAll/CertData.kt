@@ -74,8 +74,9 @@ private fun CwaCovidCertificate.qrCodeBase64(): String {
         625,
         false
     ).run {
-        val outputStream = ByteArrayOutputStream()
-        compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        return outputStream.toByteArray().base64()
+        ByteArrayOutputStream().use {
+            compress(Bitmap.CompressFormat.PNG, 100, it)
+            return it.toByteArray().base64()
+        }
     }
 }
