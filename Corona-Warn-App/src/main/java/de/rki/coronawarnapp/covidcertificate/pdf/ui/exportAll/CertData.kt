@@ -13,37 +13,37 @@ import java.io.ByteArrayOutputStream
 import java.lang.UnsupportedOperationException
 
 internal fun String.injectData(
-    certificate: CwaCovidCertificate
+    cert: CwaCovidCertificate
 ): String = this
-    .replace("\$nam", certificate.fullNameFormatted.sanitize())
-    .replace("\$dob", certificate.dateOfBirthFormatted.sanitize())
-    .replace("\$ci", certificate.uniqueCertificateIdentifier.sanitize())
-    .replace("\$tg", certificate.targetDisease.sanitize())
-    .replace("\$co", certificate.certificateCountry.sanitize())
-    .replace("\$qr", certificate.qrCodeBase64())
-    .replace("\$is", certificate.certificateIssuer.sanitize())
-    .replaceFieldsOf(certificate)
+    .replace("\$nam", cert.fullNameFormatted.sanitize())
+    .replace("\$dob", cert.dateOfBirthFormatted.sanitize())
+    .replace("\$ci", cert.uniqueCertificateIdentifier.sanitize())
+    .replace("\$tg", cert.targetDisease.sanitize())
+    .replace("\$co", cert.certificateCountry.sanitize())
+    .replace("\$qr", cert.qrCodeBase64())
+    .replace("\$is", cert.certificateIssuer.sanitize())
+    .replaceFieldsOf(cert)
 
-private fun String.replaceFieldsOf(certificate: CwaCovidCertificate) = when (certificate) {
-    is VaccinationCertificate -> replace("\$vp", certificate.vaccineTypeName.sanitize())
-        .replace("\$mp", certificate.medicalProductName.sanitize())
-        .replace("\$ma", certificate.vaccineManufacturer.sanitize())
-        .replace("\$dn", certificate.doseNumber.toString())
-        .replace("\$sd", certificate.totalSeriesOfDoses.toString())
-        .replace("\$dt", certificate.vaccinatedOnFormatted)
+private fun String.replaceFieldsOf(cert: CwaCovidCertificate) = when (cert) {
+    is VaccinationCertificate -> replace("\$vp", cert.vaccineTypeName.sanitize())
+        .replace("\$mp", cert.medicalProductName.sanitize())
+        .replace("\$ma", cert.vaccineManufacturer.sanitize())
+        .replace("\$dn", cert.doseNumber.toString())
+        .replace("\$sd", cert.totalSeriesOfDoses.toString())
+        .replace("\$dt", cert.vaccinatedOnFormatted)
 
-    is RecoveryCertificate -> replace("\$fr", certificate.testedPositiveOnFormatted)
-        .replace("\$df", certificate.validFromFormatted)
-        .replace("\$du", certificate.validUntilFormatted)
+    is RecoveryCertificate -> replace("\$fr", cert.testedPositiveOnFormatted)
+        .replace("\$df", cert.validFromFormatted)
+        .replace("\$du", cert.validUntilFormatted)
 
-    is TestCertificate -> replace("\$tt", certificate.testType)
-        .replace("\$nm", certificate.testName.orEmpty())
-        .replace("\$ma", certificate.testNameAndManufacturer.orEmpty().sanitize())
-        .replace("\$sc", certificate.sampleCollectedAtFormatted)
-        .replace("\$tr", certificate.testResult.sanitize())
-        .replace("\$tc", certificate.testCenter.toString())
+    is TestCertificate -> replace("\$tt", cert.testType)
+        .replace("\$nm", cert.testName.orEmpty())
+        .replace("\$ma", cert.testNameAndManufacturer.orEmpty().sanitize())
+        .replace("\$sc", cert.sampleCollectedAtFormatted)
+        .replace("\$tr", cert.testResult.sanitize())
+        .replace("\$tc", cert.testCenter.toString())
 
-    else -> throw UnsupportedOperationException("${certificate::class.simpleName} isn't supported")
+    else -> throw UnsupportedOperationException("${cert::class.simpleName} isn't supported")
 }
 
 private fun String.sanitize(): String = this
