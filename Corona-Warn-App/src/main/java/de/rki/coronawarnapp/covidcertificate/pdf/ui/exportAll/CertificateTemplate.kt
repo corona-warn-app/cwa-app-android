@@ -34,7 +34,6 @@ class CertificateTemplate @Inject constructor(
         is TestCertificate -> templates[TC] ?: read("tc_v4.1.svg").also { templates[TC] = it }
         is RecoveryCertificate -> templates[RC] ?: read("rc_v4.1.svg").also { templates[RC] = it }
         else -> throw UnsupportedOperationException("${cwaCovidCertificate::class.simpleName} isn't supported")
-
     }
 
     private fun read(file: String): String =

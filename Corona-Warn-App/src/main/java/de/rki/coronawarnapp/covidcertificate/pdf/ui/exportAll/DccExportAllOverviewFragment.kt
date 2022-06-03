@@ -3,17 +3,12 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.bouncycastle.util.encoders.UTF8
-import java.io.File
-import java.io.FileOutputStream
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_overview), AutoInject {

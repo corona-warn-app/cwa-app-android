@@ -20,26 +20,29 @@ internal fun String.injectData(
     .replaceFieldsOf(certificate)
 
 private fun String.replaceFieldsOf(certificate: CwaCovidCertificate) = when (certificate) {
-    is VaccinationCertificate -> this
-        .replace("\$vp", certificate.vaccineTypeName.sanitize())
-        .replace("\$mp", certificate.medicalProductName.sanitize())
-        .replace("\$ma", certificate.vaccineManufacturer.sanitize())
-        .replace("\$dn", certificate.doseNumber.toString())
-        .replace("\$sd", certificate.totalSeriesOfDoses.toString())
-        .replace("\$dt", certificate.vaccinatedOnFormatted)
+    is VaccinationCertificate ->
+        this
+            .replace("\$vp", certificate.vaccineTypeName.sanitize())
+            .replace("\$mp", certificate.medicalProductName.sanitize())
+            .replace("\$ma", certificate.vaccineManufacturer.sanitize())
+            .replace("\$dn", certificate.doseNumber.toString())
+            .replace("\$sd", certificate.totalSeriesOfDoses.toString())
+            .replace("\$dt", certificate.vaccinatedOnFormatted)
 
-    is RecoveryCertificate -> this
-        .replace("\$fr", certificate.testedPositiveOnFormatted)
-        .replace("\$df", certificate.validFromFormatted)
-        .replace("\$du", certificate.validUntilFormatted)
+    is RecoveryCertificate ->
+        this
+            .replace("\$fr", certificate.testedPositiveOnFormatted)
+            .replace("\$df", certificate.validFromFormatted)
+            .replace("\$du", certificate.validUntilFormatted)
 
-    is TestCertificate -> this
-        .replace("\$tt", certificate.testType)
-        .replace("\$nm", certificate.testName.orEmpty())
-        .replace("\$ma", certificate.testNameAndManufacturer.orEmpty().sanitize())
-        .replace("\$sc", certificate.sampleCollectedAtFormatted)
-        .replace("\$tr", certificate.testResult.sanitize())
-        .replace("\$tc", certificate.testCenter.toString())
+    is TestCertificate ->
+        this
+            .replace("\$tt", certificate.testType)
+            .replace("\$nm", certificate.testName.orEmpty())
+            .replace("\$ma", certificate.testNameAndManufacturer.orEmpty().sanitize())
+            .replace("\$sc", certificate.sampleCollectedAtFormatted)
+            .replace("\$tr", certificate.testResult.sanitize())
+            .replace("\$tc", certificate.testCenter.toString())
 
     else -> throw UnsupportedOperationException("${certificate::class.simpleName} isn't supported")
 }

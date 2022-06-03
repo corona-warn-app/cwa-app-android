@@ -28,7 +28,6 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
             certSvgList.forEach { svg -> append("<div class=\"dcc_container\">$svg</div>") }
         }.toString()
 
-
         HTML_TEMPLATE.replace(" ++certificates++", certs)
     }.asLiveData2()
 
