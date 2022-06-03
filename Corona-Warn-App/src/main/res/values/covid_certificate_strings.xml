@@ -347,4 +347,9 @@
     <string name="certificate_migration_dialog_title">"Certificate Assignment"</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">"The grouping of certificates has been improved. Certificates with only minor differences in the name will no longer be assigned to different people."</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">Zertifikate Exportieren</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">In einem Schritt alle Ihre Zertifikate in einem gemeinsamen PDF-Dokument speichern</string>
 </resources>
