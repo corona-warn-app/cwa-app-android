@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
-    android:contentDescription="@string/pdf_export_info_title"
+    android:contentDescription="@string/all_certs_pdf_export_info_title"
     tools:context="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="26dp"
-                    android:text="@string/pdf_export_info_point_pdf"
+                    android:text="@string/all_certs_pdf_export_info_point_pdf"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/pdf_export_info_pdf_icon"
                     app:layout_constraintTop_toTopOf="@id/pdf_export_info_pdf_icon" />
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="26dp"
-                    android:text="@string/pdf_export_info_point_sensitive"
+                    android:text="@string/all_certs_pdf_export_info_point_sensitive"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/pdf_export_info_lock_icon"
                     app:layout_constraintTop_toTopOf="@id/pdf_export_info_lock_icon" />
@@ -128,7 +128,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="26dp"
                     android:layout_marginBottom="39dp"
-                    android:text="@string/pdf_export_info_point_recommendations"
+                    android:text="@string/all_certs_pdf_export_info_point_recommendations"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/pdf_export_info_phone_icon"
