@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel

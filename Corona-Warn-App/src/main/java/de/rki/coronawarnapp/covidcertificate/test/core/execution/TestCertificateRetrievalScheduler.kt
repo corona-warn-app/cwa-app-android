@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged

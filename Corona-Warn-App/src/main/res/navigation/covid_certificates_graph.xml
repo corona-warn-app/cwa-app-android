@@ -23,7 +23,7 @@
             app:destination="@id/admissionScenariosFragment" />
         <action
             android:id="@+id/action_personOverviewFragment_to_certificatesPdfExportInfoFragment"
-            app:destination="@id/overviews" />
+            app:destination="@id/certificatesPdfExportInfoFragment" />
     </fragment>
 
     <fragment
@@ -381,10 +381,5 @@
         android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificatePdfExportInfoFragment"
         android:label="certificate_pdf_export_info_fragment"
         tools:layout="@layout/certificate_pdf_export_info_fragment" />
-
-    <fragment
-        android:id="@+id/overviews"
-        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewFragment" />
-
 
 </navigation>

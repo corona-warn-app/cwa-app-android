@@ -33,7 +33,6 @@ class ConfigParser @Inject constructor(
     fun parse(configBytes: ByteArray): ConfigMapping = try {
         parseRawArray(configBytes).let {
             DefaultConfigMapping(
-                rawConfig = it,
                 cwaConfig = cwaConfigMapper.map(it),
                 keyDownloadConfig = keyDownloadConfigMapper.map(it),
                 exposureDetectionConfig = exposureDetectionConfigMapper.map(it),

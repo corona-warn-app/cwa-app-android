@@ -92,11 +92,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                             )
                     }
                 }
-                CoronaTestResult.PCR_NEGATIVE ->
-                    SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
-                            testIdentifier = testIdentifier
-                        )
+                CoronaTestResult.PCR_NEGATIVE,
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(

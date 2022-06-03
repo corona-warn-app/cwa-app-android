@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import de.rki.coronawarnapp.util.flow.combine
+import kotlinx.coroutines.flow.combine
 
 class FamilyTestConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
