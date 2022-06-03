@@ -21,6 +21,8 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             webView.apply {
                 settings.loadWithOverviewMode = true
                 settings.useWideViewPort = true
+                settings.builtInZoomControls = true
+                settings.displayZoomControls = false
             }.loadDataWithBaseURL(
                 null,
                 data,
