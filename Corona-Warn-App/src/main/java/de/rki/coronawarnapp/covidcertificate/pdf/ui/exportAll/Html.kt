@@ -12,7 +12,7 @@ val HTML_TEMPLATE = """
 
     ul.separator li {
         padding: .5em 0;
-        border-bottom: 3px solid #CCC;
+        border-bottom: 1px solid #CCC;
     }
 </style>
 
