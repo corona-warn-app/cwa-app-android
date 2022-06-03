@@ -23,7 +23,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
             .map { template.of(it).injectData(it) }
 
         val certs = StringBuilder().apply {
-            certSvgList.forEach { svg -> append("<div class=\"dcc_container\">$svg</div>") }
+            certSvgList.forEach { svg -> append("<li>$svg</li>\n") }
         }.toString()
 
         HTML_TEMPLATE.replace(" ++certificates++", certs)
