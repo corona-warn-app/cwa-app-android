@@ -1,8 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.print.PrintAttributes
+import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.core.content.getSystemService
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,8 +28,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         toolbar.setNavigationOnClickListener { popBackStack() }
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.action_print -> {
-                }
+                R.id.action_print -> printTheWebPage(webView)
 
                 R.id.action_share -> {
                 }
@@ -35,7 +41,12 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                 settings.loadWithOverviewMode = true
                 settings.useWideViewPort = true
                 settings.builtInZoomControls = true
+                settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
                 settings.displayZoomControls = false
+                webViewClient = object : WebViewClient() {
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) = progressBar.show()
+                    override fun onPageFinished(view: WebView?, url: String?) = progressBar.hide()
+                }
             }.loadDataWithBaseURL(
                 null,
                 data,
@@ -44,5 +55,17 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                 null
             )
         }
+    }
+
+    private fun printTheWebPage(webView: WebView) {
+        val printManager = requireContext().getSystemService<PrintManager>()!!
+        val printAdapter = webView.createPrintDocumentAdapter(getString(R.string.app_name))
+        printManager.print(
+            getString(R.string.app_name),
+            printAdapter,
+            PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .build()
+        )
     }
 }
