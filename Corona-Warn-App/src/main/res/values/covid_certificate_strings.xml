@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -308,6 +309,16 @@
     <string name="pdf_export_info_point_sensitive">"Please note that the PDF document contains sensitive information. We recommend handling it carefully and only showing it to people who you trust and who are authorized to check the certificate."</string>
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">"We recommend that you not publish the PDF document, send it via e-mail, or share it through other apps."</string>
+
+    <!-- PDF Export: All Certificates Info Screen -->
+    <!-- XHED: PDF Export: All Certificates Info screen title -->
+    <string name="all_certs_pdf_export_info_title">Zertifikate exportieren</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
+    <string name="all_certs_pdf_export_info_point_pdf">Sie können in einem Schritt alle in Ihrer App gehaltenen Zertifikate in einem gemeinsamen PDF-Dokument speichern. Auf das PDF-Dokument haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie es auf Ihrem Smartphone speichern oder in andere Apps importieren möchten.</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
+    <string name="all_certs_pdf_export_info_point_sensitive">Beachten Sie, dass das PDF-Dokument sensible Informationen enthält. Wir empfehlen Ihnen, hiermit sorgsam umzugehen und es nur Personen vorzuzeigen, denen Sie vertrauen und die zur Prüfung des Nachweises berechtigt sind.</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
+    <string name="all_certs_pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
 
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
