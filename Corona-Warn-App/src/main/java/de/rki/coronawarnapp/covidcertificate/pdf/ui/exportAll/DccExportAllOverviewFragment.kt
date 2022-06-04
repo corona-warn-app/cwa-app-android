@@ -41,12 +41,13 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         viewModel.dccData.observe(viewLifecycleOwner) { data ->
             progressBar.isIndeterminate = false
             webView.apply {
-                settings.loadWithOverviewMode = true
-                settings.useWideViewPort = true
-                settings.builtInZoomControls = true
-                settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
-                settings.displayZoomControls = false
-                setInitialScale(1)
+                with(settings) {
+                    loadWithOverviewMode = true
+                    useWideViewPort = true
+                    builtInZoomControls = true
+                    layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
+                    displayZoomControls = false
+                }
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         progressLayout.isVisible = false
