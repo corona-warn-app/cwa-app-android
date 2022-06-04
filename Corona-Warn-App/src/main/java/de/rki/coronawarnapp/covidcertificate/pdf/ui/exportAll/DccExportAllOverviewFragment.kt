@@ -6,10 +6,12 @@ import android.print.PrintAttributes
 import android.print.PrintManager
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.getSystemService
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -37,20 +39,28 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             true
         }
         viewModel.dccData.observe(viewLifecycleOwner) { data ->
+            progressBar.isIndeterminate = false
             webView.apply {
                 settings.loadWithOverviewMode = true
                 settings.useWideViewPort = true
                 settings.builtInZoomControls = true
                 settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING
                 settings.displayZoomControls = false
+                setInitialScale(1)
                 webViewClient = object : WebViewClient() {
-                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) = progressBar.show()
-                    override fun onPageFinished(view: WebView?, url: String?) = progressBar.hide()
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        progressLayout.isVisible = false
+                    }
+                }
+                webChromeClient = object : WebChromeClient() {
+                    override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                        progressBar.progress = newProgress
+                    }
                 }
             }.loadDataWithBaseURL(
                 null,
                 data,
-                "text/html",
+                "text/HTML",
                 Charsets.UTF_8.name(),
                 null
             )
