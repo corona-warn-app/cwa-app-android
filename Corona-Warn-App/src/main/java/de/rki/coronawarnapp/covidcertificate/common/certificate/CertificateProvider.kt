@@ -47,7 +47,7 @@ class CertificateProvider @Inject constructor(
         vcRepo.certificates
     ) { recoveries, tests, vaccinations ->
         CertificateContainer(recoveries, tests, vaccinations)
-    }.shareLatest(scope = appScope + dispatcherProvider.IO)
+    }.shareLatest(scope = appScope)
 
     /**
      * Finds a [CwaCovidCertificate] by [CertificateContainerId]

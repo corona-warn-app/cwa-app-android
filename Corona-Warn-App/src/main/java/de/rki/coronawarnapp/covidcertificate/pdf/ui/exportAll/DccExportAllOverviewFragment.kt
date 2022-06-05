@@ -51,6 +51,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         progressLayout.isVisible = false
+                        toolbar.inflateMenu(R.menu.menu_certificate_poster)
                     }
                 }
                 webChromeClient = object : WebChromeClient() {

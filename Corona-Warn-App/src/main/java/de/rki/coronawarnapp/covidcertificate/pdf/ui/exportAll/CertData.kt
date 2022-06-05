@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.encoding.base64
 import java.io.ByteArrayOutputStream
 import java.lang.UnsupportedOperationException
 
-internal fun String.injectData(
+internal fun String.inject(
     cert: CwaCovidCertificate
 ): String = this
     .replace("\$nam", cert.fullNameFormatted.sanitize())

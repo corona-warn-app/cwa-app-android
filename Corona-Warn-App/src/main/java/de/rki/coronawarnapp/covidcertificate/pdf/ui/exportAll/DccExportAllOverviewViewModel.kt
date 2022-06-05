@@ -2,31 +2,29 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import java.lang.StringBuilder
 
 class DccExportAllOverviewViewModel @AssistedInject constructor(
     dispatcher: DispatcherProvider,
-    personCertificatesProvider: PersonCertificatesProvider,
+    personCertificatesProvider: CertificateProvider,
     template: CertificateTemplate,
 ) : CWAViewModel(dispatcher) {
 
-    val dccData = personCertificatesProvider.personCertificates.map { persons ->
-        val certSvgList = persons.flatMap { it.certificates }
-            .sortedBy { cert -> cert.fullNameFormatted }
-            .toCertificateSortOrder()
-            .map { template.of(it).injectData(it) }
-
-        val certs = StringBuilder().apply {
-            certSvgList.forEach { svg -> append("<li>$svg</li>\n") }
-        }.toString()
-
-        HTML_TEMPLATE.replace(" ++certificates++", certs)
+    val dccData = personCertificatesProvider.certificateContainer.map { container ->
+        HTML_TEMPLATE.replace(
+            oldValue = "++certificates++",
+            newValue = container.allCwaCertificates
+                .sortedBy { cert -> cert.fullNameFormatted }
+                .toCertificateSortOrder()
+                .joinToString(separator = "\n") { cert ->
+                    "<li>${template(cert).inject(cert)}</li>"
+                }
+        )
     }.asLiveData2()
 
     @AssistedFactory

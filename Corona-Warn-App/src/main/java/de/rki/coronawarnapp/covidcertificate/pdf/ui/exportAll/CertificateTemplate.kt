@@ -16,7 +16,7 @@ class CertificateTemplate @Inject constructor(
     @AppContext private val context: Context
 ) {
     private val templates = mutableMapOf<String, String>()
-    fun of(cwaCovidCertificate: CwaCovidCertificate): String =
+    operator fun invoke(cwaCovidCertificate: CwaCovidCertificate): String =
         when (cwaCovidCertificate.headerIssuer) {
             DccCountry.DE -> templateDE(cwaCovidCertificate)
             else -> template(cwaCovidCertificate)
