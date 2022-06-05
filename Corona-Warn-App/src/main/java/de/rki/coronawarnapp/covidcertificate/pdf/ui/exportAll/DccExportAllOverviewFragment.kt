@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
@@ -11,6 +10,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.content.getSystemService
+import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
@@ -51,7 +51,9 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                 webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         progressLayout.isVisible = false
-                        toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                        if (toolbar.menu.isEmpty()) {
+                            toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                        }
                     }
                 }
                 webChromeClient = object : WebChromeClient() {
