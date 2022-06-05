@@ -74,7 +74,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
 
     private fun printTheWebPage(webView: WebView) {
         val printManager = requireContext().getSystemService<PrintManager>()!!
-        val jobName = getString(R.string.app_name) + Instant.now().toString()
+        val jobName = getString(R.string.app_name) + "-" + Instant.now().toString()
         val printAdapter = webView.createPrintDocumentAdapter(jobName)
         printManager.print(
             jobName,
