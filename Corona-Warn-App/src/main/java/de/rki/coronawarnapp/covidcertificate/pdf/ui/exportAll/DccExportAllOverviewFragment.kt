@@ -13,6 +13,7 @@ import androidx.core.content.getSystemService
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -31,7 +32,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         toolbar.setNavigationOnClickListener { popBackStack() }
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.action_print -> printTheWebPage(webView)
+                R.id.action_print -> webView.print()
 
                 R.id.action_share -> {
                 }
@@ -72,17 +73,21 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         }
     }
 
-    private fun printTheWebPage(webView: WebView) {
-        val printManager = requireContext().getSystemService<PrintManager>()!!
-        val jobName = getString(R.string.app_name) + "-" + Instant.now().toString()
-        val printAdapter = webView.createPrintDocumentAdapter(jobName)
-        printManager.print(
-            jobName,
-            printAdapter,
-            PrintAttributes
-                .Builder()
-                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                .build()
-        )
+    private fun WebView.print() {
+        runCatching {
+            val printManager = requireNotNull(requireContext().getSystemService<PrintManager>())
+            val jobName = getString(R.string.app_name) + "-" + Instant.now().toString()
+            val printAdapter = createPrintDocumentAdapter(jobName)
+            printManager.print(
+                jobName,
+                printAdapter,
+                PrintAttributes
+                    .Builder()
+                    .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                    .build()
+            )
+        }.onFailure { e ->
+            e.toErrorDialogBuilder(requireContext()).show()
+        }
     }
 }
