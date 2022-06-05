@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import java.time.Instant
 import javax.inject.Inject
 
 class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_overview), AutoInject {
@@ -73,11 +74,13 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
 
     private fun printTheWebPage(webView: WebView) {
         val printManager = requireContext().getSystemService<PrintManager>()!!
-        val printAdapter = webView.createPrintDocumentAdapter(getString(R.string.app_name))
+        val jobName = getString(R.string.app_name) + Instant.now().toString()
+        val printAdapter = webView.createPrintDocumentAdapter(jobName)
         printManager.print(
-            getString(R.string.app_name),
+            jobName,
             printAdapter,
-            PrintAttributes.Builder()
+            PrintAttributes
+                .Builder()
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                 .build()
         )
