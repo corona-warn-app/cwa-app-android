@@ -85,10 +85,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             printManager.print(
                 jobName,
                 printAdapter,
-                PrintAttributes
-                    .Builder()
-                    .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-                    .build()
+                printAttributes()
             )
         }.onFailure { e ->
             e.toErrorDialogBuilder(requireContext()).show()
@@ -96,21 +93,23 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
     }
 
     private fun WebView.sharePDF() = lifecycleScope.launch {
-        val jobName = getString(R.string.app_name) + " Document";
-        val attributes = PrintAttributes.Builder()
-            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-            .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-            .setMinMargins(PrintAttributes.Margins.NO_MARGINS).build();
-        val path = File(requireContext().cacheDir, "/export")
-        val pdfPrint = PdfFile(attributes)
-        pdfPrint.save(createPrintDocumentAdapter(jobName), path, "cet.pdf")
+        PdfFile(printAttributes()).save(
+            createPrintDocumentAdapter(getString(R.string.app_name) + " Document"),
+            File(requireContext().cacheDir, "/export"),
+            "cet.pdf"
+        )
         FileSharing(requireContext()).getFileIntentProvider(
             File(requireContext().cacheDir, "/export/cet.pdf"),
             "ok",
             true
-        )
-            .intent(requireActivity()).also {
-                startActivity(it)
-            }
+        ).intent(requireActivity()).also {
+            startActivity(it)
+        }
     }
+
+    private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
+        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+        .build()
 }
