@@ -366,7 +366,7 @@
     <!-- XTXT: Certificate export all progress title -->
     <string name="export_all_progress_title">PDF wird erstellt</string>
     <!-- XTXT: Certificate export all progress message -->
-    <string name="export_all_progress_text">Diese kann einige Minuten dauern.</string>
+    <string name="export_all_progress_text">Dies kann einige Minuten dauern.</string>
     <!-- XTXT: Certificate export all progress cancel -->
     <string name="export_all_progress_cancel">Abbrechen</string>
     <!-- XTXT: Certificate export all error title -->
