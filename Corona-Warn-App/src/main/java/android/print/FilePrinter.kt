@@ -9,6 +9,11 @@ import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+/**
+ * Print [PrintDocumentAdapter] content to a file
+ * Note: this file has to be in `android.print` as workaround to be able to create
+ * [LayoutResultCallback] and [WriteResultCallback]
+ */
 class FilePrinter(private val attributes: PrintAttributes) {
     suspend fun print(printAdapter: PrintDocumentAdapter, path: File, fileName: String) =
         suspendCancellableCoroutine<Unit> { cont ->
