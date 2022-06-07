@@ -102,6 +102,15 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
         .build()
 
+    override fun onCleared() {
+        super.onCleared()
+        runCatching {
+            File(path, FILE_NAME).delete()
+        }.onFailure {
+            Timber.tag(TAG).e(it, "delete() failed")
+        }
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DccExportAllOverviewViewModel>
 
