@@ -1,26 +1,52 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.core
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
+import java.time.Duration
 import java.time.Instant
 
-class DccExportFilter {
-
-//    1. *Filter by `validity state`:* the `set of DCCs` shall be filtered for those DCCs where the validty state (as per [Determining the Validity State of a DGC]) is one of `VALID`, `EXPIRING_SOON`, `EXPIRED`, or `INVALID`.
-//
-//    2. *Filter by type-specific criteria:* the `set of DCCs` shall be filtered for those DCCs where
-//
-//    for Test Certificates, the time difference between the time represented by `t[0].sc` and the current device time is `<=` 72 hours
-//    for other certificate types, no additional filter criteria applies (i.e. all certificates pass the filter)
-}
-
-
-fun CertificateProvider.CertificateContainer.filterAndSortForExport(
+internal fun List<CwaCovidCertificate>.filterAndSortForExport(
     nowUtc: Instant
 ): List<CwaCovidCertificate> {
-
-    vaccinationCwaCertificates.filter {
-        it.state is (CwaCovidCertificate.State.Valid)
-    }
-
+    return filter {
+        it.isIncludedInExport(nowUtc)
+    }.sort()
 }
+
+internal fun CwaCovidCertificate.isIncludedInExport(nowUtc: Instant): Boolean {
+    return state.isIncludedInExport && when (this) {
+        is TestCertificate -> this.isRecent(nowUtc)
+        else -> true
+    }
+}
+
+internal fun List<CwaCovidCertificate>.sort(): List<CwaCovidCertificate> = sortedWith(
+    compareBy(
+        { it.fullName },
+        {
+            when (it) {
+                is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()?.toJavaTime()
+                is VaccinationCertificate -> it.vaccinatedOn?.toJavaTime()
+                is RecoveryCertificate -> it.testedPositiveOn?.toJavaTime()
+                else -> null
+            }
+        }
+    )
+)
+
+internal fun TestCertificate.isRecent(nowUtc: Instant): Boolean {
+    return this.sampleCollectedAt?.let {
+        Duration.between(it.toJavaInstant(), nowUtc) <= Duration.ofHours(72)
+    } ?: false
+}
+
+internal val CwaCovidCertificate.State.isIncludedInExport: Boolean
+    get() = this is CwaCovidCertificate.State.Valid ||
+        this is CwaCovidCertificate.State.Expired ||
+        this is CwaCovidCertificate.State.ExpiringSoon ||
+        this is CwaCovidCertificate.State.Invalid
