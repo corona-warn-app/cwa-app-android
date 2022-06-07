@@ -47,7 +47,8 @@ class DccReissuanceServer @Inject constructor(
                 is UnknownHostException,
                 is SocketTimeoutException,
                 is NetworkReadTimeoutException -> ErrorCode.DCC_RI_NO_NETWORK
-                is CwaWebSecurityException -> if (e.cause is javax.net.ssl.SSLPeerUnverifiedException)
+                is CwaWebSecurityException ->
+                    if (e.cause is javax.net.ssl.SSLPeerUnverifiedException)
                         ErrorCode.DCC_RI_PIN_MISMATCH
                     else ErrorCode.DCC_RI_SERVER_ERR
                 else -> ErrorCode.DCC_RI_SERVER_ERR
