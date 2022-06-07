@@ -66,7 +66,10 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
             result.postValue(it)
         }
 
-    fun sharePDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.IO) {
+    /**
+     * Should be on main dispatcher ,otherwise it throws [IllegalStateException]
+     */
+    fun sharePDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.Main) {
         runCatching {
             FilePrinter(printAttributes()).print(
                 adapter,
