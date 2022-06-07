@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -11,6 +10,7 @@ import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.PDFResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.PrintResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ShareResult
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
@@ -33,7 +33,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_print -> viewModel.print(webView.createPrintDocumentAdapter(jobName))
-                R.id.action_share -> viewModel.sharePDF(webView.createPrintDocumentAdapter(jobName))
+                R.id.action_share -> viewModel.sharePDF()
             }
             true
         }
@@ -41,7 +41,6 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         setupWebView()
         cancelButton.setOnClickListener { popBackStack() }
         viewModel.dccData.observe(viewLifecycleOwner) { data ->
-            progressBar.isIndeterminate = false
             webView.loadDataWithBaseURL(
                 null,
                 data,
@@ -55,6 +54,12 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             when (exportResult) {
                 is ShareResult -> exportResult.provider.intent(requireActivity()).also { startActivity(it) }
                 is PrintResult -> exportResult.print(requireActivity())
+                is PDFResult -> {
+                    progressLayout.isVisible = false
+                    if (toolbar.menu.isEmpty()) {
+                        toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                    }
+                }
             }
         }
 
@@ -82,18 +87,8 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
 
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
-                    runCatching {
-                        progressLayout.isVisible = false
-                        if (toolbar.menu.isEmpty()) {
-                            toolbar.inflateMenu(R.menu.menu_certificate_poster)
-                        }
-                    }
-                }
-            }
-            webChromeClient = object : WebChromeClient() {
-                override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                    runCatching {
-                        binding.progressBar.progress = newProgress
+                    view?.let {
+                        viewModel.createPDF(view.createPrintDocumentAdapter(jobName))
                     }
                 }
             }

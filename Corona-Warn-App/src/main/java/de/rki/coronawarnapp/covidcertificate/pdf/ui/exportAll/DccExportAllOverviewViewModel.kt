@@ -69,14 +69,22 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     /**
      * Should be on main dispatcher ,otherwise it throws [IllegalStateException]
      */
-    fun sharePDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.Main) {
+    fun createPDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.Main) {
         runCatching {
             FilePrinter(printAttributes()).print(
                 adapter,
                 path,
                 FILE_NAME
             )
+            result.postValue(PDFResult)
+        }.onFailure {
+            Timber.tag(TAG).e(it, "sharePDF() failed")
+            error.postValue(it)
+        }
+    }
 
+    fun sharePDF() {
+        runCatching {
             result.postValue(
                 ShareResult(
                     fileSharing.getFileIntentProvider(File(path, FILE_NAME), FILE_NAME, true)
@@ -100,6 +108,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     sealed interface ExportResult
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult
     data class ShareResult(val provider: FileSharing.FileIntentProvider) : ExportResult
+    object PDFResult : ExportResult
 
     companion object {
         private const val FILE_NAME = "certificates.pdf"
