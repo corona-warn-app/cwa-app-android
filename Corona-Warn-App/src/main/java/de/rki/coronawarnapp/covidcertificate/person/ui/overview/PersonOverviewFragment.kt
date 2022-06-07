@@ -151,7 +151,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     setupAxisTransition()
                     doNavigate(
                         PersonOverviewFragmentDirections
-                            .actionPersonOverviewFragmentToCertificatesPdfExportInfoFragment()
+                            .actionPersonOverviewFragmentToExportAllCertsPdfInfoFragment()
                     )
                     true
                 }
