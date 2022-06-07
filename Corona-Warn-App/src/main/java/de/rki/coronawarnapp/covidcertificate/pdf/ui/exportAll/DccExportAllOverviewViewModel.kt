@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateExportCache
 import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -19,14 +20,15 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import java.io.File
 
 class DccExportAllOverviewViewModel @AssistedInject constructor(
-    private val dispatcher: DispatcherProvider,
     personCertificatesProvider: CertificateProvider,
     template: CertificateTemplate,
-    @CertificateExportCache private val path: File,
-    private val fileSharing: FileSharing
+    private val dispatcher: DispatcherProvider,
+    private val fileSharing: FileSharing,
+    @CertificateExportCache private val path: File
 ) : CWAViewModel(dispatcher) {
 
     val error = SingleLiveEvent<Throwable>()
@@ -43,6 +45,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                 }
         )
     }.catch {
+        Timber.tag(TAG).e(it, "dccData failed")
         error.postValue(it)
     }.asLiveData2()
 
@@ -56,13 +59,14 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                     printAttributes()
                 )
             }.onFailure {
+                Timber.tag(TAG).e(it, "print() failed")
                 error.postValue(it)
             }
         }.also {
             result.postValue(it)
         }
 
-    fun sharePDF(adapter: PrintDocumentAdapter) = launch {
+    fun sharePDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.IO) {
         runCatching {
             FilePrinter(printAttributes()).print(
                 adapter,
@@ -76,6 +80,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                 )
             )
         }.onFailure {
+            Timber.tag(TAG).e(it, "sharePDF() failed")
             error.postValue(it)
         }
     }
@@ -89,11 +94,12 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<DccExportAllOverviewViewModel>
 
-    companion object {
-        private const val FILE_NAME = "certificates.pdf"
-    }
-
     sealed interface ExportResult
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult
     data class ShareResult(val provider: FileSharing.FileIntentProvider) : ExportResult
+
+    companion object {
+        private const val FILE_NAME = "certificates.pdf"
+        private val TAG = tag<DccExportAllOverviewViewModel>()
+    }
 }
