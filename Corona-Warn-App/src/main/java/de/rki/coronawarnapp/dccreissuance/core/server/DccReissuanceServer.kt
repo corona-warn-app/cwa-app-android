@@ -8,11 +8,10 @@ import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.Erro
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
-import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator
+import de.rki.coronawarnapp.exception.CwaWebSecurityException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.http.serverCertificateChain
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.withContext
@@ -27,7 +26,6 @@ import javax.inject.Inject
 class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApiLazy: Lazy<DccReissuanceApi>,
     private val dispatcherProvider: DispatcherProvider,
-    private val dccReissuanceServerCertificateValidator: DccReissuanceServerCertificateValidator,
     @BaseGson private val gson: Gson
 ) {
 
@@ -49,6 +47,10 @@ class DccReissuanceServer @Inject constructor(
                 is UnknownHostException,
                 is SocketTimeoutException,
                 is NetworkReadTimeoutException -> ErrorCode.DCC_RI_NO_NETWORK
+                is CwaWebSecurityException ->
+                    if (e.cause is javax.net.ssl.SSLPeerUnverifiedException)
+                        ErrorCode.DCC_RI_PIN_MISMATCH
+                    else ErrorCode.DCC_RI_SERVER_ERR
                 else -> ErrorCode.DCC_RI_SERVER_ERR
             }.let { DccReissuanceException(errorCode = it, cause = e) }
         }
@@ -82,12 +84,9 @@ class DccReissuanceServer @Inject constructor(
         null
     }
 
-    private suspend fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {
+    private fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {
         Timber.tag(TAG).d("Parse and validate response=%s", this)
         throwIfFailed()
-
-        val serverCertificateChain = raw().serverCertificateChain
-        dccReissuanceServerCertificateValidator.checkCertificateChain(certificateChain = serverCertificateChain)
 
         return try {
             val body = checkNotNull(body()) { "Response body was null" }
