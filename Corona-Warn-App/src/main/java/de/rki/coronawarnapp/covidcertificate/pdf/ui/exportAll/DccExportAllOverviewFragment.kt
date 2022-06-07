@@ -37,9 +37,9 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         toolbar.setNavigationOnClickListener { popBackStack() }
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.action_print -> webView.print()
+                R.id.action_print -> viewModel.print(webView.createPrintDocumentAdapter(getString(R.string.app_name)))
 
-                R.id.action_share -> webView.sharePDF()
+                R.id.action_share -> viewModel.sharePDF(webView.createPrintDocumentAdapter(getString(R.string.app_name)))
             }
 
             true
@@ -76,40 +76,4 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             )
         }
     }
-
-    private fun WebView.print() {
-        runCatching {
-            val printManager = requireNotNull(requireContext().getSystemService<PrintManager>())
-            val jobName = getString(R.string.app_name) + "-" + Instant.now().toString()
-            val printAdapter = createPrintDocumentAdapter(jobName)
-            printManager.print(
-                jobName,
-                printAdapter,
-                printAttributes()
-            )
-        }.onFailure { e ->
-            e.toErrorDialogBuilder(requireContext()).show()
-        }
-    }
-
-    private fun WebView.sharePDF() = lifecycleScope.launch {
-        PdfFile(printAttributes()).save(
-            createPrintDocumentAdapter(getString(R.string.app_name) + " Document"),
-            File(requireContext().cacheDir, "/export"),
-            "cet.pdf"
-        )
-        FileSharing(requireContext()).getFileIntentProvider(
-            File(requireContext().cacheDir, "/export/cet.pdf"),
-            "ok",
-            true
-        ).intent(requireActivity()).also {
-            startActivity(it)
-        }
-    }
-
-    private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
-        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
-        .build()
 }
