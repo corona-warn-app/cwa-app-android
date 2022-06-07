@@ -374,5 +374,5 @@
     <!-- XTXT: Certificate export all error message -->
     <string name="export_all_error_message">Die Druckversion der Zertifikate kann nicht angezeigt werden.</string>
     <!-- XTXT: Certificate export all error faq button -->
-    <string name="export_all_error_faq">Faq zur Druckversion</string>
+    <string name="export_all_error_faq">FAQ zur Druckversion</string>
 </resources>
