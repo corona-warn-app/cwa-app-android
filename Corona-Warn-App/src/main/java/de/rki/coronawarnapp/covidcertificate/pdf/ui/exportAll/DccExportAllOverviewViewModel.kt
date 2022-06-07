@@ -99,7 +99,6 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         error.postValue(it)
     }
 
-
     private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
         .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
         .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
