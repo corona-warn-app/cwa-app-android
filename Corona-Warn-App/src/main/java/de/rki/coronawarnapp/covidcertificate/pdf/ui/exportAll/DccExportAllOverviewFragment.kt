@@ -84,15 +84,19 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
 
             webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView?, url: String?) {
-                    progressLayout.isVisible = false
-                    if (toolbar.menu.isEmpty()) {
-                        toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                    runCatching {
+                        progressLayout.isVisible = false
+                        if (toolbar.menu.isEmpty()) {
+                            toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                        }
                     }
                 }
             }
             webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                    binding.progressBar.progress = newProgress
+                    runCatching {
+                        binding.progressBar.progress = newProgress
+                    }
                 }
             }
         }
