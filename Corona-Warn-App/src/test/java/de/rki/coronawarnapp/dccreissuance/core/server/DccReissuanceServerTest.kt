@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
-import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator
+import de.rki.coronawarnapp.exception.CwaWebSecurityException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
@@ -13,7 +13,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -28,7 +27,6 @@ import java.net.UnknownHostException
 class DccReissuanceServerTest : BaseTest() {
 
     @MockK lateinit var dccReissuanceApi: DccReissuanceApi
-    @RelaxedMockK lateinit var dccReissuanceServerCertificateValidator: DccReissuanceServerCertificateValidator
 
     private val gson = SerializationModule().baseGson()
 
@@ -69,7 +67,6 @@ class DccReissuanceServerTest : BaseTest() {
         get() = DccReissuanceServer(
             dccReissuanceApiLazy = { dccReissuanceApi },
             dispatcherProvider = TestDispatcherProvider(),
-            dccReissuanceServerCertificateValidator = dccReissuanceServerCertificateValidator,
             gson = gson
         )
 
@@ -85,7 +82,6 @@ class DccReissuanceServerTest : BaseTest() {
         instance.requestDccReissuance() shouldBe testResponse
 
         coVerify {
-            dccReissuanceServerCertificateValidator.checkCertificateChain(any())
             dccReissuanceApi.requestReissuance(
                 dccReissuanceRequestBody = DccReissuanceRequestBody(
                     action = testAction,
@@ -98,12 +94,11 @@ class DccReissuanceServerTest : BaseTest() {
     @Test
     fun `forwards server certification validator errors`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_PIN_MISMATCH
-        val testError = Exception("Test error")
-
-        coEvery { dccReissuanceServerCertificateValidator.checkCertificateChain(any()) } throws DccReissuanceException(
-            errorCode = errorCode,
-            cause = testError
+        val testError = CwaWebSecurityException(
+            cause = javax.net.ssl.SSLPeerUnverifiedException("test")
         )
+
+        coEvery { dccReissuanceApi.requestReissuance(any()) } throws testError
 
         shouldThrow<DccReissuanceException> {
             instance.requestDccReissuance()
