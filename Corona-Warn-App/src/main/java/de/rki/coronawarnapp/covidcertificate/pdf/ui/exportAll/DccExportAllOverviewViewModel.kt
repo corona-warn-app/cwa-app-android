@@ -1,13 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
 import android.app.Activity
-import android.print.PdfFile
+import android.print.FilePrinter
 import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
 import android.print.PrintManager
-import android.webkit.WebView
 import androidx.core.content.getSystemService
-import androidx.lifecycle.lifecycleScope
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
@@ -21,10 +19,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.File
-import java.time.Instant
 
 class DccExportAllOverviewViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
@@ -34,7 +29,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     private val fileSharing: FileSharing
 ) : CWAViewModel(dispatcher) {
 
-    private val error = SingleLiveEvent<Throwable>()
+    val error = SingleLiveEvent<Throwable>()
     val result = SingleLiveEvent<ExportResult>()
 
     val dccData = personCertificatesProvider.certificateContainer.map { container ->
@@ -68,16 +63,21 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         }
 
     fun sharePDF(adapter: PrintDocumentAdapter) = launch {
-        PdfFile(printAttributes()).save(
-            adapter,
-            path,
-            FILE_NAME
-        )
-        fileSharing.getFileIntentProvider(
-            path,
-            FILE_NAME,
-            true
-        )
+        runCatching {
+            FilePrinter(printAttributes()).print(
+                adapter,
+                path,
+                FILE_NAME
+            )
+
+            result.postValue(
+                ShareResult(
+                    fileSharing.getFileIntentProvider(File(path, FILE_NAME), FILE_NAME, true)
+                )
+            )
+        }.onFailure {
+            error.postValue(it)
+        }
     }
 
     private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
@@ -95,5 +95,5 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
 
     sealed interface ExportResult
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult
-    data class (val print: (activity: Activity) -> Unit) : ExportResult
+    data class ShareResult(val provider: FileSharing.FileIntentProvider) : ExportResult
 }
