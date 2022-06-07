@@ -18,7 +18,8 @@ class FilePrinter(private val attributes: PrintAttributes) {
     suspend fun print(printAdapter: PrintDocumentAdapter, path: File, fileName: String) =
         suspendCancellableCoroutine<Unit> { cont ->
             printAdapter.onLayout(
-                null, attributes,
+                null,
+                attributes,
                 null,
                 object : LayoutResultCallback() {
                     override fun onLayoutFinished(info: PrintDocumentInfo, changed: Boolean) {
