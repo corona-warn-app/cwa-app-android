@@ -92,7 +92,7 @@ class DccReissuanceServerTest : BaseTest() {
     }
 
     @Test
-    fun `forwards server certification validator errors`() = runTest {
+    fun `forwards server certification pinning error`() = runTest {
         val errorCode = DccReissuanceException.ErrorCode.DCC_RI_PIN_MISMATCH
         val testError = CwaWebSecurityException(
             cause = javax.net.ssl.SSLPeerUnverifiedException("test")
