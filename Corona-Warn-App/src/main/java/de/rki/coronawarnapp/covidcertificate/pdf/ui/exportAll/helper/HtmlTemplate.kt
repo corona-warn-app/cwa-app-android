@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
+package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper
 
 val HTML_TEMPLATE = """
 <!DOCTYPE html>

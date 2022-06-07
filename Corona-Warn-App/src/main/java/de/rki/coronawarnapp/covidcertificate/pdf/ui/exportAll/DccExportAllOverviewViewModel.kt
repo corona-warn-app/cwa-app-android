@@ -11,6 +11,9 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateExportCache
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateTemplate
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.HTML_TEMPLATE
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.inject
 import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -32,9 +35,9 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcher) {
 
     val error = SingleLiveEvent<Throwable>()
-    val result = SingleLiveEvent<ExportResult>()
+    val exportResult = SingleLiveEvent<ExportResult>()
 
-    val dccData = personCertificatesProvider.certificateContainer.map { container ->
+    val pdfString = personCertificatesProvider.certificateContainer.map { container ->
         HTML_TEMPLATE.replace(
             oldValue = "++certificates++",
             newValue = container.allCwaCertificates
@@ -63,38 +66,39 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                 error.postValue(it)
             }
         }.also {
-            result.postValue(it)
+            exportResult.postValue(it)
         }
 
     /**
      * Should be on main dispatcher ,otherwise it throws [IllegalStateException]
      */
-    fun createPDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.Main) {
+    fun createPDF(adapter: PrintDocumentAdapter) = launch(
+        context = dispatcher.Main
+    ) {
         runCatching {
             FilePrinter(printAttributes()).print(
                 adapter,
                 path,
                 FILE_NAME
             )
-            result.postValue(PDFResult)
+            exportResult.postValue(PDFResult)
         }.onFailure {
             Timber.tag(TAG).e(it, "sharePDF() failed")
             error.postValue(it)
         }
     }
 
-    fun sharePDF() {
-        runCatching {
-            result.postValue(
-                ShareResult(
-                    fileSharing.getFileIntentProvider(File(path, FILE_NAME), FILE_NAME, true)
-                )
+    fun sharePDF() = runCatching {
+        exportResult.postValue(
+            ShareResult(
+                fileSharing.getFileIntentProvider(File(path, FILE_NAME), FILE_NAME, true)
             )
-        }.onFailure {
-            Timber.tag(TAG).e(it, "sharePDF() failed")
-            error.postValue(it)
-        }
+        )
+    }.onFailure {
+        Timber.tag(TAG).e(it, "sharePDF() failed")
+        error.postValue(it)
     }
+
 
     private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
         .setMediaSize(PrintAttributes.MediaSize.ISO_A4)

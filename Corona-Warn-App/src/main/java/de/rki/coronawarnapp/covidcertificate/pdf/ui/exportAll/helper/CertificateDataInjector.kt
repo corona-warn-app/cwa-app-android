@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
+package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper
 
 import android.graphics.Bitmap
 import com.google.zxing.EncodeHintType
