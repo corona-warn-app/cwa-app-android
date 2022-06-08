@@ -69,7 +69,6 @@ class OnboardingSettings @Inject constructor(
         private val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
         private val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
         private val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
-        private  val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
-
+        private val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
     }
 }
