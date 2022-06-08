@@ -55,6 +55,7 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
                 every { vaccination } returns mockk {
                     every { doseNumber } returns 2
                     every { totalSeriesOfDoses } returns 2
+                    every { isSeriesCompletingShot } returns true
                     every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
                     every { personIdentifier } returns CertificatePersonIdentifier(
                         dateOfBirthFormatted = "1980-06-01",
@@ -73,6 +74,7 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
                 every { vaccination } returns mockk {
                     every { doseNumber } returns 1
                     every { totalSeriesOfDoses } returns 2
+                    every { isSeriesCompletingShot } returns false
                     every { vaccinatedOn } returns LocalDate.parse("2021-10-17")
                     every { personIdentifier } returns CertificatePersonIdentifier(
                         dateOfBirthFormatted = "1980-06-01",
