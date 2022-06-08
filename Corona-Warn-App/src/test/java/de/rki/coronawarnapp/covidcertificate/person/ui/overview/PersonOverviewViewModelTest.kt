@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestC
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -35,6 +36,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
@@ -47,6 +49,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
     @MockK lateinit var migrationCheck: MigrationCheck
+    @MockK lateinit var onboardingSettings: OnboardingSettings
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -76,6 +79,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             )
         )
         coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
+        every { onboardingSettings.exportAllOnboardingDone } returns mockFlowPreference(true)
     }
 
     @Test
@@ -292,6 +296,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider,
-            migrationCheck = migrationCheck
+            migrationCheck = migrationCheck,
+            onboardingSettings = onboardingSettings
         )
 }

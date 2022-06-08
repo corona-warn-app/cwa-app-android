@@ -20,7 +20,7 @@ class TestCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: Type
         with(canvas) {
             save()
             rotate(180f, PdfGenerator.A4_WIDTH / 2f, PdfGenerator.A4_HEIGHT / 2f)
-            drawTextIntoRectangle(certificate.targetName, paint, TextArea(476.20f, 489.40f, 112.75f))
+            drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(476.20f, 489.40f, 112.75f))
             drawTextIntoRectangle(certificate.testType, paint, TextArea(476.20f, 515.79f, 112.75f))
             drawTextIntoRectangle(certificate.testName ?: "", paint, TextArea(314.27f, 581.76f, 236.89f))
             drawTextIntoRectangle(certificate.testNameAndManufacturer ?: "", paint, TextArea(314.27f, 628.54f, 236.89f))

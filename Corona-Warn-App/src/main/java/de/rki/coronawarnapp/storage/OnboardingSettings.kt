@@ -40,8 +40,18 @@ class OnboardingSettings @Inject constructor(
         defaultValue = false
     )
 
+    val exportAllOnboardingDone = dataStore.dataRecovering.distinctUntilChanged(
+        key = ONBOARDING_EXPORT_ALL_DONE,
+        defaultValue = false
+    )
+
     suspend fun updateFabScannerOnboardingDone(isDone: Boolean) = dataStore.trySetValue(
         preferencesKey = ONBOARDING_FAB_SCANNER_DONE,
+        value = isDone
+    )
+
+    suspend fun updateExportAllOnboardingDone(isDone: Boolean) = dataStore.trySetValue(
+        preferencesKey = ONBOARDING_EXPORT_ALL_DONE,
         value = isDone
     )
 
@@ -59,5 +69,7 @@ class OnboardingSettings @Inject constructor(
         private val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
         private val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
         private val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
+        private  val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
+
     }
 }

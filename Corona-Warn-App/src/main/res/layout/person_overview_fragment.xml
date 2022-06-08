@@ -28,8 +28,8 @@
 
             <include
                 android:id="@+id/admission_container"
-                android:visibility="gone"
-                layout="@layout/admission_scenario_tile" />
+                layout="@layout/admission_scenario_tile"
+                android:visibility="gone" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -44,6 +44,18 @@
             tools:itemCount="1"
             tools:listitem="@layout/person_overview_item"
             tools:visibility="visible" />
+
+        <include
+            android:id="@+id/export_tooltip"
+            layout="@layout/export_tooltip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
