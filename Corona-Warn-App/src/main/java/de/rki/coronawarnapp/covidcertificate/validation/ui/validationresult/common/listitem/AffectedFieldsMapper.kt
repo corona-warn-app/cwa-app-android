@@ -86,7 +86,7 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
         }
 
         is TestCertificate -> when (field) {
-            "t.0.tg" -> certificate.targetName
+            "t.0.tg" -> certificate.targetDisease
             "t.0.tt" -> certificate.testType
             "t.0.nm" -> certificate.testName
             "t.0.ma" -> certificate.testNameAndManufacturer

@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -38,13 +37,12 @@ import timber.log.Timber
 import java.io.File
 
 class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     @Assisted private val handle: SavedStateHandle,
     @Assisted private val exampleArg: String?,
     @AppContext private val context: Context, // App context
-    private val dispatcherProvider: DispatcherProvider,
     private val taskController: TaskController,
     private val keyCacheRepository: KeyCacheRepository,
-    appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val testSettings: TestSettings,
     private val timeStamper: TimeStamper,

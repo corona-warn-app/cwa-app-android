@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_personOverviewFragment_to_admissionScenariosFragment"
             app:destination="@id/admissionScenariosFragment" />
+        <action
+            android:id="@+id/action_personOverviewFragment_to_exportAllCertsPdfInfoFragment"
+            app:destination="@id/exportAllCertsPdfInfoFragment" />
     </fragment>
 
     <fragment
@@ -352,7 +355,7 @@
 
         <action
             android:id="@+id/action_dccReissuanceConsentFragment_to_accCertsFragment"
-            app:destination="@id/dccReissuanceAccCertsFragment"/>
+            app:destination="@id/dccReissuanceAccCertsFragment" />
 
     </fragment>
 
@@ -372,5 +375,21 @@
         android:name="de.rki.coronawarnapp.dccreissuance.ui.success.DccReissuanceSuccessFragment"
         android:label="fragment_dcc_reissuance_success"
         tools:layout="@layout/fragment_dcc_reissuance_success" />
+
+    <fragment
+        android:id="@+id/dccExportAllOverviewFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewFragment"
+        android:label="fragment_dcc_export_all_overview"
+        tools:layout="@layout/fragment_dcc_export_all_overview" />
+
+    <fragment
+        android:id="@+id/exportAllCertsPdfInfoFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.pdf.ui.ExportAllCertsPdfInfoFragment"
+        android:label="export_all_certs_pdf_info_fragment"
+        tools:layout="@layout/export_all_certs_pdf_info_fragment">
+        <action
+            android:id="@+id/action_exportAllCertsPdfInfoFragment_to_dccExportAllOverviewFragment"
+            app:destination="@id/dccExportAllOverviewFragment" />
+    </fragment>
 
 </navigation>

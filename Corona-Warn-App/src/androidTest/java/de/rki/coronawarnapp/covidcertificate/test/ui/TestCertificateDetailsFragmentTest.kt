@@ -125,8 +125,8 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
             get() = null
         override val containerId: TestCertificateContainerId
             get() = TestCertificateContainerId("identifier")
-        override val targetName: String
-            get() = "Schneider, Andrea"
+        override val targetDisease: String
+            get() = "Covid 19"
         override val testType: String
             get() = "SARS-CoV-2-Test"
         override val testResult: String

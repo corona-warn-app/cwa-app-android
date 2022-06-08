@@ -34,6 +34,7 @@ interface CwaCovidCertificate : Recyclable {
     val certificateIssuer: String
     val certificateCountry: String
     val qrCodeHash: String
+    val targetDisease: String
 
     /**
      * `ci` field
