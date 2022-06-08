@@ -7,6 +7,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ExportAllCertsPdfInfoFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -26,7 +27,10 @@ class ExportAllCertsPdfInfoFragment : Fragment(R.layout.export_all_certs_pdf_inf
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
             nextButton.setOnClickListener {
-                // navigate to all certificates preview screen
+                doNavigate(
+                    ExportAllCertsPdfInfoFragmentDirections
+                        .actionExportAllCertsPdfInfoFragmentToDccExportAllOverviewFragment()
+                )
             }
             appBarLayout.onOffsetChange { _, subtitleAlpha ->
                 headerImage.alpha = subtitleAlpha

@@ -363,4 +363,16 @@
     <string name="export_all_tooltip_title">Zertifikate exportieren</string>
     <!-- XTXT: Certificate export all tooltip message -->
     <string name="export_all_tooltip_message">In einem Schritt alle Ihre Zertifikate in einem gemeinsamen PDF-Dokument speichern</string>
+    <!-- XTXT: Certificate export all progress title -->
+    <string name="export_all_progress_title">PDF wird erstellt</string>
+    <!-- XTXT: Certificate export all progress message -->
+    <string name="export_all_progress_text">Dies kann einige Minuten dauern.</string>
+    <!-- XTXT: Certificate export all progress cancel -->
+    <string name="export_all_progress_cancel">Abbrechen</string>
+    <!-- XTXT: Certificate export all error title -->
+    <string name="export_all_error_title">Druckversion anzeigen nicht möglich</string>
+    <!-- XTXT: Certificate export all error message -->
+    <string name="export_all_error_message">Die Druckversion der Zertifikate kann nicht angezeigt werden.</string>
+    <!-- XTXT: Certificate export all error faq button -->
+    <string name="export_all_error_faq">FAQ zur Druckversion</string>
 </resources>

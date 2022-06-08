@@ -26,8 +26,9 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/headline6Sixteen"
+            style="@style/headline6"
             android:layout_width="0dp"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -37,10 +38,12 @@
             app:layout_constraintEnd_toStartOf="@+id/close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/subtitle"
             style="@style/subtitle"
             android:layout_width="0dp"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"

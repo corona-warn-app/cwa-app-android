@@ -14,37 +14,37 @@ import testhelpers.BaseTest
 
 class DccExportFilterTest : BaseTest() {
 
-    val vaccination1 = mockk<VaccinationCertificate>().apply {
+    private val vaccination1 = mockk<VaccinationCertificate>().apply {
         every { fullName } returns "Alpha"
         every { vaccinatedOn } returns LocalDate.parse("2022-03-10")
         every { state } returns CwaCovidCertificate.State.ExpiringSoon(Instant.parse("2022-05-09T10:00:00Z"))
     }
 
-    val vaccination2 = mockk<VaccinationCertificate>().apply {
+    private val vaccination2 = mockk<VaccinationCertificate>().apply {
         every { fullName } returns "Alpha"
         every { vaccinatedOn } returns LocalDate.parse("2022-04-10")
         every { state } returns CwaCovidCertificate.State.Valid(Instant.parse("2022-05-09T10:00:00Z"))
     }
 
-    val recovery1 = mockk<RecoveryCertificate>().apply {
+    private val recovery1 = mockk<RecoveryCertificate>().apply {
         every { fullName } returns "Beta"
         every { testedPositiveOn } returns LocalDate.parse("2022-03-10")
         every { state } returns CwaCovidCertificate.State.Invalid(false)
     }
 
-    val recovery2 = mockk<RecoveryCertificate>().apply {
+    private val recovery2 = mockk<RecoveryCertificate>().apply {
         every { fullName } returns "Beta"
         every { testedPositiveOn } returns LocalDate.parse("2022-03-10")
         every { state } returns CwaCovidCertificate.State.Recycled
     }
 
-    val test1 = mockk<TestCertificate>().apply {
+    private val test1 = mockk<TestCertificate>().apply {
         every { fullName } returns "Alpha"
         every { sampleCollectedAt } returns Instant.parse("2022-03-10T10:00:00Z")
         every { state } returns CwaCovidCertificate.State.Expired(Instant.parse("2022-05-09T10:00:00Z"))
     }
 
-    val test2 = mockk<TestCertificate>().apply {
+    private val test2 = mockk<TestCertificate>().apply {
         every { fullName } returns "Ceta"
         every { sampleCollectedAt } returns Instant.parse("2022-05-09T10:00:00Z")
         every { state } returns CwaCovidCertificate.State.Expired(Instant.parse("2022-05-09T10:00:00Z"))

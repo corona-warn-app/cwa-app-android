@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.util.toJavaTime
 import java.time.Duration
 import java.time.Instant
 
-internal fun List<CwaCovidCertificate>.filterAndSortForExport(
+internal fun Collection<CwaCovidCertificate>.filterAndSortForExport(
     nowUtc: Instant
 ): List<CwaCovidCertificate> {
     return filter {
