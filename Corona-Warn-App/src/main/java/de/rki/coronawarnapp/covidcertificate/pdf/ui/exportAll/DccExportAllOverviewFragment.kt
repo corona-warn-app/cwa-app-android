@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_overview), AutoInject {
     private val binding by viewBinding<FragmentDccExportAllOverviewBinding>()
-    private val jobName get() = getString(R.string.app_name) + "-" + Instant.now().toString()
+    private val jobName get() = "CoronaWarn-" + Instant.now().toString()
 
     @Inject
     lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
