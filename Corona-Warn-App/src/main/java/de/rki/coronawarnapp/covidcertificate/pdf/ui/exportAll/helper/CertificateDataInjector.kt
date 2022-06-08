@@ -53,7 +53,7 @@ private fun String.sanitize(): String = this
     .replace("\"", "&quot;")
     .replace("'", "&apos;")
 
-private fun CwaCovidCertificate.qrCodeBase64(): String {
+internal fun CwaCovidCertificate.qrCodeBase64(): String {
     val hints = mapOf(
         /**
          * We cannot use Charsets.UTF_8 as zxing calls toString internally
