@@ -12,7 +12,6 @@ interface TestCertificate : CwaCovidCertificate {
     /**
      * Disease or agent targeted (required)
      */
-    val targetName: String
     val testType: String
     val testResult: String
 

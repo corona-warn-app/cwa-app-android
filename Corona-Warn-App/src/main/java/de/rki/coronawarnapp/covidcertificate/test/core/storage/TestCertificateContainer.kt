@@ -115,8 +115,9 @@ data class TestCertificateContainer(
             override val dateOfBirthFormatted: String
                 get() = certificate.dateOfBirthFormatted
 
-            override val targetName: String
+            override val targetDisease: String
                 get() = valueSet?.getDisplayText(testCertificate.targetId) ?: testCertificate.targetId
+
             override val testType: String
                 get() = valueSet?.getDisplayText(testCertificate.testType) ?: testCertificate.testType
             override val testResult: String

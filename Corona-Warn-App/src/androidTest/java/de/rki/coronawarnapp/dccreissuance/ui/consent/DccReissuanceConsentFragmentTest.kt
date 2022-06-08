@@ -12,6 +12,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -49,15 +50,13 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
     private val state = DccReissuanceConsentViewModel.State(
         certificateList = mutableListOf<DccReissuanceItem>(
             DccReissuanceCertificateCard.Item(
-                mockk<VaccinationDccV1> {
+                mockk<RecoveryDccV1> {
                     every { nameData } returns mockk {
                         every { fullName } returns "Andrea Schneider"
                     }
 
-                    every { vaccination } returns mockk {
-                        every { doseNumber } returns 2
-                        every { totalSeriesOfDoses } returns 2
-                        every { vaccinatedOn } returns LocalDate.parse("2022-01-15")
+                    every { recovery } returns mockk {
+                        every { testedPositiveOn } returns LocalDate.parse("2022-01-15")
                         every { personIdentifier } returns CertificatePersonIdentifier(
                             dateOfBirthFormatted = "2020-01-01",
                             lastNameStandardized = "Schneider",
@@ -75,6 +74,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
                     every { vaccination } returns mockk {
                         every { doseNumber } returns 2
                         every { totalSeriesOfDoses } returns 2
+                        every { isSeriesCompletingShot } returns true
                         every { vaccinatedOn } returns LocalDate.parse("2022-01-17")
                         every { personIdentifier } returns CertificatePersonIdentifier(
                             dateOfBirthFormatted = "2020-01-01",

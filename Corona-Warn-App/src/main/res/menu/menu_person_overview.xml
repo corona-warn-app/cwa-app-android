@@ -4,8 +4,15 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/menu_export_all"
+        android:icon="@drawable/ic_export_all"
+        android:title="@string/menu_export_all"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/menu_information"
+        android:icon="@drawable/ic_export_info"
         android:title="@string/menu_certification_information"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>

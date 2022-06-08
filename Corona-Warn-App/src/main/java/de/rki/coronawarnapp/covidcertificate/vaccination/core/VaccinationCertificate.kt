@@ -11,7 +11,6 @@ interface VaccinationCertificate : CwaCovidCertificate {
 
     val vaccinatedOn: LocalDate?
     val vaccinatedOnFormatted: String
-    val targetDisease: String
     val vaccineManufacturer: String
     val doseNumber: Int
     val totalSeriesOfDoses: Int
@@ -28,7 +27,7 @@ interface VaccinationCertificate : CwaCovidCertificate {
     val isSeriesCompletingShot get() = rawCertificate.isSeriesCompletingShot
 
     companion object {
-        val iconComplete = R.drawable.ic_vaccination_immune
-        val iconIncomplete = R.drawable.ic_vaccination_incomplete
+        const val iconComplete = R.drawable.ic_vaccination_immune
+        const val iconIncomplete = R.drawable.ic_vaccination_incomplete
     }
 }

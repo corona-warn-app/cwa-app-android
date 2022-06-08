@@ -15,7 +15,6 @@ interface RecoveryCertificate : CwaCovidCertificate {
     val testedPositiveOn: LocalDate?
     val validFrom: LocalDate?
     val validUntil: LocalDate?
-    val targetDisease: String
 
     override val rawCertificate: RecoveryDccV1
 
