@@ -38,7 +38,6 @@ internal class CertificateTemplateTest : BaseTest() {
             }.run {
                 ByteArrayInputStream(toByteArray())
             }
-
         }
     }
 
