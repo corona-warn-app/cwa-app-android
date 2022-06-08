@@ -11,11 +11,12 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateExportCache
+import de.rki.coronawarnapp.covidcertificate.pdf.core.filterAndSortForExport
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateTemplate
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.HTML_TEMPLATE
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.inject
-import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -25,10 +26,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.io.File
+import java.time.Instant
 
 class DccExportAllOverviewViewModel @AssistedInject constructor(
     personCertificatesProvider: CertificateProvider,
     template: CertificateTemplate,
+    timeStamper: TimeStamper,
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
     @CertificateExportCache private val path: File
@@ -41,8 +44,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         HTML_TEMPLATE.replace(
             oldValue = "++certificates++",
             newValue = container.allCwaCertificates
-                .sortedBy { cert -> cert.fullNameFormatted }
-                .toCertificateSortOrder()
+                .filterAndSortForExport(timeStamper.nowJavaUTC)
                 .joinToString(separator = "\n") { cert ->
                     "<li>${template(cert).inject(cert)}</li>"
                 }
