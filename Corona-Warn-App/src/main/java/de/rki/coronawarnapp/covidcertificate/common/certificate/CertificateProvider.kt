@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -26,8 +25,7 @@ class CertificateProvider @Inject constructor(
     vcRepo: VaccinationCertificateRepository,
     tcRepo: TestCertificateRepository,
     rcRepo: RecoveryCertificateRepository,
-    @AppScope private val appScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider
+    @AppScope private val appScope: CoroutineScope
 ) {
 
     /**
