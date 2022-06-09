@@ -71,6 +71,7 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
         }
 
         viewModel.error.observe2(this) {
+            binding.progressLayout.isVisible = false
             it.toErrorDialogBuilder(requireContext()).show()
         }
 
