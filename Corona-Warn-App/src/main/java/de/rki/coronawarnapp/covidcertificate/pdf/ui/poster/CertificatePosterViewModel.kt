@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.poster
 
 import android.app.Activity
 import android.print.FilePrinter
-import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
 import android.print.PrintManager
 import androidx.core.content.getSystemService
@@ -37,6 +36,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
     private val template: CertificateTemplate,
+    private val filePrinter: FilePrinter,
     @CertificateExportCache private val path: File
 
 ) : CWAViewModel(dispatcher) {
@@ -54,7 +54,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
 
     fun createPDF(adapter: PrintDocumentAdapter) = launch(context = dispatcher.Main) {
         try {
-            FilePrinter(printAttributes()).print(adapter, path, getPDFFileName())
+            filePrinter.print(adapter, path, getPDFFileName())
             mutableUiState.postValue(UiState.Done)
         } catch (e: Exception) {
             Timber.e(e, "Generating poster failed")
@@ -66,7 +66,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
         try {
             val fileName = getPDFFileName()
             sharingIntent.postValue(
-                fileSharing.getFileIntentProvider(File(path, fileName), fileName)
+                fileSharing.getFileIntentProvider(File(path, fileName), fileName, true)
             )
         } catch (e: Exception) {
             Timber.e(e, "Generating poster failed")
@@ -81,7 +81,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
                 printManager.print(
                     activity.getString(R.string.app_name),
                     adapter,
-                    printAttributes()
+                    filePrinter.attributes
                 )
             }.onFailure { e ->
                 Timber.e(e, "print() failed")
@@ -97,12 +97,6 @@ class CertificatePosterViewModel @AssistedInject constructor(
         Timber.i("CertificatePosterFragment closed. Deleting pdf export now.")
         deleteFile()
     }
-
-    private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
-        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
-        .build()
 
     private fun deleteFile() = launch(
         scope = appScope,

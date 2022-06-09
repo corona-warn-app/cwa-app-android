@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
 import android.app.Activity
 import android.print.FilePrinter
-import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
 import android.print.PrintManager
 import androidx.core.content.getSystemService
@@ -34,7 +33,8 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     timeStamper: TimeStamper,
     private val dispatcher: DispatcherProvider,
     private val fileSharing: FileSharing,
-    @CertificateExportCache private val path: File
+    private val filePrinter: FilePrinter,
+    @CertificateExportCache private val path: File,
 ) : CWAViewModel(dispatcher) {
 
     val error = SingleLiveEvent<Throwable>()
@@ -60,7 +60,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                 printManager.print(
                     activity.getString(R.string.app_name),
                     adapter,
-                    printAttributes()
+                    filePrinter.attributes
                 )
             }.onFailure {
                 Timber.tag(TAG).e(it, "print() failed")
@@ -77,7 +77,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         context = dispatcher.Main
     ) {
         runCatching {
-            FilePrinter(printAttributes()).print(
+            filePrinter.print(
                 adapter,
                 path,
                 FILE_NAME
@@ -99,12 +99,6 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         Timber.tag(TAG).e(it, "sharePDF() failed")
         error.postValue(it)
     }
-
-    private fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
-        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
-        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
-        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
-        .build()
 
     override fun onCleared() {
         super.onCleared()
