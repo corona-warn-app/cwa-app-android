@@ -19,7 +19,7 @@ internal fun String.inject(
     .replace("\$dob", cert.dateOfBirthFormatted.sanitize())
     .replace("\$ci", cert.uniqueCertificateIdentifier.sanitize())
     .replace("\$tg", cert.targetDisease.sanitize())
-    .replace("\$co", cert.certificateCountry.sanitize())
+    .replace("\$co", cert.rawCertificate.payload.certificateCountry.sanitize())
     .replace("\$qr", cert.qrCodeBase64())
     .replace("\$is", cert.certificateIssuer.sanitize())
     .replaceFieldsOf(cert)
