@@ -42,7 +42,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateDataInjectorKt")
+        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateDataInjectorKt")
 
         val vc = mockk<VaccinationCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"

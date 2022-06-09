@@ -15,7 +15,7 @@ internal class CertificateDataInjectorTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
-        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateDataInjectorKt")
+        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateDataInjectorKt")
     }
 
     @Test
