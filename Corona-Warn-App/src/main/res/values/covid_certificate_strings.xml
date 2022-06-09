@@ -378,5 +378,5 @@
     <!-- XTXT: Certificate export all no pages  title -->
     <string name="export_all_no_pages_title">Zertifikate können nicht exportiert werden</string>
     <!-- XTXT: Certificate export all no pages message -->
-    <string name="export_all_no_pages_message">Es gibt keine Zertifikate, die Sie exportieren können. Alle verfügbaren Zertifikate sind gesperrt, alte Testzertifikate...</string>
+    <string name="export_all_no_pages_message">Die vorhandenen Zertifikate können nicht exportiert werden, da sie nicht mehr gültig sind.</string>
 </resources>
