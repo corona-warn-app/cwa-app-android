@@ -133,6 +133,19 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
     }
 
     @Test
+    fun `No certificates to export`() {
+        every { personCertificatesProvider.certificateContainer } returns flowOf(
+            mockk<CertificateProvider.CertificateContainer>().apply {
+                every { allCwaCertificates } returns setOf()
+            }
+        )
+        instance().apply {
+            pdfString.getOrAwaitValue() shouldBe buildHtml {}
+            exportResult.getOrAwaitValue() shouldBe DccExportAllOverviewViewModel.EmptyResult
+        }
+    }
+
+    @Test
     fun `Print document`() {
         instance().apply {
             print(mockk())
