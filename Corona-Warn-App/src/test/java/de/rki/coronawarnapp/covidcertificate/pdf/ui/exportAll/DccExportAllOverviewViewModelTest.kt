@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
+import android.print.FilePrinter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateTemplate
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.HTML_TEMPLATE
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.qrCodeBase64
+import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateTemplate
+import de.rki.coronawarnapp.covidcertificate.pdf.core.appendPage
+import de.rki.coronawarnapp.covidcertificate.pdf.core.buildHtml
+import de.rki.coronawarnapp.covidcertificate.pdf.core.qrCodeBase64
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -35,6 +37,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
     @MockK lateinit var template: CertificateTemplate
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var fileSharing: FileSharing
+    @MockK lateinit var filePrinter: FilePrinter
 
     @BeforeEach
     fun setUp() {
@@ -110,14 +113,11 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
 
     @Test
     fun getPdfString() {
-        instance().pdfString.getOrAwaitValue() shouldBe HTML_TEMPLATE.replace(
-            oldValue = "++certificates++",
-            newValue = """
-                <li>Template</li>
-                <li>Template</li>
-                <li>Template</li>
-            """.trimIndent()
-        )
+        instance().pdfString.getOrAwaitValue() shouldBe buildHtml {
+            appendPage("Template")
+            appendPage("Template")
+            appendPage("Template")
+        }
     }
 
     fun instance() = DccExportAllOverviewViewModel(
@@ -126,6 +126,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         dispatcher = TestDispatcherProvider(),
         fileSharing = fileSharing,
-        path = File("")
+        path = File(""),
+        filePrinter = filePrinter
     )
 }
