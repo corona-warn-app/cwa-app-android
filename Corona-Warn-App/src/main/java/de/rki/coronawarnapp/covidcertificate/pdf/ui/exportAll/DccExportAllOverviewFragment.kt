@@ -89,7 +89,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setTitle(R.string.export_all_error_title)
             .setMessage(R.string.export_all_error_message)
             .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
-                openUrl(R.string.certificate_export_error_dialog_faq_link)
+                openUrl(R.string.certificate_export_all_error_dialog_faq_link)
             }.setPositiveButton(android.R.string.ok) { _, _ -> }
             .setOnDismissListener { popBackStack() }
             .show()
