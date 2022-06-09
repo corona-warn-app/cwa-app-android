@@ -41,12 +41,14 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     val exportResult = SingleLiveEvent<ExportResult>()
 
     val pdfString = personCertificatesProvider.certificateContainer.map { container ->
+        val certificates = container.allCwaCertificates.filterAndSortForExport(timeStamper.nowJavaUTC)
+        certificates.ifEmpty { exportResult.postValue(EmptyResult) }
         buildHtml {
-            container.allCwaCertificates
-                .filterAndSortForExport(timeStamper.nowJavaUTC)
-                .forEach { cert ->
-                    appendPage(template(cert).inject(cert))
-                }
+            certificates.forEach { cert ->
+                appendPage(
+                    template(cert).inject(cert)
+                )
+            }
         }
     }.catch {
         Timber.tag(TAG).e(it, "dccData failed")
@@ -116,6 +118,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult
     data class ShareResult(val provider: FileSharing.FileIntentProvider) : ExportResult
     object PDFResult : ExportResult
+    object EmptyResult : ExportResult
 
     companion object {
         private const val FILE_NAME = "certificates.pdf"
