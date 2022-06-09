@@ -8,10 +8,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.datastore.tryUpdateValue
+import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -21,9 +23,9 @@ import javax.inject.Singleton
 
 @Singleton
 class TestSettings @Inject constructor(
-    @StorageDataStore private val dataStore: DataStore<Preferences>,
+    private val dataStore: DataStore<Preferences>,
     @BaseJackson private val objectMapper: ObjectMapper
-) {
+) : Resettable {
 
     val fakeCorrectDeviceTime = dataStore.dataRecovering.distinctUntilChanged(
         key = FAKE_CORRECT_DEVICE_TIME,
@@ -71,6 +73,11 @@ class TestSettings @Inject constructor(
     }
         .onFailure { Timber.e(it, "Failed to convert %s to FakeExposureWindowTypes", this) }
         .getOrNull() ?: FakeExposureWindowTypes.DISABLED
+
+    override suspend fun reset() {
+        Timber.d("reset()")
+        dataStore.clear()
+    }
 
     enum class FakeExposureWindowTypes {
         @JsonProperty("DISABLED")

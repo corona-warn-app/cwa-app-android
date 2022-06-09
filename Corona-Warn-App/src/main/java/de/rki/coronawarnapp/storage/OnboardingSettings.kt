@@ -4,22 +4,25 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.map
 import de.rki.coronawarnapp.util.datastore.trySetValue
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OnboardingSettings @Inject constructor(
-    @StorageDataStore private val dataStore: DataStore<Preferences>
-) {
+    private val dataStore: DataStore<Preferences>
+) : Resettable {
 
     val onboardingCompletedTimestamp = dataStore.dataRecovering
         .map(ONBOARDING_COMPLETED_TIMESTAMP, 0L)
@@ -64,6 +67,11 @@ class OnboardingSettings @Inject constructor(
         preferencesKey = BACKGROUND_CHECK_DONE,
         value = isDone
     )
+
+    override suspend fun reset() {
+        Timber.d("reset()")
+        dataStore.clear()
+    }
 
     companion object {
         private val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")

@@ -9,11 +9,13 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.getValueOrDefault
 import de.rki.coronawarnapp.util.datastore.map
 import de.rki.coronawarnapp.util.datastore.trySetValue
+import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
@@ -23,8 +25,8 @@ import javax.inject.Singleton
 
 @Singleton
 class TracingSettings @Inject constructor(
-    @StorageDataStore private val dataStore: DataStore<Preferences>
-) {
+    private val dataStore: DataStore<Preferences>
+) : Resettable {
 
     suspend fun isConsentGiven() = dataStore.getValueOrDefault(TRACING_ACTIVATION_TIMESTAMP, false)
 
@@ -91,6 +93,11 @@ class TracingSettings @Inject constructor(
     suspend fun deleteLegacyTestData() {
         Timber.d("deleteLegacyTestData()")
         dataStore.edit { prefs -> prefs.remove(TEST_RESULT_NOTIFICATION_SENT) }
+    }
+
+    override suspend fun reset() {
+        Timber.d("reset()")
+        dataStore.clear()
     }
 
     companion object {

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module(includes = [StorageModule.ResetModule::class])
@@ -22,7 +21,6 @@ object StorageModule {
 
     @Singleton
     @Provides
-    @StorageDataStore
     fun provideDataStore(
         @AppContext context: Context,
         @AppScope appScope: CoroutineScope,
@@ -37,16 +35,19 @@ object StorageModule {
     internal interface ResetModule {
         @Binds
         @IntoSet
-        fun bindResettableStorageReset(resettable: StorageReset): Resettable
+        fun bindResettableOnboardingSettings(resettable: OnboardingSettings): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableTestSettings(resettable: TestSettings): Resettable
+
+        @Binds
+        @IntoSet
+        fun bindResettableTracingSettings(resettable: TracingSettings): Resettable
     }
 }
 
-private const val STORAGE_DATASTORE_NAME = "storage_localdata"
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class StorageDataStore
+private const val STORAGE_DATASTORE_NAME = "shared_settings_storage"
 
 private val LEGACY_SHARED_PREFS
     get() = listOf(

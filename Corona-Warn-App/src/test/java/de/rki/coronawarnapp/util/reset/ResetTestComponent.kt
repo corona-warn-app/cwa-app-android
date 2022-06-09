@@ -69,8 +69,10 @@ import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsServer
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsCache
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.StorageModule
-import de.rki.coronawarnapp.storage.StorageReset
+import de.rki.coronawarnapp.storage.TestSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -253,10 +255,16 @@ object MockProvider {
     fun provideLocalStatisticsServer(): LocalStatisticsServer = mockk(relaxed = true)
 
     @Provides
-    fun provideLocalStatisticsCache(): LocalStatisticsCache = mockk(relaxed = true)
+    fun provideTestSettings(): TestSettings = mockk(relaxed = true)
 
     @Provides
-    fun provideStorageReset(): StorageReset = mockk(relaxed = true)
+    fun provideOnboardingSettings(): OnboardingSettings = mockk(relaxed = true)
+
+    @Provides
+    fun provideTracingSettings(): TracingSettings = mockk(relaxed = true)
+
+    @Provides
+    fun provideLocalStatisticsCache(): LocalStatisticsCache = mockk(relaxed = true)
 
     @Provides
     fun provideSubmissionSettings(): SubmissionSettings = mockk(relaxed = true)

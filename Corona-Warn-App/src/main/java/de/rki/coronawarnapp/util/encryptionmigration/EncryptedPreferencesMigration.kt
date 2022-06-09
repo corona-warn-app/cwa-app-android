@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,6 +27,8 @@ class EncryptedPreferencesMigration @Inject constructor(
     private val onboardingSettings: OnboardingSettings,
     private val errorResetTool: EncryptionErrorResetTool
 ) {
+
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun doMigration() {
         Timber.d("Migration start")
@@ -48,7 +52,7 @@ class EncryptedPreferencesMigration @Inject constructor(
         Timber.d("Migration finish")
     }
 
-    private fun copyData(encryptedSharedPreferences: SharedPreferences) = runBlocking {
+    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
         Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
             cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
@@ -58,16 +62,22 @@ class EncryptedPreferencesMigration @Inject constructor(
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {
-            onboardingSettings.updateOnboardingCompletedTimestamp(
-                timeStamp = onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
-            )
-            onboardingSettings.updateBackgroundCheckDone(isDone = isBackgroundCheckDone())
+            coroutineScope.launch {
+                onboardingSettings.updateOnboardingCompletedTimestamp(
+                    timeStamp = onboardingCompletedTimestamp()?.let { Instant.ofEpochMilli(it) }
+                )
+                onboardingSettings.updateBackgroundCheckDone(isDone = isBackgroundCheckDone())
+            }
         }
 
         TracingLocalData(encryptedSharedPreferences).apply {
-            tracingSettings.updateTestResultAvailableNotificationSentMigration(isTestResultAvailableNotificationSent())
-            tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(isUserToBeNotifiedOfLoweredRiskLevel())
-            tracingSettings.updateConsentGiven(isConsentGiven = initialTracingActivationTimestamp() != 0L)
+            coroutineScope.launch {
+                tracingSettings.updateTestResultAvailableNotificationSentMigration(
+                    isTestResultAvailableNotificationSent()
+                )
+                tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(isUserToBeNotifiedOfLoweredRiskLevel())
+                tracingSettings.updateConsentGiven(isConsentGiven = initialTracingActivationTimestamp() != 0L)
+            }
         }
 
         SubmissionLocalData(encryptedSharedPreferences).apply {
