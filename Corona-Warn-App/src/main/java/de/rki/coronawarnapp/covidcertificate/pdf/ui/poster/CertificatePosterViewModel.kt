@@ -57,7 +57,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
             filePrinter.print(adapter, path, getPDFFileName())
             mutableUiState.postValue(UiState.Done)
         } catch (e: Exception) {
-            Timber.e(e, "Generating poster failed")
+            Timber.e(e, "createPDF() failed")
             error.postValue(CertificateExportException(e.cause, e.message))
         }
     }
@@ -69,7 +69,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
                 fileSharing.getFileIntentProvider(File(path, fileName), fileName, true)
             )
         } catch (e: Exception) {
-            Timber.e(e, "Generating poster failed")
+            Timber.e(e, "sharePDF() failed")
             error.postValue(CertificateExportException(e.cause, e.message))
         }
     }
@@ -105,7 +105,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
         try {
             File(path, getPDFFileName()).delete()
         } catch (e: Exception) {
-            Timber.d(e, "deleteFile failed")
+            Timber.d(e, "deleteFile() failed")
         }
     }
 
