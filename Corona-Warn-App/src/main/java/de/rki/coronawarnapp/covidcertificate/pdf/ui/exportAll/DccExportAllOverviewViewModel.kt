@@ -12,9 +12,10 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateExportCache
 import de.rki.coronawarnapp.covidcertificate.pdf.core.filterAndSortForExport
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateTemplate
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.HTML_TEMPLATE
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.inject
+import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateTemplate
+import de.rki.coronawarnapp.covidcertificate.pdf.core.appendPage
+import de.rki.coronawarnapp.covidcertificate.pdf.core.buildHtml
+import de.rki.coronawarnapp.covidcertificate.pdf.core.inject
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -40,14 +41,13 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     val exportResult = SingleLiveEvent<ExportResult>()
 
     val pdfString = personCertificatesProvider.certificateContainer.map { container ->
-        HTML_TEMPLATE.replace(
-            oldValue = "++certificates++",
-            newValue = container.allCwaCertificates
+        buildHtml {
+            container.allCwaCertificates
                 .filterAndSortForExport(timeStamper.nowJavaUTC)
-                .joinToString(separator = "\n") { cert ->
-                    "<li>${template(cert).inject(cert)}</li>"
+                .forEach { cert ->
+                    appendPage(template(cert).inject(cert))
                 }
-        )
+        }
     }.catch {
         Timber.tag(TAG).e(it, "dccData failed")
         error.postValue(it)

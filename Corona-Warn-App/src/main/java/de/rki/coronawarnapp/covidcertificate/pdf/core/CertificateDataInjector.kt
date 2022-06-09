@@ -1,10 +1,10 @@
-package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper
+package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.graphics.Bitmap
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.encoder.Encoder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.pdf.core.toBitmap
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.toBitmap
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate

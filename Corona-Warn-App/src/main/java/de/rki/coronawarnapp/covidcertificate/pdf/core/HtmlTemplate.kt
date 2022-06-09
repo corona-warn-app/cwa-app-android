@@ -1,6 +1,6 @@
-package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper
+package de.rki.coronawarnapp.covidcertificate.pdf.core
 
-val HTML_TEMPLATE = """
+private val HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
 
@@ -26,3 +26,10 @@ val HTML_TEMPLATE = """
 
 </html>
 """.trimIndent()
+
+fun buildHtml(builderAction: StringBuilder.() -> Unit) = HTML_TEMPLATE.replace(
+    "++certificates++",
+    buildString(builderAction)
+)
+
+fun StringBuilder.appendPage(page: String): StringBuilder = append("<li>$page</li>")
