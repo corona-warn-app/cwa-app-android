@@ -67,7 +67,7 @@
                     app:layout_constraintTop_toBottomOf="@id/onboarding_illustration" />
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@id/settings_ppa_switch_row"
+                    android:id="@+id/settings_ppa_switch_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -77,14 +77,14 @@
                     app:isTopDividerVisible="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body"
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body"
                     app:subtitleText="@string/onboarding_ppa_state_title"
                     app:titleText="@string/settings_analytics_switch_subtitle"
                     app:toggleOffText="@string/settings_off"
                     app:toggleOnText="@string/settings_on" />
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@id/federal_state_row"
+                    android:id="@+id/federal_state_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -92,12 +92,12 @@
                     app:isTopDividerVisible="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_ppa_switch_row"
+                    app:layout_constraintTop_toBottomOf="@id/settings_ppa_switch_row"
                     app:subtitleText="@string/onboarding_ppa_state_title"
                     app:titleText="@string/onboarding_ppa_state_title" />
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@id/district_row"
+                    android:id="@+id/district_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -110,7 +110,7 @@
                     app:titleText="@string/onboarding_ppa_district_title" />
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@id/age_group_row"
+                    android:id="@+id/age_group_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -118,12 +118,12 @@
                     app:isTopDividerVisible="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row"
+                    app:layout_constraintTop_toBottomOf="@id/district_row"
                     app:subtitleText="@string/onboarding_ppa_age_title"
                     app:titleText="@string/onboarding_ppa_age_title" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@id/consent_layout"
+                    android:id="@+id/consent_layout"
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                     app:layout_constraintTop_toBottomOf="@id/age_group_row">
 
                     <TextView
-                        android:id="@id/legal_title"
+                        android:id="@+id/legal_title"
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@id/legal_body"
+                        android:id="@+id/legal_body"
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -156,10 +156,10 @@
                         android:text="@string/ppa_settings_privacy_information_body"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_title" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_title" />
 
                     <TextView
-                        android:id="@id/legal_point_consent"
+                        android:id="@+id/legal_point_consent"
                         style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -169,10 +169,10 @@
                         android:text="@string/ppa_onboarding_privacy_information_point_consent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_body" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_body" />
 
                     <ImageView
-                        android:id="@id/bullet_point_consent"
+                        android:id="@+id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
@@ -182,7 +182,7 @@
                         app:srcCompat="@drawable/bullet_point" />
 
                     <TextView
-                        android:id="@id/legal_point_identity"
+                        android:id="@+id/legal_point_identity"
                         style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -192,10 +192,10 @@
                         android:text="@string/ppa_onboarding_privacy_information_point_identity"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_point_consent" />
 
                     <ImageView
-                        android:id="@id/bullet_point_identity"
+                        android:id="@+id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
@@ -205,7 +205,7 @@
                         app:srcCompat="@drawable/bullet_point" />
 
                     <TextView
-                        android:id="@id/legal_point_sixteen"
+                        android:id="@+id/legal_point_sixteen"
                         style="@style/body1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                         app:layout_constraintTop_toBottomOf="@id/legal_point_identity" />
 
                     <ImageView
-                        android:id="@id/bullet_point_sixteen"
+                        android:id="@+id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
@@ -230,7 +230,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@id/more_info_row"
+                    android:id="@+id/more_info_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -242,14 +242,14 @@
                     app:titleText="@string/onboarding_ppa_more_info_title" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@id/body_start"
+                    android:id="@+id/body_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@id/body_end"
+                    android:id="@+id/body_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
