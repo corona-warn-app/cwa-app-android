@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 class TestSettings @Inject constructor(
-    private val dataStore: DataStore<Preferences>,
+    @TestSettingsDataStore private val dataStore: DataStore<Preferences>,
     @BaseJackson private val objectMapper: ObjectMapper
 ) : Resettable {
 

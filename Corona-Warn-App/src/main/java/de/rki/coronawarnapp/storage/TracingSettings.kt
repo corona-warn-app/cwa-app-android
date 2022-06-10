@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Singleton
 class TracingSettings @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    @TracingSettingsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
 
     suspend fun isConsentGiven() = dataStore.getValueOrDefault(TRACING_ACTIVATION_TIMESTAMP, false)

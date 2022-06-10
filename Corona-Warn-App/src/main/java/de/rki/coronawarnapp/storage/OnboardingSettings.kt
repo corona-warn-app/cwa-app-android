@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 @Singleton
 class OnboardingSettings @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    @OnboardingSettingsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
 
     val onboardingCompletedTimestamp = dataStore.dataRecovering
