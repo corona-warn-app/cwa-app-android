@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>dgca.verifier.app</groupId>
   <artifactId>dgc-certlogic-android-light</artifactId>
-  <version>1.0.0-68-60787be</version>
+  <version>1.0.0-70-c90c97f</version>
   <packaging>aar</packaging>
   <name>EU Digital COVID Certificate - Certlogic Android Light</name>
   <description>A light version of the dgc-certlogic-android module for use with the CWA.</description>
