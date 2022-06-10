@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper
+package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.content.Context
 import android.content.res.AssetManager

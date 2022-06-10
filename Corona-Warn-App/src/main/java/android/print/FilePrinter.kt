@@ -4,8 +4,10 @@ import android.os.CancellationSignal
 import android.os.ParcelFileDescriptor
 import android.print.PrintDocumentAdapter.LayoutResultCallback
 import android.print.PrintDocumentAdapter.WriteResultCallback
+import dagger.Reusable
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -14,7 +16,10 @@ import kotlin.coroutines.resumeWithException
  * Note: this file has to be in `android.print` as workaround to be able to create
  * [LayoutResultCallback] and [WriteResultCallback]
  */
-class FilePrinter(private val attributes: PrintAttributes) {
+@Reusable
+class FilePrinter @Inject constructor(
+    val attributes: PrintAttributes
+) {
     suspend fun print(printAdapter: PrintDocumentAdapter, path: File, fileName: String) =
         suspendCancellableCoroutine<Unit> { cont ->
             printAdapter.onLayout(
