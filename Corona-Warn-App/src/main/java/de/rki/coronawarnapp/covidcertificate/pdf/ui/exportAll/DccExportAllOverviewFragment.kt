@@ -3,17 +3,16 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.EmptyResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ExportResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.PDFResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.PrintResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ShareResult
+import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -34,7 +33,9 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         setupToolbar()
-        setupWebView()
+        webView.setupWebView { view ->
+            viewModel.createPDF(view.createPrintDocumentAdapter(jobName))
+        }
         cancelButton.setOnClickListener { popBackStack() }
         with(viewModel) {
             error.observe(viewLifecycleOwner) { showErrorDialog() }
@@ -78,6 +79,8 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                     toolbar.inflateMenu(R.menu.menu_certificate_poster)
                 }
             }
+
+            is EmptyResult -> showEmptyDialog()
         }
     }
 
@@ -86,29 +89,18 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setTitle(R.string.export_all_error_title)
             .setMessage(R.string.export_all_error_message)
             .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
-                openUrl(R.string.certificate_export_error_dialog_faq_link)
+                openUrl(R.string.certificate_export_all_error_dialog_faq_link)
             }.setPositiveButton(android.R.string.ok) { _, _ -> }
             .setOnDismissListener { popBackStack() }
             .show()
     }
 
-    private fun FragmentDccExportAllOverviewBinding.setupWebView() {
-        webView.apply {
-            with(settings) {
-                loadWithOverviewMode = true
-                useWideViewPort = true
-                builtInZoomControls = true
-                layoutAlgorithm = WebSettings.LayoutAlgorithm.NORMAL
-                displayZoomControls = false
-            }
-
-            webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    view?.let {
-                        viewModel.createPDF(view.createPrintDocumentAdapter(jobName))
-                    }
-                }
-            }
-        }
+    private fun showEmptyDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.export_all_no_pages_title)
+            .setMessage(R.string.export_all_no_pages_message)
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .setOnDismissListener { popBackStack() }
+            .show()
     }
 }

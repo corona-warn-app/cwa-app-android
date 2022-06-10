@@ -1,21 +1,30 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
+import android.print.FilePrinter
+import android.print.PrintManager
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateTemplate
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.HTML_TEMPLATE
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.qrCodeBase64
+import de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateTemplate
+import de.rki.coronawarnapp.covidcertificate.pdf.core.appendPage
+import de.rki.coronawarnapp.covidcertificate.pdf.core.buildHtml
+import de.rki.coronawarnapp.covidcertificate.pdf.core.qrCodeBase64
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.files.FileSharing
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -35,11 +44,17 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
     @MockK lateinit var template: CertificateTemplate
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var fileSharing: FileSharing
+    @MockK lateinit var filePrinter: FilePrinter
+    @MockK lateinit var printManager: PrintManager
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.helper.CertificateDataInjectorKt")
+        mockkStatic("de.rki.coronawarnapp.covidcertificate.pdf.core.CertificateDataInjectorKt")
+
+        every { printManager.print(any(), any(), any()) } returns mockk()
+        coEvery { filePrinter.print(any(), any(), any()) } just Runs
+        every { fileSharing.getFileIntentProvider(any(), any(), any()) } returns mockk()
 
         val vc = mockk<VaccinationCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
@@ -109,15 +124,54 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getPdfString() {
-        instance().pdfString.getOrAwaitValue() shouldBe HTML_TEMPLATE.replace(
-            oldValue = "++certificates++",
-            newValue = """
-                <li>Template</li>
-                <li>Template</li>
-                <li>Template</li>
-            """.trimIndent()
+    fun `Pdf String`() {
+        instance().pdfString.getOrAwaitValue() shouldBe buildHtml {
+            appendPage("Template")
+            appendPage("Template")
+            appendPage("Template")
+        }
+    }
+
+    @Test
+    fun `No certificates to export`() {
+        every { personCertificatesProvider.certificateContainer } returns flowOf(
+            mockk<CertificateProvider.CertificateContainer>().apply {
+                every { allCwaCertificates } returns setOf()
+            }
         )
+        instance().apply {
+            pdfString.getOrAwaitValue() shouldBe buildHtml {}
+            exportResult.getOrAwaitValue() shouldBe DccExportAllOverviewViewModel.EmptyResult
+        }
+    }
+
+    @Test
+    fun `Print document`() {
+        instance().apply {
+            print(mockk())
+            val result = exportResult.getOrAwaitValue()
+            result.shouldBeInstanceOf<DccExportAllOverviewViewModel.PrintResult>()
+        }
+    }
+
+    @Test
+    fun `Create PDF`() {
+        instance().apply {
+            createPDF(mockk())
+            coVerify { filePrinter.print(any(), any(), any()) }
+            exportResult.getOrAwaitValue().shouldBeInstanceOf<DccExportAllOverviewViewModel.PDFResult>()
+        }
+    }
+
+    @Test
+    fun `Share PDF`() {
+        instance().apply {
+            sharePDF()
+            exportResult.getOrAwaitValue().shouldBeInstanceOf<DccExportAllOverviewViewModel.ShareResult>()
+            verify {
+                fileSharing.getFileIntentProvider(any(), any(), any())
+            }
+        }
     }
 
     fun instance() = DccExportAllOverviewViewModel(
@@ -126,6 +180,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         dispatcher = TestDispatcherProvider(),
         fileSharing = fileSharing,
-        path = File("")
+        path = File(""),
+        filePrinter = filePrinter
     )
 }
