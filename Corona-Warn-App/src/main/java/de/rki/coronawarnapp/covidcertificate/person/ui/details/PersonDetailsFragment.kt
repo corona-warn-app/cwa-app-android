@@ -111,7 +111,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
-                        colorShade = event.colorShade
+                        colorShade = event.colorShade,
+                        isReissuance = event.isReissuance
                     ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenTestCertificateDetails -> doNavigate(
@@ -120,7 +121,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
-                        colorShade = event.colorShade
+                        colorShade = event.colorShade,
+                        isReissuance = event.isReissuance
                     ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenVaccinationCertificateDetails -> doNavigate(
@@ -129,7 +131,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
-                        colorShade = event.colorShade
+                        colorShade = event.colorShade,
+                        isReissuance = event.isReissuance
                     ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is ValidationStart -> doNavigate(

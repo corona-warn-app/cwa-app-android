@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -128,6 +129,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
         )
+        expirationNotice.expirationInfoText.isVisible = !args.isReissuance
 
         expandedImage.setImageResource(certificate.expendedImageResource(args.colorShade))
         europaImage.setImageDrawable(

@@ -128,7 +128,8 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
                                 rcContainerId,
-                                colorShade
+                                colorShade,
+                                false
                             )
                         }
 
@@ -136,7 +137,8 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
                                 tcsContainerId,
-                                PersonColorShade.COLOR_INVALID
+                                PersonColorShade.COLOR_INVALID,
+                                false
                             )
                         }
 
@@ -144,7 +146,8 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
-                                PersonColorShade.COLOR_INVALID
+                                PersonColorShade.COLOR_INVALID,
+                                false
                             )
                         }
 
@@ -152,7 +155,8 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
-                                PersonColorShade.COLOR_INVALID
+                                PersonColorShade.COLOR_INVALID,
+                                false
                             )
                         }
                     }

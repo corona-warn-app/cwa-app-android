@@ -11,17 +11,20 @@ sealed class PersonDetailsEvents
 
 data class OpenVaccinationCertificateDetails(
     val containerId: VaccinationCertificateContainerId,
-    val colorShade: PersonColorShade
+    val colorShade: PersonColorShade,
+    val isReissuance: Boolean
 ) : PersonDetailsEvents()
 
 data class OpenTestCertificateDetails(
     val containerId: TestCertificateContainerId,
-    val colorShade: PersonColorShade
+    val colorShade: PersonColorShade,
+    val isReissuance: Boolean
 ) : PersonDetailsEvents()
 
 data class OpenRecoveryCertificateDetails(
     val containerId: RecoveryCertificateContainerId,
-    val colorShade: PersonColorShade
+    val colorShade: PersonColorShade,
+    val isReissuance: Boolean
 ) : PersonDetailsEvents()
 
 data class ValidationStart(val containerId: CertificateContainerId) : PersonDetailsEvents()

@@ -81,6 +81,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             return UiState(name = "", emptyList())
         }
 
+        var hasReissuance = false
         val color = if (priorityCertificate.isDisplayValid) colorShade else PersonColorShade.COLOR_INVALID
         colorShadeData.postValue(color)
 
@@ -92,6 +93,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             // 2. Dcc reissuance tile
             if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
                 certificateItems.add(dccReissuanceItem(division, personCertificates))
+                hasReissuance = true
             }
             // 3. Booster notification tile
             if (info.boosterNotification.visible)
@@ -112,7 +114,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 certificateItems.addCardItem(
                     certificate = cwaCert,
                     priorityCertificate = priorityCertificate,
-                    isLoading = isLoading
+                    isLoading = isLoading,
+                    isReissuance = hasReissuance
                 )
             }
 
@@ -126,13 +129,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate,
-        isLoading: Boolean
+        isLoading: Boolean,
+        isReissuance: Boolean
     ) {
         val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
-            is TestCertificate -> add(tcItem(certificate, isCurrentCertificate, isLoading))
-            is VaccinationCertificate -> add(vcItem(certificate, isCurrentCertificate, isLoading))
-            is RecoveryCertificate -> add(rcItem(certificate, isCurrentCertificate, isLoading))
+            is TestCertificate -> add(tcItem(certificate, isCurrentCertificate, isLoading, isReissuance))
+            is VaccinationCertificate -> add(vcItem(certificate, isCurrentCertificate, isLoading, isReissuance))
+            is RecoveryCertificate -> add(rcItem(certificate, isCurrentCertificate, isLoading, isReissuance))
         }
     }
 
@@ -204,7 +208,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun rcItem(
         certificate: RecoveryCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        isReissuance: Boolean
     ) = RecoveryCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -215,7 +220,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenRecoveryCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate),
+                    isReissuance = isReissuance
                 )
             )
         },
@@ -231,7 +237,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun vcItem(
         certificate: VaccinationCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        isReissuance: Boolean
     ) = VaccinationCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -242,7 +249,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenVaccinationCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate),
+                    isReissuance = isReissuance
                 )
             )
         },
@@ -254,7 +262,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun tcItem(
         certificate: TestCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        isReissuance: Boolean
     ) = TestCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -265,7 +274,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenTestCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate),
+                    isReissuance = isReissuance
                 )
             )
         },
