@@ -6,14 +6,28 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.FakeDataStore
+import java.time.Instant
 
 class OnboardingSettingsTest : BaseIOTest() {
 
     private val dataStore = FakeDataStore()
+    private val timestamp = Instant.parse("2020-01-01T14:00:00.000Z")
 
     private fun buildInstance(): OnboardingSettings = OnboardingSettings(
         dataStore = dataStore
     )
+
+    @Test
+    fun `onboardingCompletedTimestamp is correctly set`() = runTest {
+        dataStore[OnboardingSettings.ONBOARDING_COMPLETED_TIMESTAMP] shouldBe null
+
+        with(buildInstance()) {
+            onboardingCompletedTimestamp.first() shouldBe null
+            updateOnboardingCompletedTimestamp(timestamp)
+            onboardingCompletedTimestamp.first() shouldBe timestamp
+            dataStore[OnboardingSettings.ONBOARDING_COMPLETED_TIMESTAMP] shouldBe timestamp?.toEpochMilli()
+        }
+    }
 
     @Test
     fun `fabScannerOnboardingDone is correctly set`() = runTest {
