@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.storage
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -74,9 +75,13 @@ class OnboardingSettings @Inject constructor(
     }
 
     companion object {
-        private val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
-        private val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
-        private val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
-        private val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
+        @VisibleForTesting
+        val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
+        @VisibleForTesting
+        val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
+        @VisibleForTesting
+        val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
+        @VisibleForTesting
+        val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
     }
 }
