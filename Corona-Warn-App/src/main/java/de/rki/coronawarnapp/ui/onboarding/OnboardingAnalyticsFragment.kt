@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -28,7 +29,7 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
         binding.apply {
             onboardingButtonNext.setOnClickListener { viewModel.onProceed(true) }
             onboardingButtonDisable.setOnClickListener { viewModel.onProceed(false) }
-            onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
 
             federalStateRow.setOnClickListener {
                 doNavigate(
@@ -51,7 +52,7 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
                     )
                 )
             }
-            moreInfoRow.setOnClickListener {
+            privacyInformation.setOnClickListener {
                 doNavigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToPpaMoreInfoFragment()
                 )
