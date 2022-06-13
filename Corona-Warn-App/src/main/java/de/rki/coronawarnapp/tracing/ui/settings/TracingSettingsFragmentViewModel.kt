@@ -122,7 +122,6 @@ class TracingSettingsFragmentViewModel @AssistedInject constructor(
     }
 
     fun turnTracingOff() {
-        //isTracingSwitchChecked.postValue(false)
         launch {
             try {
                 if (enfClient.disableTracingIfEnabled()) {
