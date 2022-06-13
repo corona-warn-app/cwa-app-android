@@ -50,6 +50,7 @@ class DefaultTracingStatus @Inject constructor(
                 if (enable && !isEnabled) {
                     asyncStart()
                 } else if (!enable && isEnabled) {
+                    Timber.tag(TAG).i("pipeline test")
                     asyncStop()
                 }
                 onSuccess(enable)
