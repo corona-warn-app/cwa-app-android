@@ -35,8 +35,6 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     init {
         appScope.launch {
             personCertificateProvider.personCertificates
-                .drop(1) // Drop first value on App start that causes unnecessary calculation
-
                 /*
                  Compare persons emissions certificates by using its hash. Changes in certificates set such as
                  registering, recycling, restoring, retrieving and, re-issuing a DCC will lead to a difference in the
