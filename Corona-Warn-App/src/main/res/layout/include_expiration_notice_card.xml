@@ -24,12 +24,4 @@
         android:layout_marginTop="4dp"
         tools:text="Gültig bis 31.08.21, 14:12 Uhr" />
 
-    <TextView
-        android:id="@+id/expiration_info_text"
-        style="@style/body2Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/expiration_technical_info" />
-
 </LinearLayout>
