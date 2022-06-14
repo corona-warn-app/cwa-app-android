@@ -88,7 +88,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
                     pdfResult = pdfResult.copy(timerFinished = true)
                     exportResult.postValue(pdfResult)
                 },
-                PROGRESS_DISPLAY_MIN
+                PROGRESS_DISPLAY_MIN_TIME
             )
             filePrinter.print(
                 adapter,
@@ -135,7 +135,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
 
     companion object {
         private const val FILE_NAME = "certificates.pdf"
-        private const val PROGRESS_DISPLAY_MIN = 2000L
+        private const val PROGRESS_DISPLAY_MIN_TIME = 2000L
         private val TAG = tag<DccExportAllOverviewViewModel>()
     }
 }
