@@ -96,8 +96,7 @@ suspend fun <T> DataStore<Preferences>.updateValue(
     transform: suspend (T?) -> T
 ) {
     edit { prefs ->
-        val temp = prefs[preferencesKey]
-        prefs[preferencesKey] = transform(temp)
+        prefs[preferencesKey] = transform(prefs[preferencesKey])
     }
 }
 
