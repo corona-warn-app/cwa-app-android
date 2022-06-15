@@ -7,9 +7,9 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.databinding.FragmentSettingsTracingBinding
+import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
-import de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragmentViewModel.Event
+import de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragmentViewModel.Event
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -24,15 +24,15 @@ import javax.inject.Inject
 /**
  * The user can start/stop tracing and is informed about tracing.
  */
-class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), AutoInject {
+class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SettingsTracingFragmentViewModel by cwaViewModels(
+    private val viewModel: TracingSettingsFragmentViewModel by cwaViewModels(
         ownerProducer = { requireActivity().viewModelStore },
         factoryProducer = { viewModelFactory }
     )
 
-    private val binding: FragmentSettingsTracingBinding by viewBinding()
+    private val binding: FragmentTracingSettingsBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,7 +101,7 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
 
         settingsInteroperabilityRow.setOnClickListener {
             doNavigate(
-                SettingsTracingFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
+                TracingSettingsFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
             )
         }
     }
@@ -126,6 +126,6 @@ class SettingsTracingFragment : Fragment(R.layout.fragment_settings_tracing), Au
     }
 
     companion object {
-        internal val TAG: String? = SettingsTracingFragment::class.simpleName
+        internal val TAG: String? = TracingSettingsFragment::class.simpleName
     }
 }
