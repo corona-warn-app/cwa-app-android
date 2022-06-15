@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Переоформлення сертифікатів"</item>
+        <item>"Експортувати сертифікати"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Через технічні причини строк дії сертифіката, що використовується на даний момент, обмежений 365 днями. Якщо строк дії вашого поточного сертифіката закінчується, застосунок дає змогу продовжити його. Сертифікат можна поновити за 28 днів до завершення строку його дії та до 90 днів після цього. Якщо застосунок не пропонує поновити ваш сертифікат, його не потрібно продовжувати, і вам не потрібно нічого робити."</item>
+        <item>"Ви можете зберегти всі сертифікати у своєму застосунку в одному документі PDF за один крок."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
