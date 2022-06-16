@@ -68,7 +68,7 @@
     <!-- XTXT: Extended Body for contact diary overview screen risk information -->
     <string name="contact_diary_risk_body_extended">"Вони не обов’язково пов’язані з людьми та місцями, які ви записали."</string>
     <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
-    <string name="contact_diary_trace_location_risk_body">"на основі їх наявності в:"</string>
+    <string name="contact_diary_trace_location_risk_body">"На основі вашої присутності у:"</string>
     <!-- XTXT: Indicates this trace location caused a high risk  -->
     <string name="contact_diary_trace_location_risk_high">"підвищений ризик"</string>
     <!-- XTXT: Indicates this trace location caused a lows risk -->
