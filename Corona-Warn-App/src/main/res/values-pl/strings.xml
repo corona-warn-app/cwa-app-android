@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Wprowadź objawy"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Ustalenie wyniku Twojego testu jest niemożliwe"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Ustalenie wyniku testu jest niemożliwe"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Usuń test"</string>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Pobieranie danych..."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
+    <string name="submission_status_card_title_pending">"Wynik testu nie jest jeszcze dostępny"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Wynik Twojego testu jest dostępny"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Twój wynik jest aktualizowany"</string>
+    <string name="submission_status_card_body_fetching">"Wynik jest aktualizowany"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Ustalanie wyniku Twojego testu jeszcze się nie zakończyło."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Ustalenie wyniku jest niemożliwe"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
+    <string name="test_result_card_status_pending">"Wynik nie jest jeszcze dostępny"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Inne informacje:"</string>
     <!-- XHED: Title for further info of test result negative -->

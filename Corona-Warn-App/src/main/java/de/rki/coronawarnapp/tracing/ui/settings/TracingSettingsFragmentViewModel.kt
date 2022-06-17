@@ -20,19 +20,18 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.plus
 import timber.log.Timber
 
-class SettingsTracingFragmentViewModel @AssistedInject constructor(
+class TracingSettingsFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     installTimeProvider: InstallTimeProvider,
@@ -54,7 +53,6 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
             maxEncounterAgeInDays = appConfig.maxEncounterAgeInDays
         )
     }
-        .onEach { Timber.v("logginPeriod onEach") }
         .asLiveData(dispatcherProvider.Main)
 
     val tracingSettingsState: LiveData<TracingSettingsState> = tracingStatus.generalStatus
@@ -89,14 +87,12 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
                             }
                             exposureWindowRiskWorkScheduler.setPeriodicRiskCalculation(enabled = true)
                         }
-                        isTracingSwitchChecked.postValue(isTracingEnabled)
                     }
                 }
 
                 override fun onTracingConsentRequired(onConsentResult: (given: Boolean) -> Unit) {
                     events.postValue(
                         Event.TracingConsentDialog { consentGiven ->
-                            if (!consentGiven) isTracingSwitchChecked.postValue(false)
                             onConsentResult(consentGiven)
                         }
                     )
@@ -119,14 +115,13 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
         } catch (exception: Exception) {
             exception.report(
                 ExceptionCategory.EXPOSURENOTIFICATION,
-                SettingsTracingFragment.TAG,
+                TracingSettingsFragment.TAG,
                 null
             )
         }
     }
 
     fun turnTracingOff() {
-        isTracingSwitchChecked.postValue(false)
         launch {
             try {
                 if (enfClient.disableTracingIfEnabled()) {
@@ -135,7 +130,7 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
             } catch (exception: Exception) {
                 exception.report(
                     ExceptionCategory.EXPOSURENOTIFICATION,
-                    SettingsTracingFragment.TAG,
+                    TracingSettingsFragment.TAG,
                     null
                 )
             }
@@ -153,5 +148,5 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SettingsTracingFragmentViewModel>
+    interface Factory : SimpleCWAViewModelFactory<TracingSettingsFragmentViewModel>
 }

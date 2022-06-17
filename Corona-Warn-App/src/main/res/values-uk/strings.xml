@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Введіть Симптоми"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Ваш тест не може бути оцінений"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Тест неможливо проаналізувати"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Видалити тест"</string>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Отримання даних..."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Результат вашого тесту ще недоступний"</string>
+    <string name="submission_status_card_title_pending">"Результат тесту ще недоступний"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Результат вашого тесту доступний"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Результат вашого тесту оновлюється"</string>
+    <string name="submission_status_card_body_fetching">"Результат тесту оновлюється"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Аналіз вашого тесту ще не виконано"</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Аналіз неможливий"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Ваш результат ще недоступний"</string>
+    <string name="test_result_card_status_pending">"Результат ще недоступний"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Інша інформація:"</string>
     <!-- XHED: Title for further info of test result negative -->
