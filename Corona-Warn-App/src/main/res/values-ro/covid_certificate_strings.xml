@@ -263,7 +263,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Valabil până la %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Dacă acesta este certificatul pe care îl utilizați în prezent, aveți grijă să îl reînnoiți la timp. Puteți reînnoi astfel de certificate direct în aplicație, dacă vor expira în următoarele 28 de zile. În acest caz, opțiunea „Reînnoire certificate” apare în sumarul certificatului dvs., sub mozaicul „Dovada stării”. Dacă acesta nu este certificatul pe care îl utilizați în prezent, nu trebuie să îl prelungiți și nu este necesară nicio acțiune din partea dvs."</string>
+    <string name="expiration_info">"Dacă acesta este unul dintre certificatele pe care le utilizați în prezent, aveți grijă să îl reînnoiți la timp. Puteți reînnoi astfel de certificate direct în aplicație, dacă vor expira în următoarele 28 de zile sau dacă au expirat în ultimele 90 de zile, cu condiția să fi fost emise în Germania. În acest caz, opțiunea „Reînnoire certificate” apare în sumarul certificatului dvs., sub mozaicul „Dovada stării”. Dacă acesta nu este unul dintre certificatele pe care le utilizați în prezent, nu trebuie să îl prelungiți și nu este necesară nicio acțiune din partea dvs."</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"Data de expirare a trecut. Vă rugăm să vă reînnoiți certificatul. Puteți solicita o reînnoire în decurs de maximum 90 de zile de la expirarea certificatului, făcând click pe nota din sumarul certificatului dvs."</string>
     <!-- XTXT: Invalid certificate signature info -->
@@ -307,6 +307,16 @@
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">"Vă recomandăm să nu publicați documentul PDF, să nu îl transmiteți prin e-mail și să nu îl partajați prin alte aplicații."</string>
 
+    <!-- PDF Export: All Certificates Info Screen -->
+    <!-- XHED: PDF Export: All Certificates Info screen title -->
+    <string name="all_certs_pdf_export_info_title">"Exportare certificate"</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
+    <string name="all_certs_pdf_export_info_point_pdf">"Puteți salva toate certificatele din aplicația dvs. într-un document PDF într-o singură etapă. Dvs. sunteți singura persoană care poate accesa inițial acest document PDF. Apoi puteți decide dacă doriți să îl salvați pe smartphone-ul dvs. sau dacă doriți să îl importați în alte aplicații."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
+    <string name="all_certs_pdf_export_info_point_sensitive">"Vă rugăm să rețineți că documentul PDF conține informații sensibile. Vă recomandăm să îl utilizați cu atenție și să îl arătați doar persoanelor în care aveți încredere și care sunt autorizate să verifice certificatul."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
+    <string name="all_certs_pdf_export_info_point_recommendations">"Vă recomandăm să nu publicați documentul PDF, să nu îl transmiteți prin e-mail și să nu îl partajați prin alte aplicații."</string>
+
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
     <string name="pdf_export_error_title">"Imposibil de afișat versiunea de tipărire"</string>
@@ -345,4 +355,26 @@
     <string name="certificate_migration_dialog_title">"Atribuirea certificatului"</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">"Gruparea certificatelor a fost îmbunătățită. Certificatele care au doar diferențe minore de nume nu vor mai fi atribuite altor persoane."</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">"Exportare certificate"</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">"Salvați toate certificatele dvs. într-un document PDF într-o singură etapă."</string>
+    <!-- XTXT: Certificate export all progress title -->
+    <string name="export_all_progress_title">"Se generează fișierul PDF"</string>
+    <!-- XTXT: Certificate export all progress message -->
+    <string name="export_all_progress_text">"Această acțiune poate dura câteva minute."</string>
+    <!-- XTXT: Certificate export all progress cancel -->
+    <string name="export_all_progress_cancel">"Anulare"</string>
+    <!-- XTXT: Certificate export all error title -->
+    <string name="export_all_error_title">"Imposibil de afișat versiunea de tipărire"</string>
+    <!-- XTXT: Certificate export all error message -->
+    <string name="export_all_error_message">"Versiunea de tipărire a certificatelor nu poate fi afișată."</string>
+    <!-- XTXT: Certificate export all error faq button -->
+    <string name="export_all_error_faq">"Întrebări frecvente despre versiunea de tipărire"</string>
+    <!-- XTXT: Certificate export all no pages  title -->
+    <string name="export_all_no_pages_title">"Certificatele nu pot fi exportate"</string>
+    <!-- XTXT: Certificate export all no pages message -->
+    <string name="export_all_no_pages_message">"Certificatele disponibile nu pot fi exportate deoarece nu mai sunt valabile."</string>
+
 </resources>

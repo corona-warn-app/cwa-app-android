@@ -263,7 +263,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Діє до %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Якщо ви зараз користуєтеся цим сертифікатом, не забудьте вчасно поновити його. Ви можете поновити такі сертифікати безпосередньо в застосунку, якщо строк їх дії закінчиться протягом наступних 28 днів. У цьому випадку опція «Поновити сертифікати» з’явиться в огляді вашого сертифіката під плиткою «Підтвердження статусу». Якщо це не той сертифікат, яким ви зараз користуєтеся, його не потрібно продовжувати, і з вашого боку не потрібно нічого робити."</string>
+    <string name="expiration_info">"Якщо це один із сертифікатів, які ви зараз використовуєте, не забудьте вчасно поновити його. Ви можете поновити такі сертифікати безпосередньо в застосунку, якщо строк їх дії закінчиться протягом наступних 28 днів або закінчився протягом останніх 90 днів, за умови, що вони були видані в Німеччині. У цьому випадку опція «Поновити сертифікати» з’явиться в огляді вашого сертифіката під плиткою «Підтвердження статусу». Якщо це не один із сертифікатів, які ви зараз використовуєте, його не потрібно продовжувати, і з вашого боку не потрібно нічого робити."</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"Строк придатності минув. Поновіть сертифікат. Ви можете подати запит на поновлення протягом 90 днів після закінчення строку дії сертифіката, натиснувши нотатку в огляді сертифіката."</string>
     <!-- XTXT: Invalid certificate signature info -->
@@ -307,6 +307,16 @@
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">"Ми рекомендуємо не публікувати PDF-документ, не надсилати його електронною поштою та не ділитися ним через інші застосунки."</string>
 
+    <!-- PDF Export: All Certificates Info Screen -->
+    <!-- XHED: PDF Export: All Certificates Info screen title -->
+    <string name="all_certs_pdf_export_info_title">"Експортувати сертифікати"</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
+    <string name="all_certs_pdf_export_info_point_pdf">"Ви можете зберегти всі сертифікати у своєму застосунку в одному документі PDF за один крок. Ви єдиний, хто має спочатку доступ до цього PDF-документа. Потім ви можете вирішити, чи хочете ви зберегти його на своєму смартфоні або імпортувати в інші застосунки."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
+    <string name="all_certs_pdf_export_info_point_sensitive">"Зверніть увагу, що PDF-документ містить конфіденційну інформацію. Ми рекомендуємо поводитися з ним обережно і показувати його лише тим людям, яким ви довіряєте і які уповноважені перевіряти сертифікат."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
+    <string name="all_certs_pdf_export_info_point_recommendations">"Ми рекомендуємо не публікувати PDF-документ, не надсилати його електронною поштою та не ділитися ним через інші застосунки."</string>
+
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
     <string name="pdf_export_error_title">"Неможливо відобразити версію для друку"</string>
@@ -345,4 +355,26 @@
     <string name="certificate_migration_dialog_title">"Присвоювання сертифіката"</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">"Удосконалено групування сертифікатів. Сертифікати з незначними відмінностями в імені більше не присвоюватимуться іншим людям."</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">"Експортувати сертифікати"</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">"Збережіть усі свої сертифікати в одному документі PDF за один крок"</string>
+    <!-- XTXT: Certificate export all progress title -->
+    <string name="export_all_progress_title">"Генерація PDF"</string>
+    <!-- XTXT: Certificate export all progress message -->
+    <string name="export_all_progress_text">"Це може зайняти кілька хвилин."</string>
+    <!-- XTXT: Certificate export all progress cancel -->
+    <string name="export_all_progress_cancel">"Скасувати"</string>
+    <!-- XTXT: Certificate export all error title -->
+    <string name="export_all_error_title">"Неможливо відобразити версію для друку"</string>
+    <!-- XTXT: Certificate export all error message -->
+    <string name="export_all_error_message">"Неможливо відобразити версію для друку сертифікатів."</string>
+    <!-- XTXT: Certificate export all error faq button -->
+    <string name="export_all_error_faq">"ЗіВ щодо версії для друку"</string>
+    <!-- XTXT: Certificate export all no pages  title -->
+    <string name="export_all_no_pages_title">"Сертифікати не можна експортувати"</string>
+    <!-- XTXT: Certificate export all no pages message -->
+    <string name="export_all_no_pages_message">"Неможливо експортувати доступні сертифікати, оскільки вони більше не дійсні."</string>
+
 </resources>
