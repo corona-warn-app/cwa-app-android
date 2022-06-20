@@ -106,12 +106,12 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
 
-    val walletInfoA =  PersonWalletInfo(
+    private val walletInfoA = PersonWalletInfo(
         personGroupKey = identifierA.groupingKey,
         dccWalletInfo = null
     )
 
-    val walletInfoB =  PersonWalletInfo(
+    private val walletInfoB = PersonWalletInfo(
         personGroupKey = identifierB.groupingKey,
         dccWalletInfo = null
     )
