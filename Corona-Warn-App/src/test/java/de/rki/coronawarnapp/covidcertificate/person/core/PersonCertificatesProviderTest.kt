@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PersonWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
@@ -42,6 +43,11 @@ class PersonCertificatesProviderTest : BaseTest() {
         firstNameStandardized = "Moris",
         lastNameStandardized = "Parker",
     )
+    private val identifierB2: CertificatePersonIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "10.10.1980",
+        firstNameStandardized = "Moris<Lewis",
+        lastNameStandardized = "Parker",
+    )
     private val identifierC: CertificatePersonIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "10.12.1970",
         firstNameStandardized = "Joe",
@@ -70,7 +76,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     // Person B
     private val testCertB = mockk<TestCertificate>().apply {
-        every { personIdentifier } returns identifierB
+        every { personIdentifier } returns identifierB2
         every { sampleCollectedAt } returns Instant.EPOCH
         every { hasNotificationBadge } returns true
     }
@@ -99,6 +105,16 @@ class PersonCertificatesProviderTest : BaseTest() {
     }
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
+
+    val walletInfoA =  PersonWalletInfo(
+        personGroupKey = identifierA.groupingKey,
+        dccWalletInfo = null
+    )
+
+    val walletInfoB =  PersonWalletInfo(
+        personGroupKey = identifierB.groupingKey,
+        dccWalletInfo = null
+    )
 
     @BeforeEach
     fun setup() {
@@ -216,5 +232,32 @@ class PersonCertificatesProviderTest : BaseTest() {
         verify {
             certificateProvider.certificateContainer
         }
+    }
+
+    @Test
+    fun `wallet assignment it correct`() = runTest2 {
+        every { dccWalletInfoRepository.personWallets } returns flowOf(setOf(walletInfoA, walletInfoB))
+        val instance = createInstance(this)
+        instance.personCertificates.first() shouldBe listOf(
+            PersonCertificates(
+                certificates = listOf(
+                    recoveryCertA,
+                    vaccinationCertA,
+                    testCertA
+                ),
+                isCwaUser = true,
+                badgeCount = 2,
+                dccWalletInfo = walletInfoA.dccWalletInfo
+            ),
+            PersonCertificates(
+                certificates = listOf(
+                    recoveryCertB,
+                    testCertB
+                ),
+                isCwaUser = false,
+                badgeCount = 2,
+                dccWalletInfo = walletInfoB.dccWalletInfo
+            )
+        )
     }
 }
