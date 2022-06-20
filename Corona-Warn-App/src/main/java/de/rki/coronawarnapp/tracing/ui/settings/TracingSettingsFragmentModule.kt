@@ -9,14 +9,14 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SettingsTracingFragmentModule {
+abstract class TracingSettingsFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(SettingsTracingFragmentViewModel::class)
+    @CWAViewModelKey(TracingSettingsFragmentViewModel::class)
     abstract fun homeFragment(
-        factory: SettingsTracingFragmentViewModel.Factory
+        factory: TracingSettingsFragmentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 
     @ContributesAndroidInjector
-    abstract fun riskDetails(): SettingsTracingFragment
+    abstract fun riskDetails(): TracingSettingsFragment
 }

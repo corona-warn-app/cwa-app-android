@@ -24,18 +24,14 @@ class GeneralTracingStatus @Inject constructor(
         enfClient.isTracingEnabled,
         locationProvider.isLocationEnabled,
         enfClient.isLocationLessScanningSupported
-    ) { values ->
-        val bluetooth = values[0]
-        val tracing = values[1]
+    ) { bluetoothEnabled, tracingEnabled, locationServices, locationLessScanning ->
 
-        val locationServices = values[2]
-        val locationLessScanning = values[3]
-        val anyLocation = locationServices || locationLessScanning
+        val locationEnabled = locationServices || locationLessScanning
 
         when {
-            !tracing -> Status.TRACING_INACTIVE
-            !anyLocation -> Status.LOCATION_DISABLED
-            !bluetooth -> Status.BLUETOOTH_DISABLED
+            !tracingEnabled -> Status.TRACING_INACTIVE
+            !locationEnabled -> Status.LOCATION_DISABLED
+            !bluetoothEnabled -> Status.BLUETOOTH_DISABLED
             else -> Status.TRACING_ACTIVE
         }
     }
