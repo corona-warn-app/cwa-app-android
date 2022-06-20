@@ -26,6 +26,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.io.File
+import java.util.Timer
+import kotlin.concurrent.timerTask
 
 class DccExportAllOverviewViewModel @AssistedInject constructor(
     personCertificatesProvider: CertificateProvider,
@@ -39,6 +41,8 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
 
     val error = SingleLiveEvent<Throwable>()
     val exportResult = SingleLiveEvent<ExportResult>()
+    private var timer = Timer()
+    private var pdfResult = PDFResult(pdfFinished = false, timerFinished = false)
 
     val pdfString = personCertificatesProvider.certificateContainer.map { container ->
         val certificates = container.allCwaCertificates.filterAndSortForExport(timeStamper.nowJavaUTC)
@@ -79,12 +83,20 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
         context = dispatcher.Main
     ) {
         runCatching {
+            timer.schedule(
+                timerTask {
+                    pdfResult = pdfResult.copy(timerFinished = true)
+                    exportResult.postValue(pdfResult)
+                },
+                PROGRESS_DISPLAY_MIN_TIME
+            )
             filePrinter.print(
                 adapter,
                 path,
                 FILE_NAME
             )
-            exportResult.postValue(PDFResult)
+            pdfResult = pdfResult.copy(pdfFinished = true)
+            exportResult.postValue(pdfResult)
         }.onFailure {
             Timber.tag(TAG).e(it, "sharePDF() failed")
             error.postValue(it)
@@ -104,6 +116,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        timer.cancel()
         runCatching {
             File(path, FILE_NAME).delete()
         }.onFailure {
@@ -117,11 +130,12 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     sealed interface ExportResult
     data class PrintResult(val print: (activity: Activity) -> Unit) : ExportResult
     data class ShareResult(val provider: FileSharing.FileIntentProvider) : ExportResult
-    object PDFResult : ExportResult
+    data class PDFResult(val pdfFinished: Boolean, val timerFinished: Boolean) : ExportResult
     object EmptyResult : ExportResult
 
     companion object {
         private const val FILE_NAME = "certificates.pdf"
+        private const val PROGRESS_DISPLAY_MIN_TIME = 2000L
         private val TAG = tag<DccExportAllOverviewViewModel>()
     }
 }
