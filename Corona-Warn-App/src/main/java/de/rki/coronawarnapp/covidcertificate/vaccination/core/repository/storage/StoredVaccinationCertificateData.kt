@@ -8,8 +8,6 @@ import org.joda.time.Instant
 data class StoredVaccinationCertificateData(
     @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,
     @SerializedName("scannedAt") val scannedAt: Instant,
-    @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
-    @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
     @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("notifiedBlockedAt") val notifiedBlockedAt: Instant? = null,
     @SerializedName("notifiedRevokedAt") val notifiedRevokedAt: Instant? = null,
