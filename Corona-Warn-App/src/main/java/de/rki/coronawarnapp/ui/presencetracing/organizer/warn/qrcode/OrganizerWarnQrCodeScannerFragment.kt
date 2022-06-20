@@ -30,6 +30,8 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: OrganizerWarnQrCodeScannerViewModel by cwaViewModels { viewModelFactory }
 
+    // This type of binding initialization should not be followed elsewhere.
+    // Please use lazy initialization wherever possible
     private var _binding: FragmentQrcodeScannerBinding? = null
     private val binding get() = _binding!!
     private var showsPermissionDialog = false
