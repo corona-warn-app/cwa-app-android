@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -31,7 +30,10 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: OrganizerWarnQrCodeScannerViewModel by cwaViewModels { viewModelFactory }
 
-    private val binding: FragmentQrcodeScannerBinding by viewBinding()
+    // This type of binding initialization should not be followed elsewhere.
+    // Please use lazy initialization wherever possible
+    private var _binding: FragmentQrcodeScannerBinding? = null
+    private val binding get() = _binding!!
     private var showsPermissionDialog = false
 
     private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -50,7 +52,11 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
             }
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(
+        FragmentQrcodeScannerBinding.bind(view)
+    ) {
+        _binding = this
+
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
 
@@ -86,6 +92,11 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 
         if (!showsPermissionDialog) checkCameraPermission()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
