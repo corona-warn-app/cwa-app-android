@@ -666,4 +666,12 @@
         <item name="android:textSize">0sp</item>
     </style>
 
+    <style name="titleTooltip" parent="@style/TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">14sp</item>
+        <item name="fontWeight">700</item>
+        <item name="android:textFontWeight" tools:targetApi="p">700</item>
+        <item name="android:fontWeight" tools:targetApi="o">700</item>
+        <item name="android:textColor">@color/tipTitleColor</item>
+    </style>
+
 </resources>
