@@ -35,8 +35,6 @@ class PersonCertificatesProvider @Inject constructor(
     ) { certificateContainer, cwaUser, personWallets, personsSettings ->
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-
-        Timber.tag(TAG).v("grouping keys are ${personWalletsGroup.keys}")
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
         if (cwaUser != null && groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
