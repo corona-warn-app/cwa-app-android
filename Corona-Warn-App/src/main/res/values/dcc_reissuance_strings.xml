@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Old certificates will be moved automatically to the recycle bin and deleted after 30 days. Certificates can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"If you cancel now, you can request a renewal in the certificate overview at any time."</string>
+    <string name="dcc_reissuance_update_hint">"If you cancel now, you can request a renewal in your certificate overview."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Other Certificates Issued"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->

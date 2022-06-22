@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Старі сертифікати будуть автоматично переміщені в кошик і видалено через 30 днів. Сертифікати можна відновити в будь-який час протягом цих 30 днів."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Якщо ви скасуєте зараз, ви можете будь-коли подати запит на поновлення в огляді сертифіката."</string>
+    <string name="dcc_reissuance_update_hint">"Якщо ви скасуєте зараз, ви можете подати запит на поновлення в огляді вашого сертифіката."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Інші видані сертифікати"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
