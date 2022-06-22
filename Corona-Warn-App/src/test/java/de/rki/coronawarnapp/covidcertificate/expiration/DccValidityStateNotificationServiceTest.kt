@@ -78,8 +78,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
         vaccinationCertificate.apply {
             every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns vaccinationContainerId
-            every { notifiedExpiresSoonAt } returns null
-            every { notifiedExpiredAt } returns null
             every { notifiedInvalidAt } returns null
             every { notifiedBlockedAt } returns null
         }
@@ -92,8 +90,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
         recoveryCertificate.apply {
             every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns recoverContainerId
-            every { notifiedExpiresSoonAt } returns null
-            every { notifiedExpiredAt } returns null
             every { notifiedInvalidAt } returns null
             every { notifiedBlockedAt } returns null
         }
@@ -102,8 +98,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
         testCertificate.apply {
             every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns testContainerId
-            every { notifiedExpiresSoonAt } returns null
-            every { notifiedExpiredAt } returns null
             every { notifiedInvalidAt } returns null
             every { notifiedBlockedAt } returns null
         }
@@ -393,11 +387,9 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     fun `one of each but already notified the user`() = runTest {
         vaccinationCertificate.apply {
             every { state } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
-            every { notifiedExpiresSoonAt } returns Instant.EPOCH
         }
         recoveryCertificate.apply {
             every { state } returns State.Expired(expiredAt = Instant.EPOCH)
-            every { notifiedExpiredAt } returns Instant.EPOCH
         }
 
         createInstance().showNotificationIfStateChanged()
