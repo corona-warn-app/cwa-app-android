@@ -66,12 +66,6 @@ data class RecoveryCertificateContainer(
         return object : RecoveryCertificate {
             override val state: State get() = certificateState
 
-            override val notifiedExpiresSoonAt: Instant?
-                get() = data.notifiedExpiresSoonAt
-
-            override val notifiedExpiredAt: Instant?
-                get() = data.notifiedExpiredAt
-
             override val notifiedInvalidAt: Instant?
                 get() = data.notifiedInvalidAt
 

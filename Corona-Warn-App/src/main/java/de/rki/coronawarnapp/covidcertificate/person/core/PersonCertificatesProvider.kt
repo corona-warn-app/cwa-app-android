@@ -46,8 +46,16 @@ class PersonCertificatesProvider @Inject constructor(
             .filterNot { certs ->
                 certs.isEmpty() // Any person should have at least one certificate to show up in the list
             }.map { certs ->
-                val personIdentifier = certs.identifier
-                val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+                var personIdentifier: CertificatePersonIdentifier = certs.identifier
+                var dccWalletInfo: DccWalletInfo? = null
+                certs.forEach {
+                    dccWalletInfo = personWalletsGroup[it.personIdentifier.groupingKey]?.dccWalletInfo
+                    if (dccWalletInfo != null) {
+                        personIdentifier = it.personIdentifier
+                        return@forEach
+                    }
+                }
+
                 val settings = personsSettings[personIdentifier]
 
                 Timber.tag(TAG).v(
