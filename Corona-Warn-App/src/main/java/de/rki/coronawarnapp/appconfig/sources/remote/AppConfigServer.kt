@@ -32,7 +32,7 @@ class AppConfigServer @Inject constructor(
     private val testSettings: TestSettings
 ) {
 
-    // TODO Remove this annotation after Sonarqube update, used variables are indicated as unused
+    // Remove this annotation after Sonarqube update, used variables are indicated as unused
     @Suppress("unused")
     internal suspend fun downloadAppConfig(): InternalConfigData {
         Timber.tag(TAG).d("Fetching app config.")
