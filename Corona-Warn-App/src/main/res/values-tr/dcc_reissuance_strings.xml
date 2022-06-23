@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Eski sertifikalar otomatik olarak geri dönüşüm kutusuna taşınır ve 30 gün sonra silinir. Sertifikalar, bu 30 günlük süre içinde dilediğiniz zaman geri yüklenebilir."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Şimdi iptal ederseniz dilediğiniz zaman sertifikaya genel bakış bölümünde yenileme talebi oluşturabilirsiniz."</string>
+    <string name="dcc_reissuance_update_hint">"Şimdi iptal ederseniz, sertifika genel bakışınızda yenileme talebi oluşturabilirsiniz."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Düzenlenen Diğer Sertifikalar"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->

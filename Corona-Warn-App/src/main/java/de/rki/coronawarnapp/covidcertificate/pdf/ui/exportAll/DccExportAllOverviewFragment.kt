@@ -74,9 +74,11 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             is ShareResult -> exportResult.provider.intent(requireActivity()).also { startActivity(it) }
             is PrintResult -> exportResult.print(requireActivity())
             is PDFResult -> {
-                progressLayout.isVisible = false
-                if (toolbar.menu.isEmpty()) {
-                    toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                if (exportResult.timerFinished && exportResult.pdfFinished) {
+                    progressLayout.isVisible = false
+                    if (toolbar.menu.isEmpty()) {
+                        toolbar.inflateMenu(R.menu.menu_certificate_poster)
+                    }
                 }
             }
 

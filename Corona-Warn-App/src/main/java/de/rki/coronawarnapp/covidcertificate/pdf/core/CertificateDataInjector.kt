@@ -17,7 +17,7 @@ internal fun String.inject(
 ): String = this
     .replace("\$nam", cert.fullNameFormatted.sanitize())
     .replace("\$dob", cert.dateOfBirthFormatted.sanitize())
-    .replace("\$ci", cert.uniqueCertificateIdentifier.sanitize())
+    .replace("\$ci", cert.uniqueCertificateIdentifier.sanitize().removePrefix(CI_PREFIX))
     .replace("\$tg", cert.targetDisease.sanitize())
     .replace("\$co", cert.rawCertificate.payload.certificateCountry.sanitize())
     .replace("\$qr", cert.qrCodeBase64())
@@ -80,3 +80,5 @@ internal fun CwaCovidCertificate.qrCodeBase64(): String {
         }
     }
 }
+
+private const val CI_PREFIX = "URN:UVCI:"

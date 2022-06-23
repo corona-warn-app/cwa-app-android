@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -264,9 +263,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Valid until %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"If this is the certificate you currently use, please be sure to renew it on time. You can renew such certificates directly in the app if they will expire within the next 28 days. In this case, the “Renew Certificates” option appears in your certificate overview, below the “Proof of Status” tile. If this is not the certificate you currently use, it does not have to be extended and no action is required on your part."</string>
-    <!-- XTXT: Vaccination Detail Techincal expiration info -->
-    <string name="expiration_technical_info">"Please make sure to get a new digital certificate in time."</string>
+    <string name="expiration_info">"If this is one of the certificates you currently use, please be sure to renew it on time. You can renew such certificates directly in the app if they will expire within the next 28 days or expired within the last 90 days, provided they were issued in Germany. In this case, the “Renew Certificates” option appears in your certificate overview, below the “Proof of Status” tile. If this is not one of the certificates you currently use, it does not have to be extended and no action is required on your part."</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"The expiration date has passed. Please renew the certificate. You can request a renewal up to 90 days after a certificate expires, by clicking the note in your certificate overview."</string>
     <!-- XTXT: Invalid certificate signature info -->
@@ -312,13 +309,13 @@
 
     <!-- PDF Export: All Certificates Info Screen -->
     <!-- XHED: PDF Export: All Certificates Info screen title -->
-    <string name="all_certs_pdf_export_info_title">Zertifikate exportieren</string>
+    <string name="all_certs_pdf_export_info_title">"Export Certificates"</string>
     <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
-    <string name="all_certs_pdf_export_info_point_pdf">Sie können in einem Schritt alle in Ihrer App gehaltenen Zertifikate in einem gemeinsamen PDF-Dokument speichern. Auf das PDF-Dokument haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie es auf Ihrem Smartphone speichern oder in andere Apps importieren möchten.</string>
+    <string name="all_certs_pdf_export_info_point_pdf">"You can save all of the certificates in your app in one PDF document in a single step. You are the only one who can access this PDF document at first. You can then decide whether you want to save it on your smartphone or import it into other apps."</string>
     <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
-    <string name="all_certs_pdf_export_info_point_sensitive">Beachten Sie, dass das PDF-Dokument sensible Informationen enthält. Wir empfehlen Ihnen, hiermit sorgsam umzugehen und es nur Personen vorzuzeigen, denen Sie vertrauen und die zur Prüfung des Nachweises berechtigt sind.</string>
+    <string name="all_certs_pdf_export_info_point_sensitive">"Please note that the PDF document contains sensitive information. We recommend handling it carefully and only showing it to people who you trust and who are authorized to check the certificate."</string>
     <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
-    <string name="all_certs_pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
+    <string name="all_certs_pdf_export_info_point_recommendations">"We recommend that you not publish the PDF document, send it via e-mail, or share it through other apps."</string>
 
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
@@ -360,23 +357,24 @@
     <string name="certificate_migration_dialog_message">"The grouping of certificates has been improved. Certificates with only minor differences in the name will no longer be assigned to different people."</string>
 
     <!-- XTXT: Certificate export all tooltip title -->
-    <string name="export_all_tooltip_title">Zertifikate Exportieren</string>
+    <string name="export_all_tooltip_title">"Export Certificates"</string>
     <!-- XTXT: Certificate export all tooltip message -->
-    <string name="export_all_tooltip_message">In einem Schritt alle Ihre Zertifikate in einem gemeinsamen PDF-Dokument speichern</string>
+    <string name="export_all_tooltip_message">"Save all of your certificates in one PDF document in a single step"</string>
     <!-- XTXT: Certificate export all progress title -->
-    <string name="export_all_progress_title">PDF wird erstellt</string>
+    <string name="export_all_progress_title">"Generating PDF"</string>
     <!-- XTXT: Certificate export all progress message -->
-    <string name="export_all_progress_text">Diese kann einige Minuten dauern.</string>
+    <string name="export_all_progress_text">"This may take a few minutes."</string>
     <!-- XTXT: Certificate export all progress cancel -->
-    <string name="export_all_progress_cancel">Abbrechen</string>
+    <string name="export_all_progress_cancel">"Cancel"</string>
     <!-- XTXT: Certificate export all error title -->
-    <string name="export_all_error_title">Druckversion anzeigen nicht möglich</string>
+    <string name="export_all_error_title">"Cannot display print version"</string>
     <!-- XTXT: Certificate export all error message -->
-    <string name="export_all_error_message">Die Druckversion der Zertifikate kann nicht angezeigt werden.</string>
+    <string name="export_all_error_message">"The print version of the certificates cannot be displayed."</string>
     <!-- XTXT: Certificate export all error faq button -->
-    <string name="export_all_error_faq">Faq zur Druckversion</string>
+    <string name="export_all_error_faq">"FAQ for Print Version"</string>
     <!-- XTXT: Certificate export all no pages  title -->
-    <string name="export_all_no_pages_title">Zertifikate können nicht exportiert werden</string>
+    <string name="export_all_no_pages_title">"The certificates cannot be exported"</string>
     <!-- XTXT: Certificate export all no pages message -->
-    <string name="export_all_no_pages_message">Die vorhandenen Zertifikate können nicht exportiert werden, da sie nicht mehr gültig sind.</string>
+    <string name="export_all_no_pages_message">"The available certificates cannot be exported because they are no longer valid."</string>
+
 </resources>

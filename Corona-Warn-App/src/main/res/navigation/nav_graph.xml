@@ -601,9 +601,9 @@
 
     <fragment
         android:id="@+id/settingsTracingFragment"
-        android:name="de.rki.coronawarnapp.tracing.ui.settings.SettingsTracingFragment"
-        android:label="@layout/fragment_settings_tracing"
-        tools:layout="@layout/fragment_settings_tracing">
+        android:name="de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragment"
+        android:label="@layout/fragment_tracing_settings"
+        tools:layout="@layout/fragment_tracing_settings">
         <action
             android:id="@+id/action_settingsTracingFragment_to_interopCountryConfigurationFragment"
             app:destination="@id/interopCountryConfigurationFragment" />

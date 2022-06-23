@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Testiniz değerlendirilemiyor"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Test değerlendirilemiyor"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Testi Sil"</string>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Veriler alınıyor...."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Test sonucunuz henüz çıkmadı"</string>
+    <string name="submission_status_card_title_pending">"Test Sonucu Henüz Çıkmadı"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Test sonucunuz çıktı"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Sonucunuz güncelleniyor"</string>
+    <string name="submission_status_card_body_fetching">"Sonuç güncelleniyor"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Testinize ilişkin değerlendirme henüz tamamlanmadı."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Değerlendirme yapılamaz"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Sonucunuz henüz çıkmadı"</string>
+    <string name="test_result_card_status_pending">"Sonuç henüz çıkmadı"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Diğer bilgiler:"</string>
     <!-- XHED: Title for further info of test result negative -->
