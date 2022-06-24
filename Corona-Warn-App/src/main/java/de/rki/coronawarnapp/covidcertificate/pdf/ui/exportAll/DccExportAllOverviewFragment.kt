@@ -92,7 +92,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setMessage(R.string.export_all_error_message)
             .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
                 openUrl(R.string.certificate_export_all_error_dialog_faq_link)
-            }.setPositiveButton(android.R.string.ok) { _, _ -> }
+            }.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
             .setOnDismissListener { popBackStack() }
             .show()
     }
@@ -101,7 +101,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.export_all_no_pages_title)
             .setMessage(R.string.export_all_no_pages_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
             .setOnDismissListener { popBackStack() }
             .show()
     }
