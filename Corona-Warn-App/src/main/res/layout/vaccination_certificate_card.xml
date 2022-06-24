@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/vaccination_card"
@@ -6,150 +6,147 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
     android:layout_marginTop="8dp"
-    android:background="@drawable/grey_card_ripple"
+    android:orientation="vertical"
     android:paddingBottom="14dp">
 
-    <ImageView
-        android:id="@+id/certificate_bg"
-        android:layout_width="88dp"
-        android:layout_height="95dp"
-        android:layout_marginVertical="14dp"
-        android:layout_marginStart="14dp"
-        android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:srcCompat="@drawable/bg_certificate_grey" />
-
-    <ImageView
-        android:id="@+id/notification_badge"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:importantForAccessibility="no"
-        android:translationX="7dp"
-        android:translationY="-7dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
-        app:layout_constraintTop_toTopOf="@id/certificate_bg"
-        app:srcCompat="@drawable/circle_certificate_notification_badge"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/certificate_icon"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
-        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
-        app:layout_constraintStart_toStartOf="@id/certificate_bg"
-        app:layout_constraintTop_toTopOf="@id/certificate_bg"
-        app:srcCompat="@drawable/ic_vaccination_incomplete" />
+        android:background="@drawable/grey_card_ripple">
 
-    <TextView
-        android:id="@+id/vaccination_certificate_name"
-        style="@style/subtitleBoldSixteen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:text="@string/vaccination_certificate_name"
-        app:layout_constraintEnd_toStartOf="@id/arrow"
-        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-        app:layout_constraintTop_toTopOf="@id/certificate_bg" />
+        <ImageView
+            android:id="@+id/certificate_bg"
+            android:layout_width="88dp"
+            android:layout_height="95dp"
+            android:layout_marginVertical="14dp"
+            android:layout_marginStart="14dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:srcCompat="@drawable/bg_certificate_grey" />
 
-    <ImageView
-        android:id="@+id/arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:alpha="0.6"
-        android:hyphenationFrequency="normal"
-        android:src="@drawable/ic_contact_diary_right_arrow"
-        app:layout_constraintBottom_toBottomOf="@id/vaccination_certificate_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vaccination_certificate_name"
-        app:layout_constraintTop_toTopOf="@id/vaccination_certificate_name"
-        tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/notification_badge"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:importantForAccessibility="no"
+            android:translationX="7dp"
+            android:translationY="-7dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+            app:layout_constraintTop_toTopOf="@id/certificate_bg"
+            app:srcCompat="@drawable/circle_certificate_notification_badge"
+            tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/vaccination_doses_info"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name"
-        tools:text="Impfung 1 von 2" />
+        <ImageView
+            android:id="@+id/certificate_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
+            app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+            app:layout_constraintStart_toStartOf="@id/certificate_bg"
+            app:layout_constraintTop_toTopOf="@id/certificate_bg"
+            app:srcCompat="@drawable/ic_vaccination_incomplete" />
 
-    <TextView
-        android:id="@+id/certificate_date"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-        app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info"
-        tools:text="Geimpft am 01.06.21" />
+        <TextView
+            android:id="@+id/vaccination_certificate_name"
+            style="@style/subtitleBoldSixteen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:text="@string/vaccination_certificate_name"
+            app:layout_constraintEnd_toStartOf="@id/arrow"
+            app:layout_constraintStart_toEndOf="@id/certificate_bg"
+            app:layout_constraintTop_toTopOf="@id/certificate_bg" />
 
-    <TextView
-        android:id="@+id/certificate_expiration"
-        style="@style/body2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="14dp"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-        app:layout_constraintTop_toBottomOf="@id/certificate_date"
-        tools:text="läuft am 21.08.21 um 14:12 Uhr ab"
-        tools:visibility="visible" />
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:alpha="0.6"
+            android:hyphenationFrequency="normal"
+            android:src="@drawable/ic_contact_diary_right_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/vaccination_certificate_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vaccination_certificate_name"
+            app:layout_constraintTop_toTopOf="@id/vaccination_certificate_name"
+            tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/bookmark"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@id/bookmark_info"
-        app:layout_constraintStart_toStartOf="@id/certificate_date"
-        app:layout_constraintTop_toTopOf="@id/bookmark_info"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_bookmark" />
+        <TextView
+            android:id="@+id/vaccination_doses_info"
+            style="@style/body2Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/certificate_bg"
+            app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name"
+            tools:text="Impfung 1 von 2" />
 
-    <TextView
-        android:id="@+id/bookmark_info"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_tiny"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="14dp"
-        android:text="@string/certificate_card_bookmark_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bookmark"
-        app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
+        <TextView
+            android:id="@+id/certificate_date"
+            style="@style/body2Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/certificate_bg"
+            app:layout_constraintTop_toBottomOf="@id/vaccination_doses_info"
+            tools:text="Geimpft am 01.06.21" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/current_certificate_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="bookmark,bookmark_info,start_validation_check_button" />
+        <TextView
+            android:id="@+id/certificate_expiration"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="@dimen/spacing_mega_tiny"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/bookmark_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/certificate_bg"
+            app:layout_constraintTop_toBottomOf="@id/certificate_date"
+            app:layout_goneMarginBottom="14dp"
+            tools:text="läuft am 21.08.21 um 14:12 Uhr ab"
+            tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/bottom_barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate_group,bookmark,bookmark_info,certificate_bg,certificate_date"
-        tools:layout_editor_absoluteY="117dp" />
+        <ImageView
+            android:id="@+id/bookmark"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/bookmark_info"
+            app:layout_constraintStart_toStartOf="@id/certificate_date"
+            app:layout_constraintTop_toTopOf="@id/bookmark_info"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/ic_bookmark" />
+
+        <TextView
+            android:id="@+id/bookmark_info"
+            style="@style/body2Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_tiny"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="14dp"
+            android:text="@string/certificate_card_bookmark_info"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bookmark"
+            app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/start_validation_check_button"
         style="@style/checkValidityButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="14dp"
         android:layout_marginTop="6dp"
@@ -162,4 +159,4 @@
         app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
         app:loadingText="@string/start_validation_rule_check_loading_text" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
