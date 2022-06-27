@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Certificatele vechi vor fi mutate automat în coșul de reciclare și vor fi șterse după 30 de zile. Certificatele pot fi restaurate oricând în aceste 30 de zile."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Dacă anulați acum, puteți solicita oricând o reînnoire în sumarul certificatului."</string>
+    <string name="dcc_reissuance_update_hint">"Dacă anulați acum, puteți solicita o reînnoire în sumarul certificatului dvs."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Alte certificate emise"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
