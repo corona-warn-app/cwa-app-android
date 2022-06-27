@@ -76,7 +76,7 @@ class SubmissionTanViewModel @AssistedInject constructor(
     private suspend fun onTanSubmit(teletan: Tan) {
 
         try {
-            mutableRegistrationState.postValue(TanApiRequestState.Started)
+            mutableRegistrationState.postValue(TanApiRequestState.InProgress)
             val request = CoronaTestTAN.PCR(tan = teletan.value)
             val test = submissionRepository.registerTest(request)
             when {
@@ -85,7 +85,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
                 test.isPending ->
                     mutableRegistrationState.postValue(TanApiRequestState.SuccessPendingResult(request.identifier))
             }
-
         } catch (err: CwaWebException) {
             mutableRegistrationState.postValue(TanApiRequestState.Failure)
             registrationError.postValue(err)
@@ -107,7 +106,7 @@ class SubmissionTanViewModel @AssistedInject constructor(
 
     sealed class TanApiRequestState {
         object Idle : TanApiRequestState()
-        object Started : TanApiRequestState()
+        object InProgress : TanApiRequestState()
         object Failure : TanApiRequestState()
         data class SuccessPositiveResult(val identifier: TestIdentifier) : TanApiRequestState()
         data class SuccessPendingResult(val identifier: TestIdentifier) : TanApiRequestState()

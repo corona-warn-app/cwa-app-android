@@ -79,22 +79,24 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
         viewModel.registrationState.observe2(this) {
             binding.submissionTanSpinner.visibility = when (it) {
-                TanApiRequestState.Started -> View.VISIBLE
+                TanApiRequestState.InProgress -> View.VISIBLE
                 else -> View.GONE
             }
 
             when (it) {
                 is TanApiRequestState.SuccessPositiveResult ->
-                doNavigate(
-                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                        testIdentifier = it.identifier
+                    doNavigate(
+                        SubmissionTanFragmentDirections
+                            .actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
+                                testIdentifier = it.identifier
+                            )
                     )
-                )
                 is TanApiRequestState.SuccessPendingResult ->
                     doNavigate(
-                        SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
-                            testIdentifier = it.identifier
-                        )
+                        SubmissionTanFragmentDirections
+                            .actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
+                                testIdentifier = it.identifier
+                            )
                     )
                 else -> Unit
             }
