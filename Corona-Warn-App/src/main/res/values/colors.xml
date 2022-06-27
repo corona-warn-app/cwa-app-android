@@ -114,7 +114,7 @@
     <!-- Tip -->
     <color name="tipBackgroundColor">#333333</color>
     <color name="tipTitleColor">#FFFFFF</color>
-    <color name="tipSubtitleColor">#9E9E9E</color>
+    <color name="tipSubtitleColor">#CCFFFFFF</color>
     <color name="dim_color">#80000000</color>
     <color name="admissionItemDisabledColor">#8017191A</color>
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardGrey</color>
