@@ -6,8 +6,6 @@ import org.joda.time.Instant
 
 data class StoredRecoveryCertificateData(
     @SerializedName("recoveryCertificateQrCode") val recoveryCertificateQrCode: String,
-    @SerializedName("notifiedExpiresSoonAt") val notifiedExpiresSoonAt: Instant? = null,
-    @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
     @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("notifiedBlockedAt") val notifiedBlockedAt: Instant? = null,
     @SerializedName("notifiedRevokedAt") val notifiedRevokedAt: Instant? = null,

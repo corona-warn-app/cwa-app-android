@@ -50,8 +50,6 @@ interface CwaCovidCertificate : Recyclable {
 
     val dccData: DccData<out DccV1.MetaData>
 
-    val notifiedExpiresSoonAt: Instant?
-    val notifiedExpiredAt: Instant?
     val notifiedInvalidAt: Instant?
     val notifiedBlockedAt: Instant?
     val notifiedRevokedAt: Instant?

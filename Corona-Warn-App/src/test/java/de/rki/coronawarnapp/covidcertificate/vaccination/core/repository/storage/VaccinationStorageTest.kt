@@ -66,8 +66,6 @@ class VaccinationStorageTest : BaseTest() {
         val vaccinationContainer2 = VaccinationTestData.personAVac2StoredCertificateData.copy(
             notifiedInvalidAt = Instant.ofEpochSecond(1234),
             notifiedBlockedAt = Instant.ofEpochSecond(1234),
-            notifiedExpiredAt = Instant.ofEpochSecond(1234),
-            notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
         val personData = setOf(VaccinationTestData.personAVac1StoredCertificateData, vaccinationContainer2)
         runTest {
@@ -92,8 +90,6 @@ class VaccinationStorageTest : BaseTest() {
                     {
                       "vaccinationQrCode": "${VaccinationTestData.personAVac2QRCodeString}",
                       "scannedAt": 1620069934471,
-                      "notifiedExpiresSoonAt": 1234000,
-                      "notifiedExpiredAt": 1234000,
                       "notifiedInvalidAt": 1234000,
                       "notifiedBlockedAt": 1234000,
                       "certificateSeenByUser": true

@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Старите сертификати ще бъдат автоматично преместени в кошчето и изтрити след 30 дни. Те могат да бъдат възстановени по всяко време в рамките на тези 30 дни."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Ако откажете сега, може да заявите подновяване в прегледа за сертификата по всяко време."</string>
+    <string name="dcc_reissuance_update_hint">"Ако откажете сега, можете да заявите подновяване във вашия преглед за сертификат."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Други издавани сертификати"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->

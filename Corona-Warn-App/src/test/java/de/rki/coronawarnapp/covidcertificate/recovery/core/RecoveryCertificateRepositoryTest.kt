@@ -201,10 +201,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.recoveryCertificate.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
         }
     }
 
@@ -252,9 +250,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.recoveryCertificate.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
             notifiedInvalidAt shouldBe Instant.EPOCH
         }
     }
@@ -273,8 +269,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.recoveryCertificate.apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedExpiredAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe Instant.EPOCH
         }

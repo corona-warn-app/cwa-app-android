@@ -34,14 +34,6 @@ interface TestCertificate : CwaCovidCertificate {
     val isPCRTestCertificate: Boolean get() = rawCertificate.isPCRTestCertificate
     val isRapidAntigenTestCertificate: Boolean get() = rawCertificate.isRapidAntigenTestCertificate
 
-    /**
-     * Not supported by this type of certificate (at the moment)
-     */
-    override val notifiedExpiredAt: Instant?
-        get() = null
-    override val notifiedExpiresSoonAt: Instant?
-        get() = null
-
     override val rawCertificate: TestDccV1
 
     companion object {
