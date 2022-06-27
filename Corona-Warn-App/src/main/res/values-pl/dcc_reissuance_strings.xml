@@ -30,7 +30,7 @@
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Stare certyfikaty zostaną automatycznie przeniesione do kosza i usunięte po 30 dniach. Certyfikaty można odzyskać w dowolnym momencie w ciągu tych 30 dni."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">"Jeśli teraz zrezygnujesz, możesz w każdej chwili zażądać odnowienia w przeglądzie certyfikatów."</string>
+    <string name="dcc_reissuance_update_hint">"Jeśli teraz zrezygnujesz, możesz zażądać odnowienia w przeglądzie certyfikatów."</string>
     <!-- XTXT: DCC Reissuance accompanying certificates tile -->
     <string name="dcc_reissuance_accompanying_certificates">"Inne wydawane certyfikaty"</string>
     <!-- XTXT: DCC Reissuance accompanying certificates content -->
