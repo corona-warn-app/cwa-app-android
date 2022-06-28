@@ -776,9 +776,7 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionDeletionWarningFragment"
-            app:destination="@id/submissionDeletionWarningFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/submissionDeletionWarningFragment" />
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
