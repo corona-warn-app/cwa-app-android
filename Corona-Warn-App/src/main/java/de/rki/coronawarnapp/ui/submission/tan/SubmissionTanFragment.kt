@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -21,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import javax.inject.Inject
 
 /**
@@ -79,16 +79,26 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
         viewModel.registrationState.observe2(this) {
             binding.submissionTanSpinner.visibility = when (it) {
-                TanApiRequestState.STARTED -> View.VISIBLE
+                TanApiRequestState.InProgress -> View.VISIBLE
                 else -> View.GONE
             }
 
-            if (it is TanApiRequestState.SUCCESS) {
-                doNavigate(
-                    SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                        testIdentifier = it.identifier
+            when (it) {
+                is TanApiRequestState.SuccessPositiveResult ->
+                    doNavigate(
+                        SubmissionTanFragmentDirections
+                            .actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
+                                testIdentifier = it.identifier
+                            )
                     )
-                )
+                is TanApiRequestState.SuccessPendingResult ->
+                    doNavigate(
+                        SubmissionTanFragmentDirections
+                            .actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
+                                testIdentifier = it.identifier
+                            )
+                    )
+                else -> Unit
             }
         }
 
