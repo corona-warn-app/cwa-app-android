@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.pas
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -51,28 +52,30 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                     )
                 }
 
-                toolbar.setNavigationOnClickListener { viewModel.onCloseClicked() }
+                toolbar.setNavigationOnClickListener {
+                    popBackStackTwice()
+                }
 
                 appBarLayout.onOffsetChange { _, subtitleAlpha ->
                     headerImage.alpha = subtitleAlpha
                 }
             }
 
-            checkAnotherCountryButton.setOnClickListener { viewModel.onCheckAnotherCountryClicked() }
+
+            checkAnotherCountryButton.setOnClickListener { popBackStack() }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            popBackStackTwice()
         }
 
         viewModel.items.observe2(this) {
             validationResultAdapter.update(it)
         }
-
-        viewModel.navigation.observe2(this) {
-            handleNavigation(it)
-        }
     }
 
-    private fun handleNavigation(navigation: DccValidationPassedNavigation) {
-        when (navigation) {
-            DccValidationPassedNavigation.Back -> popBackStack()
-        }
+    private fun popBackStackTwice() {
+        popBackStack()
+        popBackStack()
     }
 }
