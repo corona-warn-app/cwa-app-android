@@ -9,6 +9,14 @@ private val HTML_TEMPLATE = """
     <style type="text/css">
         h6 {
             font-weight: 500;
+            margin: 0px;
+        }
+        ul {
+        	margin: 0px;
+        	padding: 0px;
+        }
+        body {
+        	margin: 0px;
         }
     </style>
 </head>
