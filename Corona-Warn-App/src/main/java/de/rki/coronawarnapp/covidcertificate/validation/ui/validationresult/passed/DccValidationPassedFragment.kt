@@ -61,7 +61,6 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                 }
             }
 
-
             checkAnotherCountryButton.setOnClickListener { popBackStack() }
         }
 
