@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.EmptyResult
@@ -30,13 +32,16 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
     @Inject
     lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<DccExportAllOverviewViewModel> { viewModelFactory }
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.personOverviewFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         setupToolbar()
         webView.setupWebView { view ->
             viewModel.createPDF(view.createPrintDocumentAdapter(jobName))
         }
-        cancelButton.setOnClickListener { popBackStack() }
+        cancelButton.setOnClickListener {
+            navigateToPersonOverview()
+        }
         with(viewModel) {
             error.observe(viewLifecycleOwner) { showErrorDialog() }
             exportResult.observe(viewLifecycleOwner) { handleExportResult(it) }
@@ -93,7 +98,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
                 openUrl(R.string.certificate_export_all_error_dialog_faq_link)
             }.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-            .setOnDismissListener { popBackStack() }
+            .setOnDismissListener { navigateToPersonOverview() }
             .show()
     }
 
@@ -101,8 +106,12 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.export_all_no_pages_title)
             .setMessage(R.string.export_all_no_pages_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+            .setPositiveButton(android.R.string.ok) { _, _ -> navigateToPersonOverview() }
             .setOnDismissListener { popBackStack() }
             .show()
+    }
+
+    private fun navigateToPersonOverview() {
+        findNavController().navigate(R.id.covid_certificates_graph, null, navOptions)
     }
 }

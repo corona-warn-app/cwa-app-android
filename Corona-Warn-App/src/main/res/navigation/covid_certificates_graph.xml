@@ -23,8 +23,7 @@
             app:destination="@id/admissionScenariosFragment" />
         <action
             android:id="@+id/action_personOverviewFragment_to_exportAllCertsPdfInfoFragment"
-            app:destination="@id/exportAllCertsPdfInfoFragment"
-            app:popUpTo="@id/personOverviewFragment" />
+            app:destination="@id/exportAllCertsPdfInfoFragment" />
     </fragment>
 
     <fragment
@@ -390,8 +389,7 @@
         tools:layout="@layout/export_all_certs_pdf_info_fragment">
         <action
             android:id="@+id/action_exportAllCertsPdfInfoFragment_to_dccExportAllOverviewFragment"
-            app:destination="@id/dccExportAllOverviewFragment"
-            app:popUpTo="@id/personOverviewFragment" />
+            app:destination="@id/dccExportAllOverviewFragment" />
     </fragment>
 
 </navigation>
