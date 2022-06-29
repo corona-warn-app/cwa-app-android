@@ -133,14 +133,8 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
-                        testResultStepsRemoveTest.setIsFinal(false)
-                        testResultStepsTestCertificate.isGone = false
-                        testResultStepsTestCertificate.setEntryText(
-                            getText(R.string.coronatest_negative_result_certificate_info_body)
-                        )
-                        testResultStepsTestCertificate.setIcon(
-                            getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
-                        )
+                        testResultStepsRemoveTest.setIsFinal(true)
+                        testResultStepsTestCertificate.isGone = true
                         testCertificateCard.isGone = false
                     }
                 }
