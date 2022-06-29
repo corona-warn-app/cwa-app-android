@@ -32,7 +32,6 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
     @Inject
     lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<DccExportAllOverviewViewModel> { viewModelFactory }
-    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.personOverviewFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         setupToolbar()
@@ -86,8 +85,10 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                     }
                 }
             }
-
-            is EmptyResult -> showEmptyDialog()
+            is EmptyResult -> {
+                progressLayout.isVisible = false
+                showEmptyDialog()
+            }
         }
     }
 
@@ -106,12 +107,13 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.export_all_no_pages_title)
             .setMessage(R.string.export_all_no_pages_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> navigateToPersonOverview() }
-            .setOnDismissListener { popBackStack() }
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .setOnDismissListener { navigateToPersonOverview() }
             .show()
     }
 
     private fun navigateToPersonOverview() {
+        val navOptions = NavOptions.Builder().setPopUpTo(R.id.personOverviewFragment, true).build()
         findNavController().navigate(R.id.covid_certificates_graph, null, navOptions)
     }
 }
