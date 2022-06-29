@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -24,7 +25,9 @@ class AppConfigTestFragment : Fragment(R.layout.fragment_test_appconfig), AutoIn
 
     private val binding: FragmentTestAppconfigBinding by viewBinding()
 
-    private val timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd - HH:mm:ss")
+    private val timeFormatter = DateTimeFormatter
+        .ofPattern("yyyy-MM-dd - HH:mm:ss")
+        .withZone(ZoneId.systemDefault())
 
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
