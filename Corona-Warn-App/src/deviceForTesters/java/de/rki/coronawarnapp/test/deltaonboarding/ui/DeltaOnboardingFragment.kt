@@ -34,7 +34,7 @@ class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
             binding.lastChangelogEdittext.setText(it.toString())
         }
 
-        viewModel.isOnboardingDone.observe(viewLifecycleOwner) {
+        viewModel.isContactJournalOnboardingDone.observe(viewLifecycleOwner) {
             binding.switchContactJournalOnboarding.isChecked = it
         }
 

@@ -27,7 +27,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     val changelogVersion: LiveData<Long> =
         settings.lastChangelogVersion.flow.asLiveData(context = dispatcherProvider.Default)
 
-    val isOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
+    val isContactJournalOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
         .asLiveData(context = dispatcherProvider.Default)
 
     fun updateChangelogVersion(value: Long) {
