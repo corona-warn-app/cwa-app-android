@@ -66,21 +66,21 @@ internal class CclSettingsTest : BaseTest() {
 
         // Call - 1-> returns `true` and set value to `false`
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe null
-        cclSettings.forceCclCalculation() shouldBe true
+        cclSettings.shouldTriggerRecalculation() shouldBe true
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
 
         // Subsequent calls - just return what is saved
         // Call - 2
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.forceCclCalculation() shouldBe false
+        cclSettings.shouldTriggerRecalculation() shouldBe false
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
         // Call - 3
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.forceCclCalculation() shouldBe false
+        cclSettings.shouldTriggerRecalculation() shouldBe false
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
         // Call - 4
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.forceCclCalculation() shouldBe false
+        cclSettings.shouldTriggerRecalculation() shouldBe false
         fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
     }
 }

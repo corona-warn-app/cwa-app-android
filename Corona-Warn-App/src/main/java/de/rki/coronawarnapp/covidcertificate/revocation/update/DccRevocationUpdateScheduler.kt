@@ -41,11 +41,6 @@ class DccRevocationUpdateScheduler @Inject constructor(
             .launchIn(scope = appScope)
     }
 
-    fun forceUpdate() = appScope.launch {
-        Timber.tag(TAG).d("forceUpdate()")
-        triggerUpdate(forceUpdate = true)
-    }
-
     private suspend fun triggerUpdate(forceUpdate: Boolean) = revocationListUpdater.updateRevocationList(forceUpdate)
 
     private fun scheduleDailyWorker() {

@@ -33,7 +33,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclSettings.forceCclCalculation() } returns false
+        coEvery { cclSettings.shouldTriggerRecalculation() } returns false
     }
 
     @Test

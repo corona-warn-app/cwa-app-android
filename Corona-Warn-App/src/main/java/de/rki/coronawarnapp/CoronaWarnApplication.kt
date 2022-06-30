@@ -14,6 +14,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.initializer.Initializer
@@ -99,6 +100,12 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
             errorReceiver?.let {
                 localBM.unregisterReceiver(it)
                 errorReceiver = null
+            }
+
+            initializers.get().forEach { initializer ->
+                if (initializer is DccValidityStateChangeObserver) {
+                    initializer.initialize()
+                }
             }
 
             errorReceiver = ErrorReportReceiver(activity).also {

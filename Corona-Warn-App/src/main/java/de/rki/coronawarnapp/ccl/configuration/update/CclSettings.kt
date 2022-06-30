@@ -112,11 +112,8 @@ class CclSettings @Inject constructor(
     /**
      * Get the default value (true) of force ccl calculation and set to false, subsequent calls will false
      */
-    suspend fun forceCclCalculation(): Boolean {
+    suspend fun shouldTriggerRecalculation(): Boolean {
         val force = dataStoreFlow.map { prefs -> prefs[FORCE_CCL_CALCULATION_KEY] ?: true }.first()
-        if (force) {
-            dataStore.edit { prefs -> prefs[FORCE_CCL_CALCULATION_KEY] = false }
-        }
         return force.also { Timber.tag(TAG).d("forceCclCalculation() -> $it") }
     }
 
