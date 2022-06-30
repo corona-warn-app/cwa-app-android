@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
-import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
-import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
