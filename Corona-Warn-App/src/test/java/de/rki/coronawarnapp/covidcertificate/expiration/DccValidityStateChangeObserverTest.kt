@@ -10,6 +10,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Recycled
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -32,6 +35,9 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @RelaxedMockK lateinit var dccValidityStateNotificationService: DccValidityStateNotificationService
     @MockK lateinit var certificateProvider: CertificateProvider
+    @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
+    @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
+    @MockK lateinit var testCertificateRepository: TestCertificateRepository
 
     private lateinit var certificateContainerFlow: MutableStateFlow<CertificateContainer>
 
@@ -180,7 +186,10 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = DccValidityStateChangeObserver(
         appScope = scope,
         certificateProvider = certificateProvider,
-        dccValidityStateNotificationService = dccValidityStateNotificationService
+        dccValidityStateNotificationService = dccValidityStateNotificationService,
+        recoveryCertificateRepository = recoveryCertificateRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
+        testCertificateRepository = testCertificateRepository
     )
 
     private fun createCert(requiredState: CwaCovidCertificate.State): CwaCovidCertificate = mockk {
