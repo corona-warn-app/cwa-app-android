@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultItemCreator
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.flow
@@ -19,8 +18,6 @@ class DccValidationPassedViewModel @AssistedInject constructor(
     val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-
-    val navigation = SingleLiveEvent<DccValidationPassedNavigation>()
 
     val items: LiveData<List<ValidationResultItem>> = flow {
         emit(generateItems())
@@ -49,16 +46,6 @@ class DccValidationPassedViewModel @AssistedInject constructor(
                 validationPassedHintVHItem()
             )
         }
-    }
-
-    fun onCheckAnotherCountryClicked() {
-        Timber.d("onCheckAnotherCountryClicked()")
-        navigation.postValue(DccValidationPassedNavigation.Back)
-    }
-
-    fun onCloseClicked() {
-        Timber.d("onCloseClicked()")
-        navigation.postValue(DccValidationPassedNavigation.Back)
     }
 
     @AssistedFactory

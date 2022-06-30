@@ -27,7 +27,7 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">Die Erneuerung der Zertifikate ist freiwillig und kostenlos.</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
+    <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur in begrenztem Umfang erneuert werden können, werden jeweils die Kennung des alten und des erneuerten Zertifikats durch das RKI dokumentiert. Die weiteren Daten zu Ihren Zertifikaten werden nach der Erneuerung beim RKI sofort gelöscht.</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">Alte Zertifikate werden automatisch in den Papierkorb verschoben und nach 30 Tagen gelöscht. Die Zertifikate können innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
     <!-- XTXT: DCC Reissuance update hint-->

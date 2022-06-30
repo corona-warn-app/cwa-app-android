@@ -39,7 +39,7 @@ class SubmissionTanViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
-    val mutableRegistrationState: MutableLiveData<TanApiRequestState> = MutableLiveData(TanApiRequestState.IDLE)
+    val mutableRegistrationState: MutableLiveData<TanApiRequestState> = MutableLiveData(TanApiRequestState.Idle)
     val registrationState: LiveData<TanApiRequestState> = mutableRegistrationState
     val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val registrationError = SingleLiveEvent<CwaWebException>()
@@ -76,15 +76,20 @@ class SubmissionTanViewModel @AssistedInject constructor(
     private suspend fun onTanSubmit(teletan: Tan) {
 
         try {
-            mutableRegistrationState.postValue(TanApiRequestState.STARTED)
+            mutableRegistrationState.postValue(TanApiRequestState.InProgress)
             val request = CoronaTestTAN.PCR(tan = teletan.value)
-            submissionRepository.registerTest(request)
-            mutableRegistrationState.postValue(TanApiRequestState.SUCCESS(request.identifier))
+            val test = submissionRepository.registerTest(request)
+            when {
+                test.isPositive ->
+                    mutableRegistrationState.postValue(TanApiRequestState.SuccessPositiveResult(request.identifier))
+                test.isPending ->
+                    mutableRegistrationState.postValue(TanApiRequestState.SuccessPendingResult(request.identifier))
+            }
         } catch (err: CwaWebException) {
-            mutableRegistrationState.postValue(TanApiRequestState.FAILED)
+            mutableRegistrationState.postValue(TanApiRequestState.Failure)
             registrationError.postValue(err)
         } catch (err: Exception) {
-            mutableRegistrationState.postValue(TanApiRequestState.FAILED)
+            mutableRegistrationState.postValue(TanApiRequestState.Failure)
             err.report(ExceptionCategory.INTERNAL)
         }
     }
@@ -100,9 +105,10 @@ class SubmissionTanViewModel @AssistedInject constructor(
     interface Factory : SimpleCWAViewModelFactory<SubmissionTanViewModel>
 
     sealed class TanApiRequestState {
-        object IDLE : TanApiRequestState()
-        object STARTED : TanApiRequestState()
-        object FAILED : TanApiRequestState()
-        data class SUCCESS(val identifier: TestIdentifier) : TanApiRequestState()
+        object Idle : TanApiRequestState()
+        object InProgress : TanApiRequestState()
+        object Failure : TanApiRequestState()
+        data class SuccessPositiveResult(val identifier: TestIdentifier) : TanApiRequestState()
+        data class SuccessPendingResult(val identifier: TestIdentifier) : TanApiRequestState()
     }
 }
