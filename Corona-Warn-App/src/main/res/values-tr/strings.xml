@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz.\n\nEnfekte olmuş olma riskiniz daha yüksek. Enfekte olduysanız aşı olmuş ya da iyileşmiş olsanız bile ve hiçbir belirtiniz olmasa bile başka kişilerin enfekte olmasına neden olabilirsiniz."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Hiçbir belirtiniz olmasa bile lütfen test yaptırın. Daha yüksek risk uyarısı (\"kırmızı kutucuk\") alırsanız ücretsiz test yaptırma hakkınız olur. Bunun illa bir PCR testi olması gerekmez."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Tercihen iki günde birkaç kez olmak üzere, örneğin hızlı antijen testiyle ya da kendi kendine testleri (self testleri) kullanarak lütfen test yapın. Pozitif sonuç alırsanız sonucu doğrulamak için PCR testi yaptırın."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Tipik belirtilere karşı dikkatli olun. Aşı olmuş ve daha önce hastalığı geçirmiş kişilerde bile belirtiler gelişebilir. Hasta hissederseniz ya da herhangi bir belirti gelişirse lütfen aile hekiminizle iletişime geçin."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"İzolasyon süresi genellikle 10 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
+        <item>"Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
         <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 10 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>

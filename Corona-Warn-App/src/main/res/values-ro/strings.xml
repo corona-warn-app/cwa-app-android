@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Veți găsi mai multe informații despre expunerile dvs. în jurnalul dvs. de contacte.\n\nExistă un risc crescut să fi fost infectat. Dacă ați fost infectat, puteți infecta alte persoane, chiar dacă sunteți vaccinat sau dacă v-ați recuperat după boală și chiar dacă nu aveți simptome."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Vă rugăm să vă testați, chiar dacă nu aveți simptome. Dacă primiți o avertizare de risc crescut („un mozaic roșu”), aveți dreptul la un test gratuit. Nu este obligatoriu să fie un test PCR."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Vă rugăm să vă testați oficial, de exemplu, cu un test antigen rapid sau să vă autotestați - preferabil de mai multe ori pe parcursul a două zile. Dacă un test este pozitiv, faceți un test PCR pentru a confirma rezultatul."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Fiți vigilent pentru depistarea simptomelor specifice. Chiar și persoanele vaccinate și cele care au trecut prin boală pot prezenta simptome. Dacă vă simțiți rău sau dacă apar simptome, contactați medicul de familie."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Alte informații:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Perioada de izolare este de obicei de 10 zile. Monitorizați cu atenție modul în care evoluează simptomele dvs."</item>
+        <item>"Monitorizați cu atenție modul în care evoluează simptomele dvs."</item>
         <item>"Autoritatea dvs. de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 10 minute începând cu două zile înainte de a vă îmbolnăvi. Puteți utiliza jurnalul de contacte în acest scop: trebuie doar să exportați intrările și apoi să le tipăriți sau să le expediați pe e-mail."</item>
         <item>"Luați în considerare în special persoanele care nu vor fi notificate direct de aplicație dacă nu au un smartphone sau dacă nu și-au instalat aplicația."</item>
         <item>"Chiar și când nu mai aveți simptome și vă simțiți din nou bine, tot puteți să fiți contagios. Vă rugăm să respectați perioada de izolare indicată."</item>

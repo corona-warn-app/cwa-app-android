@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów.\n\nIstnieje zwiększone ryzyko, że zostałeś zakażony(-a). Jeśli doszło do zakażenia, możesz zarazić inne osoby, nawet jeśli zostałeś(-aś) zaszczepiony(-a) lub jesteś ozdrowieńcem bądź jeśli nie masz żadnych objawów."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Przetestuj się, nawet jeśli nie masz żadnych objawów. Jeśli otrzymasz ostrzeżenie o zwiększonym ryzyku („czerwony kafelek”), będziesz mieć prawo do bezpłatnego testu. Nie musi to być test PCR."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Przetestuj się, użyj na przykład szybkiego testu lub testu domowego, najlepiej kilka razy w ciągu dwóch dni. Jeśli otrzymasz pozytywny wynik, przeprowadź test PCR."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy. Objawy mogą wystąpić nawet u osób zaszczepionych i ozdrowieńców. Jeśli poczujesz się źle lub zauważysz jakiekolwiek objawy, skontaktuj się z lekarzem rodzinnym."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Inne informacje:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Okres izolacji wynosi zazwyczaj 10 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
+        <item>"Obserwuj swoje objawy i monitoruj ich rozwój."</item>
         <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 10 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać, dlatego prosimy o przestrzeganie wyznaczonego okresu izolacji."</item>
