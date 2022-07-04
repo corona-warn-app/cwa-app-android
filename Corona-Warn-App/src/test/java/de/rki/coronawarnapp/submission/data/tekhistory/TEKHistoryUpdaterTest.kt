@@ -58,7 +58,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         callback = callback,
         scope = scope,
         tracingPermissionHelperFactory = tracingPermissionHelperFactory,
-        tekHistoryStorage = tekHistoryStorage,
+        tekCache = tekHistoryStorage,
         timeStamper = timeStamper,
         enfClient = enfClient
     )

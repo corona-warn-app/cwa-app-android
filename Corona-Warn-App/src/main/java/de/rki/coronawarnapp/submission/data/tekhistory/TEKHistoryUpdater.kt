@@ -22,7 +22,7 @@ import java.util.UUID
 
 class TEKHistoryUpdater @AssistedInject constructor(
     @Assisted val callback: Callback,
-    private val tekHistoryStorage: TEKHistoryStorage,
+    private val tekCache: TEKHistoryStorage,
     private val timeStamper: TimeStamper,
     private val enfClient: ENFClient,
     private val tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
@@ -52,70 +52,46 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
-    fun updateTEKHistoryOrRequestPermission() {
+    fun updateTEKHistoryOrRequestPermission(updateCache: Boolean = true) {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("Tracing is disabled, enabling...")
                 tracingPermissionHelper.startTracing()
             } else {
-                updateTEKHistoryInternal()
+                val latestKeys = getCachedKeys()
+                // Use cached keys if there are any
+                if (latestKeys.isNotEmpty()) {
+                    callback.onTEKAvailable(latestKeys)
+                    return@launch
+                }
+                getTEKHistoryOrRequestPermission(updateCache)
             }
         }
     }
 
-    private suspend fun updateTEKHistoryInternal() {
-        val latestKeys = tekHistoryStorage.tekData.first()
-            .maxByOrNull { it.obtainedAt }?.keys
-            .orEmpty()
-
-        // Use cached keys if there are any
-        if (latestKeys.isNotEmpty()) {
-            callback.onTEKAvailable(latestKeys)
-            return
-        }
-
+    private suspend fun getTEKHistoryOrRequestPermission(updateCache: Boolean) {
         enfClient.getTEKHistoryOrRequestPermission(
             onTEKHistoryAvailable = {
                 Timber.tag(TAG).d("TEKS were directly available.")
-                updateHistoryAndTriggerCallback(it)
+                if (updateCache) scope.launch {
+                    updateTekCache(it)
+                }
+                callback.onTEKAvailable(it)
             },
             onPermissionRequired = { status ->
+                val requestCode = if (updateCache) TEK_PERMISSION_REQUEST else TEK_PERMISSION_REQUEST_NO_CACHE
                 Timber.tag(TAG).d("TEK request requires user resolution.")
                 val permissionRequestTrigger: (Activity) -> Unit = {
-                    status.startResolutionForResult(it, TEK_PERMISSION_REQUEST)
+                    status.startResolutionForResult(it, requestCode)
                 }
                 callback.onPermissionRequired(permissionRequestTrigger)
             }
         )
     }
 
-    private fun updateHistoryAndTriggerCallback(availableTEKs: List<TemporaryExposureKey>? = null) {
-        scope.launch {
-            try {
-                val result = updateTEKHistory(availableTEKs)
-                callback.onTEKAvailable(result)
-            } catch (e: Exception) {
-                callback.onError(e)
-            }
-        }
-    }
-
-    private suspend fun updateTEKHistory(
-        availableTEKs: List<TemporaryExposureKey>? = null
-    ): List<TemporaryExposureKey> {
+    private suspend fun getTekHistory(): List<TemporaryExposureKey> {
         val deferred = scope.async {
-            val teks = availableTEKs ?: enfClient.getTEKHistory()
-            Timber.i("Permission are available, storing TEK history.")
-
-            teks.also {
-                tekHistoryStorage.storeTEKData(
-                    TEKHistoryStorage.TEKBatch(
-                        batchId = UUID.randomUUID().toString(),
-                        obtainedAt = timeStamper.nowUTC,
-                        keys = teks
-                    )
-                )
-            }
+            enfClient.getTEKHistory()
         }
         return try {
             deferred.await()
@@ -126,6 +102,28 @@ class TEKHistoryUpdater @AssistedInject constructor(
         }
     }
 
+    private suspend fun updateTekCache(
+        availableTEKs: List<TemporaryExposureKey>
+    ) {
+        try {
+            Timber.tag(TAG).i("Storing TEK history.")
+            tekCache.storeTEKData(
+                TEKHistoryStorage.TEKBatch(
+                    batchId = UUID.randomUUID().toString(),
+                    obtainedAt = timeStamper.nowUTC,
+                    keys = availableTEKs
+                )
+            )
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to update history")
+            e.report(ExceptionCategory.EXPOSURENOTIFICATION, TAG, null)
+        }
+    }
+
+    private suspend fun getCachedKeys() = tekCache.tekData.first()
+        .maxByOrNull { it.obtainedAt }?.keys
+        .orEmpty()
+
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         val isTracingPermissionRequest = tracingPermissionHelper.handleActivityResult(requestCode, resultCode, data)
         if (isTracingPermissionRequest) {
@@ -133,14 +131,18 @@ class TEKHistoryUpdater @AssistedInject constructor(
             return true
         }
 
-        if (requestCode != TEK_PERMISSION_REQUEST) {
+        if (requestCode !in listOf(TEK_PERMISSION_REQUEST, TEK_PERMISSION_REQUEST_NO_CACHE)) {
             Timber.tag(TAG).w("Not our request code ($requestCode): %s", data)
             return false
         }
 
         if (resultCode == Activity.RESULT_OK) {
             Timber.tag(TAG).d("We got TEK permission, now updating history.")
-            updateHistoryAndTriggerCallback()
+            scope.launch {
+                val teks = getTekHistory()
+                if (requestCode == TEK_PERMISSION_REQUEST) updateTekCache(teks)
+                callback.onTEKAvailable(teks)
+            }
         } else {
             Timber.tag(TAG).i("Permission declined (!= RESULT_OK): %s", data)
             callback.onTEKPermissionDeclined()
@@ -166,5 +168,6 @@ class TEKHistoryUpdater @AssistedInject constructor(
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         internal const val TEK_PERMISSION_REQUEST = 3011
+        internal const val TEK_PERMISSION_REQUEST_NO_CACHE = 3033
     }
 }
