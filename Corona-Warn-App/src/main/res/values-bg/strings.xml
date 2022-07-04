@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Ще намерите още информация относно излаганията Ви на риск във Вашия дневник на контактите. Имате повишено ниво на риск от заразяване. Ако сте заразени Вие може да заразявате други хора, дори и да сте ваксинирани или да сте преболедували или да не проявявате никакви симптоми."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, например с бърз тест или се тествайте сами - за предпочитане в период от 2 дни. Ако теста е положителен си направете PCR тест, за да потвърдите резултата."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, например с бърз тест или се тествайте сами - за предпочитане няколко пъти, като се тествате на всеки 2 дни. Ако теста е положителен си направете PCR тест, за да потвърдите резултата."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора и преболедувалите може да проявят симптоми. Ако не се чувствате добре или проявявате симптоми моля, свържете се с Вашия личен лекар."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
