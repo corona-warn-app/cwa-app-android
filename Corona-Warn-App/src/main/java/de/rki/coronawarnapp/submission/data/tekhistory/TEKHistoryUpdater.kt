@@ -34,7 +34,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
             object : TracingPermissionHelper.Callback {
                 override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                     if (isTracingEnabled) {
-                        updateTEKHistoryOrRequestPermission()
+                        updateTekCacheOrRequestPermission()
                     } else {
                         Timber.tag(TAG).w("Can't start TEK update, tracing permission was declined.")
                         callback.onTEKPermissionDeclined()
@@ -52,7 +52,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
-    fun updateTEKHistoryOrRequestPermission(updateCache: Boolean = true) {
+    fun getTeksOrRequestPermission() {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("Tracing is disabled, enabling...")
@@ -64,15 +64,32 @@ class TEKHistoryUpdater @AssistedInject constructor(
                     callback.onTEKAvailable(latestKeys)
                     return@launch
                 }
-                getTEKHistoryOrRequestPermission(updateCache)
+                getTekHistoryOrRequestPermission(updateCache = false)
             }
         }
     }
 
-    private suspend fun getTEKHistoryOrRequestPermission(updateCache: Boolean) {
+    fun updateTekCacheOrRequestPermission() {
+        scope.launch {
+            if (!enfClient.isTracingEnabled.first()) {
+                Timber.tag(TAG).w("Tracing is disabled, enabling...")
+                tracingPermissionHelper.startTracing()
+            } else {
+                val latestKeys = getCachedKeys()
+                // Use cached keys if there are any
+                if (latestKeys.isNotEmpty()) {
+                    callback.onTEKAvailable(latestKeys)
+                    return@launch
+                }
+                getTekHistoryOrRequestPermission(updateCache = true)
+            }
+        }
+    }
+
+    private suspend fun getTekHistoryOrRequestPermission(updateCache: Boolean) {
         enfClient.getTEKHistoryOrRequestPermission(
             onTEKHistoryAvailable = {
-                Timber.tag(TAG).d("TEKS were directly available.")
+                Timber.tag(TAG).d("TEKs were directly available.")
                 if (updateCache) scope.launch {
                     updateTekCache(it)
                 }
@@ -106,7 +123,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
         availableTEKs: List<TemporaryExposureKey>
     ) {
         try {
-            Timber.tag(TAG).i("Storing TEK history.")
+            Timber.tag(TAG).i("Caching TEK history.")
             tekCache.storeTEKData(
                 TEKHistoryStorage.TEKBatch(
                     batchId = UUID.randomUUID().toString(),

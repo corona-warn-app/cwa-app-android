@@ -52,7 +52,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { tekHistoryUpdaterFactory.create(any()) } returns tekHistoryUpdater
-        every { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() } just Runs
+        every { tekHistoryUpdater.updateTekCacheOrRequestPermission() } just Runs
 
         // TODO Check specific behavior
         coronaTestProvider.apply {
@@ -119,7 +119,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         viewModel.proceed()
         verify {
-            tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
+            tekHistoryUpdater.updateTekCacheOrRequestPermission()
         }
     }
 

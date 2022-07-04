@@ -120,7 +120,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         coronaTestProvider.giveConsent(coronaTestFlow.first())
         if (enfClient.isTracingEnabled.first()) {
             Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
-            tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
+            tekHistoryUpdater.updateTekCacheOrRequestPermission()
         } else {
             Timber.tag(TAG).d("showEnableTracingEvent:Unit")
             showKeysRetrievalProgress.postValue(false)

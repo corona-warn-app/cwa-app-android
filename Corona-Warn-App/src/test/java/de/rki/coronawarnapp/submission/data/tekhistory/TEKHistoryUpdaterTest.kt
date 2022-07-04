@@ -69,7 +69,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.updateTekCacheOrRequestPermission()
         coVerify {
             enfClient.getTEKHistoryOrRequestPermission(
                 any(),
@@ -84,7 +84,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.updateTekCacheOrRequestPermission()
         coVerify(exactly = 1) { tekHistoryStorage.tekData }
     }
 
@@ -101,7 +101,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
             }
             val instance = createInstance(scope = this, callback = callback)
 
-            instance.updateTEKHistoryOrRequestPermission()
+            instance.updateTekCacheOrRequestPermission()
             verify(exactly = 1) { callback.onTEKAvailable(teks) }
             coVerify(exactly = 0) {
                 enfClient.getTEKHistoryOrRequestPermission(
@@ -120,7 +120,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.updateTekCacheOrRequestPermission()
 
         verify {
             tracingPermissionHelper.startTracing()
@@ -140,7 +140,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val tekUpdaterCallback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = tekUpdaterCallback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.updateTekCacheOrRequestPermission()
         tracingCallback shouldNotBe null
 
         val consentRequest: (Boolean) -> Unit = { }
