@@ -273,7 +273,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie infiziert sind, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Lassen Sie sich testen, auch wenn Sie keine Symptome haben. Bei einer Warnung über ein erhöhtes Risiko („Rote Kachel“) haben Sie Anspruch auf einen kostenlosen Test. Dies muss nicht notwendigerweise ein PCR-Test sein."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Lassen Sie sich testen, z.B. mit einem Antigen-Schnelltest, oder testen Sie sich selbst, am besten mehrfach im Abstand von zwei Tagen. Sollte ein Test positiv ausfallen, lassen Sie diesen durch einen PCR-Test absichern."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Achten Sie auf Krankheitssymptome. Symptome können auch bei geimpften und bei genesenen Personen auftreten. Falls Sie sich krank fühlen oder Symptome auftreten, wenden Sie sich bitte an Ihre Hausarztpraxis."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1229,7 +1229,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Die Isolationszeit beträgt in der Regel 10 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
+        <item>"Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
         <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
