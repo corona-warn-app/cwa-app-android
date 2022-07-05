@@ -26,7 +26,7 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Current TEKs in ENF"
+                android:text="Current TEKs in cache/ENF"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="The currently available keys from ENF are shown below."
+                android:text="The currently available keys from cache or ENF are shown below. If the cache has entries from the last submission, these are used. If not, the current TEKs from ENF are used. Does NOT update cache.\n Tracing must be activated in advance."
                 app:layout_constraintTop_toBottomOf="@id/tek_history_title" />
 
             <Button
