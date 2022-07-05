@@ -52,7 +52,24 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
-    fun getTeksOrRequestPermission(updateCache: Boolean = true) {
+    fun getTeksForTesting() {
+        scope.launch {
+            if (!enfClient.isTracingEnabled.first()) {
+                Timber.tag(TAG).w("Tracing is disabled, abort.")
+                callback.onError(IllegalStateException("Tracing is disabled. Please enable tracing first via settings."))
+                return@launch
+            }
+            val latestKeys = getCachedKeys()
+            // Use cached keys if there are any
+            if (latestKeys.isNotEmpty()) {
+                callback.onTEKAvailable(latestKeys)
+                return@launch
+            }
+            getTekHistoryOrRequestPermission(false)
+        }
+    }
+
+    fun getTeksOrRequestPermission() {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("Tracing is disabled, enabling...")
@@ -64,7 +81,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
                     callback.onTEKAvailable(latestKeys)
                     return@launch
                 }
-                getTekHistoryOrRequestPermission(updateCache)
+                getTekHistoryOrRequestPermission(updateCache = true)
             }
         }
     }
