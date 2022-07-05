@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.EmptyResult
@@ -36,7 +38,9 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         webView.setupWebView { view ->
             viewModel.createPDF(view.createPrintDocumentAdapter(jobName))
         }
-        cancelButton.setOnClickListener { popBackStack() }
+        cancelButton.setOnClickListener {
+            navigateToPersonOverview()
+        }
         with(viewModel) {
             error.observe(viewLifecycleOwner) { showErrorDialog() }
             exportResult.observe(viewLifecycleOwner) { handleExportResult(it) }
@@ -81,8 +85,10 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
                     }
                 }
             }
-
-            is EmptyResult -> showEmptyDialog()
+            is EmptyResult -> {
+                progressLayout.isVisible = false
+                showEmptyDialog()
+            }
         }
     }
 
@@ -92,8 +98,8 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setMessage(R.string.export_all_error_message)
             .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
                 openUrl(R.string.certificate_export_all_error_dialog_faq_link)
-            }.setPositiveButton(android.R.string.ok) { _, _ -> }
-            .setOnDismissListener { popBackStack() }
+            }.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+            .setOnDismissListener { navigateToPersonOverview() }
             .show()
     }
 
@@ -102,7 +108,12 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .setTitle(R.string.export_all_no_pages_title)
             .setMessage(R.string.export_all_no_pages_message)
             .setPositiveButton(android.R.string.ok) { _, _ -> }
-            .setOnDismissListener { popBackStack() }
+            .setOnDismissListener { navigateToPersonOverview() }
             .show()
+    }
+
+    private fun navigateToPersonOverview() {
+        val navOptions = NavOptions.Builder().setPopUpTo(R.id.personOverviewFragment, true).build()
+        findNavController().navigate(R.id.covid_certificates_graph, null, navOptions)
     }
 }
