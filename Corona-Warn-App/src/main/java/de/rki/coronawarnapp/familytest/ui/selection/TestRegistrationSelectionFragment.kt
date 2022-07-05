@@ -28,7 +28,6 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
         }
     )
     private val binding: FragmentTestRegistrationSelectionBinding by viewBinding()
-    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.testRegistrationSelectionFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,8 +42,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            ),
-                        navOptions
+                            )
                     )
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning -> {
@@ -61,8 +59,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            ),
-                        navOptions
+                            )
                     )
                 }
             }
