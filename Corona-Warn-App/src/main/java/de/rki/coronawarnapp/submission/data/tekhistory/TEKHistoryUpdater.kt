@@ -34,7 +34,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
             object : TracingPermissionHelper.Callback {
                 override fun onUpdateTracingStatus(isTracingEnabled: Boolean) {
                     if (isTracingEnabled) {
-                        updateTekCacheOrRequestPermission()
+                        getTeksOrRequestPermission()
                     } else {
                         Timber.tag(TAG).w("Can't start TEK update, tracing permission was declined.")
                         callback.onTEKPermissionDeclined()
@@ -52,7 +52,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
-    fun getTeksOrRequestPermission() {
+    fun getTeksOrRequestPermission(updateCache: Boolean = true) {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("Tracing is disabled, enabling...")
@@ -64,24 +64,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
                     callback.onTEKAvailable(latestKeys)
                     return@launch
                 }
-                getTekHistoryOrRequestPermission(updateCache = false)
-            }
-        }
-    }
-
-    fun updateTekCacheOrRequestPermission() {
-        scope.launch {
-            if (!enfClient.isTracingEnabled.first()) {
-                Timber.tag(TAG).w("Tracing is disabled, enabling...")
-                tracingPermissionHelper.startTracing()
-            } else {
-                val latestKeys = getCachedKeys()
-                // Use cached keys if there are any
-                if (latestKeys.isNotEmpty()) {
-                    callback.onTEKAvailable(latestKeys)
-                    return@launch
-                }
-                getTekHistoryOrRequestPermission(updateCache = true)
+                getTekHistoryOrRequestPermission(updateCache)
             }
         }
     }
@@ -96,7 +79,8 @@ class TEKHistoryUpdater @AssistedInject constructor(
                 callback.onTEKAvailable(it)
             },
             onPermissionRequired = { status ->
-                val requestCode = if (updateCache) TEK_PERMISSION_REQUEST else TEK_PERMISSION_REQUEST_NO_CACHE
+                val requestCode = if (updateCache) TEK_PERMISSION_REQUEST_WITH_CACHING
+                else TEK_PERMISSION_REQUEST_NO_CACHING
                 Timber.tag(TAG).d("TEK request requires user resolution.")
                 val permissionRequestTrigger: (Activity) -> Unit = {
                     status.startResolutionForResult(it, requestCode)
@@ -148,7 +132,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
             return true
         }
 
-        if (requestCode !in listOf(TEK_PERMISSION_REQUEST, TEK_PERMISSION_REQUEST_NO_CACHE)) {
+        if (requestCode !in listOf(TEK_PERMISSION_REQUEST_WITH_CACHING, TEK_PERMISSION_REQUEST_NO_CACHING)) {
             Timber.tag(TAG).w("Not our request code ($requestCode): %s", data)
             return false
         }
@@ -157,7 +141,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
             Timber.tag(TAG).d("We got TEK permission, now updating history.")
             scope.launch {
                 val teks = getTekHistory()
-                if (requestCode == TEK_PERMISSION_REQUEST) updateTekCache(teks)
+                if (requestCode == TEK_PERMISSION_REQUEST_WITH_CACHING) updateTekCache(teks)
                 callback.onTEKAvailable(teks)
             }
         } else {
@@ -184,7 +168,9 @@ class TEKHistoryUpdater @AssistedInject constructor(
         private const val TAG = "TEKHistoryUpdater"
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        internal const val TEK_PERMISSION_REQUEST = 3011
-        internal const val TEK_PERMISSION_REQUEST_NO_CACHE = 3033
+        internal const val TEK_PERMISSION_REQUEST_WITH_CACHING = 3011
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        internal const val TEK_PERMISSION_REQUEST_NO_CACHING = 3033
     }
 }

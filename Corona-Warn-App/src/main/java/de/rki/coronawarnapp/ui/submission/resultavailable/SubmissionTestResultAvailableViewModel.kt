@@ -134,7 +134,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
             if (consentGivenFlow.first()) {
                 showKeysRetrievalProgress.postValue(true)
                 Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission")
-                tekHistoryUpdater.updateTekCacheOrRequestPermission()
+                tekHistoryUpdater.getTeksOrRequestPermission()
             } else {
                 Timber.tag(TAG).d("routeToScreen:SubmissionTestResultNoConsentFragment")
                 coronaTestFlow.first().let {

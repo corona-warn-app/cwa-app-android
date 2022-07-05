@@ -52,7 +52,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { tekHistoryUpdaterFactory.create(any()) } returns tekHistoryUpdater
-        every { tekHistoryUpdater.updateTekCacheOrRequestPermission() } just Runs
+        every { tekHistoryUpdater.getTeksOrRequestPermission() } just Runs
 
         every { interoperabilityRepository.countryList } returns emptyFlow()
 
@@ -88,7 +88,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         viewModel.onConsentButtonClicked()
 
         coVerify { coronaTestProvider.giveConsent(any()) }
-        verify { tekHistoryUpdater.updateTekCacheOrRequestPermission() }
+        verify { tekHistoryUpdater.getTeksOrRequestPermission() }
     }
 
     @Test

@@ -78,7 +78,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         .asLiveData(context = dispatcherProvider.Default)
 
     fun updateStorage() {
-        tekHistoryUpdater.getTeksOrRequestPermission()
+        tekHistoryUpdater.getTeksOrRequestPermission(updateCache = false)
     }
 
     fun clearStorage() {
