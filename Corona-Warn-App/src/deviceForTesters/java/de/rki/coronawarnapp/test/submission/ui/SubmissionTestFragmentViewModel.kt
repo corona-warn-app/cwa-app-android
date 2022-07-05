@@ -2,27 +2,24 @@ package de.rki.coronawarnapp.test.submission.ui
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val tekHistoryStorage: TEKHistoryStorage,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
+    timeStamper: TimeStamper,
     @BaseGson baseGson: Gson
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -34,6 +31,14 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
                 Timber.d("TEKs are available: %s", teks)
+                val now = timeStamper.nowJavaUTC
+                val tekList = teks.map { key ->
+                    TEKHistoryItem(
+                        obtainedAt = now,
+                        key = key
+                    )
+                }.sortedBy { it.obtainedAt }
+                tekHistory.postValue(tekList)
             }
 
             override fun onTEKPermissionDeclined() {
@@ -61,40 +66,20 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
-    val tekHistory: LiveData<List<TEKHistoryItem>> = tekHistoryStorage.tekData
-        .map { items ->
-            items.flatMap { batch ->
-                batch.keys
-                    .map { key ->
-                        TEKHistoryItem(
-                            obtainedAt = batch.obtainedAt,
-                            batchId = batch.batchId,
-                            key = key
-                        )
-                    }
-            }
-        }
-        .map { historyItems -> historyItems.sortedBy { it.obtainedAt } }
-        .asLiveData(context = dispatcherProvider.Default)
+    val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
 
     fun updateStorage() {
         tekHistoryUpdater.getTeksForTesting()
     }
 
-    fun clearStorage() {
-        launch {
-            tekHistoryStorage.reset()
-        }
-    }
-
     fun emailTEKs() {
-        launch {
-            val exportedKeys = tekHistoryStorage.tekData.first().toExportedKeys()
-
-            val tekExport = TEKExport(
-                exportText = exportJson.toJson(exportedKeys)
-            )
-            shareTEKsEvent.postValue(tekExport)
+        tekHistory.value?.toExportedKeys()?.let {
+            launch {
+                val tekExport = TEKExport(
+                    exportText = exportJson.toJson(it)
+                )
+                shareTEKsEvent.postValue(tekExport)
+            }
         }
     }
 

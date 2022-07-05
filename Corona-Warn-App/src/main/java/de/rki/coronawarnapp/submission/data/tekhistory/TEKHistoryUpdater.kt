@@ -56,7 +56,9 @@ class TEKHistoryUpdater @AssistedInject constructor(
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
                 Timber.tag(TAG).w("Tracing is disabled, abort.")
-                callback.onError(IllegalStateException("Tracing is disabled. Please enable tracing first via settings."))
+                callback.onError(
+                    IllegalStateException("Tracing is disabled. Please enable tracing first via settings.")
+                )
                 return@launch
             }
             val latestKeys = getCachedKeys()
