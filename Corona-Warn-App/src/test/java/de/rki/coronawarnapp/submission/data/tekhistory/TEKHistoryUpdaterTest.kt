@@ -64,7 +64,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
     )
 
     @Test
-    fun `request is forwarded to enf client`() = runTest {
+    fun `request is forwarded to enf client`() = runTest(UnconfinedTestDispatcher()) {
         every { tekHistoryStorage.tekData } returns flowOf(listOf())
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
