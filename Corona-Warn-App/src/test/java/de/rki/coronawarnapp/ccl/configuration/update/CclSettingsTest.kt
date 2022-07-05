@@ -59,28 +59,4 @@ internal class CclSettingsTest : BaseTest() {
         cclSettings.reset()
         cclSettings.admissionCheckScenarios.first() shouldBe null
     }
-
-    @Test
-    fun `test CclSettings - forceCclCalculation`() = runTest(UnconfinedTestDispatcher()) {
-        val cclSettings = CclSettings(fakeDataStore, this)
-
-        // Call - 1-> returns `true` and set value to `false`
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe null
-        cclSettings.shouldTriggerRecalculation() shouldBe true
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-
-        // Subsequent calls - just return what is saved
-        // Call - 2
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.shouldTriggerRecalculation() shouldBe false
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        // Call - 3
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.shouldTriggerRecalculation() shouldBe false
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        // Call - 4
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-        cclSettings.shouldTriggerRecalculation() shouldBe false
-        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
-    }
 }

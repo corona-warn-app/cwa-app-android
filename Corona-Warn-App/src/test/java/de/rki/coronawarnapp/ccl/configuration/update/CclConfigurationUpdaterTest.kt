@@ -33,7 +33,6 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclSettings.shouldTriggerRecalculation() } returns false
     }
 
     @Test
@@ -77,7 +76,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
                 dccValidationRepository wasNot Called
             }
 
-            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerAfterConfigChange(false) }
+            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerAfterConfigChange(true) }
         }
 
     @Test

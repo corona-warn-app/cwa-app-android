@@ -10,16 +10,20 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Recycled
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +44,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
 
     private lateinit var certificateContainerFlow: MutableStateFlow<CertificateContainer>
+    private val vcContainerId = VaccinationCertificateContainerId("1")
 
     private val certValid = createCert(Valid(Instant.EPOCH))
     private val certInvalid = createCert(Invalid())
@@ -60,6 +65,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     @Test
     fun `does trigger on initial emission`() = runTest2 {
         certificateContainerFlow.value = createContainer(setOf(certExpired))
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
 
         advanceUntilIdle()
@@ -95,11 +101,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Invalid`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certInvalid, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certInvalid)) }
 
         advanceUntilIdle()
 
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
         }
@@ -107,10 +117,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Recycled`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certRecycled, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRecycled)) }
 
         advanceUntilIdle()
+
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
 
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
@@ -119,10 +134,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Blocked`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certBlocked, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certBlocked)) }
 
         advanceUntilIdle()
+
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
 
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
@@ -131,10 +151,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Revoked`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certRevoked, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certRevoked)) }
 
         advanceUntilIdle()
+
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
 
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
@@ -143,10 +168,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Expired`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certExpired, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
 
         advanceUntilIdle()
+
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
 
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
@@ -155,10 +185,15 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on ExpiringSoon`() = runTest2 {
+        certificateContainerFlow.update { createContainer(setOf(certExpiringSoon, certValid)) }
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
-        certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
 
         advanceUntilIdle()
+
+        coVerify(exactly = 2) {
+            vaccinationCertificateRepository.acknowledgeState(vcContainerId)
+        }
 
         coVerify(exactly = 1) {
             dccValidityStateNotificationService.showNotificationIfStateChanged(forceCheck = true)
@@ -167,6 +202,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
 
     @Test
     fun `only triggers if changed`() = runTest2 {
+        coEvery { vaccinationCertificateRepository.acknowledgeState(vcContainerId) } just Runs
         createInstance(scope = this).initialize()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
@@ -193,6 +229,7 @@ class DccValidityStateChangeObserverTest : BaseTest() {
     )
 
     private fun createCert(requiredState: CwaCovidCertificate.State): CwaCovidCertificate = mockk {
+        every { containerId } returns vcContainerId
         every { state } returns requiredState
         every { qrCodeHash } returns requiredState.type.toSHA256()
     }
