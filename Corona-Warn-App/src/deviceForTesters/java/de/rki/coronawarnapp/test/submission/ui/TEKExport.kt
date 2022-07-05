@@ -10,7 +10,7 @@ data class TEKExport(
 fun List<TEKHistoryItem>.toExportedKeys() = this
     .sortedBy { it.obtainedAt }
     .map { item ->
-            item.key.toExportedTEK(item.obtainedAt)
+        item.key.toExportedTEK(item.obtainedAt)
     }
 
 data class ExportedTEK(

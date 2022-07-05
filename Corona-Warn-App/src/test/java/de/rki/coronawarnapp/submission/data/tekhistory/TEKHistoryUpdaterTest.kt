@@ -69,7 +69,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.getTeksOrRequestPermission(true)
+        instance.getTeksOrRequestPermission()
         coVerify {
             enfClient.getTEKHistoryOrRequestPermission(
                 any(),
@@ -226,7 +226,6 @@ class TEKHistoryUpdaterTest : BaseTest() {
                 callback.onTEKPermissionDeclined()
             }
         }
-
 
     @Test
     fun `unknown result codes are not consumed`() = runTest(UnconfinedTestDispatcher()) {
