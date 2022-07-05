@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"You will find more information about your exposures in your contact journal.\n\nThere is an increased risk that you have been infected. If you have been infected, you can infect other people, even if you have been vaccinated or have recovered and even if you don’t have any symptoms."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Please get tested, even if you don’t have any symptoms. If you get a warning of increased risk (“red tile”), you are entitled to a test free of charge. It does not necessarily have to be a PCR test."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Please get tested, for example, with a rapid antigen test, or use self-tests - preferably several times, taking a test every two days. If a test is positive, take a PCR test to confirm the result."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Be alert for typical symptoms. Even vaccinated people and those who have recovered can develop symptoms. If you feel sick or develop any symptoms, please contact your family doctor."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Other information:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"The isolation period is usually 10 days. Please monitor how your symptoms develop closely."</item>
+        <item>"Please monitor how your symptoms develop closely."</item>
         <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 10 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
         <item>"Please particularly consider people who will not be notified directly by the app since they don’t own a smartphone, or haven’t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious, so please follow the designated isolation period."</item>
