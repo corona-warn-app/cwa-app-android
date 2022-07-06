@@ -114,7 +114,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
         delay(1_100L)
 
-        coVerify(exactly = 1) {
+        coVerify(exactly = 0) {
             dccWalletInfoCalculationManager.triggerNow(any())
             dccWalletInfoCleaner.clean()
         }

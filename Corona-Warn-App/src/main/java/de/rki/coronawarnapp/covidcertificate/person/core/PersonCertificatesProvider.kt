@@ -47,6 +47,8 @@ class PersonCertificatesProvider @Inject constructor(
                 certs.isEmpty() // Any person should have at least one certificate to show up in the list
             }.map { certs ->
                 var personIdentifier: CertificatePersonIdentifier = certs.identifier
+                //  only added for testing to see if there would be any difference between wallets with new grouping.
+                val walletInfoWrongGrouping = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
                 var dccWalletInfo: DccWalletInfo? = null
                 certs.forEach {
                     dccWalletInfo = personWalletsGroup[it.personIdentifier.groupingKey]?.dccWalletInfo
@@ -59,10 +61,11 @@ class PersonCertificatesProvider @Inject constructor(
                 val settings = personsSettings[personIdentifier]
 
                 Timber.tag(TAG).v(
-                    "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                    "Person [code=%s, certsCount=%d, walletExist=%s, walletInfoWrongGrouping=%s, settings=%s]",
                     personIdentifier.codeSHA256,
                     certs.size,
                     dccWalletInfo != null,
+                    walletInfoWrongGrouping != null,
                     settings
                 )
 

@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -34,6 +35,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     init {
         appScope.launch {
             personCertificateProvider.personCertificates
+                .drop(1)
                 /*
                  Compare persons emissions certificates by using its hash. Changes in certificates set such as
                  registering, recycling, restoring, retrieving and, re-issuing a DCC will lead to a difference in the
