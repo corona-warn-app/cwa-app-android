@@ -160,28 +160,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/negative_test_proof_title"
-                    style="@style/headline5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="32dp"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_test_result_antigen_negative_proof_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
-
-                <TextView
                     android:id="@+id/negative_test_proof_body"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_antigen_negative_proof_body"
-                    app:layout_constraintEnd_toEndOf="@id/negative_test_proof_title"
-                    app:layout_constraintStart_toStartOf="@id/negative_test_proof_title"
-                    app:layout_constraintTop_toBottomOf="@id/negative_test_proof_title" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
 
                 <TextView
                     android:id="@+id/submission_test_result_subtitle"
