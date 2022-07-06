@@ -92,7 +92,10 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 oldWalletInfo = person.dccWalletInfo,
                 newWalletInfo = newWalletInfo
             )
-            Timber.d("The old dccWalletInfo was ${person.dccWalletInfo} and the booster id was ${person.dccWalletInfo?.boosterNotification?.identifier}")
+            Timber.d(
+                "The old dccWalletInfo was ${person.dccWalletInfo} and the booster id was " +
+                    "${person.dccWalletInfo?.boosterNotification?.identifier}"
+            )
         }
 
         dccWalletInfoRepository.save(
