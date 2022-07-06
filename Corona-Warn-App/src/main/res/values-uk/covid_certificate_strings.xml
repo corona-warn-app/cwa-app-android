@@ -336,6 +336,8 @@
     <string name="cov_pass_info_section_two">"Однак візуальної перевірки сертифікатів для третіх осіб недостатньо. Вони повинні використовувати застосунок CovPassCheck в Німеччині."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Зверніть увагу, що треті сторони в інших країнах можуть використовувати різні застосунки для перевірки сертифікатів."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four"></string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD
