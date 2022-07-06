@@ -115,7 +115,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 // test certificate state
                 when (uiState.certificateState) {
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
-                        testResultStepsRemoveTest.setIsFinal(true)
+                        setNegativeResultStepOrRemoveTestStepAsFinal(coronaTest)
                         testResultStepsTestCertificate.isGone = true
                         testCertificateCard.isGone = true
                     }
@@ -133,14 +133,8 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
-                        testResultStepsRemoveTest.setIsFinal(false)
-                        testResultStepsTestCertificate.isGone = false
-                        testResultStepsTestCertificate.setEntryText(
-                            getText(R.string.coronatest_negative_result_certificate_info_body)
-                        )
-                        testResultStepsTestCertificate.setIcon(
-                            getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
-                        )
+                        setNegativeResultStepOrRemoveTestStepAsFinal(coronaTest)
+                        testResultStepsTestCertificate.isGone = true
                         testCertificateCard.isGone = false
                     }
                 }
@@ -166,6 +160,14 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 R.string.test_certificate_sampled_on,
                 certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
+        }
+    }
+
+    private fun setNegativeResultStepOrRemoveTestStepAsFinal(coronaTest: BaseCoronaTest) {
+        if (coronaTest is FamilyCoronaTest) {
+            binding.testResultStepsNegativeResult.setIsFinal(true)
+        } else {
+            binding.testResultStepsRemoveTest.setIsFinal(true)
         }
     }
 
