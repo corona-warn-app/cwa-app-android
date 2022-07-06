@@ -108,10 +108,10 @@ class PersonCertificatesProvider @Inject constructor(
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
         if (boosterNotification == null || !boosterNotification.visible) return false
-        return hasBoosterRuleNotYetSeen(this, boosterNotification)
+        return hasNotSeenBoosterRuleYet(this, boosterNotification)
     }
 
-    private fun hasBoosterRuleNotYetSeen(
+    fun hasNotSeenBoosterRuleYet(
         personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
