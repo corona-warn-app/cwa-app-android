@@ -5,7 +5,9 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -16,6 +18,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -28,6 +31,8 @@ class BoosterNotificationServiceTest : BaseTest() {
     @MockK lateinit var personNotificationSender: PersonNotificationSender
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+    @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
+    @MockK lateinit var personSettings: PersonSettings
 
     @MockK lateinit var oldWalletInfo: DccWalletInfo
     @MockK lateinit var newWalletInfo: DccWalletInfo
@@ -43,6 +48,8 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.clearBoosterRuleInfo(any()) } just Runs
+        coEvery { personCertificatesSettings.personsSettings } returns flowOf(emptyMap())
+        coEvery { personCertificatesProvider.hasNotSeenBoosterRuleYet(any(), any()) } returns true
 
         every { oldWalletInfo.boosterNotification } returns oldBoosterNotification
         every { newWalletInfo.boosterNotification } returns newBoosterNotification
@@ -51,7 +58,8 @@ class BoosterNotificationServiceTest : BaseTest() {
     private fun service() = BoosterNotificationService(
         personNotificationSender = personNotificationSender,
         personCertificatesSettings = personCertificatesSettings,
-        timeStamper = timeStamper
+        timeStamper = timeStamper,
+        personCertificatesProvider = personCertificatesProvider
     )
 
     @Test
@@ -135,7 +143,13 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
-        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body) }
+        verify(exactly = 1) {
+            personNotificationSender.showNotification(
+                personIdentifier,
+                any(),
+                R.string.notification_body
+            )
+        }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
