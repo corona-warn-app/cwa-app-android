@@ -4,11 +4,9 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +14,6 @@ import javax.inject.Singleton
 @Singleton
 class BoosterNotificationService @Inject constructor(
     private val personNotificationSender: PersonNotificationSender,
-    private val personCertificatesProvider: PersonCertificatesProvider,
     private val timeStamper: TimeStamper,
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : DccWalletInfoNotificationService {
@@ -49,24 +46,14 @@ class BoosterNotificationService @Inject constructor(
 
         if (newRuleId != oldRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
-            val personSettings = personCertificatesSettings.personsSettings.first()
-            val settingsForPerson = personSettings[personIdentifier]
-            if (personCertificatesProvider.hasNotSeenBoosterRuleYet(
-                    settingsForPerson,
-                    newWalletInfo.boosterNotification
-                )
-            ) {
-                personNotificationSender.showNotification(
-                    personIdentifier = personIdentifier,
-                    type = notificationSenderType
-                )
-                // Clears booster rule last seen badge, to be shown in conjunction with notification
-                personCertificatesSettings.clearBoosterRuleInfo(personIdentifier)
-                personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
-                Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
-            } else {
-                Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
-            }
+            personNotificationSender.showNotification(
+                personIdentifier = personIdentifier,
+                type = notificationSenderType
+            )
+            // Clears booster rule last seen badge, to be shown in conjunction with notification
+            personCertificatesSettings.clearBoosterRuleInfo(personIdentifier)
+            personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
+            Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
         }
