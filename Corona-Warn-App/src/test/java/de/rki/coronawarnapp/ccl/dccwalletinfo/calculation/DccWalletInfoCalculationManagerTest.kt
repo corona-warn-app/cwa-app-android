@@ -112,8 +112,6 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     @Test
     fun `calculation runs for each person after certificate change`() = runTest {
-        every { dccWalletInfo1.boosterNotification.identifier } returns "1"
-        every { dccWalletInfo2.boosterNotification.identifier } returns "2"
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
@@ -132,8 +130,6 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     @Test
     fun `calculation runs for each person after config change`() = runTest {
-        every { dccWalletInfo1.boosterNotification.identifier } returns "1"
-        every { dccWalletInfo2.boosterNotification.identifier } returns "2"
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
         instance.triggerAfterConfigChange("")
@@ -179,8 +175,6 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     @Test
     fun `calculation runs for each person with invalid walletInfo`() = runTest {
-        every { dccWalletInfo1.boosterNotification.identifier } returns "1"
-        every { dccWalletInfo2.boosterNotification.identifier } returns "2"
         every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
