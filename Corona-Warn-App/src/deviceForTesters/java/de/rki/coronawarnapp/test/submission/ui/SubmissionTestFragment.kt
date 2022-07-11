@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
@@ -50,10 +51,13 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             startActivity(share)
         }
 
+        vm.errorEvents.observe2(this) {
+            it.toErrorDialogBuilder(requireContext()).show()
+        }
+
         binding.apply {
-            tekStorageUpdate.setOnClickListener { vm.updateStorage() }
-            tekStorageClear.setOnClickListener { vm.clearStorage() }
-            tekStorageEmail.setOnClickListener { vm.emailTEKs() }
+            tekRetrieval.setOnClickListener { vm.updateStorage() }
+            tekEmail.setOnClickListener { vm.emailTEKs() }
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())

@@ -336,6 +336,8 @@
     <string name="cov_pass_info_section_two">"Ancak üçüncü tarafların sertifikaları görsel olarak doğrulaması yeterli değildir. Üçüncü tarafların Almanya\'da CovPassCheck uygulamasını kullanması gerekir."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Diğer ülkelerdeki üçüncü tarafların sertifika doğrulaması için farklı uygulamaları kullanabileceğini lütfen unutmayın."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four"></string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD

@@ -1,18 +1,16 @@
 package de.rki.coronawarnapp.test.submission.ui
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
+import java.time.Instant
 
 data class TEKExport(
     val exportText: String
 )
 
-fun List<TEKHistoryStorage.TEKBatch>.toExportedKeys() = this
+fun List<TEKHistoryItem>.toExportedKeys() = this
     .sortedBy { it.obtainedAt }
-    .flatMap { batch ->
-        batch.keys.map { keyInbatch ->
-            keyInbatch.toExportedTEK(batch)
-        }
+    .map { item ->
+        item.key.toExportedTEK(item.obtainedAt)
     }
 
 data class ExportedTEK(
@@ -25,8 +23,8 @@ data class ExportedTEK(
     val daysSinceOnsetOfSymptoms: Int
 )
 
-fun TemporaryExposureKey.toExportedTEK(tekBatch: TEKHistoryStorage.TEKBatch) = ExportedTEK(
-    obtainedAt = tekBatch.obtainedAt.toString(),
+fun TemporaryExposureKey.toExportedTEK(obtainedAt: Instant) = ExportedTEK(
+    obtainedAt = obtainedAt.toString(),
     keyData = this.keyData,
     rollingStartIntervalNumber = this.rollingStartIntervalNumber,
     transmissionRiskLevel = this.transmissionRiskLevel,
