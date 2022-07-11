@@ -46,15 +46,12 @@ class PersonCertificatesProvider @Inject constructor(
             .filterNot { certs ->
                 certs.isEmpty() // Any person should have at least one certificate to show up in the list
             }.map { certs ->
-                var personIdentifier: CertificatePersonIdentifier = certs.identifier
-                var dccWalletInfo: DccWalletInfo? = null
-                certs.forEach {
-                    dccWalletInfo = personWalletsGroup[it.personIdentifier.groupingKey]?.dccWalletInfo
-                    if (dccWalletInfo != null) {
-                        personIdentifier = it.personIdentifier
-                        return@forEach
-                    }
-                }
+                val (personIdentifier: CertificatePersonIdentifier, dccWalletInfo: DccWalletInfo?) =
+                    certs.firstNotNullOfOrNull {
+                        personWalletsGroup[it.personIdentifier.groupingKey]?.let { walletGroup ->
+                            it.personIdentifier to walletGroup.dccWalletInfo
+                        }
+                    } ?: (certs.identifier to null)
 
                 val settings = personsSettings[personIdentifier]
 
@@ -108,10 +105,10 @@ class PersonCertificatesProvider @Inject constructor(
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
         if (boosterNotification == null || !boosterNotification.visible) return false
-        return hasBoosterRuleNotYetSeen(this, boosterNotification)
+        return hasNotSeenBoosterRuleYet(this, boosterNotification)
     }
 
-    private fun hasBoosterRuleNotYetSeen(
+    fun hasNotSeenBoosterRuleYet(
         personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
