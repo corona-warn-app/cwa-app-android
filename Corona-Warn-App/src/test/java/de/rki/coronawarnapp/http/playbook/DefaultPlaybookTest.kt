@@ -236,7 +236,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `registration pattern matches despire token failure`(): Unit = runTest {
+    fun `registration pattern matches despite token failure`(): Unit = runTest {
         coEvery {
             verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
@@ -307,5 +307,56 @@ class DefaultPlaybookTest : BaseTest() {
             verificationServer.retrieveTanFake()
             submissionServer.submitFakePayload()
         }
+    }
+
+    @Test
+    fun `reuse tan after tan failure`(): Unit = runTest {
+        val tan = "tan"
+        coEvery { verificationServer.retrieveTan(any()) } returns tan
+        coEvery { submissionServer.submitPayload(any()) } throws BadRequestException(null)
+        val data = Playbook.SubmissionData(
+            registrationToken = "token",
+            temporaryExposureKeys = listOf(),
+            consentToFederation = true,
+            visitedCountries = listOf("DE"),
+            unencryptedCheckIns = emptyList(),
+            encryptedCheckIns = emptyList(),
+            submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+        )
+        val playbook = createPlaybook()
+        shouldThrow<TanPairingException> {
+            playbook.submit(
+                data
+            )
+        }
+
+        playbook.authCode shouldBe tan
+        coEvery { submissionServer.submitPayload(any()) } returns mockk()
+
+        playbook.submit(
+            data
+        )
+
+        val submissionData = SubmissionServer.SubmissionData(
+            authCode = tan,
+            keyList = data.temporaryExposureKeys,
+            consentToFederation = data.consentToFederation,
+            visitedCountries = data.visitedCountries,
+            unencryptedCheckIns = data.unencryptedCheckIns,
+            encryptedCheckIns = data.encryptedCheckIns,
+            submissionType = data.submissionType
+        )
+
+        coVerifySequence {
+            // ensure request order is 2x verification and 1x submission
+            verificationServer.retrieveTan(any())
+            verificationServer.retrieveTanFake()
+            submissionServer.submitPayload(submissionData)
+            verificationServer.retrieveTanFake()
+            verificationServer.retrieveTanFake()
+            submissionServer.submitPayload(submissionData)
+        }
+
+        playbook.authCode shouldBe null
     }
 }

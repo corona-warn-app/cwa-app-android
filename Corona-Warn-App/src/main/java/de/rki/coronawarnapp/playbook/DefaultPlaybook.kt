@@ -11,6 +11,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -25,6 +27,8 @@ class DefaultPlaybook @Inject constructor(
 
     private val uid = UUID.randomUUID().toString()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    internal var authCode: String? = null
+    private val mutex = Mutex()
 
     override suspend fun initialRegistration(
         tokenRequest: RegistrationRequest
@@ -84,43 +88,54 @@ class DefaultPlaybook @Inject constructor(
     override suspend fun submit(
         data: Playbook.SubmissionData
     ) {
-        Timber.i("[$uid] New Submission Playbook")
-        // real auth code
-        val (authCode, exception) = executeCapturingExceptions {
-            verificationServer.retrieveTan(data.registrationToken)
-        }
-
-        // fake verification
-        ignoreExceptions { verificationServer.retrieveTanFake() }
-
-        // submitKeysToServer could throw BadRequestException too.
-        try {
-            // real submission
-            if (authCode != null) {
-                val serverSubmissionData = SubmissionServer.SubmissionData(
-                    authCode = authCode,
-                    keyList = data.temporaryExposureKeys,
-                    consentToFederation = data.consentToFederation,
-                    visitedCountries = data.visitedCountries,
-                    unencryptedCheckIns = data.unencryptedCheckIns,
-                    encryptedCheckIns = data.encryptedCheckIns,
-                    submissionType = data.submissionType
-                )
-                submissionServer.submitPayload(serverSubmissionData)
-                coroutineScope.launch { followUpPlaybooks() }
+        mutex.withLock {
+            Timber.i("[$uid] New Submission Playbook")
+            var authCodeRequestException: Exception? = null
+            if (authCode == null) {
+                // real auth code
+                val (newAuthCode, exception) = executeCapturingExceptions {
+                    verificationServer.retrieveTan(data.registrationToken)
+                }
+                authCode = newAuthCode
+                authCodeRequestException = exception
             } else {
-                submissionServer.submitFakePayload()
-                coroutineScope.launch { followUpPlaybooks() }
-                propagateException(wrapException(exception))
+                // fake request
+                verificationServer.retrieveTanFake()
             }
-        } catch (exception: BadRequestException) {
-            propagateException(
-                TanPairingException(
-                    code = exception.statusCode,
-                    message = "Invalid payload or missing header",
-                    cause = exception
+
+            // fake verification
+            ignoreExceptions { verificationServer.retrieveTanFake() }
+
+            // submitKeysToServer could throw BadRequestException too.
+            try {
+                // real submission
+                authCode?.let {
+                    val serverSubmissionData = SubmissionServer.SubmissionData(
+                        authCode = it,
+                        keyList = data.temporaryExposureKeys,
+                        consentToFederation = data.consentToFederation,
+                        visitedCountries = data.visitedCountries,
+                        unencryptedCheckIns = data.unencryptedCheckIns,
+                        encryptedCheckIns = data.encryptedCheckIns,
+                        submissionType = data.submissionType
+                    )
+                    submissionServer.submitPayload(serverSubmissionData)
+                    authCode = null
+                    coroutineScope.launch { followUpPlaybooks() }
+                } ?: run {
+                    submissionServer.submitFakePayload()
+                    coroutineScope.launch { followUpPlaybooks() }
+                    propagateException(wrapException(authCodeRequestException))
+                }
+            } catch (exception: BadRequestException) {
+                propagateException(
+                    TanPairingException(
+                        code = exception.statusCode,
+                        message = "Invalid payload or missing header",
+                        cause = exception
+                    )
                 )
-            )
+            }
         }
     }
 
