@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.familytest.ui.selection
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -27,6 +28,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
         }
     )
     private val binding: FragmentTestRegistrationSelectionBinding by viewBinding()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.testRegistrationSelectionFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +43,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            )
+                            ),
+                        navOptions
                     )
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning -> {
@@ -58,7 +61,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            )
+                            ),
+                        navOptions
                     )
                 }
             }
