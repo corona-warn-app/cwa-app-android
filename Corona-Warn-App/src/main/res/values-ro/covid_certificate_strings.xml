@@ -336,6 +336,8 @@
     <string name="cov_pass_info_section_two">"Totuși, o verificare vizuală a certificatelor nu este suficientă pentru terți. Aceștia trebuie să utilizeze aplicația CovPassCheck în Germania."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Rețineți că terții din alte țări pot utiliza alte aplicații pentru a verifica certificatele."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four"></string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD
