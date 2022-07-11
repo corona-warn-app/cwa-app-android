@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Ви знайдете більше інформації про свої ризики зараження у своєму журналі контактів.\n\nІснує підвищений ризик того, що ви заразилися. Якщо ви були інфіковані, ви можете заразити інших людей, навіть якщо ви були щеплені або одужали, і навіть якщо у вас немає ніяких симптомів."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Пройдіть обстеження, навіть якщо у вас немає ніяких симптомів. Якщо ви отримаєте застереження про підвищений ступінь ризику («червона плитка»), ви маєте право на безкоштовний тест. Це не обов’язково має бути ПЛР-тест."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Пройдіть тестування, наприклад, швидким тестом на антиген, або використовуйте самотестування – бажано декілька разів, проходячи тест кожні два дні. Якщо тест позитивний, зробіть ПЛР-тест для підтвердження результату."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Будьте уважні до типових симптомів. Навіть у вакцинованих людей і тих, хто одужав, можуть виникнути симптоми. Якщо ви відчуваєте нездужання або виникли будь-які симптоми, зверніться до свого сімейного лікаря."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Введіть Симптоми"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Ваш тест не може бути оцінений"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Тест неможливо проаналізувати"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Видалити тест"</string>
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Інша інформація:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Період ізоляції зазвичай становить 10 днів. Уважно стежте за тим, як розвиваються ваші симптоми."</item>
+        <item>"Уважно стежте за тим, як розвиваються ваші симптоми."</item>
         <item>"Ваш державний орган охорони здоров’я попросить вас створити список людей, з якими ви контактували. Сюди слід включати всіх людей, з якими ви мали тісний контакт (менше 2 метрів, розмова віч-на-віч) більше 10 хвилин протягом двох днів до того, як ви захворіли. Ви можете використовувати для цього свій журнал контактів: просто експортуйте записи, а потім роздрукуйте їх або відправте електронною поштою."</item>
         <item>"Особливо зверніть увагу на людей, які не отримають сповіщення безпосередньо від застосунку, оскільки вони не мають смартфона або не встановили застосунок."</item>
         <item>"Навіть якщо у вас більше немає ніяких симптомів і ви знову почуваєтеся добре, ви все ще можете бути заразними, тому, дотримуйтесь призначеного періоду ізоляції."</item>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Отримання даних..."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Результат вашого тесту ще недоступний"</string>
+    <string name="submission_status_card_title_pending">"Результат тесту ще недоступний"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Результат вашого тесту доступний"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Результат вашого тесту оновлюється"</string>
+    <string name="submission_status_card_body_fetching">"Результат тесту оновлюється"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Аналіз вашого тесту ще не виконано"</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Аналіз неможливий"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Ваш результат ще недоступний"</string>
+    <string name="test_result_card_status_pending">"Результат ще недоступний"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Інша інформація:"</string>
     <!-- XHED: Title for further info of test result negative -->

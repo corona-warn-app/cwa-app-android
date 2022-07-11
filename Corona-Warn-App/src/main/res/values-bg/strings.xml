@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Ще намерите още информация относно излаганията Ви на риск във Вашия дневник на контактите. Имате повишено ниво на риск от заразяване. Ако сте заразени Вие може да заразявате други хора, дори и да сте ваксинирани или да сте преболедували или да не проявявате никакви симптоми."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, дори и да не проявявате симптоми. Ако получите предупреждение за повишено ниво на риск от заразяване (“червена плочка”) Вие имате право на безплатен тест. Не е задължително да е PCR тест."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, например с бърз тест или се тествайте сами - за предпочитане няколко пъти, като се тествате на всеки 2 дни. Ако теста е положителен си направете PCR тест, за да потвърдите резултата."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора и преболедувалите може да проявят симптоми. Ако не се чувствате добре или проявявате симптоми моля, свържете се с Вашия личен лекар."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Въведете симптоми"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Не може да бъде определен резултат от теста Ви"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Не може да бъде определен резултат от теста"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Изтриване на тест"</string>
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Още информация:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Периодът, в който трябва да сте под карантина, обикновено е 10 дни. Наблюдавайте внимателно развитието на Вашите симптоми."</item>
+        <item>"Наблюдавайте внимателно развитието на Вашите симптоми."</item>
         <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 10 минути през последните два дни, преди да се разболеете. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
         <item>"Моля, обърнете особено внимание на хората, които няма да бъдат уведомени директно чрез приложението, тъй като нямат смартфон или не са инсталирали приложението."</item>
         <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре. По тази причина, моля, не нарушавайте указания период на изолация."</item>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Извършва се извличане на данни..."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Все още няма резултат от теста Ви"</string>
+    <string name="submission_status_card_title_pending">"Все още няма резултат от теста"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Резултатът от теста Ви е готов"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Резултатът Ви се актуализира"</string>
+    <string name="submission_status_card_body_fetching">"Резултатът се актуализира"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Резултатът от Вашия тест все още не е определен."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Не може да бъде определен резултат"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Все още няма резултат от теста Ви"</string>
+    <string name="test_result_card_status_pending">"Все още няма резултат от теста"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Още информация:"</string>
     <!-- XHED: Title for further info of test result negative -->

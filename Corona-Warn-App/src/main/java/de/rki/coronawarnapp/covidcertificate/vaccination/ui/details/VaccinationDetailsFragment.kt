@@ -168,9 +168,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             }
         }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshCertState()
+    override fun onPause() {
+        viewModel.markAsSeen()
+        super.onPause()
     }
 
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.pdf.core
 
 import android.content.Context
 import android.graphics.Typeface
+import android.print.PrintAttributes
 import androidx.core.content.res.ResourcesCompat
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,14 @@ class ExportCertificateModule {
     fun cacheDir(
         @AppContext context: Context
     ): File = File(context.cacheDir, "export")
+
+    @Singleton
+    @Provides
+    fun printAttributes(): PrintAttributes = PrintAttributes.Builder()
+        .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+        .setResolution(PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+        .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+        .build()
 }
 
 @Qualifier

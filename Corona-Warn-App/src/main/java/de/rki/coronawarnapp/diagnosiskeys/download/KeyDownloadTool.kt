@@ -21,7 +21,7 @@ class KeyDownloadTool @Inject constructor(
         val saveTo = cachedKey.path
         val keyInfo = cachedKey.info
 
-        val downloadInfo = withTimeout(downloadConfig.individualDownloadTimeout.millis) {
+        val downloadInfo = withTimeout(downloadConfig.individualDownloadTimeout.toMillis()) {
             keyServer.downloadKeyFile(
                 locationCode = keyInfo.location,
                 day = keyInfo.day,

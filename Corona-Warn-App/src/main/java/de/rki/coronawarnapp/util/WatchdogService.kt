@@ -43,7 +43,6 @@ class WatchdogService @Inject constructor(
             return
         }
 
-        // TODO it's unclear whether this really has any effect
         // If we are being bound by Google Play Services (which is only a few seconds)
         // and don't have a worker or foreground service, the system may still kill us and the tasks
         // before they have finished executing.

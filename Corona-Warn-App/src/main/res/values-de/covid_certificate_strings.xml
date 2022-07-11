@@ -264,9 +264,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">Gültig bis %s, %s Uhr</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">Wenn dies Ihr aktuell verwendetes Zertifikat ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Ab 28 Tage vor Ablauf können Sie solche Zertifikate direkt über die App erneuern lassen. Sie finden die Option \"Zertifikate erneuern\" dann in Ihrer Zertifikatsübersicht unter der Kachel \"Status-Nachweis\". Sollte dies nicht Ihr aktuell verwendetes Zertifikat sein, muss es nicht verlängert werden und Sie müssen nichts weiter tun.</string>
-    <!-- XTXT: Vaccination Detail Techincal expiration info -->
-    <string name="expiration_technical_info">Bitte bemühen Sie sich rechtzeitig darum, einen neuen digitalen Nachweis ausstellen zu lassen.</string>
+    <string name="expiration_info">Wenn dies eines Ihrer aktuell verwendeten Zertifikate ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Im Zeitraum von 28 Tagen vor und bis zu 90 Tagen nach Ablauf können Sie es direkt über die App erneuern lassen, sofern es in Deutschland ausgestellt wurde. Sie finden die Option \"Zertifikate erneuern\" dann in Ihrer Zertifikatsübersicht unter der Kachel \"Status-Nachweis\". Sollte dies nicht eines Ihrer aktuell verwendeten Zertifikate sein, muss es nicht verlängert werden und Sie müssen nichts weiter tun.</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"Das Ablaufdatum wurde überschritten. Bitte erneuern Sie das Zertifikat. Sie können die Erneuerung bis maximal 90 Tage nach Ablauf über den Hinweis in Ihrer Zertifikatsübersicht anfordern. "</string>
     <!-- XTXT: Invalid certificate signature info -->
@@ -310,6 +308,16 @@
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
 
+    <!-- PDF Export: All Certificates Info Screen -->
+    <!-- XHED: PDF Export: All Certificates Info screen title -->
+    <string name="all_certs_pdf_export_info_title">Zertifikate exportieren</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
+    <string name="all_certs_pdf_export_info_point_pdf">Sie können in einem Schritt alle in Ihrer App vorhandenen Zertifikate in einem gemeinsamen PDF-Dokument speichern. Auf das PDF-Dokument haben zunächst nur Sie Zugriff. Sie können im Anschluss entscheiden, ob Sie es auf Ihrem Smartphone speichern oder in andere Apps importieren möchten.</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
+    <string name="all_certs_pdf_export_info_point_sensitive">Beachten Sie, dass das PDF-Dokument sensible Informationen enthält. Wir empfehlen Ihnen, hiermit sorgsam umzugehen und es nur Personen vorzuzeigen, denen Sie vertrauen und die zur Prüfung des Nachweises berechtigt sind.</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
+    <string name="all_certs_pdf_export_info_point_recommendations">Wir empfehlen, das PDF-Dokument nicht zu veröffentlichen und nicht per E-Mail zu versenden oder über andere Apps zu teilen.</string>
+
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
     <string name="pdf_export_error_title">Druckversion anzeigen nicht möglich</string>
@@ -348,4 +356,26 @@
     <string name="certificate_migration_dialog_title">Zuordnung von Zertifikaten</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">Die Gruppierung von Zertifikaten wurde verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">Zertifikate exportieren</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">In einem Schritt alle Ihre Zertifikate in einem gemeinsamen PDF-Dokument speichern</string>
+    <!-- XTXT: Certificate export all progress title -->
+    <string name="export_all_progress_title">PDF wird erstellt</string>
+    <!-- XTXT: Certificate export all progress message -->
+    <string name="export_all_progress_text">Dies kann einige Minuten dauern.</string>
+    <!-- XTXT: Certificate export all progress cancel -->
+    <string name="export_all_progress_cancel">Abbrechen</string>
+    <!-- XTXT: Certificate export all error title -->
+    <string name="export_all_error_title">Druckversion anzeigen nicht möglich</string>
+    <!-- XTXT: Certificate export all error message -->
+    <string name="export_all_error_message">Die Druckversion der Zertifikate kann nicht angezeigt werden.</string>
+    <!-- XTXT: Certificate export all error faq button -->
+    <string name="export_all_error_faq">FAQ zur Druckversion</string>
+    <!-- XTXT: Certificate export all no pages  title -->
+    <string name="export_all_no_pages_title">Zertifikate können nicht exportiert werden</string>
+    <!-- XTXT: Certificate export all no pages message -->
+    <string name="export_all_no_pages_message">Die vorhandenen Zertifikate können nicht exportiert werden, da sie nicht mehr gültig sind.</string>
+
 </resources>

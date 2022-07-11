@@ -54,7 +54,7 @@ fun testCertificate(
 
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(UUID.randomUUID().toString())
-    override val targetName: String = "targetName"
+    override val targetDisease: String = "targetDisease"
     override val testType: String = "testType"
     override val testResult: String = "testResult"
     override val testName: String = "testName"

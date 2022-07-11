@@ -24,8 +24,6 @@ class RecoveryCertificateStorageTest : BaseTest() {
     private val testData = setOf(
         StoredRecoveryCertificateData(
             recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode2,
-            notifiedExpiresSoonAt = null,
-            notifiedExpiredAt = null,
             lastSeenStateChange = CwaCovidCertificate.State.Invalid(),
             lastSeenStateChangeAt = Instant.ofEpochMilli(123),
             notifiedBlockedAt = null,
@@ -33,8 +31,6 @@ class RecoveryCertificateStorageTest : BaseTest() {
         ),
         StoredRecoveryCertificateData(
             recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode1,
-            notifiedExpiresSoonAt = Instant.ofEpochMilli(876),
-            notifiedExpiredAt = Instant.ofEpochMilli(924),
             lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(456)),
             lastSeenStateChangeAt = Instant.ofEpochMilli(123),
             notifiedBlockedAt = Instant.ofEpochMilli(123),
@@ -90,8 +86,6 @@ class RecoveryCertificateStorageTest : BaseTest() {
                 "certificateSeenByUser": true
               }, {
                 "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode1}",
-                "notifiedExpiresSoonAt": 876,
-                "notifiedExpiredAt": 924,
                 "notifiedInvalidAt": 123,
                 "notifiedBlockedAt": 123,
                 "lastSeenStateChange": {

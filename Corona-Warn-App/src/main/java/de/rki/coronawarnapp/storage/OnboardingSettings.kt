@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +31,7 @@ class OnboardingSettings @Inject constructor(
             } else null
         },
         writer = { key, value ->
-            putLong(key, value?.millis ?: 0L)
+            putLong(key, value?.toEpochMilli() ?: 0L)
         }
     )
 
@@ -43,6 +43,11 @@ class OnboardingSettings @Inject constructor(
 
     val fabScannerOnboardingDone = prefs.createFlowPreference(
         key = ONBOARDING_FAB_SCANNER_DONE,
+        defaultValue = false
+    )
+
+    val exportAllOnboardingDone = prefs.createFlowPreference(
+        key = ONBOARDING_EXPORT_ALL_DONE,
         defaultValue = false
     )
 
@@ -59,5 +64,6 @@ class OnboardingSettings @Inject constructor(
         private const val ONBOARDING_COMPLETED_TIMESTAMP = "onboarding.done.timestamp"
         private const val BACKGROUND_CHECK_DONE = "onboarding.background.checked"
         private const val ONBOARDING_FAB_SCANNER_DONE = "onboarding.fab.scanner.done"
+        private const val ONBOARDING_EXPORT_ALL_DONE = "onboarding.dcc.export_all.done"
     }
 }

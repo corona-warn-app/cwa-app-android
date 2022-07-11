@@ -4,9 +4,9 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.KeyDownloadParameters
 import io.kotest.matchers.shouldBe
-import org.joda.time.Duration
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -69,8 +69,8 @@ class DownloadConfigMapperTest : BaseTest() {
         createInstance().map(rawConfig).apply {
             revokedDayPackages shouldBe emptyList()
             revokedHourPackages shouldBe emptyList()
-            overallDownloadTimeout shouldBe Duration.standardMinutes(8)
-            individualDownloadTimeout shouldBe Duration.standardSeconds(60)
+            overallDownloadTimeout shouldBe Duration.ofMinutes(8)
+            individualDownloadTimeout shouldBe Duration.ofSeconds(60)
         }
     }
 }

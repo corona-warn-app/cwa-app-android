@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'jacoco'
+apply plugin: "org.sonarqube"
 
 
 def environmentExtractor = { File path ->
@@ -256,11 +257,9 @@ android {
             }
         }
         test {
-            java.srcDirs += "$projectDir/src/testShared/java"
             resources.srcDirs += "src/main/assets"
         }
         androidTest {
-            java.srcDirs += "$projectDir/src/testShared/java"
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
@@ -373,7 +372,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // DAGGER
-    def dagger_version = "2.38.1"
+    def dagger_version = "2.41"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -393,7 +392,7 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // JFN
-    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-db9f290.jar")
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-1de55db.jar")
 
     // boofCV
     def boofCV_version = "0.40.1"
@@ -403,6 +402,7 @@ dependencies {
     implementation("org.boofcv:boofcv-android:$boofCV_version") {
         exclude group: 'com.google.protobuf'
     }
+
     constraints {
         implementation('net.lingala.zip4j:zip4j:2.10.0') {
             because 'fixing zip4j vulnerability'
@@ -487,7 +487,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.guava:guava:30.0-android'
     implementation "joda-time:joda-time:2.10.13"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.2"
+
+    // Jackson
+    def jackson = "2.13.2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
     implementation 'com.networknt:json-schema-validator:1.0.69'
     implementation 'net.swiftzer.semver:semver:1.2.0'
@@ -517,4 +521,19 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
     implementation "androidx.window:window:1.0.0"
+}
+
+sonarqube {
+    properties {
+        property "sonar.organization", "corona-warn-app"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectKey", "corona-warn-app_cwa-app-android"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/deviceRelease/jacoco.xml"
+        property "sonar.sources", "src/main/java/"
+        property "sonar.inclusions", "**/*.kt"
+        property "sonar.java.binaries", "build/tmp/kotlin-classes"
+        property "sonar.java.libraries", "libs"
+        property "sonar.kotlin.file.suffixes", ".kt"
+        property "sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml"
+    }
 }

@@ -20,8 +20,8 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -36,29 +36,29 @@ class AppConfigSourceTest : BaseTest() {
 
     private val remoteConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         mappedConfig = mockk<ConfigMapping>().apply {
             every { isDeviceTimeCheckEnabled } returns true
         },
         configType = ConfigData.Type.FROM_SERVER,
         identifier = "remoteetag",
-        cacheValidity = Duration.standardSeconds(42)
+        cacheValidity = Duration.ofSeconds(42)
     )
 
     private val localConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         mappedConfig = mockk<ConfigMapping>().apply {
             every { isDeviceTimeCheckEnabled } returns true
         },
         configType = ConfigData.Type.LAST_RETRIEVED,
         identifier = "localetag",
-        cacheValidity = Duration.standardSeconds(300)
+        cacheValidity = Duration.ofSeconds(300)
     )
 
     private val defaultConfig = ConfigDataContainer(
         serverTime = Instant.EPOCH,
-        localOffset = Duration.standardHours(1),
+        localOffset = Duration.ofHours(1),
         mappedConfig = mockk<ConfigMapping>().apply {
             every { isDeviceTimeCheckEnabled } returns true
         },
@@ -81,7 +81,8 @@ class AppConfigSourceTest : BaseTest() {
         }
         coEvery { defaultSource.getConfigData() } returns defaultConfig
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+        every { timeStamper.nowUTC } returns org.joda.time.Instant.EPOCH.plus(org.joda.time.Duration.standardHours(1))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged } returns false
         every { cwaSettings.wasDeviceTimeIncorrectAcknowledged = any() } just Runs
@@ -89,7 +90,7 @@ class AppConfigSourceTest : BaseTest() {
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH
         every { cwaSettings.firstReliableDeviceTime = any() } just Runs
 
-        every { cwaSettings.lastDeviceTimeStateChangeAt } returns Instant.EPOCH
+        every { cwaSettings.lastDeviceTimeStateChangeAt } returns org.joda.time.Instant.EPOCH
         every { cwaSettings.lastDeviceTimeStateChangeAt = any() } just Runs
         every { cwaSettings.lastDeviceTimeStateChangeState } returns ConfigData.DeviceTimeState.INCORRECT
         every { cwaSettings.lastDeviceTimeStateChangeState = any() } just Runs
@@ -110,29 +111,33 @@ class AppConfigSourceTest : BaseTest() {
 
         coVerifySequence {
             localSource.getConfigData()
-            timeStamper.nowUTC
+            timeStamper.nowJavaUTC
         }
     }
 
     @Test
     fun `remote config is used if local config is not valid`() = runTest {
-        every { timeStamper.nowUTC } returns Instant.EPOCH
-            .plus(Duration.standardHours(1))
-            .plus(Duration.standardSeconds(301)) // Local config has 300 seconds validity
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+            .plus(Duration.ofHours(1))
+            .plus(Duration.ofSeconds(301)) // Local config has 300 seconds validity
+
+        every { timeStamper.nowUTC } returns org.joda.time.Instant.EPOCH
+            .plus(org.joda.time.Duration.standardHours(1))
+            .plus(org.joda.time.Duration.standardSeconds(301))
 
         val instance = createInstance()
         instance.getConfigData() shouldBe remoteConfig
 
         coVerifyOrder {
             localSource.getConfigData()
-            timeStamper.nowUTC
+            timeStamper.nowJavaUTC
             remoteSource.getConfigData()
         }
     }
 
     @Test
     fun `local config is used despite being invalid if remote config is unavailable`() = runTest {
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(2))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(2))
         coEvery { remoteSource.getConfigData() } returns null
 
         val instance = createInstance()
@@ -143,7 +148,7 @@ class AppConfigSourceTest : BaseTest() {
 
         coVerifySequence {
             localSource.getConfigData()
-            timeStamper.nowUTC
+            timeStamper.nowJavaUTC
             remoteSource.getConfigData()
         }
     }
@@ -183,7 +188,7 @@ class AppConfigSourceTest : BaseTest() {
         coEvery { localSource.getConfigData() } returns null
 
         coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(
-            localOffset = Duration.standardHours(3)
+            localOffset = Duration.ofHours(3)
         )
 
         createInstance().getConfigData()
@@ -201,7 +206,7 @@ class AppConfigSourceTest : BaseTest() {
         createInstance().getConfigData()
 
         verify {
-            cwaSettings.firstReliableDeviceTime = Instant.EPOCH.plus(Duration.standardHours(1))
+            cwaSettings.firstReliableDeviceTime = Instant.EPOCH.plus(Duration.ofHours(1))
         }
     }
 
@@ -219,7 +224,7 @@ class AppConfigSourceTest : BaseTest() {
 
     @Test
     fun `first reliable device time is not set, if the device time is incorrect`() = runTest {
-        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
+        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.ofDays(1))
         coEvery { localSource.getConfigData() } returns null
 
         createInstance().getConfigData()
@@ -233,7 +238,7 @@ class AppConfigSourceTest : BaseTest() {
     fun `if the device time state changes we save the timestamp and the current state`() = runTest {
         coEvery { localSource.getConfigData() } returns null
         // INCORRECT
-        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.standardDays(1))
+        coEvery { remoteSource.getConfigData() } returns remoteConfig.copy(localOffset = Duration.ofDays(1))
 
         createInstance().getConfigData()
 
@@ -247,7 +252,8 @@ class AppConfigSourceTest : BaseTest() {
         createInstance().getConfigData()
 
         verify {
-            cwaSettings.lastDeviceTimeStateChangeAt = Instant.EPOCH.plus(Duration.standardHours(1))
+            cwaSettings.lastDeviceTimeStateChangeAt =
+                org.joda.time.Instant.EPOCH.plus(org.joda.time.Duration.standardHours(1))
             cwaSettings.lastDeviceTimeStateChangeState = ConfigData.DeviceTimeState.CORRECT
         }
     }

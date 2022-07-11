@@ -11,11 +11,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
 
 class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
 
@@ -45,7 +45,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
         coEvery { analyticsExposureWindowDao.deleteReportedOlderThan(any()) } just Runs
     }
 
@@ -56,7 +56,7 @@ class AnalyticsExposureWindowsRepositoryTest : BaseTest() {
             newInstance().deleteStaleData()
             coVerify {
                 analyticsExposureWindowDao.deleteReportedOlderThan(
-                    now.minus(Days.days(15).toStandardDuration()).millis
+                    now.minus(Duration.ofDays(15)).toEpochMilli()
                 )
             }
         }

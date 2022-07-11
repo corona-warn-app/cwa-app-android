@@ -119,14 +119,10 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     ) : TestCertificate {
         override val rawCertificate: TestDccV1
             get() = mockk()
-        override val notifiedExpiredAt: Instant?
-            get() = null
-        override val notifiedExpiresSoonAt: Instant?
-            get() = null
         override val containerId: TestCertificateContainerId
             get() = TestCertificateContainerId("identifier")
-        override val targetName: String
-            get() = "Schneider, Andrea"
+        override val targetDisease: String
+            get() = "Covid 19"
         override val testType: String
             get() = "SARS-CoV-2-Test"
         override val testResult: String

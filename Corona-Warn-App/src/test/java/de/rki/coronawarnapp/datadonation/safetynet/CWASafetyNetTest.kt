@@ -28,12 +28,12 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Duration
+import java.time.Instant
 import kotlin.random.Random
 
 class CWASafetyNetTest : BaseTest() {
@@ -82,8 +82,8 @@ class CWASafetyNetTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns appConfigData
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.CORRECT
 
-        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.standardDays(7))
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardDays(8))
+        every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.ofDays(7))
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(8))
 
         every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(false)
     }
@@ -221,7 +221,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() = runTest {
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }
@@ -230,7 +230,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `24h since onboarding can be skipped on deviceForTester builds`() = runTest {
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
 
         shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
@@ -261,7 +261,7 @@ class CWASafetyNetTest : BaseTest() {
     @Test
     fun `device time checks can be disabled via request`() = runTest {
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
-        every { timeStamper.nowUTC } returns Instant.EPOCH
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
 
         val request = TestAttestationRequest(
             "Computer says no.".toByteArray(),

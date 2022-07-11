@@ -263,9 +263,7 @@
     <!-- XHED: Vaccination Detail expiration Date -->
     <string name="expiration_date">"Geçerlilik bitişi: %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
-    <string name="expiration_info">"Bu, şu anda kullandığınız sertifikaysa lütfen zamanında yenilediğinizden emin olun. Önümüzdeki 28 gün içinde süreleri sona ererse bu sertifikaları doğrudan uygulama içinde yenileyebilirsiniz. Böyle bir durumda, \"Durum Kanıtı\" kutucuğunun altında, sertifikaya genel bakış kısmında \"Sertifikaları Yenile\" seçeneği görüntülenir. Bu, şu anda kullandığınız sertifika değilse uzatılmasına gerek yoktur ve herhangi bir işlem yapmanız gerekmez."</string>
-    <!-- XTXT: Vaccination Detail Techincal expiration info -->
-    <string name="expiration_technical_info">"Lütfen zamanında yeni bir dijital sertifika aldığınızdan emin olun."</string>
+    <string name="expiration_info">"Bu, şu anda kullandığınız sertifikalardan biriyse lütfen zamanında yenilediğinizden emin olun. Önümüzdeki 28 gün içinde süreleri sona ererse veya son 90 gün içinde süreleri sona ermişse Almanya\'da düzenlenmiş olmaları koşuluyla bu sertifikaları doğrudan uygulama içinde yenileyebilirsiniz. Böyle bir durumda, \"Durum Kanıtı\" kutucuğunun altında, sertifikaya genel bakış kısmında \"Sertifikaları Yenile\" seçeneği görüntülenir. Bu, şu anda kullandığınız sertifikalardan biri değilse uzatılmasına gerek yoktur ve herhangi bir işlem yapmanız gerekmez."</string>
     <!-- XTXT: Expired certificate info -->
     <string name="expired_certificate_info">"Sona erme tarihi geçti. Lütfen sertifikayı yenileyin. Bir sertifikanın süresi sona erdikten sonraki 90 güne kadar sertifikaya genel bakış kısmında nota tıklayarak yenileme talebinde bulunabilirsiniz."</string>
     <!-- XTXT: Invalid certificate signature info -->
@@ -309,6 +307,16 @@
     <!-- XTXT: PDF Export: Info screen point with recommendations -->
     <string name="pdf_export_info_point_recommendations">"PDF belgesini yayınlamamanızı, e-postayla göndermemenizi ya da başka uygulamalar üzerinden paylaşmamanızı öneririz."</string>
 
+    <!-- PDF Export: All Certificates Info Screen -->
+    <!-- XHED: PDF Export: All Certificates Info screen title -->
+    <string name="all_certs_pdf_export_info_title">"Sertifikaları Dışa Aktar"</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding PDF storage -->
+    <string name="all_certs_pdf_export_info_point_pdf">"Tüm sertifikalarınızı tek adımda bir PDF belgesi halinde uygulamanıza kaydedebilirsiniz. Bu PDF belgesine ilk kez yalnızca siz erişebilirsiniz. Ardından akıllı telefonunuza kaydetmeyi ya da başka uygulamalara içe aktarmayı seçebilirsiniz."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point regarding sensitive information in PDF file -->
+    <string name="all_certs_pdf_export_info_point_sensitive">"Lütfen PDF belgesinin hassas bilgiler içerdiğini unutmayın. Belgeyi dikkatle kullanmanızı ve yalnızca güvendiğiniz ve sertifikayı kontrol etme yetkisi olan kişilere göstermenizi öneririz."</string>
+    <!-- XTXT: PDF Export: All Certificates Info screen point with recommendations -->
+    <string name="all_certs_pdf_export_info_point_recommendations">"PDF belgesini yayınlamamanızı, e-postayla göndermemenizi ya da başka uygulamalar üzerinden paylaşmamanızı öneririz."</string>
+
     <!-- PDF Export: Error message -->
     <!-- XHED: PDF Export: Error message title -->
     <string name="pdf_export_error_title">"Basılı versiyon görüntülenemiyor"</string>
@@ -347,4 +355,26 @@
     <string name="certificate_migration_dialog_title">"Sertifika Ataması"</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
     <string name="certificate_migration_dialog_message">"Sertifikaları gruplama özelliği iyileştirildi. Yalnızca ufak ad farklılıkları olan sertifikalar artık farklı kişilere atanmayacak."</string>
+
+    <!-- XTXT: Certificate export all tooltip title -->
+    <string name="export_all_tooltip_title">"Sertifikaları Dışa Aktar"</string>
+    <!-- XTXT: Certificate export all tooltip message -->
+    <string name="export_all_tooltip_message">"Tüm sertifikalarınızı tek adımda bir PDF belgesi halinde kaydedin"</string>
+    <!-- XTXT: Certificate export all progress title -->
+    <string name="export_all_progress_title">"PDF Oluşturuluyor"</string>
+    <!-- XTXT: Certificate export all progress message -->
+    <string name="export_all_progress_text">"Bu işlem birkaç dakika sürebilir."</string>
+    <!-- XTXT: Certificate export all progress cancel -->
+    <string name="export_all_progress_cancel">"İptal"</string>
+    <!-- XTXT: Certificate export all error title -->
+    <string name="export_all_error_title">"Basılı versiyon görüntülenemiyor"</string>
+    <!-- XTXT: Certificate export all error message -->
+    <string name="export_all_error_message">"Sertifikaların basılı versiyonu görüntülenemiyor."</string>
+    <!-- XTXT: Certificate export all error faq button -->
+    <string name="export_all_error_faq">"Basılı Versiyon için SSS"</string>
+    <!-- XTXT: Certificate export all no pages  title -->
+    <string name="export_all_no_pages_title">"Sertifikalar dışa aktarılamıyor"</string>
+    <!-- XTXT: Certificate export all no pages message -->
+    <string name="export_all_no_pages_message">"Mevcut sertifikalar artık geçerli olmadıklarından dışa aktarılamıyor."</string>
+
 </resources>

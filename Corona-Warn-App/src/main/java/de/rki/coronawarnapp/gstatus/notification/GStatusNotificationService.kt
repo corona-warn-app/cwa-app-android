@@ -23,7 +23,6 @@ class GStatusNotificationService @Inject constructor(
         oldWalletInfo: DccWalletInfo?,
         newWalletInfo: DccWalletInfo
     ) {
-        Timber.tag(TAG).v("notifyIfNecessary() - Started")
         val oldGStatusId = oldWalletInfo?.admissionState?.identifier
         val newGStatusId = newWalletInfo.admissionState.identifier
         when {
@@ -35,13 +34,8 @@ class GStatusNotificationService @Inject constructor(
                 )
                 personCertificatesSettings.setGStatusNotifiedAt(personIdentifier)
             }
-            newGStatusId == null -> {
-                Timber.tag(TAG).d("Don't notify person %s about G status change", personIdentifier.codeSHA256)
-                Timber.tag(TAG).d("Dismissing g-status badge for person %s", personIdentifier.codeSHA256)
-                personCertificatesSettings.dismissGStatusBadge(personIdentifier)
-            }
             else -> {
-                Timber.tag(TAG).d("Don't notify person %s about G status change", personIdentifier.codeSHA256)
+                Timber.tag(TAG).d("Don't notify person %s", personIdentifier.codeSHA256)
                 personCertificatesSettings.dismissGStatusBadge(personIdentifier)
             }
         }

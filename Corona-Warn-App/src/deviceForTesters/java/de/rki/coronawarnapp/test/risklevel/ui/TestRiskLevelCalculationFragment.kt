@@ -58,9 +58,7 @@ class TestRiskLevelCalculationFragment :
         vm.aggregatedRiskResult.observe2(this) {
             binding.labelAggregatedRiskResult.text = it
         }
-        vm.backendParameters.observe2(this) {
-            binding.labelBackendParameters.text = it
-        }
+
         vm.exposureWindowCount.observe2(this) { exposureWindowCount ->
             binding.labelExposureWindowCount.text = "Retrieved $exposureWindowCount Exposure Windows"
             binding.buttonExposureWindowsShare.visibility = when (exposureWindowCount > 0) {

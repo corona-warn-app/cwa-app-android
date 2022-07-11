@@ -272,7 +272,7 @@
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz.\n\nEnfekte olmuş olma riskiniz daha yüksek. Enfekte olduysanız aşı olmuş ya da iyileşmiş olsanız bile ve hiçbir belirtiniz olmasa bile başka kişilerin enfekte olmasına neden olabilirsiniz."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Hiçbir belirtiniz olmasa bile lütfen test yaptırın. Daha yüksek risk uyarısı (\"kırmızı kutucuk\") alırsanız ücretsiz test yaptırma hakkınız olur. Bunun illa bir PCR testi olması gerekmez."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"İki günlük aralıklarla tercihen birkaç kez, örneğin hızlı antijen testiyle ya da kendi kendine testleri (self testleri) kullanarak lütfen test yapın. Pozitif sonuç alırsanız sonucu doğrulamak için PCR testi yaptırın."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">"Tipik belirtilere karşı dikkatli olun. Aşı olmuş ve daha önce hastalığı geçirmiş kişilerde bile belirtiler gelişebilir. Hasta hissederseniz ya da herhangi bir belirti gelişirse lütfen aile hekiminizle iletişime geçin."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
@@ -1087,7 +1087,7 @@
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_invalid_steps_invalid_heading">"Testiniz değerlendirilemiyor"</string>
+    <string name="submission_test_result_invalid_steps_invalid_heading">"Test değerlendirilemiyor"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
     <string name="submission_test_result_delete_steps_invalid_heading">"Testi Sil"</string>
@@ -1226,7 +1226,7 @@
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"İzolasyon süresi genellikle 10 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
+        <item>"Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
         <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 10 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>
@@ -1325,11 +1325,11 @@
     <!-- XHED: Page title for the various submission status: fetching -->
     <string name="submission_status_card_title_fetching">"Veriler alınıyor...."</string>
     <!-- XHED: Page title for the various submission status: pending -->
-    <string name="submission_status_card_title_pending">"Test sonucunuz henüz çıkmadı"</string>
+    <string name="submission_status_card_title_pending">"Test Sonucu Henüz Çıkmadı"</string>
     <!-- XHED: Page title for the various submission status: available -->
     <string name="submission_status_card_title_available">"Test sonucunuz çıktı"</string>
     <!-- YTXT: Body text for submission status: fetching -->
-    <string name="submission_status_card_body_fetching">"Sonucunuz güncelleniyor"</string>
+    <string name="submission_status_card_body_fetching">"Sonuç güncelleniyor"</string>
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Testinize ilişkin değerlendirme henüz tamamlanmadı."</string>
     <!-- YTXT: Body text for submission status: invalid -->
@@ -1370,7 +1370,7 @@
     <!-- YTXT: invalid status text -->
     <string name="test_result_card_status_invalid">"Değerlendirme yapılamaz"</string>
     <!-- YTXT: pending status text -->
-    <string name="test_result_card_status_pending">"Sonucunuz henüz çıkmadı"</string>
+    <string name="test_result_card_status_pending">"Sonuç henüz çıkmadı"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Diğer bilgiler:"</string>
     <!-- XHED: Title for further info of test result negative -->

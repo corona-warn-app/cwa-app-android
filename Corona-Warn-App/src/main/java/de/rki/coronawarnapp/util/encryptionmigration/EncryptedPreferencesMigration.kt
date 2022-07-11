@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.di.AppContext
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,14 +62,14 @@ class EncryptedPreferencesMigration @Inject constructor(
             }
             onboardingSettings.isBackgroundCheckDone = isBackgroundCheckDone()
         }
-        @Suppress("DEPRECATION")
+
         TracingLocalData(encryptedSharedPreferences).apply {
             tracingSettings.initialPollingForTestResultTimeStampMigration = initialPollingForTestResultTimeStamp()
             tracingSettings.isTestResultAvailableNotificationSentMigration = isTestResultAvailableNotificationSent()
             tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { isUserToBeNotifiedOfLoweredRiskLevel() }
             tracingSettings.isConsentGiven = initialTracingActivationTimestamp() != 0L
         }
-        @Suppress("DEPRECATION")
+
         SubmissionLocalData(encryptedSharedPreferences).apply {
             submissionSettings.registrationTokenMigration = registrationToken()
             submissionSettings.initialTestResultReceivedAtMigration =

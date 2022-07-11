@@ -5,8 +5,8 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.appconfig.AppConfigModule
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.bugreporting.BugReportingSettings
-import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorage
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.storage.UploadHistoryStorageModule
 import de.rki.coronawarnapp.ccl.CclModule
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.configuration.storage.DownloadedCclConfigurationStorage
@@ -84,7 +84,7 @@ import javax.inject.Singleton
     modules = [
         MockProvider::class,
         AppConfigModule.ResetModule::class,
-        BugReportingSharedModule.ResetModule::class,
+        UploadHistoryStorageModule.ResetModule::class,
         CclModule.ResetModule::class,
         ContactDiaryStorageModule.ResetModule::class,
         CoronaTestModule.ResetModule::class,
@@ -125,7 +125,7 @@ object MockProvider {
     fun provideAppConfigProvider(): AppConfigProvider = mockk(relaxed = true)
 
     @Provides
-    fun provideBugReportingSettings(): BugReportingSettings = mockk(relaxed = true)
+    fun provideUploadHistoryStorage(): UploadHistoryStorage = mockk(relaxed = true)
 
     @Provides
     fun provideCclSettings(): CclSettings = mockk(relaxed = true)

@@ -48,7 +48,6 @@ class LogUploadAuthorizer @Inject constructor(
             payload = elsOtp
         }.build()
 
-        // TODO This was written without backend available, retest.
         val authResponse = authApi.authOTP(elsRequest).also {
             Timber.tag(TAG).v("Auth response received: %s", it)
         }

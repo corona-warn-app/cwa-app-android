@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -143,7 +144,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
         every { downloadConfig.revokedDayPackages } returns listOf(
             RevokedKeyPackage.Day(
-                day = invalidDay.info.day,
+                day = invalidDay.info.day.toJavaTime(),
                 region = invalidDay.info.location,
                 etag = invalidDay.info.etag!!
             )
@@ -177,7 +178,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-03".day).apply {
             every { downloadConfig.revokedDayPackages } returns listOf(
                 RevokedKeyPackage.Day(
-                    day = info.day,
+                    day = info.day.toJavaTime(),
                     region = info.location,
                     etag = info.etag!!
                 )

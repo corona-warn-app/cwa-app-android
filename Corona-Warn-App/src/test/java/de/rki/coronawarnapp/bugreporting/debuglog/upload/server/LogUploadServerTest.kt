@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.server
 
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
-import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.LogUpload
+import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.auth.LogUploadOtp
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe

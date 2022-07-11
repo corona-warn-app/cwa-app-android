@@ -37,13 +37,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
+import java.time.Duration
 import javax.inject.Inject
 
 class TestCertificateRepositoryTest : BaseTest() {
@@ -80,8 +80,8 @@ class TestCertificateRepositoryTest : BaseTest() {
         } returns CwaCovidCertificate.State.Invalid()
 
         covidTestCertificateConfig.apply {
-            every { waitForRetry } returns Duration.standardSeconds(10)
-            every { waitAfterPublicKeyRegistration } returns Duration.standardSeconds(10)
+            every { waitForRetry } returns Duration.ofSeconds(10)
+            every { waitAfterPublicKeyRegistration } returns Duration.ofSeconds(10)
         }
 
         storage.apply {
@@ -280,10 +280,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
         }
     }
 
@@ -300,10 +298,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
         }
     }
 
@@ -320,10 +316,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
         }
     }
 
@@ -340,9 +334,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
             notifiedInvalidAt shouldBe Instant.EPOCH
         }
     }
@@ -360,9 +352,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
-            notifiedExpiredAt shouldBe null
             notifiedBlockedAt shouldBe Instant.EPOCH
         }
     }
@@ -380,10 +370,8 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         val firstCert = instance.certificates.first().first()
         firstCert.testCertificate!!.apply {
-            notifiedExpiresSoonAt shouldBe null
             notifiedInvalidAt shouldBe null
             notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
         }
     }
 }

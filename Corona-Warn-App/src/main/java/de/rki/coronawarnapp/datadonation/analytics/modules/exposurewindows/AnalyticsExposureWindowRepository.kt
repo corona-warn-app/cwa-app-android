@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Days
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,7 +45,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     }
 
     suspend fun deleteStaleData() {
-        val timestamp = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration()).millis
+        val timestamp = timeStamper.nowJavaUTC.minus(Duration.ofDays(15)).toEpochMilli()
         dao.deleteReportedOlderThan(timestamp)
     }
 
