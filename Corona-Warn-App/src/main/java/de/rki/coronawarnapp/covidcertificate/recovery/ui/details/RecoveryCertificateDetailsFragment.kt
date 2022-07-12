@@ -65,7 +65,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
-        startValidationCheck.defaultButton.setOnClickListener {
+        startValidationCheck.setOnClickListener {
             startValidationCheck.isLoading = true
             viewModel.startValidationRulesDownload()
         }
@@ -107,8 +107,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         startValidationCheck.apply {
-            isEnabled = certificate.isNotScreened
-            defaultButton.isEnabled = certificate.isNotScreened
+            isActive = certificate.isNotScreened
         }
         toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotScreened
         qrCodeCard.bindValidityViews(
