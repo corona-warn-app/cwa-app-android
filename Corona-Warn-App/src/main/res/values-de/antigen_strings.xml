@@ -89,7 +89,7 @@
     <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test in den Papierkorb verschoben. Dort können Sie ihn endgültig löschen oder wiederherstellen."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
-    <string name="submission_test_result_toolbar_text">"Ihr Testergebnis"</string>
+    <string name="submission_test_result_toolbar_text">"Testergebnis"</string>
     <!-- XHED: submission result antigen fragment card title -->
     <string name="submission_test_result_antigen_title">"Schnelltest"</string>
     <!-- XTXT: submission result antigen fragment card "found" text -->

@@ -1115,7 +1115,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Testergebnis löschen"</string>
     <!-- XHED: Page headline for test result with consent given  -->
-    <string name="submission_test_result_consent_given_heading">"Ihr Testergebnis"</string>
+    <string name="submission_test_result_consent_given_heading">"Testergebnis"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Vielen Dank, dass Sie mithelfen, die Verbreitung von Corona zu bekämpfen."</string>
     <!-- YTXT: body text for test result card with consent given -->
