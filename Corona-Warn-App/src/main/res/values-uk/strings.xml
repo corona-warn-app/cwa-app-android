@@ -291,7 +291,7 @@
     <string name="risk_details_behavior_increased_body_2">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
-    <!-- XMSG: risk details - faq STIKO, bullet point link -->
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
     <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ризик зараження"</string>

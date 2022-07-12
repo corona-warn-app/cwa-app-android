@@ -9,14 +9,8 @@
     <string name="risk_details_behavior_body_meetings">"Срещи и събития: избягвайте посещения и дейности, на които се събирате с други хора (клубове, барове, ресторанти, кина, театри, спортни събития)."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Работа от вкъщи: ако имате възможност работете от вкъщи."</string>
-    <!-- XTXT: risk details - shopping info -->
-    <string name="risk_details_behavior_body_shopping">"Пазаруване: използвайте доставка на продукти или помолете някой да пазарува вместо Вас."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Обществен транспорт: избягвайте пътуване с обществен транспорт по възможност, особено в час пик."</string>
-    <!-- XTXT: risk details - travelling info -->
-    <string name="risk_details_behavior_body_traveling">"Пътуване: не пътувайте със самолет или влак."</string>
-    <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"Ако имате въпроси относно карантинните мерки моля, свържете се с Вашата здравна служба. За повече информация вижте страницата ни за „ЧЗВ” относно карантинните мерки."</string>
     <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
     <string name="risk_details_behavior_body_health_department_label">"За повече информация вижте страницата ни за „ЧЗВ” относно карантинните мерки."</string>
     <!-- XTXT: risk details - home rules body -->

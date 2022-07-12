@@ -9,14 +9,8 @@
     <string name="risk_details_behavior_body_meetings">"Întâlniri și evenimente: evitați vizitele și activitățile care presupun adunările de persoane (cluburi, baruri, restaurante, cinematografe, teatre, evenimente sportive)."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Lucratul de acasă: dacă puteți, lucrați de acasă."</string>
-    <!-- XTXT: risk details - shopping info -->
-    <string name="risk_details_behavior_body_shopping">"Cumpărăturile: comandați online produse sau rugați pe cineva să facă cumpărăturile pentru dvs."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Transportul public: evitați transportul public pe cât posibil, în special în orele de vârf."</string>
-    <!-- XTXT: risk details - travelling info -->
-    <string name="risk_details_behavior_body_traveling">"Deplasările: nu călătoriți cu avionul sau trenul."</string>
-    <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"Dacă aveți întrebări despre măsurile de carantină, contactați departamentul aferent de sănătate publică. Pentru mai multe informații, consultați pagina noastră de întrebări frecvente privind măsurile de carantină."</string>
     <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
     <string name="risk_details_behavior_body_health_department_label">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente privind măsurile de carantină."</string>
     <!-- XTXT: risk details - home rules body -->
