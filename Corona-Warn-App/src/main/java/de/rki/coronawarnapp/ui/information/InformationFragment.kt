@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import androidx.fragment.app.Fragment
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.R
@@ -57,24 +56,11 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         }
 
         setButtonOnClickListener()
-        setAccessibilityDelegate()
     }
 
     override fun onResume() {
         super.onResume()
         binding.informationContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun setAccessibilityDelegate() {
-        val accessibilityDelegate: View.AccessibilityDelegate =
-            object : View.AccessibilityDelegate() {
-                override fun onInitializeAccessibilityNodeInfo(v: View?, info: AccessibilityNodeInfo) {
-                    super.onInitializeAccessibilityNodeInfo(v, info)
-                    val string: String = getString(R.string.information_help_title_accessibility)
-                    info.text = string
-                }
-            }
-        binding.informationHelp.mainRowItemSubtitle.accessibilityDelegate = accessibilityDelegate
     }
 
     private fun setButtonOnClickListener() {
@@ -100,9 +86,6 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
-        }
-        binding.informationHelp.mainRow.setOnClickListener {
-            openUrl(getString(R.string.main_about_link))
         }
         binding.informationLegal.mainRow.setOnClickListener {
             doNavigate(
