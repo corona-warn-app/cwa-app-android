@@ -39,6 +39,11 @@ class BehaviorIncreasedRiskBox(
             R.string.risk_details_behavior_increased_body_2_label,
             R.string.risk_details_behavior_increased_body_2_link
         )
+        riskDetailsBehaviorBulletPoint3.setTextWithUrl(
+            R.string.risk_details_increased_risk_faq_vaccination,
+            R.string.risk_details_behavior_increased_body_3,
+            R.string.risk_details_behavior_increased_body_3_link
+        )
     }
 
     object Item : BehaviorItem

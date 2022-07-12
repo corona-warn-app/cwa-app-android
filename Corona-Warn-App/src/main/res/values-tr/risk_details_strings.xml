@@ -9,16 +9,8 @@
     <string name="risk_details_behavior_body_meetings">"Toplantılar ve etkinlikler: Başka kişilerle bir araya gelmeyi gerektiren ziyaretlerden ve aktivitelerden kaçının (kulüpler, barlar, restoranlar, sinemalar, tiyatrolar, spor etkinlikleri)."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Evden çalışma: Yapabiliyorsanız evden çalışın."</string>
-    <!-- XTXT: risk details - shopping info -->
-    <string name="risk_details_behavior_body_shopping">"Alışveriş: Market alışverişlerinizi eve teslimat seçeneğiyle yapın veya bir başka kişiden sizin için alışveriş yapmasını isteyin."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Toplu taşıma: Mümkün olduğunca, özellikle de yoğun saatlerde toplu taşıma kullanmaktan kaçının."</string>
-    <!-- XTXT: risk details - travelling info -->
-    <string name="risk_details_behavior_body_traveling">"Seyahat: Uçak veya trenle seyahat etmeyin."</string>
-    <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"Karantina önlemleri hakkında sorularınız varsa lütfen kamu sağlığı departmanınızla iletişime geçin. Daha fazla bilgi için lütfen karantina önlemleri hakkında SSS sayfamıza bakın."</string>
-    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
-    <string name="risk_details_behavior_body_health_department_label">"Daha fazla bilgi için lütfen karantina önlemleri hakkında SSS sayfamıza bakın."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"Farkında olmadan enfekte olduysanız başkalarını enfekte etme riskini azaltabilirsiniz:"</string>
     <!-- XTXT: risk details - home rules faq -->
