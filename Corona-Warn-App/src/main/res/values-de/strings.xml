@@ -265,9 +265,9 @@
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig mit Seife für 20 Sekunden."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Tragen Sie eine Maske bei Begegnungen mit anderen Personen."</string>
+    <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Maske bei Begegnungen mit anderen Personen in Innenräumen und dort, wo es gesetzlich vorgeschrieben ist oder empfohlen wird.</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen."</string>
+    <string name="risk_details_behavior_body_stay_away">Halten Sie möglichst mindestens 1,5 Meter Abstand zu anderen Personen.</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
@@ -275,7 +275,7 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Lassen Sie sich testen, z.B. mit einem Antigen-Schnelltest, oder testen Sie sich selbst, am besten mehrfach im Abstand von zwei Tagen. Sollte ein Test positiv ausfallen, lassen Sie diesen durch einen PCR-Test absichern."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Achten Sie auf Krankheitssymptome. Symptome können auch bei geimpften und bei genesenen Personen auftreten. Falls Sie sich krank fühlen oder Symptome auftreten, wenden Sie sich bitte an Ihre Hausarztpraxis."</string>
+    <string name="risk_details_faq_symptoms">Achten Sie auf Krankheitssymptome. Symptome können auch bei geimpften und bei genesenen Personen auftreten. Falls Sie sich krank fühlen oder Symptome auftreten, reduzieren Sie Ihre Kontakte, bleiben Sie zu Hause und wenden Sie sich an Ihre Hausarztpraxis.</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"Sollten Sie bisher nicht geimpft sein, besprechen Sie nach der Testung die Impfung mit Ihrer Hausarztpraxis."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
@@ -338,6 +338,9 @@
     <string name="risk_details_deadman_notification_title">"Ihr Risikostatus"</string>
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Bitte denken Sie daran, die Corona-Warn-App regelmäßig zu öffnen, um Ihren Risikostatus zu überprüfen."</string>
+
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">Wenn Sie die Risiko-Ermittlung aktiviert haben, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche Dauer und mit welchem Abstand in den letzten %d Tagen Begegnungen mit Corona-positiv getesteten Personen stattfanden. Bei der Risikoermittlung werden außerdem Ihre Check-Ins berücksichtigt. Sie werden gewarnt, wenn Sie sich zur selben Zeit oder bis 30 Minuten nach der positiv getesteten Person im selben Raum aufgehalten haben.</string>
 
     <!-- ####################################
                Risk Lowered Dialog

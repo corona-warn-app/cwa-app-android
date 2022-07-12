@@ -338,6 +338,9 @@
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Nu uitați să deschideți frecvent aplicația Corona-Warn pentru a verifica starea riscului dvs."</string>
 
+    <!-- XTXT: risk details - infection period logged information new body -->
+    <string name="risk_details_information_body_period_logged_box"> %d </string>
+
     <!-- ####################################
                Risk Lowered Dialog
     ###################################### -->
