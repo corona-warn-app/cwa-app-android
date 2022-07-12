@@ -11,8 +11,6 @@
     <string name="risk_details_behavior_body_home_office">"Робота з дому: якщо ви можете, працюйте вдома."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Громадський транспорт: по можливості уникайте громадського транспорту, особливо в час пік."</string>
-    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
-    <string name="risk_details_behavior_body_health_department_label">"Для отримання додаткової інформації, перегляньте нашу сторінку ЗіВ про карантинні заходи."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"Якщо ви були інфіковані несвідомо, ось як ви можете знизити ризик зараження інших:"</string>
     <!-- XTXT: risk details - home rules faq -->
