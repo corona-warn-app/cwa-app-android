@@ -336,6 +336,8 @@
     <string name="cov_pass_info_section_two">"Dla osób trzecich nie wystarczy jednak wizualna kontrola certyfikatów. Muszą one korzystać z aplikacji CovPassCheck w Niemczech."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Należy pamiętać, że osoby trzecie w innych krajach mogą używać innych aplikacji do weryfikacji certyfikatów."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four"></string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD

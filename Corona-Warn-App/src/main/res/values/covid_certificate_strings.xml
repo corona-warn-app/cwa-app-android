@@ -336,6 +336,8 @@
     <string name="cov_pass_info_section_two">"A visual check of the certificates is not sufficient for third parties, however. They must use the CovPassCheck app in Germany."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Please note that third parties in other countries may use different apps to verify certificates."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four"></string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD
