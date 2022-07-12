@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
@@ -40,8 +41,8 @@ class ProgressLoadingButton @JvmOverloads constructor(
                 binding.apply {
                     defaultButton.isClickable = !value
                     defaultButton.text = if (value) "" else defaultText
-                    binding.progressIndicator.isVisible = value
-                    defaultButton.isPressed = value
+                    defaultButton.isEnabled = !value
+                    progressIndicator.isVisible = value
                 }
                 field = value
             }
