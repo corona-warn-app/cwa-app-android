@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
@@ -55,18 +56,14 @@ class BehaviorInfoRow @JvmOverloads constructor(
             }
             infoButton.isGone = true
         }
-
-        if (body.text == context.getString(R.string.risk_details_behavior_body_health_department)) {
-            body.setTextWithUrl(
-                R.string.risk_details_behavior_body_health_department,
-                R.string.risk_details_behavior_body_health_department_label,
-                R.string.risk_details_behavior_body_health_department_link
-            )
-        }
     }
 
     fun setText(text: String) {
         this.body.text = text
+    }
+
+    fun setTextWithUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRes urlRes: Int) {
+        this.body.setTextWithUrl(textRes, labelRes, urlRes)
     }
 
     fun setBackgroundTint(@ColorInt color: Int) {
