@@ -35,7 +35,6 @@ class CclConfigurationUpdater @Inject constructor(
     suspend fun updateIfRequired() = mutex.withLock {
         Timber.d("update()")
         dccValidityStateChangeObserver.acknowledgeStateOfCertificate()
-        Timber.d("afterUpdate()")
 
         if (isUpdateRequired()) {
             Timber.d("CCLConfig update required!")

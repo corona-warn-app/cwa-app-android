@@ -35,7 +35,6 @@ class CclConfigurationUpdateScheduler @Inject constructor(
                 Timber.d("Schedule daily worker.")
                 scheduleDailyWorker()
             }
-            .onEach { Timber.d("App is in the $it") }
             .distinctUntilChanged()
             .filter { it } // Only when app comes to the foreground
             .onEach {
