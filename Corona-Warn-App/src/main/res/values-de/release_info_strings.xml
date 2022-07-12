@@ -22,7 +22,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Die Verhaltensempfehlungen bei  erhöhten Risiko wurden aktualisiert. Das betrifft unter anderem Empfehlungen zur Reduktion von Kontakten oder dem Tragen von Masken. Angepasst wurden auch die Empfehlungen bei niedrigem Risiko.</item>
+        <item>Die Verhaltensempfehlungen bei erhöhten Risiko wurden aktualisiert. Das betrifft unter anderem Empfehlungen zur Reduktion von Kontakten oder dem Tragen von Masken. Angepasst wurden auch die Empfehlungen bei niedrigem Risiko.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
