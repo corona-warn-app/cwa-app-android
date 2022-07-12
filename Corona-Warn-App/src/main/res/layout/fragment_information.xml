@@ -53,14 +53,6 @@
                     app:subtitle="@{@string/information_about_title}" />
 
                 <include
-                    android:id="@+id/information_help"
-                    layout="@layout/include_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:icon="@{@drawable/ic_link}"
-                    app:subtitle="@{@string/information_help_title}" />
-
-                <include
                     android:id="@+id/information_terms"
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
