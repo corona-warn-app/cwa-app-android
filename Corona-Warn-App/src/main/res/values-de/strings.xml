@@ -259,7 +259,7 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"So verhalten Sie sich richtig, auch, wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Begeben Sie sich, wenn möglich, nach Hause bzw. bleiben Sie zu Hause und vermeiden Sie Begegnungen außerhalb Ihres Haushalts."</string>
+    <string name="risk_details_behavior_body_stay_home">Wenn es Ihnen möglich ist, reduzieren Sie bitte Ihre Kontakte, vor allem mit besonders gefährdeten Personen, z.B. Menschen hohen Alters, mit Vorerkrankungen oder einem geschwächten Immunsystem.</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
@@ -277,7 +277,7 @@
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms">Achten Sie auf Krankheitssymptome. Symptome können auch bei geimpften und bei genesenen Personen auftreten. Falls Sie sich krank fühlen oder Symptome auftreten, reduzieren Sie Ihre Kontakte, bleiben Sie zu Hause und wenden Sie sich an Ihre Hausarztpraxis.</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Sollten Sie bisher nicht geimpft sein, besprechen Sie nach der Testung die Impfung mit Ihrer Hausarztpraxis."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Sollten Sie bisher nicht geimpft sein, besprechen Sie nach der Testung die Impfung mit Ihrer Hausarztpraxis. Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Lassen Sie sich gegen SARS-CoV-2 impfen, falls Sie noch nicht geimpft sind."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -292,6 +292,8 @@
     <string name="risk_details_behavior_increased_body_2">"Weitere Informationen in den FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Weitere Informationen in den FAQ zum Testablauf."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
+    <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Infektionsrisiko"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -322,7 +324,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Ihr Infektionsrisiko wird daher als erhöht eingestuft. Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
+    <string name="risk_details_information_body_notice_increased">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung von Abstand und Dauer lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->

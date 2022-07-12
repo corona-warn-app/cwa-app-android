@@ -291,6 +291,8 @@
     <string name="risk_details_behavior_increased_body_2">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link -->
+    <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
