@@ -120,7 +120,7 @@
     <!-- XTXT: Description for contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_description">"Hier können Sie Notizen machen, die Ihnen helfen, das Infektionsrisiko besser einzuschätzen."</string>
     <!-- XTXT: Body for contact diary comment info screen -->
-    <string name="contact_diary_comment_info_screen_body">"Notieren Sie hier weitere Umstände Ihrer Begegnung bzw. Ihres Aufenthalts, die sich auf das Infektionsrisiko auswirken können, z.\u00A0B. räumliche Nähe zu anderen Personen oder was Sie gemacht haben (Beispiele: „saßen nah beieinander“, „Sport gemacht“, „wenig Platz“, „wir haben gesungen“).\n\nDiese Notizen können Ihnen später helfen, sich besser zu erinnern. So können Sie, wenn nötig, die Menschen, mit denen Sie zusammenwaren, frühzeitig warnen und auch das Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten unterstützen."</string>
+    <string name="contact_diary_comment_info_screen_body">"Notieren Sie hier weitere Umstände Ihrer Begegnung bzw. Ihres Aufenthalts, die sich auf das Infektionsrisiko auswirken können, z.\u00A0B. räumliche Nähe zu anderen Personen oder was Sie gemacht haben (Beispiele: „saßen nah beieinander“, „Sport gemacht“, „wenig Platz“, „wir haben gesungen“).\n\nDiese Notizen können Ihnen später helfen, sich besser zu erinnern. So können Sie, wenn nötig, die Menschen, mit denen Sie zusammen waren, frühzeitig warnen und auch das Gesundheitsamt bei der Nachverfolgung möglicher Infektionsketten unterstützen."</string>
 
     <!-- XTXT: location (description for screen readers) -->
     <string name="accessibility_location">"Ort %s"</string>
