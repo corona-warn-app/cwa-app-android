@@ -9,16 +9,8 @@
     <string name="risk_details_behavior_body_meetings">"Meetings and events: Avoid visits and activities that involve gathering with other people (clubs, bars, restaurants, cinemas, theaters, sports events)."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Working from home: If you are able to, work from home."</string>
-    <!-- XTXT: risk details - shopping info -->
-    <string name="risk_details_behavior_body_shopping">"Shopping: Have your groceries delivered or ask someone to shop for you."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Public transportation: Avoid public transportation as much as possible, particularly at peak times."</string>
-    <!-- XTXT: risk details - travelling info -->
-    <string name="risk_details_behavior_body_traveling">"Travel: Do not travel by plane or train."</string>
-    <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"If you have questions about quarantine measures, please contact your public health department. For more information, please see our FAQ page on quarantine measures."</string>
-    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
-    <string name="risk_details_behavior_body_health_department_label">"For more information, please see our FAQ page on quarantine measures."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"If you have been infected unknowingly, here’s how you can reduce the risk of infecting others:"</string>
     <!-- XTXT: risk details - home rules faq -->
