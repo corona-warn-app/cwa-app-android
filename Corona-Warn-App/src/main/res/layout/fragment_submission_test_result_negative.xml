@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
         android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_test_result_headline">
+        android:contentDescription="@string/submission_test_result_headline"
+        tools:context="ui.submission.testresult.negative.SubmissionTestResultNegativeFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -226,21 +227,8 @@
                     app:layout_constraintTop_toBottomOf="@id/test_result_steps_negative_result"
                     app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
                     app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_steps_test_certificate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/test_result_steps_negative_result"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_steps_remove_test"
-                    app:simple_step_entry_text="@string/coronatest_negative_result_certificate_info_body"
-                    app:simple_step_entry_title="@string/coronatest_negative_result_certificate_info_title"
                     app:step_entry_final="true"
-                    app:step_entry_icon="@drawable/ic_result_pending_certificate_info" />
+                    app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
 
                 <LinearLayout
                     android:id="@+id/further_info"
@@ -249,7 +237,7 @@
                     android:background="@color/colorSurface2"
                     android:orientation="vertical"
                     android:padding="@dimen/spacing_normal"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_test_certificate">
+                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_remove_test">
 
                     <TextView
                         android:id="@+id/further_info_title"
