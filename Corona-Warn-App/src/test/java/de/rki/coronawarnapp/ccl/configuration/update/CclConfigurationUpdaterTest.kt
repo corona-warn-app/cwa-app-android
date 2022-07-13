@@ -3,16 +3,19 @@ package de.rki.coronawarnapp.ccl.configuration.update
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.repositories.UpdateResult
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
@@ -29,6 +32,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     @MockK private lateinit var cclConfigurationRepository: CclConfigurationRepository
     @RelaxedMockK private lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
     @MockK private lateinit var dccValidationRepository: DccValidationRepository
+    @MockK private lateinit var dccValidityStateChangeObserver: DccValidityStateChangeObserver
 
     @BeforeEach
     fun setup() {
@@ -44,6 +48,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
             coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
             coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
             coEvery { dccValidationRepository.updateInvalidationRules() } returns UpdateResult.NO_UPDATE
+            coEvery { dccValidityStateChangeObserver.acknowledgeStateOfCertificate() } just Runs
 
             getInstance().updateIfRequired()
 
@@ -67,6 +72,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
         runTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
             coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
+            coEvery { dccValidityStateChangeObserver.acknowledgeStateOfCertificate() } just Runs
 
             getInstance().updateIfRequired()
 
@@ -175,7 +181,8 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
             boosterRulesRepository,
             cclConfigurationRepository,
             dccWalletInfoUpdateTrigger,
-            dccValidationRepository
+            dccValidationRepository,
+            dccValidityStateChangeObserver
         )
     }
 }
