@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Експорт на сертификати"</item>
+        <item>"Препоръчителното поведение е актуализирано"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Може да запазите всичките си сертификати от приложението в един PDF документ само с една единствена стъпка."</item>
+        <item>"Препоръчителното поведение в случай на риск от заразяване е актуализирано. Препоръките включват намаляване на контакти с други лица и носе на маска, когато сте сред други хора. Препоръките за лица с нисък риск от заразяване също са актуализирани."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

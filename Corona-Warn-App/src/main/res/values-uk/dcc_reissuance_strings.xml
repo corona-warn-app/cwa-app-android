@@ -26,7 +26,7 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Поновлення ваших сертифікатів є добровільним і безкоштовним."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"Щоб гарантувати, що сертифікати можуть бути поновлені лише один раз, ідентифікатори старих і нових сертифікатів документуються RKI. Інші дані з ваших сертифікатів видаляються RKI відразу після поновлення."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"Щоб гарантувати, що сертифікати можуть бути поновлені в обмеженому обсязі, ідентифікатори старих і нових сертифікатів документуються RKI. Інші дані з ваших сертифікатів видаляються RKI відразу після поновлення."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Старі сертифікати будуть автоматично переміщені в кошик і видалено через 30 днів. Сертифікати можна відновити в будь-який час протягом цих 30 днів."</string>
     <!-- XTXT: DCC Reissuance update hint-->

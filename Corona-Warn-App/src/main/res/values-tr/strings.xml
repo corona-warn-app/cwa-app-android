@@ -258,15 +258,15 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"Aşı olduysanız veya iyileştiyseniz bile ve hiçbir belirtiniz yoksa bile yapmanız gerekenler:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın ve beraber yaşadığınız kişiler haricinde başka insanlarla karşılaşmaktan kaçının."</string>
+    <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen başka insanlarla, özellikle yaşlılar, daha önceden rahatsızlıkları olan ve bağışıklık sistemi zayıf kişiler gibi özellikle risk altında olan kişilerle karşılaşmaktan kaçının."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Ellerinizi düzenli olarak 20 saniye sabunla yıkayın."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Diğer insanlarla karşılaştığınızda yüz maskesi takın."</string>
+    <string name="risk_details_behavior_body_wear_mask">"Kapalı ortamlarda diğer insanlarla karşılaştığınızda ve yasal olarak gerekli görülen veya önerilen durumlarda yüz maskesi takın."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
+    <string name="risk_details_behavior_body_stay_away">"Mümkün olan durumlarda, diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
@@ -274,9 +274,9 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"İki günlük aralıklarla tercihen birkaç kez, örneğin hızlı antijen testiyle ya da kendi kendine testleri (self testleri) kullanarak lütfen test yapın. Pozitif sonuç alırsanız sonucu doğrulamak için PCR testi yaptırın."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Tipik belirtilere karşı dikkatli olun. Aşı olmuş ve daha önce hastalığı geçirmiş kişilerde bile belirtiler gelişebilir. Hasta hissederseniz ya da herhangi bir belirti gelişirse lütfen aile hekiminizle iletişime geçin."</string>
+    <string name="risk_details_faq_symptoms">"Tipik belirtilere karşı dikkatli olun. Aşı olmuş ve daha önce hastalığı geçirmiş kişilerde bile belirtiler gelişebilir. Hasta hissederseniz ya da herhangi bir belirti gelişirse, diğer insanlarla temasınızı azaltın, evde kalın ve aile hekiminizle iletişime geçin."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız test yaptırdıktan sonra aile hekiminize danışın."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız test yaptırdıktan sonra aile hekiminize danışın. Aşı önerileri için lütfen STIKO web sitesine bakın."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Henüz olmadıysanız SARS-CoV-2 virüsüne karşı aşı olun."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -292,7 +292,7 @@
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
     <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
-    <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
+    <string name="risk_details_behavior_increased_body_3">"Aşı önerileri için lütfen STIKO web sitesine bakın."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -301,7 +301,7 @@
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son %d günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir. Maruz kalma günlüğü check-in\'lerinizi de hesaba katar. Koronavirüs tanısı almış bir kişiyle aynı anda ya da koronavirüs tanısı almış bir kişiden 30 dakika sonra aynı yerde bulunmuşsanız size uyarı verilir."</string>
+    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son %d günü kapsar."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Corona-Warn-App bugün yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -323,7 +323,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Enfeksiyon riskiniz, akıllı telefonunuzda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Bu nedenle enfeksiyon riskiniz daha yüksek olarak sınıflandırılmıştır. Enfeksiyon riskiniz, cihazınızda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
+    <string name="risk_details_information_body_notice_increased">"Enfeksiyon riskiniz, akıllı telefonunuzda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -340,8 +340,8 @@
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Risk durumunuzu kontrol etmek için lütfen Corona-Warn-App\'i düzenli olarak açmayı unutmayın."</string>
 
-    <!-- XTXT: risk details - infection period logged information new body -->
-    <string name="risk_details_information_body_period_logged_box"> %d </string>
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son %d günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir. Maruz kalma günlüğü check-in\'lerinizi de hesaba katar. Koronavirüs tanısı almış bir kişiyle aynı anda ya da koronavirüs tanısı almış bir kişiden 30 dakika sonra aynı yerde bulunmuşsanız size uyarı verilir."</string>
 
     <!-- ####################################
                Risk Lowered Dialog

@@ -26,7 +26,7 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Reînnoirea certificatelor dvs. este voluntară și gratuită."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"Pentru a se asigura că certificatele pot fi reînnoite o singură dată, identificatorii certificatului vechi și ai certificatului nou sunt păstrați ca evidență de către RKI. Celelalte date din certificatele dvs. sunt șterse de RKI imediat după reînnoire."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"Pentru a asigura reînnoirea certificatelor într-un mod limitat, identificatorii certificatului vechi și ai certificatului nou sunt păstrați ca evidență de către RKI. Celelalte date din certificatele dvs. sunt șterse de RKI imediat după reînnoire."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Certificatele vechi vor fi mutate automat în coșul de reciclare și vor fi șterse după 30 de zile. Certificatele pot fi restaurate oricând în aceste 30 de zile."</string>
     <!-- XTXT: DCC Reissuance update hint-->
