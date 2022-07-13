@@ -175,7 +175,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <Button
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/agree_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
@@ -184,7 +184,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/request_green_certificate_agree_button"
+        app:buttonText="@string/request_green_certificate_agree_button"
         app:layout_constraintBottom_toTopOf="@id/disagree_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -203,17 +203,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@+id/disagree_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollview"
-        app:showAnimationBehavior="inward"
-        app:trackColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -190,25 +190,14 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_large"
-        android:indeterminate="true"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/button_submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/button_submit"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/tracelocation_organizer_save"
+        app:buttonText="@string/tracelocation_organizer_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

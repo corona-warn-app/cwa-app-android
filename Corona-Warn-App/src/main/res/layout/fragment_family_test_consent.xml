@@ -230,12 +230,12 @@
 
     </ScrollView>
 
-    <Button
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/consent_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/family_consent_cofirm_button"
+        app:buttonText="@string/family_consent_cofirm_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -249,16 +249,5 @@
         app:layout_constraintGuide_end="@dimen/guideline_action" />
 
     <include layout="@layout/merge_guidelines_side" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

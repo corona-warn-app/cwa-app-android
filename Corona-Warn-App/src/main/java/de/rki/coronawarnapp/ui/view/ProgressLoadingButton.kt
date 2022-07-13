@@ -54,7 +54,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
             }
 
             val loading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
-            defaultText = getText(R.styleable.ProgressLoadingButton_buttonText).toString()
+            defaultText = getText(R.styleable.ProgressLoadingButton_buttonText)?.toString() ?: ""
             binding.apply {
                 defaultButton.text = defaultText
                 isLoading = loading
