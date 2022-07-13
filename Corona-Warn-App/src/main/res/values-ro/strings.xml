@@ -258,15 +258,15 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"Iată ce trebuie să faceți, chiar dacă sunteți vaccinat sau dacă v-ați recuperat după boală și chiar dacă nu aveți simptome:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Dacă este posibil, mergeți acasă și rămâneți în casă și, de asemenea, evitați întâlnirile cu persoane din afara gospodăriei dvs."</string>
+    <string name="risk_details_behavior_body_stay_home">"Dacă este posibil, reduceți contactul cu alte persoane, în special cu persoanele predispuse la risc, precum vârstnicii, persoanele cu boli existente și persoanele imunocompromise."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Spălați-vă frecvent pe mâini cu săpun timp de 20 de secunde."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Purtați o mască facială când întâlniți alte persoane."</string>
+    <string name="risk_details_behavior_body_wear_mask">"Purtați o mască facială când întâlniți alte persoane în interior și oriunde este obligatoriu sau recomandat din punct de vedere legal."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Păstrați o distanță de cel puțin 1,5 metri față de alte persoane."</string>
+    <string name="risk_details_behavior_body_stay_away">"Când este posibil, păstrați o distanță de cel puțin 1,5 metri față de alte persoane."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"Veți găsi mai multe informații despre expunerile dvs. în jurnalul dvs. de contacte."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
@@ -274,9 +274,9 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Vă rugăm să vă testați oficial, de exemplu, cu un test antigen rapid sau să vă autotestați - preferabil de mai multe, câte un test la două zile. Dacă un test este pozitiv, faceți un test PCR pentru a confirma rezultatul."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Fiți vigilent pentru depistarea simptomelor specifice. Chiar și persoanele vaccinate și cele care au trecut prin boală pot prezenta simptome. Dacă vă simțiți rău sau dacă apar simptome, contactați medicul de familie."</string>
+    <string name="risk_details_faq_symptoms">"Fiți vigilent pentru depistarea simptomelor specifice. Chiar și persoanele vaccinate și cele care au trecut prin boală pot prezenta simptome. Dacă vă simțiți rău sau dacă apar simptome, reduceți contactul cu alte persoane, rămâneți acasă și contactați medicul de familie."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Dacă încă nu v-ați vaccinat, consultați telefonic medicul de familie după ce vă testați."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Dacă încă nu v-ați vaccinat, consultați telefonic medicul de familie după ce vă testați. Consultați site-ul web STIKO privind recomandările de vaccinare."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Vaccinați-vă împotriva virusului SARS-CoV-2 dacă nu ați făcut deja acest lucru."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -292,7 +292,7 @@
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Mai multe informații despre procedura de testare sunt disponibile pe pagina noastră de întrebări frecvente."</string>
     <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
-    <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
+    <string name="risk_details_behavior_increased_body_3">"Consultați site-ul web STIKO privind recomandările de vaccinare."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risc de infectare"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -301,7 +301,7 @@
     <string name="risk_details_subtitle_period_logged">"Această perioadă este inclusă în calcul."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Când este activă înregistrarea în jurnal a expunerilor, aplicația calculează riscul dvs. personal de infectare. Efectuează acest lucru prin măsurarea duratei și a proximității expunerii la persoanele care au fost diagnosticate cu coronavirus în ultimele %d (de) zile. Înregistrarea în jurnal a expunerilor ține cont și de check-inurile dvs. Sunteți avertizat dacă ați fost în aceeași cameră cu o persoană care a fost diagnosticată ulterior cu coronavirus sau dacă ați fost în cameră în decurs de 30 de minute de la plecarea acesteia."</string>
+    <string name="risk_details_information_body_period_logged">"Riscul dvs. de infectare poate fi calculat doar pentru perioadele în care a fost activă înregistrarea în jurnal a expunerilor. Prin urmare, caracteristica de înregistrare în jurnal trebuie să rămână permanent activă. Înregistrarea în jurnal a expunerilor acoperă ultimele %d (de) zile."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplicația Corona-Warn a fost instalată astăzi. Riscul dvs. de infectare este calculat pentru perioadele în care înregistrarea în jurnal a expunerilor a fost activă. Dacă v-ați întâlnit cu alte persoane și înregistrarea în jurnal a expunerilor a fost activă, este calculat riscul dvs. de infectare."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -323,7 +323,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe smartphone-ul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Prin urmare, riscul dvs. de infectare a fost clasificat drept crescut. Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe dispozitivul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
+    <string name="risk_details_information_body_notice_increased">"Riscul dvs. de infectare este calculat pe baza datelor de înregistrare în jurnal a expunerilor (durata și proximitatea) la nivel local pe smartphone-ul dvs. Riscul dvs. de infectare nu poate fi văzut de o altă persoană sau transmis unei alte persoane."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -340,8 +340,8 @@
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Nu uitați să deschideți frecvent aplicația Corona-Warn pentru a verifica starea riscului dvs."</string>
 
-    <!-- XTXT: risk details - infection period logged information new body -->
-    <string name="risk_details_information_body_period_logged_box"> %d </string>
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">"Când este activă înregistrarea în jurnal a expunerilor, aplicația calculează riscul dvs. personal de infectare. Efectuează acest lucru prin măsurarea duratei și a proximității expunerii la persoanele care au fost diagnosticate cu coronavirus în ultimele %d (de) zile. Înregistrarea în jurnal a expunerilor ține cont și de check-inurile dvs. Sunteți avertizat dacă ați fost în aceeași cameră cu o persoană care a fost diagnosticată ulterior cu coronavirus sau dacă ați fost în cameră în decurs de 30 de minute de la plecarea acesteia."</string>
 
     <!-- ####################################
                Risk Lowered Dialog
