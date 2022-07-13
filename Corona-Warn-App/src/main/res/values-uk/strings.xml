@@ -291,6 +291,8 @@
     <string name="risk_details_behavior_increased_body_2">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
+    <string name="risk_details_behavior_increased_body_3">"Die Impf-Empfehlungen entnehmen Sie der STIKO-Webseite."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ризик зараження"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -337,6 +339,9 @@
     <string name="risk_details_deadman_notification_title">"Ваш статус ризику"</string>
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Не забувайте регулярно відкривати застосунок Corona-Warn-App, щоб перевірити свій статус ризику зараження."</string>
+
+    <!-- XTXT: risk details - infection period logged information new body -->
+    <string name="risk_details_information_body_period_logged_box"> %d </string>
 
     <!-- ####################################
                Risk Lowered Dialog

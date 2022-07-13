@@ -9,16 +9,8 @@
     <string name="risk_details_behavior_body_meetings">"Spotkania i imprezy: Unikaj wizyt i zajęć, które wiążą się z przebywaniem w dużych grupach z innymi osobami (kluby, bary, restauracje, kina, teatry, imprezy sportowe)."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Praca zdalna: Jeśli masz taką możliwość, pracuj w domu."</string>
-    <!-- XTXT: risk details - shopping info -->
-    <string name="risk_details_behavior_body_shopping">"Zakupy: Zamawiaj dostawy zakupy w sklepach spożywczych lub poproś kogoś, aby Ci je zrobił."</string>
     <!-- XTXT: risk details - public transport info -->
     <string name="risk_details_behavior_body_public_transport">"Transport publiczny: W miarę możliwości unikaj środków komunikacji publicznej, szczególnie w godzinach szczytu."</string>
-    <!-- XTXT: risk details - travelling info -->
-    <string name="risk_details_behavior_body_traveling">"Podróżowanie: Nie podróżuj samolotem ani pociągiem."</string>
-    <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"W przypadku pytań dotyczących kwarantanny skontaktuj się z departamentem zdrowia publicznego. Więcej informacji znajduje się na naszej stronie „Często zadawane pytania” dotyczącej kwarantanny."</string>
-    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
-    <string name="risk_details_behavior_body_health_department_label">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania” dotyczącej kwarantanny."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"Jeśli zostałeś zarażony(-a) nieświadomie, możesz w poniższy sposób zmniejszyć ryzyko zarażenia innych:"</string>
     <!-- XTXT: risk details - home rules faq -->
