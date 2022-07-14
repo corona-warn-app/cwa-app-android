@@ -26,7 +26,7 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Odnawianie certyfikatów jest dobrowolne i bezpłatne."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"Aby certyfikaty mogły być odnawiane tylko raz, identyfikatory starych i nowych certyfikatów są dokumentowane przez RKI. Pozostałe dane z certyfikatów są usuwane przez RKI natychmiast po odnowieniu."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"Aby certyfikaty mogły być odnawiane tylko w ograniczonym zakresie, identyfikatory starych i nowych certyfikatów są dokumentowane przez RKI. Pozostałe dane z certyfikatów są usuwane przez RKI natychmiast po odnowieniu."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Stare certyfikaty zostaną automatycznie przeniesione do kosza i usunięte po 30 dniach. Certyfikaty można odzyskać w dowolnym momencie w ciągu tych 30 dni."</string>
     <!-- XTXT: DCC Reissuance update hint-->

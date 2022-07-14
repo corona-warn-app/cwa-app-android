@@ -330,14 +330,14 @@
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"Üçüncü Taraflarca Sertifika Doğrulaması için SSS"</string>
 
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section one text -->
     <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikalarınızın geçerliliğini seyahat etmeden önce kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section two text -->
     <string name="cov_pass_info_section_two">"Ancak üçüncü tarafların sertifikaları görsel olarak doğrulaması yeterli değildir. Üçüncü tarafların Almanya\'da CovPassCheck uygulamasını kullanması gerekir."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section three text -->
     <string name="cov_pass_info_section_three">"Diğer ülkelerdeki üçüncü tarafların sertifika doğrulaması için farklı uygulamaları kullanabileceğini lütfen unutmayın."</string>
     <!-- XHED: Cov Pass Info Fragment section four text -->
-    <string name="cov_pass_info_section_four"></string>
+    <string name="cov_pass_info_section_four">"Sertifika doğrulaması sırasında lütfen geçerli bir fotoğraflı kimliği hazır bulundurun."</string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD

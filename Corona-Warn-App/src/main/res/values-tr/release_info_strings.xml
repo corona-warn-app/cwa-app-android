@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Sertifikaları Dışa Aktar"</item>
+        <item>"Önerilen Davranışlar Güncellendi"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Tüm sertifikalarınızı tek adımda bir PDF belgesi halinde uygulamanıza kaydedebilirsiniz."</item>
+        <item>"Artmış risk altındaysanız önerilen davranışlar güncellendi. Öneriler arasında başka insanlarla temasın azaltılması ve yüz maskesi takılması gibi önlemler yer alıyor. Düşük risk altındaki kişilere ilişkin öneriler de güncellendi."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
