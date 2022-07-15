@@ -24,7 +24,8 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
             !cwaSettings.wasInteroperabilityShownAtLeastOnce -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
             }
-            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE -> {
+            cwaSettings.lastChangelogVersion.value.toString().substring(0, 3).toInt() <
+                (BuildConfigWrap.VERSION_MAJOR.toString() + BuildConfigWrap.VERSION_MINOR.toString()).toInt() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
             }
             else -> {
