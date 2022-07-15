@@ -94,6 +94,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
     private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
+    val locations = contactDiaryRepository.locations.asLiveData(dispatcherProvider.Default)
+    val people = contactDiaryRepository.people.asLiveData(dispatcherProvider.Default)
+
     val listItems = combine(
         datesFlow,
         diaryDataFlow,
