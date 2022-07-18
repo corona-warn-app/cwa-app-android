@@ -193,9 +193,8 @@
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/button_submit"
         style="@style/buttonPrimary"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
         app:buttonText="@string/tracelocation_organizer_save"
         app:layout_constraintBottom_toBottomOf="parent"

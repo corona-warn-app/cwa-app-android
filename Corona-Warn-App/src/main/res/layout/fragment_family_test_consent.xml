@@ -233,7 +233,7 @@
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/consent_button"
         style="@style/buttonPrimary"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:buttonText="@string/family_consent_cofirm_button"
         app:layout_constraintBottom_toBottomOf="parent"

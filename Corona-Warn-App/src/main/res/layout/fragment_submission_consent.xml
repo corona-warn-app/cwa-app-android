@@ -140,7 +140,7 @@
         <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
             android:id="@+id/submission_consent_button"
             style="@style/buttonPrimary"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
             app:buttonText="@string/submission_accept_button"

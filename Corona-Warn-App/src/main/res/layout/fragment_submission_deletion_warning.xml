@@ -91,10 +91,8 @@
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/continue_button"
         style="@style/buttonPrimary"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_normal"
         app:buttonText="@string/submission_deletion_warning_continue_button"
         app:layout_constraintBottom_toBottomOf="parent"
