@@ -85,6 +85,7 @@
     <!-- Tip-->
     <color name="tipBackgroundColor">#FFFFFF</color>
     <color name="tipTitleColor">#000000</color>
+    <color name="tipSubtitleColor">#9917191A</color>
     <color name="admissionItemDisabledColor">#80FFFFFF</color>
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardBorder</color>
     <color name="contactDiaryOverviewUnClickableColor">#000000</color>

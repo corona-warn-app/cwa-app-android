@@ -258,25 +258,25 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"Ось що ви повинні робити, навіть якщо ви були вакциновані або одужали, і навіть якщо у вас немає жодних симптомів:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Якщо можливо, будь ласка, йдіть додому та залишайтеся вдома та уникайте будь-яких зустрічей за межами власного дому."</string>
+    <string name="risk_details_behavior_body_stay_home">"Якщо можливо, зменшіть свої контакти з іншими людьми, особливо з людьми, які перебувають у групі особливого ризику, такими як люди похилого віку, люди з уже існуючими захворюваннями та люди з ослабленим імунітетом."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Якщо у вас виникли запитання, телефонуйте за номером 116 117 (у Німеччині). Потім під час автоматичного повідомлення натисніть 2 для направлення до пункту обслуговування Федерального міністерства охорони здоров’я. Натискайте лише 1 (загальна служба невідкладної медичної допомоги), якщо у вас є симптоми."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Регулярно мийте руки з милом протягом 20 секунд."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Носіть маску для обличчя, коли ви зустрічаєтеся з іншими людьми."</string>
+    <string name="risk_details_behavior_body_wear_mask">"Одягайте маску для обличчя, коли ви зустрічаєте інших людей у приміщенні та скрізь, де це вимагається або рекомендовано законом."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Тримайте дистанцію не менше 1,5 метра від інших людей."</string>
+    <string name="risk_details_behavior_body_stay_away">"По можливості тримайтеся на відстані не менше 1,5 метра від інших людей."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"Ви знайдете більше інформації про свої ризики зараження у своєму журналі контактів."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
     <string name="risk_details_find_details_in_journal_increased_risk">"Ви знайдете більше інформації про свої ризики зараження у своєму журналі контактів.\n\nІснує підвищений ризик того, що ви заразилися. Якщо ви були інфіковані, ви можете заразити інших людей, навіть якщо ви були щеплені або одужали, і навіть якщо у вас немає ніяких симптомів."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Пройдіть обстеження, навіть якщо у вас немає ніяких симптомів. Якщо ви отримаєте застереження про підвищений ступінь ризику («червона плитка»), ви маєте право на безкоштовний тест. Це не обов’язково має бути ПЛР-тест."</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Пройдіть тестування, наприклад, швидким тестом на антиген, або використовуйте самотестування – бажано декілька разів, проходячи тест кожні два дні. Якщо тест позитивний, зробіть ПЛР-тест для підтвердження результату."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Будьте уважні до типових симптомів. Навіть у вакцинованих людей і тих, хто одужав, можуть виникнути симптоми. Якщо ви відчуваєте нездужання або виникли будь-які симптоми, зверніться до свого сімейного лікаря."</string>
+    <string name="risk_details_faq_symptoms">"Будьте уважні до типових симптомів. Навіть у вакцинованих людей і тих, хто одужав, можуть розвинутися симптоми. Якщо ви почуваєтеся погано чи з’явилися симптоми, зменшіть контакти з оточуючими, залишайтеся вдома та зверніться до сімейного лікаря."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Якщо ви ще не зробили щеплення, проконсультуйтеся зі своїм сімейним лікарем після проходження тесту."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Якщо ви ще не щеплені, проконсультуйтеся з сімейним лікарем після тестування. Зверніться до веб-сайту STIKO, щоб отримати рекомендації щодо вакцинації."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Зробіть щеплення від вірусу SARS-CoV-2, якщо ви ще цього не зробили."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -291,6 +291,8 @@
     <string name="risk_details_behavior_increased_body_2">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Більше інформації про процедуру тестування можна знайти на нашій сторінці ЗіВ."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
+    <string name="risk_details_behavior_increased_body_3">"Зверніться до веб-сайту STIKO, щоб отримати рекомендації щодо вакцинації."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ризик зараження"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -299,7 +301,7 @@
     <string name="risk_details_subtitle_period_logged">"Цей період включається в обчислення."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Коли реєстрація ризику зараження активна, застосунок обчислює ваш особистий ризик зараження. Це робиться шляхом вимірювання тривалості та близькості вашого контакту з людьми, у яких був діагностований коронавірус протягом останніх %d днів. При реєстрації ризику зараження також враховуються ваші реєстрації. Вас попереджають, якщо ви перебували в одній кімнаті одночасно з людиною, у якої був діагностований коронавірус, або до 30 хвилин після цього."</string>
+    <string name="risk_details_information_body_period_logged">"Ваш ризик зараження можна обчислити лише для періодів, протягом яких була активна реєстрація ризиків зараження. Таким чином, функція реєстрації повинна залишатися активною постійно. Реєстрація ризиків зараження охоплює останні %d днів."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Застосунок Corona-Warn-App було встановлено сьогодні. Ризик зараження обчислюється за періоди, протягом яких була активна реєстрація ризиків зараження. Якщо ви зустрілися з іншими людьми і реєстрація ризиків зараження була активна, обчислюється ваш ризик зараження."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -321,7 +323,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ризик зараження обчислюється на основі даних реєстрації ризиків зараження у журналі (тривалість і близькість) локально у вашому смартфоні. Ваш ризик зараження не може бути помічений або переданий нікому іншому."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Тому ваш ризик зараження класифікується як підвищений. Ризик зараження обчислюється на основі даних реєстрації ризиків зараження у журналі (тривалість і близькість) локально у вашому пристрої. Ваш ризик зараження не може бути помічений або переданий нікому іншому."</string>
+    <string name="risk_details_information_body_notice_increased">"Ризик зараження обчислюється на основі даних реєстрації ризиків зараження у журналі (тривалість і близькість) локально у вашому смартфоні. Ваш ризик зараження не може бути помічений або переданий нікому іншому."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -337,6 +339,9 @@
     <string name="risk_details_deadman_notification_title">"Ваш статус ризику"</string>
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Не забувайте регулярно відкривати застосунок Corona-Warn-App, щоб перевірити свій статус ризику зараження."</string>
+
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">"Коли реєстрація ризику зараження активна, застосунок обчислює ваш особистий ризик зараження. Це робиться шляхом вимірювання тривалості та близькості вашого контакту з людьми, у яких був діагностований коронавірус протягом останніх %d днів. При реєстрації ризику зараження також враховуються ваші реєстрації. Вас попереджають, якщо ви перебували в одній кімнаті одночасно з людиною, у якої був діагностований коронавірус, або до 30 хвилин після цього."</string>
 
     <!-- ####################################
                Risk Lowered Dialog
@@ -1226,7 +1231,7 @@
     <string name="submission_done_further_info_title">"Інша інформація:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Період ізоляції зазвичай становить 10 днів. Уважно стежте за тим, як розвиваються ваші симптоми."</item>
+        <item>"Уважно стежте за тим, як розвиваються ваші симптоми."</item>
         <item>"Ваш державний орган охорони здоров’я попросить вас створити список людей, з якими ви контактували. Сюди слід включати всіх людей, з якими ви мали тісний контакт (менше 2 метрів, розмова віч-на-віч) більше 10 хвилин протягом двох днів до того, як ви захворіли. Ви можете використовувати для цього свій журнал контактів: просто експортуйте записи, а потім роздрукуйте їх або відправте електронною поштою."</item>
         <item>"Особливо зверніть увагу на людей, які не отримають сповіщення безпосередньо від застосунку, оскільки вони не мають смартфона або не встановили застосунок."</item>
         <item>"Навіть якщо у вас більше немає ніяких симптомів і ви знову почуваєтеся добре, ви все ще можете бути заразними, тому, дотримуйтесь призначеного періоду ізоляції."</item>

@@ -26,7 +26,7 @@
     <!-- XTXT: DCC Reissuance first bullet point-->
     <string name="dcc_reissuance_bulletpoint_one">"Renewing your certificates is voluntary and free of charge."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be renewed once, the identifiers of the old and new certificates are documented by the RKI. The other data from your certificates is deleted by the RKI immediately after the renewal."</string>
+    <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be renewed to a limited extent, the identifiers of the old and new certificates are documented by the RKI. The other data from your certificates is deleted by the RKI immediately after the renewal."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
     <string name="dcc_reissuance_deletion_hint">"Old certificates will be moved automatically to the recycle bin and deleted after 30 days. Certificates can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->

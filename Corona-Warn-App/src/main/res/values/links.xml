@@ -22,8 +22,8 @@
     <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
     <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
-    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
-    <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc"</string>
+    <!-- XTXT: Explains about scan error of certificate already stored: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#hc_already_registered -->
+    <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#hc_already_registered"</string>
     <!-- XTXT: Validation start reopen europe link -->
     <string name="validation_start_reopen_europe_link">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Validation start reopen europe label -->
@@ -67,6 +67,8 @@
     <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
     <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <!-- XMSG: risk details - STIKO, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_3_link">"http://www.rki.de/stiko"</string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->

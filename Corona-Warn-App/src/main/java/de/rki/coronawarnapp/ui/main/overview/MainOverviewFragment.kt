@@ -45,6 +45,6 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
 
     private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {
         mainOverviewRisk.mainOverviewSegmentBody.text =
-            getString(R.string.risk_details_information_body_period_logged, maxEncounterAgeInDays)
+            getString(R.string.main_overview_body_risk, maxEncounterAgeInDays)
     }
 }

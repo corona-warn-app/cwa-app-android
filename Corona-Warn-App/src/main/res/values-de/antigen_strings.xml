@@ -104,8 +104,6 @@
     <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
-    <!-- XHED: submission result antigen fragment negative result proof title -->
-    <string name="submission_test_result_antigen_negative_proof_title">"Nachweis-Funktion"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Um den hier angezeigten Befund überprüfbar nachzuweisen, ist ein Digitales Testzertifikat der EU notwendig. Wenn Sie bei der Registrierung des Tests ein Digitales Testzertifikat angefordert haben und die Teststelle deren Ausstellung unterstützt, können Sie Ihr Digitales Testzertifikat anhand des oben angegebenen Links anzeigen. Sie finden das Zertifikat außerdem im Bereich „Zertifikate“. \nInformieren Sie sich bitte auch über die Kriterien zur Anerkennung und Gültigkeit von Test-Zertifikaten in Bezug auf den Zweck für den Sie den Nachweis benötigen."</string>
     <!-- XHED: submission result antigen negative result counter title -->
@@ -124,8 +122,6 @@
     <string name="coronatest_negative_antigen_restul_third_info_body">"Bitte löschen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
     <string name="coronatest_negative_result_certificate_info_title">"Testzertifikat"</string>
-    <!-- XTXT: coronatest negative result certificate info body -->
-    <string name="coronatest_negative_result_certificate_info_body">"Das Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

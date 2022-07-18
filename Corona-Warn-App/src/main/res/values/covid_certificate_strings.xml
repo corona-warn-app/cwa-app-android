@@ -330,12 +330,14 @@
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"FAQ for Certificate Verification by Third Parties"</string>
 
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section one text -->
     <string name="cov_pass_info_section_one">"You can check the validity of your certificates in the Corona-Warn-App yourself before traveling and do not need the CovPassCheck app."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section two text -->
     <string name="cov_pass_info_section_two">"A visual check of the certificates is not sufficient for third parties, however. They must use the CovPassCheck app in Germany."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section three text -->
     <string name="cov_pass_info_section_three">"Please note that third parties in other countries may use different apps to verify certificates."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four">"Please keep a valid photo identification at hand during certificate verification."</string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD
