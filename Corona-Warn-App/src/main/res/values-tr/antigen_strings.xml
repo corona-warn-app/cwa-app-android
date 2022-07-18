@@ -121,6 +121,8 @@
     <string name="coronatest_negative_antigen_restul_third_info_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
     <string name="coronatest_negative_result_certificate_info_title">"Test Sertifikası"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

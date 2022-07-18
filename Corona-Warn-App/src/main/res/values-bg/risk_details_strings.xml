@@ -6,19 +6,19 @@
     <!-- XTXT: risk details - hygiene info -->
     <string name="risk_details_behavior_body_hygiene">"Моля, обърнете специално внимание на правила за хигиена."</string>
     <!-- XTXT: risk details - meetings info -->
-    <string name="risk_details_behavior_body_meetings">"Срещи и събития: избягвайте посещения и дейности, на които се събирате с други хора (клубове, барове, ресторанти, кина, театри, спортни събития)."</string>
+    <string name="risk_details_behavior_body_meetings">"Срещи и събития: избягвайте посещения и дейности, на които се събирате с голям брой други хора в затворени пространства или групи хора, които са с голям риск от заболяване, като възрастните хора, такива с хронични заболявания и с компроментирани имунни системи."</string>
     <!-- XTXT: risk details - home office info -->
     <string name="risk_details_behavior_body_home_office">"Работа от вкъщи: ако имате възможност работете от вкъщи."</string>
     <!-- XTXT: risk details - public transport info -->
-    <string name="risk_details_behavior_body_public_transport">"Обществен транспорт: избягвайте пътуване с обществен транспорт по възможност, особено в час пик."</string>
+    <string name="risk_details_behavior_body_public_transport">"Обществен транспорт: избягвайте използването му възможно най-много, особено в час пик и носете маска на лицето си."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"Ако сте заразени, може да намалите риска от предаване на инфекцията на други хора:"</string>
     <!-- XTXT: risk details - home rules faq -->
-    <string name="risk_details_minimize_risk_faq">"Допълнителна информация относно доброволната карантина е достъпна на нашата страница “ЧЗВ”."</string>
+    <string name="risk_details_minimize_risk_faq">"Допълнителна информация относно доброволната карантина и мерките за карантиниране е достъпна на нашата страница “ЧЗВ”."</string>
     <!-- XTXT: risk details - home rules faq link label -->
-    <string name="risk_details_minimize_risk_faq_label">"Допълнителна информация относно доброволната карантина е достъпна на нашата страница “ЧЗВ”."</string>
+    <string name="risk_details_minimize_risk_faq_label">"Допълнителна информация относно доброволната карантина и мерките за карантиниране е достъпна на нашата страница “ЧЗВ”."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms_increase">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора и преболедувалите може да проявят симптоми. Ако не се чувствате добре или проявявате симптоми моля, свържете се с Вашия личен лекар."</string>
+    <string name="risk_details_faq_symptoms_increase">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора и преболедувалите може да проявят симптоми. Ако не се чувствате добре или проявявате симптоми ограничете контактите си с други хора, останете си вкъщи и се свържете се с Вашия личен лекар."</string>
     <!-- XTXT: risk details information (Accessibilty) -->
     <string name="risk_details_info_button">"Още информация"</string>
 </resources>

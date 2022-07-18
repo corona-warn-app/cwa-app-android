@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Export Certificates"</item>
+        <item>"Recommended Conduct Updated"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can save all of the certificates in your app in one PDF document in a single step."</item>
+        <item>"The recommended conduct if you have an increased risk has been updated. The recommendations include reducing contacts with others and wearing a face mask, among others. The recommendations for persons at low risk have also been updated."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

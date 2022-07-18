@@ -330,14 +330,14 @@
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"ЧЗВ за проверка на сертификати от трети лица"</string>
 
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section one text -->
     <string name="cov_pass_info_section_one">"Можете сами да проверите валидността на сертификатите си в приложението Corona-Warn-App преди да пътувате. Не ви е нужно приложението CovPassCheck."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section two text -->
     <string name="cov_pass_info_section_two">"Но имайте предвид, че визуалната проверка на сертификатите не е достатъчна за третите лица. В Германия те трябва да използват приложението CovPassCheck."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section three text -->
     <string name="cov_pass_info_section_three">"Имайте предвид също така, че трети лица в други държави може да използват различни приложения за проверка на сертификатите."</string>
     <!-- XHED: Cov Pass Info Fragment section four text -->
-    <string name="cov_pass_info_section_four"></string>
+    <string name="cov_pass_info_section_four">"Моля, пазете валиден документ за идентификация със снимка, който да Ви е под ръка при проверката на сертификата."</string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD
