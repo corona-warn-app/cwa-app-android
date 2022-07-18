@@ -169,7 +169,6 @@ class SubmissionTask @Inject constructor(
                 registrationToken = coronaTest.registrationToken,
                 authCode = coronaTest.authCode
             )
-
         } catch (e: Exception) {
             playbook.submit(null)
             throw e
@@ -215,9 +214,7 @@ class SubmissionTask @Inject constructor(
         }
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
-
         setSubmissionFinished(coronaTest.identifier)
-
 
         return Result(state = Result.State.SUCCESSFUL)
     }
