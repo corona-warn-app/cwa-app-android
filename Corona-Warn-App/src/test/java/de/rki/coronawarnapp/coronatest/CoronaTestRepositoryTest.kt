@@ -91,12 +91,14 @@ class CoronaTestRepositoryTest : BaseTest() {
             coEvery { create(pcrRegistrationRequest) } returns pcrTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<PCRCoronaTest>(0) }
             every { type } returns BaseCoronaTest.Type.PCR
+            coEvery { updateAuthCode(any(), any())} answers { arg<PCRCoronaTest>(0) }
         }
 
         raProcessor.apply {
             coEvery { create(raRegistrationRequest) } returns raTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<RACoronaTest>(0) }
             every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
+            coEvery { updateAuthCode(any(), any())} answers { arg<RACoronaTest>(0) }
         }
     }
 
@@ -116,6 +118,24 @@ class CoronaTestRepositoryTest : BaseTest() {
         createInstance(this).updateSubmissionConsent(pcrTest.identifier, true)
 
         coVerify { pcrProcessor.updateSubmissionConsent(pcrTest, true) }
+    }
+
+    @Test
+    fun `save PCR auth code aka tan`() = runTest2 {
+        coronaTestsInStorage.add(pcrTest)
+
+        createInstance(this).updateAuthCode(pcrTest.identifier, "tan")
+
+        coVerify { pcrProcessor.updateAuthCode(pcrTest, "tan") }
+    }
+
+    @Test
+    fun `save RA auth code aka tan`() = runTest2 {
+        coronaTestsInStorage.add(raTest)
+
+        createInstance(this).updateAuthCode(raTest.identifier, "tan")
+
+        coVerify { raProcessor.updateAuthCode(raTest, "tan") }
     }
 
     @Test

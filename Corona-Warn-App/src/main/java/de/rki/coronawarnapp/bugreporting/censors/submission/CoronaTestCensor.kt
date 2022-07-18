@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEn
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -41,9 +42,11 @@ class CoronaTestCensor @Inject constructor(
                     tests.forEach { test ->
                         when (test) {
                             is BaseCoronaTest -> {
-                                // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
                                 tokenHistory.add(test.registrationToken)
                                 identifierHistory.add(test.identifier)
+                                (test as? PersonalCoronaTest)?.authCode?.let {
+                                    tokenHistory.add(it)
+                                }
                             }
                             is ContactDiaryCoronaTestEntity -> {
                                 // Test ids stay in the contact diary DB even after test is removed from the device

@@ -247,70 +247,70 @@ class PCRTestProcessor @Inject constructor(
     }
 
     override suspend fun updateAuthCode(test: PersonalCoronaTest, authCode: String): PersonalCoronaTest {
-        Timber.tag(TAG).v("updateAuthCode(test=%s)", test)
+        Timber.tag(TAG).v("updateAuthCode(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(authCode = authCode)
     }
 
     override suspend fun markSubmitted(test: PersonalCoronaTest): PCRCoronaTest {
-        Timber.tag(TAG).v("markSubmitted(test=%s)", test)
+        Timber.tag(TAG).v("markSubmitted(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(isSubmitted = true)
     }
 
     override suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest {
-        Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
+        Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test.identifier, isProcessing)
         test as PCRCoronaTest
 
         return test.copy(isProcessing = isProcessing)
     }
 
     override suspend fun markViewed(test: PersonalCoronaTest): PersonalCoronaTest {
-        Timber.tag(TAG).v("markViewed(test=%s)", test)
+        Timber.tag(TAG).v("markViewed(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(isViewed = true)
     }
 
     override suspend fun markBadgeAsViewed(test: PersonalCoronaTest): PersonalCoronaTest {
-        Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
+        Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(didShowBadge = true)
     }
 
     override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {
-        Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
+        Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test.identifier, consented)
         test as PCRCoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
     override suspend fun updateResultNotification(test: PersonalCoronaTest, sent: Boolean): PersonalCoronaTest {
-        Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
+        Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test.identifier, sent)
         test as PCRCoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
     }
 
     override suspend fun markDccCreated(test: PersonalCoronaTest, created: Boolean): PersonalCoronaTest {
-        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
+        Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test.identifier, created)
         test as PCRCoronaTest
 
         return test.copy(isDccDataSetCreated = created)
     }
 
     override suspend fun recycle(test: PersonalCoronaTest): PersonalCoronaTest {
-        Timber.tag(TAG).v("recycle(test=%s)", test)
+        Timber.tag(TAG).v("recycle(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(recycledAt = timeStamper.nowUTC)
     }
 
     override suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest {
-        Timber.tag(TAG).v("restore(test=%s)", test)
+        Timber.tag(TAG).v("restore(test=%s)", test.identifier)
         test as PCRCoronaTest
 
         return test.copy(recycledAt = null)

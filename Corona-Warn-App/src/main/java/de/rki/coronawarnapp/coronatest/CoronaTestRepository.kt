@@ -274,7 +274,7 @@ class CoronaTestRepository @Inject constructor(
     }
 
     suspend fun updateAuthCode(identifier: TestIdentifier, authCode: String) {
-        Timber.tag(TAG).i("markAsViewed(identifier=%s)", identifier)
+        Timber.tag(TAG).i("updateAuthCode(identifier=%s)", identifier)
 
         modifyTest(identifier) { processor, before ->
             processor.updateAuthCode(before, authCode)

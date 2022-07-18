@@ -170,6 +170,7 @@ class SubmissionTask @Inject constructor(
 
         if (authCode != coronaTest.authCode)
             coronaTestRepository.updateAuthCode(coronaTest.identifier, authCode)
+        else Timber.tag(TAG).d("auth code already retrieved, reusing for submission.")
 
         val submissionData = Playbook.SubmissionData(
             registrationToken = coronaTest.registrationToken,
