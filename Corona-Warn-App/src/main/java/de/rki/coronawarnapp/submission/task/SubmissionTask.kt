@@ -163,10 +163,17 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, checkInsReport)
 
-        val authCode = playbook.retrieveTan(
-            registrationToken = coronaTest.registrationToken,
-            authCode = coronaTest.authCode
-        )
+        val authCode: String
+        try {
+            authCode = playbook.retrieveTan(
+                registrationToken = coronaTest.registrationToken,
+                authCode = coronaTest.authCode
+            )
+
+        } catch (e: Exception) {
+            playbook.submit(null)
+            throw e
+        }
 
         if (authCode != coronaTest.authCode)
             coronaTestRepository.updateAuthCode(coronaTest.identifier, authCode)
@@ -210,6 +217,7 @@ class SubmissionTask @Inject constructor(
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
         setSubmissionFinished(coronaTest.identifier)
+
 
         return Result(state = Result.State.SUCCESSFUL)
     }

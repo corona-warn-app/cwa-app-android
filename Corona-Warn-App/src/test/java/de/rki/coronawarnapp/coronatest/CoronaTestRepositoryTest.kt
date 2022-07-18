@@ -91,14 +91,14 @@ class CoronaTestRepositoryTest : BaseTest() {
             coEvery { create(pcrRegistrationRequest) } returns pcrTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<PCRCoronaTest>(0) }
             every { type } returns BaseCoronaTest.Type.PCR
-            coEvery { updateAuthCode(any(), any())} answers { arg<PCRCoronaTest>(0) }
+            coEvery { updateAuthCode(any(), any()) } answers { arg<PCRCoronaTest>(0) }
         }
 
         raProcessor.apply {
             coEvery { create(raRegistrationRequest) } returns raTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<RACoronaTest>(0) }
             every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
-            coEvery { updateAuthCode(any(), any())} answers { arg<RACoronaTest>(0) }
+            coEvery { updateAuthCode(any(), any()) } answers { arg<RACoronaTest>(0) }
         }
     }
 

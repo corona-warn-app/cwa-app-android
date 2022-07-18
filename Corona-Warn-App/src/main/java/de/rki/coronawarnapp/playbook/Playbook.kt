@@ -117,7 +117,7 @@ class Playbook @Inject constructor(
     }
 
     suspend fun submit(
-        data: SubmissionData
+        data: SubmissionData?
     ) {
         Timber.i("[$uid] New Submission Playbook")
 
@@ -127,7 +127,7 @@ class Playbook @Inject constructor(
         // submitKeysToServer could throw BadRequestException too.
         try {
             // real submission
-            data.authCode?.let {
+            data?.authCode?.let {
                 val serverSubmissionData = SubmissionServer.SubmissionData(
                     authCode = it,
                     keyList = data.temporaryExposureKeys,

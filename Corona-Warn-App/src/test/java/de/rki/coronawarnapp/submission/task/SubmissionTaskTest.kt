@@ -298,6 +298,33 @@ class SubmissionTaskTest : BaseTest() {
     }
 
     @Test
+    fun `matches playbook pattern if tan retrieval fails`() = runTest {
+        coEvery { playbook.retrieveTan("regtoken", null) } throws Exception()
+
+        shouldThrow<Exception> {
+            createTask().run(SubmissionTask.Arguments())
+        }
+
+        coVerifySequence {
+            coronaTestRepository.coronaTests // Consent
+            coronaTestRepository.coronaTests // regToken
+            tekHistoryStorage.tekData
+            settingSymptomsPreference.value
+            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            playbook.retrieveTan("regtoken", null)
+            playbook.submit(null)
+        }
+        coVerify(exactly = 0) {
+            tekHistoryStorage.reset()
+            checkInRepository.reset()
+            settingSymptomsPreference.update(any())
+            autoSubmission.updateMode(any())
+            coronaTestRepository.updateAuthCode(any(), any())
+        }
+        submissionSettings.symptoms.value shouldBe userSymptoms
+    }
+
+    @Test
     fun `task throws if no registration token is available`() = runTest {
         coronaTestsFlow.value = setOf(
             mockk<PersonalCoronaTest>().apply {

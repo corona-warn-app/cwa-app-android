@@ -110,8 +110,7 @@ class PlaybookTest : BaseTest() {
         )
 
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTan(any())
+            // ensure request order is 1x verification and 1x submission
             verificationServer.retrieveTanFake()
             submissionServer.submitPayload(any())
         }
@@ -164,27 +163,12 @@ class PlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submission matches request pattern despite missing authcode`(): Unit = runTest {
-        coEvery { verificationServer.retrieveTan(any()) } throws TestException()
+    fun `submission matches request pattern despite missing data`(): Unit = runTest {
 
-        shouldThrow<TestException> {
-            createPlaybook().submit(
-                Playbook.SubmissionData(
-                    registrationToken = "token",
-                    authCode = "tan",
-                    temporaryExposureKeys = listOf(),
-                    consentToFederation = true,
-                    visitedCountries = listOf("DE"),
-                    unencryptedCheckIns = emptyList(),
-                    encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-                )
-            )
-        }
+        createPlaybook().submit(null)
 
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTan(any())
+            // ensure request order is 1x verification and 1x submission
             verificationServer.retrieveTanFake()
             // Only called when null TAN is returned? But when does that happen?
             submissionServer.submitFakePayload()
@@ -292,24 +276,13 @@ class PlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().submit(
-                Playbook.SubmissionData(
-                    registrationToken = "token",
-                    authCode = "tan",
-                    temporaryExposureKeys = listOf(),
-                    consentToFederation = true,
-                    visitedCountries = listOf("DE"),
-                    unencryptedCheckIns = emptyList(),
-                    encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-                )
-            )
+            with(createPlaybook()) {
+                retrieveTan("token", null)
+            }
         }
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTan(any())
-            verificationServer.retrieveTanFake()
-            submissionServer.submitFakePayload()
+            // ensure request order is 1x verification
+            verificationServer.retrieveTan("token")
         }
     }
 
