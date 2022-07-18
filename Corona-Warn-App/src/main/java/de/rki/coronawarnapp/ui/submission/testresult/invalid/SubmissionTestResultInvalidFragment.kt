@@ -58,6 +58,8 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
                                 getText(R.string.submission_family_test_result_steps_added_pcr_heading)
                             )
                             testResultInvalidStepsRemoveTest.isVisible = false
+                            testResultInvalidStepsInvalidResult.setIsFinal(true)
+                            toolbar.title = getText(R.string.submission_test_result_headline)
                         }
                     }
                 }
@@ -72,6 +74,8 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
                                 getText(R.string.submission_family_test_result_steps_added_rat_heading)
                             )
                             testResultInvalidStepsRemoveTest.isVisible = false
+                            testResultInvalidStepsInvalidResult.setIsFinal(true)
+                            toolbar.title = getText(R.string.submission_test_result_headline)
                         }
                     }
                 }

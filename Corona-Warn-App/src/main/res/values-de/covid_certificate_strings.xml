@@ -331,12 +331,14 @@
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
 
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section one text -->
     <string name="cov_pass_info_section_one">"Sie selbst können Ihre Zertifikate in der Corona-Warn-App vor einer Reise auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section two text -->
     <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
-    <!-- XHED: Cov Pass Info Fragment title -->
+    <!-- XHED: Cov Pass Info Fragment section three text -->
     <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
+    <!-- XHED: Cov Pass Info Fragment section four text -->
+    <string name="cov_pass_info_section_four">"Bitte halten Sie bei einer Zertifikatsprüfung ein Ausweisdokument mit Lichtbild bereit."</string>
 
     <!-- #####################################################
         CONFIRMED STATUS CARD

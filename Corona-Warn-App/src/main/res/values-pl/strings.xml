@@ -258,15 +258,15 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"Oto, co powinieneś (powinnaś) zrobić, nawet jeśli jesteś zaszczepiony(-s) lub jesteś ozdrowieńcem bądź jeżeli nie masz żadnych objawów:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Jeśli to możliwe, idź do domu i w nim pozostań. Unikaj wszelkich spotkań poza domem."</string>
+    <string name="risk_details_behavior_body_stay_home">"W miarę możliwości prosimy o ograniczenie kontaktów z innymi osobami, zwłaszcza z osobami szczególnie zagrożonymi, takimi jak osoby starsze, osoby z chorobami współistniejącymi, osoby z obniżoną odpornością."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Regularnie myj ręce mydłem przez 20 sekund."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Załóż maseczkę na twarz, mając kontakt z innymi osobami."</string>
+    <string name="risk_details_behavior_body_wear_mask">"Noś maseczkę podczas kontaktów z innymi osobami w pomieszczeniach i wszędzie tam, gdzie jest to prawnie wymagane lub zalecane."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Zachowuj odległość co najmniej 1,5 metra od innych osób."</string>
+    <string name="risk_details_behavior_body_stay_away">"W miarę możliwości zachowuj odległość co najmniej 1,5 metra od innych osób."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
@@ -274,9 +274,9 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Przetestuj się, użyj na przykład szybkiego testu lub testu domowego, najlepiej kilka razy co dwa dni. Jeśli otrzymasz pozytywny wynik, przeprowadź test PCR."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy. Objawy mogą wystąpić nawet u osób zaszczepionych i ozdrowieńców. Jeśli poczujesz się źle lub zauważysz jakiekolwiek objawy, skontaktuj się z lekarzem rodzinnym."</string>
+    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy. Objawy mogą wystąpić nawet u osób zaszczepionych i ozdrowieńców. Jeśli poczujesz się źle lub zauważysz jakiekolwiek objawy, ogranicz kontakty z innymi osobami, zostać w domu i skontaktuj się z lekarzem rodzinnym."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym po wykonaniu testu."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym po wykonaniu testu. Zalecenia dotyczące szczepień znajdują się na stronie STIKO."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Zaszczep się przeciwko wirusowi SARS-CoV-2, jeśli jeszcze tego nie zrobiłeś(-aś)."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -291,6 +291,8 @@
     <string name="risk_details_behavior_increased_body_2">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
+    <string name="risk_details_behavior_increased_body_3">"Zalecenia dotyczące szczepień znajdują się na stronie STIKO."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ryzyko zakażenia"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -299,7 +301,7 @@
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich %d dni. Rejestrowanie narażenia uwzględnia również Twoje zameldowania. Otrzymasz ostrzeżenie, jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie, co osoba, u której zdiagnozowano koronawirusa, lub do 30 minut po opuszczeniu pomieszczenia przez taką osobę."</string>
+    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje %d ostatnie(-ch) dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplikacja Corona-Warn-App została zainstalowana dzisiaj. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -321,7 +323,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
+    <string name="risk_details_information_body_notice_increased">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -337,6 +339,9 @@
     <string name="risk_details_deadman_notification_title">"Twój status ryzyka"</string>
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Pamiętaj, aby regularnie otwierać aplikację Corona-Warn-App w celu sprawdzenia swojego statusu ryzyka."</string>
+
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich %d dni. Rejestrowanie narażenia uwzględnia również Twoje zameldowania. Otrzymasz ostrzeżenie, jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie, co osoba, u której zdiagnozowano koronawirusa, lub do 30 minut po opuszczeniu pomieszczenia przez taką osobę."</string>
 
     <!-- ####################################
                Risk Lowered Dialog
