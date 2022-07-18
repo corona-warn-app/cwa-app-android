@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -25,20 +26,22 @@ class CclConfigurationUpdater @Inject constructor(
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
-    private val dccValidationRepository: DccValidationRepository
+    private val dccValidationRepository: DccValidationRepository,
+    private val dccValidityStateChangeObserver: DccValidityStateChangeObserver
 ) {
 
     private val mutex = Mutex()
 
     suspend fun updateIfRequired() = mutex.withLock {
         Timber.d("update()")
+        dccValidityStateChangeObserver.acknowledgeStateOfCertificate()
 
         if (isUpdateRequired()) {
             Timber.d("CCLConfig update required!")
             updateAndTriggerRecalculation()
         } else {
             Timber.d("No CCLConfig update required!")
-            triggerRecalculation(configurationChanged = cclSettings.forceCclCalculation())
+            triggerRecalculation(configurationChanged = true)
         }
     }
 
