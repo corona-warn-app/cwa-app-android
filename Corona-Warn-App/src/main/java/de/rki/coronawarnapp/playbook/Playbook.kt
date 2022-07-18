@@ -232,7 +232,7 @@ class Playbook @Inject constructor(
 
     data class SubmissionData(
         val registrationToken: String,
-        val authCode: String?,
+        val authCode: String? = null,
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,

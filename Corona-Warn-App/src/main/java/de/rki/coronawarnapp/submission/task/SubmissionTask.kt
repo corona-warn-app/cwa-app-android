@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.playbook.Playbook
@@ -207,14 +208,14 @@ class SubmissionTask @Inject constructor(
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-        setSubmissionFinished(coronaTest)
+        setSubmissionFinished(coronaTest.identifier)
 
         return Result(state = Result.State.SUCCESSFUL)
     }
 
-    private suspend fun setSubmissionFinished(coronaTest: BaseCoronaTest) {
+    private suspend fun setSubmissionFinished(identifier: TestIdentifier) {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        coronaTestRepository.markAsSubmitted(coronaTest.identifier)
+        coronaTestRepository.markAsSubmitted(identifier)
 
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }

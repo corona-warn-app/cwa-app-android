@@ -84,6 +84,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
                 every { type } returns PCR
+                every { authCode } returns null
             }
         )
     )
@@ -119,6 +120,7 @@ class SubmissionTaskTest : BaseTest() {
         coronaTestRepository.apply {
             every { coronaTests } returns coronaTestsFlow
             coEvery { markAsSubmitted("coronatest-identifier") } just Runs
+            coEvery { updateAuthCode("coronatest-identifier", "tan") } just Runs
         }
 
         every { tekBatch.keys } returns listOf(tek)
@@ -139,6 +141,7 @@ class SubmissionTaskTest : BaseTest() {
         every { appConfigData.supportedCountries } returns listOf("NL")
 
         coEvery { playbook.submit(any()) } just Runs
+        coEvery { playbook.retrieveTan("regtoken", null) } returns "tan"
 
         every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
@@ -268,8 +271,10 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
-
+            playbook.retrieveTan("regtoken", null)
+            coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
             appConfigProvider.getAppConfig()
+
             playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
@@ -278,7 +283,8 @@ class SubmissionTaskTest : BaseTest() {
                     visitedCountries = listOf("NL"),
                     unencryptedCheckIns = emptyList(),
                     encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+                    authCode = "tan"
                 )
             )
         }
@@ -316,6 +322,7 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         coVerifySequence {
+            playbook.retrieveTan("regtoken", null)
             playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
@@ -324,7 +331,8 @@ class SubmissionTaskTest : BaseTest() {
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
                     encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+                    authCode = "tan"
                 )
             )
         }
@@ -396,6 +404,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { authCode } returns null
             }
         )
 
@@ -418,6 +427,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { authCode } returns null
             }
         )
 
