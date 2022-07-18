@@ -246,6 +246,13 @@ class PCRTestProcessor @Inject constructor(
         else -> null
     }
 
+    override suspend fun updateAuthCode(test: PersonalCoronaTest, authCode: String): PersonalCoronaTest {
+        Timber.tag(TAG).v("updateAuthCode(test=%s)", test)
+        test as PCRCoronaTest
+
+        return test.copy(authCode = authCode)
+    }
+
     override suspend fun markSubmitted(test: PersonalCoronaTest): PCRCoronaTest {
         Timber.tag(TAG).v("markSubmitted(test=%s)", test)
         test as PCRCoronaTest

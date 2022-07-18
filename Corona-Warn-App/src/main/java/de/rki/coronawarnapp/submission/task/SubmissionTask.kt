@@ -162,8 +162,17 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Transformed CheckIns from: %s to: %s", checkIns, checkInsReport)
 
+        val authCode = playbook.retrieveTan(
+            registrationToken = coronaTest.registrationToken,
+            authCode = coronaTest.authCode
+        )
+
+        if (authCode != coronaTest.authCode)
+            coronaTestRepository.updateAuthCode(coronaTest.identifier, authCode)
+
         val submissionData = Playbook.SubmissionData(
             registrationToken = coronaTest.registrationToken,
+            authCode = authCode,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
             visitedCountries = getSupportedCountries(),

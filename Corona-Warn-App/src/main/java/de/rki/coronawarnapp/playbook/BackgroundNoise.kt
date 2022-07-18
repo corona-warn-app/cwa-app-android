@@ -16,9 +16,11 @@ class BackgroundNoise @Inject constructor(
         val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
         if (isAllowedToSubmitKeys) {
             val chance = Random.nextFloat() * 100
-            if (chance < DefaultPlaybook.PROBABILITY_TO_EXECUTE_PLAYBOOK_ON_APP_OPEN) {
+            if (chance < PROBABILITY_TO_EXECUTE_PLAYBOOK_ON_APP_OPEN) {
                 playbook.dummy()
             }
         }
     }
 }
+
+const val PROBABILITY_TO_EXECUTE_PLAYBOOK_ON_APP_OPEN = 0f

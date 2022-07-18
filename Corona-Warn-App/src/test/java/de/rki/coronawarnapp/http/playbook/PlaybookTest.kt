@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.server.SubmissionServer
@@ -25,7 +24,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.exceptions.TestException
 
-class DefaultPlaybookTest : BaseTest() {
+class PlaybookTest : BaseTest() {
 
     @MockK lateinit var submissionServer: SubmissionServer
     @MockK lateinit var verificationServer: VerificationServer
@@ -56,7 +55,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { submissionServer.submitFakePayload() } returns mockk()
     }
 
-    private fun createPlaybook() = DefaultPlaybook(
+    private fun createPlaybook() = Playbook(
         verificationServer = verificationServer,
         submissionServer = submissionServer
     )
@@ -100,6 +99,7 @@ class DefaultPlaybookTest : BaseTest() {
         createPlaybook().submit(
             Playbook.SubmissionData(
                 registrationToken = "token",
+                authCode = "tan",
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
@@ -124,6 +124,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -146,6 +147,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -169,6 +171,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -292,6 +295,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -310,53 +314,21 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `reuse tan after tan failure`(): Unit = runTest {
+    fun `retrieve tan if missing`(): Unit = runTest {
         val tan = "tan"
         coEvery { verificationServer.retrieveTan(any()) } returns tan
-        coEvery { submissionServer.submitPayload(any()) } throws BadRequestException(null)
-        val data = Playbook.SubmissionData(
-            registrationToken = "token",
-            temporaryExposureKeys = listOf(),
-            consentToFederation = true,
-            visitedCountries = listOf("DE"),
-            unencryptedCheckIns = emptyList(),
-            encryptedCheckIns = emptyList(),
-            submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-        )
         val playbook = createPlaybook()
-        shouldThrow<TanPairingException> {
-            playbook.submit(
-                data
-            )
-        }
+        val retrievedTan = playbook.retrieveTan("token", null)
 
-        playbook.authCode shouldBe tan
-        coEvery { submissionServer.submitPayload(any()) } returns mockk()
+        retrievedTan shouldBe tan
+        coEvery { verificationServer.retrieveTan(any()) } returns "tan2"
 
-        playbook.submit(
-            data
-        )
-
-        val submissionData = SubmissionServer.SubmissionData(
-            authCode = tan,
-            keyList = data.temporaryExposureKeys,
-            consentToFederation = data.consentToFederation,
-            visitedCountries = data.visitedCountries,
-            unencryptedCheckIns = data.unencryptedCheckIns,
-            encryptedCheckIns = data.encryptedCheckIns,
-            submissionType = data.submissionType
-        )
+        val retrievedTan2 = playbook.retrieveTan("token", retrievedTan)
+        retrievedTan2 shouldBe tan
 
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitPayload(submissionData)
-            verificationServer.retrieveTanFake()
-            verificationServer.retrieveTanFake()
-            submissionServer.submitPayload(submissionData)
         }
-
-        playbook.authCode shouldBe null
     }
 }
