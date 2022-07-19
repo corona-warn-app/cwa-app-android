@@ -12,9 +12,9 @@ import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.configuration.storage.DownloadedCclConfigurationStorage
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
-import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryStorageModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsStorage
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
@@ -71,6 +71,7 @@ import de.rki.coronawarnapp.statistics.source.StatisticsCache
 import de.rki.coronawarnapp.statistics.source.StatisticsServer
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.StorageModule
+import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionModule
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -104,7 +105,7 @@ import javax.inject.Singleton
         PresenceTracingWarningModule.ResetModule::class,
         RiskModule.ResetModule::class,
         StatisticsModule.ResetModule::class,
-        StorageModule::class,
+        StorageModule.ResetModule::class,
         SubmissionModule.ResetModule::class
     ]
 )
@@ -140,7 +141,7 @@ object MockProvider {
     fun provideDccWalletInfoRepository(): DccWalletInfoRepository = mockk(relaxed = true)
 
     @Provides
-    fun provideContactDiaryPreferences(): ContactDiaryPreferences = mockk(relaxed = true)
+    fun provideContactDiarySettingsStorage(): ContactDiarySettingsStorage = mockk(relaxed = true)
 
     @Provides
     fun provideDefaultContactDiaryRepository(): DefaultContactDiaryRepository = mockk(relaxed = true)
@@ -254,13 +255,16 @@ object MockProvider {
     fun provideLocalStatisticsServer(): LocalStatisticsServer = mockk(relaxed = true)
 
     @Provides
-    fun provideLocalStatisticsCache(): LocalStatisticsCache = mockk(relaxed = true)
+    fun provideTestSettings(): TestSettings = mockk(relaxed = true)
 
     @Provides
     fun provideOnboardingSettings(): OnboardingSettings = mockk(relaxed = true)
 
     @Provides
     fun provideTracingSettings(): TracingSettings = mockk(relaxed = true)
+
+    @Provides
+    fun provideLocalStatisticsCache(): LocalStatisticsCache = mockk(relaxed = true)
 
     @Provides
     fun provideSubmissionSettings(): SubmissionSettings = mockk(relaxed = true)

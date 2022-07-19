@@ -77,7 +77,7 @@ class DefaultTracingStatus @Inject constructor(
                 cont.resumeWithException(it)
             }
             .also {
-                tracingSettings.isConsentGiven = true
+                scope.launch { tracingSettings.updateConsentGiven(true) }
             }
     }
 

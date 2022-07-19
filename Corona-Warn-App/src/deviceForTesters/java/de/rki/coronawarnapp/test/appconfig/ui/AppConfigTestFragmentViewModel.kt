@@ -20,7 +20,7 @@ class AppConfigTestFragmentViewModel @AssistedInject constructor(
     val currentConfig = appConfigProvider.currentConfig.asLiveData()
     val errorEvent = SingleLiveEvent<Exception>()
 
-    val isDeviceTimeFaked = testSettings.fakeCorrectDeviceTime.flow
+    val isDeviceTimeFaked = testSettings.fakeCorrectDeviceTime
         .asLiveData(context = dispatcherProvider.Default)
 
     fun download() {
@@ -40,8 +40,8 @@ class AppConfigTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun toggleFakeCorrectDeviceTime() {
-        testSettings.fakeCorrectDeviceTime.update { !it }
+    fun toggleFakeCorrectDeviceTime() = launch {
+        testSettings.updateFakeCorrectDeviceTime { !it }
     }
 
     @AssistedFactory
