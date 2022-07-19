@@ -16,9 +16,9 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
 
     val navigationEvents = SingleLiveEvent<OnboardingFragmentEvents>()
 
-    fun navigate() {
+    fun navigate() = launch {
         when {
-            !onboardingSettings.isOnboarded -> {
+            !onboardingSettings.isOnboarded() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
             !cwaSettings.wasInteroperabilityShownAtLeastOnce -> {
