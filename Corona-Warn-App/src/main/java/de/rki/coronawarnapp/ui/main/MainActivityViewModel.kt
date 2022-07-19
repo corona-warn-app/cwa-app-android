@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -43,7 +42,6 @@ class MainActivityViewModel @AssistedInject constructor(
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
     private val contactDiarySettings: ContactDiarySettings,
-    private val backgroundNoise: BackgroundNoise,
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -121,12 +119,6 @@ class MainActivityViewModel @AssistedInject constructor(
                     checkForEnergyOptimizedEnabled()
                 }
             }
-        }
-    }
-
-    fun doBackgroundNoiseCheck() {
-        launch {
-            backgroundNoise.foregroundScheduleCheck()
         }
     }
 
