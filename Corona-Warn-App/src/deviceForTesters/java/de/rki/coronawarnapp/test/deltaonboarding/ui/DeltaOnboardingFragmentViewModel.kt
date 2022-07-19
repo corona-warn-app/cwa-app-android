@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -18,13 +19,16 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     private val settings: CWASettings,
     private val analyticsSettings: AnalyticsSettings,
     private val traceLocationSettings: TraceLocationSettings,
-    private val contactDiarySettings: ContactDiarySettings,
+    private val contactDiaryUiSettings: ContactDiaryUiSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val changelogVersion: LiveData<Long> =
         settings.lastChangelogVersion.flow.asLiveData(context = dispatcherProvider.Default)
+
+    val isContactJournalOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun updateChangelogVersion(value: Long) {
         settings.lastChangelogVersion.update { value }
@@ -38,13 +42,11 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         settings.lastChangelogVersion.update { 1 }
     }
 
-    fun isContactJournalOnboardingDone() = contactDiarySettings.isOnboardingDone
-
-    fun setContactJournalOnboardingDone(value: Boolean) {
-        contactDiarySettings.onboardingStatus = if (value)
-            ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        else
-            ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+    fun setContactJournalOnboardingDone(value: Boolean) = launch {
+        when (value) {
+            true -> ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+            false -> ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        }.also { contactDiaryUiSettings.updateOnboardingStatus(onboardingStatus = it) }
     }
 
     fun isDeltaOnboardingDone() = settings.wasInteroperabilityShownAtLeastOnce

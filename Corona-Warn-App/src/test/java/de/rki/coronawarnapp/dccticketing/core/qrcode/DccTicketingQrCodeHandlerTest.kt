@@ -92,7 +92,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
             validationServiceAllowList = validationServiceAllowList,
             serviceProviderAllowList = serviceProviderAllowList
         )
-        every { qrCodeSettings.checkServiceIdentity.value } returns true
+        every { qrCodeSettings.checkServiceIdentity } returns flowOf(true)
         every { BuildConfigWrap.VERSION_CODE } returns 2150002
         every { appConfigProvider.currentConfig } returns flowOf(configData)
         every { configData.validationServiceMinVersion } returns 0
@@ -176,7 +176,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
         )
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
-        every { qrCodeSettings.checkServiceIdentity.value } returns false
+        every { qrCodeSettings.checkServiceIdentity } returns flowOf(false)
 
         shouldNotThrow<Exception> {
             instance().handleQrCode(qrcode)
