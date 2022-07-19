@@ -3,11 +3,10 @@ package de.rki.coronawarnapp.nearby.modules.exposurewindow
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.storage.TestSettings
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 @Singleton
 class DefaultExposureWindowProvider @Inject constructor(
@@ -16,15 +15,13 @@ class DefaultExposureWindowProvider @Inject constructor(
     private val fakeExposureWindowProvider: FakeExposureWindowProvider
 ) : ExposureWindowProvider {
 
-    override suspend fun exposureWindows(): List<ExposureWindow> = suspendCoroutine { cont ->
-        when (val fakeSetting = testSettings.fakeExposureWindows.value) {
+    override suspend fun exposureWindows(): List<ExposureWindow> {
+        return when (val fakeSetting = testSettings.fakeExposureWindows.first()) {
             TestSettings.FakeExposureWindowTypes.DISABLED -> {
-                client.exposureWindows
-                    .addOnSuccessListener { cont.resume(it) }
-                    .addOnFailureListener { cont.resumeWithException(it) }
+                client.exposureWindows.await()
             }
             else -> {
-                fakeExposureWindowProvider.getExposureWindows(fakeSetting).let { cont.resume(it) }
+                fakeExposureWindowProvider.getExposureWindows(fakeSetting)
             }
         }
     }
