@@ -65,14 +65,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
     var isLoading: Boolean = false
         set(value) {
             if (isActive) {
-                binding.apply {
-                    isClickable = !value
-                    defaultButton.isClickable = !value
-                    isEnabled = !value
-                    defaultButton.isEnabled = !value
-                    defaultButton.text = if (value) "" else defaultText
-                    progressIndicator.isVisible = value
-                }
+                setLoadingState(value)
                 field = value
             }
         }
@@ -80,7 +73,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
     var isActive: Boolean = true
         set(value) {
             if (!value) {
-                isLoading = false
+                setLoadingState(false)
             }
             binding.apply {
                 isEnabled = value
@@ -88,6 +81,17 @@ class ProgressLoadingButton @JvmOverloads constructor(
             }
             field = value
         }
+
+    private fun setLoadingState(loading : Boolean) {
+        binding.apply {
+            isClickable = !loading
+            defaultButton.isClickable = !loading
+            isEnabled = !loading
+            defaultButton.isEnabled = !loading
+            defaultButton.text = if (loading) "" else defaultText
+            progressIndicator.isVisible = loading
+        }
+    }
 
     override fun setOnClickListener(l: OnClickListener?) {
         defaultButton.setOnClickListener(l)
