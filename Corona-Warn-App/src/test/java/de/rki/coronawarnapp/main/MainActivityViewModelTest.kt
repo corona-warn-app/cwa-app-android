@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.main
 
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettingsStorage
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
@@ -22,8 +24,10 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -39,6 +43,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
@@ -47,7 +52,6 @@ class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var diarySettings: ContactDiarySettings
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
@@ -59,6 +63,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
+    @RelaxedMockK lateinit var contactDiarySettingsStorage: ContactDiarySettingsStorage
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -70,14 +75,14 @@ class MainActivityViewModelTest : BaseTest() {
 
         mockkObject(CWADebug)
 
-        every { onboardingSettings.isOnboarded } returns true
-        every { onboardingSettings.fabScannerOnboardingDone } returns mockFlowPreference(true)
+        coEvery { onboardingSettings.isOnboarded() } returns true
+        every { onboardingSettings.fabScannerOnboardingDone } returns flowOf(true)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
         every { environmentSetup.launchEnvironment } returns null
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
             TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
         )
-        every { onboardingSettings.isBackgroundCheckDone } returns true
+        every { onboardingSettings.isBackgroundCheckDone } returns flowOf(true)
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { coronTestRepository.coronaTests } returns flowOf()
         every { valueSetsRepository.context } returns mockk()
@@ -89,15 +94,19 @@ class MainActivityViewModelTest : BaseTest() {
             every { personsBadgeCount } returns flowOf(0)
         }
 
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns flowOf(false)
         every { familyTestRepository.familyTests } returns flowOf(setOf())
+
+        every { contactDiarySettingsStorage.contactDiarySettings } returns createContactDiarySettingsFlow(
+            onboardingStatus = ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
+        )
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         environmentSetup = environmentSetup,
         backgroundModeStatus = backgroundModeStatus,
-        contactDiarySettings = diarySettings,
+        contactDiaryUiSettings = ContactDiaryUiSettings(contactDiarySettingsStorage = contactDiarySettingsStorage),
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
@@ -148,25 +157,25 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isContactDiaryOnboardingDone.value shouldBe false
+        vm.isContactDiaryOnboardingDone.getOrAwaitValue() shouldBe false
     }
 
     @Test
     fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        every { contactDiarySettingsStorage.contactDiarySettings } returns createContactDiarySettingsFlow(
+            onboardingStatus = ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
+        )
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isContactDiaryOnboardingDone.value shouldBe true
+        vm.isContactDiaryOnboardingDone.getOrAwaitValue() shouldBe true
     }
 
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
@@ -175,10 +184,13 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isCertificatesConsentGiven.value shouldBe true
     }
+
+    private fun createContactDiarySettingsFlow(
+        onboardingStatus: ContactDiarySettings.OnboardingStatus
+    ) = flowOf(ContactDiarySettings(onboardingStatus = onboardingStatus))
 }

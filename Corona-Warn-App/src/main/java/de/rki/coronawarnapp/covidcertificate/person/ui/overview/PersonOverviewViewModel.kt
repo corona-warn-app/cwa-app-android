@@ -46,7 +46,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
 
     val isExportAllTooltipVisible = combine(
-        onboardingSettings.exportAllOnboardingDone.flow,
+        onboardingSettings.exportAllOnboardingDone,
         certificatesProvider.personCertificates
     ) { done, personCerts ->
         !done && personCerts.isNotEmpty()
@@ -149,7 +149,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
             }
     }
 
-    fun dismissExportAllToolTip() = onboardingSettings.exportAllOnboardingDone.update { true }
+    fun dismissExportAllToolTip() = launch {
+        onboardingSettings.updateExportAllOnboardingDone(isDone = true)
+    }
 
     sealed class UiState {
         object Loading : UiState()

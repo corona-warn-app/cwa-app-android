@@ -25,6 +25,7 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.coroutines.test
-import testhelpers.preferences.mockFlowPreference
 
 class NetworkStateProviderTest : BaseTest() {
 
@@ -58,7 +58,7 @@ class NetworkStateProviderTest : BaseTest() {
         mockkObject(BuildVersionWrap)
         every { BuildVersionWrap.SDK_INT } returns 24
 
-        every { testSettings.fakeMeteredConnection } returns mockFlowPreference(false)
+        every { testSettings.fakeMeteredConnection } returns flowOf(false)
         every { context.getSystemService(Context.CONNECTIVITY_SERVICE) } returns connectivityManager
 
         every { networkRequestBuilderProvider.get() } returns networkRequestBuilder
@@ -208,7 +208,7 @@ class NetworkStateProviderTest : BaseTest() {
 
             instance.networkState.first().isMeteredConnection shouldBe false
 
-            every { testSettings.fakeMeteredConnection } returns mockFlowPreference(true)
+            every { testSettings.fakeMeteredConnection } returns flowOf(true)
 
             instance.networkState.first().isMeteredConnection shouldBe true
         }
