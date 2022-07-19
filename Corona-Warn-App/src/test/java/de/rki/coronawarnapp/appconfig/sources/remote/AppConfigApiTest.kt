@@ -46,7 +46,6 @@ class AppConfigApiTest : BaseIOTest() {
     private fun createAPI(): AppConfigApiV2 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
 
         val cdnHttpClient = DownloadCDNModule()
             .cdnHttpClient(defaultHttpClient)
@@ -57,7 +56,6 @@ class AppConfigApiTest : BaseIOTest() {
         return AppConfigModule.provideAppConfigApi(
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory,
             cache = cache,
         )
     }

@@ -56,7 +56,7 @@ class LauncherActivityViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkStatic("de.rki.coronawarnapp.update.InAppUpdateKt")
 
-        every { onboardingSettings.isOnboarded } returns false
+        coEvery { onboardingSettings.isOnboarded() } returns false
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 10L
@@ -260,7 +260,7 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `onboarding finished`() {
-        every { onboardingSettings.isOnboarded } returns true
+        coEvery { onboardingSettings.isOnboarded() } returns true
         every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns true
         every { cwaSettings.lastChangelogVersion } returns mockFlowPreference(10L)
 

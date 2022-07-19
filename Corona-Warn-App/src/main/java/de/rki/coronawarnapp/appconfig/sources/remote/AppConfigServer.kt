@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.SignatureValidation
+import kotlinx.coroutines.flow.first
 import okhttp3.CacheControl
 import retrofit2.HttpException
 import retrofit2.Response
@@ -31,6 +32,8 @@ class AppConfigServer @Inject constructor(
     private val testSettings: TestSettings
 ) {
 
+    // Remove this annotation after Sonarqube update, used variables are indicated as unused
+    @Suppress("unused")
     internal suspend fun downloadAppConfig(): InternalConfigData {
         Timber.tag(TAG).d("Fetching app config.")
 
@@ -69,7 +72,7 @@ class AppConfigServer @Inject constructor(
             ?: throw ApplicationConfigurationInvalidException(message = "Server has no ETAG.")
 
         val serverTime = response.getServerDate() ?: localTime
-        val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.value) {
+        val offset = if (CWADebug.isDeviceForTestersBuild && testSettings.fakeCorrectDeviceTime.first()) {
             Timber.tag(TAG).w("Test setting 'fakeCorrectDeviceTime' is active; time offset is now 0")
             Duration.ZERO
         } else {

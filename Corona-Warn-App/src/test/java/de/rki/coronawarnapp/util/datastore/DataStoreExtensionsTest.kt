@@ -1,28 +1,27 @@
 package de.rki.coronawarnapp.util.datastore
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.FakeDataStore
 
 class DataStoreExtensionsTest : BaseIOTest() {
 
-    private lateinit var dataStore: DataStore<Preferences>
+    private val dataStore = FakeDataStore()
     private val stringPref = stringPreferencesKey("string_test_key")
     private val intPref = intPreferencesKey("int_test_key")
 
-    @BeforeEach
-    fun setup() {
-        dataStore = FakeDataStore()
+    @AfterEach
+    fun cleanup() {
+        dataStore.reset()
     }
 
     @Test
@@ -85,5 +84,24 @@ class DataStoreExtensionsTest : BaseIOTest() {
 
         dataStore.getValueOrNull(stringPref) shouldBe null
         dataStore.getValueOrNull(intPref) shouldBe null
+    }
+
+    @Test
+    fun `update data`() = runTest {
+        with(dataStore) {
+            setValue(intPref, 1)
+            updateValue(intPref) { it!!.inc() }
+            get(intPref) shouldBe 2
+            updateValue(intPref) { it!!.inc() }
+            get(intPref) shouldBe 3
+        }
+    }
+
+    @Test
+    fun `try update should not throw`() = runTest {
+        with(dataStore) {
+            shouldNotThrowAny { tryUpdateValue(intPref) { it!!.inc() } }
+            getValueOrNull(intPref) shouldBe null
+        }
     }
 }
