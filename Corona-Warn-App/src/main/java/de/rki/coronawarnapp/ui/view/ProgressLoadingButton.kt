@@ -82,7 +82,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
             field = value
         }
 
-    private fun setLoadingState(loading : Boolean) {
+    private fun setLoadingState(loading: Boolean) {
         binding.apply {
             isClickable = !loading
             defaultButton.isClickable = !loading
