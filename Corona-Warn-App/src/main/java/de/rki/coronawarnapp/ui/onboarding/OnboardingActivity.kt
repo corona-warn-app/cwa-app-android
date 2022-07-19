@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -17,6 +18,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInjector
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -68,13 +70,11 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
         )
     }
 
-    fun completeOnboarding() {
-        onboardingSettings.onboardingCompletedTimestamp.update {
-            timeStamper.nowJavaUTC
-        }
+    fun completeOnboarding() = lifecycleScope.launch {
+        onboardingSettings.updateOnboardingCompletedTimestamp(timeStamp = timeStamper.nowJavaUTC)
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
         settings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        MainActivity.start(this, intent)
+        MainActivity.start(this@OnboardingActivity, intent)
         finish()
     }
 }

@@ -85,7 +85,7 @@ class AppShortcutsHelper @Inject constructor(
         }
     }
 
-    private fun maybeDisableShortcuts() {
+    private suspend fun maybeDisableShortcuts() {
         if (!isOnboarded()) {
             Timber.i("User is not onboarded yet")
             disableAllShortcuts()
@@ -98,7 +98,7 @@ class AppShortcutsHelper @Inject constructor(
         }
     }
 
-    private fun isOnboarded() = onboardingSettings.isOnboarded
+    private suspend fun isOnboarded() = onboardingSettings.isOnboarded()
 
     fun disableAllShortcuts() = runCatching {
         Timber.d("Disable all shortcuts.")

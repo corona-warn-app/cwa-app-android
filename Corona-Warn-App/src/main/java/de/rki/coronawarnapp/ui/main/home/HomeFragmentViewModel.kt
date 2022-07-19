@@ -129,8 +129,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     init {
         tracingSettings
             .isUserToBeNotifiedOfAdditionalHighRiskLevel
-            .flow
-            .distinctUntilChanged()
             .filter { it }
             .onEach {
                 events.postValue(
@@ -143,8 +141,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
         tracingSettings
             .isUserToBeNotifiedOfLoweredRiskLevel
-            .flow
-            .distinctUntilChanged()
             .filter { it }
             .onEach {
                 events.postValue(
@@ -185,9 +181,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
         .asLiveData2()
 
-    fun markRiskBadgeAsSeen() {
+    fun markRiskBadgeAsSeen() = launch {
         Timber.tag(TAG).d("Mark risk badge as seen")
-        tracingSettings.showRiskLevelBadge.update { false }
+        tracingSettings.updateShowRiskLevelBadge(show = false)
     }
 
     private val combinedStatistics = combine(
@@ -255,12 +251,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         appShortcutsHelper.initShortcuts()
     }
 
-    fun userHasAcknowledgedTheLoweredRiskLevel() {
-        tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
+    fun userHasAcknowledgedTheLoweredRiskLevel() = launch {
+        tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(notify = false)
     }
 
-    fun userHasAcknowledgedAdditionalHighRiskLevel() {
-        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
+    fun userHasAcknowledgedAdditionalHighRiskLevel() = launch {
+        tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = false)
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {

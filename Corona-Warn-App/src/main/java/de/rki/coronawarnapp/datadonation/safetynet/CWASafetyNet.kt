@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.gplay.GoogleApiVersion
 import de.rki.coronawarnapp.util.security.RandomStrong
+import kotlinx.coroutines.flow.first
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
@@ -110,7 +111,7 @@ class CWASafetyNet @Inject constructor(
             }
         }
 
-        val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.value
+        val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.first()
         val nowUTC = timeStamper.nowJavaUTC
         val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
         val timeSinceOnboarding = Duration.between(firstReliableTimeStamp, nowUTC)
