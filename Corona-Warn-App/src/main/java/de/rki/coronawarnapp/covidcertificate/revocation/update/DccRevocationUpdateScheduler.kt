@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -39,11 +38,6 @@ class DccRevocationUpdateScheduler @Inject constructor(
             .onEach { triggerUpdate(forceUpdate = false) }
             .catch { Timber.tag(TAG).e(it, "Failed to schedule work") }
             .launchIn(scope = appScope)
-    }
-
-    fun forceUpdate() = appScope.launch {
-        Timber.tag(TAG).d("forceUpdate()")
-        triggerUpdate(forceUpdate = true)
     }
 
     private suspend fun triggerUpdate(forceUpdate: Boolean) = revocationListUpdater.updateRevocationList(forceUpdate)
