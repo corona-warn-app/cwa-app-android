@@ -85,7 +85,13 @@ class TracingDetailsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_tracing_low_risk() {
         mockData(TracingData.LOW_RISK)
-        captureScreenshot("tracing_low_risk")
+        captureScreenshot("tracing_low_risk_with_no_encounters_1")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
+        takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_no_encounters_2")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3, additionalY = 800))
+        takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_no_encounters_3")
     }
 
     @Screenshot
@@ -97,27 +103,11 @@ class TracingDetailsFragmentTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_one_encounters_2")
 
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5))
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(4))
         takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_one_encounters_3")
 
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5, additionalY = 800))
         takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_one_encounters_4")
-    }
-
-    @Screenshot
-    @Test
-    fun capture_screenshot_tracing_low_risk_with_two_encounters() {
-        mockData(TracingData.LOW_RISK_WITH_TWO_ENCOUNTERS)
-        captureScreenshot("tracing_low_risk_with_two_encounters_1")
-
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
-        takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_two_encounters_2")
-
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5))
-        takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_two_encounters_3")
-
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5, additionalY = 1000))
-        takeScreenshot<TracingDetailsFragment>("tracing_low_risk_with_two_encounters_4")
     }
 
     @Screenshot
@@ -143,13 +133,13 @@ class TracingDetailsFragmentTest : BaseUITest() {
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_2")
 
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3, additionalY = -200))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_3")
 
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5, additionalY = 800))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_4")
 
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(6, additionalY = 2300))
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(5, additionalY = 1600))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_5")
     }
 
