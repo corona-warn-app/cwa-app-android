@@ -419,7 +419,7 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.8') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation 'io.mockk:mockk:1.12.4'
+    testImplementation 'io.mockk:mockk:1.12.3'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
@@ -453,7 +453,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'androidx.work:work-testing:2.7.1'
-    androidTestImplementation 'io.mockk:mockk-android:1.12.4'
+    androidTestImplementation 'io.mockk:mockk-android:1.11.0'
     debugImplementation 'androidx.fragment:fragment-testing:1.5.0'
     debugImplementation 'androidx.test:core-ktx:1.4.0'
 
