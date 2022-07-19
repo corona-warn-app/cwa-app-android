@@ -184,8 +184,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `submission flow`() = runTest {
-        val task = createTask()
-        task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SUCCESSFUL
         )
 
@@ -202,35 +201,35 @@ class SubmissionTaskTest : BaseTest() {
             coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
-            settingSymptomsPreference.value
+            coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
+            //settingSymptomsPreference.value
 
-            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
-            checkInRepository.checkInsWithinRetention
-            checkInsTransformer.transform(any(), any())
-
+            //tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            //checkInRepository.checkInsWithinRetention
+            //checkInsTransformer.transform(any(), any())
+            //playbook.retrieveTan("regtoken", null)
             appConfigProvider.getAppConfig()
-            playbook.submit(
-                Playbook.SubmissionData(
-                    registrationToken = "regtoken",
-                    temporaryExposureKeys = listOf(transformedKey),
-                    consentToFederation = true,
-                    visitedCountries = listOf("NL"),
-                    unencryptedCheckIns = emptyList(),
-                    encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-                )
-            )
+//            playbook.submit(
+//                Playbook.SubmissionData(
+//                    registrationToken = "regtoken",
+//                    temporaryExposureKeys = listOf(transformedKey),
+//                    consentToFederation = true,
+//                    visitedCountries = listOf("NL"),
+//                    unencryptedCheckIns = emptyList(),
+//                    encryptedCheckIns = emptyList(),
+//                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+//                    authCode = "tan"
+//                )
+//            )
 
             tekHistoryStorage.reset()
             submissionSettings.symptoms
-            settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
-
-            checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
-
+            //settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
+//
+            //checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
+//
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
-
             coronaTestRepository.markAsSubmitted(any())
-
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
