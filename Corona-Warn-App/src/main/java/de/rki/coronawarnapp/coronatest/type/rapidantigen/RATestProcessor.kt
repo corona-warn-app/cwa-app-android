@@ -166,7 +166,7 @@ class RATestProcessor @Inject constructor(
     }
 
     override suspend fun updateAuthCode(test: PersonalCoronaTest, authCode: String): PersonalCoronaTest {
-        Timber.tag(TAG).v("updateAuthCode(test=%s)", test)
+        Timber.tag(TAG).v("updateAuthCode(test=%s)", test.identifier)
         test as RACoronaTest
 
         return test.copy(authCode = authCode)

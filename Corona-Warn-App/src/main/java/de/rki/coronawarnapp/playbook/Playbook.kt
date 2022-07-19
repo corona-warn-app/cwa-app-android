@@ -104,8 +104,6 @@ class Playbook @Inject constructor(
                 verificationServer.retrieveTan(registrationToken)
             }
             if (newAuthCode == null) {
-                submissionServer.submitFakePayload()
-                coroutineScope.launch { followUpPlaybooks() }
                 propagateException(wrapException(exception))
             }
             newAuthCode
