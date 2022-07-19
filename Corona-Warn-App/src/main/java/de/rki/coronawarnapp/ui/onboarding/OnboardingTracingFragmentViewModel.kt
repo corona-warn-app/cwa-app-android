@@ -66,7 +66,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
         launch {
             try {
                 if (enfClient.disableTracingIfEnabled()) {
-                    tracingSettings.isConsentGiven = false
+                    tracingSettings.updateConsentGiven(isConsentGiven = false)
                 }
             } catch (exception: Exception) {
                 exception.report(

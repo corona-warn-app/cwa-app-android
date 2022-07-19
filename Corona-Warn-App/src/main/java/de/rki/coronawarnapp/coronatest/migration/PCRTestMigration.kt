@@ -57,7 +57,7 @@ class PCRTestMigration @Inject constructor(
         val hasGivenConsent = submissionSettings.hasGivenConsentMigration
         Timber.tag(TAG).v("hasGivenConsent=%s", hasGivenConsent)
 
-        val testResultNotificationSent = tracingSettings.isTestResultAvailableNotificationSentMigration
+        val testResultNotificationSent = tracingSettings.isTestResultAvailableNotificationSentMigration()
         Timber.tag(TAG).v("testResultNotificationSent=%s", testResultNotificationSent)
 
         val legacyPCRTest = PCRCoronaTest(

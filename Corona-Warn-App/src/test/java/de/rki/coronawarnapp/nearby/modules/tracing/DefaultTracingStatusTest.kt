@@ -8,6 +8,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -38,7 +39,7 @@ class DefaultTracingStatusTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { client.isEnabled } answers { MockGMSTask.forValue(true) }
-        every { tracingSettings.isConsentGiven = any() } just Runs
+        coEvery { tracingSettings.updateConsentGiven(isConsentGiven = any()) } just Runs
     }
 
     private fun createInstance(scope: CoroutineScope): DefaultTracingStatus = DefaultTracingStatus(
