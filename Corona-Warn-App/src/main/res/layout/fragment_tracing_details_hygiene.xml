@@ -1,11 +1,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/risk_details_hygiene_rules_title"
-    android:focusable="true">
+    android:focusable="true"
+    tools:context="tracing.ui.details.hygiene.HygieneRulesFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
