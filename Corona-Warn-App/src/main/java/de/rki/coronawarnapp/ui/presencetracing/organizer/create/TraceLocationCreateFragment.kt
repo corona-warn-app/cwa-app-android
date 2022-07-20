@@ -76,11 +76,11 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                 toolbar.setSubtitle(state.title)
                 valueStart.text = state.getBegin(requireContext().getLocale())
                 valueEnd.text = state.getEnd(requireContext().getLocale())
-                progressBar.isVisible = state.isRequestInProgress
+                buttonSubmit.isLoading = state.isRequestInProgress
+                buttonSubmit.isActive = state.isSendEnable
                 layoutBegin.isVisible = state.isDateVisible
                 layoutEnd.isVisible = state.isDateVisible
                 valueLengthOfStay.text = state.getCheckInLength(resources)
-                buttonSubmit.isEnabled = state.isSendEnable
             }
         }
 
