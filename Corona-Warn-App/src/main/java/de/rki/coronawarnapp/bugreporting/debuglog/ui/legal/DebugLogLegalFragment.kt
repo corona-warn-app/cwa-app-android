@@ -10,22 +10,17 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
 class DebugLogLegalFragment : Fragment(R.layout.bugreporting_legal_fragment), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private val vm: DebugLogLegalViewModel by cwaViewModels { viewModelFactory }
     private val binding: BugreportingLegalFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            toolbar.setOnClickListener {
-                popBackStack()
-            }
+            toolbar.setNavigationOnClickListener { popBackStack() }
         }
     }
 
