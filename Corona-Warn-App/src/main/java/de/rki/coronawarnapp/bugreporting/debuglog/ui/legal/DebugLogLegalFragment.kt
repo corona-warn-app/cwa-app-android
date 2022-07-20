@@ -9,12 +9,8 @@ import de.rki.coronawarnapp.databinding.BugreportingLegalFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import javax.inject.Inject
 
-class DebugLogLegalFragment : Fragment(R.layout.bugreporting_legal_fragment), AutoInject {
-
-    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+class DebugLogLegalFragment : Fragment(R.layout.bugreporting_legal_fragment) {
     private val binding: BugreportingLegalFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
