@@ -51,7 +51,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
             cancelButton.setOnClickListener { viewModel.navigateBack() }
             privacyInformation.setOnClickListener { viewModel.openPrivacyScreen() }
-            agreeButton.defaultButton.setOnClickListener {
+            agreeButton.setOnClickListener {
                 viewModel.startReissuance()
             }
             accompanyingCertificatesText.setOnClickListener {

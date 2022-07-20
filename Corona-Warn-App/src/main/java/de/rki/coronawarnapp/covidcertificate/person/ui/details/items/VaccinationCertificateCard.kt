@@ -79,10 +79,9 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             certificateExpiration.displayExpirationState(item.certificate)
 
             startValidationCheckButton.apply {
-                defaultButton.isEnabled = certificate.isNotScreened
-                isEnabled = certificate.isNotScreened
+                isActive = certificate.isNotScreened
                 isLoading = item.isLoading
-                defaultButton.setOnClickListener {
+                setOnClickListener {
                     item.validateCertificate(certificate.containerId)
                 }
             }

@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.covidcertificate
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -71,16 +70,15 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                     Back -> popBackStack()
                 }
             }
-            viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isEnabled = !isPCR || date != null }
+            viewModel.birthDate.observe(viewLifecycleOwner) { date -> agreeButton.isActive = !isPCR || date != null }
             viewModel.registrationState.observe(viewLifecycleOwner) { state -> handleRegistrationState(state) }
         }
 
     private fun handleRegistrationState(state: State) {
         val isWorking = state is State.Working
         binding.apply {
-            if (isWorking) progressBar.show() else progressBar.hide()
-            agreeButton.isInvisible = isWorking
-            disagreeButton.isInvisible = isWorking
+            agreeButton.isLoading = isWorking
+            disagreeButton.isEnabled = !isWorking
         }
         when (state) {
             State.Idle,
