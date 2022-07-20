@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
+import java.util.Locale
 
 class OccupiedIntensiveCareCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsOccupiedIntensiveCareBedsBinding>(
@@ -27,7 +28,8 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         )
     }
 
-    private val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+    private val currentSelectedLocale =
+        ConfigurationCompat.getLocales(resources.configuration).get(0) ?: Locale.getDefault()
 
     override val onBindData: HomeStatisticsCardsOccupiedIntensiveCareBedsBinding.(
         item: GlobalStatisticsCardItem,
