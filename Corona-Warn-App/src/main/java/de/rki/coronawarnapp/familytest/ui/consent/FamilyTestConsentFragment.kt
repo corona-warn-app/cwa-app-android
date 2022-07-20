@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.familytest.ui.consent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -68,7 +67,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         viewModel.registrationState.observe2(this) { state ->
             val isWorking = state is TestRegistrationStateProcessor.State.Working
             binding.apply {
-                progressSpinner.isVisible = isWorking
+                consentButton.isLoading = isWorking
             }
             when (state) {
                 TestRegistrationStateProcessor.State.Idle,
@@ -122,7 +121,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         }
 
         viewModel.isSubmittable.observe2(this) {
-            binding.consentButton.isEnabled = it
+            binding.consentButton.isActive = it
         }
     }
 }

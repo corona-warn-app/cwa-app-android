@@ -29,7 +29,7 @@ internal class DefaultDscSourceTest : BaseTest() {
     fun `current default data matches checksum`() {
         val dscList = context.assets.open(dscListName).readBytes()
         val sha256 = context.assets.open(checkSumName).readBytes().toString(Charsets.UTF_8)
-        sha256 shouldBe "d3fd1479bc17c036501ffcf692bdf04cf4131828d2e135ccf003e69ac6522ee1"
+        sha256 shouldBe "8dd320f8732d5341db18ee374fcf4b2481bb5a139a9fec06ea712df7ebf623ab"
         dscList.toSHA256() shouldBe sha256
     }
 

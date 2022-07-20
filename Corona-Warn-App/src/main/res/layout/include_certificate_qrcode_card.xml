@@ -76,20 +76,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/image"
         app:layout_constraintLeft_toLeftOf="@id/image"
         app:layout_constraintRight_toRightOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/image"
-        app:srcCompat="@drawable/ic_invalid_qr_code" />
+        app:srcCompat="@drawable/ic_invalid_qr_code"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/invalid_overlay"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         app:constraint_referenced_ids="invalid_qr_code_overlay,invalid_qr_code_symbol"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp"
-        tools:visibility="visible" />
+        tools:visibility="invisible" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
