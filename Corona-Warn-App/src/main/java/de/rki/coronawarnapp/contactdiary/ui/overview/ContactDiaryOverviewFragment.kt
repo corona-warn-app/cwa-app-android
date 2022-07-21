@@ -59,6 +59,14 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
             adapter.update(it)
         }
 
+        vm.locations.observe2(this) {
+            binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_locations)?.isEnabled = it.isNotEmpty()
+        }
+
+        vm.people.observe2(this) {
+            binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_persons)?.isEnabled = it.isNotEmpty()
+        }
+
         vm.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
