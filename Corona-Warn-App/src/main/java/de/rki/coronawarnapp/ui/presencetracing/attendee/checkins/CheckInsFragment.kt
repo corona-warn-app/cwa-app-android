@@ -61,7 +61,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         super.onViewCreated(view, savedInstanceState)
         setupMenu(binding.toolbar)
         bindRecycler()
-        viewModel.checkins.observe2(this) { items -> updateViews(items) }
+        viewModel.checkins.observe2(this) { items ->
+            updateViews(items)
+            binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = items.isNotEmpty()
+        }
         viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
         viewModel.errorEvent.observe2(this) {
             val errorForHumans = it.tryHumanReadableError(requireContext())
