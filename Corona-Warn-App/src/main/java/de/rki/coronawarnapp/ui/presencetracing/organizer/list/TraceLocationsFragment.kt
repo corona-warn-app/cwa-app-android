@@ -69,6 +69,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             binding.apply {
                 recyclerView.isGone = it.isEmpty()
                 qrCodesListNoItemsGroup.isGone = it.isNotEmpty()
+                binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = it.isNotEmpty()
             }
         }
 
