@@ -70,6 +70,8 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.locationVisits } returns flowOf(emptyList())
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { contactDiaryRepository.testResults } returns flowOf(emptyList())
+        every { contactDiaryRepository.locations } returns flowOf(emptyList())
+        every { contactDiaryRepository.people } returns flowOf(emptyList())
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(emptyList())
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(emptyList())
         every { checkInRepository.checkInsWithinRetention } returns flowOf(emptyList())
