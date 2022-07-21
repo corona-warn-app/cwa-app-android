@@ -10,9 +10,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.doNavigate
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 fun Fragment.doNavigate(direction: NavDirections) = findNavController().doNavigate(direction)
 
@@ -22,6 +22,9 @@ fun Fragment.popBackStack(): Boolean {
             Timber.w(it, "Trying to pop backstack on Fragment that isn't added to an Activity.")
         }
         return false
+    }
+    if (findNavController().backQueue.isEmpty()) {
+        findNavController().navigate(R.id.launcherActivity)
     }
     return findNavController().popBackStack()
 }
