@@ -284,7 +284,7 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Kichaj i kaszl w łokieć lub chusteczkę."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Możesz zapoznać się z możliwościami testowania w tym miejscu lub skontaktować się z lekarzem rodzinnym lub apteką."</string>
+    <string name="risk_details_behavior_increased_body_1">"Możesz zapoznać się z możliwościami testowania w tym miejscu. Lub skontaktować się z lekarzem rodzinnym lub apteką."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
     <string name="risk_details_behavior_increased_body_1_label">"Możesz zapoznać się z możliwościami testowania w tym miejscu."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
