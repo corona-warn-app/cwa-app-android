@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorSurface"
-        android:contentDescription="@string/contact_diary_edit_persons_title">
+        android:contentDescription="@string/contact_diary_edit_persons_title"
+        tools:context="contactdiary.ui.edit.ContactDiaryEditPersonsFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
