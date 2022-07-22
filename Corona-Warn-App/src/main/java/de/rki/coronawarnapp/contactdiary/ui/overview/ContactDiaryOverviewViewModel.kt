@@ -364,6 +364,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         exportLocationsAndPersons.postValue(export)
     }
 
+    fun updateTime() {
+        datesFlow.value = dates()
+    }
+
     override fun onCleared() {
         super.onCleared()
         reloadDatesMidnightTimer.cancel()

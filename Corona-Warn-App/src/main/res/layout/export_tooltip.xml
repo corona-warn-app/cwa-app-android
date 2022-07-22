@@ -41,7 +41,6 @@
             android:id="@+id/subtitle"
             style="@style/subtitle"
             android:layout_width="0dp"
-            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
@@ -49,6 +48,7 @@
             android:lineSpacingExtra="4sp"
             android:text="@string/export_all_tooltip_message"
             android:textColor="@color/tipSubtitleColor"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/close"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,9 +56,7 @@
 
         <ImageButton
             android:id="@+id/close"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?selectableItemBackground"
+            style="@style/closeTooltip"
             android:contentDescription="@string/accessibility_close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
