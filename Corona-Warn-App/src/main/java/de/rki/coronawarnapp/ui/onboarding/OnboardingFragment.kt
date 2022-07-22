@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -32,12 +30,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         binding.apply {
             onboardingButtonNext.setOnClickListener { goToOnboardingPrivacyFragment() }
             // only show link for German
-            if (showEasyLanguageLink()) {
-                onboardingEasyLanguage.visibility = View.VISIBLE
-                onboardingEasyLanguage.setOnClickListener { openEasyLanguageLink() }
-            } else {
-                onboardingEasyLanguage.visibility = View.GONE
-            }
+            onboardingEasyLanguage.setOnClickListener { openEasyLanguageLink() }
             viewModel.maxEncounterAgeInDays.observe2(this@OnboardingFragment) {
                 setExposureLoggingPeriod(it)
             }
@@ -64,6 +57,3 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         onboardingBody2.text = getString(R.string.onboarding_body_2, maxEncounterAgeInDays)
     }
 }
-
-@VisibleForTesting
-fun showEasyLanguageLink(): Boolean = Locale.getDefault().language == Locale.GERMAN.language
