@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -65,6 +66,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
+    @MockK lateinit var installTimeProvider: InstallTimeProvider
     @RelaxedMockK lateinit var contactDiarySettingsStorage: ContactDiarySettingsStorage
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
@@ -90,6 +92,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { valueSetsRepository.context } returns mockk()
         every { valueSetsRepository.context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
+        every { installTimeProvider.isInstallFromUpdate } returns false
 
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
@@ -123,6 +126,7 @@ class MainActivityViewModelTest : BaseTest() {
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,
         coronaTestRestoreHandler = coronaTestRestoreHandler,
         familyTestRepository = familyTestRepository,
+        installTimeProvider = installTimeProvider,
     )
 
     @Test
