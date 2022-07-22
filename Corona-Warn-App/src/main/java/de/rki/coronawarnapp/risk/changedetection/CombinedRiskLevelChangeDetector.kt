@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -100,7 +101,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
             if (showNotification) {
                 sendNotification()
                 showBadge()
-                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
+                tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(true)
             }
 
             Timber.d("Risk level changed LocalData is updated. Current Risk level is ${newResult.riskState}")
@@ -111,26 +112,26 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         }
     }
 
-    private fun CombinedEwPtRiskLevelResult.checkForAdditionalHighRisks() {
+    private suspend fun CombinedEwPtRiskLevelResult.checkForAdditionalHighRisks() {
         Timber.d(
             "New Risk State: $riskState " +
                 "with lastRiskEncounterAt: $lastRiskEncounterAt"
         )
-        val lastHighRiskDate = tracingSettings.lastHighRiskDate
+        val lastHighRiskDate = tracingSettings.lastHighRiskDate.first()
         Timber.d("Last high risk date: ${lastHighRiskDate?.toDayFormat()}")
         when (riskState) {
             RiskState.INCREASED_RISK -> {
                 when (lastHighRiskDate) {
                     null -> {
                         Timber.d("initial HIGH risk - no notification")
-                        tracingSettings.lastHighRiskDate = lastRiskEncounterAt
+                        tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt)
                     }
                     else -> {
                         if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
                             Timber.d("additional HIGH risk - trigger notification")
                             sendNotification()
-                            tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { true }
-                            tracingSettings.lastHighRiskDate = lastRiskEncounterAt
+                            tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = true)
+                            tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt)
                         } else {
                             Timber.d("HIGH risk is not newer than the stored one - do nothing")
                         }
@@ -144,8 +145,8 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 }
                 if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
                     Timber.d("LOW risk - Resetting lastHighRiskDate")
-                    tracingSettings.lastHighRiskDate = null
-                    tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
+                    tracingSettings.updateLastHighRiskDate(date = null)
+                    tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = false)
                 } else {
                     Timber.d("LOW risk before HIGH risk - do nothing")
                 }
@@ -170,7 +171,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         )
     }
 
-    private fun showBadge() {
-        tracingSettings.showRiskLevelBadge.update { true }
+    private suspend fun showBadge() {
+        tracingSettings.updateShowRiskLevelBadge(show = true)
     }
 }

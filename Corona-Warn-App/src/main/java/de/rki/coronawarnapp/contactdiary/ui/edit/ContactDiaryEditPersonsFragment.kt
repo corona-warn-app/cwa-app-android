@@ -48,6 +48,9 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
 
         viewModel.personsLiveData.observe2(this) {
             listAdapter.update(it, true)
+            if (it.isEmpty()) {
+                popBackStack()
+            }
         }
 
         viewModel.navigationEvent.observe2(this) {

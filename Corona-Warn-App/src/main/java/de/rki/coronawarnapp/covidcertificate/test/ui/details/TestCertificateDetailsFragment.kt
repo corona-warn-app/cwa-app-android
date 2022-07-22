@@ -66,7 +66,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
-        startValidationCheck.defaultButton.setOnClickListener {
+        startValidationCheck.setOnClickListener {
             startValidationCheck.isLoading = true
             viewModel.startValidationRulesDownload()
         }
@@ -108,8 +108,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         )
 
         startValidationCheck.apply {
-            isEnabled = certificate.isNotScreened
-            defaultButton.isEnabled = certificate.isNotScreened
+            isActive = certificate.isNotScreened
         }
         toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotScreened
         name.text = certificate.fullNameFormatted
