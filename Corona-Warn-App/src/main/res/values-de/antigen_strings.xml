@@ -37,7 +37,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Ihr Test konnte nicht ausgewertet werden."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Ihr Test liegt länger als 2 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neu"</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Ihr Test liegt länger als 2 Tage zurück und ist daher nicht länger relevant. Bitte löschen Sie den Test. Danach können Sie einen neuen Test hinzufügen."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
     <!-- XTXT: homescreen card: body - positive -->
