@@ -115,40 +115,7 @@ object TracingData {
                 tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
                 maxEncounterAgeInDays = 10,
             ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
-        )
-    )
-
-    val LOW_RISK_WITH_TWO_ENCOUNTERS = Pair(
-        TracingDetailsState(
-            tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
-            riskState = RiskState.LOW_RISK,
-            isManualKeyRetrievalEnabled = false
-        ),
-        listOf(
-            LowRiskBox.Item(
-                state = LowRisk(
-                    riskState = RiskState.LOW_RISK,
-                    isInDetailsMode = true,
-                    lastExposureDetectionTime = todayAtNineFiftyFive,
-                    allowManualUpdate = false,
-                    daysWithEncounters = 2,
-                    daysSinceInstallation = 4,
-                    lastEncounterAt = todayAtNineFiftyFive.toLocalDateUtc()
-                )
-            ),
-            FindDetailsInJournalBox.Item(riskState = RiskState.LOW_RISK),
-            AdditionalInfoLowRiskBox.Item,
-            BehaviorNormalRiskBox.Item(
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
-                riskState = RiskState.LOW_RISK
-            ),
-            PeriodLoggedBox.Item(
-                daysSinceInstallation = 4,
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
-                maxEncounterAgeInDays = 10,
-            ),
-            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
+            DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 1)
         )
     )
 
