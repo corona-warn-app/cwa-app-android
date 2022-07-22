@@ -46,8 +46,10 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import org.joda.time.Days
 import org.joda.time.LocalDate
 import timber.log.Timber
+import kotlin.concurrent.fixedRateTimer
 
 @Suppress("LongParameterList")
 class ContactDiaryOverviewViewModel @AssistedInject constructor(
@@ -67,6 +69,14 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     private fun dates() = (0 until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
     private val datesFlow = MutableStateFlow(dates())
+
+    private val reloadDatesMidnightTimer = fixedRateTimer(
+        name = "Reload-contact-journal-dates-timer-thread",
+        daemon = true,
+        startAt = timeStamper.localDate().plusDays(1).toDate(),
+        period = Days.ONE.toStandardDuration().millis,
+        action = { datesFlow.value = dates() }
+    )
 
     private val diaryDataFlow = combine(
         contactDiaryRepository.locationVisits,
@@ -356,6 +366,11 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
     fun updateTime() {
         datesFlow.value = dates()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        reloadDatesMidnightTimer.cancel()
     }
 
     @AssistedFactory
