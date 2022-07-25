@@ -53,7 +53,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Der Test konnte nicht ausgewertet werden."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Der Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant."</string>
+    <string name="family_tests_cards_redeemed_body">"Der Test liegt länger als 2 Tage zurück und ist daher nicht länger relevant."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->
