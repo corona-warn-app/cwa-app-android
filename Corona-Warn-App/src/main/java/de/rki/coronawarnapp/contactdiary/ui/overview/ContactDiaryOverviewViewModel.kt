@@ -94,6 +94,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val traceLocationCheckInRiskFlow = riskLevelStorage.traceLocationCheckInRiskStates
     private val checkInsWithinRetentionFlow = checkInRepository.checkInsWithinRetention
 
+    val locations = contactDiaryRepository.locations.asLiveData2()
+    val people = contactDiaryRepository.people.asLiveData2()
+
     val listItems = combine(
         datesFlow,
         diaryDataFlow,
@@ -359,6 +362,10 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             )
         }
         exportLocationsAndPersons.postValue(export)
+    }
+
+    fun updateTime() {
+        datesFlow.value = dates()
     }
 
     override fun onCleared() {

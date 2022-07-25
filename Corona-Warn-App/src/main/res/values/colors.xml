@@ -53,6 +53,7 @@
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorCrashReporter">@color/colorTextSemanticNeutral</color>
+    <color name="progressIndicator">#B7B7B7</color>
 
     <!-- Tan Input -->
 

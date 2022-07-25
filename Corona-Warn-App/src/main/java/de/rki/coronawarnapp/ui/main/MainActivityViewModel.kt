@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -55,12 +56,13 @@ class MainActivityViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
     tracingSettings: TracingSettings,
+    installTimeProvider: InstallTimeProvider,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
     val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone
-        .map { done -> done.not() }
+        .map { done -> done.not() && installTimeProvider.isInstallFromUpdate }
         .asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
