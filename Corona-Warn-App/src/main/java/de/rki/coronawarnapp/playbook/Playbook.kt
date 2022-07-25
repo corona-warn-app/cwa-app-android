@@ -109,14 +109,16 @@ class Playbook @Inject constructor(
             newAuthCode
         } else {
             // fake request
-            verificationServer.retrieveTanFake()
+            ignoreExceptions { verificationServer.retrieveTanFake() }
             authCode
         }
     }
 
     suspend fun submitFake() {
-        verificationServer.retrieveTanFake()
-        submissionServer.submitFakePayload()
+        ignoreExceptions {
+            verificationServer.retrieveTanFake()
+            submissionServer.submitFakePayload()
+        }
         coroutineScope.launch { followUpPlaybooks() }
     }
 
