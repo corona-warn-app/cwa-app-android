@@ -308,7 +308,7 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             playbook.retrieveTan("regtoken", null)
-            playbook.submit(null)
+            playbook.submitFake()
         }
         coVerify(exactly = 0) {
             tekHistoryStorage.reset()

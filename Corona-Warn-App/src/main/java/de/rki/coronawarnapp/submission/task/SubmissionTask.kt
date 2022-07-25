@@ -170,7 +170,7 @@ class SubmissionTask @Inject constructor(
                 authCode = coronaTest.authCode
             )
         } catch (e: Exception) {
-            playbook.submit(null)
+            playbook.submitFake()
             throw e
         }
 

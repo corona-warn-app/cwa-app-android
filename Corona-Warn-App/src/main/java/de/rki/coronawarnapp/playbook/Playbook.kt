@@ -114,8 +114,14 @@ class Playbook @Inject constructor(
         }
     }
 
+    suspend fun submitFake() {
+        verificationServer.retrieveTanFake()
+        submissionServer.submitFakePayload()
+        coroutineScope.launch { followUpPlaybooks() }
+    }
+
     suspend fun submit(
-        data: SubmissionData?
+        data: SubmissionData
     ) {
         Timber.i("[$uid] New Submission Playbook")
 
@@ -125,22 +131,17 @@ class Playbook @Inject constructor(
         // submitKeysToServer could throw BadRequestException too.
         try {
             // real submission
-            data?.authCode?.let {
-                val serverSubmissionData = SubmissionServer.SubmissionData(
-                    authCode = it,
-                    keyList = data.temporaryExposureKeys,
-                    consentToFederation = data.consentToFederation,
-                    visitedCountries = data.visitedCountries,
-                    unencryptedCheckIns = data.unencryptedCheckIns,
-                    encryptedCheckIns = data.encryptedCheckIns,
-                    submissionType = data.submissionType
-                )
-                submissionServer.submitPayload(serverSubmissionData)
-                coroutineScope.launch { followUpPlaybooks() }
-            } ?: run {
-                submissionServer.submitFakePayload()
-                coroutineScope.launch { followUpPlaybooks() }
-            }
+            val serverSubmissionData = SubmissionServer.SubmissionData(
+                authCode = data.authCode,
+                keyList = data.temporaryExposureKeys,
+                consentToFederation = data.consentToFederation,
+                visitedCountries = data.visitedCountries,
+                unencryptedCheckIns = data.unencryptedCheckIns,
+                encryptedCheckIns = data.encryptedCheckIns,
+                submissionType = data.submissionType
+            )
+            submissionServer.submitPayload(serverSubmissionData)
+            coroutineScope.launch { followUpPlaybooks() }
         } catch (exception: BadRequestException) {
             propagateException(
                 TanPairingException(
@@ -230,7 +231,7 @@ class Playbook @Inject constructor(
 
     data class SubmissionData(
         val registrationToken: String,
-        val authCode: String? = null,
+        val authCode: String,
         val temporaryExposureKeys: List<TemporaryExposureKeyExportOuterClass.TemporaryExposureKey>,
         val consentToFederation: Boolean,
         val visitedCountries: List<String>,

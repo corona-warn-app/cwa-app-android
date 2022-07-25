@@ -165,7 +165,7 @@ class PlaybookTest : BaseTest() {
     @Test
     fun `submission matches request pattern despite missing data`(): Unit = runTest {
 
-        createPlaybook().submit(null)
+        createPlaybook().submitFake()
 
         coVerifySequence {
             // ensure request order is 1x verification and 1x submission
