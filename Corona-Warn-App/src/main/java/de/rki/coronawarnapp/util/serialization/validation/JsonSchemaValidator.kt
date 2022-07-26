@@ -18,8 +18,8 @@ class JsonSchemaValidator @Inject constructor(
         rawJson: String,
     ): Result {
         val schema = when (schemaSource.version) {
-            JsonSchemaSource.Version.V2020_12 -> {
-                val factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012)
+            JsonSchemaSource.Version.V2019_09 -> {
+                val factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V201909)
                 factory.getSchema(schemaSource.rawSchema)
             }
         }

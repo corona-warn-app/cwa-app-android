@@ -10,6 +10,6 @@ interface JsonSchemaSource {
     val version: Version
 
     enum class Version {
-        V2020_12
+        V2019_09
     }
 }
