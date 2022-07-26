@@ -1,6 +1,6 @@
 name: Build, Scan and Test
 
-on: [ push ]
+on: [ push, pull_request ]
 
 concurrency:
   group: ${{ github.head_ref || github.ref }} #Cancel old runs if they have not finished yet
