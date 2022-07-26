@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.exception.TanPairingException
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import de.rki.coronawarnapp.playbook.DefaultPlaybook
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.submission.server.SubmissionServer
@@ -25,7 +24,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.exceptions.TestException
 
-class DefaultPlaybookTest : BaseTest() {
+class PlaybookTest : BaseTest() {
 
     @MockK lateinit var submissionServer: SubmissionServer
     @MockK lateinit var verificationServer: VerificationServer
@@ -56,7 +55,7 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { submissionServer.submitFakePayload() } returns mockk()
     }
 
-    private fun createPlaybook() = DefaultPlaybook(
+    private fun createPlaybook() = Playbook(
         verificationServer = verificationServer,
         submissionServer = submissionServer
     )
@@ -100,6 +99,7 @@ class DefaultPlaybookTest : BaseTest() {
         createPlaybook().submit(
             Playbook.SubmissionData(
                 registrationToken = "token",
+                authCode = "tan",
                 temporaryExposureKeys = listOf(),
                 consentToFederation = true,
                 visitedCountries = listOf("DE"),
@@ -110,8 +110,7 @@ class DefaultPlaybookTest : BaseTest() {
         )
 
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTan(any())
+            // ensure request order is 1x verification and 1x submission
             verificationServer.retrieveTanFake()
             submissionServer.submitPayload(any())
         }
@@ -124,6 +123,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -146,6 +146,7 @@ class DefaultPlaybookTest : BaseTest() {
             createPlaybook().submit(
                 Playbook.SubmissionData(
                     registrationToken = "token",
+                    authCode = "tan",
                     temporaryExposureKeys = listOf(),
                     consentToFederation = true,
                     visitedCountries = listOf("DE"),
@@ -162,26 +163,12 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `submission matches request pattern despite missing authcode`(): Unit = runTest {
-        coEvery { verificationServer.retrieveTan(any()) } throws TestException()
+    fun `submission matches request pattern despite missing data`(): Unit = runTest {
 
-        shouldThrow<TestException> {
-            createPlaybook().submit(
-                Playbook.SubmissionData(
-                    registrationToken = "token",
-                    temporaryExposureKeys = listOf(),
-                    consentToFederation = true,
-                    visitedCountries = listOf("DE"),
-                    unencryptedCheckIns = emptyList(),
-                    encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-                )
-            )
-        }
+        createPlaybook().submitFake()
 
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
-            verificationServer.retrieveTan(any())
+            // ensure request order is 1x verification and 1x submission
             verificationServer.retrieveTanFake()
             // Only called when null TAN is returned? But when does that happen?
             submissionServer.submitFakePayload()
@@ -236,7 +223,7 @@ class DefaultPlaybookTest : BaseTest() {
     }
 
     @Test
-    fun `registration pattern matches despire token failure`(): Unit = runTest {
+    fun `registration pattern matches despite token failure`(): Unit = runTest {
         coEvery {
             verificationServer.retrieveRegistrationToken(any())
         } throws TestException()
@@ -289,23 +276,32 @@ class DefaultPlaybookTest : BaseTest() {
         coEvery { verificationServer.retrieveTan(any()) } throws TestException()
 
         shouldThrow<TestException> {
-            createPlaybook().submit(
-                Playbook.SubmissionData(
-                    registrationToken = "token",
-                    temporaryExposureKeys = listOf(),
-                    consentToFederation = true,
-                    visitedCountries = listOf("DE"),
-                    unencryptedCheckIns = emptyList(),
-                    encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
-                )
-            )
+            with(createPlaybook()) {
+                retrieveTan("token", null)
+            }
         }
         coVerifySequence {
-            // ensure request order is 2x verification and 1x submission
+            // ensure request order is 1x verification
+            verificationServer.retrieveTan("token")
+        }
+    }
+
+    @Test
+    fun `retrieve tan if missing`(): Unit = runTest {
+        val tan = "tan"
+        coEvery { verificationServer.retrieveTan(any()) } returns tan
+        val playbook = createPlaybook()
+        val retrievedTan = playbook.retrieveTan("token", null)
+
+        retrievedTan shouldBe tan
+        coEvery { verificationServer.retrieveTan(any()) } returns "tan2"
+
+        val retrievedTan2 = playbook.retrieveTan("token", retrievedTan)
+        retrievedTan2 shouldBe tan
+
+        coVerifySequence {
             verificationServer.retrieveTan(any())
             verificationServer.retrieveTanFake()
-            submissionServer.submitFakePayload()
         }
     }
 }
