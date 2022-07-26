@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.calendar
 import android.content.Context
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import java.time.LocalDate
-import java.time.ZonedDateTime
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -77,7 +76,7 @@ class CalendarCalculation constructor(private val context: Context) {
      * - Week starts from Monday
      *
      * Algorithm:
-     * Goal: calculate days to add with JodaTime lib to current date
+     * Goal: calculate days to add with java.time to current date
      *
      * Input: Today = 9 September (Wednesday)
      *
@@ -92,7 +91,7 @@ class CalendarCalculation constructor(private val context: Context) {
      * | -2| -1| 9 | +1| +2| +3| +4| <- Current Week (4th row)
      * Code: (DaysInWeekCount * (TotalWeeks - weekId)) * -1
      */
-    fun getDates(currentDate: ZonedDateTime = ZonedDateTime.now()): List<CalendarAdapter.Day> {
+    fun getDates(currentDate: LocalDate = LocalDate.now()): List<CalendarAdapter.Day> {
         // Create mutable list of DateTime as a result
         val result = mutableListOf<CalendarAdapter.Day>()
         // Get current day of the week (where 1 = Monday, 7 = Sunday)
@@ -102,7 +101,7 @@ class CalendarCalculation constructor(private val context: Context) {
         for (weekId in 0..weeksCount) {
             for (dayId in 1..DAYS_IN_WEEK) {
                 val daysDiff = (currentDayOfTheWeek * -1) + dayId - (DAYS_IN_WEEK * (weeksCount - weekId))
-                result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff.toLong()).toLocalDate()))
+                result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff.toLong())))
             }
         }
         return result

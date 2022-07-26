@@ -164,11 +164,10 @@ class CalendarView @JvmOverloads constructor(
         // Get current week day
         val currentWeekDay = LocalDateTime.now().dayOfWeek
         for (dayId in 1..CalendarCalculation.DAYS_IN_WEEK) {
-            val weekDay = DayOfWeek.of(dayId)//org.joda.time.LocalDate().withDayOfWeek(dayId).dayOfWeek()
-            // weekDay.getAsText returns in either "Fri" or "Friday" format, substring first latter
+            val weekDay = DayOfWeek.of(dayId)
             CalendarWeekDayView(context).apply {
                 setUp(
-                    weekDay.getDisplayName(TextStyle.NARROW,Locale.getDefault()),
+                    weekDay.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
                     weekDay == currentWeekDay
                 )
             }.also {

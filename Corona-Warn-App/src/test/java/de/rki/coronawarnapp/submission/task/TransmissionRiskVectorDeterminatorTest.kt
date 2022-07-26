@@ -4,22 +4,19 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class TransmissionRiskVectorDeterminatorTest {
 
-    private lateinit var now: LocalDate
+    private val now = Instant.parse("2012-10-15T10:00:00Z")
 
     @MockK
     private lateinit var timeStamper: TimeStamper
@@ -27,41 +24,38 @@ class TransmissionRiskVectorDeterminatorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC).apply {
-            every { timeStamper.nowUTC } returns this.toInstant()
-            now = this.toLocalDate()
-        }
+        every { timeStamper.nowJavaUTC } returns now
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of today`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE),
-            now
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(0), POSITIVE),
+            now.toLocalDateUtc()
         ).raw shouldBe intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of yesterday`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE),
-            now
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(1), POSITIVE),
+            now.toLocalDateUtc()
         ).raw shouldBe intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of 5 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE),
-            now
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(5), POSITIVE),
+            now.toLocalDateUtc()
         ).raw shouldBe intArrayOf(2, 3, 5, 6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1)
     }
 
     @Test
     fun `match a positive symptom indication with the exact date of 21 days ago`() {
         TransmissionRiskVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE),
-            now
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(21), POSITIVE),
+            now.toLocalDateUtc()
         ).raw shouldBe intArrayOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
     }
 
@@ -108,5 +102,5 @@ class TransmissionRiskVectorDeterminatorTest {
     }
 
     private fun Instant.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days))
+        Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days.toLong()))
 }

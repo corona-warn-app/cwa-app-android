@@ -10,15 +10,11 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.Instant
 
 class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
-
-    private val now = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
 
     @MockK
     private lateinit var timeStamper: TimeStamper
@@ -26,7 +22,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now.toInstant()
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2012-10-15T10:00:00Z")
     }
 
     @Test
