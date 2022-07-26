@@ -41,7 +41,7 @@ data class DccV1(
         val fullNameStandardizedFormatted: String
             get() = when {
                 givenNameStandardized.isNullOrBlank() -> familyNameStandardized!!.trim()
-                familyNameStandardized.isNullOrBlank() -> familyNameStandardized!!.trim()
+                familyNameStandardized.isNullOrBlank() -> givenNameStandardized.trim()
                 else -> familyNameStandardized.trim() + "<<" + givenNameStandardized.trim()
             }
     }
