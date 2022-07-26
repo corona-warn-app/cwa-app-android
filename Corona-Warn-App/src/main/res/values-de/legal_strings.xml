@@ -191,8 +191,6 @@
     <string name="request_green_certificate_privacy_section_4" translatable="false">Wenn Sie den QR-Code des Testzertifikats in der App vorzeigen und dieser mit der Prüf-App gescannt wird, können andere Personen Ihr Testergebnis nachvollziehen. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt.</string>
     <!-- XTXT: Request GC bullet point 5 for privacy card -->
     <string name="request_green_certificate_privacy_section_5" translatable="false">Sie haben jederzeit die Möglichkeit, Testzertifikate in der App wieder zu löschen. Bis dahin bleiben die Testzertifikate auf Ihrem Smartphone gespeichert.</string>    <!-- XTXT: Request GC bullet point 1 for privacy card -->
-    <!-- XTXT: Request GC legal information section for privacy card -->
-    <string name="request_green_certificate_privacy_legal_information" translatable="false">Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung</string>
 
     <!-- DCC Ticketing Sonsent Screen -->
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
