@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -46,7 +47,7 @@ data class DccV1(
             }
 
         private fun String?.assertName(): String {
-            if (isNullOrBlank()) throw Exception("g should not be null or blank!")
+            if (isNullOrBlank()) throw throw InvalidQRCodeException("Person `fnt` or `gnt` should be present!")
             return this
         }
     }
