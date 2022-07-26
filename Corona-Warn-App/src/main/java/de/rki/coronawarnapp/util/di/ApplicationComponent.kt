@@ -31,7 +31,6 @@ import de.rki.coronawarnapp.main.MainModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
-import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
 import de.rki.coronawarnapp.profile.ProfileModule
 import de.rki.coronawarnapp.qrcode.QrCodeScannerModule
@@ -82,7 +81,6 @@ import javax.inject.Singleton
         SubmissionTaskModule::class,
         DownloadDiagnosisKeysTaskModule::class,
         VerificationModule::class,
-        PlaybookModule::class,
         TaskModule::class,
         DeviceForTestersModule::class,
         BugReportingModule::class,

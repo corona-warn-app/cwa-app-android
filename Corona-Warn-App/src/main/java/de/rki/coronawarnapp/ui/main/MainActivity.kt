@@ -316,7 +316,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        viewModel.doBackgroundNoiseCheck()
         dataDonationAnalyticsScheduler.initialize()
     }
 

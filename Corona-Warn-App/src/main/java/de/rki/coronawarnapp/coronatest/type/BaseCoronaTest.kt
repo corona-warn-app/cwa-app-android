@@ -70,6 +70,7 @@ interface CoronaTestKeySubmission {
     val isSubmissionAllowed: Boolean
     val isSubmitted: Boolean
     val isAdvancedConsentGiven: Boolean
+    val authCode: String?
 }
 
 interface CoronaTestProcessorState {
