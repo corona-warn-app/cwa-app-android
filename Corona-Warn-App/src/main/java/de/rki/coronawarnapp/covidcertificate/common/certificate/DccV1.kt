@@ -26,24 +26,29 @@ data class DccV1(
 
         val fullName: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName!!
-                lastName.isNullOrBlank() -> firstName!!
+                firstName.isNullOrBlank() -> lastName.assertName()
+                lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$firstName $lastName"
             }
 
         val fullNameFormatted: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName!!
-                lastName.isNullOrBlank() -> firstName!!
+                firstName.isNullOrBlank() -> lastName.assertName()
+                lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$lastName, $firstName"
             }
 
         val fullNameStandardizedFormatted: String
             get() = when {
-                givenNameStandardized.isNullOrBlank() -> familyNameStandardized!!.trim()
-                familyNameStandardized.isNullOrBlank() -> givenNameStandardized.trim()
+                givenNameStandardized.isNullOrBlank() -> familyNameStandardized.assertName()
+                familyNameStandardized.isNullOrBlank() -> givenNameStandardized.assertName()
                 else -> familyNameStandardized.trim() + "<<" + givenNameStandardized.trim()
             }
+
+        private fun String?.assertName(): String {
+            if (isNullOrBlank()) throw Exception("g should not be null or blank!")
+            return this
+        }
     }
 
     val dateOfBirthFormatted: String
