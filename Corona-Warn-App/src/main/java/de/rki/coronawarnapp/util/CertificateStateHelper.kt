@@ -177,7 +177,7 @@ fun PersonOverviewItemBinding.setUIState(
                 thirdCertificate?.cwaCertificate
             )
         }
-        certificateToggleGroup.check(0)
+        certificateToggleGroup.check(firstCertificateButton.id)
     }
 
     when (firstCertificate.cwaCertificate.displayedState()) {
