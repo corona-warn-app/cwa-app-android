@@ -29,8 +29,8 @@ class TransmissionRiskVectorDeterminerTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        mockkStatic(ZoneId::class )
-        every { ZoneId.systemDefault()} returns zoneId
+        mockkStatic(ZoneId::class)
+        every { ZoneId.systemDefault() } returns zoneId
         every { timeStamper.nowJavaUTC } returns now
     }
 
