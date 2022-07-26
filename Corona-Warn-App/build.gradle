@@ -495,7 +495,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
-    implementation 'com.networknt:json-schema-validator:1.0.70'
+    implementation 'com.networknt:json-schema-validator:1.0.72'
     implementation 'net.swiftzer.semver:semver:1.2.0'
 
     //JWT
