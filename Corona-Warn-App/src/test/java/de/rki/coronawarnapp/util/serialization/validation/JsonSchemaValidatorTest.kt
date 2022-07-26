@@ -12,7 +12,7 @@ class JsonSchemaValidatorTest : BaseTest() {
     private val schemaSource = object : JsonSchemaSource {
         override val rawSchema: String
             get() = this.javaClass.classLoader!!
-                .getResourceAsStream("jsonschema-dcc-ebb6720.json")
+                .getResourceAsStream("jsonschema-dcc-8b5f5ee.json")
                 .source()
                 .buffer()
                 .readUtf8()

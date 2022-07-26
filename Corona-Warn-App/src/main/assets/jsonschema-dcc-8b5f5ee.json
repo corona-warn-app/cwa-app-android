@@ -3,13 +3,49 @@
   "$id": "https://id.uvci.eu/DCC.combined-schema.json",
   "title": "EU DCC",
   "description": "EU Digital Covid Certificate",
-  "$comment": "Schema version 1.3.0",
-  "required": [
-    "ver",
-    "nam",
-    "dob"
-  ],
+  "$comment": "Schema version 1.3.2",
   "type": "object",
+  "oneOf": [
+    {
+      "required": [
+        "ver",
+        "nam",
+        "dob",
+        "v"
+      ],
+      "properties": {
+        "v": {
+          "minItems": 1
+        }
+      }
+    },
+    {
+      "required": [
+        "ver",
+        "nam",
+        "dob",
+        "t"
+      ],
+      "properties": {
+        "t": {
+          "minItems": 1
+        }
+      }
+    },
+    {
+      "required": [
+        "ver",
+        "nam",
+        "dob",
+        "r"
+      ],
+      "properties": {
+        "r": {
+          "minItems": 1
+        }
+      }
+    }
+  ],
   "properties": {
     "ver": {
       "title": "Schema version",
@@ -17,7 +53,10 @@
       "type": "string",
       "pattern": "^\\d+.\\d+.\\d+$",
       "examples": [
-        "1.3.0"
+        "1.0.0",
+        "1.3.0",
+        "1.3.1",
+        "1.3.2"
       ]
     },
     "nam": {
@@ -38,38 +77,29 @@
     },
     "v": {
       "description": "Vaccination Group",
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "$ref": "#/$defs/vaccination_entry"
       },
-      "minItems": 1,
+      "_minItems": 1,
       "maxItems": 1
     },
     "t": {
       "description": "Test Group",
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "$ref": "#/$defs/test_entry"
       },
-      "minItems": 1,
+      "_minItems": 1,
       "maxItems": 1
     },
     "r": {
       "description": "Recovery Group",
-      "type": [
-        "array",
-        "null"
-      ],
+      "type": ["array", "null"],
       "items": {
         "$ref": "#/$defs/recovery_entry"
       },
-      "minItems": 1,
+      "_minItems": 1,
       "maxItems": 1
     }
   },
@@ -86,8 +116,17 @@
     },
     "person_name": {
       "description": "Person name: Surname(s), forename(s) - in that order",
-      "required": [
-        "fnt"
+      "anyOf": [
+        {
+          "required": [
+            "fnt"
+          ]
+        },
+        {
+          "required": [
+            "gnt"
+          ]
+        }
       ],
       "type": "object",
       "properties": {
@@ -212,6 +251,7 @@
       "type": "object",
       "properties": {
         "tg": {
+          "description": "disease or agent targeted",
           "$ref": "#/$defs/disease-agent-targeted"
         },
         "tt": {
@@ -269,6 +309,7 @@
       "type": "object",
       "properties": {
         "tg": {
+          "description": "disease or agent targeted",
           "$ref": "#/$defs/disease-agent-targeted"
         },
         "fr": {
