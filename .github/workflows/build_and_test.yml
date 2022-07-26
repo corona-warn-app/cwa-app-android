@@ -3,7 +3,7 @@ name: Build, Scan and Test
 on: [ push, pull_request ]
 
 concurrency:
-  group: ${{ github.head_ref || github.ref }} #Cancel old runs if they have not finished yet
+  group: ${{ github.head_ref || github.ref || github.run_id}} #Cancel old runs if they have not finished yet
   cancel-in-progress: true
 
 env:
