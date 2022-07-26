@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>dgca.verifier.app</groupId>
   <artifactId>dgc-certlogic-android-light</artifactId>
-  <version>1.0.0-70-c90c97f</version>
+  <version>1.0.0-71-38f6d15</version>
   <packaging>aar</packaging>
   <name>EU Digital COVID Certificate - Certlogic Android Light</name>
   <description>A light version of the dgc-certlogic-android module for use with the CWA.</description>
@@ -12,7 +12,7 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
-      <version>1.4.32</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
