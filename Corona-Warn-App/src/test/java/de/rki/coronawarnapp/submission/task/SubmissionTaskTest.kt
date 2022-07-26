@@ -59,7 +59,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @MockK lateinit var tekBatch: TEKHistoryStorage.TEKBatch
     @MockK lateinit var tek: TemporaryExposureKey
-    @MockK lateinit var userSymptoms: Symptoms
+
     @MockK lateinit var transformedKey: TemporaryExposureKeyExportOuterClass.TemporaryExposureKey
     @MockK lateinit var appConfigData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
@@ -68,8 +68,8 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
-    private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
-
+    private val userSymptoms: Symptoms = mockk()
+    private val settingSymptomsPreference: FlowPreference<Symptoms?> = mockFlowPreference(userSymptoms)
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
 
@@ -84,6 +84,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
                 every { type } returns PCR
+                every { authCode } returns null
             }
         )
     )
@@ -119,6 +120,7 @@ class SubmissionTaskTest : BaseTest() {
         coronaTestRepository.apply {
             every { coronaTests } returns coronaTestsFlow
             coEvery { markAsSubmitted("coronatest-identifier") } just Runs
+            coEvery { updateAuthCode(any(), any()) } just Runs
         }
 
         every { tekBatch.keys } returns listOf(tek)
@@ -129,7 +131,6 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), any())
         } returns listOf(transformedKey)
 
-        settingSymptomsPreference = mockFlowPreference(userSymptoms)
         every { submissionSettings.symptoms } returns settingSymptomsPreference
         every { submissionSettings.lastSubmissionUserActivityUTC } returns settingLastUserActivityUTC
         every { submissionSettings.autoSubmissionAttemptsCount } returns settingAutoSubmissionAttemptsCount
@@ -139,6 +140,7 @@ class SubmissionTaskTest : BaseTest() {
         every { appConfigData.supportedCountries } returns listOf("NL")
 
         coEvery { playbook.submit(any()) } just Runs
+        coEvery { playbook.retrieveTan(any(), any()) } returns "tan"
 
         every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
@@ -181,8 +183,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `submission flow`() = runTest {
-        val task = createTask()
-        task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
+        createTask().run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = SubmissionTask.Result.State.SUCCESSFUL
         )
 
@@ -190,20 +191,19 @@ class SubmissionTaskTest : BaseTest() {
             submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
             coronaTestRepository.coronaTests
-
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
-
             coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
             settingSymptomsPreference.value
-
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             checkInRepository.checkInsWithinRetention
             checkInsTransformer.transform(any(), any())
+            playbook.retrieveTan("regtoken", null)
+            coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
 
             appConfigProvider.getAppConfig()
             playbook.submit(
@@ -214,20 +214,19 @@ class SubmissionTaskTest : BaseTest() {
                     visitedCountries = listOf("NL"),
                     unencryptedCheckIns = emptyList(),
                     encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+                    authCode = "tan"
                 )
             )
 
             tekHistoryStorage.reset()
             submissionSettings.symptoms
-            settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
 
+            settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
             checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
-
             coronaTestRepository.markAsSubmitted(any())
-
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
@@ -268,8 +267,10 @@ class SubmissionTaskTest : BaseTest() {
             settingSymptomsPreference.value
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
-
+            playbook.retrieveTan("regtoken", null)
+            coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
             appConfigProvider.getAppConfig()
+
             playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
@@ -278,7 +279,8 @@ class SubmissionTaskTest : BaseTest() {
                     visitedCountries = listOf("NL"),
                     unencryptedCheckIns = emptyList(),
                     encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+                    authCode = "tan"
                 )
             )
         }
@@ -287,6 +289,33 @@ class SubmissionTaskTest : BaseTest() {
             checkInRepository.reset()
             settingSymptomsPreference.update(any())
             autoSubmission.updateMode(any())
+        }
+        submissionSettings.symptoms.value shouldBe userSymptoms
+    }
+
+    @Test
+    fun `matches playbook pattern if tan retrieval fails`() = runTest {
+        coEvery { playbook.retrieveTan("regtoken", null) } throws Exception()
+
+        shouldThrow<Exception> {
+            createTask().run(SubmissionTask.Arguments())
+        }
+
+        coVerifySequence {
+            coronaTestRepository.coronaTests // Consent
+            coronaTestRepository.coronaTests // regToken
+            tekHistoryStorage.tekData
+            settingSymptomsPreference.value
+            tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
+            playbook.retrieveTan("regtoken", null)
+            playbook.submitFake()
+        }
+        coVerify(exactly = 0) {
+            tekHistoryStorage.reset()
+            checkInRepository.reset()
+            settingSymptomsPreference.update(any())
+            autoSubmission.updateMode(any())
+            coronaTestRepository.updateAuthCode(any(), any())
         }
         submissionSettings.symptoms.value shouldBe userSymptoms
     }
@@ -316,6 +345,7 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         coVerifySequence {
+            playbook.retrieveTan("regtoken", null)
             playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
@@ -324,7 +354,8 @@ class SubmissionTaskTest : BaseTest() {
                     visitedCountries = listOf("DE"),
                     unencryptedCheckIns = emptyList(),
                     encryptedCheckIns = emptyList(),
-                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST
+                    submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
+                    authCode = "tan"
                 )
             )
         }
@@ -396,6 +427,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { authCode } returns null
             }
         )
 
@@ -418,6 +450,7 @@ class SubmissionTaskTest : BaseTest() {
                 every { isSubmitted } returns false
                 every { registrationToken } returns "regtoken"
                 every { identifier } returns "coronatest-identifier"
+                every { authCode } returns null
             }
         )
 

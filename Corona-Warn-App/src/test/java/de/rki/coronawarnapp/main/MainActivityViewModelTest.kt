@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
-import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -54,7 +53,6 @@ class MainActivityViewModelTest : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
-    @MockK lateinit var backgroundNoise: BackgroundNoise
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var checkInRepository: CheckInRepository
@@ -112,7 +110,6 @@ class MainActivityViewModelTest : BaseTest() {
         environmentSetup = environmentSetup,
         backgroundModeStatus = backgroundModeStatus,
         contactDiaryUiSettings = ContactDiaryUiSettings(contactDiarySettingsStorage = contactDiarySettingsStorage),
-        backgroundNoise = backgroundNoise,
         onboardingSettings = onboardingSettings,
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
