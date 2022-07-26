@@ -13,7 +13,7 @@ import javax.inject.Inject
  * https://github.com/corona-warn-app/cwa-app-tech-spec/blob/master/docs/spec/days-since-onset-of-symptoms.md
  */
 @Reusable
-class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
+class DaysSinceOnsetOfSymptomsVectorDeterminer @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 

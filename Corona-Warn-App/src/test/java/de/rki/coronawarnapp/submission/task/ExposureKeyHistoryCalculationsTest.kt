@@ -40,7 +40,7 @@ class ExposureKeyHistoryCalculationsTest {
 
         instance = ExposureKeyHistoryCalculations(
             TransmissionRiskVectorDeterminer(timeStamper),
-            DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper),
+            DaysSinceOnsetOfSymptomsVectorDeterminer(timeStamper),
             converter,
             timeStamper
         )
