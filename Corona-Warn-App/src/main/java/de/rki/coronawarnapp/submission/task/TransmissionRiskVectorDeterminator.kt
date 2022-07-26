@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication
 import de.rki.coronawarnapp.submission.Symptoms.StartOf
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.LocalDate
+import de.rki.coronawarnapp.util.ageInDays
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.LocalDate
 import javax.inject.Inject
 
 @Reusable
@@ -16,7 +16,7 @@ class TransmissionRiskVectorDeterminator @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowUTC.toLocalDateUtc()) = TransmissionRiskVector(
+    fun determine(symptoms: Symptoms, now: LocalDate = timeStamper.nowJavaUTC.toLocalDateUtc()) = TransmissionRiskVector(
         when (symptoms.symptomIndication) {
             Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                 is StartOf.Date -> {

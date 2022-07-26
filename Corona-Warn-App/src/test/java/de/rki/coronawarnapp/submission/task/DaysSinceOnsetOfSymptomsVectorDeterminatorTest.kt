@@ -4,17 +4,17 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
 
@@ -32,28 +32,28 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     @Test
     fun `match a positive symptom indication to the exact date of yesterday`() {
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(1), POSITIVE)
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(1), POSITIVE)
         ) shouldBe intArrayOf(1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13)
     }
 
     @Test
     fun `match a positive symptom indication to the exact date of today`() {
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(0), POSITIVE)
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(0), POSITIVE)
         ) shouldBe intArrayOf(0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14)
     }
 
     @Test
     fun `match a positive symptom indication to the exact date 5 days ago`() {
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(5), POSITIVE)
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(5), POSITIVE)
         ) shouldBe intArrayOf(5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9)
     }
 
     @Test
     fun `match a positive symptom indication to the exact date 21 days ago`() {
         DaysSinceOnsetOfSymptomsVectorDeterminator(timeStamper).determine(
-            Symptoms(timeStamper.nowUTC.startMinusDays(21), POSITIVE)
+            Symptoms(timeStamper.nowJavaUTC.startMinusDays(21), POSITIVE)
         ) shouldBe intArrayOf(21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7)
     }
 
@@ -100,5 +100,5 @@ class DaysSinceOnsetOfSymptomsVectorDeterminatorTest {
     }
 
     private fun Instant.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days))
+        Symptoms.StartOf.Date(this.toLocalDateUtc().minusDays(days.toLong()))
 }
