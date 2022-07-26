@@ -14,31 +14,34 @@ data class DccV1(
 ) {
     data class NameData(
         @SerializedName("fn") internal val familyName: String?,
-        @SerializedName("fnt") internal val familyNameStandardized: String,
+        @SerializedName("fnt") internal val familyNameStandardized: String?,
         @SerializedName("gn") internal val givenName: String?,
         @SerializedName("gnt") internal val givenNameStandardized: String?,
     ) {
         val firstName: String?
             get() = if (givenName.isNullOrBlank()) givenNameStandardized else givenName
 
-        val lastName: String
+        val lastName: String?
             get() = if (familyName.isNullOrBlank()) familyNameStandardized else familyName
 
         val fullName: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName
+                firstName.isNullOrBlank() -> lastName!!
+                lastName.isNullOrBlank() -> firstName!!
                 else -> "$firstName $lastName"
             }
 
         val fullNameFormatted: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName
+                firstName.isNullOrBlank() -> lastName!!
+                lastName.isNullOrBlank() -> firstName!!
                 else -> "$lastName, $firstName"
             }
 
         val fullNameStandardizedFormatted: String
             get() = when {
-                givenNameStandardized.isNullOrBlank() -> familyNameStandardized.trim()
+                givenNameStandardized.isNullOrBlank() -> familyNameStandardized!!.trim()
+                familyNameStandardized.isNullOrBlank() -> familyNameStandardized!!.trim()
                 else -> familyNameStandardized.trim() + "<<" + givenNameStandardized.trim()
             }
     }
