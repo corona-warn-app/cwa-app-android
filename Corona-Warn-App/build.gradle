@@ -502,8 +502,7 @@ dependencies {
     implementation 'com.nimbusds:nimbus-jose-jwt:9.23'
 
     // SECURITY
-    //noinspection GradleDependency
-    implementation "androidx.security:security-crypto:1.0.0-rc03"
+    implementation "androidx.security:security-crypto:1.0.0"
     implementation 'org.conscrypt:conscrypt-android:2.5.2'
 
     // LOGGING
