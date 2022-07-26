@@ -171,7 +171,7 @@ class CalendarView @JvmOverloads constructor(
                     weekDay == currentWeekDay
                 )
             }.also {
-                    dayLegendLayout.addView(it)
+                dayLegendLayout.addView(it)
             }
         }
     }
