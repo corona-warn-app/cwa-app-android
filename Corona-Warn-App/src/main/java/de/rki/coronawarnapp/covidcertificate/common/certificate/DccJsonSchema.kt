@@ -17,5 +17,5 @@ class DccJsonSchema @Inject constructor(
     }
     override val rawSchema: String get() = assetCache
 
-    override val version: JsonSchemaSource.Version = JsonSchemaSource.Version.V2019_19
+    override val version: JsonSchemaSource.Version = JsonSchemaSource.Version.V2020_12
 }
