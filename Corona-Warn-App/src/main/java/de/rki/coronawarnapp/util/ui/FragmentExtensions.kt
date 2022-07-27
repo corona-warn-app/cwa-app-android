@@ -25,8 +25,9 @@ fun Fragment.popBackStack(): Boolean {
     }
     if (findNavController().backQueue.isEmpty()) {
         findNavController().navigate(R.id.launcherActivity)
-    }
-    return findNavController().popBackStack()
+    } else findNavController().popBackStack()
+
+    return true
 }
 
 /**
