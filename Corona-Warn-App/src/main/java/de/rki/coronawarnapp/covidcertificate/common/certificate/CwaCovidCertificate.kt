@@ -25,7 +25,7 @@ interface CwaCovidCertificate : Recyclable {
 
     val qrCodeToDisplay: CoilQrCode
     val firstName: String?
-    val lastName: String
+    val lastName: String?
     val fullName: String
     val fullNameFormatted: String
     val fullNameStandardizedFormatted: String

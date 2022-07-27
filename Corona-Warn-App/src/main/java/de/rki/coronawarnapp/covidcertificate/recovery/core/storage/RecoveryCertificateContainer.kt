@@ -93,7 +93,7 @@ data class RecoveryCertificateContainer(
             override val firstName: String?
                 get() = certificate.nameData.firstName
 
-            override val lastName: String
+            override val lastName: String?
                 get() = certificate.nameData.lastName
 
             override val fullName: String
