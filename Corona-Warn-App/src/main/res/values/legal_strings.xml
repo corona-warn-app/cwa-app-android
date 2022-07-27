@@ -189,8 +189,6 @@
     <string name="request_green_certificate_privacy_section_4" translatable="false">If you present the QR code of the test certificate in the app and it is scanned using the verification app, others will be able to find out your test result. During verification, the official verification app will also display your name and date of birth.</string>
     <!-- XTXT: Request GC bullet point 5 for privacy card -->
     <string name="request_green_certificate_privacy_section_5" translatable="false">You have the possibility to delete test certificates in the app at any time. Until then, the test certificates will be stored on your smartphone.</string>
-    <!-- XTXT: Request GC legal information section for privacy card -->
-    <string name="request_green_certificate_privacy_legal_information" translatable="false">Detailed information about this data processing is available in the privacy notice</string>
 
     <!-- DCC Ticketing Sonsent Screen -->
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
