@@ -12,29 +12,28 @@ import timber.log.Timber
 
 data class CertificatePersonIdentifier(
     @JsonProperty("dateOfBirth") val dateOfBirthFormatted: String,
-    @JsonProperty("familyNameStandardized") val lastNameStandardized: String,
+    @JsonProperty("familyNameStandardized") val lastNameStandardized: String? = null,
     @JsonProperty("givenNameStandardized") val firstNameStandardized: String? = null,
 ) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @get:JsonIgnore
-    val sanitizedFamilyName: List<String> by lazy { lastNameStandardized.sanitizeName() }
+    val sanitizedFamilyName: List<String> by lazy { lastNameStandardized?.sanitizeName().orEmpty() }
 
     @get:JsonIgnore
-    private val sanitizedGivenName: List<String> by lazy { firstNameStandardized?.sanitizeName() ?: emptyList() }
+    private val sanitizedGivenName: List<String> by lazy { firstNameStandardized?.sanitizeName().orEmpty() }
 
     /**
-     Method shall decide whether the DGCs belong to the same holder.
-     Two DCCs shall be considered as belonging to the same holder, if:
-
-     - the sanitized `dob` attributes are the same strings, and
-     - one of:
-     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one
-     element, and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least
-     one element or both are empty sets (`gnt` is an optional field)
-     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one
-     element, and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least
-     one element
+     * Method shall decide whether the DGCs belong to the same holder.
+     * Two DCCs shall be considered as belonging to the same holder, if:
+     * - the sanitized `dob` attributes are the same strings, and
+     * - one of:
+     * - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one
+     * element, and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least
+     * one element or both are empty sets (`gnt` is an optional field)
+     * - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one
+     * element, and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least
+     * one element
      */
     fun belongsToSamePerson(other: CwaCovidCertificate): Boolean = belongsToSamePerson(other.personIdentifier)
     fun belongsToSamePerson(other: CertificatePersonIdentifier?): Boolean {

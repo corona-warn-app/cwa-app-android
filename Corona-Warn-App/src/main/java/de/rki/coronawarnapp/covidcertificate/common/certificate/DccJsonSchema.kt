@@ -13,9 +13,9 @@ class DccJsonSchema @Inject constructor(
 ) : JsonSchemaSource {
 
     private val assetCache by lazy {
-        assets.open("jsonschema-dcc-ebb6720.json").source().buffer().readUtf8()
+        assets.open("jsonschema-dcc-8b5f5ee.json").source().buffer().readUtf8()
     }
     override val rawSchema: String get() = assetCache
 
-    override val version: JsonSchemaSource.Version = JsonSchemaSource.Version.V2019_19
+    override val version: JsonSchemaSource.Version = JsonSchemaSource.Version.V2019_09
 }
