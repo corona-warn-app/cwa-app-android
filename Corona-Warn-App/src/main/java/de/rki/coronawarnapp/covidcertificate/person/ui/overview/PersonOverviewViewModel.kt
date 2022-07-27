@@ -77,38 +77,36 @@ class PersonOverviewViewModel @AssistedInject constructor(
         tcWrappers: Set<TestCertificateWrapper>,
     ) {
         addPendingCards(tcWrappers)
-        addCertificateCards(persons)
+        addAll(persons.toCertificatesCard())
     }
 
-    private suspend fun MutableList<PersonCertificatesItem>.addCertificateCards(
-        persons: Set<PersonCertificates>,
-    ) {
-        persons.filterNotPending().forEachIndexed { index, person ->
+    private suspend fun Set<PersonCertificates>.toCertificatesCard() = this
+        .filterNotPending()
+        .filterNot { it.certificates.isEmpty() }
+        .mapIndexed { index, person ->
             val admissionState = person.dccWalletInfo?.admissionState
             val certificates = person.verificationCertificates
             val color = PersonColorShade.shadeFor(index)
-            if (certificates.isNotEmpty()) {
-                add(
-                    PersonCertificateCard.Item(
-                        overviewCertificates = certificates.map {
-                            OverviewCertificate(it.cwaCertificate, format(it.buttonText))
-                        },
-                        admissionBadgeText = format(admissionState?.badgeText),
-                        colorShade = color,
-                        badgeCount = person.badgeCount,
-                        onClickAction = { _, position ->
-                            person.personIdentifier.let { personIdentifier ->
-                                events.postValue(
-                                    OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
-                                )
-                            }
-                        },
-                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
-                    )
-                )
-            }
+
+            PersonCertificateCard.Item(
+                overviewCertificates = certificates.map {
+                    OverviewCertificate(it.cwaCertificate, format(it.buttonText))
+                },
+                admissionBadgeText = format(admissionState?.badgeText),
+                colorShade = color,
+                badgeCount = person.badgeCount,
+                onClickAction = { _, position ->
+                    person.personIdentifier.let { personIdentifier ->
+                        events.postValue(
+                            OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
+                        )
+                    }
+                },
+                onCovPassInfoAction = { events.postValue(OpenCovPassInfo) },
+                onCertificateSelected = { selection -> }
+            )
+
         }
-    }
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
         tcWrappers.filter {
