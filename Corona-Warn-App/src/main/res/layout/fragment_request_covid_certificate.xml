@@ -170,7 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/privacy_card"
-                app:titleText="@string/request_green_certificate_privacy_legal_information" />
+                app:titleText="@string/request_green_certificate_privacy_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
