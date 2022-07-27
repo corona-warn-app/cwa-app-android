@@ -1,4 +1,4 @@
-name: Build, Scan and Test
+name: Android CI
 
 on: [ pull_request ]
 
@@ -166,6 +166,7 @@ jobs:
           INDEX_LIST=$(seq 0 ${MAX_INDEX})
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
           echo "::set-output name=json::${INDEX_JSON}"
+
 
 
 
