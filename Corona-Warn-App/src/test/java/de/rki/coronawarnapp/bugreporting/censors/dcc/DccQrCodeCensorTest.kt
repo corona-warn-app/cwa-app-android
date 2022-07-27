@@ -95,7 +95,7 @@ class DccQrCodeCensorTest : BaseTest() {
             censored shouldNotContain fullNameFormatted
             censored shouldNotContain fullNameStandardizedFormatted
             censored shouldNotContain familyName!!
-            censored shouldNotContain familyNameStandardized
+            censored shouldNotContain familyNameStandardized!!
             censored shouldNotContain givenName!!
             censored shouldNotContain givenNameStandardized!!
         }
@@ -153,7 +153,7 @@ class DccQrCodeCensorTest : BaseTest() {
             censored shouldNotContain fullNameFormatted
             censored shouldNotContain fullNameStandardizedFormatted
             censored shouldNotContain familyName!!
-            censored shouldNotContain familyNameStandardized
+            censored shouldNotContain familyNameStandardized!!
             censored shouldNotContain givenName!!
             censored shouldNotContain givenNameStandardized!!
         }
@@ -195,7 +195,7 @@ class DccQrCodeCensorTest : BaseTest() {
             censored shouldNotContain fullNameFormatted
             censored shouldNotContain fullNameStandardizedFormatted
             censored shouldNotContain familyName!!
-            censored shouldNotContain familyNameStandardized
+            censored shouldNotContain familyNameStandardized!!
             censored shouldNotContain givenName!!
             censored shouldNotContain givenNameStandardized!!
         }
