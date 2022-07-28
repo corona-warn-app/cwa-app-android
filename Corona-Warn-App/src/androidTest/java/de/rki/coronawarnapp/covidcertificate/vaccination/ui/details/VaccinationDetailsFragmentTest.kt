@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
@@ -38,7 +39,10 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
 
     @MockK lateinit var vaccinationDetailsViewModel: VaccinationDetailsViewModel
 
-    private val args = VaccinationDetailsFragmentArgs(certIdentifier = "vaccinationCertificateId").toBundle()
+    private val args = VaccinationDetailsFragmentArgs(
+        certIdentifier = "vaccinationCertificateId",
+        colorShade = PersonColorShade.COLOR_1
+    ).toBundle()
 
     @Before
     fun setUp() {

@@ -9,7 +9,8 @@
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
         android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_test_result_headline">
+        android:contentDescription="@string/submission_test_result_headline"
+        tools:context=".ui.submission.testresult.invalid.SubmissionTestResultInvalidFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

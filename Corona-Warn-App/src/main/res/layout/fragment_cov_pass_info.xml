@@ -189,6 +189,37 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bullet_point_four_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bullet_point_three_container">
+
+                    <include
+                        android:id="@+id/bulletpoint_four"
+                        layout="@layout/include_bullet_point"
+                        android:layout_width="@dimen/bullet_point_size"
+                        android:layout_height="@dimen/bullet_point_size"
+                        app:layout_constraintBaseline_toBaselineOf="@id/bullet_point_four_body" />
+
+                    <TextView
+                        android:id="@+id/bullet_point_four_body"
+                        style="@style/subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_normal"
+                        android:focusable="true"
+                        android:text="@string/cov_pass_info_section_four"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/bulletpoint_four"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

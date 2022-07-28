@@ -58,7 +58,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         callback = callback,
         scope = scope,
         tracingPermissionHelperFactory = tracingPermissionHelperFactory,
-        tekHistoryStorage = tekHistoryStorage,
+        tekCache = tekHistoryStorage,
         timeStamper = timeStamper,
         enfClient = enfClient
     )
@@ -69,7 +69,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.getTeksOrRequestPermission()
         coVerify {
             enfClient.getTEKHistoryOrRequestPermission(
                 any(),
@@ -84,7 +84,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.getTeksOrRequestPermission()
         coVerify(exactly = 1) { tekHistoryStorage.tekData }
     }
 
@@ -101,7 +101,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
             }
             val instance = createInstance(scope = this, callback = callback)
 
-            instance.updateTEKHistoryOrRequestPermission()
+            instance.getTeksOrRequestPermission()
             verify(exactly = 1) { callback.onTEKAvailable(teks) }
             coVerify(exactly = 0) {
                 enfClient.getTEKHistoryOrRequestPermission(
@@ -120,7 +120,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val callback = mockk<TEKHistoryUpdater.Callback>()
         val instance = createInstance(scope = this, callback = callback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.getTeksOrRequestPermission()
 
         verify {
             tracingPermissionHelper.startTracing()
@@ -140,7 +140,7 @@ class TEKHistoryUpdaterTest : BaseTest() {
         val tekUpdaterCallback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
         val instance = createInstance(scope = this, callback = tekUpdaterCallback)
 
-        instance.updateTEKHistoryOrRequestPermission()
+        instance.getTeksOrRequestPermission()
         tracingCallback shouldNotBe null
 
         val consentRequest: (Boolean) -> Unit = { }
@@ -188,14 +188,38 @@ class TEKHistoryUpdaterTest : BaseTest() {
 
             val testIntent = mockk<Intent>()
             instance.handleActivityResult(
-                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
+                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_WITH_CACHING,
                 resultCode = Activity.RESULT_CANCELED,
                 data = testIntent
             ) shouldBe true
 
             verifySequence {
                 tracingPermissionHelper.handleActivityResult(
-                    requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
+                    requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_WITH_CACHING,
+                    resultCode = Activity.RESULT_CANCELED,
+                    data = testIntent
+                )
+                callback.onTEKPermissionDeclined()
+            }
+        }
+
+    @Test
+    fun `TEK activity results processed if not consumed by the tracing permissionhelper no caching`() =
+        runTest(UnconfinedTestDispatcher()) {
+            every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
+            val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
+            val instance = createInstance(scope = this, callback = callback)
+
+            val testIntent = mockk<Intent>()
+            instance.handleActivityResult(
+                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_NO_CACHING,
+                resultCode = Activity.RESULT_CANCELED,
+                data = testIntent
+            ) shouldBe true
+
+            verifySequence {
+                tracingPermissionHelper.handleActivityResult(
+                    requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_NO_CACHING,
                     resultCode = Activity.RESULT_CANCELED,
                     data = testIntent
                 )
@@ -233,14 +257,38 @@ class TEKHistoryUpdaterTest : BaseTest() {
 
         val testIntent = mockk<Intent>()
         instance.handleActivityResult(
-            requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
+            requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_WITH_CACHING,
             resultCode = Activity.RESULT_OK,
             data = testIntent
         ) shouldBe true
 
         coVerifySequence {
             tracingPermissionHelper.handleActivityResult(
-                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST,
+                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_WITH_CACHING,
+                resultCode = Activity.RESULT_OK,
+                data = testIntent
+            )
+            enfClient.getTEKHistory()
+            callback.onTEKAvailable(availableTEKs)
+        }
+    }
+
+    @Test
+    fun `positive TEK activity results trigger new update attempt no caching`() = runTest(UnconfinedTestDispatcher()) {
+        every { tracingPermissionHelper.handleActivityResult(any(), any(), any()) } returns false
+        val callback = mockk<TEKHistoryUpdater.Callback>(relaxUnitFun = true)
+        val instance = createInstance(scope = this, callback = callback)
+
+        val testIntent = mockk<Intent>()
+        instance.handleActivityResult(
+            requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_NO_CACHING,
+            resultCode = Activity.RESULT_OK,
+            data = testIntent
+        ) shouldBe true
+
+        coVerifySequence {
+            tracingPermissionHelper.handleActivityResult(
+                requestCode = TEKHistoryUpdater.TEK_PERMISSION_REQUEST_NO_CACHING,
                 resultCode = Activity.RESULT_OK,
                 data = testIntent
             )

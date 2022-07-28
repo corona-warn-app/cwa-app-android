@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Eksportuj certyfikaty"</item>
+        <item>"Zaktualizowano zalecane postępowanie"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz zapisać wszystkie certyfikaty w swojej aplikacji w jednym dokumencie PDF w ramach jednego kroku."</item>
+        <item>"Zaktualizowano zalecane postępowanie w przypadku podwyższonego ryzyka. Zalecenia obejmują m.in. ograniczenie kontaktów z innymi osobami oraz noszenie maseczki. Zaktualizowano również zalecenia dla osób o niskim ryzyku."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

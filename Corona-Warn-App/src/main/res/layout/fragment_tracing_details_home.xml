@@ -1,11 +1,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/risk_details_stay_at_home_title"
-    android:focusable="true">
+    android:focusable="true"
+    tools:context="tracing.ui.details.home.HomeRulesFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -76,32 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:backgroundTint="@color/colorSemanticHighRisk"
-                android:icon="@drawable/ic_risk_details_shopping"
-                android:text="@string/risk_details_behavior_body_shopping" />
-
-            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:backgroundTint="@color/colorSemanticHighRisk"
                 android:icon="@drawable/ic_risk_details_public_transport"
                 android:text="@string/risk_details_behavior_body_public_transport" />
-
-            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:backgroundTint="@color/colorSemanticHighRisk"
-                android:icon="@drawable/ic_risk_details_no_lugage"
-                android:text="@string/risk_details_behavior_body_traveling" />
-
-            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:backgroundTint="@color/colorSemanticHighRisk"
-                android:icon="@drawable/ic_risk_details_health_department"
-                android:text="@string/risk_details_behavior_body_health_department" />
 
             <TextView
                 android:id="@+id/faq_text"

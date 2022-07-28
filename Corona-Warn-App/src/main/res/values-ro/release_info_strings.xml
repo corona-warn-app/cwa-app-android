@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Exportare certificate"</item>
+        <item>"Actualizarea conduitei recomandate"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Puteți salva toate certificatele din aplicația dvs. într-un document PDF într-o singură etapă."</item>
+        <item>"Conduita recomandată în cazul în care aveți un risc crescut a fost actualizată. Recomandările includ, printre altele, reducerea contactului cu alte persoane și purtarea unei măști faciale. De asemenea, au fost actualizate recomandările pentru persoanele cu risc redus."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -103,8 +103,6 @@
     <string name="coronatest_negative_rapid_test_result_time_date_placeholder">"%1$s, %2$s"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
     <string name="submission_test_result_negative_message">"SARS-CoV-2 virüsü tanısı almadınız."</string>
-    <!-- XHED: submission result antigen fragment negative result proof title -->
-    <string name="submission_test_result_antigen_negative_proof_title">"Doğrulama Özelliği"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Burada görüntülenen sonucunuzu doğrulanabilir şekilde kanıtlamak için AB Dijital Covid Sertifikası gereklidir. Testinizi kaydettiğinizde dijital test sertifikası talebinde bulunduysanız ve test noktası, dijital sertifika düzenlemeyi destekliyorsa yukarıda belirtilen bağlantıyı kullanarak dijital test sertifikanızı bulabilirsiniz. Sertifikayı \"Sertifikalar\" sekmesinde de bulabilirsiniz.\nKanıt gerektiren amaç bağlamında test sertifikalarının geçerliliği ve kabulüne ilişkin ölçütleri de bulabilirsiniz."</string>
     <!-- XHED: submission result antigen negative result counter title -->
@@ -123,8 +121,6 @@
     <string name="coronatest_negative_antigen_restul_third_info_body">"Gerekirse yeni bir test kodu kaydedebilmeniz için lütfen testi Corona-Warn-App\'ten silin."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
     <string name="coronatest_negative_result_certificate_info_title">"Test Sertifikası"</string>
-    <!-- XTXT: coronatest negative result certificate info body -->
-    <string name="coronatest_negative_result_certificate_info_body">"Test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile

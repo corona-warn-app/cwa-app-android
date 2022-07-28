@@ -772,7 +772,7 @@
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultPendingFragment"
             app:destination="@id/submissionTestResultPendingFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionDeletionWarningFragment"
@@ -780,7 +780,7 @@
         <action
             android:id="@+id/action_submissionTanFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
     </fragment>
 

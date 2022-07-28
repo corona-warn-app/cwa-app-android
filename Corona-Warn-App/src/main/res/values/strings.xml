@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Risk of Infection"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
+    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring the duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -258,15 +258,15 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"This is what you should do, even if you have been vaccinated or have recovered, and even if you don’t have any symptoms:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household."</string>
+    <string name="risk_details_behavior_body_stay_home">"If possible, please reduce your contacts with others, particularly with people who are particularly at risk, such as the elderly, people with pre-existing conditions, and the immunocompromised."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 for the Federal Ministry of Health service point. Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
-    <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people."</string>
+    <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people indoors and wherever it is legally required or recommended."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_away">"Keep at least 1.5 meters distance from other people."</string>
+    <string name="risk_details_behavior_body_stay_away">"Whenever possible, keep at least 1.5 meters distance from other people."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
@@ -274,9 +274,9 @@
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Please get tested, for example, with a rapid antigen test, or use self-tests - preferably several times, taking a test every two days. If a test is positive, take a PCR test to confirm the result."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Be alert for typical symptoms. Even vaccinated people and those who have recovered can develop symptoms. If you feel sick or develop any symptoms, please contact your family doctor."</string>
+    <string name="risk_details_faq_symptoms">"Be alert for typical symptoms. Even vaccinated people and those who have recovered can develop symptoms. If you feel sick or develop any symptoms, reduce your contacts with others, stay home, and contact your family doctor."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor after you get tested."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor after you get tested. Please refer to the STIKO website for vaccination recommendations."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Get vaccinated against the SARS-CoV-2 virus if you have not already done so."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -291,6 +291,8 @@
     <string name="risk_details_behavior_increased_body_2">"More information about the testing procedure is available on our FAQ page."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"More information about the testing procedure is available on our FAQ page."</string>
+    <!-- XMSG: risk details - faq STIKO, bullet point link, must match last sentence of risk_details_increased_risk_faq_vaccination -->
+    <string name="risk_details_behavior_increased_body_3">"Please refer to the STIKO website for vaccination recommendations."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -299,7 +301,7 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -321,7 +323,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your smartphone. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Therefore, your risk of infection has been classified as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
+    <string name="risk_details_information_body_notice_increased">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your smartphone. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -337,6 +339,9 @@
     <string name="risk_details_deadman_notification_title">"Your Risk Status"</string>
     <!-- YTXT: risk details - deadman notification text -->
     <string name="risk_details_deadman_notification_body">"Please remember to open the Corona-Warn-App regularly to check your risk status."</string>
+
+    <!-- XTXT: risk details - infection period logged information body -->
+    <string name="risk_details_information_body_period_logged_box">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring the duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
 
     <!-- ####################################
                Risk Lowered Dialog

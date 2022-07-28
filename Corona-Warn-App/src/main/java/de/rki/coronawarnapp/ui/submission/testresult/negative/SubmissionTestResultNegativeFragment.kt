@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.testresult.negative
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -66,20 +65,12 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
                         testResultStepsTestAdded.setEntryText("")
                         testResultStepsRemoveTest.isVisible = false
-                        testResultStepsTestCertificate.setEntryTitle(
-                            getText(
-                                R.string.submission_family_test_result_pending_steps_certificate_heading
-                            )
-                        )
-                        testResultStepsTestCertificate.setEntryText(
-                            getText(
-                                R.string.submission_family_test_result_negative_steps_certificate_text
-                            )
-                        )
+                        testResultStepsNegativeResult.setIsFinal(true)
                     }
                     is PersonalCoronaTest -> {
                         familyMemberName.isVisible = false
                         toolbar.title = getText(R.string.submission_test_result_toolbar_text)
+                        testResultStepsRemoveTest.setIsFinal(true)
                     }
                 }
 
@@ -115,32 +106,12 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 // test certificate state
                 when (uiState.certificateState) {
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
-                        testResultStepsRemoveTest.setIsFinal(true)
-                        testResultStepsTestCertificate.isGone = true
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.PENDING -> {
-                        testResultStepsRemoveTest.setIsFinal(false)
-                        testResultStepsTestCertificate.isGone = false
-                        testResultStepsTestCertificate.setEntryText(
-                            getText(
-                                R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
-                            )
-                        )
-                        testResultStepsTestCertificate.setIcon(
-                            getDrawable(requireContext(), R.drawable.ic_result_pending_certificate_info)
-                        )
                         testCertificateCard.isGone = true
                     }
                     SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
-                        testResultStepsRemoveTest.setIsFinal(false)
-                        testResultStepsTestCertificate.isGone = false
-                        testResultStepsTestCertificate.setEntryText(
-                            getText(R.string.coronatest_negative_result_certificate_info_body)
-                        )
-                        testResultStepsTestCertificate.setIcon(
-                            getDrawable(requireContext(), R.drawable.ic_qr_code_illustration)
-                        )
                         testCertificateCard.isGone = false
                     }
                 }
