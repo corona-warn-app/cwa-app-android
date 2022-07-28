@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.CertificateSelection
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -175,9 +176,9 @@ fun PersonOverviewItemBinding.setUIState(
 }
 
 private fun IncludeCertificateOverviewQrCardBinding.bindButtonToggleGroup(
-    secondCertificate: PersonCertificateCard.Item.OverviewCertificate?,
-    thirdCertificate: PersonCertificateCard.Item.OverviewCertificate?,
-    firstCertificate: PersonCertificateCard.Item.OverviewCertificate,
+    secondCertificate: OverviewCertificate?,
+    thirdCertificate: OverviewCertificate?,
+    firstCertificate: OverviewCertificate,
     item: PersonCertificateCard.Item
 ) {
     certificateToggleGroup.isVisible = secondCertificate != null || thirdCertificate != null
@@ -237,7 +238,7 @@ private fun IncludeCertificateOverviewQrCardBinding.loadQrImage(certificate: Cwa
 
 private fun setButton(
     button: MaterialButton,
-    certificate: PersonCertificateCard.Item.OverviewCertificate?,
+    certificate: OverviewCertificate?,
     typeface: Typeface = Typeface.DEFAULT,
 ) {
     if (certificate?.buttonText == null) {
