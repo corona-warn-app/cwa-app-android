@@ -118,9 +118,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 },
                 onCovPassInfoAction = { events.postValue(OpenCovPassInfo) },
                 onCertificateSelected = { selection ->
-                    selectedCertificates.update { map ->
-                        map.mutate { put(person.personIdentifier, selection) }
-                    }
+                    selectedCertificates.update { it.mutate { put(person.personIdentifier, selection) } }
                 }
             )
 
