@@ -121,7 +121,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     selectedCertificates.update { it.mutate { put(person.personIdentifier, selection) } }
                 }
             )
-
         }
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
