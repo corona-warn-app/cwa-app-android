@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:background="@color/colorSurface"
         android:contentDescription="@string/contact_diary_title"
-        android:focusable="true">
+        android:focusable="true"
+        tools:context="contactdiary.ui.onboarding.ContactDiaryOnboardingFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

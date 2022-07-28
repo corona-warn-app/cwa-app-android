@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -41,6 +42,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
             }
             if (!args.showBottomNav) {
                 toolbar.apply {
+                    addMenuId(R.id.contact_diary_onboarding_fragment_menu_id)
                     navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
                     navigationContentDescription = getString(R.string.accessibility_close)
                     setNavigationOnClickListener { vm.onBackButtonPress() }
