@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -40,6 +40,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     certificatesProvider: PersonCertificatesProvider,
     dccAdmissionTileProvider: AdmissionTileProvider,
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
+    @Assisted private val savedState: SavedStateHandle,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val format: CclTextFormatter,
@@ -48,7 +49,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val selectedCertificates = MutableStateFlow(mapOf<CertificatePersonIdentifier, CertificateSelection>())
+    private val selectedCertificates = MutableStateFlow(
+        savedState.get<Map<String, CertificateSelection>>(SELECTIONS_KEY).orEmpty()
+    )
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
 
     val isExportAllTooltipVisible = combine(
@@ -60,7 +63,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>,
         Set<TestCertificateWrapper>,
-        Map<CertificatePersonIdentifier, CertificateSelection>,
+        Map<String, CertificateSelection>,
         UiState>(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
@@ -85,14 +88,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private suspend fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
-        selections: Map<CertificatePersonIdentifier, CertificateSelection>,
+        selections: Map<String, CertificateSelection>,
     ) {
         addPendingCards(tcWrappers)
         addAll(persons.toCertificatesCard(selections))
     }
 
     private suspend fun Set<PersonCertificates>.toCertificatesCard(
-        selections: Map<CertificatePersonIdentifier, CertificateSelection>
+        selections: Map<String, CertificateSelection>
     ) = this
         .filterNotPending()
         .filterNot { it.certificates.isEmpty() }
@@ -108,7 +111,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 admissionBadgeText = format(admissionState?.badgeText),
                 colorShade = color,
                 badgeCount = person.badgeCount,
-                certificateSelection = selections[person.personIdentifier] ?: CertificateSelection.FIRST,
+                certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,
                 onClickAction = { _, position ->
                     person.personIdentifier.let { personIdentifier ->
                         events.postValue(
@@ -118,7 +121,13 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 },
                 onCovPassInfoAction = { events.postValue(OpenCovPassInfo) },
                 onCertificateSelected = { selection ->
-                    selectedCertificates.update { it.mutate { put(person.personIdentifier, selection) } }
+                    selectedCertificates.update { prevSelections ->
+                        prevSelections.mutate {
+                            put(person.personIdentifier.groupingKey, selection)
+                        }.also {
+                            savedState[SELECTIONS_KEY] = it
+                        }
+                    }
                 }
             )
         }
@@ -174,7 +183,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {
         fun create(
-            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
+            savedState: SavedStateHandle,
         ): PersonOverviewViewModel
+    }
+
+    companion object {
+        private const val SELECTIONS_KEY = "PersonOverviewViewModel.SELECTIONS_KEY"
     }
 }
