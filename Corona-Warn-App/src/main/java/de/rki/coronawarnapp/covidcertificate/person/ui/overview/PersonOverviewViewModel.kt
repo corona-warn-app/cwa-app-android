@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenar
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.CertificateSelection
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -22,12 +24,15 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.mutate
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
@@ -43,6 +48,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
+    private val selectedCertificates = MutableStateFlow(mapOf<CertificatePersonIdentifier, CertificateSelection>())
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
 
     val isExportAllTooltipVisible = combine(
@@ -52,10 +58,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
         !done && personCerts.isNotEmpty()
     }.asLiveData2()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
+    val uiState: LiveData<UiState> = combine<Set<PersonCertificates>,
+        Set<TestCertificateWrapper>,
+        Map<CertificatePersonIdentifier, CertificateSelection>,
+        UiState>(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
-    ) { persons, tcWrappers ->
+        selectedCertificates
+    ) { persons, tcWrappers, selections ->
 
         if (migrationCheck.shouldShowMigrationInfo(persons)) {
             events.postValue(ShowMigrationInfoDialog)
@@ -63,7 +73,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
-                addPersonItems(persons, tcWrappers)
+                addPersonItems(persons, tcWrappers, selections)
             }
         )
     }.onStart { emit(UiState.Loading) }.asLiveData2()
@@ -75,12 +85,15 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private suspend fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
+        selections: Map<CertificatePersonIdentifier, CertificateSelection>,
     ) {
         addPendingCards(tcWrappers)
-        addAll(persons.toCertificatesCard())
+        addAll(persons.toCertificatesCard(selections))
     }
 
-    private suspend fun Set<PersonCertificates>.toCertificatesCard() = this
+    private suspend fun Set<PersonCertificates>.toCertificatesCard(
+        selections: Map<CertificatePersonIdentifier, CertificateSelection>
+    ) = this
         .filterNotPending()
         .filterNot { it.certificates.isEmpty() }
         .mapIndexed { index, person ->
@@ -95,6 +108,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 admissionBadgeText = format(admissionState?.badgeText),
                 colorShade = color,
                 badgeCount = person.badgeCount,
+                certificateSelection = selections[person.personIdentifier] ?: CertificateSelection.FIRST,
                 onClickAction = { _, position ->
                     person.personIdentifier.let { personIdentifier ->
                         events.postValue(
@@ -103,7 +117,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     }
                 },
                 onCovPassInfoAction = { events.postValue(OpenCovPassInfo) },
-                onCertificateSelected = { selection -> }
+                onCertificateSelected = { selection ->
+                    selectedCertificates.update { map ->
+                        map.mutate { put(person.personIdentifier, selection) }
+                    }
+                }
             )
 
         }
@@ -161,9 +179,5 @@ class PersonOverviewViewModel @AssistedInject constructor(
         fun create(
             admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
         ): PersonOverviewViewModel
-    }
-
-    companion object {
-        private const val TAG = "PersonOverviewViewModel"
     }
 }
