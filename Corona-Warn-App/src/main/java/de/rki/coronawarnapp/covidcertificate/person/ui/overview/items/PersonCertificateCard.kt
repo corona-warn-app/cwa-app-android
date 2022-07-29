@@ -26,14 +26,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         val firstCertificate = curItem.overviewCertificates[0]
-
-        setUIState(
-            certificateItems = curItem.overviewCertificates.take(3),
-            colorShade = curItem.colorShade,
-            statusBadgeText = curItem.admissionBadgeText,
-            badgeCount = curItem.badgeCount,
-            onCovPassInfoAction = curItem.onCovPassInfoAction,
-        )
+        setUIState(curItem)
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
@@ -46,10 +39,12 @@ class PersonCertificateCard(parent: ViewGroup) :
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
+        val certificateSelection: CertificateSelection = CertificateSelection.FIRST,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
-        val onCovPassInfoAction: () -> Unit
+        val onCovPassInfoAction: () -> Unit,
+        val onCertificateSelected: (certificateSelection: CertificateSelection) -> Unit,
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
             overviewCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()
@@ -58,5 +53,11 @@ class PersonCertificateCard(parent: ViewGroup) :
             val cwaCertificate: CwaCovidCertificate,
             val buttonText: String = ""
         )
+
+        enum class CertificateSelection {
+            FIRST,
+            SECOND,
+            THIRD
+        }
     }
 }
