@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ContactDiaryCommentInfoFragmentBinding
+import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -18,5 +19,6 @@ class ContactDiaryCommentInfoFragment : Fragment(R.layout.contact_diary_comment_
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
+        binding.toolbar.addNavigationIconButtonId(R.id.contact_diary_comment_info_fragment_navigation_icon_buttonId)
     }
 }
