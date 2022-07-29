@@ -369,6 +369,13 @@
         <action
             android:id="@+id/action_submissionConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
+
+        <action
+            android:id="@+id/action_submissionConsentFragment_to_testRegistrationSelectionFragment"
+            app:destination="@id/testRegistrationSelectionFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
         <argument
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
@@ -506,6 +513,12 @@
         <action
             android:id="@+id/action_familyTestConsentFragment_to_informationPrivacyFragment"
             app:destination="@id/informationPrivacyFragment" />
+
+        <action
+            android:id="@+id/action_familyTestConsentFragment_to_testRegistrationSelectionFragment"
+            app:destination="@id/testRegistrationSelectionFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
     </fragment>
 
