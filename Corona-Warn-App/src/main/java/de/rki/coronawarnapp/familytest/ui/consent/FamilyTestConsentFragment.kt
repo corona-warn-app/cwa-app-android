@@ -43,20 +43,24 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.onNavigateBack()
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.onNavigateBack()
+                }
             }
-        })
+        )
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is FamilyTestConsentNavigationEvents.NavigateBack -> {
                     binding.root.hideKeyboard()
                     doNavigate(
-                        FamilyTestConsentFragmentDirections.actionFamilyTestConsentFragmentToTestRegistrationSelectionFragment(
-                            navArgs.coronaTestQrCode
-                        )
+                        FamilyTestConsentFragmentDirections
+                            .actionFamilyTestConsentFragmentToTestRegistrationSelectionFragment(
+                                navArgs.coronaTestQrCode
+                            )
                     )
                 }
                 is FamilyTestConsentNavigationEvents.NavigateClose -> {
