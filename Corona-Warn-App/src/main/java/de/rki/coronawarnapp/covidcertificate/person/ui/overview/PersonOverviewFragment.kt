@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
 
-// Shows a list of multiple persons
 class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
@@ -38,10 +37,11 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     )
     private val viewModel: PersonOverviewViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
-        constructorCall = { factory, _ ->
+        constructorCall = { factory, savedState ->
             factory as PersonOverviewViewModel.Factory
             factory.create(
-                admissionScenariosSharedViewModel = admissionViewModel
+                admissionScenariosSharedViewModel = admissionViewModel,
+                savedState = savedState
             )
         }
     )
@@ -78,6 +78,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     navigatorExtras
                 )
             }
+
             is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.test_certificate_delete_dialog_title)
                 .setMessage(R.string.test_certificate_delete_dialog_body)
@@ -170,6 +171,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 personOverviewAdapter.update(uiState.personCertificates)
                 loadingLayoutGroup.isVisible = false
             }
+
             PersonOverviewViewModel.UiState.Loading -> {
                 recyclerView.isGone = true
                 emptyLayout.isGone = true

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenar
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.CertificateSelection
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -22,12 +24,15 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.mutate
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
@@ -35,6 +40,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     certificatesProvider: PersonCertificatesProvider,
     dccAdmissionTileProvider: AdmissionTileProvider,
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
+    @Assisted private val savedState: SavedStateHandle,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val format: CclTextFormatter,
@@ -43,6 +49,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val onboardingSettings: OnboardingSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
+    private val selectedCertificates = MutableStateFlow(
+        savedState.get<Map<String, CertificateSelection>>(SELECTIONS_KEY).orEmpty()
+    )
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
 
     val isExportAllTooltipVisible = combine(
@@ -52,10 +61,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
         !done && personCerts.isNotEmpty()
     }.asLiveData2()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
+    val uiState: LiveData<UiState> = combine<Set<PersonCertificates>,
+        Set<TestCertificateWrapper>,
+        Map<String, CertificateSelection>,
+        UiState>(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
-    ) { persons, tcWrappers ->
+        selectedCertificates
+    ) { persons, tcWrappers, selections ->
 
         if (migrationCheck.shouldShowMigrationInfo(persons)) {
             events.postValue(ShowMigrationInfoDialog)
@@ -63,7 +76,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
-                addPersonItems(persons, tcWrappers)
+                addPersonItems(persons, tcWrappers, selections)
             }
         )
     }.onStart { emit(UiState.Loading) }.asLiveData2()
@@ -75,40 +88,49 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private suspend fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
+        selections: Map<String, CertificateSelection>,
     ) {
         addPendingCards(tcWrappers)
-        addCertificateCards(persons)
+        addAll(persons.toCertificatesCard(selections))
     }
 
-    private suspend fun MutableList<PersonCertificatesItem>.addCertificateCards(
-        persons: Set<PersonCertificates>,
-    ) {
-        persons.filterNotPending().forEachIndexed { index, person ->
+    private suspend fun Set<PersonCertificates>.toCertificatesCard(
+        selections: Map<String, CertificateSelection>
+    ) = this
+        .filterNotPending()
+        .filterNot { it.certificates.isEmpty() }
+        .mapIndexed { index, person ->
             val admissionState = person.dccWalletInfo?.admissionState
             val certificates = person.verificationCertificates
             val color = PersonColorShade.shadeFor(index)
-            if (certificates.isNotEmpty()) {
-                add(
-                    PersonCertificateCard.Item(
-                        overviewCertificates = certificates.map {
-                            OverviewCertificate(it.cwaCertificate, format(it.buttonText))
-                        },
-                        admissionBadgeText = format(admissionState?.badgeText),
-                        colorShade = color,
-                        badgeCount = person.badgeCount,
-                        onClickAction = { _, position ->
-                            person.personIdentifier.let { personIdentifier ->
-                                events.postValue(
-                                    OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
-                                )
-                            }
-                        },
-                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
-                    )
-                )
-            }
+
+            PersonCertificateCard.Item(
+                overviewCertificates = certificates.map {
+                    OverviewCertificate(it.cwaCertificate, format(it.buttonText))
+                },
+                admissionBadgeText = format(admissionState?.badgeText),
+                colorShade = color,
+                badgeCount = person.badgeCount,
+                certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,
+                onClickAction = { _, position ->
+                    person.personIdentifier.let { personIdentifier ->
+                        events.postValue(
+                            OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
+                        )
+                    }
+                },
+                onCovPassInfoAction = { events.postValue(OpenCovPassInfo) },
+                onCertificateSelected = { selection ->
+                    selectedCertificates.update { prevSelections ->
+                        prevSelections.mutate {
+                            put(person.personIdentifier.groupingKey, selection)
+                        }.also {
+                            savedState[SELECTIONS_KEY] = it
+                        }
+                    }
+                }
+            )
         }
-    }
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
         tcWrappers.filter {
@@ -161,11 +183,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {
         fun create(
-            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
+            savedState: SavedStateHandle,
         ): PersonOverviewViewModel
     }
 
     companion object {
-        private const val TAG = "PersonOverviewViewModel"
+        private const val SELECTIONS_KEY = "PersonOverviewViewModel.SELECTIONS_KEY"
     }
 }
