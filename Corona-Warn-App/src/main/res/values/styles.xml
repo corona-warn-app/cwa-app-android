@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorSecondary</item>
         <item name="actionBarSize">56dp</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
@@ -167,7 +167,7 @@
     </style>
 
     <style name="materialTextButton" parent="Widget.Material3.Button.TextButton">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
     <style name="buttonIcon">
@@ -628,7 +628,7 @@
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorSecondary</item>
     </style>
 
     <style name="CardOverFlowButton">
