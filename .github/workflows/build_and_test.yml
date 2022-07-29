@@ -1,7 +1,11 @@
 name: Android CI
 
-on: [ pull_request ]
-
+on:
+  pull_request:
+  push:
+    branches:
+      - 'main'
+      - 'release/**'
 concurrency:
   group: ${{ github.head_ref || github.ref_name }}  #Cancel old runs if they have not finished yet
   cancel-in-progress: true
