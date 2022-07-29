@@ -57,6 +57,10 @@
     </declare-styleable>
 
     <item name="default_button" type="id" />
+    <item name="checkins_fragment_menu_id" type="id" />
+    <item name="contact_diary_onboarding_fragment_menu_id" type="id" />
+    <item name="contact_diary_comment_info_fragment_navigation_icon_buttonId" type="id" />
+    <item name="contact_diary_edit_persons_fragment_navigation_icon_buttonId" type="id" />
 
     <declare-styleable name="ProgressLoadingButton">
         <attr name="buttonText" format="string" />

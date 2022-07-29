@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -37,6 +38,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
+        binding.toolbar.addNavigationIconButtonId(R.id.contact_diary_edit_persons_fragment_navigation_icon_buttonId)
 
         viewModel.isListVisible.observe2(this) {
             binding.contactDiaryPersonListNoItemsGroup.isGone = it
