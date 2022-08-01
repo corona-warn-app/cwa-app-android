@@ -10,9 +10,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.doNavigate
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 fun Fragment.doNavigate(direction: NavDirections) = findNavController().doNavigate(direction)
 
@@ -23,7 +23,11 @@ fun Fragment.popBackStack(): Boolean {
         }
         return false
     }
-    return findNavController().popBackStack()
+    if (findNavController().backQueue.isEmpty()) {
+        findNavController().navigate(R.id.launcherActivity)
+    } else findNavController().popBackStack()
+
+    return true
 }
 
 /**
