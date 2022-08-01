@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
@@ -296,6 +297,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider,
             migrationCheck = migrationCheck,
-            onboardingSettings = onboardingSettings
+            onboardingSettings = onboardingSettings,
+            savedState = SavedStateHandle()
         )
 }
