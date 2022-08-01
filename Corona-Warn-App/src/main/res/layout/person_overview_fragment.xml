@@ -83,6 +83,7 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/person_overview_no_certificates_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/person_overview_no_certificates_image_description"

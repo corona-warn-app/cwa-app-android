@@ -4,7 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -13,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
@@ -28,6 +28,7 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -175,7 +176,8 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             }
         }.show()
 
-    private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
+    private fun setupMenu(toolbar: MaterialToolbar) = toolbar.apply {
+        toolbar.addMenuId(R.id.checkins_fragment_menu_id)
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_information -> {

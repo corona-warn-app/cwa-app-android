@@ -100,11 +100,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/trace_location_organizer_list_item_action_checkin"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_barrier"
-        app:strokeColor="@color/colorPrimary" />
+        app:strokeColor="@color/colorSecondary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

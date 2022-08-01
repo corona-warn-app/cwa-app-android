@@ -9,6 +9,8 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">Das Testzertifikat gilt innerhalb der EU als gültiger Nachweis eines negativen Testergebnisses (z.B. für Reisen).</string>
     <!-- XTXT: Request green certificate body section 3 -->
+    <!-- XTXT: Request green certificate privacy information link-->
+    <string name="request_green_certificate_privacy_information">Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">Testzertifikat anfordern</string>
     <!-- XBUT: Request green certificate disagree button -->

@@ -112,18 +112,7 @@ class CertificatePosterViewModel @AssistedInject constructor(
     private suspend fun getPDFFileName(): String {
         val certificateData = certificateProvider.findCertificate(containerId)
         val pdfNameSuffix = with(certificateData) {
-            val lastNameUnderscored = lastName
-                .replace(" ", "_")
-                .replace("-", "_")
-
-            if (firstName.isNullOrBlank()) {
-                lastNameUnderscored
-            } else {
-                val firstNameUnderscored = firstName
-                    ?.replace(" ", "_")
-                    ?.replace("-", "_")
-                "${firstNameUnderscored}_$lastNameUnderscored"
-            }
+            fullName.replace(" ", "_").replace("-", "_")
         }
 
         return "health_certificate_$pdfNameSuffix.pdf"

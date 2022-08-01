@@ -24,7 +24,7 @@ class MigrationCheck @Inject constructor(private val cwaSettings: CWASettings) {
     }
 
     private fun CertificatePersonIdentifier.getLegacyGroupingKey(): String {
-        val lastName = lastNameStandardized.trim()
+        val lastName = lastNameStandardized?.trim()
         val firstName = firstNameStandardized?.trim()
         return "$dateOfBirthFormatted#$lastName#$firstName".condense()
     }
