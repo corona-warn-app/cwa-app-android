@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -105,5 +106,5 @@ class DaysSinceOnsetOfSymptomsVectorDeterminerTest {
     }
 
     private fun LocalDate.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.minusDays(days.toLong()))
+        Symptoms.StartOf.Date(this.minusDays(days.toLong()).toJodaTime())
 }

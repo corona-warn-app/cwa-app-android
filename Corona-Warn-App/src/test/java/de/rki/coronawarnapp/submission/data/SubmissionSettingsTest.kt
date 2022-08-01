@@ -9,10 +9,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.preferences.MockSharedPreferences
-import java.time.LocalDate
 
 class SubmissionSettingsTest {
     @MockK lateinit var context: Context
@@ -113,11 +113,7 @@ class SubmissionSettingsTest {
                     {
                       "startOfSymptoms": {
                         "type": "Date",
-                        "date": {
-                          "year": 2020,
-                          "month": 12,
-                          "day": 24
-                        }
+                        "date": "2020-12-24"
                       },
                       "symptomIndication": "NO_INFORMATION"
                     }

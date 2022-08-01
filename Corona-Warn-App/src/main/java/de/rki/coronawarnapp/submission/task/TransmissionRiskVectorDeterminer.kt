@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.submission.Symptoms.Indication
 import de.rki.coronawarnapp.submission.Symptoms.StartOf
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ageInDays
+import de.rki.coronawarnapp.util.toJavaTime
 import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import java.time.LocalDate
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class TransmissionRiskVectorDeterminer @Inject constructor(
             when (symptoms.symptomIndication) {
                 Indication.POSITIVE -> when (symptoms.startOfSymptoms) {
                     is StartOf.Date -> {
-                        when (symptoms.startOfSymptoms.date.ageInDays(now)) {
+                        when (symptoms.startOfSymptoms.date.toJavaTime().ageInDays(now)) {
                             0 -> intArrayOf(8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
                             1 -> intArrayOf(8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1)
                             2 -> intArrayOf(6, 8, 8, 8, 7, 6, 4, 2, 1, 1, 1, 1, 1, 1, 1)
