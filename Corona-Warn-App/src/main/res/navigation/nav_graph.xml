@@ -71,7 +71,8 @@
         android:id="@+id/action_submissionConsentFragment"
         app:destination="@id/submissionConsentFragment"
         app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false" />
+        app:popUpToInclusive="false"
+        />
     <action
         android:id="@+id/action_to_universal_scanner"
         app:destination="@id/universalScanner" />
@@ -379,6 +380,12 @@
         <argument
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+
+        <argument
+            android:name="navigateBackTo"
+            app:argType="de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg"
+            android:defaultValue="@null"
+            app:nullable="true"/>
 
         <argument
             android:name="allowTestReplacement"
