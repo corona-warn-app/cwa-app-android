@@ -66,9 +66,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        updateSymptomStart(localDate?.let {
-            Symptoms.StartOf.Date(it.toJodaTime())
-        })
+        updateSymptomStart(
+            localDate?.let {
+                Symptoms.StartOf.Date(it.toJodaTime())
+            }
+        )
     }
 
     private fun updateSymptomStart(startOf: Symptoms.StartOf?) {
