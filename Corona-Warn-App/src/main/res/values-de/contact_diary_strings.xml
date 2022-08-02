@@ -144,9 +144,9 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Bearbeiten"</string>
     <!-- XTXT: Datepicker hour (description for screen readers) -->
-    <string name="accessibility_datepicker_hour_description"></string>
+    <string name="accessibility_datepicker_hour_description">Hier können Sie die Stunden ihres Aufenthaltes einstellen</string>
     <!-- XTXT: Datepicker minutes (description for screen readers) -->
-    <string name="accessibility_datepicker_minutes_description"></string>
+    <string name="accessibility_datepicker_minutes_description">Hier können Sie die Minuten ihres Aufenthaltes einstellen</string>
 
     <!-- XACT: Add Person Button (description for screen readers) -->
     <string name="accessibility_day_add_person">"Person hinzufügen"</string>
