@@ -197,22 +197,45 @@ class RiskCombinatorTest : BaseTest() {
         ).sortedByDescending { it.calculatedAt }
 
         result.size shouldBe 8
-        result[0].riskState shouldBe CALCULATION_FAILED
-        result[0].calculatedAt shouldBe startInstant.plus(8000L)
-        result[1].riskState shouldBe CALCULATION_FAILED
-        result[1].calculatedAt shouldBe startInstant.plus(7000L)
-        result[2].riskState shouldBe CALCULATION_FAILED
-        result[2].calculatedAt shouldBe startInstant.plus(6000L)
-        result[3].riskState shouldBe CALCULATION_FAILED
-        result[3].calculatedAt shouldBe startInstant.plus(5000L)
-        result[4].riskState shouldBe INCREASED_RISK
-        result[4].calculatedAt shouldBe startInstant.plus(4000L)
-        result[5].riskState shouldBe LOW_RISK
-        result[5].calculatedAt shouldBe startInstant.plus(3000L)
-        result[6].riskState shouldBe LOW_RISK
-        result[6].calculatedAt shouldBe startInstant.plus(2000L)
-        result[7].riskState shouldBe LOW_RISK
-        result[7].calculatedAt shouldBe startInstant.plus(1000L)
+        result[0].apply {
+            riskState shouldBe CALCULATION_FAILED
+            calculatedAt shouldBe startInstant.plus(8000L)
+        }
+
+        result[1].apply {
+            riskState shouldBe CALCULATION_FAILED
+            calculatedAt shouldBe startInstant.plus(5000L)
+        }
+
+        result[2].apply {
+            riskState shouldBe CALCULATION_FAILED
+            calculatedAt shouldBe startInstant.plus(5000L)
+        }
+
+        result[3].apply {
+            riskState shouldBe CALCULATION_FAILED
+            calculatedAt shouldBe startInstant.plus(5000L)
+        }
+
+        result[4].apply {
+            riskState shouldBe INCREASED_RISK
+            calculatedAt shouldBe startInstant.plus(4000L)
+        }
+
+        result[5].apply {
+            riskState shouldBe LOW_RISK
+            calculatedAt shouldBe startInstant.plus(3000L)
+        }
+
+        result[6].apply {
+            riskState shouldBe LOW_RISK
+            calculatedAt shouldBe startInstant.plus(2000L)
+        }
+        
+        result[7].apply {
+            riskState shouldBe LOW_RISK
+            calculatedAt shouldBe startInstant.plus(1000L)
+        }
     }
 
     @Test
