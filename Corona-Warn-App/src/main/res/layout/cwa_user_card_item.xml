@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/description_text"
-        style="@style/subtitle"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
