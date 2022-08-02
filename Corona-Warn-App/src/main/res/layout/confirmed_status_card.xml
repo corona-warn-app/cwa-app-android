@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/body"
-        style="@style/subtitle"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -72,7 +72,7 @@
 
     <TextView
         android:id="@+id/faq"
-        style="@style/subtitle"
+        style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
