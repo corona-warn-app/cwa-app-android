@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
 import timber.log.Timber
 import java.time.LocalDate
 
