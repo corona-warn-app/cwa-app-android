@@ -231,7 +231,7 @@ class RiskCombinatorTest : BaseTest() {
             riskState shouldBe LOW_RISK
             calculatedAt shouldBe startInstant.plus(2000L)
         }
-        
+
         result[7].apply {
             riskState shouldBe LOW_RISK
             calculatedAt shouldBe startInstant.plus(1000L)
