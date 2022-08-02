@@ -75,7 +75,8 @@ class RiskCombinator @Inject constructor(
         val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
         return allDates.map { date ->
             val ptRisk = sortedPtResults.find {
-                it.calculatedAt <= date
+                // Consider only presence tracing "successful" risk calculation. See EXPOSUREAPP-13383
+                it.calculatedAt <= date && it.riskState != RiskState.CALCULATION_FAILED
             } ?: initialPTRiskLevelResult
             val ewRisk = sortedEwResults.find {
                 it.calculatedAt <= date
