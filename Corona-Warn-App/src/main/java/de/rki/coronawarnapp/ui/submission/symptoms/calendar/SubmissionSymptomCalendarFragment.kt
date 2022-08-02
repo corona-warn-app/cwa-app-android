@@ -9,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
@@ -38,11 +37,9 @@ class SubmissionSymptomCalendarFragment :
     )
 
     private val binding: FragmentSubmissionSymptomCalendarBinding by viewBinding()
-    private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        uploadDialog = SubmissionBlockingDialog(requireContext())
 
         binding.symptomCalendarContainer.setDateSelectedListener {
             viewModel.onDateSelected(it)
@@ -53,12 +50,8 @@ class SubmissionSymptomCalendarFragment :
                 viewModel.onCancelConfirmed()
             }
         }
-        viewModel.showUploadDialog.observe2(this) {
-            uploadDialog.setState(show = it)
-        }
 
         viewModel.routeToScreen.observe2(this) {
-            uploadDialog.setState(show = false)
             doNavigate(it)
         }
 

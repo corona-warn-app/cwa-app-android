@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.calendar
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
@@ -14,12 +12,16 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import org.joda.time.LocalDate
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -29,7 +31,8 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomStartInternal = MutableStateFlow<Symptoms.StartOf?>(null)
@@ -37,17 +40,6 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
     val showCancelDialog = SingleLiveEvent<Unit>()
-    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
-
-    init {
-        mediatorShowUploadDialog.addSource(
-            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
-        ) { show ->
-            mediatorShowUploadDialog.postValue(show)
-        }
-    }
-
-    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onLastSevenDaysStart() {
         updateSymptomStart(Symptoms.StartOf.LastSevenDays)
@@ -97,6 +89,10 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         performSubmission {
             analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
         }
+        routeToScreen.postValue(
+            SubmissionSymptomCalendarFragmentDirections
+                .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+        )
     }
 
     fun onCancelConfirmed() {
@@ -104,22 +100,18 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         performSubmission {
             analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
         }
+        routeToScreen.postValue(
+            SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
+        )
     }
 
     private fun performSubmission(onSubmitted: () -> Unit) {
-        launch {
+        appScope.launch {
             try {
                 autoSubmission.runSubmissionNow(testType)
                 onSubmitted()
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "performSubmission() failed.")
-            } finally {
-                Timber.i("Hide uploading progress and navigate to HomeFragment")
-                mediatorShowUploadDialog.postValue(false)
-                routeToScreen.postValue(
-                    SubmissionSymptomCalendarFragmentDirections
-                        .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
-                )
             }
         }
     }
