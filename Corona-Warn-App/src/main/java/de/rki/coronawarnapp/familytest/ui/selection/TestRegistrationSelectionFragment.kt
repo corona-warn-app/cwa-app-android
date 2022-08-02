@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRegistrationSelectionBinding
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -42,7 +43,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
-                                coronaTestQrCode = it.coronaTestQRCode
+                                coronaTestQrCode = it.coronaTestQRCode,
+                                navigateBackTo = BackToTestRegistrationSelection
                             ),
                         navOptions
                     )

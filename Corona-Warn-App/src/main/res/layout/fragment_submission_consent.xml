@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -17,7 +18,8 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSurface">
+        android:background="@color/colorSurface"
+        tools:context="ui.submission.qrcode.consent.SubmissionConsentFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/submission_consent_header"
