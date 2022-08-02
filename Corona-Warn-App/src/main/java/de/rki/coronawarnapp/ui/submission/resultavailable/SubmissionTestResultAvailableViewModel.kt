@@ -112,13 +112,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
         showCloseDialog.postValue(Unit)
     }
 
-    fun onCancelConfirmed() {
-        routeToScreen.postValue(
-            SubmissionTestResultAvailableFragmentDirections
-                .actionSubmissionTestResultAvailableFragmentToMainFragment()
-        )
-    }
-
     fun goConsent() = launch {
         routeToScreen.postValue(
             SubmissionTestResultAvailableFragmentDirections

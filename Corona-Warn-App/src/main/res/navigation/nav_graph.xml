@@ -112,8 +112,8 @@
         <action
             android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"
             app:destination="@id/testRegistrationSelectionFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionDeletionWarningFragment"
@@ -193,18 +193,13 @@
         android:label="SubmissionTestResultAvailableFragment"
         tools:layout="@layout/fragment_submission_test_result_available">
         <action
-            android:id="@+id/action_submissionTestResultAvailableFragment_to_mainFragment"
-            app:destination="@id/status_nav_graph"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionYourConsentFragment"
             app:destination="@id/submissionYourConsentFragment" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_submissionTestResultConsentGivenFragment"
             app:destination="@id/submissionTestResultConsentGivenFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/submissionTestResultAvailableFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultAvailableFragment_to_checkInsConsentFragment"
             app:destination="@id/checkInsConsentFragment"
@@ -330,8 +325,8 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
-            app:popUpTo="@id/status_nav_graph"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/submissionTestResultConsentGivenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
@@ -358,8 +353,8 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
-            app:popUpTo="@id/status_nav_graph"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/submissionTestResultConsentGivenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
@@ -383,11 +378,6 @@
         android:id="@+id/submissionTestResultConsentGivenFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment"
         android:label="SubmissionTestResultConsentFragment">
-        <action
-            android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
-            app:destination="@id/status_nav_graph"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
@@ -963,11 +953,6 @@
         android:name="de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragment"
         android:label="SubmissionDoneFragment"
         tools:layout="@layout/fragment_submission_done">
-        <action
-            android:id="@+id/action_submissionDoneFragment_to_mainFragment"
-            app:destination="@id/status_nav_graph"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
