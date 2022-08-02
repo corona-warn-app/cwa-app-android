@@ -20,6 +20,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import kotlinx.coroutines.test.TestScope
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -49,7 +50,8 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
                 TestDispatcherProvider(),
                 submissionRepository,
                 autoSubmission,
-                analyticsKeySubmissionCollector
+                analyticsKeySubmissionCollector,
+                TestScope()
             )
         )
         with(viewModel) {

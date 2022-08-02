@@ -54,7 +54,6 @@ class SubmissionRepository @Inject constructor(
 
     val currentSymptoms = submissionSettings.symptoms
 
-    // to be used by new submission flow screens
     suspend fun giveConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("giveConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {
@@ -65,7 +64,6 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    // to be used by new submission flow screens
     suspend fun revokeConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("revokeConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {

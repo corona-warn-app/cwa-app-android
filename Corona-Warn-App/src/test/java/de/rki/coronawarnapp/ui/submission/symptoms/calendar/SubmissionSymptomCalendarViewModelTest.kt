@@ -18,7 +18,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.LocalDate
@@ -51,24 +51,30 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
-    private fun createViewModel(indication: Symptoms.Indication = Symptoms.Indication.POSITIVE) =
+    private fun createViewModel(
+        scope: CoroutineScope,
+        indication: Symptoms.Indication = Symptoms.Indication.POSITIVE,
+    ) =
         SubmissionSymptomCalendarViewModel(
             symptomIndication = indication,
             dispatcherProvider = TestDispatcherProvider(),
             submissionRepository = submissionRepository,
             autoSubmission = autoSubmission,
             analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-            testType = testType
+            testType = testType,
+            appScope = scope
         )
 
     @Test
     fun `symptom indication is not written to settings`() {
-        createViewModel().apply {
-            onLastSevenDaysStart()
-            onOneToTwoWeeksAgoStart()
-            onMoreThanTwoWeeksStart()
-            onNoInformationStart()
-            onDateSelected(LocalDate.now())
+        runTest {
+            createViewModel(this).apply {
+                onLastSevenDaysStart()
+                onOneToTwoWeeksAgoStart()
+                onMoreThanTwoWeeksStart()
+                onNoInformationStart()
+                onDateSelected(LocalDate.now())
+            }
         }
 
         verify(exactly = 0) { submissionRepository.currentSymptoms }
@@ -76,13 +82,16 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
     @Test
     fun `submission by symptom completion updates symptom data`() {
-        createViewModel().apply {
-            onLastSevenDaysStart()
-            onDone()
+        runTest {
+            createViewModel(this).apply {
+                onLastSevenDaysStart()
+                onDone()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+            }
         }
 
         coVerifySequence {
-            autoSubmission.isSubmissionRunning
             submissionRepository.currentSymptoms
             autoSubmission.runSubmissionNow(any())
         }
@@ -95,35 +104,25 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
     @Test
     fun `submission by abort does not write any symptom data`() {
-        createViewModel().onCancelConfirmed()
+        runTest {
+            createViewModel(this).apply {
+                onCancelConfirmed()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToMainFragment()
+            }
+        }
 
         coVerifySequence {
-            autoSubmission.isSubmissionRunning
             autoSubmission.runSubmissionNow(any())
-        }
-    }
-
-    @Test
-    fun `submission shows upload dialog`() {
-        val uploadStatus = MutableStateFlow(false)
-        every { autoSubmission.isSubmissionRunning } returns uploadStatus
-        createViewModel().apply {
-            showUploadDialog.observeForever { }
-            showUploadDialog.value shouldBe false
-
-            uploadStatus.value = true
-            showUploadDialog.value shouldBe true
-
-            uploadStatus.value = false
-            showUploadDialog.value shouldBe false
         }
     }
 
     @Test
     fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() {
         testType = PCR
-
-        createViewModel().onNewUserActivity()
+        runTest {
+            createViewModel(this).onNewUserActivity()
+        }
 
         verify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
@@ -137,7 +136,9 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
 
-        createViewModel().onNewUserActivity()
+        runTest {
+            createViewModel(this).onNewUserActivity()
+        }
 
         verify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
@@ -150,8 +151,13 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     @Test
     fun `onCancelConfirmed() should call analyticsKeySubmissionCollector for PCR tests`() {
         testType = PCR
-
-        createViewModel().onCancelConfirmed()
+        runTest {
+            createViewModel(this).apply {
+                onCancelConfirmed()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToMainFragment()
+            }
+        }
 
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
@@ -161,19 +167,29 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     fun `onCancelConfirmed() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
 
-        createViewModel().onCancelConfirmed()
+        runTest {
+            createViewModel(this).apply {
+                onCancelConfirmed()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToMainFragment()
+            }
+        }
 
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
-    fun `onDone() should call analyticsKeySubmissionCollector for PCR tests`() = runTest {
+    fun `onDone() should call analyticsKeySubmissionCollector for PCR tests`() {
         testType = PCR
 
-        createViewModel().apply {
-            onLastSevenDaysStart()
-            onDone()
+        runTest {
+            createViewModel(this).apply {
+                onLastSevenDaysStart()
+                onDone()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+            }
         }
 
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
@@ -184,9 +200,13 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     fun `onDone() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
 
-        createViewModel().apply {
-            onLastSevenDaysStart()
-            onDone()
+        runTest {
+            createViewModel(this).apply {
+                onLastSevenDaysStart()
+                onDone()
+                routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+            }
         }
 
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
