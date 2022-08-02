@@ -18,8 +18,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -46,17 +47,18 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
-    private fun createViewModel() = SubmissionSymptomIntroductionViewModel(
+    private fun createViewModel(scope: CoroutineScope) = SubmissionSymptomIntroductionViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         submissionRepository = submissionRepository,
         autoSubmission = autoSubmission,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        testType = testType
+        testType = testType,
+        appScope = scope
     )
 
     @Test
-    fun `positive symptom indication is forwarded using navigation arguments`() {
-        createViewModel().apply {
+    fun `positive symptom indication is forwarded using navigation arguments`() = runTest {
+        createViewModel(this).apply {
             onPositiveSymptomIndication()
             onNextClicked()
             navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
@@ -71,27 +73,30 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     @Test
     fun `negative symptom indication leads to submission`() {
-        createViewModel().apply {
-            onNegativeSymptomIndication()
-            onNextClicked()
-            navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToMainFragment()
-            currentSymptoms.value shouldBe Symptoms(
-                startOfSymptoms = null,
-                symptomIndication = Symptoms.Indication.NEGATIVE
-            )
+        runTest {
+            createViewModel(this).apply {
+                onNegativeSymptomIndication()
+                onNextClicked()
+                navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
+            }
         }
-
+        currentSymptoms.value shouldBe Symptoms(
+            startOfSymptoms = null,
+            symptomIndication = Symptoms.Indication.NEGATIVE
+        )
         coVerify { autoSubmission.runSubmissionNow(any()) }
     }
 
     @Test
     fun `no information symptom indication leads to submission`() {
-        createViewModel().apply {
-            onNoInformationSymptomIndication()
-            onNextClicked()
-            navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
-                .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+        runTest {
+            val viewModel = createViewModel(this).apply {
+                onNoInformationSymptomIndication()
+                onNextClicked()
+            }
+            viewModel.navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
             currentSymptoms.value shouldBe Symptoms(
                 startOfSymptoms = null,
                 symptomIndication = Symptoms.Indication.NO_INFORMATION
@@ -103,37 +108,24 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
     @Test
     fun `submission by abort does not write any symptom data`() {
-        createViewModel().onCancelConfirmed()
-
+        runTest {
+            createViewModel(this).apply {
+                onCancelConfirmed()
+                navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+            }
+        }
         currentSymptoms.value shouldBe null
-
         coVerifySequence {
-            autoSubmission.isSubmissionRunning
             autoSubmission.runSubmissionNow(any())
         }
     }
 
     @Test
-    fun `submission shows upload dialog`() {
-        val uploadStatus = MutableStateFlow(false)
-        every { autoSubmission.isSubmissionRunning } returns uploadStatus
-        createViewModel().apply {
-            showUploadDialog.observeForever { }
-            showUploadDialog.value shouldBe false
-
-            uploadStatus.value = true
-            showUploadDialog.value shouldBe true
-
-            uploadStatus.value = false
-            showUploadDialog.value shouldBe false
-        }
-    }
-
-    @Test
-    fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() {
+    fun `onNewUserActivity() should call analyticsKeySubmissionCollector for PCR tests`() = runTest {
         testType = PCR
 
-        createViewModel().onNewUserActivity()
+        createViewModel(this).onNewUserActivity()
 
         verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
         verify(exactly = 0) {
@@ -142,10 +134,10 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() {
+    fun `onNewUserActivity() should NOT call analyticsKeySubmissionCollector for RAT tests`() = runTest {
         testType = RAPID_ANTIGEN
 
-        createViewModel().onNewUserActivity()
+        createViewModel(this).onNewUserActivity()
 
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
         verify(exactly = 1) {

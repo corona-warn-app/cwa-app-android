@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragmentArgs
-import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
@@ -42,14 +41,10 @@ class SubmissionSymptomIntroductionFragment :
     )
     private val binding: FragmentSubmissionSymptomIntroBinding by viewBinding()
 
-    private lateinit var uploadDialog: SubmissionBlockingDialog
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        uploadDialog = SubmissionBlockingDialog(requireContext())
 
         viewModel.navigation.observe2(this) {
-            uploadDialog.setState(show = false)
             doNavigate(it)
         }
 
@@ -57,10 +52,6 @@ class SubmissionSymptomIntroductionFragment :
             SubmissionCancelDialog(requireContext()).show {
                 viewModel.onCancelConfirmed()
             }
-        }
-
-        viewModel.showUploadDialog.observe2(this) {
-            uploadDialog.setState(show = it)
         }
 
         viewModel.symptomIndication.observe2(this) {
