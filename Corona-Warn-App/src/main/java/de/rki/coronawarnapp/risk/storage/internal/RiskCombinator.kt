@@ -29,7 +29,7 @@ class RiskCombinator @Inject constructor(
         override val matchedKeyCount: Int = 0
     }
 
-    val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
+    private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
         riskState = RiskState.LOW_RISK,
         calculatedFrom = Instant.EPOCH
