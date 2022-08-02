@@ -14,14 +14,15 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
 
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
@@ -56,7 +57,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     }
 
     fun onDateSelected(localDate: LocalDate?) {
-        updateSymptomStart(localDate?.let { Symptoms.StartOf.Date(it) })
+        updateSymptomStart(
+            localDate?.let {
+                Symptoms.StartOf.Date(it.toJodaTime())
+            }
+        )
     }
 
     private fun updateSymptomStart(startOf: Symptoms.StartOf?) {

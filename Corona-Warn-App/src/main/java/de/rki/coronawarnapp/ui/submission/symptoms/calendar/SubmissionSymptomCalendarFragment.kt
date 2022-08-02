@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
+import de.rki.coronawarnapp.util.toJavaTime
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -56,7 +57,7 @@ class SubmissionSymptomCalendarFragment :
 
         viewModel.symptomStart.observe2(this) {
             when (it) {
-                is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
+                is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date.toJavaTime())
                 else -> binding.symptomCalendarContainer.setSelectedDate(null)
             }
 
