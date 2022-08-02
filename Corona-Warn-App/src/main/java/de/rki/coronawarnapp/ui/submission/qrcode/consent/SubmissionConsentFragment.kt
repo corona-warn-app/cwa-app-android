@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -41,7 +43,20 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.submissionConsentHeader.setNavigationOnClickListener { popBackStack() }
+        binding.submissionConsentHeader.setNavigationOnClickListener { viewModel.onNavigateClose() }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when (navArgs.navigateBackTo) {
+                        is BackToTestRegistrationSelection -> viewModel.navigateBackToTestRegistration()
+                        else -> viewModel.onNavigateClose()
+                    }
+                }
+            }
+        )
+
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
@@ -60,6 +75,13 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         allowTestReplacement = it.allowReplacement
                     ),
                     navOptions
+                )
+                is SubmissionNavigationEvents.NavigateClose -> popBackStack()
+                is SubmissionNavigationEvents.NavigateBackToTestRegistration -> doNavigate(
+                    SubmissionConsentFragmentDirections
+                        .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
+                            navArgs.coronaTestQrCode
+                        )
                 )
                 else -> Unit
             }

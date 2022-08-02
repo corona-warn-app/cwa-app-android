@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.familytest.ui.consent
 import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateBack
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateClose
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateToCertificateRequest
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentNavigationEvents.NavigateToDataPrivacy
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
@@ -109,5 +110,11 @@ class FamilyTestConsentViewModelTest : BaseTest() {
     fun testOnNavigateBack() {
         viewModelDcc.onNavigateBack()
         viewModelDcc.routeToScreen.getOrAwaitValue() shouldBe NavigateBack
+    }
+
+    @Test
+    fun testOnNavigateClose() {
+        viewModelDcc.onNavigateClose()
+        viewModelDcc.routeToScreen.getOrAwaitValue() shouldBe NavigateClose
     }
 }

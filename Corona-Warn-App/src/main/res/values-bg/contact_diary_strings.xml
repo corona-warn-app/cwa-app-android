@@ -142,6 +142,10 @@
     <string name="accessibility_action_deselect">"Отмяна на избора"</string>
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Редактиране"</string>
+    <!-- XTXT: Datepicker hour (description for screen readers) -->
+    <string name="accessibility_datepicker_hour_description"></string>
+    <!-- XTXT: Datepicker minutes (description for screen readers) -->
+    <string name="accessibility_datepicker_minutes_description"></string>
 
     <!-- XACT: Add Person Button (description for screen readers) -->
     <string name="accessibility_day_add_person">"Добавяне на лице"</string>

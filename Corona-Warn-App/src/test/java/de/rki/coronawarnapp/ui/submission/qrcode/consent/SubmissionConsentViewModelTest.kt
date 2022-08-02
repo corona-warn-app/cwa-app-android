@@ -7,7 +7,10 @@ import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.ui.Country
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateToDataPrivacy
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateClose
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.NavigateBackToTestRegistration
+import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents.ResolvePlayServicesException
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -61,7 +64,19 @@ class SubmissionConsentViewModelTest {
     @Test
     fun testOnDataPrivacyClick() {
         viewModel.onDataPrivacyClick()
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.NavigateToDataPrivacy
+        viewModel.routeToScreen.value shouldBe NavigateToDataPrivacy
+    }
+
+    @Test
+    fun testOnNavigateBackToTestRegistration() {
+        viewModel.navigateBackToTestRegistration()
+        viewModel.routeToScreen.value shouldBe NavigateBackToTestRegistration
+    }
+
+    @Test
+    fun testOnNavigateClose() {
+        viewModel.onNavigateClose()
+        viewModel.routeToScreen.value shouldBe NavigateClose
     }
 
     @Test
@@ -86,6 +101,6 @@ class SubmissionConsentViewModelTest {
 
         viewModel.onConsentButtonClick()
 
-        viewModel.routeToScreen.value shouldBe SubmissionNavigationEvents.ResolvePlayServicesException(apiException)
+        viewModel.routeToScreen.value shouldBe ResolvePlayServicesException(apiException)
     }
 }

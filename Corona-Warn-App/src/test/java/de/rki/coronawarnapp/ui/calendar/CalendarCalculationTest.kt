@@ -7,11 +7,11 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class CalendarCalculationTest : BaseTest() {
@@ -21,7 +21,7 @@ class CalendarCalculationTest : BaseTest() {
     @MockK lateinit var configuration: Configuration
 
     private var pattern = "dd.MM.yyyy"
-    private val formatter = DateTimeFormat.forPattern(pattern)
+    private val formatter = DateTimeFormatter.ofPattern(pattern)
 
     @BeforeEach
     fun setUp() {
@@ -39,17 +39,16 @@ class CalendarCalculationTest : BaseTest() {
     @Test
     fun calculateSameYearSameMonth() {
         val input = "27.08.2020"
-        val dateTime =
-            DateTime.parse(input, DateTimeFormat.forPattern(pattern))
-        val dates = createInstance().getDates(dateTime)
+        val date = LocalDate.parse(input, DateTimeFormatter.ofPattern(pattern))
+        val dates = createInstance().getDates(date)
 
         // First day - 3 of August
         dates.first().date.dayOfMonth shouldBe 3
-        dates.first().date.monthOfYear shouldBe 8
+        dates.first().date.month.value shouldBe 8
 
         // Last day - 30 of August
         dates.last().date.dayOfMonth shouldBe 30
-        dates.last().date.monthOfYear shouldBe 8
+        dates.last().date.month.value shouldBe 8
 
         createInstance().getMonthText(
             dates.first().date,
@@ -60,17 +59,16 @@ class CalendarCalculationTest : BaseTest() {
     @Test
     fun calculateSameYearDifferentMonth() {
         val input = "15.09.2020"
-        val dateTime =
-            DateTime.parse(input, DateTimeFormat.forPattern(pattern))
-        val dates = createInstance().getDates(dateTime)
+        val date = LocalDate.parse(input, DateTimeFormatter.ofPattern(pattern))
+        val dates = createInstance().getDates(date)
 
         // First day - 24 of August
         dates.first().date.dayOfMonth shouldBe 24
-        dates.first().date.monthOfYear shouldBe 8
+        dates.first().date.month.value shouldBe 8
 
         // Last day - 20 of September
         dates.last().date.dayOfMonth shouldBe 20
-        dates.last().date.monthOfYear shouldBe 9
+        dates.last().date.month.value shouldBe 9
 
         createInstance().getMonthText(
             dates.first().date,
@@ -81,18 +79,17 @@ class CalendarCalculationTest : BaseTest() {
     @Test
     fun calculateDifferentYearDifferentMonth() {
         val input = "12.01.2021"
-        val dateTime =
-            DateTime.parse(input, DateTimeFormat.forPattern(pattern))
-        val dates = createInstance().getDates(dateTime)
+        val date = LocalDate.parse(input, DateTimeFormatter.ofPattern(pattern))
+        val dates = createInstance().getDates(date)
 
         // First day - 21 of December 2020
         dates.first().date.dayOfMonth shouldBe 21
-        dates.first().date.monthOfYear shouldBe 12
+        dates.first().date.month.value shouldBe 12
         dates.first().date.year shouldBe 2020
 
         // Last day - 17 of January 2021
         dates.last().date.dayOfMonth shouldBe 17
-        dates.last().date.monthOfYear shouldBe 1
+        dates.last().date.month.value shouldBe 1
         dates.last().date.year shouldBe 2021
 
         createInstance().getMonthText(
@@ -104,15 +101,15 @@ class CalendarCalculationTest : BaseTest() {
     @Test
     fun calculateEdgeCases() {
         // new year
-        createInstance().getDates(DateTime.parse("27.12.2021", formatter)).apply {
+        createInstance().getDates(LocalDate.parse("27.12.2021", formatter)).apply {
             // First day - 6 of December 2021
             first().date.dayOfMonth shouldBe 6
-            first().date.monthOfYear shouldBe 12
+            first().date.month.value shouldBe 12
             first().date.year shouldBe 2021
 
             // Last day - 2 of January 2022
             last().date.dayOfMonth shouldBe 2
-            last().date.monthOfYear shouldBe 1
+            last().date.month.value shouldBe 1
             last().date.year shouldBe 2022
 
             createInstance().getMonthText(
@@ -122,15 +119,15 @@ class CalendarCalculationTest : BaseTest() {
         }
 
         // leap year
-        createInstance().getDates(DateTime.parse("29.02.2024", formatter)).apply {
+        createInstance().getDates(LocalDate.parse("29.02.2024", formatter)).apply {
             // First day - 5 of February 2024
             first().date.dayOfMonth shouldBe 5
-            first().date.monthOfYear shouldBe 2
+            first().date.month.value shouldBe 2
             first().date.year shouldBe 2024
 
             // Last day - 2 of March 2024
             last().date.dayOfMonth shouldBe 3
-            last().date.monthOfYear shouldBe 3
+            last().date.month.value shouldBe 3
             last().date.year shouldBe 2024
 
             createInstance().getMonthText(

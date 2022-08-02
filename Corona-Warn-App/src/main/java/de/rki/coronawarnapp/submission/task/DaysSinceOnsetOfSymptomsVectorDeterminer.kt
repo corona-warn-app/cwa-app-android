@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.submission.task
 
 import dagger.Reusable
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.ageInDays
+import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import javax.inject.Inject
 
 /**
@@ -13,7 +14,7 @@ import javax.inject.Inject
  * https://github.com/corona-warn-app/cwa-app-tech-spec/blob/master/docs/spec/days-since-onset-of-symptoms.md
  */
 @Reusable
-class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
+class DaysSinceOnsetOfSymptomsVectorDeterminer @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
@@ -31,7 +32,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminator @Inject constructor(
     private fun determinePositiveIndication(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.startOfSymptoms) {
             is Symptoms.StartOf.Date -> createDaysSinceOnsetOfSymptomsVectorWith(
-                symptoms.startOfSymptoms.date.ageInDays(timeStamper.nowUTC.toLocalDateUtc())
+                symptoms.startOfSymptoms.date.toJavaTime().ageInDays(timeStamper.nowJavaUTC.toLocalDateUserTimeZone())
             )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)
