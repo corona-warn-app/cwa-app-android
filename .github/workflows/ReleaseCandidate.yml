@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
-    
+
 env:
   JVM_OPTS: -Xmx4096m
   GRADLE_OPTS: |
@@ -12,33 +12,33 @@ env:
         -Dorg.gradle.caching=true
         -Dorg.gradle.configureondemand=true
         -Dkotlin.compiler.execution.strategy=in-process
-        -Dkotlin.incremental=false  
-        
+        -Dkotlin.incremental=false
+
 jobs:
   dependencies:
     runs-on: ubuntu-latest
-     
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Download sapmachine JDK 11
       run: |
         download_url="https://github.com/SAP/SapMachine/releases/download/sapmachine-11.0.14.1/sapmachine-jdk-11.0.14.1_linux-x64_bin.tar.gz"
         wget -O "${RUNNER_TEMP}/sapmachine-jdk-11.tar.gz" "${download_url}"
-       
+
     - name: Setup sapmachine JDK 11
       uses: actions/setup-java@v2
       with:
         distribution: 'jdkfile'
         jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
         java-version: '11.0.14'
-        architecture: x64    
+        architecture: x64
         cache: 'gradle'
 
     - uses: maxim-lobanov/setup-android-tools@v1
       with:
-        cache: true   
-        
+        cache: true
+
   quick_build_device_for_testers_signed:
     runs-on: ubuntu-latest
     needs: dependencies
@@ -53,7 +53,7 @@ jobs:
       keystore_password: '${{ secrets.KEYSTORE_PASSWORD }}'
       key_alias: '${{ secrets.KEY_ALIAS }}'
       key_password: '${{ secrets.KEY_PASSWORD }}'
-      
+
     steps:
       - uses: actions/checkout@v3
 
@@ -68,12 +68,12 @@ jobs:
           distribution: 'jdkfile'
           jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
           java-version: '11.0.14'
-          architecture: x64    
+          architecture: x64
           cache: 'gradle'
 
       - uses: maxim-lobanov/setup-android-tools@v1
         with:
-          cache: true   
+          cache: true
 
       - name: Download Keystore
         run: |
@@ -83,20 +83,20 @@ jobs:
           curl --header "Authorization: token ${keystore_download_token}" --header "Accept: application/vnd.github.v3.raw" --remote-name --location "${environments_download_url}${env_prop_download_filename}"
       - name: Decrypt Keystore
         run: openssl enc -aes-256-cbc -d -pbkdf2 -iter 100000 -in $keystore_download_filename -out $keystore_filename -k $keystore_encrypt_key
-        
+
       - name: Prepare commit hash
         run: |
-          echo $GITHUB_SHA  
+          echo $GITHUB_SHA
           echo "" >> "./gradle.properties"
-          echo "commit_hash=${GITHUB_SHA}" >> "./gradle.properties"         
-          
+          echo "commit_hash=${GITHUB_SHA}" >> "./gradle.properties"
+
       - name: Prepare keystore properties for Signing
         run: |
           echo "" >> "./keystore.properties"
           echo "deviceForTestersRelease.storePath=../${keystore_filename}" >> "./keystore.properties"
           echo "deviceForTestersRelease.storePassword=${keystore_password}" >> "./keystore.properties"
           echo "deviceForTestersRelease.keyAlias=${key_alias}" >> "./keystore.properties"
-          echo "deviceForTestersRelease.keyPassword=${key_password}" >> "./keystore.properties" 
+          echo "deviceForTestersRelease.keyPassword=${key_password}" >> "./keystore.properties"
 
       - name: Quick Build
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersRelease
@@ -105,9 +105,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: Corona-Warn-App/build/outputs/apk/deviceForTesters/release/*.apk
-          
+
       - name: Send to T-System
-        env: 
+        env:
           tsystems_upload_url: '${{ secrets.TSYSTEM_UPLOAD_URL }}'
           tsystems_upload_bearer: '${{ secrets.TSYSTEM_UPLOAD_BEARER }}'
         run: |
@@ -119,24 +119,26 @@ jobs:
 
       - name: trigger App Automation Testing
         env:
-          CIRCLE_API_ADMIN_TOKEN: '${{ secrets.CIRCLE_API_ADMIN_TOKEN }}'
+          GITHUB_ACCESS_TOKEN: '${{ secrets.ACCESS_TOKEN_GITHUB }}'
         run: |
-          curl -u ${CIRCLE_API_ADMIN_TOKEN}: \
-          -d '{"branch":"main","parameters":{"mobile-os":"android"}}' \
-          -H 'content-type: application/json' \
-          https://circleci.com/api/v2/project/github/corona-warn-app/cwa-app-automation/pipeline
+          curl \
+          -X POST \
+          -H 'Accept: application/vnd.github.v3+json' \
+          -H 'authorization: Bearer $GITHUB_ACCESS_TOKEN' \
+          -d '{\"ref\":\"main\", \"inputs\": { \"mobile-os\":\"android\"}}' \
+          https://api.github.com/repos/corona-warn-app/cwa-app-automation/actions/workflows/31092010/dispatches
 
   firebase_screenshots:
     runs-on: ubuntu-latest
     needs: dependencies
     env:
       GCLOUD_SERVICE_KEY_BASE64: '${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}'
-      GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'    
+      GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'
     permissions:
       checks: write
       pull-requests: write
     steps:
-  
+
       - uses: actions/checkout@v3
 
       - name: Download sapmachine JDK 11
@@ -149,22 +151,22 @@ jobs:
           distribution: 'jdkfile'
           jdkFile: ${{ runner.temp }}/sapmachine-jdk-11.tar.gz
           java-version: '11.0.14'
-          architecture: x64    
+          architecture: x64
           cache: 'gradle'
 
       - uses: maxim-lobanov/setup-android-tools@v1
         with:
-          cache: true   
-       
+          cache: true
+
       - name: Build APKs for screenshots
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDebug :Corona-Warn-App:assembleAndroidTest
-  
-      - name: Setup Google Cloud access        
+
+      - name: Setup Google Cloud access
         run: |
           echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
           sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
           sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-  
+
       - name: Setup Testlab environment
         run: |
           echo "BUCKETDIR=`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}" >> $GITHUB_ENV
@@ -185,11 +187,11 @@ jobs:
             --locales de_DE,en_US \
             --orientations portrait \
             --no-record-video
-            
+
       - name: Create directory to store test results
         if: always()
         run: mkdir mkdir firebase-screenshots
-  
+
       - name: Install gsutil dependency and copy test results data
         if: always()
         run: |
@@ -201,8 +203,8 @@ jobs:
         if: always()
         with:
           check_name: "Firebase Test Results"
-          files: "firebase-screenshots/**/*.xml" 
-          
+          files: "firebase-screenshots/**/*.xml"
+
       - name: Clean up pulled bucket
         run: |
           sudo rm -rf firebase-screenshots/*/test_cases

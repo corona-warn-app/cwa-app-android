@@ -2,10 +2,8 @@ package de.rki.coronawarnapp.ui.calendar
 
 import android.content.Context
 import de.rki.coronawarnapp.contactdiary.util.getLocale
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.format.TextStyle
 import java.util.Locale
 
 class CalendarCalculation constructor(private val context: Context) {
@@ -44,27 +42,27 @@ class CalendarCalculation constructor(private val context: Context) {
     fun getMonthText(firstDate: LocalDate, lastDate: LocalDate): String {
         val monthText = StringBuilder()
         // Append first date month as it would always be displayed
-        monthText.append(firstDate.monthOfYear().getAsText(locale))
-        if (firstDate.monthOfYear() != lastDate.monthOfYear()) {
+        monthText.append(firstDate.month.getDisplayName(TextStyle.FULL, locale))
+        if (firstDate.month != lastDate.month) {
             // Different month
-            if (firstDate.year() == lastDate.year()) {
+            if (firstDate.year == lastDate.year) {
                 // Same year (Case 1)
                 monthText.append(" - ")
-                    .append(lastDate.monthOfYear().getAsText(locale))
+                    .append(lastDate.month.getDisplayName(TextStyle.FULL, locale))
             } else {
                 // Different year (Case 2)
                 monthText.append(" ")
-                    .append(firstDate.year().get())
+                    .append(firstDate.year)
                     .append(" - ")
-                    .append(lastDate.monthOfYear().getAsText(locale))
+                    .append(lastDate.month.getDisplayName(TextStyle.FULL, locale))
             }
             // Append last date year
             monthText.append(" ")
-                .append(lastDate.year().get())
+                .append(lastDate.year)
         } else {
             // Same month
             monthText.append(" ")
-                .append(firstDate.year().get())
+                .append(firstDate.year)
         }
         return monthText.toString()
     }
@@ -78,7 +76,7 @@ class CalendarCalculation constructor(private val context: Context) {
      * - Week starts from Monday
      *
      * Algorithm:
-     * Goal: calculate days to add with JodaTime lib to current date
+     * Goal: calculate days to add with java.time to current date
      *
      * Input: Today = 9 September (Wednesday)
      *
@@ -93,17 +91,17 @@ class CalendarCalculation constructor(private val context: Context) {
      * | -2| -1| 9 | +1| +2| +3| +4| <- Current Week (4th row)
      * Code: (DaysInWeekCount * (TotalWeeks - weekId)) * -1
      */
-    fun getDates(currentDate: DateTime = DateTime(Instant.now(), DateTimeZone.UTC)): List<CalendarAdapter.Day> {
+    fun getDates(currentDate: LocalDate = LocalDate.now()): List<CalendarAdapter.Day> {
         // Create mutable list of DateTime as a result
         val result = mutableListOf<CalendarAdapter.Day>()
         // Get current day of the week (where 1 = Monday, 7 = Sunday)
-        val currentDayOfTheWeek = currentDate.dayOfWeek().get()
+        val currentDayOfTheWeek = currentDate.dayOfWeek.value
         // Week count
         val weeksCount = WEEKS_COUNT - 1
         for (weekId in 0..weeksCount) {
             for (dayId in 1..DAYS_IN_WEEK) {
                 val daysDiff = (currentDayOfTheWeek * -1) + dayId - (DAYS_IN_WEEK * (weeksCount - weekId))
-                result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff).toLocalDate()))
+                result.add(CalendarAdapter.Day(currentDate.plusDays(daysDiff.toLong())))
             }
         }
         return result

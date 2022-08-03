@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
-import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
+import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 @Singleton
 class CheckInsTransformer @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val transmissionDeterminator: TransmissionRiskVectorDeterminator,
+    private val transmissionDeterminator: TransmissionRiskVectorDeterminer,
     private val checkInCryptography: CheckInCryptography,
     private val appConfigProvider: AppConfigProvider
 ) {
