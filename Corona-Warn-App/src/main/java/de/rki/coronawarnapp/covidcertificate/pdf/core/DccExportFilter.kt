@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
 import java.time.Duration
 import java.time.Instant
 
