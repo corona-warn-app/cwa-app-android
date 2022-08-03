@@ -130,9 +130,7 @@
 
         <action
             android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
-            app:destination="@id/universalScannerInformationFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/universalScannerInformationFragment" />
 
         <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
