@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import de.rki.coronawarnapp.util.toJavaInstant
 import de.rki.coronawarnapp.util.toJavaTime
 import java.time.Duration
@@ -30,8 +31,8 @@ internal fun List<CwaCovidCertificate>.sort(): List<CwaCovidCertificate> = sorte
         {
             when (it) {
                 is TestCertificate -> it.sampleCollectedAt
-                is VaccinationCertificate -> it.vaccinatedOn?.toJavaTime()
-                is RecoveryCertificate -> it.testedPositiveOn?.toJavaTime()
+                is VaccinationCertificate -> it.vaccinatedOn?.toInstantMidnightUtc()
+                is RecoveryCertificate -> it.testedPositiveOn?.toInstantMidnightUtc()
                 else -> null
             }
         }
