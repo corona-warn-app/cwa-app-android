@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -9,6 +10,7 @@ import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -177,6 +179,29 @@ class FamilyTestRepositoryTest : BaseTest() {
         instance.deleteTest(identifier)
         coVerify {
             storage.delete(familyTest)
+        }
+    }
+
+    @Test
+    fun `register test saves test`() = runTest {
+        coEvery { storage.save(any()) } just Runs
+        coEvery { processor.register(qrCode) } returns test
+        val instance = createInstance()
+        instance.registerTest(qrCode, "Ann")
+        coVerify {
+            storage.save(any())
+        }
+    }
+
+    @Test
+    fun `register redeemed test throw an error`() = runTest {
+        coEvery { processor.register(qrCode) } returns test.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED)
+        val instance = createInstance()
+        shouldThrow<AlreadyRedeemedException> {
+            instance.registerTest(qrCode, "Ann")
+        }
+        coVerify(exactly = 0) {
+            storage.save(any())
         }
     }
 
