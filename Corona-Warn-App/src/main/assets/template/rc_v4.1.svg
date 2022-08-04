@@ -1682,10 +1682,9 @@
 	<line class="st15_rcin" x1="327.1" y1="105.8" x2="566.4" y2="105.8" />
         <rect x="325.2" y="84.9" class="st7_rcin" width="241" height="265.1" />
         <text id="diese_Be_1_" transform="matrix(-1 0 0 -1 566.1629 343.8597)"><tspan x="0" y="0" class="st4_rcin st5_rcin st9_rcin">Diese Bescheinigung</tspan>
-            <tspan x="81.7" y="0" class="st4_rcin st8_rcin st9_rcin"> </tspan>
-            <tspan x="83.8" y="0"
+            <tspan x="77.8" y="0"
                 class="st8_rcin st9_rcin">ist kein Reisedokument. Die wissenschaft</tspan>
-            <tspan x="237" y="0" class="st8_rcin st9_rcin">-</tspan>
+            <tspan x="228" y="0" class="st8_rcin st9_rcin">-</tspan>
             <tspan x="0" y="10" class="st8_rcin st9_rcin">lichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, </tspan>
             <tspan x="0" y="20" class="st8_rcin st9_rcin">Testung und Genesung entwickeln sich fortlaufend weiter, auch </tspan>
             <tspan x="0" y="30" class="st8_rcin st9_rcin">im Hinblick auf neue besorgniserregende Virusvarianten. Bitte </tspan>
@@ -1693,7 +1692,7 @@
             <tspan x="0" y="50" class="st8_rcin st9_rcin">geltenden Gesundheitsmaßnahmen und entsprechenden </tspan>
             <tspan x="0" y="60" class="st8_rcin st9_rcin">Beschränkungen. </tspan>
             <tspan x="0" y="80" class="st4_rcin st5_rcin st9_rcin">This certificate</tspan>
-            <tspan x="59.5" y="80" class="st8_rcin st9_rcin"> is not a travel document. The scientific evidence </tspan>
+            <tspan x="56.5" y="80" class="st8_rcin st9_rcin"> is not a travel document. The scientific evidence </tspan>
             <tspan x="0" y="90" class="st8_rcin st9_rcin">on COVID-19 vaccination, testing and recovery continues to </tspan>
             <tspan x="0" y="100" class="st8_rcin st9_rcin">evolve, also in view of new variants of concern of the virus. </tspan>
             <tspan x="0" y="110" class="st8_rcin st9_rcin">Before traveling, please check the applicable public health </tspan>
@@ -1701,13 +1700,12 @@
             <tspan x="0" y="130" class="st8_rcin st9_rcin">destination.</tspan>
             <tspan x="0" y="150"
                 class="st4_rcin st5_rcin st9_rcin">Zusammengefasste Informationen </tspan>
-            <tspan x="140.3" y="150" class="st8_rcin st9_rcin">über die in den europäi</tspan>
-            <tspan x="227.7" y="150" class="st8_rcin st9_rcin">-</tspan>
+            <tspan x="127.3" y="150" class="st8_rcin st9_rcin">über die in den europäi</tspan>
+            <tspan x="210.7" y="150" class="st8_rcin st9_rcin">-</tspan>
             <tspan x="0" y="160" class="st8_rcin st9_rcin">schen Ländern jeweils geltenden Corona-Maßnahmen und </tspan>
             <tspan x="0" y="170" class="st8_rcin st9_rcin">Reisebeschränkungen finden Sie unter anderem auf der Seite: </tspan>
             <tspan x="0" y="180"
-                class="st4_rcin st5_rcin st9_rcin">https://reopen.europa.eu/de</tspan>
-            <tspan x="114.6" y="180" class="st4_rcin st8_rcin st9_rcin">.</tspan>
+                class="st4_rcin st5_rcin st9_rcin">https://reopen.europa.eu/de.</tspan>
             <tspan x="0" y="190" class="st8_rcin st9_rcin">Die Aktualisierung der Informationen obliegt den jeweiligen </tspan>
             <tspan x="0" y="200" class="st8_rcin st9_rcin">europäischen Ländern. Dort finden Sie auch Hinweise, welche </tspan>
             <tspan x="0" y="210" class="st8_rcin st9_rcin">Informationen und Dokumente Sie bei der Einreise vorlegen </tspan>

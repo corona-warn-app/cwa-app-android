@@ -120,7 +120,35 @@
 <text transform="matrix(-1 7.210000e-03 -7.210000e-03 -1 283.1406 37.4004)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Zertifikataussteller: </tspan><tspan x="-0.1" y="10" class="st6_tc st7_tc">Certificate issuer </tspan></text>
 <line class="st10_tc" x1="311.8" y1="107.8" x2="566.4" y2="107.8"/>
 <rect x="325.4" y="106" class="st4_tc" width="241.1" height="243.2"/>
-<text id="diese_Be_1_" transform="matrix(-1 0 0 -1 566.4734 343.0941)"><tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Diese Bescheinigung</tspan><tspan x="81.7" y="0" class="st8_tc st6_tc st7_tc"> </tspan><tspan x="83.8" y="0" class="st6_tc st7_tc">ist kein Reisedokument. Die wissenschaft</tspan><tspan x="237" y="0" class="st6_tc st7_tc">-</tspan><tspan x="0" y="10" class="st6_tc st7_tc">lichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, </tspan><tspan x="0" y="20" class="st6_tc st7_tc">Testung und Genesung entwickeln sich fortlaufend weiter, auch </tspan><tspan x="0" y="30" class="st6_tc st7_tc">im Hinblick auf neue besorgniserregende Virusvarianten. Bitte </tspan><tspan x="0" y="40" class="st6_tc st7_tc">informieren Sie sich vor Reiseantritt über die am Zielort </tspan><tspan x="0" y="50" class="st6_tc st7_tc">geltenden Gesundheitsmaßnahmen und entsprechenden </tspan><tspan x="0" y="60" class="st6_tc st7_tc">Beschränkungen.</tspan><tspan x="0" y="80" class="st8_tc st9_tc st7_tc">This certificate</tspan><tspan x="59.5" y="80" class="st6_tc st7_tc"> is not a travel document. The scientific evidence </tspan><tspan x="0" y="90" class="st6_tc st7_tc">on COVID-19 vaccination, testing and recovery continues to </tspan><tspan x="0" y="100" class="st6_tc st7_tc">evolve, also in view of new variants of concern of the virus. </tspan><tspan x="0" y="110" class="st6_tc st7_tc">Before traveling, please check the applicable public health </tspan><tspan x="0" y="120" class="st6_tc st7_tc">measures and related restrictions applied at the point of </tspan><tspan x="0" y="130" class="st6_tc st7_tc">destination.</tspan><tspan x="0" y="150" class="st8_tc st9_tc st7_tc">Zusammengefasste Informationen </tspan><tspan x="140.3" y="150" class="st6_tc st7_tc">über die in den europäi</tspan><tspan x="227.7" y="150" class="st6_tc st7_tc">-</tspan><tspan x="0" y="160" class="st6_tc st7_tc">schen Ländern jeweils geltenden Corona-Maßnahmen und </tspan><tspan x="0" y="170" class="st6_tc st7_tc">Reisebeschränkungen finden Sie unter anderem auf der Seite: </tspan><tspan x="0" y="180" class="st8_tc st9_tc st7_tc">https://reopen.europa.eu/de. </tspan><tspan x="0" y="190" class="st6_tc st7_tc">Die Aktualisierung der Informationen obliegt den jeweiligen </tspan><tspan x="0" y="200" class="st6_tc st7_tc">europäischen Ländern. Dort finden Sie auch Hinweise, welche </tspan><tspan x="0" y="210" class="st6_tc st7_tc">Informationen und Dokumente Sie bei der Einreise vorlegen </tspan><tspan x="0" y="220" class="st6_tc st7_tc">müssen. Die Datenverarbeitung unterliegt den Vorschriften des </tspan><tspan x="0" y="230" class="st6_tc st7_tc">jeweiligen Einreiselands.</tspan></text>
+<text id="diese_Be_1_" transform="matrix(-1 0 0 -1 566.4734 343.0941)">
+	<tspan x="0" y="0" class="st8_tc st9_tc st7_tc">Diese Bescheinigung</tspan>
+	<tspan x="76.8" y="0" class="st6_tc st7_tc">ist kein Reisedokument. Die wissenschaft</tspan>
+	<tspan x="227" y="0" class="st6_tc st7_tc">-</tspan>
+	<tspan x="0" y="10" class="st6_tc st7_tc">lichen Erkenntnisse zu COVID-19 in den Bereichen Impfung, </tspan>
+	<tspan x="0" y="20" class="st6_tc st7_tc">Testung und Genesung entwickeln sich fortlaufend weiter, auch </tspan>
+	<tspan x="0" y="30" class="st6_tc st7_tc">im Hinblick auf neue besorgniserregende Virusvarianten. Bitte </tspan>
+	<tspan x="0" y="40" class="st6_tc st7_tc">informieren Sie sich vor Reiseantritt über die am Zielort </tspan>
+	<tspan x="0" y="50" class="st6_tc st7_tc">geltenden Gesundheitsmaßnahmen und entsprechenden </tspan>
+	<tspan x="0" y="60" class="st6_tc st7_tc">Beschränkungen.</tspan>
+	<tspan x="0" y="80" class="st8_tc st9_tc st7_tc">This certificate</tspan>
+	<tspan x="55.5" y="80" class="st6_tc st7_tc"> is not a travel document. The scientific evidence </tspan>
+	<tspan x="0" y="90" class="st6_tc st7_tc">on COVID-19 vaccination, testing and recovery continues to </tspan>
+	<tspan x="0" y="100" class="st6_tc st7_tc">evolve, also in view of new variants of concern of the virus. </tspan>
+	<tspan x="0" y="110" class="st6_tc st7_tc">Before traveling, please check the applicable public health </tspan>
+	<tspan x="0" y="120" class="st6_tc st7_tc">measures and related restrictions applied at the point of </tspan>
+	<tspan x="0" y="130" class="st6_tc st7_tc">destination.</tspan>
+	<tspan x="0" y="150" class="st8_tc st9_tc st7_tc">Zusammengefasste Informationen </tspan>
+	<tspan x="126.3" y="150" class="st6_tc st7_tc">über die in den europäi</tspan>
+	<tspan x="209.7" y="150" class="st6_tc st7_tc">-</tspan>
+	<tspan x="0" y="160" class="st6_tc st7_tc">schen Ländern jeweils geltenden Corona-Maßnahmen und </tspan>
+	<tspan x="0" y="170" class="st6_tc st7_tc">Reisebeschränkungen finden Sie unter anderem auf der Seite: </tspan>
+	<tspan x="0" y="180" class="st8_tc st9_tc st7_tc">https://reopen.europa.eu/de. </tspan>
+	<tspan x="0" y="190" class="st6_tc st7_tc">Die Aktualisierung der Informationen obliegt den jeweiligen </tspan>
+	<tspan x="0" y="200" class="st6_tc st7_tc">europäischen Ländern. Dort finden Sie auch Hinweise, welche </tspan>
+	<tspan x="0" y="210" class="st6_tc st7_tc">Informationen und Dokumente Sie bei der Einreise vorlegen </tspan>
+	<tspan x="0" y="220" class="st6_tc st7_tc">müssen. Die Datenverarbeitung unterliegt den Vorschriften des </tspan>
+	<tspan x="0" y="230" class="st6_tc st7_tc">jeweiligen Einreiselands.</tspan>
+</text>
 <g id="titelG_1_">
 	<rect id="titel_füllung_2_" x="311.8" y="635.2" class="st11_tc" width="253.5" height="6.1"/>
 	<rect id="titel_kontur_2_" x="312" y="634.6" class="st12_tc" width="253.5" height="6.1"/>
