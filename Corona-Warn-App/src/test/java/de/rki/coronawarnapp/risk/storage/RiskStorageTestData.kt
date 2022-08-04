@@ -119,8 +119,8 @@ object RiskStorageTestData {
 
     // PT data
 
-    val ptCalculatedAt = ewCalculatedAt.plus(100L)
-    const val maxCheckInAgeInDays = 10
+    private val ptCalculatedAt = ewCalculatedAt.plus(100L)
+    private const val maxCheckInAgeInDays = 10
 
     val ptDayRisk = PresenceTracingDayRisk(
         Instant.now().toLocalDateUtc(),
@@ -137,11 +137,5 @@ object RiskStorageTestData {
         presenceTracingDayRisk = null,
         riskState = RiskState.CALCULATION_FAILED,
         calculatedFrom = ptCalculatedAt.minus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-    )
-    val ptResult3 = PtRiskLevelResult(
-        calculatedAt = ewCalculatedAt.minus(2000L),
-        presenceTracingDayRisk = listOf(ptDayRisk),
-        riskState = RiskState.INCREASED_RISK,
-        calculatedFrom = ptCalculatedAt.minus(2000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
     )
 }
