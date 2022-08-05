@@ -110,7 +110,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         performSubmission()
         if (comesFromDispatcherFragment) {
             navigation.postValue(
-                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToMainFragment()
+                SubmissionSymptomIntroductionFragmentDirections
+                    .actionSubmissionSymptomIntroductionFragmentToMainFragment()
             )
         } else navigateBack.postValue(Unit)
     }
