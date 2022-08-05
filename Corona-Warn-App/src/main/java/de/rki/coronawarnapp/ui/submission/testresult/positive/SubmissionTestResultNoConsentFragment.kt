@@ -93,7 +93,8 @@ class SubmissionTestResultNoConsentFragment :
     private fun navigateToHome() {
         if (navArgs.comesFromDispatcherFragment) {
             doNavigate(
-                SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToHomeFragment()
+                SubmissionTestResultNoConsentFragmentDirections
+                    .actionSubmissionTestResultNoConsentFragmentToHomeFragment()
             )
         } else popBackStack()
     }
