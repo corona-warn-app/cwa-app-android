@@ -30,7 +30,8 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import javax.inject.Inject
 
-class TraceLocationWarnDurationFragment : Fragment(R.layout.trace_location_organizer_warn_duration_fragment),
+class TraceLocationWarnDurationFragment :
+    Fragment(R.layout.trace_location_organizer_warn_duration_fragment),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
