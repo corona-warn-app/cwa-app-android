@@ -7,6 +7,7 @@ import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class DccGroupingExtensionsTest : testhelpers.BaseTest() {
@@ -66,6 +67,32 @@ class DccGroupingExtensionsTest : testhelpers.BaseTest() {
     }
 
     @Test
+    fun `Schema 1_3_2 certificates should have one group gnt, fnt swapped`() {
+        setOf(
+            certSchema132GntA1,
+            certSchema132GntA2,
+            certSchema132FntA1,
+            certSchema132FntA2
+        ).groupByPerson().count() shouldBe 1
+    }
+
+    @Test
+    fun `Schema 1_3_2 certificates should have one group gnt (Given name)`() {
+        setOf(
+            certSchema132GntA1,
+            certSchema132GntA2
+        ).groupByPerson().count() shouldBe 1
+    }
+
+    @Test
+    fun `Schema 1_3_2 certificates should have one group fnt (Family name)`() {
+        setOf(
+            certSchema132FntA1,
+            certSchema132FntA2
+        ).groupByPerson().count() shouldBe 1
+    }
+
+    @Test
     fun `second grouping check`() {
         val certificates = setOf(
             certD12,
@@ -97,6 +124,40 @@ class DccGroupingExtensionsTest : testhelpers.BaseTest() {
             certD3,
             certD2,
             certD1,
+        )
+    }
+
+    // 1.3.2 given name is the same
+    private val certSchema132GntA1: CwaCovidCertificate = mockk {
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARIO",
+            lastNameStandardized = null
+        )
+    }
+
+    private val certSchema132GntA2: CwaCovidCertificate = mockk {
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARIO",
+            lastNameStandardized = null
+        )
+    }
+
+    // 1.3.2  family name is the same
+    private val certSchema132FntA1: CwaCovidCertificate = mockk {
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = null,
+            lastNameStandardized = "MARIO"
+        )
+    }
+
+    private val certSchema132FntA2: CwaCovidCertificate = mockk {
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = null,
+            lastNameStandardized = "MARIO"
         )
     }
 
