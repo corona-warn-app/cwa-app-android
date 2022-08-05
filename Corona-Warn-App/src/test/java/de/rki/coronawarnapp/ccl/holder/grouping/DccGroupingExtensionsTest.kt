@@ -66,7 +66,7 @@ class DccGroupingExtensionsTest : testhelpers.BaseTest() {
     }
 
     @Test
-    fun `Schema 1_3_2 certificates should have one group gnt, fnt swapped`() {
+    fun `Schema 1_3_2 certificates should have one group gnt, fnt swapped and are equal`() {
         setOf(
             certSchema132GntA1,
             certSchema132GntA2,
@@ -76,7 +76,7 @@ class DccGroupingExtensionsTest : testhelpers.BaseTest() {
     }
 
     @Test
-    fun `Schema 1_3_2 certificates should have one group gnt (Given name)`() {
+    fun `Schema 1_3_2 certificates should have one group gnt (Given name) is the same`() {
         setOf(
             certSchema132GntA1,
             certSchema132GntA2
@@ -84,7 +84,7 @@ class DccGroupingExtensionsTest : testhelpers.BaseTest() {
     }
 
     @Test
-    fun `Schema 1_3_2 certificates should have one group fnt (Family name)`() {
+    fun `Schema 1_3_2 certificates should have one group fnt (Family name) is the same`() {
         setOf(
             certSchema132FntA1,
             certSchema132FntA2
