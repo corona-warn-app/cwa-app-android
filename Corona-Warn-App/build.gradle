@@ -338,7 +338,7 @@ dependencies {
 
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     // KOTLIN
-    def coroutineVersion = '1.6.2'
+    def coroutineVersion = '1.6.3'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
@@ -358,16 +358,16 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    def activity_version = "1.5.0"
+    def activity_version = "1.5.1"
     implementation "androidx.activity:activity-ktx:$activity_version"
-    def fragment_version = "1.5.0"
+    def fragment_version = "1.5.1"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-process:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
 
     implementation 'androidx.annotation:annotation:1.4.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
@@ -454,7 +454,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'androidx.work:work-testing:2.7.1'
     androidTestImplementation 'io.mockk:mockk-android:1.11.0'
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.1'
     debugImplementation 'androidx.test:core-ktx:1.4.0'
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
@@ -476,7 +476,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
     // PERSISTENCE
-    def room_version = "2.4.2"
+    def room_version = "2.4.3"
     implementation "androidx.sqlite:sqlite-ktx:2.2.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
