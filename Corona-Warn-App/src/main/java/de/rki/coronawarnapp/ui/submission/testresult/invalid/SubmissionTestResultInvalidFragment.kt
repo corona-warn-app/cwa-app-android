@@ -43,7 +43,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { goBack() }
         }
         viewModel.testResult.observe2(this) { uiState ->
             when (uiState.coronaTest.type) {
@@ -84,9 +84,17 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             binding.submissionTestResultSection.setTestResultSection(uiState.coronaTest)
         }
 
-        viewModel.routeToScreen.observe2(this) { navDirections ->
-            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        viewModel.routeToScreen.observe2(this) {
+            goBack()
         }
+    }
+
+    private fun goBack() {
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultInvalidFragmentDirections.actionGlobalMainFragment()
+            )
+        } else popBackStack()
     }
 
     private fun showMoveToRecycleBinDialog() {

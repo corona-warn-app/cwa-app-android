@@ -37,7 +37,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val coronaTestProvider: CoronaTestProvider,
     private val checkInRepository: CheckInRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testIdentifier: TestIdentifier
+    @Assisted private val testIdentifier: TestIdentifier,
+    @Assisted private val comesFromDispatcherFragment: Boolean
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     init {
         Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
@@ -46,6 +47,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
+
+    val navigateBack = SingleLiveEvent<Unit>()
 
     val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
 
@@ -76,7 +79,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment(
-                            testType = coronaTestFlow.first().type
+                            testType = coronaTestFlow.first().type,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 }
                 routeToScreen.postValue(navDirections)
@@ -109,10 +113,12 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     )
 
     fun onBackPressed() {
-        routeToScreen.postValue(
-            SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToMainFragment()
-        )
+        if (comesFromDispatcherFragment) {
+            routeToScreen.postValue(
+                SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
+                    .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToMainFragment()
+            )
+        } else navigateBack.postValue(Unit)
     }
 
     fun onConsentButtonClicked() = launch {
@@ -148,7 +154,10 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
-        fun create(testIdentifier: TestIdentifier): SubmissionResultPositiveOtherWarningNoConsentViewModel
+        fun create(
+            testIdentifier: TestIdentifier,
+            comesFromDispatcherFragment: Boolean
+        ): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }
 
     companion object {

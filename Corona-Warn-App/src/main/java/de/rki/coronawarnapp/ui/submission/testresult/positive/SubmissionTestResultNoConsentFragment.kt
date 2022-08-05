@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -90,16 +91,19 @@ class SubmissionTestResultNoConsentFragment :
     }
 
     private fun navigateToHome() {
-        doNavigate(
-            SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToHomeFragment()
-        )
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     private fun navigateToWarnOthers() {
         doNavigate(
             SubmissionTestResultNoConsentFragmentDirections
                 .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    testIdentifier = navArgs.testIdentifier
+                    testIdentifier = navArgs.testIdentifier,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
         )
     }

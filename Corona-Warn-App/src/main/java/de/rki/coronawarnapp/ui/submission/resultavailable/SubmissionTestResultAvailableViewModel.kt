@@ -34,6 +34,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     private val autoSubmission: AutoSubmission,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     @Assisted private val testIdentifier: TestIdentifier,
+    @Assisted private val comesFromDispatcherFragment: Boolean,
     private val coronaTestProvider: CoronaTestProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -68,7 +69,8 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                     Timber.tag(TAG).d("Navigate to SubmissionTestResultConsentGivenFragment")
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment(
-                            coronaTestFlow.first().type
+                            testType = coronaTestFlow.first().type,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 }
                 routeToScreen.postValue(navDirections)
@@ -80,7 +82,8 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
-                            testIdentifier
+                            testIdentifier = testIdentifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 )
             }
@@ -137,7 +140,8 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
-                            testIdentifier = testIdentifier
+                            testIdentifier = testIdentifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 )
             }
@@ -151,7 +155,10 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultAvailableViewModel> {
-        fun create(testIdentifier: TestIdentifier): SubmissionTestResultAvailableViewModel
+        fun create(
+            testIdentifier: TestIdentifier,
+            comesFromDispatcherFragment: Boolean
+        ): SubmissionTestResultAvailableViewModel
     }
 
     companion object {

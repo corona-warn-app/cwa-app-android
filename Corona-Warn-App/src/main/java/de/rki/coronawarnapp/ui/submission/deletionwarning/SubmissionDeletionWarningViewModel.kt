@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -18,11 +19,13 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
+    dispatcherProvider: DispatcherProvider,
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
+    @Assisted private val comesFromDispatcherFragment: Boolean,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
     private val submissionRepository: SubmissionRepository,
-) : CWAViewModel() {
+) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<DuplicateWarningEvent>()
     val registrationState = registrationStateProcessor.state.asLiveData2()
@@ -55,7 +58,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
                             request,
-                            allowTestReplacement = true
+                            allowTestReplacement = true,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 )
             )
@@ -75,7 +79,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
                                     forceTestResultUpdate = true,
-                                    testIdentifier = request.identifier
+                                    testIdentifier = request.identifier,
+                                    comesFromDispatcherFragment = comesFromDispatcherFragment
                                 )
                         )
                     } else {
@@ -93,7 +98,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 DuplicateWarningEvent.Direction(
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultKeysSharedFragment(
-                            testIdentifier = request.identifier
+                            testIdentifier = request.identifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 )
             )
@@ -103,7 +109,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
-                                testIdentifier = request.identifier
+                                testIdentifier = request.identifier,
+                                comesFromDispatcherFragment = comesFromDispatcherFragment
                             )
                     )
                 )
@@ -112,7 +119,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 DuplicateWarningEvent.Direction(
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                            testIdentifier = request.identifier
+                            testIdentifier = request.identifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 )
             )
@@ -122,7 +130,8 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionDeletionWarningViewModel> {
         fun create(
-            testRegistrationRequest: TestRegistrationRequest
+            testRegistrationRequest: TestRegistrationRequest,
+            comesFromDispatcherFragment: Boolean
         ): SubmissionDeletionWarningViewModel
     }
 }

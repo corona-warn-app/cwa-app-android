@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -39,7 +38,7 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
 
     val showDeleteTestDialog = SingleLiveEvent<Unit>()
 
-    val routeToScreen = SingleLiveEvent<NavDirections?>()
+    val routeToScreen = SingleLiveEvent<Unit>()
 
     fun onTestOpened() = launch {
         coronaTestProvider.setTestAsViewed(coronaTestFlow.first())
@@ -51,7 +50,7 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
 
     fun moveTestToRecycleBinStorage() = launch {
         recycledTestProvider.recycleCoronaTest(testIdentifier)
-        routeToScreen.postValue(null)
+        routeToScreen.postValue(Unit)
     }
 
     @AssistedFactory

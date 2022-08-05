@@ -27,6 +27,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     private val autoSubmission: AutoSubmission,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     @Assisted private val testType: Type,
+    @Assisted private val comesFromDispatcherFragment: Boolean,
     @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -34,6 +35,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     val symptomIndication = symptomIndicationInternal.asLiveData(context = dispatcherProvider.Default)
 
     val navigation = SingleLiveEvent<NavDirections>()
+
+    val navigateBack = SingleLiveEvent<Unit>()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
 
@@ -45,7 +48,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                         SubmissionSymptomIntroductionFragmentDirections
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
                                 symptomIndication = Symptoms.Indication.POSITIVE,
-                                testType = testType
+                                testType = testType,
+                                comesFromDispatcherFragment = comesFromDispatcherFragment
                             )
                     )
                 }
@@ -104,9 +108,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     fun onCancelConfirmed() {
         Timber.d("Symptom submission was cancelled.")
         performSubmission()
-        navigation.postValue(
-            SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToMainFragment()
-        )
+        if (comesFromDispatcherFragment) {
+            navigation.postValue(
+                SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToMainFragment()
+            )
+        } else navigateBack.postValue(Unit)
     }
 
     private fun performSubmission() {
@@ -127,6 +133,9 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionSymptomIntroductionViewModel> {
-        fun create(testType: Type): SubmissionSymptomIntroductionViewModel
+        fun create(
+            testType: Type,
+            comesFromDispatcherFragment: Boolean
+        ): SubmissionSymptomIntroductionViewModel
     }
 }

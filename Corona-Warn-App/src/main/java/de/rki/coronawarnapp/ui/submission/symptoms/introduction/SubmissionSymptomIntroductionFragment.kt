@@ -4,18 +4,19 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -29,14 +30,17 @@ class SubmissionSymptomIntroductionFragment :
     Fragment(R.layout.fragment_submission_symptom_intro),
     AutoInject {
 
-    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
+    private val navArgs by navArgs<SubmissionSymptomIntroductionFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionSymptomIntroductionViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionSymptomIntroductionViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(
+                testType = navArgs.testType,
+                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
+            )
         }
     )
     private val binding: FragmentSubmissionSymptomIntroBinding by viewBinding()
@@ -47,6 +51,17 @@ class SubmissionSymptomIntroductionFragment :
         viewModel.navigation.observe2(this) {
             doNavigate(it)
         }
+
+        viewModel.navigateBack.observe2(this) {
+            popBackStack()
+        }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = SubmissionCancelDialog(requireContext()).show {
+                viewModel.onCancelConfirmed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.showCancelDialog.observe2(this) {
             SubmissionCancelDialog(requireContext()).show {
