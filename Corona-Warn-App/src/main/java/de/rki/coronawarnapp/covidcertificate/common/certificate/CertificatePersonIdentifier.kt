@@ -21,7 +21,7 @@ data class CertificatePersonIdentifier(
     val sanitizedFamilyName: List<String> by lazy { lastNameStandardized?.sanitizeName().orEmpty() }
 
     @get:JsonIgnore
-    private val sanitizedGivenName: List<String> by lazy { firstNameStandardized?.sanitizeName().orEmpty() }
+    val sanitizedGivenName: List<String> by lazy { firstNameStandardized?.sanitizeName().orEmpty() }
 
     /**
      * Method shall decide whether the DGCs belong to the same holder.
@@ -44,8 +44,7 @@ data class CertificatePersonIdentifier(
         val givenNameOverlap = sanitizedGivenName.hasIntersect(other.sanitizedGivenName)
         val bothGivenNamesAreEmpty = sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()
         val bothFamilyNamesAreEmpty = sanitizedFamilyName.isEmpty() && other.sanitizedFamilyName.isEmpty()
-        val familyNameAndGivenNameAreSwapped = sanitizedFamilyName.hasIntersect(other.sanitizedGivenName) &&
-            sanitizedGivenName.hasIntersect(other.sanitizedFamilyName)
+        val familyNameAndGivenNameAreSwapped = this.hasSwappedNameWith(other) || other.hasSwappedNameWith(this)
 
         return when {
             familyNameOverlap && (givenNameOverlap || bothGivenNamesAreEmpty) -> true
@@ -130,4 +129,10 @@ private fun String.sanitizeName(): List<String> {
         .split("<")
         .filter { !filteringList.contains(it) }
         .filter { it.isNotBlank() }
+}
+
+private fun CertificatePersonIdentifier.hasSwappedNameWith(other: CertificatePersonIdentifier): Boolean {
+    val hasEmptySwappedName = sanitizedGivenName.isEmpty() && other.sanitizedFamilyName.isEmpty()
+    val hasSwappedIntersect = sanitizedGivenName.hasIntersect(other.sanitizedFamilyName)
+    return sanitizedFamilyName.hasIntersect(other.sanitizedGivenName) && (hasSwappedIntersect || hasEmptySwappedName)
 }
