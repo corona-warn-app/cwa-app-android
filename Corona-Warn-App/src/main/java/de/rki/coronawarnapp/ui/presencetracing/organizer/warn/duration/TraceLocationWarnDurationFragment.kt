@@ -30,8 +30,7 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import javax.inject.Inject
 
-class TraceLocationWarnDurationFragment :
-    Fragment(R.layout.trace_location_organizer_warn_duration_fragment),
+class TraceLocationWarnDurationFragment : Fragment(R.layout.trace_location_organizer_warn_duration_fragment),
     AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
@@ -57,9 +56,8 @@ class TraceLocationWarnDurationFragment :
 
         viewModel.state.observe2(this) { uiState ->
             with(binding) {
-                if (uiState.description != null) {
-                    description.text = uiState.description
-                }
+                description.text = uiState.description
+                eventAddress.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 

@@ -73,7 +73,7 @@
                     tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/eventAddress"
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -82,10 +82,24 @@
                     android:layout_marginEnd="37dp"
                     android:layout_marginBottom="14dp"
                     android:textColor="@color/colorTextPrimary2"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/traceLocationCardHighlightView"
                     app:layout_constraintTop_toBottomOf="@id/description"
+                    tools:text="Hauptstr. 3, 69115 Heidelberg" />
+
+                <TextView
+                    android:id="@+id/eventDate"
+                    style="@style/body2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="37dp"
+                    android:layout_marginBottom="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/traceLocationCardHighlightView"
+                    app:layout_constraintTop_toBottomOf="@id/eventAddress"
                     tools:text="Hauptstr. 3, 69115 Heidelberg" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
