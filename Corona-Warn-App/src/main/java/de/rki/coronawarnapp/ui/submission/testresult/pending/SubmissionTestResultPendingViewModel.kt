@@ -36,7 +36,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     @Assisted private val testIdentifier: TestIdentifier,
-    @Assisted private val initialUpdate: Boolean,
+    @Assisted("initialUpdate") private val initialUpdate: Boolean,
+    @Assisted("comesFromDispatcherFragment") private val comesFromDispatcherFragment: Boolean,
     private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -83,12 +84,14 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     if (isFamilyTest) {
                         SubmissionTestResultPendingFragmentDirections
                             .actionSubmissionTestResultPendingFragmentToSubmissionTestResultKeysSharedFragment(
-                                testIdentifier = testIdentifier
+                                testIdentifier = testIdentifier,
+                                comesFromDispatcherFragment = comesFromDispatcherFragment
                             )
                     } else {
                         SubmissionTestResultPendingFragmentDirections
                             .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
-                                testIdentifier = testIdentifier
+                                testIdentifier = testIdentifier,
+                                comesFromDispatcherFragment = comesFromDispatcherFragment
                             )
                     }
                 }
@@ -96,7 +99,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
-                            testIdentifier = testIdentifier
+                            testIdentifier = testIdentifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
@@ -104,7 +108,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_INVALID ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(
-                            testIdentifier = testIdentifier
+                            testIdentifier = testIdentifier,
+                            comesFromDispatcherFragment = comesFromDispatcherFragment
                         )
                 else -> {
                     Timber.w("Unknown success state: $deviceState")
@@ -173,7 +178,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
         fun create(
             testIdentifier: TestIdentifier,
-            initialUpdate: Boolean
+            @Assisted("initialUpdate") initialUpdate: Boolean,
+            @Assisted("comesFromDispatcherFragment") comesFromDispatcherFragment: Boolean
         ): SubmissionTestResultPendingViewModel
     }
 }

@@ -78,10 +78,18 @@ class SubmissionTestResultConsentGivenFragment :
                     doNavigate(
                         SubmissionTestResultConsentGivenFragmentDirections
                             .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment(
-                                navArgs.testType
+                                testType = navArgs.testType,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
-                is SubmissionNavigationEvents.NavigateToMainActivity -> popBackStack()
+                is SubmissionNavigationEvents.NavigateToMainActivity -> {
+                    if (navArgs.comesFromDispatcherFragment) {
+                        doNavigate(
+                            SubmissionTestResultConsentGivenFragmentDirections
+                                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+                        )
+                    } else popBackStack()
+                }
                 else -> Unit
             }
         }

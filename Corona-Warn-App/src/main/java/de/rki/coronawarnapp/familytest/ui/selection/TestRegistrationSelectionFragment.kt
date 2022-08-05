@@ -44,7 +44,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode,
-                                navigateBackTo = BackToTestRegistrationSelection
+                                navigateBackTo = BackToTestRegistrationSelection,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             ),
                         navOptions
                     )
@@ -54,7 +55,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionDeletionWarningFragment(
                                 testRegistrationRequest = it.testRegistrationRequest,
-                                popToTestCategorySelection = true
+                                popToTestCategorySelection = true,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
                 }
@@ -62,7 +64,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
-                                coronaTestQrCode = it.coronaTestQRCode
+                                coronaTestQrCode = it.coronaTestQRCode,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             ),
                         navOptions
                     )

@@ -41,7 +41,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.testRegistrationRequest)
+            factory.create(args.testRegistrationRequest, args.comesFromDispatcherFragment)
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()
@@ -86,16 +86,19 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                         if (args.testRegistrationRequest is CoronaTestTAN) {
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    testIdentifier = state.test.identifier
+                                    testIdentifier = state.test.identifier,
+                                    comesFromDispatcherFragment = args.comesFromDispatcherFragment
                                 )
                         } else {
                             NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                testIdentifier = state.test.identifier
+                                testIdentifier = state.test.identifier,
+                                comesFromDispatcherFragment = args.comesFromDispatcherFragment
                             )
                         }
                     }
                     else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testIdentifier = state.test.identifier
+                        testIdentifier = state.test.identifier,
+                        comesFromDispatcherFragment = args.comesFromDispatcherFragment
                     )
                 }.also { findNavController().navigate(it, navOptions) }
             }
@@ -103,7 +106,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
             viewModel.routeToScreen.observe2(this) { event ->
                 Timber.d("Navigating to %s", event)
                 when (event) {
-                    DuplicateWarningEvent.Back -> popBackStack()
+                    DuplicateWarningEvent.Back -> {
+                        if (args.comesFromDispatcherFragment) {
+                            SubmissionDeletionWarningFragmentDirections
+                        }
+                        popBackStack()
+                    }
                     is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }

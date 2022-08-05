@@ -75,8 +75,13 @@ class SubmissionTestResultKeysSharedFragment :
             showMoveToRecycleBinDialog()
         }
 
-        viewModel.routeToScreen.observe2(this) { navDirections ->
-            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        viewModel.routeToScreen.observe2(this) {
+            if (navArgs.comesFromDispatcherFragment) {
+                doNavigate(
+                    SubmissionTestResultKeysSharedFragmentDirections
+                        .actionGlobalToSubmissionTestResultKeysSharedFragmentToMainFragment()
+                )
+            } else popBackStack()
         }
     }
 

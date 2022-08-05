@@ -9,6 +9,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentArgs
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -37,7 +38,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 is SubmissionNavigationEvents.NavigateToTAN ->
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToSubmissionTanFragment()
+                            .actionSubmissionDispatcherFragmentToSubmissionTanFragment(
+                                comesFromDispatcherFragment = true
+                            )
                     )
                 is SubmissionNavigationEvents.OpenTestCenterUrl ->
                     openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
@@ -69,9 +72,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         val dispatcherCard = binding.submissionDispatcherQr.dispatcherCard.apply {
             transitionName = "shared_element_container"
         }
+        val args = QrCodeScannerFragmentArgs(comesFromDispatcherFragment = true).toBundle()
         findNavController().navigate(
             R.id.action_to_universal_scanner,
-            null,
+            args,
             null,
             FragmentNavigatorExtras(dispatcherCard to dispatcherCard.transitionName)
         )

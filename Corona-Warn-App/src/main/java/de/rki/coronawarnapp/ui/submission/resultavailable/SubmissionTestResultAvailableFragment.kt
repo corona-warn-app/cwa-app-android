@@ -40,7 +40,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
         }
     )
 
@@ -119,7 +119,12 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     }
 
     private fun returnToScreenWhereUQSWasOpened() {
-        popBackStack()
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultAvailableFragmentDirections
+                    .actionSubmissionTestResultAvailableFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
