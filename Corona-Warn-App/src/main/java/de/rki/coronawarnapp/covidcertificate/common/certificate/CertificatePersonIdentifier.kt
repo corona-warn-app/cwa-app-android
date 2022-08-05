@@ -48,7 +48,7 @@ data class CertificatePersonIdentifier(
 
         return when {
             familyNameOverlap && (givenNameOverlap || bothGivenNamesAreEmpty) -> true
-            givenNameOverlap && (familyNameOverlap || bothFamilyNamesAreEmpty) -> true
+            givenNameOverlap && bothFamilyNamesAreEmpty -> true
             else -> familyNameAndGivenNameAreSwapped
         }
     }
