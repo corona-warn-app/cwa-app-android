@@ -57,7 +57,8 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
             value = value.copy(
                 description = traceLocation.description,
                 startDateTime = traceLocation.startDate,
-                endDateTime = traceLocation.endDate
+                endDateTime = traceLocation.endDate,
+                address = traceLocation.address,
             )
         }
 
@@ -73,8 +74,10 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         when {
             traceLocation.endDate != null && traceLocation.endDate != Instant.EPOCH ->
                 getNearestFifteen(Duration(traceLocation.startDate, traceLocation.endDate).standardMinutes)
+
             traceLocation.defaultCheckInLengthInMinutes != null && traceLocation.defaultCheckInLengthInMinutes > 0 ->
                 getNearestFifteen(traceLocation.defaultCheckInLengthInMinutes.toLong())
+
             else ->
                 Duration.standardHours(2)
         }.also { durationChanged(it) }
@@ -85,7 +88,8 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
     }
 
     data class UiState(
-        val description: String? = null,
+        val description: String = "",
+        val address: String = "",
         val startDateTime: Instant? = null,
         val endDateTime: Instant? = null,
         val localDateTime: LocalDateTime = LocalDateTime.now(),
