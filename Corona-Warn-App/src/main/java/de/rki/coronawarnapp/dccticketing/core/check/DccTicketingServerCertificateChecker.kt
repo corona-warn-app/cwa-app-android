@@ -83,8 +83,6 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
         }
     }
 
-
-
     private val Response.hostname: String
         get() = request.url.host
 
