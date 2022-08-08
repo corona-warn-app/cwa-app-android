@@ -1,6 +1,6 @@
 {
-  "$comment": "Generated at Mon Aug 08 2022 11:26:46 GMT+0200 (Central European Summer Time)",
-  "$sourceHash": "8a3b11dc892d73aa2efc8965df7e7d41a1eb5bb737d4d2df40a1aab1e73116fa",
+  "$comment": "Generated at Mon Aug 08 2022 12:22:20 GMT+0200 (Central European Summer Time)",
+  "$sourceHash": "310d05c317544e54a20b8be2f25c4a26ed57bc57ea4e2c3be72fc70462709fd9",
   "data": [
     {
       "description": "happy path - match",
@@ -641,6 +641,42 @@
         "nam": {
           "gnt": "MUSTERMANN<MARIA",
           "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "edge case for swapped first/last name with empty name component (1)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "edge case for swapped first/last name with empty name component (2)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
         },
         "dob": "1980-02-03"
       },
