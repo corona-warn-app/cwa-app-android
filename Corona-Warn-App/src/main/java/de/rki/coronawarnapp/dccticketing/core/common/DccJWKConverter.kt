@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.common
 
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.check.createSha256Fingerprint
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
+import okhttp3.CertificatePinner
 import okio.ByteString.Companion.decodeBase64
+import java.net.URL
 import java.security.PublicKey
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
@@ -37,4 +40,17 @@ class DccJWKConverter @Inject constructor() {
      * @return [PublicKey]
      */
     fun createPublicKey(jwk: DccJWK): PublicKey = createX509Certificate(jwk).publicKey
+
+    fun getCertificatePinner(
+        url: String,
+        jwkSet: Set<DccJWK>
+    ): CertificatePinner {
+        val requiredCertificates = jwkSet.map { createX509Certificate(jwk = it) }
+        return CertificatePinner.Builder().apply {
+            val keys = requiredCertificates.map {
+                "sha256/${it.createSha256Fingerprint()}"
+            }.toTypedArray()
+            add(URL(url).host, *keys)
+        }.build()
+    }
 }

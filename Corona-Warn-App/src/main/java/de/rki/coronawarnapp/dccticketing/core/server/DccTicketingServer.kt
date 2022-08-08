@@ -1,10 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
-import dagger.Lazy
 import dagger.Reusable
-import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException.ErrorCode
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
+import de.rki.coronawarnapp.exception.CwaWebSecurityException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
@@ -19,13 +20,9 @@ import javax.inject.Inject
 
 @Reusable
 class DccTicketingServer @Inject constructor(
-    private val dccTicketingApiV1Lazy: Lazy<DccTicketingApiV1>,
     private val dispatcherProvider: DispatcherProvider,
-    private val serverCertificateChecker: DccTicketingServerCertificateChecker
+    private val apiProvider: DccTicketingApiProvider
 ) {
-
-    private val dccTicketingApiV1: DccTicketingApiV1
-        get() = dccTicketingApiV1Lazy.get()
 
     @Throws(DccTicketingServerException::class)
     suspend fun getServiceIdentityDocument(
@@ -36,7 +33,7 @@ class DccTicketingServer @Inject constructor(
     }
 
     private suspend fun get(url: String): Response<ResponseBody> = try {
-        dccTicketingApiV1.getUrl(url)
+        apiProvider.getDccTicketingApiV1().getUrl(url)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Get request failed.")
         throw when (e) {
@@ -48,11 +45,6 @@ class DccTicketingServer @Inject constructor(
         }.let { DccTicketingServerException(errorCode = it, cause = e) }
     }
 
-    private fun Response<ResponseBody>.validateAgainstJwkSet(jwkSet: Set<DccJWK>) {
-        Timber.tag(TAG).d("Validating response with jwk set=%s", jwkSet)
-        serverCertificateChecker.checkCertificate(raw(), jwkSet)
-    }
-
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getAccessToken(
         url: String,
@@ -61,13 +53,26 @@ class DccTicketingServer @Inject constructor(
         jwkSet: Set<DccJWK>
     ): AccessTokenResponse =
         withContext(dispatcherProvider.IO) {
-            Timber.d("getAccessToken(url=%s)", url)
-            val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
-            response.validateAgainstJwkSet(jwkSet)
-
-            val jwtToken: String = response.body()?.string()!!
-            val iv = response.headers()["x-nonce"]!!
-            AccessTokenResponse(jwtToken, iv)
+            try {
+                Timber.d("getAccessToken(url=%s)", url)
+                val response = apiProvider.getDccTicketingApiV1(
+                    url,
+                    jwkSet
+                ).getAccessToken(
+                    url,
+                    authorizationHeader,
+                    requestBody
+                )
+                val jwtToken: String = response.body()?.string()!!
+                val iv = response.headers()["x-nonce"]!!
+                AccessTokenResponse(jwtToken, iv)
+            } catch (e: Exception) {
+                throw when {
+                    e is CwaWebSecurityException && e.cause is javax.net.ssl.SSLPeerUnverifiedException ->
+                            DccTicketingServerCertificateCheckException(CERT_PIN_MISMATCH)
+                    else -> e
+                }
+            }
         }
 
     suspend fun getResultToken(
@@ -77,7 +82,7 @@ class DccTicketingServer @Inject constructor(
     ): Response<ResponseBody> =
         withContext(dispatcherProvider.IO) {
             Timber.d("getResultToken(url=%s)", url)
-            dccTicketingApiV1.getResultToken(
+            apiProvider.getDccTicketingApiV1().getResultToken(
                 url,
                 authorizationHeader,
                 requestBody
