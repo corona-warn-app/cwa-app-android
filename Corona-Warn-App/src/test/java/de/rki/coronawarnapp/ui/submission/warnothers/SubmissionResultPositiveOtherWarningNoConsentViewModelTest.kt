@@ -74,7 +74,8 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         interoperabilityRepository = interoperabilityRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInRepository = checkInRepository,
-        testIdentifier = ""
+        testIdentifier = "",
+        comesFromDispatcherFragment = false
     )
 
     @Test

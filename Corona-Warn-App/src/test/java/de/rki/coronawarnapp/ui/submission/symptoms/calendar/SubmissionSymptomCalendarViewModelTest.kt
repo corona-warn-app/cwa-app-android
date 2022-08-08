@@ -62,7 +62,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             autoSubmission = autoSubmission,
             analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
             testType = testType,
-            appScope = scope
+            appScope = scope,
+            comesFromDispatcherFragment = false
         )
 
     @Test

@@ -69,7 +69,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInRepository = checkInRepository,
         coronaTestProvider = coronaTestProvider,
-        testIdentifier = ""
+        testIdentifier = "",
+        comesFromDispatcherFragment = false
     )
 
     @Test
