@@ -1168,8 +1168,6 @@
     <string name="submission_dispatcher_card_tan_tele">"Poproś o TAN do testu PCR"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Zadzwoń i odbierz numer TAN do testu PCR."</string>
-    <!-- XACT: Dispatcher Tan page title -->
-    <string name="submission_dispatcher_accessibility_title">"Jakie informacje posiadasz?"</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/trace_location_gradient_background"
-    android:contentDescription="@string/trace_location_event_detail_title_accessibility">
+    android:contentDescription="@string/rat_profile_create_title">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"

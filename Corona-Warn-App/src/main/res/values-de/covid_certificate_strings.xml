@@ -42,6 +42,8 @@
     <!-- XTXT: Certificate loading text -->
     <string name="certificate_loading_text">"Ihre Zertifikate werden geladen..."</string>
 
+    <!-- XTXT: Vaccination Consent info graphic description-->
+    <string name="vaccination_consent_info_graphic_description">Eine Frau schaut auf ihr Smartphone. Im Hintergrund befindet sich ein blau umramter Haken.</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Zertifikate hinzufügen"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
