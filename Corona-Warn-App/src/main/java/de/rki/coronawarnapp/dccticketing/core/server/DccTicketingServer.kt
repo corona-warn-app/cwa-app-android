@@ -69,7 +69,7 @@ class DccTicketingServer @Inject constructor(
             } catch (e: Exception) {
                 throw when {
                     e is CwaWebSecurityException && e.cause is javax.net.ssl.SSLPeerUnverifiedException ->
-                            DccTicketingServerCertificateCheckException(CERT_PIN_MISMATCH)
+                        DccTicketingServerCertificateCheckException(CERT_PIN_MISMATCH)
                     else -> e
                 }
             }
