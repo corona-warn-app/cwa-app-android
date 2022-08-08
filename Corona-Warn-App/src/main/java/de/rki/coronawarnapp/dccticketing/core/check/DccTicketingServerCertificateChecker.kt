@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.dccticketing.core.check
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.http.serverCertificateChain
 import okhttp3.Response
@@ -84,22 +83,7 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
         }
     }
 
-    // Takes the first 8 bytes of the SHA-256 fingerprint of the certificate and encodes them with base64
-    private fun Certificate.createKid(): String = createSha256Fingerprint()
-        .substring(0, BYTE_COUNT)
-        .base64()
 
-    private fun Set<DccJWK>.findRequiredJwkSet(requiredKid: String): Set<DccJWK> {
-        Timber.tag(TAG).d("findRequiredJwkSet(requiredKid=%s)", requiredKid)
-        val requiredJwkSet = filter { it.kid == requiredKid }.toSet()
-
-        if (requiredJwkSet.isEmpty()) {
-            Timber.tag(TAG).d("Didn't find jwk for required kid, aborting")
-            throw DccTicketingServerCertificateCheckException(ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
-        }
-
-        return requiredJwkSet
-    }
 
     private val Response.hostname: String
         get() = request.url.host
@@ -110,5 +94,3 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
 }
 
 fun Certificate.createSha256Fingerprint(): ByteString = encoded.toByteString().sha256()
-
-private const val BYTE_COUNT: Int = 8
