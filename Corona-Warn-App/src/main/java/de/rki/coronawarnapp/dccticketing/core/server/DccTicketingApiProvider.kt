@@ -36,21 +36,4 @@ class DccTicketingApiProvider @Inject constructor(
             .build()
             .create(DccTicketingApiV1::class.java)
     }
-
-//    // Takes the first 8 bytes of the SHA-256 fingerprint of the certificate and encodes them with base64
-//    private fun Certificate.createKid(): String = createSha256Fingerprint()
-//        .substring(0, BYTE_COUNT)
-//        .base64()
-//
-//    private fun Set<DccJWK>.findRequiredJwkSet(requiredKid: String): Set<DccJWK> {
-//        val requiredJwkSet = filter { it.kid == requiredKid }.toSet()
-//
-//        if (requiredJwkSet.isEmpty()) {
-//            throw DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
-//        }
-//
-//        return requiredJwkSet
-//    }
 }
-
-private const val BYTE_COUNT: Int = 8
