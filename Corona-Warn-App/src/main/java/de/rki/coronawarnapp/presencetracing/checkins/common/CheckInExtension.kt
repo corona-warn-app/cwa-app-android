@@ -14,8 +14,8 @@ val CheckIn.locationName: String
             traceLocationStart.millis > 0 &&
             traceLocationEnd.millis > 0
         ) {
-            val formattedStartDate = traceLocationStart.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
-            val formattedEndDate = traceLocationEnd.toUserTimeZone().toString(DateTimeFormat.shortDateTime())
+            val formattedStartDate = traceLocationStart.toUserTimeZone().toString(DateTimeFormat.shortDate())
+            val formattedEndDate = traceLocationEnd.toUserTimeZone().toString(DateTimeFormat.shortDate())
             nameParts.add("$formattedStartDate - $formattedEndDate")
         }
 
