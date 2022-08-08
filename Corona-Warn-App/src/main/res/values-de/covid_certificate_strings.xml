@@ -18,7 +18,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
+    <string name="person_overview_no_certificates_image_description">Ein Zertifikat mit einem QR-Code</string>
     <!-- XTXT: Overview certificate status text -->
     <string name="person_overview_status_text">"Status-Nachweis"</string>
     <!-- XTXT: Overview certificate 2G selection button text -->
