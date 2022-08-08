@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val enfClient: ENFClient,
