@@ -175,7 +175,7 @@ jobs:
           cache: gradle
 
       - name: Test
-        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -184,11 +184,11 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Unit Test Results - Device Release"
-          files: "artifacts/testDeviceReleaseUnitTest/*.xml"
+          name: "Unit Test Results - Device Release"
+          path: "artifacts/testDeviceReleaseUnitTest/*.xml"
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -213,7 +213,7 @@ jobs:
           cache: gradle
 
       - name: Test
-        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -222,11 +222,11 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device For Tester Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Unit Test Results - Device For Tester Release"
-          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+          name: "Unit Test Results - Device For Tester Release"
+          path: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -346,8 +346,8 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Firebase Test Results"
-          files: "firebase-results/**/*.xml"
+          name: "Firebase Test Results"
+          path: "firebase-results/**/*.xml"
