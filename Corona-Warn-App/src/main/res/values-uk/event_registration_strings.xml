@@ -324,4 +324,7 @@
     <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
     <string name="submission_ob_no_network">"Ваше з’єднання з Інтернетом було втрачено. Перевірте з’єднання та спробуйте ще раз."</string>
 
+    <!-- Trace Location QR export strings -->
+    <string name="trace_location_export_qr_code_view_content_description"></string>
+
 </resources>
