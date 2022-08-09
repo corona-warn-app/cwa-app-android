@@ -118,6 +118,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/card"
             android:backgroundTint="@color/colorSurface2"
+            android:focusable="true"
             android:minHeight="64dp">
 
             <ImageView
