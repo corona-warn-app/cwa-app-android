@@ -214,18 +214,18 @@ jobs:
           name: testResults
           path: Corona-Warn-App/build/test-results
 
-      - name: Archive Test Result
-        uses: actions/upload-artifact@v3
-        with:
-          name: reports
-          path: Corona-Warn-App/build/reports
-
       - name: Publish Test Results - Device Release
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           check_name: "Unit Test Results - Device Release"
           files: "artifacts/testDeviceReleaseUnitTest/*.xml"
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
 
   unit_tests_device_for_testers_release:
     name: "Runner #${{ matrix.runner-index }}: Run test for testers suite in parallel"
@@ -267,17 +267,18 @@ jobs:
           name: testResults
           path: Corona-Warn-App/build/test-results
 
-      - name: Archive Test Result
-        uses: actions/upload-artifact@v3
-        with:
-          name: reports
-          path: Corona-Warn-App/build/reports
       - name: Publish Test Results - Device For Tester Release
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           check_name: "Unit Test Results - Device For Tester Release"
           files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: Corona-Warn-App/build/reports
 
   run_sonar_scan:
     runs-on: ubuntu-latest
