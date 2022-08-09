@@ -189,6 +189,7 @@ jobs:
         with:
           name: "Unit Test Results - Device Release"
           path: "artifacts/testDeviceReleaseUnitTest/*.xml"
+          reporter: java-junit
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -227,6 +228,7 @@ jobs:
         with:
           name: "Unit Test Results - Device For Tester Release"
           path: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+          reporter: java-junit
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -351,3 +353,4 @@ jobs:
         with:
           name: "Firebase Test Results"
           path: "firebase-results/**/*.xml"
+          reporter: java-junit
