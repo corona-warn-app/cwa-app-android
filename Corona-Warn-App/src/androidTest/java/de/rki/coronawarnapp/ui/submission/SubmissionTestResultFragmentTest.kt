@@ -60,6 +60,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                 recycledTestProvider = recycledTestProvider,
                 initialUpdate = false,
                 testIdentifier = "",
+                comesFromDispatcherFragment = false,
                 coronaTestProvider = coronaTestProvider
             )
         )
@@ -82,7 +83,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             object : SubmissionTestResultPendingViewModel.Factory {
                 override fun create(
                     testIdentifier: TestIdentifier,
-                    initialUpdate: Boolean
+                    initialUpdate: Boolean,
+                    comesFromDispatcherFragment: Boolean
                 ): SubmissionTestResultPendingViewModel = viewModel
             }
         )
