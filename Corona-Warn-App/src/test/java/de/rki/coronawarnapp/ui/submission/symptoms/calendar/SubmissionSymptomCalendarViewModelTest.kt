@@ -63,7 +63,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
             testType = testType,
             appScope = scope,
-            comesFromDispatcherFragment = false
+            comesFromDispatcherFragment = true
         )
 
     @Test
@@ -88,7 +88,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
                 onLastSevenDaysStart()
                 onDone()
                 routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
-                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType, true)
             }
         }
 
@@ -189,7 +189,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
                 onLastSevenDaysStart()
                 onDone()
                 routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
-                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType, true)
             }
         }
 
@@ -206,7 +206,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
                 onLastSevenDaysStart()
                 onDone()
                 routeToScreen.value shouldBe SubmissionSymptomCalendarFragmentDirections
-                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+                    .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType, true)
             }
         }
 
