@@ -188,7 +188,7 @@ jobs:
         if: always()
         with:
           name: "Unit Test Results - Device Release"
-          path: "artifacts/testDeviceReleaseUnitTest/*.xml"
+          path: "Corona-Warn-App/build/test-results/testDeviceReleaseUnitTest/*.xml"
           reporter: java-junit
 
       - name: Archive Test Result
@@ -227,7 +227,7 @@ jobs:
         if: always()
         with:
           name: "Unit Test Results - Device For Tester Release"
-          path: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+          path: "Corona-Warn-App/build/test-results/testDeviceForTestersReleaseUnitTest/*.xml"
           reporter: java-junit
 
       - name: Archive Test Result
