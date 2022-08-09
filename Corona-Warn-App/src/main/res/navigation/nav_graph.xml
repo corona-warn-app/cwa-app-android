@@ -1103,7 +1103,7 @@
         android:label="SubmissionTestResultKeysSharedFragment"
         tools:layout="@layout/fragment_submission_test_result_positive_keys_shared">
         <action
-            android:id="@+id/action_global_to_submissionTestResultKeysSharedFragment_to_mainFragment"
+            android:id="@+id/action_submissionTestResultKeysSharedFragment_to_mainFragment"
             app:destination="@id/status_nav_graph"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />

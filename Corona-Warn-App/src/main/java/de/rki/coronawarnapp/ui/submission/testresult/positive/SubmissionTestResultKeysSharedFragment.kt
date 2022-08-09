@@ -79,7 +79,7 @@ class SubmissionTestResultKeysSharedFragment :
             if (navArgs.comesFromDispatcherFragment) {
                 doNavigate(
                     SubmissionTestResultKeysSharedFragmentDirections
-                        .actionGlobalToSubmissionTestResultKeysSharedFragmentToMainFragment()
+                        .actionSubmissionTestResultKeysSharedFragmentToMainFragment()
                 )
             } else popBackStack()
         }
