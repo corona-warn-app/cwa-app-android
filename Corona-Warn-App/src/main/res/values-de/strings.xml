@@ -1171,8 +1171,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_dispatcher_card_tan_tele">"TAN für PCR-Test anfragen"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Rufen Sie uns an und erhalten Sie eine TAN für Ihren PCR-Test."</string>
-    <!-- XACT: Dispatcher Tan page title -->
-    <string name="submission_dispatcher_accessibility_title">"Welche Informationen liegen Ihnen vor?"</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->

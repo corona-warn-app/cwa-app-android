@@ -1168,8 +1168,6 @@
     <string name="submission_dispatcher_card_tan_tele">"PCR Testi için TAN talebinde bulunun"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Bizi arayın ve PCR testiniz için bir TAN alın."</string>
-    <!-- XACT: Dispatcher Tan page title -->
-    <string name="submission_dispatcher_accessibility_title">"Hangi bilgilere sahipsiniz?"</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->
