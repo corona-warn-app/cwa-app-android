@@ -171,9 +171,6 @@ jobs:
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
           echo "::set-output name=json::${INDEX_JSON}"
 
-
-
-
   unit_tests_device_release:
     name: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
     runs-on: ubuntu-latest
@@ -284,11 +281,11 @@ jobs:
         run: ls -R
 
       - name: Publish Test Results - Device Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Unit Test Results - Device Release"
-          files: "artifacts/testDeviceReleaseUnitTest/*.xml"
+          name: "Unit Test Results - Device Release"
+          path: "artifacts/testDeviceReleaseUnitTest/*.xml"
 
   publish_test_for_testers_results:
     runs-on: ubuntu-latest
@@ -308,11 +305,11 @@ jobs:
         run: ls -R
 
       - name: Publish Test Results - Device For Tester Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Unit Test Results - Device For Tester Release"
-          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+          name: "Unit Test Results - Device For Tester Release"
+          path: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
 
   run_sonar_scan:
     runs-on: ubuntu-latest
@@ -426,8 +423,8 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Firebase Test Results"
-          files: "firebase-results/**/*.xml" 
+          name: "Firebase Test Results"
+          path: "firebase-results/**/*.xml"
