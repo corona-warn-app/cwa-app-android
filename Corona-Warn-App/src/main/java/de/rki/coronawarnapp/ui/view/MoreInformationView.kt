@@ -69,7 +69,7 @@ class MoreInformationView @JvmOverloads constructor(
         val subtitle = binding.subtitleElement.text
         val isToggleVisible = binding.toggle.isVisible
         contentDescription = if (isToggleVisible) {
-            "$title $subtitle $isChecked"
+            "$title $subtitle"
         } else {
             "$title $subtitle"
         }
