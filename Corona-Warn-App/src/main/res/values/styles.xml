@@ -179,6 +179,8 @@
         <item name="colorSecondary">@color/colorPrimary</item>
         <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
         <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
