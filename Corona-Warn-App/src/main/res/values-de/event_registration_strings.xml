@@ -326,6 +326,6 @@
     <string name="submission_ob_no_network">Ihre Internetverbindung wurde unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
 
     <!-- Trace Location QR export strings -->
-    <string name="trace_location_export_qr_code_view_content_description">Voransicht der Druckversion für Event QR codes</string>
+    <string name="trace_location_export_qr_code_view_content_description">Vorschau der Druckversion für Event-QR-Code</string>
 
 </resources>
