@@ -108,7 +108,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 when (event) {
                     DuplicateWarningEvent.Back -> {
                         if (args.comesFromDispatcherFragment) {
-                            SubmissionDeletionWarningFragmentDirections
+                            SubmissionDeletionWarningFragmentDirections.actionGlobalMainFragment()
                         }
                         popBackStack()
                     }
