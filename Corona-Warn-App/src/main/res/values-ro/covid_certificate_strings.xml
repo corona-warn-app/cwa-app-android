@@ -41,6 +41,8 @@
     <!-- XTXT: Certificate loading text -->
     <string name="certificate_loading_text">"Se încarcă certificatele dvs..."</string>
 
+    <!-- XTXT: Vaccination Consent info graphic description-->
+    <string name="vaccination_consent_info_graphic_description"></string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->
