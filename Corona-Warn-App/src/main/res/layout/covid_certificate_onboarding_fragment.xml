@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:importantForAccessibility="no"
+                android:contentDescription="@string/vaccination_consent_info_graphic_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
