@@ -7,57 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorSurface"
-            app:liftOnScroll="true">
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                style="@style/CWAMaterialToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/CWAMaterialToolbar.OverflowMenu"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:menu="@menu/menu_person_overview"
-                app:title="@string/certification_screen_title" />
-
-            <include
-                android:id="@+id/admission_container"
-                layout="@layout/admission_scenario_tile"
-                android:visibility="gone" />
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_fab_padding"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:itemCount="1"
-            tools:listitem="@layout/person_overview_item"
-            tools:visibility="visible" />
-
-        <include
-            android:id="@+id/export_tooltip"
-            layout="@layout/export_tooltip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -147,4 +96,56 @@
             app:constraint_referenced_ids="loading_progress_bar,loading_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorSurface"
+            app:liftOnScroll="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/CWAMaterialToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:menu="@menu/menu_person_overview"
+                app:title="@string/certification_screen_title" />
+
+            <include
+                android:id="@+id/admission_container"
+                layout="@layout/admission_scenario_tile"
+                android:visibility="gone" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_fab_padding"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="1"
+            tools:listitem="@layout/person_overview_item"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/export_tooltip"
+            layout="@layout/export_tooltip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </FrameLayout>
