@@ -13,7 +13,6 @@
 
     <item
         android:id="@+id/scan_item"
-        android:enabled="false"
         android:title="@string/bottom_nav_scanner_title" />
 
     <item
