@@ -37,8 +37,8 @@ data class Holder(
 
 data class HolderName(
     @JsonProperty("gnt")
-    val givenName: String,
+    val givenName: String?,
 
     @JsonProperty("fnt")
-    val familyName: String
+    val familyName: String?
 )
