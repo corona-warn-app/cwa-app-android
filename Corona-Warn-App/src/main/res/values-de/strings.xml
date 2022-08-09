@@ -263,7 +263,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig mit Seife für 20 Sekunden."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig mit Seife für mindestens 20 Sekunden."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">Tragen Sie eine Maske bei Begegnungen mit anderen Personen in Innenräumen und dort, wo es gesetzlich vorgeschrieben ist oder empfohlen wird.</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
