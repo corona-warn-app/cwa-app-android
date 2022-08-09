@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="tracingHeader"
             type="de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState" />
@@ -21,11 +22,12 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/CWAMaterialToolbar.OverflowMenu"
             android:touchscreenBlocksFocus="false"
             app:menu="@menu/menu_main">
+
             <ImageView
                 android:id="@+id/main_header_logo"
                 android:layout_width="wrap_content"
@@ -65,8 +67,8 @@
                         style="@style/bodyButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorTransparent"
                         android:layout_marginEnd="72dp"
+                        android:background="@color/colorTransparent"
                         android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
                         android:focusable="false"
                         android:gravity="start|center_vertical"
