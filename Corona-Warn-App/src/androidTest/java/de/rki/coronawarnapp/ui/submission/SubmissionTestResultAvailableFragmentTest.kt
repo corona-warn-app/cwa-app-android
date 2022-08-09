@@ -60,6 +60,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
                 autoSubmission = autoSubmission,
                 analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
                 checkInRepository = checkInRepository,
+                comesFromDispatcherFragment = false,
                 coronaTestProvider = coronaTestProvider,
                 testIdentifier = ""
             )
@@ -67,7 +68,10 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTestResultAvailableViewModel.Factory {
-                override fun create(testIdentifier: TestIdentifier): SubmissionTestResultAvailableViewModel = viewModel
+                override fun create(
+                    testIdentifier: TestIdentifier,
+                    comesFromDispatcherFragment: Boolean
+                ): SubmissionTestResultAvailableViewModel = viewModel
             }
         )
     }

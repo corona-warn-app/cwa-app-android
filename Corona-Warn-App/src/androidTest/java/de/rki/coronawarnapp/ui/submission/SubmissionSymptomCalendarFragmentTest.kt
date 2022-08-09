@@ -45,13 +45,14 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = spyk(
             SubmissionSymptomCalendarViewModel(
-                Symptoms.Indication.POSITIVE,
-                BaseCoronaTest.Type.PCR,
-                TestDispatcherProvider(),
-                submissionRepository,
-                autoSubmission,
-                analyticsKeySubmissionCollector,
-                TestScope()
+                symptomIndication = Symptoms.Indication.POSITIVE,
+                testType = BaseCoronaTest.Type.PCR,
+                comesFromDispatcherFragment = false,
+                dispatcherProvider = TestDispatcherProvider(),
+                submissionRepository = submissionRepository,
+                autoSubmission = autoSubmission,
+                analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+                appScope = TestScope()
             )
         )
         with(viewModel) {
@@ -61,7 +62,8 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             object : SubmissionSymptomCalendarViewModel.Factory {
                 override fun create(
                     symptomIndication: Symptoms.Indication,
-                    testType: BaseCoronaTest.Type
+                    testType: BaseCoronaTest.Type,
+                    comesFromDispatcherFragment: Boolean
                 ): SubmissionSymptomCalendarViewModel = viewModel
             }
         )
