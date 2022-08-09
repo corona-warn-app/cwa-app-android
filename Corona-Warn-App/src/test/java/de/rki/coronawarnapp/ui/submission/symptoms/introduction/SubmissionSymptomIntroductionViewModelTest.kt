@@ -54,7 +54,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         testType = testType,
         appScope = scope,
-        comesFromDispatcherFragment = false
+        comesFromDispatcherFragment = true
     )
 
     @Test
@@ -65,7 +65,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
                 .actionSubmissionSymptomIntroductionFragmentToSubmissionSymptomCalendarFragment(
                     symptomIndication = Symptoms.Indication.POSITIVE,
-                    testType = testType
+                    testType = testType,
+                    comesFromDispatcherFragment = true
                 )
         }
 
