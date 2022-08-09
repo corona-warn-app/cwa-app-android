@@ -1,4 +1,4 @@
-name: Android CI
+name: CI
 
 on:
   pull_request:
@@ -11,7 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  total-test-runners: 4
   JVM_OPTS: -Xmx4096m
   GRADLE_OPTS: |
     -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
@@ -71,7 +70,6 @@ jobs:
     needs:
       - detekt
       - klint
-
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -97,7 +95,6 @@ jobs:
     needs:
       - detekt
       - klint
-
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -123,7 +120,6 @@ jobs:
     needs:
       - detekt
       - klint
-
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -143,7 +139,6 @@ jobs:
     needs:
       - detekt
       - klint
-
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -158,32 +153,11 @@ jobs:
       - name: Quick Build
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDeviceForTestersRelease
 
-  unit-test-runner-indexes:
-    runs-on: ubuntu-latest
-    name: Generate unit test runner indexes
-    outputs:
-      json: ${{ steps.generate-index-list.outputs.json }}
-    steps:
-      - id: generate-index-list
-        run: |
-          MAX_INDEX=$((${{ env.total-test-runners }}-1))
-          INDEX_LIST=$(seq 0 ${MAX_INDEX})
-          INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
-          echo "::set-output name=json::${INDEX_JSON}"
-
-
-
-
   unit_tests_device_release:
-    name: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
     runs-on: ubuntu-latest
     needs:
       - detekt
       - klint
-      - unit-test-runner-indexes
-    strategy:
-      matrix:
-        runner-index: ${{ fromJSON(needs.unit-test-runner-indexes.outputs.json) }}
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -195,24 +169,22 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - uses: chaosaffe/split-tests@v1-alpha.1
-        id: split-tests
-        name: Split tests
-        with:
-          glob: Corona-Warn-App/**/test*/**/*.kt
-          split-total: ${{ env.total-test-runners }}
-          split-index: ${{ matrix.runner-index }}
-
-      - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
-
       - name: Test
-        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceReleaseUnitTest -i
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
         with:
           name: testResults
           path: Corona-Warn-App/build/test-results
+
+      - name: Publish Test Results - Device Release
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: "Unit Test Results - Device Release"
+          path: "Corona-Warn-App/build/test-results/testDeviceReleaseUnitTest/*.xml"
+          reporter: java-junit
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -221,15 +193,10 @@ jobs:
           path: Corona-Warn-App/build/reports
 
   unit_tests_device_for_testers_release:
-    name: "Runner #${{ matrix.runner-index }}: Run test for testers suite in parallel"
     runs-on: ubuntu-latest
     needs:
       - detekt
       - klint
-      - unit-test-runner-indexes
-    strategy:
-      matrix:
-        runner-index: ${{ fromJSON(needs.unit-test-runner-indexes.outputs.json) }}
     steps:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
@@ -241,18 +208,8 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - uses: chaosaffe/split-tests@v1-alpha.1
-        id: split-tests
-        name: Split tests
-        with:
-          glob: Corona-Warn-App/**/test*/**/*.kt
-          split-total: ${{ env.total-test-runners }}
-          split-index: ${{ matrix.runner-index }}
-
-      - run: 'echo "This runner will execute the following tests: ${{ steps.split-tests.outputs.test-suite }}"'
-
       - name: Test
-        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i -PtestFilter="${{ steps.split-tests.outputs.test-suite }}"
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:testDeviceForTestersReleaseUnitTest -i
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -260,59 +217,19 @@ jobs:
           name: testResults
           path: Corona-Warn-App/build/test-results
 
+      - name: Publish Test Results - Device For Tester Release
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: "Unit Test Results - Device For Tester Release"
+          path: "Corona-Warn-App/build/test-results/testDeviceForTestersReleaseUnitTest/*.xml"
+          reporter: java-junit
+
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
         with:
           name: reports
           path: Corona-Warn-App/build/reports
-
-  publish_test_results:
-    runs-on: ubuntu-latest
-    needs:
-      - unit_tests_device_release
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: testResults
-          path: artifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Publish Test Results - Device Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          check_name: "Unit Test Results - Device Release"
-          files: "artifacts/testDeviceReleaseUnitTest/*.xml"
-
-  publish_test_for_testers_results:
-    runs-on: ubuntu-latest
-    needs:
-      - unit_tests_device_for_testers_release
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: testResults
-          path: artifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Publish Test Results - Device For Tester Release
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          check_name: "Unit Test Results - Device For Tester Release"
-          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
 
   run_sonar_scan:
     runs-on: ubuntu-latest
@@ -417,7 +334,7 @@ jobs:
         if: always()
         run: |
           sudo pip install -U crcmod
-          sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/blueline* firebase-results        
+          sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/blueline* firebase-results
 
       - name: Archive Test Result
         uses: actions/upload-artifact@v3
@@ -426,8 +343,9 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: always()
         with:
-          check_name: "Firebase Test Results"
-          files: "firebase-results/**/*.xml" 
+          name: "Firebase Test Results"
+          path: "firebase-results/**/*.xml"
+          reporter: java-junit
