@@ -171,6 +171,9 @@ jobs:
           INDEX_JSON=$(jq --null-input --compact-output '. |= [inputs]' <<< ${INDEX_LIST})
           echo "::set-output name=json::${INDEX_JSON}"
 
+
+
+
   unit_tests_device_release:
     name: "Runner #${{ matrix.runner-index }}: Run test suite in parallel"
     runs-on: ubuntu-latest
@@ -217,6 +220,13 @@ jobs:
           name: reports
           path: Corona-Warn-App/build/reports
 
+      - name: Publish Test Results - Device Release
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          check_name: "Unit Test Results - Device Release"
+          files: "artifacts/testDeviceReleaseUnitTest/*.xml"
+
   unit_tests_device_for_testers_release:
     name: "Runner #${{ matrix.runner-index }}: Run test for testers suite in parallel"
     runs-on: ubuntu-latest
@@ -262,54 +272,12 @@ jobs:
         with:
           name: reports
           path: Corona-Warn-App/build/reports
-
-  publish_test_results:
-    runs-on: ubuntu-latest
-    needs:
-      - unit_tests_device_release
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: testResults
-          path: artifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Publish Test Results - Device Release
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: "Unit Test Results - Device Release"
-          path: "artifacts/testDeviceReleaseUnitTest/*.xml"
-
-  publish_test_for_testers_results:
-    runs-on: ubuntu-latest
-    needs:
-      - unit_tests_device_for_testers_release
-    permissions:
-      checks: write
-      pull-requests: write
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: testResults
-          path: artifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - name: Publish Test Results - Device For Tester Release
-        uses: dorny/test-reporter@v1
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          name: "Unit Test Results - Device For Tester Release"
-          path: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
+          check_name: "Unit Test Results - Device For Tester Release"
+          files: "artifacts/testDeviceForTestersReleaseUnitTest/*.xml"
 
   run_sonar_scan:
     runs-on: ubuntu-latest
@@ -423,8 +391,8 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: dorny/test-reporter@v1
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          name: "Firebase Test Results"
-          path: "firebase-results/**/*.xml"
+          check_name: "Firebase Test Results"
+          files: "firebase-results/**/*.xml"
