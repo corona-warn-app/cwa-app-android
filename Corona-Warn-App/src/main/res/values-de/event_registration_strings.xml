@@ -327,4 +327,5 @@
 
     <!-- Trace Location QR export strings -->
     <string name="trace_location_export_qr_code_view_content_description">Voransicht der Druckversion für Event QR codes</string>
+
 </resources>
