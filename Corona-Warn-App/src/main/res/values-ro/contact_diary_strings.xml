@@ -143,9 +143,9 @@
     <!-- XTXT: Edit (description for screen readers) -->
     <string name="accessibility_edit">"Editare"</string>
     <!-- XTXT: Datepicker hour (description for screen readers) -->
-    <string name="accessibility_datepicker_hour_description"></string>
+    <string name="accessibility_datepicker_hour_description">"Puteți seta orele pentru șederea dvs. aici"</string>
     <!-- XTXT: Datepicker minutes (description for screen readers) -->
-    <string name="accessibility_datepicker_minutes_description"></string>
+    <string name="accessibility_datepicker_minutes_description">"Puteți seta minutele pentru șederea dvs. aici"</string>
 
     <!-- XACT: Add Person Button (description for screen readers) -->
     <string name="accessibility_day_add_person">"Adăugare persoană"</string>

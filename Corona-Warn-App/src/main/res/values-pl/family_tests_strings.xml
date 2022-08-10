@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Ustalenie wyniku testu jest niemożliwe."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Test został przeprowadzony ponad 21 dni temu i dlatego nie jest już aktualny."</string>
+    <string name="family_tests_cards_redeemed_body">"Test został przeprowadzony ponad 2 dni temu i dlatego nie jest już aktualny."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->

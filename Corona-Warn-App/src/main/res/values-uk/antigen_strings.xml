@@ -36,7 +36,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Ваш тест не вдалося проаналізувати"</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Вашому тесту більше 21 дня, тому він більше не актуальний. Видаліть тест. Потім можна додати інший. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Вашому тесту більше 2 дня, тому він більше не актуальний. Видаліть тест. Потім можна додати інший."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"У вас не діагностували вірус SARS-CoV-2."</string>
     <!-- XTXT: homescreen card: body - positive -->
