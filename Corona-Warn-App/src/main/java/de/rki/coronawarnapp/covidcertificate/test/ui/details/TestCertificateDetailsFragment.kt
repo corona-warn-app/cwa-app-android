@@ -39,6 +39,8 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
+import de.rki.coronawarnapp.util.ui.addMenuId
+import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -226,7 +228,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
-        toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
+        addMenuId(R.id.test_certificate_detail_fragment_menu_id)
+        addNavigationIconButtonId(R.id.test_certificate_detail_fragment_navigation_icon_buttonId)
+        navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {
             when (it.itemId) {
