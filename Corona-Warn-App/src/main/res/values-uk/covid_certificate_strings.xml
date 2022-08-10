@@ -17,7 +17,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Щоб відсканувати QR-код сертифіката, скористайтеся кнопкою «Сканувати» на нижній панелі навігації."</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">"Сертифікат із символом QR-коду."</string>
+    <string name="person_overview_no_certificates_image_description">"Сертифікат із QR-кодом"</string>
     <!-- XTXT: Overview certificate status text -->
     <string name="person_overview_status_text">"Підтвердження статусу"</string>
     <!-- XTXT: Overview certificate 2G selection button text -->
@@ -42,7 +42,7 @@
     <string name="certificate_loading_text">"Завантаження ваших сертифікатів..."</string>
 
     <!-- XTXT: Vaccination Consent info graphic description-->
-    <string name="vaccination_consent_info_graphic_description"></string>
+    <string name="vaccination_consent_info_graphic_description">"Жінка дивиться на свій смартфон. На фоні видніється синя галочка."</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Додати сертифікати"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->

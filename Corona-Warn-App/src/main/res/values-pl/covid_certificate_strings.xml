@@ -17,7 +17,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Aby zeskanować kod QR certyfikatu, użyj przycisku „Skanuj” na dolnym pasku nawigacyjnym."</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">"Certyfikat z umieszczonym na nim symbolem kodu QR."</string>
+    <string name="person_overview_no_certificates_image_description">"Certyfikat z kodem QR"</string>
     <!-- XTXT: Overview certificate status text -->
     <string name="person_overview_status_text">"Dowód status"</string>
     <!-- XTXT: Overview certificate 2G selection button text -->
@@ -42,7 +42,7 @@
     <string name="certificate_loading_text">"Ładowanie Twoich certyfikatów..."</string>
 
     <!-- XTXT: Vaccination Consent info graphic description-->
-    <string name="vaccination_consent_info_graphic_description"></string>
+    <string name="vaccination_consent_info_graphic_description">"Kobieta patrzy w swój smartfon. W tle widać niebieski znacznik wyboru."</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Dodaj certyfikaty"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->

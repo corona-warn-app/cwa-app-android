@@ -17,7 +17,7 @@
     <string name="contact_diary_add_text_input_email_hint">"E-Mail"</string>
     <string name="contact_diary_add_person_save_button">"Speichern"</string>
     <string name="contact_diary_add_location_title">"Ort"</string>
-    <string name="contact_diary_add_location_text_input_hint">"Bezeichnung"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Beschreibung"</string>
     <string name="contact_diary_add_location_save_button">"Speichern"</string>
 
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
@@ -109,7 +109,7 @@
     <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
     <string name="contact_diary_delete_location_title">"Wollen Sie diesen Ort wirklich löschen?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
-    <string name="contact_diary_delete_person_title">"Wollen Sie wirklich diese Person löschen?"</string>
+    <string name="contact_diary_delete_person_title">"Wollen Sie diese Person wirklich löschen?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single location -->
     <string name="contact_diary_delete_location_message">"Wenn Sie einen Ort löschen, werden alle Einträge für diesen Ort aus dem Tagebuch gelöscht."</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single person -->
