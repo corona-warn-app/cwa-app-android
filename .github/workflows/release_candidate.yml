@@ -82,7 +82,7 @@ jobs:
           --form "file=@${fileName}" \
           --form "camera=true"
 
-      - name: trigger App Automation Testing
+      - name: Trigger App Automation Testing
         env:
           GITHUB_ACCESS_TOKEN: '${{ secrets.ACCESS_TOKEN_GITHUB }}'
         run: |
