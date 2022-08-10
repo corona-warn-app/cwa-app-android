@@ -325,6 +325,6 @@
     <string name="submission_ob_no_network">"Your Internet connection was lost. Please check the connection and try again."</string>
 
     <!-- Trace Location QR export strings -->
-    <string name="trace_location_export_qr_code_view_content_description">Event QR code print preview</string>
+    <string name="trace_location_export_qr_code_view_content_description">"Print preview for event QR code"</string>
 
 </resources>
