@@ -17,7 +17,7 @@
     <string name="contact_diary_add_text_input_email_hint">"E-Mail"</string>
     <string name="contact_diary_add_person_save_button">"Speichern"</string>
     <string name="contact_diary_add_location_title">"Ort"</string>
-    <string name="contact_diary_add_location_text_input_hint">"Bezeichnung"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Beschreibung"</string>
     <string name="contact_diary_add_location_save_button">"Speichern"</string>
 
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
