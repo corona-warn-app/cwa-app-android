@@ -67,7 +67,6 @@ class MoreInformationView @JvmOverloads constructor(
     private fun updateContentDescription() {
         val title = binding.titleElement.text
         val subtitle = binding.subtitleElement.text
-        val isToggleVisible = binding.toggle.isVisible
         contentDescription = "$title $subtitle"
     }
 
