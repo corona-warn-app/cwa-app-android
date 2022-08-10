@@ -17,7 +17,6 @@ env:
 jobs:
   firebase_screenshots:
     runs-on: ubuntu-latest
-    needs: dependencies
     env:
       GCLOUD_SERVICE_KEY_BASE64: '${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}'
       GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'
