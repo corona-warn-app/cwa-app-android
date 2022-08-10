@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Testul nu poate fi evaluat."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Testul are peste 21 de zile și, în consecință, nu mai este relevant."</string>
+    <string name="family_tests_cards_redeemed_body">"Testul are peste 2 de zile și, în consecință, nu mai este relevant."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->

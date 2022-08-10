@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"The test cannot be evaluated."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"The test is more than 21 days old and is therefore no longer relevant."</string>
+    <string name="family_tests_cards_redeemed_body">"The test is more than 2 days old and is therefore no longer relevant."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->
