@@ -486,7 +486,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionTestResultNoConsentFragment_to_submissionResultPositiveOtherWarningNoConsentFragment"
-            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
+            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
+            app:popUpTo="@id/submissionTestResultNoConsentFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />
