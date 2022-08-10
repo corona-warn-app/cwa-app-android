@@ -325,6 +325,6 @@
     <string name="submission_ob_no_network">"Conexiunea dvs. la internet a fost pierdută. Verificați conexiunea și încercați din nou."</string>
 
     <!-- Trace Location QR export strings -->
-    <string name="trace_location_export_qr_code_view_content_description"></string>
+    <string name="trace_location_export_qr_code_view_content_description">"Previzualizare de tipărire pentru codul QR de eveniment"</string>
 
 </resources>
