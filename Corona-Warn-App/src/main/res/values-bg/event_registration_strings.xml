@@ -325,6 +325,6 @@
     <string name="submission_ob_no_network">"Няма връзка с интернет. Моля, проверете я и опитайте отново."</string>
 
     <!-- Trace Location QR export strings -->
-    <string name="trace_location_export_qr_code_view_content_description"></string>
+    <string name="trace_location_export_qr_code_view_content_description">"Преглед преди печат за QR код на събитие"</string>
 
 </resources>

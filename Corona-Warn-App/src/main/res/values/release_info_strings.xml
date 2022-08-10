@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Release %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">"Along with bug fixes, this update also includes new and enhanced features."</string>
+    <string name="release_info_version_body">"This update corrects bugs in the app. It does not contain any new features."</string>
     <!-- XBUT: Continue button for the release info screen -->
     <string name="release_info_continue_button">"Next"</string>
     <!-- XTXT: New release info footer -->
@@ -16,22 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Recommended Conduct Updated"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The recommended conduct if you have an increased risk has been updated. The recommendations include reducing contacts with others and wearing a face mask, among others. The recommendations for persons at low risk have also been updated."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
     </string-array>
 
 </resources>

@@ -9,7 +9,7 @@
     <string name="request_green_certificate_body_2">"Сертифікат тесту є дійсним доказом негативного результату тесту в межах ЄС (наприклад, для подорожей)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
     <!-- XTXT: Request green certificate privacy information link-->
-    <string name="request_green_certificate_privacy_information"></string>
+    <string name="request_green_certificate_privacy_information">"Щоб отримати докладнішу інформацію про обробку даних, див. сповіщення про конфіденційність."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Запитати сертифікат тесту"</string>
     <!-- XBUT: Request green certificate disagree button -->

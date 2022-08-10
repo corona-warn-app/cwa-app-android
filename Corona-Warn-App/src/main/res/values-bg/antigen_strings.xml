@@ -36,7 +36,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Не може да бъде определен резултат от Вашия тест."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Вашият тест е направен преди повече от 21 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Вашият тест е направен преди повече от 2 дни и вече не е валиден. Моля, изтрийте го, за да можете да добавите друг след това."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"Нямате поставена диагноза за заразяване с вирус SARS-CoV-2."</string>
     <!-- XTXT: homescreen card: body - positive -->
