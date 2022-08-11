@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -99,7 +99,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -124,7 +124,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -143,7 +143,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -162,7 +162,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -179,7 +179,7 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device Release
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
           name: "Unit Test Results - Device Release"
@@ -201,7 +201,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -218,7 +218,7 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device For Tester Release
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
           name: "Unit Test Results - Device For Tester Release"
@@ -239,7 +239,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -284,7 +284,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
-      - name: set up JDK 11
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
@@ -343,7 +343,7 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v1.5.0
         if: always()
         with:
           name: "Firebase Test Results"
