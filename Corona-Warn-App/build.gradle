@@ -412,6 +412,10 @@ dependencies {
         implementation('com.fasterxml.jackson.core:jackson-databind:2.13.2.2') {
             because 'fixing fasterxml vulnerability'
         }
+
+        implementation('org.yaml:snakeyaml:1.30') {
+            because 'fixing high vulnerability'
+        }
     }
 
     // Testing
