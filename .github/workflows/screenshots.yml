@@ -2,6 +2,8 @@ name: Create Screenshots
 
 on:
   push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 env:
   JVM_OPTS: -Xmx4096m
