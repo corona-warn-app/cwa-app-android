@@ -23,7 +23,7 @@ class VerificationServer @Inject constructor(
     suspend fun retrieveRegistrationToken(
         request: RegistrationRequest
     ): RegistrationToken = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("retrieveRegistrationToken(request=%s)", request)
+        Timber.tag(TAG).v("retrieveRegistrationToken(requestType=%s)", request.type)
 
         val requiredHeaderPadding = run {
             var size = HEADER_SIZE_OUR_DATA
@@ -73,7 +73,7 @@ class VerificationServer @Inject constructor(
             )
         )
 
-        Timber.tag(TAG).d("retrieveRegistrationToken(request=%s) -> %s", request, response)
+        Timber.tag(TAG).d("retrieveRegistrationToken(requestType=%s) -> %s", request.type, response)
         response.registrationToken
     }
 
