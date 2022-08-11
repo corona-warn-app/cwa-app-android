@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.statistics.ui.homecards
 
 import android.os.Parcelable
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.AddStatsItem
@@ -51,6 +53,18 @@ class StatisticsHomeCard(
                         verticalPadding = R.dimen.spacing_tiny
                     )
                 )
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        recyclerView.postDelayed({
+                            val visibleItem = statisticsLayoutManager.findFirstCompletelyVisibleItemPosition()
+                            val viewHolder = recyclerView.findViewHolderForAdapterPosition(visibleItem)
+                            viewHolder?.itemView?.requestFocus()
+                            viewHolder?.itemView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                            viewHolder?.itemView?.announceForAccessibility("$visibleItem of ${statisticsCardAdapter.itemCount}")
+                        }, 1000)
+                    }
+                })
             }
             if (resources.isPhone()) {
                 PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
