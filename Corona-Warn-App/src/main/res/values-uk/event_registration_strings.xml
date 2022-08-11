@@ -325,6 +325,6 @@
     <string name="submission_ob_no_network">"Ваше з’єднання з Інтернетом було втрачено. Перевірте з’єднання та спробуйте ще раз."</string>
 
     <!-- Trace Location QR export strings -->
-    <string name="trace_location_export_qr_code_view_content_description"></string>
+    <string name="trace_location_export_qr_code_view_content_description">"Перегляд QR-коду події перед друком"</string>
 
 </resources>

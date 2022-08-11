@@ -17,7 +17,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Sertifikanın QR kodunu taramak için alt gezinti çubuğundaki \"Tara\" düğmesini kullanın."</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">"Üzerinde QR kod sembolü olan bir sertifika."</string>
+    <string name="person_overview_no_certificates_image_description">"QR kod içeren bir sertifika"</string>
     <!-- XTXT: Overview certificate status text -->
     <string name="person_overview_status_text">"Durum Kanıtı"</string>
     <!-- XTXT: Overview certificate 2G selection button text -->
@@ -42,7 +42,7 @@
     <string name="certificate_loading_text">"Sertifikalarınız yükleniyor..."</string>
 
     <!-- XTXT: Vaccination Consent info graphic description-->
-    <string name="vaccination_consent_info_graphic_description"></string>
+    <string name="vaccination_consent_info_graphic_description">"Bir kadın akıllı telefonuna bakıyor. Arka planda mavi bir onay işareti görülebiliyor."</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Sertifikalar Ekle"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->

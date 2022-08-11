@@ -262,7 +262,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 for the Federal Ministry of Health service point. Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for at least 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Wear a face mask when you encounter other people indoors and wherever it is legally required or recommended."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -901,7 +901,7 @@
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR code no longer valid"</string>
     <!-- XMSG: Dialog body for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_body">"Your test is more than 21 days old and can no longer be registered in the app. If you are tested again in future, please make sure to scan the QR code as soon as you get it."</string>
+    <string name="submission_error_dialog_web_tan_redeemed_body">"Your test is more than 2 days old and can no longer be registered in the app. If you are tested again in future, please make sure to scan the QR code as soon as you get it."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 

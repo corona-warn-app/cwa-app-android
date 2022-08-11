@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Тест неможливо проаналізувати."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Тесту більше 21 дня, тому він більше не є релевантним."</string>
+    <string name="family_tests_cards_redeemed_body">"Тесту більше 2 дня, тому він більше не є релевантним."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->
