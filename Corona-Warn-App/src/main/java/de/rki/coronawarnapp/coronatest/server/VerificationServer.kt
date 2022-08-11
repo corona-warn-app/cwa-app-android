@@ -73,14 +73,13 @@ class VerificationServer @Inject constructor(
             )
         )
 
-        Timber.tag(TAG).d("retrieveRegistrationToken(requestType=%s) -> %s", request.type, response)
         response.registrationToken
     }
 
     suspend fun pollTestResult(
         token: RegistrationToken
     ): CoronaTestResultResponse = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("pollTestResult(token=%s)", token)
+        Timber.tag(TAG).v("pollTestResult() -> START")
 
         val requiredHeaderPadding = run {
             var size = HEADER_SIZE_OUR_DATA
@@ -110,7 +109,7 @@ class VerificationServer @Inject constructor(
             )
         )
 
-        Timber.tag(TAG).d("pollTestResult(token=%s) -> %s", token, response)
+        Timber.tag(TAG).d("pollTestResult() -> END")
 
         CoronaTestResultResponse.fromResponse(response)
     }
@@ -118,7 +117,7 @@ class VerificationServer @Inject constructor(
     suspend fun retrieveTan(
         registrationToken: RegistrationToken
     ): String = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("retrieveTan(registrationToken=%s)", registrationToken)
+        Timber.tag(TAG).v("retrieveTan() -> START")
         val requiredHeaderPadding = run {
             var size = HEADER_SIZE_OUR_DATA
             size -= HEADER_SIZE_OVERHEAD
@@ -147,12 +146,12 @@ class VerificationServer @Inject constructor(
             )
         )
 
-        Timber.tag(TAG).d("retrieveTan(registrationToken=%s) -> %s", registrationToken, response)
+        Timber.tag(TAG).d("retrieveTan() -> END")
         response.tan
     }
 
     suspend fun retrieveTanFake() = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("retrieveTanFake()")
+        Timber.tag(TAG).v("retrieveTanFake() -> START")
         val requiredHeaderPadding = run {
             var size = HEADER_SIZE_OUR_DATA
             size -= HEADER_SIZE_OVERHEAD
@@ -180,7 +179,7 @@ class VerificationServer @Inject constructor(
                 requestPadding = paddingTool.requestPadding(requiredBodyPadding)
             )
         )
-        Timber.tag(TAG).v("retrieveTanFake() -> %s", response)
+        Timber.tag(TAG).v("retrieveTanFake() -> END")
         response
     }
 
