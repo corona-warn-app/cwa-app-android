@@ -1,0 +1,96 @@
+name: Create Screenshots
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+env:
+  JVM_OPTS: -Xmx4096m
+  GRADLE_OPTS: |
+    -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError
+    -Dorg.gradle.caching=true
+    -Dorg.gradle.configureondemand=true
+    -Dkotlin.compiler.execution.strategy=in-process
+    -Dkotlin.incremental=false
+
+jobs:
+  firebase_screenshots:
+    runs-on: ubuntu-latest
+    env:
+      GCLOUD_SERVICE_KEY_BASE64: '${{ secrets.GCLOUD_SERVICE_KEY_BASE64 }}'
+      GOOGLE_PROJECT_ID: '${{ secrets.GOOGLE_PROJECT_ID }}'
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Build APKs for screenshots
+        run: ./gradlew -PdisablePreDex :Corona-Warn-App:assembleDebug :Corona-Warn-App:assembleAndroidTest
+
+      - name: Setup Google Cloud access
+        run: |
+          echo $GCLOUD_SERVICE_KEY_BASE64 | base64 -di > ${HOME}/gcloud-service-key.json
+          sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+          sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+
+      - name: Setup Testlab environment
+        run: |
+          echo "BUCKETDIR=`date "+%Y-%m-%d-%H:%M:%S:%3N"`-${RANDOM}" >> $GITHUB_ENV
+      - name: Test with Firebase Test Lab
+        run: |
+          echo "Using bucketdir ${{ env.BUCKETDIR }}"
+          sudo gcloud firebase test android run \
+            --type instrumentation \
+            --app Corona-Warn-App/build/outputs/apk/deviceForTesters/debug/*.apk \
+            --test Corona-Warn-App/build/outputs/apk/androidTest/deviceForTesters/debug/*.apk \
+            --results-dir ${BUCKETDIR} \
+            --results-bucket ${GOOGLE_PROJECT_ID}-circleci-android \
+            --environment-variables clearPackageData=true \
+            --test-targets "annotation testhelpers.Screenshot" \
+            --timeout 20m \
+            --device-ids blueline \
+            --os-version-ids 28 \
+            --locales de_DE,en_US \
+            --orientations portrait \
+            --no-record-video
+
+      - name: Create directory to store test results
+        if: always()
+        run: mkdir mkdir firebase-screenshots
+
+      - name: Install gsutil dependency and copy test results data
+        if: always()
+        run: |
+          sudo pip install -U crcmod
+          sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/blueline* mkdir firebase-screenshots
+
+      - name: Publish Firebase Test Results
+        uses: dorny/test-reporter@v1.5.0
+        if: always()
+        with:
+          name: "Firebase Test Results"
+          path: "firebase-screenshots/**/*.xml"
+          reporter: java-junit
+
+      - name: Clean up pulled bucket
+        run: |
+          sudo rm -rf firebase-screenshots/*/test_cases
+          sudo rm -f firebase-screenshots/*/instrumentation.results
+          sudo rm -f firebase-screenshots/*/logcat
+          sudo rm -f firebase-screenshots/*/test_result_1.xml
+
+      - name: Archive Test Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: firebase-screenshots
