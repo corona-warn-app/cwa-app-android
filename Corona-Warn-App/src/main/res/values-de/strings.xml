@@ -1184,7 +1184,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
     <string name="submission_positive_other_warning_dialog_title">"Zufallskennungen mit der App „Corona-Warn“ teilen?"</string>
     <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Deine Zufallskennungen der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist. Deine Identität wird niemals mit anderen Personen geteilt."</string>
+    <string name="submission_positive_other_warning_dialog_body">"Ihre Zufalls-IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass Sie in ihrer Nähe gewesen sind und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist. Ihre Identität wird niemals mit anderen Personen geteilt."</string>
     <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
     <string name="submission_positive_other_warning_dialog_negative_button">"Nicht Teilen"</string>
     <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
