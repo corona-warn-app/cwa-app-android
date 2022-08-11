@@ -262,7 +262,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Spălați-vă frecvent pe mâini cu săpun timp de 20 de secunde."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Spălați-vă frecvent pe mâini cu săpun timp de cel puțin 20 de secunde."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Purtați o mască facială când întâlniți alte persoane în interior și oriunde este obligatoriu sau recomandat din punct de vedere legal."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -901,7 +901,7 @@
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"Codul QR nu mai este valabil"</string>
     <!-- XMSG: Dialog body for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_body">"Testul dvs. are o vechime de peste 21 de zile și nu mai poate fi înregistrat în aplicație. Dacă sunteți testat din nou în viitor, nu uitați să scanați codul QR imediat ce îl primiți."</string>
+    <string name="submission_error_dialog_web_tan_redeemed_body">"Testul dvs. are o vechime de peste 2 de zile și nu mai poate fi înregistrat în aplicație. Dacă sunteți testat din nou în viitor, nu uitați să scanați codul QR imediat ce îl primiți."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 

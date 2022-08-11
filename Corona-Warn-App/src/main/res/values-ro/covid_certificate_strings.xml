@@ -17,7 +17,7 @@
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Pentru a scana codul QR al certificatului, utilizați butonul “Scanare” din bara de navigare inferioară."</string>
     <!-- XTXT: Person overview no certificates image content description-->
-    <string name="person_overview_no_certificates_image_description">"Un certificat cu un simbol de cod QR aplicat pe el."</string>
+    <string name="person_overview_no_certificates_image_description">"Un certificat cu un cod QR"</string>
     <!-- XTXT: Overview certificate status text -->
     <string name="person_overview_status_text">"Dovada stării"</string>
     <!-- XTXT: Overview certificate 2G selection button text -->
@@ -42,7 +42,7 @@
     <string name="certificate_loading_text">"Se încarcă certificatele dvs..."</string>
 
     <!-- XTXT: Vaccination Consent info graphic description-->
-    <string name="vaccination_consent_info_graphic_description"></string>
+    <string name="vaccination_consent_info_graphic_description">"O femeie se uită pe smartphone. O bifă albastră se poate vedea în fundal."</string>
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
     <!-- XTXT: Vaccination Consent subtitle of qr info -->

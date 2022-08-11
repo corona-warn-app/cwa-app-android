@@ -36,7 +36,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Testul dvs. nu a putut fi evaluat."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Testul dvs. are o vechime de peste 21 de zile și, prin urmare, nu mai este relevant. Vă rugăm să ștergeți testul. Apoi puteți adăuga altul. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Testul dvs. are o vechime de peste 2 de zile și, prin urmare, nu mai este relevant. Vă rugăm să ștergeți testul. Apoi puteți adăuga altul."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"Nu ați fost diagnosticat cu virusul SARS-CoV-2."</string>
     <!-- XTXT: homescreen card: body - positive -->

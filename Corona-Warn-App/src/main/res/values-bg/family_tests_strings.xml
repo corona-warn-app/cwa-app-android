@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Не може да бъде определен резултат от теста."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Тестът е на повече от 21 дни и затова вече не е релевантен."</string>
+    <string name="family_tests_cards_redeemed_body">"Тестът е на повече от 2 дни и затова вече не е релевантен."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->

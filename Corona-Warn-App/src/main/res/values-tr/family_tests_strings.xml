@@ -52,7 +52,7 @@
     <!-- XTXT: Family tests: Cards: Invalid body -->
     <string name="family_tests_cards_invalid_body">"Test değerlendirilemiyor."</string>
     <!-- XTXT: Family tests: Cards: Redeemed body -->
-    <string name="family_tests_cards_redeemed_body">"Test 21 günden eski ve dolayısıyla artık geçerli değil."</string>
+    <string name="family_tests_cards_redeemed_body">"Test 2 günden eski ve dolayısıyla artık geçerli değil."</string>
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->
