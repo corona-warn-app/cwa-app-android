@@ -56,13 +56,18 @@ class StatisticsHomeCard(
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
-                        recyclerView.postDelayed({
-                            val visibleItem = statisticsLayoutManager.findFirstCompletelyVisibleItemPosition()
-                            val viewHolder = recyclerView.findViewHolderForAdapterPosition(visibleItem)
-                            viewHolder?.itemView?.requestFocus()
-                            viewHolder?.itemView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-                            viewHolder?.itemView?.announceForAccessibility("$visibleItem of ${statisticsCardAdapter.itemCount}")
-                        }, 1000)
+                        recyclerView.postDelayed(
+                            {
+                                val visibleItem = statisticsLayoutManager.findFirstCompletelyVisibleItemPosition()
+                                val viewHolder = recyclerView.findViewHolderForAdapterPosition(visibleItem)
+                                viewHolder?.itemView?.requestFocus()
+                                viewHolder?.itemView?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+                                viewHolder?.itemView?.announceForAccessibility(
+                                    "$visibleItem of ${statisticsCardAdapter.itemCount}"
+                                )
+                            },
+                            1000
+                        )
                     }
                 })
             }
