@@ -58,7 +58,14 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
             event.observe2(this@FederalStateSelectionFragment) {
                 when (it) {
                     FederalStateSelectionViewModel.Events.FinishEvent -> {
-                        findNavController().popBackStack(R.id.mainFragment, false)
+                        val navController = findNavController()
+                        navController.previousBackStackEntry?.savedStateHandle?.getLiveData(
+                            "comesFromAddLocalStats",
+                            true
+                        )
+                        navController.popBackStack(R.id.mainFragment, false).let {
+                            Bundle().apply { putBoolean("comesFromAddLocalStats", true) }
+                        }
                     }
                     is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
                         FederalStateSelectionFragmentDirections
