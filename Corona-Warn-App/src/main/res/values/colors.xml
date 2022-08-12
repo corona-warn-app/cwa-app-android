@@ -38,6 +38,7 @@
     <color name="colorTextPrimary3">#4D17191A</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
     <color name="colorTextSixteen">#17191A</color>
+    <color name="colorInputText">#99000000</color>
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
