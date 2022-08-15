@@ -37,7 +37,7 @@ class DeadmanNotificationTimeCalculationTest : BaseTest() {
     private fun createTimeCalculator() = DeadmanNotificationTimeCalculation(
         timeStamper = timeStamper,
         keyCacheRepository = keyCacheRepository,
-        installTime = Instant.EPOCH
+        installTime = Instant.parse("2020-08-27T14:00:00")
     )
 
     private fun mockCachedKey(
