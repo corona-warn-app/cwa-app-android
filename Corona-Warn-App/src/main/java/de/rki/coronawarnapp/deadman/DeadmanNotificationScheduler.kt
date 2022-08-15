@@ -44,8 +44,7 @@ class DeadmanNotificationScheduler @Inject constructor(
         // Get initial delay
         val delay = timeCalculation.getDelayInMinutes()
         if (delay < 0) {
-            Timber.d("Cancel Deadman workers , delay=$delay")
-            cancelScheduledWork()
+            Timber.d("Skip DeadmanNotificationOneTimeWork, delay=$delay")
         } else {
             Timber.d("DeadmanNotification will be scheduled for $delay minutes in the future")
             // Create unique work and enqueue

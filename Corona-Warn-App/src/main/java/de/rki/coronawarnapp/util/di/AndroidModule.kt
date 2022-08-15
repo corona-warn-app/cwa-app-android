@@ -20,6 +20,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
+import org.joda.time.Instant
 import javax.inject.Singleton
 
 @Module
@@ -33,6 +34,13 @@ class AndroidModule {
     @Singleton
     @AppContext
     fun context(app: Application): Context = app.applicationContext
+
+    @Provides
+    @AppInstallTime
+    fun installTime(@AppContext context: Context): Instant =
+        context.packageManager.getPackageInfo(context.packageName, 0).firstInstallTime.run {
+            Instant.ofEpochMilli(this)
+        }
 
     @Suppress("DEPRECATION")
     @Provides

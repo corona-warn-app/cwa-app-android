@@ -10,7 +10,9 @@ import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
 import de.rki.coronawarnapp.storage.TestSettingsDataStore
 import de.rki.coronawarnapp.storage.TracingSettingsDataStore
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.di.AppInstallTime
 import io.mockk.mockk
+import org.joda.time.Instant
 import javax.inject.Singleton
 
 @Module
@@ -19,6 +21,10 @@ class TestAndroidModule {
     @Singleton
     @AppContext
     fun context(): Context = InstrumentationRegistry.getInstrumentation().targetContext
+
+    @Provides
+    @AppInstallTime
+    fun installTime(@AppContext context: Context): Instant = Instant.EPOCH
 
     @OnboardingSettingsDataStore
     @Provides
