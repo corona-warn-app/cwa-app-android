@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.deadman
 
-import android.content.Context
 import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
