@@ -28,7 +28,11 @@ class DeadmanNotificationScheduler @Inject constructor(
         onboardingSettings.isOnboardedFlow
             .onEach { isOnboarded ->
                 Timber.d("isOnboarded: $isOnboarded")
-                if (isOnboarded) schedulePeriodic() else cancelScheduledWork()
+                if (isOnboarded) {
+                    schedulePeriodic()
+                } else {
+                    cancelScheduledWork()
+                }
             }.launchIn(appScope)
     }
 
@@ -39,9 +43,9 @@ class DeadmanNotificationScheduler @Inject constructor(
     suspend fun scheduleOneTime() {
         // Get initial delay
         val delay = timeCalculation.getDelayInMinutes()
-
         if (delay < 0) {
-            return
+            Timber.d("Cancel Deadman workers , delay=$delay")
+            cancelScheduledWork()
         } else {
             Timber.d("DeadmanNotification will be scheduled for $delay minutes in the future")
             // Create unique work and enqueue
@@ -63,6 +67,7 @@ class DeadmanNotificationScheduler @Inject constructor(
      */
     fun schedulePeriodic() {
         // Create unique work and enqueue
+        Timber.d("schedulePeriodic()")
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
