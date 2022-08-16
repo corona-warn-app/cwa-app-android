@@ -37,6 +37,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.di.AppInstallTime
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
@@ -44,6 +45,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Provider
 import javax.inject.Singleton
 
@@ -150,6 +152,10 @@ class MockProvider {
     @Provides
     @AppContext
     fun context(): Context = mockk()
+
+    @Provides
+    @AppInstallTime
+    fun installTime(@AppContext context: Context): Instant = Instant.EPOCH
 
     @Provides
     @BaseGson
