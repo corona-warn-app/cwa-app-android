@@ -6,7 +6,6 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.Operation
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -31,7 +30,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     @MockK lateinit var periodicWorkRequest: PeriodicWorkRequest
     @MockK lateinit var oneTimeWorkRequest: OneTimeWorkRequest
     @MockK lateinit var onboardingSettings: OnboardingSettings
-    @MockK lateinit var enfClient: ENFClient
 
     @BeforeEach
     fun setup() {
@@ -57,7 +55,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         } returns operation
 
         every { onboardingSettings.isOnboardedFlow } returns flowOf(true)
-        every { enfClient.isTracingEnabled } returns flowOf(true)
     }
 
     private fun createScheduler(scope: CoroutineScope) = DeadmanNotificationScheduler(
@@ -66,7 +63,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         workManager = workManager,
         workBuilder = workBuilder,
         onboardingSettings = onboardingSettings,
-        enfClient = enfClient
     )
 
     @Test
@@ -117,16 +113,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     @Test
     fun `scheduled work should be cancelled if onboarding wasn't yet done `() = runTest(UnconfinedTestDispatcher()) {
         every { onboardingSettings.isOnboardedFlow } returns flowOf(false)
-
-        createScheduler(this).apply { initialize() }
-
-        verifyCancelScheduledWork()
-        verifyPeriodicWorkScheduled(exactly = 0)
-    }
-
-    @Test
-    fun `scheduled work should be cancelled if tracing is disabled`() = runTest(UnconfinedTestDispatcher()) {
-        every { enfClient.isTracingEnabled } returns flowOf(false)
 
         createScheduler(this).apply { initialize() }
 
