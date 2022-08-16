@@ -66,8 +66,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                 is FamilyTestConsentNavigationEvents.NavigateClose -> {
                     binding.root.hideKeyboard()
                     if (navArgs.comesFromDispatcherFragment) {
-                        FamilyTestConsentFragmentDirections
-                            .actionGlobalMainFragment()
+                        doNavigate(FamilyTestConsentFragmentDirections.actionGlobalMainFragment())
                     } else popBackStack()
                 }
                 is FamilyTestConsentNavigationEvents.NavigateToDataPrivacy -> doNavigate(
