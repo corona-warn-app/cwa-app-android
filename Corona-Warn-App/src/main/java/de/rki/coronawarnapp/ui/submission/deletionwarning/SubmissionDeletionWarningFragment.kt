@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -82,25 +83,15 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     popBackStack()
                 }
                 is State.TestRegistered -> when {
-                    state.test.isPositive -> {
-                        if (args.testRegistrationRequest is CoronaTestTAN) {
-                            SubmissionDeletionWarningFragmentDirections
-                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    testIdentifier = state.test.identifier,
-                                    comesFromDispatcherFragment = args.comesFromDispatcherFragment
-                                )
-                        } else {
-                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                testIdentifier = state.test.identifier,
-                                comesFromDispatcherFragment = args.comesFromDispatcherFragment
-                            )
-                        }
-                    }
-                    else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testIdentifier = state.test.identifier,
-                        comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                    state.test.isPositive -> sortNavigation(state.test.identifier)
+                    else -> findNavController().navigate(
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                        ),
+                        navOptions
                     )
-                }.also { findNavController().navigate(it, navOptions) }
+                }
             }
 
             viewModel.routeToScreen.observe2(this) { event ->
@@ -115,6 +106,27 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }
+        }
+    }
+
+    private fun sortNavigation(identifier: TestIdentifier) {
+        if (args.testRegistrationRequest is CoronaTestTAN) {
+            findNavController().navigate(
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
+                        testIdentifier = identifier,
+                        comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                    ),
+                navOptions
+            )
+        } else {
+            findNavController().navigate(
+                NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                    testIdentifier = identifier,
+                    comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                ),
+                navOptions
+            )
         }
     }
 
