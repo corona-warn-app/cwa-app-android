@@ -5,10 +5,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
 import de.rki.coronawarnapp.initializer.Initializer
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,30 +19,21 @@ class DeadmanNotificationScheduler @Inject constructor(
     val timeCalculation: DeadmanNotificationTimeCalculation,
     val workManager: WorkManager,
     val workBuilder: DeadmanNotificationWorkBuilder,
-    val onboardingSettings: OnboardingSettings,
-    val enfClient: ENFClient
+    val onboardingSettings: OnboardingSettings
 ) : Initializer {
 
     override fun initialize() {
         Timber.i("setup() DeadmanNotificationScheduler")
 
-        combine(
-            onboardingSettings.isOnboardedFlow,
-            enfClient.isTracingEnabled
-        ) { isOnboarded, isTracingEnabled ->
-            Timber.d(
-                "isOnboarded = $isOnboarded, " +
-                    "isTracingEnabled = $isTracingEnabled"
-            )
-            isOnboarded && isTracingEnabled
-        }.onEach { shouldSchedulePeriodic ->
-            Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
-            if (shouldSchedulePeriodic) {
-                schedulePeriodic()
-            } else {
-                cancelScheduledWork()
-            }
-        }.launchIn(appScope)
+        onboardingSettings.isOnboardedFlow
+            .onEach { isOnboarded ->
+                Timber.d("isOnboarded: $isOnboarded")
+                if (isOnboarded) {
+                    schedulePeriodic()
+                } else {
+                    cancelScheduledWork()
+                }
+            }.launchIn(appScope)
     }
 
     /**
@@ -54,9 +43,8 @@ class DeadmanNotificationScheduler @Inject constructor(
     suspend fun scheduleOneTime() {
         // Get initial delay
         val delay = timeCalculation.getDelayInMinutes()
-
         if (delay < 0) {
-            return
+            Timber.d("Skip DeadmanNotificationOneTimeWork, delay=$delay")
         } else {
             Timber.d("DeadmanNotification will be scheduled for $delay minutes in the future")
             // Create unique work and enqueue
@@ -78,6 +66,7 @@ class DeadmanNotificationScheduler @Inject constructor(
      */
     fun schedulePeriodic() {
         // Create unique work and enqueue
+        Timber.d("schedulePeriodic()")
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
