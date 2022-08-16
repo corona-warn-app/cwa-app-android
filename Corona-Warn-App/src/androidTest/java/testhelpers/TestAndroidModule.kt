@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.storage.TracingSettingsDataStore
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AppInstallTime
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Singleton
 
 @Module

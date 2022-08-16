@@ -42,10 +42,10 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Provider
 import javax.inject.Singleton
 

@@ -20,7 +20,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Singleton
 
 @Module
