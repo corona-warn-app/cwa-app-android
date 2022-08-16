@@ -49,7 +49,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
     val testDateFormatted = "12.05.2021 19:00"
     val testDate = DateTime.parse(testDateFormatted, formatter).toInstant()
-    val expiredDate = DateTime.parse("12.05.2022 19:00", formatter).toInstant()
+    val expirationDate = DateTime.parse("12.05.2022 19:00", formatter).toInstant()
 
     @Before
     fun setUp() {
@@ -108,13 +108,13 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
     private fun expiredData() = MutableLiveData(
         getTestCertificateObject(
-            CwaCovidCertificate.State.Expired(expiredDate)
+            CwaCovidCertificate.State.Expired(expirationDate)
         )
     )
 
     private fun validData() = MutableLiveData(
         getTestCertificateObject(
-            CwaCovidCertificate.State.Valid(expiredDate)
+            CwaCovidCertificate.State.Valid(expirationDate)
         )
     )
 
@@ -152,7 +152,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         override val headerIssuedAt: Instant
             get() = testDate
         override val headerExpiresAt: Instant
-            get() = expiredDate
+            get() = expirationDate
         override val qrCodeToDisplay: CoilQrCode
             get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
         override val firstName: String
