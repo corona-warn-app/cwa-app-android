@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -39,7 +40,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
         }
     )
 
@@ -112,9 +113,18 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
             negativeButton = R.string.submission_test_result_available_close_dialog_cancel_button,
             cancelable = true,
             positiveButtonFunction = {},
-            negativeButtonFunction = { viewModel.onCancelConfirmed() }
+            negativeButtonFunction = { returnToScreenWhereUQSWasOpened() }
         )
         DialogHelper.showDialog(closeDialogInstance)
+    }
+
+    private fun returnToScreenWhereUQSWasOpened() {
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultAvailableFragmentDirections
+                    .actionSubmissionTestResultAvailableFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

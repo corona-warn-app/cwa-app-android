@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -35,7 +37,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
-            factory.create(navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier, navArgs.comesFromDispatcherFragment)
         }
     )
 
@@ -50,8 +52,17 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onConsentButtonClicked()
         }
         binding.toolbar.setNavigationOnClickListener {
-            viewModel.onBackPressed()
+            showCloseDialog()
         }
+
+        viewModel.navigateBack.observe2(this) {
+            goBack()
+        }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = showCloseDialog()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.routeToScreen.observe2(this) {
             doNavigate(it)
@@ -90,6 +101,24 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
                 onConsentDeclined = { onConsentResult(false) }
             )
         }
+    }
+
+    private fun goBack() {
+        popBackStack()
+    }
+
+    private fun showCloseDialog() {
+        val closeDialogInstance = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.submission_positive_other_warning_dialog_title,
+            message = R.string.submission_positive_other_warning_dialog_body,
+            positiveButton = R.string.submission_positive_other_warning_dialog_positive_button,
+            negativeButton = R.string.submission_positive_other_warning_dialog_negative_button,
+            cancelable = true,
+            positiveButtonFunction = {},
+            negativeButtonFunction = { viewModel.onBackPressed() }
+        )
+        DialogHelper.showDialog(closeDialogInstance)
     }
 
     override fun onResume() {

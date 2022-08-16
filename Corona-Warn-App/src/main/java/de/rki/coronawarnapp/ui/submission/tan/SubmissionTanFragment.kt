@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
@@ -32,6 +33,8 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: SubmissionTanViewModel by cwaViewModels { viewModelFactory }
 
+    private val navArgs by navArgs<SubmissionTanFragmentArgs>()
+
     private val binding: FragmentSubmissionTanBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +58,8 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
                     doNavigate(
                         SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
-                            testRegistrationRequest = it.coronaTestTan
+                            testRegistrationRequest = it.coronaTestTan,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                     )
                 else -> Unit
@@ -88,14 +92,16 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                     doNavigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                                testIdentifier = it.identifier
+                                testIdentifier = it.identifier,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
                 is TanApiRequestState.SuccessPendingResult ->
                     doNavigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
-                                testIdentifier = it.identifier
+                                testIdentifier = it.identifier,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
                 else -> Unit

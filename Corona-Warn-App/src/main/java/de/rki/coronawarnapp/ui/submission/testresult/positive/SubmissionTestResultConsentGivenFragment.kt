@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -77,14 +78,18 @@ class SubmissionTestResultConsentGivenFragment :
                     doNavigate(
                         SubmissionTestResultConsentGivenFragmentDirections
                             .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment(
-                                navArgs.testType
+                                testType = navArgs.testType,
+                                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
-                is SubmissionNavigationEvents.NavigateToMainActivity ->
-                    doNavigate(
-                        SubmissionTestResultConsentGivenFragmentDirections
-                            .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
-                    )
+                is SubmissionNavigationEvents.NavigateToMainActivity -> {
+                    if (navArgs.comesFromDispatcherFragment) {
+                        doNavigate(
+                            SubmissionTestResultConsentGivenFragmentDirections
+                                .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
+                        )
+                    } else popBackStack()
+                }
                 else -> Unit
             }
         }

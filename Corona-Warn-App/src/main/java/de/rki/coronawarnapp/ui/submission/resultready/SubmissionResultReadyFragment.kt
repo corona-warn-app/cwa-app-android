@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionResultReadyBinding
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent.CheckInsConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -34,7 +34,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
         }
     )
     private val binding: FragmentSubmissionResultReadyBinding by viewBinding()
-    private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
+    private val navArgs by navArgs<SubmissionResultReadyFragmentArgs>()
     private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,13 +52,20 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToMainActivity -> doNavigate(
-                    SubmissionResultReadyFragmentDirections.actionSubmissionResultReadyFragmentToMainFragment()
-                )
+                is SubmissionNavigationEvents.NavigateToMainActivity -> {
+                    if (navArgs.comesFromDispatcherFragment) {
+                        doNavigate(
+                            SubmissionResultReadyFragmentDirections.actionSubmissionResultReadyFragmentToMainFragment()
+                        )
+                    } else popBackStack()
+                }
 
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> doNavigate(
                     SubmissionResultReadyFragmentDirections
-                        .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment(navArgs.testType)
+                        .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment(
+                            testType = navArgs.testType,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
+                        )
                 )
 
                 else -> Unit
