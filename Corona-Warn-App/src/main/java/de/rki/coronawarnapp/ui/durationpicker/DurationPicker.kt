@@ -18,7 +18,13 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
         fun onChange(duration: Duration)
     }
 
-    private var onChangeListener: OnChangeListener? = null
+    fun interface OnDurationValueChangeListener {
+        fun onDurationChange(duration: Duration)
+    }
+
+    private var onChangeListener = OnChangeListener {}
+    private var onDurationValueChangeListener = OnDurationValueChangeListener { }
+
     private val hoursArray by lazy { requireArguments().getStringArray(HOURS_KEY).orEmpty() }
     private val title by lazy { requireArguments().getString(TITLE_KEY).orEmpty() }
     private val minutesArray by lazy { requireArguments().getStringArray(MINUTES_KEY).orEmpty() }
@@ -45,22 +51,47 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
         }
 
         with(binding) {
-            var duration = requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
-            if (duration.size < 2) duration = arrayOf("00", "00")
+            setDuration(
+                requireArguments().getString(DURATION_KEY)!!.split(":").toTypedArray()
+            )
+            minutes.setOnValueChangedListener { _, _, _ ->
+                onDurationValueChangeListener.onDurationChange(getDuration())
+            }
 
-            hours.value = max(0, hoursArray.indexOf(duration[0]))
-            minutes.value = max(0, minutesArray.indexOf(duration[1]))
+            hours.setOnValueChangedListener { _, _, _ ->
+                onDurationValueChangeListener.onDurationChange(getDuration())
+            }
 
             cancelButton.setOnClickListener { dismiss() }
             okButton.setOnClickListener {
-                onChangeListener?.onChange(getDuration())
+                onChangeListener.onChange(getDuration())
                 dismiss()
             }
         }
     }
 
+    /**
+     * Picker values after user confirmation
+     */
     fun setDurationChangeListener(onChangeListener: OnChangeListener) {
         this.onChangeListener = onChangeListener
+    }
+
+    /**
+     * Instant picker value before user confirmation
+     */
+    fun setDurationValueChangeListener(onDurationValueChangeListener: OnDurationValueChangeListener) {
+        this.onDurationValueChangeListener = onDurationValueChangeListener
+    }
+
+    fun setDuration(newDuration: Array<String>) {
+        binding.setDuration(newDuration)
+    }
+
+    private fun DurationPickerBinding.setDuration(newDuration: Array<String>) {
+        val duration = if (newDuration.size < 2) arrayOf("00", "00") else newDuration
+        hours.value = max(0, hoursArray.indexOf(duration[0]))
+        minutes.value = max(0, minutesArray.indexOf(duration[1]))
     }
 
     private fun getDuration(): Duration {
