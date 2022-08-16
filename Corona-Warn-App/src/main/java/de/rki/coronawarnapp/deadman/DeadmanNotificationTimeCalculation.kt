@@ -4,17 +4,20 @@ import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppInstallTime
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
-import org.joda.time.Instant
-import org.joda.time.Minutes
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
 class DeadmanNotificationTimeCalculation @Inject constructor(
     private val timeStamper: TimeStamper,
     private val keyCacheRepository: KeyCacheRepository,
+    @AppInstallTime private val installTime: Instant
 ) {
 
     /**
@@ -29,16 +32,15 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
             ?.info
 
         Timber.d("Last successful diagnosis key package download: $lastSuccess")
-        return calculateDelay(lastSuccess?.createdAt).toLong()
+        Timber.d("Install time=%s", installTime)
+        return calculateDelay(lastSuccess?.createdAt?.toJavaInstant() ?: installTime)
     }
 
     /**
      * Calculate initial delay in minutes for deadman notification
      */
-    internal fun calculateDelay(lastSuccess: Instant?): Int {
-        val minutesSinceLastSuccess = if (lastSuccess != null)
-            Minutes.minutesBetween(lastSuccess, timeStamper.nowUTC).minutes
-        else 0
+    internal fun calculateDelay(lastSuccess: Instant): Long {
+        val minutesSinceLastSuccess = Duration.between(lastSuccess, timeStamper.nowJavaUTC).toMinutes()
         return DEADMAN_NOTIFICATION_DELAY_MINUTES - minutesSinceLastSuccess
     }
 
