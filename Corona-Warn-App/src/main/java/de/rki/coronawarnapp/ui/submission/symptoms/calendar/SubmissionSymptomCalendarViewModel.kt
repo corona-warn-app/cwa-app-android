@@ -27,6 +27,7 @@ import java.time.LocalDate
 class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @Assisted val symptomIndication: Symptoms.Indication,
     @Assisted val testType: Type,
+    @Assisted val comesFromDispatcherFragment: Boolean,
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
@@ -38,6 +39,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     val symptomStart = symptomStartInternal.asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
+    val navigateBack = SingleLiveEvent<Unit>()
     val showCancelDialog = SingleLiveEvent<Unit>()
 
     fun onLastSevenDaysStart() {
@@ -90,7 +92,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         }
         routeToScreen.postValue(
             SubmissionSymptomCalendarFragmentDirections
-                .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType)
+                .actionSubmissionSymptomCalendarFragmentToSubmissionDoneFragment(testType, comesFromDispatcherFragment)
         )
     }
 
@@ -99,9 +101,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         performSubmission {
             analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
         }
-        routeToScreen.postValue(
-            SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
-        )
+        if (comesFromDispatcherFragment) {
+            routeToScreen.postValue(
+                SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
+            )
+        } else navigateBack.postValue(Unit)
     }
 
     private fun performSubmission(onSubmitted: () -> Unit) {
@@ -124,7 +128,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionSymptomCalendarViewModel> {
 
-        fun create(symptomIndication: Symptoms.Indication, testType: Type): SubmissionSymptomCalendarViewModel
+        fun create(
+            symptomIndication: Symptoms.Indication,
+            testType: Type,
+            comesFromDispatcherFragment: Boolean
+        ): SubmissionSymptomCalendarViewModel
     }
 
     companion object {

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
-import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -15,6 +14,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
+import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -72,11 +72,18 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
                         coronaTestConsent = it.consentGiven,
-                        allowTestReplacement = it.allowReplacement
+                        allowTestReplacement = it.allowReplacement,
+                        comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                     ),
                     navOptions
                 )
-                is SubmissionNavigationEvents.NavigateClose -> popBackStack()
+                is SubmissionNavigationEvents.NavigateClose -> {
+                    if (navArgs.comesFromDispatcherFragment) {
+                        doNavigate(
+                            SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
+                        )
+                    } else popBackStack()
+                }
                 is SubmissionNavigationEvents.NavigateBackToTestRegistration -> doNavigate(
                     SubmissionConsentFragmentDirections
                         .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
