@@ -213,6 +213,9 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                 setDurationChangeListener {
                     viewModel.checkInLength = it
                 }
+                setDurationValueChangeListener { duration ->
+                    if (duration == Duration.ZERO) setDuration(arrayOf("00", "15"))
+                }
             }
             .show(parentFragmentManager, DURATION_PICKER_TAG)
     }

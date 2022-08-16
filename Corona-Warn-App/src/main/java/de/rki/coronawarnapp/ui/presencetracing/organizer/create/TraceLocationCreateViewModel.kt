@@ -52,7 +52,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 Duration.standardHours(2)
             }
             TraceLocationUIType.EVENT -> {
-                Duration.ZERO
+                Duration.standardMinutes(15)
             }
         }
     }
