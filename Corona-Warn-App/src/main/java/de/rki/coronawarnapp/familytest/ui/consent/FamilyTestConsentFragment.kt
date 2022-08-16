@@ -65,9 +65,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                 }
                 is FamilyTestConsentNavigationEvents.NavigateClose -> {
                     binding.root.hideKeyboard()
-                    if (navArgs.comesFromDispatcherFragment) {
-                        doNavigate(FamilyTestConsentFragmentDirections.actionGlobalMainFragment())
-                    } else popBackStack()
+                    goBack()
                 }
                 is FamilyTestConsentNavigationEvents.NavigateToDataPrivacy -> doNavigate(
                     FamilyTestConsentFragmentDirections.actionFamilyTestConsentFragmentToInformationPrivacyFragment()
@@ -144,5 +142,11 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         viewModel.isSubmittable.observe2(this) {
             binding.consentButton.isActive = it
         }
+    }
+
+    private fun goBack() {
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(FamilyTestConsentFragmentDirections.actionGlobalMainFragment())
+        } else popBackStack()
     }
 }
