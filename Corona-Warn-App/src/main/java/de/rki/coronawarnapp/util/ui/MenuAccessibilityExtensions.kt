@@ -5,7 +5,7 @@ import android.os.Build
 import android.view.Menu
 import de.rki.coronawarnapp.R
 
-fun Menu.setContentDescription(context: Context) {
+fun Menu.setItemContentDescription(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         for (i in 0 until size()) {
             val item = getItem(i)
