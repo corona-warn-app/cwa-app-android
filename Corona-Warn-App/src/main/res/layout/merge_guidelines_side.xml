@@ -9,14 +9,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+            app:layout_constraintGuide_begin="@dimen/spacing_small" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
     </merge>
 
