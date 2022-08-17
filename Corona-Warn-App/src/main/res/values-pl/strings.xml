@@ -1545,7 +1545,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Kafelek statystyk"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Aby wyświetlić więcej statystyk, przesuń palcem poziomo między kafelkami."</string>
+    <string name="accessibility_statistics_card_navigation_information">"Przesuń kafelki w lewo lub w prawo, aby uzyskać więcej statystyk."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
