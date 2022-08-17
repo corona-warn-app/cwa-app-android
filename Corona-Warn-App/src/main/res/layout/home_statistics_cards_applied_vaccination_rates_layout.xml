@@ -64,20 +64,23 @@
             android:layout_height="wrap_content"
             android:text="@string/statistics_primary_value_yesterday"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/nationwide_text"
             app:layout_constraintTop_toTopOf="@id/background_image" />
 
         <TextView
             android:id="@+id/primary_value"
             style="@style/StatisticsCardPrimaryValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:autoSizeTextType="uniform"
             android:focusable="true"
             android:includeFontPadding="false"
             android:maxLines="1"
-            app:autoSizeTextType="uniform"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/primary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="1.092.765" />
@@ -85,23 +88,32 @@
         <TextView
             android:id="@+id/secondary_label"
             style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="@string/statistics_card_infections_secondary_label"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/secondary_value"
-            app:layout_constraintStart_toStartOf="@id/primary_value" />
+            app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/primary_value"
+            app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardSecondaryValue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_tiny"
+            android:autoSizeTextType="uniform"
             android:focusable="true"
             android:includeFontPadding="false"
-            app:layout_constraintBottom_toBottomOf="@id/background_image"
+            android:maxLines="1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/trend_arrow"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/secondary_label"
+            app:layout_constraintTop_toBottomOf="@id/secondary_label"
             tools:text="1.092.765" />
 
         <de.rki.coronawarnapp.statistics.ui.TrendArrowView
@@ -110,26 +122,30 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_tiny"
             app:layout_constraintBottom_toBottomOf="@id/secondary_value"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/secondary_value"
             app:layout_constraintTop_toTopOf="@id/secondary_value" />
-
 
         <TextView
             android:id="@+id/tertiary_label"
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="@string/statistics_card_infections_tertiary_label"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/secondary_value"
-            app:layout_constraintTop_toBottomOf="@id/background_image" />
+            app:layout_constraintTop_toBottomOf="@id/secondary_value" />
 
         <TextView
             android:id="@+id/tertiary_value"
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:focusable="true"
+            android:maxLines="1"
             app:layout_constraintStart_toStartOf="@id/tertiary_label"
             app:layout_constraintTop_toBottomOf="@id/tertiary_label"
             tools:text="7.145.486" />
