@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.submission.testresult.invalid
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,7 +28,7 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
         Timber.v("init() testIdentifier=%s", testIdentifier)
     }
 
-    val routeToScreen = SingleLiveEvent<NavDirections?>()
+    val routeToScreen = SingleLiveEvent<Unit>()
 
     val testResult: LiveData<TestResultUIState> = coronaTestProvider.getTestForIdentifier(testIdentifier)
         .filterNotNull()
@@ -40,7 +39,7 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
     fun moveTestToRecycleBinStorage() = launch {
         recycledTestProvider.recycleCoronaTest(testIdentifier)
-        routeToScreen.postValue(null)
+        routeToScreen.postValue(Unit)
     }
 
     @AssistedFactory
