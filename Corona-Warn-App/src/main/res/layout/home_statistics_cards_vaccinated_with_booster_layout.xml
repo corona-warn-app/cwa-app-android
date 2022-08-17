@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:maxLines="2"
+            android:maxLines="3"
             android:text="@string/statistics_vaccinated_with_booster_card_title"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
@@ -64,6 +64,7 @@
             android:layout_height="wrap_content"
             android:text="@string/statistics_primary_value_until_yesterday"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/nationwide_text"
             app:layout_constraintTop_toTopOf="@id/background_image" />
 
@@ -72,8 +73,14 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:focusable="true"
             android:includeFontPadding="false"
+            android:maxLines="1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/primary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="3.5%" />
@@ -81,12 +88,12 @@
         <TextView
             android:id="@+id/primary_footnote"
             style="@style/StatisticsCardValueLabel"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small"
             android:text="@string/statistics_vaccination_primary_value_footnote"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
@@ -95,17 +102,20 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="@string/statistics_card_infections_tertiary_label"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/primary_footnote"
-            app:layout_constraintTop_toBottomOf="@id/background_image" />
+            app:layout_constraintTop_toBottomOf="@id/primary_footnote" />
 
         <TextView
             android:id="@+id/secondary_value"
             style="@style/StatisticsCardSecondaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:focusable="true"
+            android:maxLines="1"
             app:layout_constraintStart_toStartOf="@id/secondary_label"
             app:layout_constraintTop_toBottomOf="@id/secondary_label"
             tools:text="826.330" />
