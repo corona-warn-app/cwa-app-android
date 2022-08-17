@@ -1545,7 +1545,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"İstatistik kutucuğu"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Daha fazla istatistik görüntülemek için kutucuklar arasında yatay olarak kaydırın"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Daha fazla istatistik için kutucukları sola veya sağa kaydırın."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
