@@ -1545,7 +1545,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Mozaic statistică"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Glisați orizontal între mozaicuri pentru a afișa mai multe statistici"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Glisați mozaicurile la dreapta sau la stânga pentru mai multe statistici."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
