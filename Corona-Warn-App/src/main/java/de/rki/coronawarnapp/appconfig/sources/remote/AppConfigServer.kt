@@ -107,7 +107,7 @@ class AppConfigServer @Inject constructor(
         )
         DATE_FORMAT.parse(rawDate, Instant::from)
     } catch (e: Exception) {
-        Timber.e("Failed to get server time.")
+        Timber.e(e, "Failed to get server time.")
         null
     }
 
