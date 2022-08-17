@@ -26,6 +26,8 @@
     <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Sosyal Medya"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">%s %d %d</string>
 
     <!-- ####################################
                Notification

@@ -27,6 +27,8 @@
     <string name="menu_trash">"Papierkorb"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social Media"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">%s eintrag %d von %d</string>
 
     <!-- ####################################
                Notification
