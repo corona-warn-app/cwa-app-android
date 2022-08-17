@@ -116,7 +116,7 @@ class AppConfigServer @Inject constructor(
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
         private val DATE_FORMAT = DateTimeFormatter
             .ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
-            .withLocale(Locale.ROOT)
+            .withLocale(Locale.ENGLISH)
         private val TAG = AppConfigServer::class.java.simpleName
     }
 }
