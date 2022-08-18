@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidationDataStore
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.trySetValue
@@ -18,13 +19,14 @@ import javax.inject.Singleton
 
 @Singleton
 class DccValidationSettings @Inject constructor(
-    @CertificateValidationDataStore private val dataStore: DataStore<Preferences>
+    @CertificateValidationDataStore private val dataStore: DataStore<Preferences>,
+    private val timeStamper: TimeStamper,
 ) : Resettable {
 
     val settings = dataStore.dataRecovering.map { prefs ->
         Pair(
             prefs[DCC_VALIDATION_ARRIVAL_COUNTRY] ?: DccCountry.DE,
-            prefs[DCC_VALIDATION_ARRIVAL_TIME] ?: System.currentTimeMillis()
+            prefs[DCC_VALIDATION_ARRIVAL_TIME] ?: timeStamper.nowJavaUTC.toEpochMilli()
         )
     }
 
