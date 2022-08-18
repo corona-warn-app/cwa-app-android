@@ -228,7 +228,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     }
 
     private fun FragmentTestCertificateDetailsBinding.bindToolbar() = toolbar.apply {
-        addMenuId(R.id.test_certificate_detail_fragment_menu_id)
+        addMenuId(R.id.certificate_detail_fragment_menu_id)
         addNavigationIconButtonId(R.id.test_certificate_detail_fragment_navigation_icon_buttonId)
         navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { viewModel.onClose() }

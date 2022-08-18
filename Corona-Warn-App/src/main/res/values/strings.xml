@@ -27,6 +27,8 @@
     <string name="menu_trash">"Recycle Bin"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social Media"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">%s entry %d of %d</string>
 
     <!-- ####################################
                Notification
@@ -1554,7 +1556,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistics tile"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Swipe horizontally between the tiles to display more statistics"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Swipe the tiles left or right for more statistics."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
