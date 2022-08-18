@@ -107,7 +107,7 @@ class AppConfigServer @Inject constructor(
         )
         DATE_FORMAT.parse(rawDate, Instant::from)
     } catch (e: Exception) {
-        Timber.e("Failed to get server time.")
+        Timber.e(e, "Failed to get server time.")
         null
     }
 
@@ -116,7 +116,7 @@ class AppConfigServer @Inject constructor(
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
         private val DATE_FORMAT = DateTimeFormatter
             .ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz")
-            .withLocale(Locale.ROOT)
+            .withLocale(Locale.ENGLISH)
         private val TAG = AppConfigServer::class.java.simpleName
     }
 }
