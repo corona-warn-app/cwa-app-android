@@ -95,11 +95,26 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                         )
                     }
                     BaseCoronaTest.Type.RAPID_ANTIGEN -> {
-                        testResultStepsTestAdded.setEntryTitle(
-                            getText(
-                                R.string.submission_family_test_result_steps_added_rat_heading
+
+                        when (coronaTest) {
+                            is FamilyCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                                getText(
+                                    R.string.submission_family_test_result_steps_added_rat_heading
+                                )
                             )
-                        )
+                            is PersonalCoronaTest -> {
+                                testResultStepsTestAdded.setEntryTitle(
+                                    getText(
+                                        R.string.submission_test_result_steps_added_rat_heading
+                                    )
+                                )
+                                testResultStepsTestAdded.setEntryText(
+                                    getText(
+                                        R.string.submission_test_result_steps_added_body_rat
+                                    )
+                                )
+                            }
+                        }
 
                         testResultStepsNegativeResult.setEntryText(
                             getText(
