@@ -4,18 +4,18 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
 class MappingsTest : BaseTest() {
 
     @Test
     fun `Instant toZonedDateTime works`() {
         val original = Instant.parse("2021-05-27T07:46:40.000Z")
-        val zoned = original.toZonedDateTime(UTC_ZONE_ID)
+        val zoned = original.atZone(UTC_ZONE_ID)
         zoned shouldBe ZonedDateTime.of(
             2021,
             5,
@@ -26,7 +26,7 @@ class MappingsTest : BaseTest() {
             0,
             UTC_ZONE_ID
         )
-        zoned.toInstant().toEpochMilli() shouldBe original.millis
+        zoned.toInstant().toEpochMilli() shouldBe original.toEpochMilli()
     }
 
     @Test
@@ -49,64 +49,64 @@ class MappingsTest : BaseTest() {
     @Test
     fun `filter rules works`() {
         val validationClock = Instant.parse("2021-05-27T07:46:40Z")
-        val validationDate = validationClock.toDateTime(DateTimeZone.UTC)
+        val validationDate = validationClock.atZone(UTC_ZONE_ID)
 
         val vacA1 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.0",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // Has newer version
         val vacA2 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.1",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // :)
         val vacA3 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.2",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
             country = "NL"
         ) // Wrong arrival country
         val vacB1 = createDccRule(
             certificateType = RuleCertificateType.TEST,
             identifier = "TR-DE-2",
             version = "1.0.0",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // Wrong type
         val genA1 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.0",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // Has newer version
         val genA2 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.1",
-            validFrom = validationClock.minus(100).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // :)
         val genA3 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
-            validFrom = validationClock.plus(1).toString(),
-            validTo = validationClock.plus(100).toString(),
+            validFrom = validationClock.plus(1, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
         ) // validFrom is in the future
         val genA4 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
-            validFrom = validationClock.plus(1).toString(),
-            validTo = validationClock.minus(1).toString(),
+            validFrom = validationClock.plus(1, ChronoUnit.DAYS).toString(),
+            validTo = validationClock.minus(1, ChronoUnit.DAYS).toString(),
         ) // validTo is in the past
 
         val genA5 = createDccRule(
