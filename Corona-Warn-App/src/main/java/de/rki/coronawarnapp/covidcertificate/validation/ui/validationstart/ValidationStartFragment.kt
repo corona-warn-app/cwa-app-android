@@ -87,11 +87,6 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.refreshTimeCheck()
-    }
-
     private fun ValidationStartFragmentBinding.onNavEvent(event: StartValidationNavEvent?) {
         when (event) {
             NavigateToValidationInfoFragment -> findNavController().navigate(
