@@ -27,10 +27,13 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import setTextWithUrls
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), AutoInject {
@@ -163,21 +166,28 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
     }
 
     private fun showDatePicker() {
-        val minConstraint: DateTime = DateTime.now().minusDays(1) // Allow selection from today on only
+        val minConstraint: ZonedDateTime = ZonedDateTime.now().minusDays(1) // Allow selection from today on only
         val constraints = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointForward.from(minConstraint.withSecondOfMinute(0).millis))
+            .setValidator(
+                DateValidatorPointForward.from(
+                    minConstraint.truncatedTo(ChronoUnit.SECONDS).toInstant().toEpochMilli()
+                )
+            )
             .build()
 
-        val dateTime = viewModel.selectedDate.toDateTime(viewModel.selectedTime)
+        val dateTime = viewModel.selectedDate.atTime(viewModel.selectedTime)
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.millis)
+            .setSelection(dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
             .setCalendarConstraints(constraints)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), viewModel.selectedTime)
+                    showTimePicker(
+                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        viewModel.selectedTime
+                    )
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -191,12 +201,12 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
         MaterialTimePicker
             .Builder()
             .setTimeFormat(timeFormat)
-            .setHour(time.hourOfDay)
-            .setMinute(time.minuteOfHour)
+            .setHour(time.hour)
+            .setMinute(time.minute)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date, LocalTime(hour, minute))
+                    viewModel.dateChanged(date, LocalTime.of(hour, minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

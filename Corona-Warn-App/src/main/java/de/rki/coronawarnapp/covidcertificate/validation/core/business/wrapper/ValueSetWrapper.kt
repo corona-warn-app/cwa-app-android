@@ -12,8 +12,8 @@ class ValueSetWrapper @Inject constructor(
     dccValidationRepository: DccValidationRepository
 ) {
 
-    private val countryCodes = dccValidationRepository.dccCountries.map {
-        it.map { it.countryCode }
+    private val countryCodes = dccValidationRepository.dccCountries.map { countries ->
+        countries.map { country -> country.countryCode }
     }
 
     val valueMap: Flow<Map<String, List<String>>> = combine(
