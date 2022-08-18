@@ -619,14 +619,14 @@
 
     <style name="TextInputLayoutTheme" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
-        <item name="android:textColorHint">@color/colorTextPrimary2</item>
-        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="android:textColorHint">@color/colorInputText</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="textColor">@color/colorInputText</item>
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">

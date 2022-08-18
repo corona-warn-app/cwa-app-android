@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.negative
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -49,9 +51,13 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { navigateBackToFlowStart() }
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBackToFlowStart()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.testResult.observe2(this) { uiState ->
             val coronaTest = uiState.coronaTest
@@ -120,7 +126,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
-                is SubmissionTestResultNegativeNavigation.Back -> popBackStack()
+                is SubmissionTestResultNegativeNavigation.Back -> navigateBackToFlowStart()
                 is SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails ->
                     findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.qrCodeHash))
             }
@@ -138,6 +144,15 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
         }
+    }
+
+    private fun navigateBackToFlowStart() {
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultNegativeFragmentDirections
+                    .actionSubmissionTestResultNegativeFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     override fun onResume() {

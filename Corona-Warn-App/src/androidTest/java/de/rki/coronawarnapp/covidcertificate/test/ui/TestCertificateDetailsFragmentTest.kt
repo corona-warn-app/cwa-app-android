@@ -41,10 +41,15 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class TestCertificateDetailsFragmentTest : BaseUITest() {
 
-    @MockK lateinit var vaccinationDetailsViewModel: TestCertificateDetailsViewModel
+    @MockK lateinit var testCertificateDetailsViewModel: TestCertificateDetailsViewModel
     @MockK lateinit var certificatePersonIdentifier: CertificatePersonIdentifier
 
     private val args = TestCertificateDetailsFragmentArgs(certIdentifier = "testCertificateIdentifier").toBundle()
+
+    val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+    val testDateFormatted = "12.05.2021 19:00"
+    val testDate = DateTime.parse(testDateFormatted, formatter).toInstant()
+    val expirationDate = DateTime.parse("12.05.2022 19:00", formatter).toInstant()
 
     @Before
     fun setUp() {
@@ -55,7 +60,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : TestCertificateDetailsViewModel.Factory {
                 override fun create(containerId: TestCertificateContainerId, fromScanner: Boolean):
-                    TestCertificateDetailsViewModel = vaccinationDetailsViewModel
+                    TestCertificateDetailsViewModel = testCertificateDetailsViewModel
             }
         )
     }
@@ -68,7 +73,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_incomplete() {
-        every { vaccinationDetailsViewModel.covidCertificate } returns vaccinationDetailsData()
+        every { testCertificateDetailsViewModel.covidCertificate } returns validData()
         launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
         takeScreenshot<TestCertificateDetailsFragment>()
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
@@ -78,7 +83,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_invalid() {
-        every { vaccinationDetailsViewModel.covidCertificate } returns invalidVaccinationDetailsData()
+        every { testCertificateDetailsViewModel.covidCertificate } returns invalidData()
         launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
         takeScreenshot<TestCertificateDetailsFragment>("invalid")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
@@ -88,32 +93,32 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_screenshot_expired() {
-        every { vaccinationDetailsViewModel.covidCertificate } returns expiredVaccinationDetailsData()
+        every { testCertificateDetailsViewModel.covidCertificate } returns expiredData()
         launchFragmentInContainer2<TestCertificateDetailsFragment>(fragmentArgs = args)
         takeScreenshot<TestCertificateDetailsFragment>("expired")
         onView(withId(R.id.coordinator_layout)).perform(swipeUp())
         takeScreenshot<TestCertificateDetailsFragment>("expired_2")
     }
 
-    private fun invalidVaccinationDetailsData() = MutableLiveData(
+    private fun invalidData() = MutableLiveData(
         getTestCertificateObject(
             CwaCovidCertificate.State.Invalid()
         )
     )
 
-    private fun expiredVaccinationDetailsData() = MutableLiveData(
+    private fun expiredData() = MutableLiveData(
         getTestCertificateObject(
-            CwaCovidCertificate.State.Expired(Instant.now())
+            CwaCovidCertificate.State.Expired(expirationDate)
         )
     )
 
-    private fun vaccinationDetailsData() = MutableLiveData(
+    private fun validData() = MutableLiveData(
         getTestCertificateObject(
-            CwaCovidCertificate.State.Valid(Instant.now())
+            CwaCovidCertificate.State.Valid(expirationDate)
         )
     )
 
-    abstract class AbstractTestCertificate(
+    abstract inner class AbstractTestCertificate(
         private val testDate: Instant,
         private val certificatePersonIdentifier: CertificatePersonIdentifier
     ) : TestCertificate {
@@ -133,8 +138,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
             get() = "Xup"
         override val sampleCollectedAt: Instant
             get() = testDate
-        override val sampleCollectedAtFormatted: String
-            get() = "12.05.2021 19:00"
+        override val sampleCollectedAtFormatted = testDateFormatted
         override val testCenter: String
             get() = "AB123"
         override val registeredAt: Instant
@@ -148,7 +152,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         override val headerIssuedAt: Instant
             get() = testDate
         override val headerExpiresAt: Instant
-            get() = testDate
+            get() = expirationDate
         override val qrCodeToDisplay: CoilQrCode
             get() = CoilQrCode(ScreenshotCertificateTestData.testCertificate)
         override val firstName: String
@@ -193,8 +197,6 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
     }
 
     private fun getTestCertificateObject(state: CwaCovidCertificate.State): TestCertificate {
-        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
-        val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
 
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
             override val isNew: Boolean get() = false

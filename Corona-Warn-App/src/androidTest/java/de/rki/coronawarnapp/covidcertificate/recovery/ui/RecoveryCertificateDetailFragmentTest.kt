@@ -20,7 +20,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
@@ -41,6 +41,12 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     @MockK lateinit var recoveryDetailsViewModel: RecoveryCertificateDetailsViewModel
 
     private val args = RecoveryCertificateDetailsFragmentArgs(certIdentifier = "recoveryCertificateId").toBundle()
+
+    val testDateFormatted = "2021-05-24"
+    val expirationDate = DateTime.parse(
+        "24.05.2022 15:00",
+        DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+    ).toInstant()
 
     @Before
     fun setUp() {
@@ -97,7 +103,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         mockCertificate().apply {
             every { isDisplayValid } returns true
             every { isNotScreened } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { state } returns CwaCovidCertificate.State.Valid(expirationDate)
         }
     )
 
@@ -113,7 +119,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         mockCertificate().apply {
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { state } returns CwaCovidCertificate.State.Expired(Instant.now())
+            every { state } returns CwaCovidCertificate.State.Expired(expirationDate)
         }
     )
 
@@ -122,7 +128,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { fullNameStandardizedFormatted } returns "MUSTERMANN<<MAX"
         every { dateOfBirthFormatted } returns "1969-01-08"
         every { targetDisease } returns "COVID-19"
-        every { testedPositiveOnFormatted } returns "2021-05-24"
+        every { testedPositiveOnFormatted } returns testDateFormatted
         every { certificateCountry } returns "Deutschland"
         every { certificateIssuer } returns "Robert Koch-Institut"
         every { hasNotificationBadge } returns false
@@ -132,7 +138,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
             LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))
 
         every { fullNameFormatted } returns "Mustermann, Max"
-        every { headerExpiresAt } returns Instant.now().plus(21)
+        every { headerExpiresAt } returns expirationDate
         every { isNotScreened } returns true
     }
 

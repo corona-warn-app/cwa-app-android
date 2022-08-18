@@ -47,12 +47,13 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = spyk(
             SubmissionSymptomIntroductionViewModel(
-                TestDispatcherProvider(),
-                submissionRepository,
-                autoSubmission,
-                analyticsKeySubmissionCollector,
-                BaseCoronaTest.Type.PCR,
-                TestScope()
+                dispatcherProvider = TestDispatcherProvider(),
+                submissionRepository = submissionRepository,
+                autoSubmission = autoSubmission,
+                analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+                testType = BaseCoronaTest.Type.PCR,
+                comesFromDispatcherFragment = false,
+                appScope = TestScope()
             )
         )
         with(viewModel) {
@@ -60,7 +61,10 @@ class SubmissionSymptomIntroFragmentTest : BaseUITest() {
         }
         setupMockViewModel(
             object : SubmissionSymptomIntroductionViewModel.Factory {
-                override fun create(testType: BaseCoronaTest.Type): SubmissionSymptomIntroductionViewModel = viewModel
+                override fun create(
+                    testType: BaseCoronaTest.Type,
+                    comesFromDispatcherFragment: Boolean
+                ): SubmissionSymptomIntroductionViewModel = viewModel
             }
         )
     }

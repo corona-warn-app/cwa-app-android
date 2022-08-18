@@ -64,7 +64,7 @@
     <item name="contact_diary_comment_info_fragment_navigation_icon_buttonId" type="id" />
     <item name="contact_diary_edit_persons_fragment_navigation_icon_buttonId" type="id" />
     <item name="home_fragment_menu_id" type="id" />
-    <item name="test_certificate_detail_fragment_menu_id" type="id" />
+    <item name="certificate_detail_fragment_menu_id" type="id" />
     <item name="test_certificate_detail_fragment_navigation_icon_buttonId" type="id" />
 
     <declare-styleable name="ProgressLoadingButton">

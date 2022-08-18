@@ -1545,7 +1545,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Плитка статистики"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Проведіть пальцем по горизонталі між плитками, щоб відобразити більше статистичних даних"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Прогорніть плитки ліворуч або праворуч, щоб відобразити більше статистичних даних."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->
