@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toLocaleDateTimeUtc
 import de.rki.coronawarnapp.util.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
@@ -102,7 +104,7 @@ class ValidationResultItemCreator @Inject constructor() {
     ): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
             validation = validation,
-            certificateExpiresAt = certificate.headerExpiresAt.toLocalDateTimeUserTz()
+            certificateExpiresAt = certificate.headerExpiresAt.toJavaInstant().toUserTimeZone()
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
