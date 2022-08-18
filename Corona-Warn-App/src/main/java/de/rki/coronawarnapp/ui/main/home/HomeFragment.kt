@@ -125,16 +125,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.markTestBadgesAsSeen.observe2(this) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
-
         viewModel.markRiskBadgeAsSeen()
-        val navController = findNavController()
-        navController.currentBackStackEntry?.savedStateHandle?.getLiveData(
-            "comesFromAddLocalStats",
-            false
-        )?.observe(viewLifecycleOwner) {
-            binding.root.requestFocus()
-            binding.root.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
-        }
     }
 
     override fun onResume() {
