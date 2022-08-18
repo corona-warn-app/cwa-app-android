@@ -143,6 +143,16 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 R.string.test_certificate_sampled_on,
                 certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
+
+            if (certificate == null) {
+                binding.negativeTestProofBody.text = getString(
+                    R.string.submission_test_result_antigen_negative_proof_no_certificate_body
+                )
+            } else {
+                binding.negativeTestProofBody.text = getString(
+                    R.string.submission_test_result_antigen_negative_proof_body
+                )
+            }
         }
     }
 

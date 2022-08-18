@@ -167,7 +167,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:text="@string/submission_test_result_antigen_negative_proof_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
