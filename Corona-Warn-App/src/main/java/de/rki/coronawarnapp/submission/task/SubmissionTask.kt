@@ -136,7 +136,10 @@ class SubmissionTask @Inject constructor(
         val coronaTest = availableTests
             .filter { testType == null || it.type == testType }
             .firstOrNull { it.isSubmissionAllowed }
-            ?: throw IllegalStateException("No valid test available to authorize submission")
+            ?: return run {
+                Timber.tag(TAG).w("Skip submission -> No valid test available to authorize submission")
+                Result(state = Result.State.SKIPPED)
+            }
 
         Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
 
