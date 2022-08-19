@@ -1039,8 +1039,10 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt"</string>
-    <!-- YTXT: Body text for for results next steps  -->
-    <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
+    <!-- YTXT: Body text for for results next steps pcr -->
+    <string name="submission_test_result_steps_added_body_pcr">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
+    <!-- YTXT: Body text for for results next steps rat -->
+    <string name="submission_test_result_steps_added_body_rat">"Das Test-Ergebnis wird 48 Stunden hier angezeigt. Zusätzlich legt die App einen Eintrag in Ihrem Kontakt-Tagebuch an."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"Der PCR-Test wurde hinzugefügt"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
