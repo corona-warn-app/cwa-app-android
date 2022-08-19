@@ -20,8 +20,10 @@ import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
+import de.rki.coronawarnapp.submission.task.SubmissionTask.Result.State
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.preferences.FlowPreference
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowMessage
 import io.kotest.matchers.shouldBe
@@ -184,7 +186,7 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `submission flow`() = runTest {
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
-            state = SubmissionTask.Result.State.SUCCESSFUL
+            state = State.SUCCESSFUL
         )
 
         coVerifySequence {
@@ -244,7 +246,7 @@ class SubmissionTaskTest : BaseTest() {
 
         val task = createTask()
         task.run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(
-            state = SubmissionTask.Result.State.SUCCESSFUL
+            state = State.SUCCESSFUL
         )
 
         verify {
@@ -331,8 +333,8 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         val task = createTask()
-        shouldThrow<IllegalStateException> {
-            task.run(SubmissionTask.Arguments())
+        shouldNotThrow<IllegalStateException> {
+            task.run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(state = State.SKIPPED)
         }
     }
 
@@ -341,7 +343,7 @@ class SubmissionTaskTest : BaseTest() {
         every { appConfigData.supportedCountries } returns listOf("DE")
 
         createTask().run(SubmissionTask.Arguments()) shouldBe SubmissionTask.Result(
-            state = SubmissionTask.Result.State.SUCCESSFUL
+            state = State.SUCCESSFUL
         )
 
         coVerifySequence {
@@ -366,7 +368,7 @@ class SubmissionTaskTest : BaseTest() {
         settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.standardHours(1)) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
-            state = SubmissionTask.Result.State.SKIPPED
+            state = State.SKIPPED
         )
 
         coVerify(exactly = 0) { tekHistoryCalculations.transformToKeyHistoryInExternalFormat(any(), any()) }
@@ -393,7 +395,7 @@ class SubmissionTaskTest : BaseTest() {
         settingLastUserActivityUTC.update { Instant.ofEpochMilli(Long.MAX_VALUE) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
-            state = SubmissionTask.Result.State.SUCCESSFUL
+            state = State.SUCCESSFUL
         )
     }
 
