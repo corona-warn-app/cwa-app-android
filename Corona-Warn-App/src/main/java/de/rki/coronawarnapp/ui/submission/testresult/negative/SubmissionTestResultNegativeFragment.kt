@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
@@ -144,15 +145,19 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
 
-            if (certificate == null) {
-                binding.negativeTestProofBody.text = getString(
-                    R.string.submission_test_result_antigen_negative_proof_no_certificate_body
-                )
-            } else {
-                binding.negativeTestProofBody.text = getString(
-                    R.string.submission_test_result_antigen_negative_proof_body
-                )
-            }
+            setBodyText(certificate)
+        }
+    }
+
+    private fun setBodyText(certificate: TestCertificate?) {
+        if (certificate == null) {
+            binding.negativeTestProofBody.text = getString(
+                R.string.submission_test_result_antigen_negative_proof_no_certificate_body
+            )
+        } else {
+            binding.negativeTestProofBody.text = getString(
+                R.string.submission_test_result_antigen_negative_proof_body
+            )
         }
     }
 
