@@ -52,7 +52,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             lastUpdatedAt = Instant.EPOCH,
         )
         test.toSubmissionState(timeStamper.nowUTC, coronaTestConfig) shouldBe SubmissionStateRAT.SubmissionDone(
-            testRegisteredAt = Instant.ofEpochMilli(123)
+            testRegisteredAt = Instant.EPOCH
         )
     }
 
