@@ -14,11 +14,15 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.Back
+import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails
+import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -47,103 +51,118 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
-                showMoveToRecycleBinDialog()
-            }
-            toolbar.setNavigationOnClickListener { navigateBackToFlowStart() }
-            testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
-        }
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() = navigateBackToFlowStart()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+        bindViewsClicks()
+        viewModel.testResult.observe2(this) { uiState -> bindTestResultViews(uiState) }
+        viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+        viewModel.certificate.observe(viewLifecycleOwner) { certificate -> bindCertificateViews(certificate) }
+    }
 
-        viewModel.testResult.observe2(this) { uiState ->
-            val coronaTest = uiState.coronaTest
-            showTestResult(coronaTest)
-            with(binding) {
+    private fun bindViewsClicks() = with(binding) {
+        submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
+            showMoveToRecycleBinDialog()
+        }
+        toolbar.setNavigationOnClickListener { navigateBackToFlowStart() }
+        testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
+    }
+
+    private fun bindTestResultViews(uiState: SubmissionTestResultNegativeViewModel.UIState) {
+        val coronaTest = uiState.coronaTest
+        showTestResult(coronaTest)
+        with(binding) {
+            bindTestCategory(coronaTest)
+            bindTestType(coronaTest)
+            bindCertificateState(uiState)
+        }
+    }
+
+    private fun FragmentSubmissionTestResultNegativeBinding.bindCertificateState(
+        uiState: SubmissionTestResultNegativeViewModel.UIState
+    ) {
+        when (uiState.certificateState) {
+            CertificateState.NOT_REQUESTED -> testCertificateCard.isGone = true
+            CertificateState.PENDING -> testCertificateCard.isGone = true
+            CertificateState.AVAILABLE -> testCertificateCard.isGone = false
+        }
+    }
+
+    private fun FragmentSubmissionTestResultNegativeBinding.bindTestType(
+        coronaTest: BaseCoronaTest
+    ) {
+        when (coronaTest.type) {
+            BaseCoronaTest.Type.PCR -> {
+                testResultStepsTestAdded.setEntryTitle(
+                    getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                )
+
+                testResultStepsNegativeResult.setEntryText(
+                    getText(R.string.submission_test_result_negative_steps_negative_body)
+                )
+            }
+
+            BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                 when (coronaTest) {
-                    is FamilyCoronaTest -> {
-                        familyMemberName.isVisible = true
-                        familyMemberName.text = coronaTest.personName
-                        toolbar.title = getText(R.string.submission_test_result_headline)
-
-                        testResultStepsTestAdded.setEntryText("")
-                        testResultStepsRemoveTest.isVisible = false
-                        testResultStepsNegativeResult.setIsFinal(true)
-                    }
+                    is FamilyCoronaTest -> testResultStepsTestAdded.setEntryTitle(
+                        getText(R.string.submission_family_test_result_steps_added_rat_heading)
+                    )
                     is PersonalCoronaTest -> {
-                        familyMemberName.isVisible = false
-                        toolbar.title = getText(R.string.submission_test_result_toolbar_text)
-                        testResultStepsRemoveTest.setIsFinal(true)
-                    }
-                }
-
-                when (coronaTest.type) {
-                    BaseCoronaTest.Type.PCR -> {
                         testResultStepsTestAdded.setEntryTitle(
-                            getText(
-                                R.string.submission_family_test_result_steps_added_pcr_heading
-                            )
+                            getText(R.string.submission_test_result_steps_added_rat_heading)
                         )
-
-                        testResultStepsNegativeResult.setEntryText(
-                            getText(
-                                R.string.submission_test_result_negative_steps_negative_body
-                            )
-                        )
-                    }
-                    BaseCoronaTest.Type.RAPID_ANTIGEN -> {
-                        testResultStepsTestAdded.setEntryTitle(
-                            getText(
-                                R.string.submission_family_test_result_steps_added_rat_heading
-                            )
-                        )
-
-                        testResultStepsNegativeResult.setEntryText(
-                            getText(
-                                R.string.coronatest_negative_antigen_result_second_info_body
-                            )
+                        testResultStepsTestAdded.setEntryText(
+                            getText(R.string.submission_test_result_steps_added_body_rat)
                         )
                     }
                 }
 
-                // test certificate state
-                when (uiState.certificateState) {
-                    SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
-                        testCertificateCard.isGone = true
-                    }
-                    SubmissionTestResultNegativeViewModel.CertificateState.PENDING -> {
-                        testCertificateCard.isGone = true
-                    }
-                    SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE -> {
-                        testCertificateCard.isGone = false
-                    }
-                }
+                testResultStepsNegativeResult.setEntryText(
+                    getText(R.string.coronatest_negative_antigen_result_second_info_body)
+                )
             }
         }
+    }
 
-        viewModel.events.observe(viewLifecycleOwner) {
-            when (it) {
-                is SubmissionTestResultNegativeNavigation.Back -> navigateBackToFlowStart()
-                is SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails ->
-                    findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.qrCodeHash))
+    private fun FragmentSubmissionTestResultNegativeBinding.bindTestCategory(coronaTest: BaseCoronaTest) {
+        when (coronaTest) {
+            is FamilyCoronaTest -> {
+                familyMemberName.isVisible = true
+                familyMemberName.text = coronaTest.personName
+                toolbar.title = getText(R.string.submission_test_result_headline)
+
+                testResultStepsTestAdded.setEntryText("")
+                testResultStepsRemoveTest.isVisible = false
+                testResultStepsNegativeResult.setIsFinal(true)
+            }
+            is PersonalCoronaTest -> {
+                familyMemberName.isVisible = false
+                toolbar.title = getText(R.string.submission_test_result_toolbar_text)
+                testResultStepsRemoveTest.setIsFinal(true)
             }
         }
+    }
 
-        viewModel.certificate.observe(viewLifecycleOwner) { certificate ->
-            if (certificate?.isPCRTestCertificate == true) {
-                R.string.test_certificate_pcr_test_type
-            } else {
-                R.string.test_certificate_rapid_test_type
-            }.also { binding.testCertificateType.setText(it) }
+    private fun onNavEvent(event: SubmissionTestResultNegativeNavigation) = when (event) {
+        is Back -> navigateBackToFlowStart()
+        is OpenTestCertificateDetails -> findNavController().navigate(
+            TestCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
+        )
+    }
 
-            binding.certificateDate.text = getString(
-                R.string.test_certificate_sampled_on,
-                certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
-            )
-        }
+    private fun bindCertificateViews(certificate: TestCertificate?) {
+        binding.testCertificateType.setText(
+            when (certificate?.isPCRTestCertificate) {
+                true -> R.string.test_certificate_pcr_test_type
+                else -> R.string.test_certificate_rapid_test_type
+            }
+        )
+
+        binding.certificateDate.text = getString(
+            R.string.test_certificate_sampled_on,
+            certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+        )
     }
 
     private fun navigateBackToFlowStart() {
