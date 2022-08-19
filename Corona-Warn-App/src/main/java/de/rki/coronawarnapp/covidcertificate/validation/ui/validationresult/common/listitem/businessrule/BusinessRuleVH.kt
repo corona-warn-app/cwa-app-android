@@ -3,13 +3,15 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BaseValidationResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.EvaluatedField
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
+import java.util.Locale
 
 class BusinessRuleVH(
     parent: ViewGroup
@@ -30,9 +32,11 @@ class BusinessRuleVH(
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         with(curItem) {
+            val (countryText, countryCode) = countryInformationText
             ruleIcon.setImageResource(ruleIconRes)
-            ruleDescription.text = ruleDescriptionText.get(context)
-            countryInformation.text = countryInformationText.get(context)
+
+            ruleDescription.text = ruleDescriptionText.getRuleDescription()
+            countryInformation.text = countryText.toResolvingString(countryName(countryCode)).get(context)
             adapter.update(affectedFields)
             ruleId.text = identifier
 
@@ -42,10 +46,22 @@ class BusinessRuleVH(
         }
     }
 
+    private fun countryName(countryCode: String?, userLocale: Locale = Locale.getDefault()): String =
+        if (countryCode != null) {
+            Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
+        } else ""
+
+    fun DccValidationRule.getRuleDescription(): String {
+        val currentLocaleCode = Locale.getDefault().language
+        val descItem = description.find { it.languageCode == currentLocaleCode }
+            ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
+        return descItem?.description ?: identifier
+    }
+
     data class Item(
         @DrawableRes val ruleIconRes: Int,
-        val ruleDescriptionText: LazyString,
-        val countryInformationText: LazyString,
+        val ruleDescriptionText: DccValidationRule,
+        val countryInformationText: Pair<Int, String?>,
         val affectedFields: List<EvaluatedField>,
         val identifier: String
     ) : ValidationResultItem, HasPayloadDiffer {

@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
@@ -24,7 +23,6 @@ import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import org.joda.time.Instant
-import java.util.Locale
 import javax.inject.Inject
 
 @Reusable
@@ -43,7 +41,6 @@ class ValidationResultItemCreator @Inject constructor() {
             )
         }
 
-        val ruleDescription = rule.getRuleDescription().toLazyString()
         val countryInformation = rule.getCountryDescription()
 
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
@@ -52,7 +49,7 @@ class ValidationResultItemCreator @Inject constructor() {
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
-            ruleDescriptionText = ruleDescription,
+            ruleDescriptionText = rule,
             countryInformationText = countryInformation,
             affectedFields = affectedFields,
             identifier = identifier
@@ -137,20 +134,16 @@ class ValidationResultItemCreator @Inject constructor() {
     fun validationPassedHintVHItem(): ValidationPassedHintVH.Item = ValidationPassedHintVH.Item
 
     // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getCountryDescription(): LazyString = when (typeDcc) {
-        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
-            DccCountry(country).displayName()
+    private fun DccValidationRule.getCountryDescription(): Pair<Int, String?> = when (typeDcc) {
+        DccValidationRule.Type.ACCEPTANCE -> Pair(
+            R.string.validation_rules_acceptance_country,
+            country
         )
-        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString()
+        DccValidationRule.Type.INVALIDATION -> Pair(
+            R.string.validation_rules_invalidation_country,
+            null
+        )
         DccValidationRule.Type.BOOSTER_NOTIFICATION ->
             throw IllegalStateException("Booster notification rules are not allowed here!")
     }
-}
-
-// Apply rules from tech spec to decide which rule description to display
-fun DccValidationRule.getRuleDescription(): String {
-    val currentLocaleCode = Locale.getDefault().language
-    val descItem = description.find { it.languageCode == currentLocaleCode }
-        ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
-    return descItem?.description ?: identifier
 }
