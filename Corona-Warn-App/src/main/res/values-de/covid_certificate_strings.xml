@@ -237,7 +237,7 @@
     <!-- XTXT: Rule validation text for the validation passed screen  -->
     <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
     <!-- XTXT: Button text - Check another country -->
-    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+    <string name="validation_rules_result_valid_result_button">Für weiteres Land prüfen</string>
     <!-- Validation Failed Screen-->
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
