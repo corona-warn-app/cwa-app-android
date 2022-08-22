@@ -49,7 +49,6 @@ data class DccWalletInfo(
     @get:JsonIgnore
     val hasMaskState: Boolean
         get() = maskState?.visible ?: false
-
 }
 
 @JsonTypeInfo(
@@ -379,7 +378,8 @@ data class MaskState(
     val faqAnchor: String? = null,
 
     @JsonProperty("identifier")
-    val identifier: MaskStateIdentifier? = null) {
+    val identifier: MaskStateIdentifier? = null
+) {
 
     enum class MaskStateIdentifier(private val identifier: String) {
         REQUIRED("MASK_REQUIRED"),
@@ -391,4 +391,3 @@ data class MaskState(
 }
 
 internal const val REISSUANCE_DEFAULT_IDENTIFIER = "renew"
-
