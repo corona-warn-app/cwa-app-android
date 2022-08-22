@@ -46,6 +46,13 @@ enum class PersonColorShade(
         R.drawable.bg_certificate_grey,
         R.drawable.ic_bookmark,
         R.drawable.ic_admission_badge_1,
+    ),
+    GREEN(
+        R.color.starsGreenColor,
+        R.drawable.bg_person_overview_green,
+        R.drawable.bg_certificate_blue_1,
+        R.drawable.ic_bookmark_green,
+        R.drawable.ic_admission_badge_green,
     );
 
     @DrawableRes val defaultCertificateBg: Int = R.drawable.bg_certificate_grey
@@ -57,7 +64,7 @@ enum class PersonColorShade(
         fun shadeFor(index: Int): PersonColorShade {
             val values = values()
             // Excludes COLOR_INVALID, COLOR_UNDEFINED
-            return values.getOrElse(index.rem(values.size - 2)) { COLOR_1 }
+            return values.getOrElse(index.rem(values.size - 3)) { COLOR_1 }
         }
     }
 }
