@@ -33,8 +33,8 @@ data class DccWalletInfo(
     val certificateReissuance: CertificateReissuance? = null,
 
     @JsonProperty("certificatesRevokedByInvalidationRules")
-    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules>? = null
-
+    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules>? = null,
+    // ToDo maskState
 ) {
     @get:JsonIgnore
     val validUntilInstant: Instant
