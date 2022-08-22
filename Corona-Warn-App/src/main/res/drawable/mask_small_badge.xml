@@ -5,6 +5,5 @@
     <item
         android:drawable="@drawable/ic_mask"
         android:end="5dp"
-        android:start="5dp"
-        android:top="2dp" />
+        android:start="5dp" />
 </layer-list>
