@@ -41,16 +41,13 @@ class ValidationResultItemCreator @Inject constructor() {
             )
         }
 
-        val countryInformation = rule.getCountryDescription()
-
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
 
         val identifier = "${rule.identifier} (${rule.version})"
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
-            ruleDescriptionText = rule,
-            countryInformationText = countryInformation,
+            dccValidationRule = rule,
             affectedFields = affectedFields,
             identifier = identifier
         )
@@ -132,18 +129,4 @@ class ValidationResultItemCreator @Inject constructor() {
         )
 
     fun validationPassedHintVHItem(): ValidationPassedHintVH.Item = ValidationPassedHintVH.Item
-
-    // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getCountryDescription(): Pair<Int, String?> = when (typeDcc) {
-        DccValidationRule.Type.ACCEPTANCE -> Pair(
-            R.string.validation_rules_acceptance_country,
-            country
-        )
-        DccValidationRule.Type.INVALIDATION -> Pair(
-            R.string.validation_rules_invalidation_country,
-            null
-        )
-        DccValidationRule.Type.BOOSTER_NOTIFICATION ->
-            throw IllegalStateException("Booster notification rules are not allowed here!")
-    }
 }

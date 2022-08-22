@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.toResolvingString
 import java.util.Locale
 
 class BusinessRuleVH(
@@ -32,11 +31,18 @@ class BusinessRuleVH(
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         with(curItem) {
-            val (countryText, countryCode) = countryInformationText
             ruleIcon.setImageResource(ruleIconRes)
 
-            ruleDescription.text = ruleDescriptionText.getRuleDescription()
-            countryInformation.text = countryText.toResolvingString(countryName(countryCode)).get(context)
+            ruleDescription.text = dccValidationRule.getRuleDescription()
+            countryInformation.text = when (dccValidationRule.typeDcc) {
+                DccValidationRule.Type.ACCEPTANCE -> context.getString(
+                    R.string.validation_rules_acceptance_country,
+                    countryName(dccValidationRule.country)
+                )
+                DccValidationRule.Type.INVALIDATION -> context.getString(R.string.validation_rules_invalidation_country)
+                DccValidationRule.Type.BOOSTER_NOTIFICATION ->
+                    throw IllegalStateException("Booster notification rules are not allowed here!")
+            }
             adapter.update(affectedFields)
             ruleId.text = identifier
 
@@ -51,7 +57,7 @@ class BusinessRuleVH(
             Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
         } else ""
 
-    fun DccValidationRule.getRuleDescription(): String {
+    private fun DccValidationRule.getRuleDescription(): String {
         val currentLocaleCode = Locale.getDefault().language
         val descItem = description.find { it.languageCode == currentLocaleCode }
             ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
@@ -60,8 +66,7 @@ class BusinessRuleVH(
 
     data class Item(
         @DrawableRes val ruleIconRes: Int,
-        val ruleDescriptionText: DccValidationRule,
-        val countryInformationText: Pair<Int, String?>,
+        val dccValidationRule: DccValidationRule,
         val affectedFields: List<EvaluatedField>,
         val identifier: String
     ) : ValidationResultItem, HasPayloadDiffer {
