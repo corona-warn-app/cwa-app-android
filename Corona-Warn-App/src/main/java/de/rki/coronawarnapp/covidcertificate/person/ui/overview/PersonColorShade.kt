@@ -70,7 +70,7 @@ enum class PersonColorShade(
         fun shadeFor(index: Int): PersonColorShade {
             val values = values()
             // Excludes COLOR_INVALID, COLOR_UNDEFINED, GREEN from position based colouring
-            // these colours appears on specific conditions of person's certificates
+            // these colours appear on specific conditions of person's certificates
             return values.getOrElse(index.rem(values.size - 3)) { COLOR_1 }
         }
     }
