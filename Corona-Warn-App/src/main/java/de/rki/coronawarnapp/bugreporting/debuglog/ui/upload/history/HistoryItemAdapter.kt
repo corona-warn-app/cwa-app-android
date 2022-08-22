@@ -61,6 +61,6 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
     }
 
     companion object {
-        private val FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd - HH:mm:ss")
+        private val FORMATTER = DateTimeFormatter.ofPattern("MM.dd.yyyy - HH:mm:ss")
     }
 }
