@@ -57,9 +57,10 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
             }
             event.observe2(this@FederalStateSelectionFragment) {
                 when (it) {
-                    FederalStateSelectionViewModel.Events.FinishEvent -> {
-                        findNavController().popBackStack(R.id.mainFragment, false)
-                    }
+                    FederalStateSelectionViewModel.Events.FinishEvent -> findNavController().popBackStack(
+                        R.id.mainFragment,
+                        false
+                    )
                     is FederalStateSelectionViewModel.Events.OpenDistricts -> findNavController().navigate(
                         FederalStateSelectionFragmentDirections
                             .actionFederalStateSelectionFragmentToFederalStateSelectionFragment(
