@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
+import android.view.View
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding
@@ -49,6 +50,8 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
 
             sevenDayIncidenceAndHospitalizationCardContainer.contentDescription =
                 buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence, sevenDayHospitalization)
+            sevenDayIncidenceAndHospitalizationCardContainer.accessibilityLiveRegion =
+                View.ACCESSIBILITY_LIVE_REGION_ASSERTIVE
 
             locationLabel.text = getLocationLabel(context)
 
