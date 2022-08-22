@@ -124,4 +124,5 @@
     <color name="contactDiaryOverviewUnClickableColor">#FFFFFF</color>
     <color name="contactDiaryOverviewBorderColor">#E2E2E2</color>
     <color name="maskGBadgeColor">#1F5932</color>
+    <color name="mask_badge_color">#505968</color>
 </resources>
