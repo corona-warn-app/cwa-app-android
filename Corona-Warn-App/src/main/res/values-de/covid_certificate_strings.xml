@@ -241,7 +241,7 @@
         <item quantity="zero">"Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise."</item>
     </plurals>
     <!-- XTXT: Button text - Check another country -->
-    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+    <string name="validation_rules_result_valid_result_button">Für weiteres Land prüfen</string>
     <!-- Validation Failed Screen-->
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
