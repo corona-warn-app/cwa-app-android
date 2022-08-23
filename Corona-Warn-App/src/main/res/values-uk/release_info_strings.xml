@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Версія %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">"Це оновлення містить виправлення помилок застосунку. У ньому немає жодних нових функцій."</string>
+    <string name="release_info_version_body">""</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Це оновлення містить виправлення помилок застосунку. У ньому немає жодних нових функцій."</string>
     <!-- XBUT: Continue button for the release info screen -->

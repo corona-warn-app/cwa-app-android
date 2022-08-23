@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Sürüm %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">"Bu güncelleme ile hatalar düzeltilmektedir. Bu güncellemede yeni özellik sunulmamaktadır."</string>
+    <string name="release_info_version_body">""</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Bu güncelleme ile hatalar düzeltilmektedir. Bu güncellemede yeni özellik sunulmamaktadır."</string>
     <!-- XBUT: Continue button for the release info screen -->

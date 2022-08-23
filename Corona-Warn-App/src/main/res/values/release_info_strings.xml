@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Release %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">"This update corrects bugs in the app. It does not contain any new features."</string>
+    <string name="release_info_version_body">""</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"This update corrects bugs in the app. It does not contain any new features."</string>
     <!-- XBUT: Continue button for the release info screen -->
