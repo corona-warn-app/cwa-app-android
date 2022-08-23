@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -58,6 +59,8 @@ class SubmissionTestResultNoConsentFragment :
             if (it.coronaTest is FamilyCoronaTest) {
                 binding.toolbar.title = getText(R.string.submission_test_result_headline)
                 binding.familyMemberName.text = it.coronaTest.personName
+            } else {
+                binding.familyMemberName.isVisible = false
             }
         }
 
