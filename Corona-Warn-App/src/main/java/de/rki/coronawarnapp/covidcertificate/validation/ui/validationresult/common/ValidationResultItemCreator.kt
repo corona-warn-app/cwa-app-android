@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
 import javax.inject.Inject
 
 @Reusable
