@@ -234,7 +234,11 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"There are currently no entry rules for the selected country and selected time for this certificate type. Please note the information listed below."</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"%1$d rules of the destination country were reviewed successfully."</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one">"%1$d rule of the destination country was reviewed successfully."</item>
+        <item quantity="other">"%1$d rules of the destination country were reviewed successfully."</item>
+        <item quantity="zero">"There are currently no entry rules for the selected country and selected time for this certificate type. Please note the information listed below."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Check for Another Country"</string>
     <!-- Validation Failed Screen-->
