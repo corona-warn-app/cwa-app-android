@@ -233,8 +233,6 @@
     <string name="validation_rules_result_valid_header">"Сертификатът е валиден"</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"В момента няма правила относно влизането в избраната държава в посоченото време за този вид сертификат. Моля, обърнете внимание на информацията по-долу."</string>
-    <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"Успешно преразгледани правила за държавата на местоназначение: %1$d."</string>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Проверка за друга държава"</string>
     <!-- Validation Failed Screen-->

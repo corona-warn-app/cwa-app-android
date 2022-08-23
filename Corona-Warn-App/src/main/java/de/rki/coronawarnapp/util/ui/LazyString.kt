@@ -25,3 +25,18 @@ fun Int.toResolvingString(vararg formatArgs: Any): LazyString = object : LazyStr
         context.getString(this@toResolvingString)
     }
 }
+
+fun Int.toResolvingQuantityString(quantity: Int, vararg formatArgs: Any): LazyString = object : LazyString {
+    override fun get(context: Context): String = if (formatArgs.isNotEmpty()) {
+        context.resources.getQuantityString(
+            this@toResolvingQuantityString,
+            quantity,
+            *formatArgs
+        )
+    } else {
+        context.resources.getQuantityString(
+            this@toResolvingQuantityString,
+            quantity
+        )
+    }
+}
