@@ -6,11 +6,12 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaVal
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidator
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTime
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDateTime
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toLocaleDateTimeUtc
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Date
 import javax.inject.Inject
 
@@ -30,7 +31,12 @@ class DccValidator @Inject constructor(
     ): DccValidation {
         Timber.tag(TAG).v("validateDcc(country=%s)", userInput.arrivalCountry)
 
-        val signatureCheckPassed = isSignatureValid(certificate, userInput.arrivalDateTime.toDate())
+        val signatureCheckPassed = isSignatureValid(
+            certificate,
+            Date.from(
+                userInput.arrivalDateTime.atZone(ZoneId.systemDefault()).toInstant()
+            )
+        )
         val expirationCheckPassed = certificate.expiresAfter(userInput.arrivalDateTime)
         val jsonSchemaCheckPassed = dccJsonSchemaValidator.isValid(certificate.certificateJson).isValid
 
@@ -42,7 +48,7 @@ class DccValidator @Inject constructor(
 
         return DccValidation(
             userInput = userInput,
-            validatedAt = timeStamper.nowUTC,
+            validatedAt = timeStamper.nowJavaUTC,
             signatureCheckPassed = signatureCheckPassed,
             expirationCheckPassed = expirationCheckPassed,
             jsonSchemaCheckPassed = jsonSchemaCheckPassed,
@@ -66,5 +72,5 @@ class DccValidator @Inject constructor(
 
 @VisibleForTesting
 internal fun DccData<*>.expiresAfter(referenceDate: LocalDateTime): Boolean {
-    return header.expiresAt.toLocalDateTime(DateTimeZone.UTC) > referenceDate
+    return header.expiresAt.toJavaInstant().toLocaleDateTimeUtc() > referenceDate
 }
