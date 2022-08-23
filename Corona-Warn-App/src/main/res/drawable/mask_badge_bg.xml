@@ -3,5 +3,5 @@
     <corners android:radius="12dp" />
     <stroke
         android:width="2dp"
-        android:color="@color/mask_badge_color" />
+        android:color="@color/maskBadgeColor" />
 </shape>

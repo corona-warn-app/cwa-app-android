@@ -8,5 +8,5 @@
         android:left="10dp"
         android:right="10dp"
         android:top="3dp" />
-    <solid android:color="@color/maskGBadgeColor" />
+    <solid android:color="@color/maskGStatusBadgeColor" />
 </shape>

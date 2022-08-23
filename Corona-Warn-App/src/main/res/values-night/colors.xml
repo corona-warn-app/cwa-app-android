@@ -91,7 +91,7 @@
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardBorder</color>
     <color name="contactDiaryOverviewUnClickableColor">#000000</color>
     <color name="contactDiaryOverviewBorderColor">#434445</color>
-    <color name="maskGBadgeColor">#31A056</color>
-    <color name="mask_badge_color">#FFFFFF</color>
+    <color name="maskGStatusBadgeColor">#31A056</color>
+    <color name="maskBadgeColor">#FFFFFF</color>
 
 </resources>
