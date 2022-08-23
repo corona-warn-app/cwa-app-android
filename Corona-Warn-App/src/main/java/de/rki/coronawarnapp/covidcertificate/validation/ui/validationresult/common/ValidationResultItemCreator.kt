@@ -109,8 +109,11 @@ class ValidationResultItemCreator @Inject constructor() {
             userInput.arrivalDateTime.toLocalTime().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         return ValidationInputVH.Item(
             dateDetails = R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
-                userInput.arrivalCountry, "$dateFormat $timeFormat",
-                validatedAt.toUserTimeZone().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
+                userInput.arrivalCountry,
+                "$dateFormat $timeFormat",
+                validatedAt.toUserTimeZone().format(
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                )
             )
         )
     }
