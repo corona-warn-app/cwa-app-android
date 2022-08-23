@@ -11,7 +11,11 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.isHighestCertificateDisplayValid
+import de.rki.coronawarnapp.covidcertificate.person.core.isMaskOptional
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade.Companion.colorForState
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade.Companion.shadeFor
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -102,7 +106,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
         .mapIndexed { index, person ->
             val admissionState = person.dccWalletInfo?.admissionState
             val certificates = person.verificationCertificates
-            val color = PersonColorShade.shadeFor(index)
+            val color = colorForState(
+                validCertificate = person.isHighestCertificateDisplayValid,
+                isMaskOptional = person.isMaskOptional,
+                currentColor = shadeFor(index)
+            )
 
             PersonCertificateCard.Item(
                 overviewCertificates = certificates.map {
