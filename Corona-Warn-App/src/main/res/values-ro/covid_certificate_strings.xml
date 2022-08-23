@@ -233,13 +233,6 @@
     <string name="validation_rules_result_valid_header">"Certificatul este valabil"</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"În prezent nu există reguli de intrare pentru țara selectată și ora selectată pentru acest tip de certificat. Rețineți informațiile enumerate mai jos."</string>
-    <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <plurals name="validation_rules_result_valid_rule_text">
-        <item quantity="one"></item>
-        <item quantity="few"></item>
-        <item quantity="other">"%1$d reguli ale țării de destinație au fost revizuite cu succes."</item>
-        <item quantity="zero">"În prezent nu există reguli de intrare pentru țara selectată și ora selectată pentru acest tip de certificat. Rețineți informațiile enumerate mai jos."</item>
-    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Verificare pentru o altă țară"</string>
     <!-- Validation Failed Screen-->
