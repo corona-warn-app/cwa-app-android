@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
-import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
@@ -42,17 +41,13 @@ class ValidationResultItemCreator @Inject constructor() {
             )
         }
 
-        val ruleDescription = rule.getRuleDescription().toLazyString()
-        val countryInformation = rule.getCountryDescription()
-
         val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
 
         val identifier = "${rule.identifier} (${rule.version})"
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
-            ruleDescriptionText = ruleDescription,
-            countryInformationText = countryInformation,
+            dccValidationRule = rule,
             affectedFields = affectedFields,
             identifier = identifier
         )
@@ -137,22 +132,4 @@ class ValidationResultItemCreator @Inject constructor() {
         )
 
     fun validationPassedHintVHItem(): ValidationPassedHintVH.Item = ValidationPassedHintVH.Item
-
-    // Apply rules from tech spec to decide which rule description to display
-    private fun DccValidationRule.getCountryDescription(): LazyString = when (typeDcc) {
-        DccValidationRule.Type.ACCEPTANCE -> R.string.validation_rules_acceptance_country.toResolvingString(
-            DccCountry(country).displayName()
-        )
-        DccValidationRule.Type.INVALIDATION -> R.string.validation_rules_invalidation_country.toResolvingString()
-        DccValidationRule.Type.BOOSTER_NOTIFICATION ->
-            throw IllegalStateException("Booster notification rules are not allowed here!")
-    }
-}
-
-// Apply rules from tech spec to decide which rule description to display
-fun DccValidationRule.getRuleDescription(): String {
-    val currentLocaleCode = Locale.getDefault().language
-    val descItem = description.find { it.languageCode == currentLocaleCode }
-        ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
-    return descItem?.description ?: identifier
 }
