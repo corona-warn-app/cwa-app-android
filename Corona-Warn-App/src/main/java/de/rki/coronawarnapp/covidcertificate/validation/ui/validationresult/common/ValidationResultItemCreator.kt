@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
+import de.rki.coronawarnapp.util.ui.toResolvingQuantityString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import org.joda.time.Instant
 import java.util.Locale
@@ -70,7 +71,7 @@ class ValidationResultItemCreator @Inject constructor() {
         when (state) {
             DccValidation.State.PASSED -> {
                 subtitle = if (ruleCount > 0) {
-                    R.string.validation_rules_result_valid_rule_text.toResolvingString(ruleCount)
+                    R.plurals.validation_rules_result_valid_rule_text.toResolvingQuantityString(ruleCount, ruleCount)
                 } else {
                     R.string.validation_no_rules_available_valid_text.toResolvingString()
                 }

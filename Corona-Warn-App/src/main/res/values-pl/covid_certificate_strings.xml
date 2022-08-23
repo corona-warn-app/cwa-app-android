@@ -234,7 +234,13 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"Obecnie nie obowiązują żadne zasady dotyczące wjazdu do wybranego kraju i wybranego czasu dla tego typu certyfikatu. Zapoznaj się z poniższymi informacjami."</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"%1$d zasady obowiązujące w kraju docelowym zostały pomyślnie zweryfikowane."</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one"></item>
+        <item quantity="few"></item>
+        <item quantity="many">"%1$d zasady obowiązujące w kraju docelowym zostały pomyślnie zweryfikowane."</item>
+        <item quantity="other">"%1$d zasady obowiązujące w kraju docelowym zostały pomyślnie zweryfikowane."</item>
+        <item quantity="zero">"Obecnie nie obowiązują żadne zasady dotyczące wjazdu do wybranego kraju i wybranego czasu dla tego typu certyfikatu. Zapoznaj się z poniższymi informacjami."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Sprawdź dla innego kraju"</string>
     <!-- Validation Failed Screen-->

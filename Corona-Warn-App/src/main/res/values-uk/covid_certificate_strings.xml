@@ -234,7 +234,14 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"Наразі немає правил в’їзду для вибраної країни та вибраного часу для цього типу сертифіката. Зверніть увагу на інформацію, наведену нижче."</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"%1$d правила країни призначення були успішно переглянуті."</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <!-- TODO remove below tools:ignore="ImpliedQuantity" after translation -->
+        <item quantity="one" tools:ignore="ImpliedQuantity"></item>
+        <item quantity="few">"%1$d правила країни призначення були успішно переглянуті."</item>
+        <item quantity="many">"%1$d правила країни призначення були успішно переглянуті."</item>
+        <item quantity="other">"%1$d правила країни призначення були успішно переглянуті."</item>
+        <item quantity="zero">"Наразі немає правил в’їзду для вибраної країни та вибраного часу для цього типу сертифіката. Зверніть увагу на інформацію, наведену нижче."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Перевірте іншу країну"</string>
     <!-- Validation Failed Screen-->

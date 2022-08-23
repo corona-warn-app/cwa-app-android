@@ -235,7 +235,11 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise.</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one">Es wurde %1$d Regel des Reiselandes erfolgreich überprüft.</item>
+        <item quantity="other">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</item>
+        <item quantity="zero">"Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
     <!-- Validation Failed Screen-->
