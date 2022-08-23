@@ -23,7 +23,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Auf Ihrem digitalen COVID-Zertifikat wird angezeigt, ob Sie nach den aktuell gültigen Regeln von der Maskenpflicht befreit sind, oder eine Maske tragen müssen.</item>
+        <item>""</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
