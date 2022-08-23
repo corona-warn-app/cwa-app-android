@@ -152,7 +152,7 @@
     "longText": {
       "type": "string",
       "localizedText": {
-        "de": "Aufgrund Ihre Zertifikate [...]"
+        "de": "Aufgrund Ihrer Zertifikate [...]"
       },
       "parameters": [
       ]

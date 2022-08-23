@@ -238,7 +238,7 @@ val maskState = MaskState(
     ),
     longText = SingleText(
         type = "string",
-        localizedText = mapOf("de" to "Aufgrund Ihre Zertifikate [...]"),
+        localizedText = mapOf("de" to "Aufgrund Ihrer Zertifikate [...]"),
         parameters = listOf()
     ),
     faqAnchor = "dcc_admission_state",
