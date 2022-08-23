@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.person.core.isHighestCertificateDisplayValid
+import de.rki.coronawarnapp.covidcertificate.person.core.isMaskOptional
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
@@ -26,6 +28,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertifi
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade.Companion.colorForState
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -81,14 +84,20 @@ class PersonDetailsViewModel @AssistedInject constructor(
             return UiState(name = "", emptyList())
         }
 
-        val color = if (priorityCertificate.isDisplayValid) colorShade else PersonColorShade.COLOR_INVALID
+        val color = colorForState(
+            validCertificate = personCertificates.isHighestCertificateDisplayValid,
+            isMaskOptional = personCertificates.isMaskOptional,
+            // Person certificates can change in here, therefore if Mask is required again ignore Blue color shade from
+            // PersonOverview
+            currentColor = if (personCertificates.isMaskOptional) colorShade else PersonColorShade.COLOR_1
+        )
         colorShadeData.postValue(color)
 
         val certificateItems = mutableListOf<CertificateItem>()
         personCertificates.dccWalletInfo?.let { info ->
             // 1. Admission state tile
             if (info.admissionState.visible)
-                certificateItems.add(admissionStateItem(info.admissionState, personCertificates))
+                certificateItems.add(admissionStateItem(info.admissionState, personCertificates, color))
             // 2. Dcc reissuance tile
             if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
                 certificateItems.add(dccReissuanceItem(division, personCertificates))
@@ -112,7 +121,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 certificateItems.addCardItem(
                     certificate = cwaCert,
                     priorityCertificate = priorityCertificate,
-                    isLoading = isLoading
+                    isLoading = isLoading,
+                    colorShade = color,
                 )
             }
 
@@ -126,13 +136,20 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate,
-        isLoading: Boolean
+        isLoading: Boolean,
+        colorShade: PersonColorShade,
     ) {
         val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
-            is TestCertificate -> add(tcItem(certificate, isCurrentCertificate, isLoading))
-            is VaccinationCertificate -> add(vcItem(certificate, isCurrentCertificate, isLoading))
-            is RecoveryCertificate -> add(rcItem(certificate, isCurrentCertificate, isLoading))
+            is TestCertificate -> add(
+                tcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+            )
+            is VaccinationCertificate -> add(
+                vcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+            )
+            is RecoveryCertificate -> add(
+                rcItem(certificate, isCurrentCertificate, isLoading, colorShade)
+            )
         }
     }
 
@@ -147,7 +164,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private suspend fun admissionStateItem(
         admissionState: AdmissionState,
-        personCertificates: PersonCertificates
+        personCertificates: PersonCertificates,
+        colorShade: PersonColorShade,
     ) = AdmissionStatusCard.Item(
         titleText = format(admissionState.titleText),
         subtitleText = format(admissionState.subtitleText),
@@ -204,7 +222,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun rcItem(
         certificate: RecoveryCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        colorShade: PersonColorShade,
     ) = RecoveryCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -215,7 +234,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenRecoveryCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getDetailsColorShade(isCurrentCertificate, colorShade)
                 )
             )
         },
@@ -231,7 +250,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun vcItem(
         certificate: VaccinationCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        colorShade: PersonColorShade,
     ) = VaccinationCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -242,7 +262,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenVaccinationCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getDetailsColorShade(isCurrentCertificate, colorShade)
                 )
             )
         },
@@ -254,7 +274,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private fun tcItem(
         certificate: TestCertificate,
         isCurrentCertificate: Boolean,
-        isLoading: Boolean
+        isLoading: Boolean,
+        colorShade: PersonColorShade,
     ) = TestCertificateCard.Item(
         certificate = certificate,
         isCurrentCertificate = isCurrentCertificate,
@@ -265,7 +286,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             events.postValue(
                 OpenTestCertificateDetails(
                     containerId = certificate.containerId,
-                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                    colorShade = getDetailsColorShade(isCurrentCertificate, colorShade)
                 )
             )
         },
@@ -283,12 +304,13 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun getItemColorShade(
-        isValid: Boolean,
-        isCurrentCertificate: Boolean
+    private fun getDetailsColorShade(
+        isCurrentCertificate: Boolean,
+        colorShade: PersonColorShade
     ): PersonColorShade = when {
-        isValid && isCurrentCertificate -> colorShade
-        else -> PersonColorShade.COLOR_INVALID
+        !isCurrentCertificate -> PersonColorShade.COLOR_INVALID
+        colorShade == PersonColorShade.GREEN -> PersonColorShade.COLOR_1
+        else -> colorShade
     }
 
     data class UiState(

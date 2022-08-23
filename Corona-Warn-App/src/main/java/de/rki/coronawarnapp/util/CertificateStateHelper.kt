@@ -125,11 +125,7 @@ fun PersonOverviewItemBinding.setUIState(
 
     val context = root.context
     val valid = firstCertificate.cwaCertificate.isDisplayValid
-    val color = when {
-        valid -> item.colorShade
-        else -> PersonColorShade.COLOR_INVALID
-    }
-
+    val color = item.colorShade
     val badgeCount = item.badgeCount
     backgroundImage.setImageResource(color.background)
     starsImage.setImageDrawable(starsDrawable(context, color))

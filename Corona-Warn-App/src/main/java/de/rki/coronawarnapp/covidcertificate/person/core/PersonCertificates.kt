@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
@@ -50,3 +51,9 @@ data class VerificationCertificate(
     val cwaCertificate: CwaCovidCertificate,
     val buttonText: CclText? = null
 )
+
+val PersonCertificates.isMaskOptional: Boolean
+    get() = dccWalletInfo?.maskState?.identifier == MaskState.MaskStateIdentifier.OPTIONAL
+
+val PersonCertificates.isHighestCertificateDisplayValid: Boolean
+    get() = highestPriorityCertificate?.isDisplayValid == true

@@ -73,5 +73,15 @@ enum class PersonColorShade(
             // these colours appear on specific conditions of person's certificates
             return values.getOrElse(index.rem(values.size - 3)) { COLOR_1 }
         }
+
+        fun colorForState(
+            validCertificate: Boolean,
+            isMaskOptional: Boolean,
+            currentColor: PersonColorShade
+        ): PersonColorShade = when {
+            isMaskOptional -> GREEN
+            validCertificate -> currentColor
+            else -> COLOR_INVALID
+        }
     }
 }
