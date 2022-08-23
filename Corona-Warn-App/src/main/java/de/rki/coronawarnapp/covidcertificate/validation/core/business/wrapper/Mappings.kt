@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
+import de.rki.coronawarnapp.util.toJavaInstant
 import dgca.verifier.app.engine.Result
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
@@ -16,31 +17,24 @@ import dgca.verifier.app.engine.data.ExternalParameter
 import dgca.verifier.app.engine.data.Rule
 import dgca.verifier.app.engine.data.RuleCertificateType
 import dgca.verifier.app.engine.data.Type
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal fun assembleExternalParameter(
     certificate: DccData<*>,
-    validationDateTime: DateTime,
+    validationDateTime: ZonedDateTime,
     countryCode: String,
     valueSets: Map<String, List<String>>,
 ): ExternalParameter {
     // convert to utc - engine does not like other tz
-    val validationClock = validationDateTime
-        .toDateTime(DateTimeZone.UTC)
-        .asZonedDateTime(UTC_ZONE_ID)
-
+    val validationClock = validationDateTime.withZoneSameInstant(UTC_ZONE_ID)
     return ExternalParameter(
         kid = certificate.kid,
         validationClock = validationClock,
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
-        exp = certificate.header.expiresAt.toZonedDateTime(UTC_ZONE_ID),
-        iat = certificate.header.issuedAt.toZonedDateTime(UTC_ZONE_ID)
+        exp = certificate.header.expiresAt.toJavaInstant().atZone(UTC_ZONE_ID),
+        iat = certificate.header.issuedAt.toJavaInstant().atZone(UTC_ZONE_ID)
     )
 }
 
@@ -59,7 +53,7 @@ internal val DccValidationRule.asExternalRule: Rule
         engine = engine,
         engineVersion = engineVersion,
         ruleCertificateType = certificateType.asExternalCertificateType,
-        descriptions = description.map { it.languageCode to it.description }.toMap(),
+        descriptions = description.associate { it.languageCode to it.description },
         validFrom = validFrom.toZonedDateTime(),
         validTo = validTo.toZonedDateTime(),
         affectedString = affectedFields,
@@ -121,10 +115,6 @@ private val String.asExternalCertificateType: RuleCertificateType
         else -> throw IllegalArgumentException()
     }
 
-fun Instant.toZonedDateTime(zoneId: ZoneId): ZonedDateTime {
-    return ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(this.millis), zoneId)
-}
-
 @VisibleForTesting
 internal fun String.toZonedDateTime(): ZonedDateTime {
     return ZonedDateTime.parse(this)
@@ -151,7 +141,7 @@ internal val DccData<out DccV1.MetaData>.typeString: String
     }
 
 internal fun List<DccValidationRule>.filterRelevantRules(
-    validationDateTime: DateTime,
+    validationDateTime: ZonedDateTime,
     certificateType: String,
     country: DccCountry,
 ): List<DccValidationRule> = this
@@ -169,17 +159,6 @@ internal fun List<DccValidationRule>.filterRelevantRules(
         entry.value.maxByOrNull { it.versionSemVer }
     }
     .toList()
-
-fun DateTime.asZonedDateTime(zoneId: ZoneId): ZonedDateTime = ZonedDateTime.of(
-    year,
-    monthOfYear,
-    dayOfMonth,
-    hourOfDay,
-    minuteOfHour,
-    secondOfMinute,
-    0,
-    zoneId
-)
 
 internal const val GENERAL = "General"
 internal const val TEST = "Test"

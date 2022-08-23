@@ -6,10 +6,10 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH.Item
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultTechnicalFailedItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class TechnicalValidationFailedVH(
     parent: ViewGroup
@@ -40,8 +40,8 @@ class TechnicalValidationFailedVH(
 
             textExpiredDate.text = context.getString(
                 R.string.validation_rule_technical_error_date_expired_format,
-                curItem.certificateExpiresAt.toShortDayFormat(),
-                curItem.certificateExpiresAt.toShortTimeFormat(),
+                curItem.certificateExpiresAt.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                curItem.certificateExpiresAt.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
             )
         }
     }

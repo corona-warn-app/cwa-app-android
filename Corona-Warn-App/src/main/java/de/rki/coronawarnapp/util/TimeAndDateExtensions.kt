@@ -82,7 +82,7 @@ object TimeAndDateExtensions {
      */
     fun Instant.toDayFormat(): String = toString(dayFormatter)
 
-    fun LocalDate.toInstantMidnightUtc() =
+    fun LocalDate.toInstantMidnightUtc(): Instant =
         this.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
 
     /**
