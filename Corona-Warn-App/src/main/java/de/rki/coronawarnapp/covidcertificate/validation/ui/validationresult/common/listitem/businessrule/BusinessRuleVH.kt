@@ -52,10 +52,8 @@ class BusinessRuleVH(
         }
     }
 
-    private fun countryName(countryCode: String?, userLocale: Locale = Locale.getDefault()): String =
-        if (countryCode != null) {
-            Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
-        } else ""
+    private fun countryName(countryCode: String, userLocale: Locale = Locale.getDefault()): String =
+        Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
 
     private fun DccValidationRule.getRuleDescription(): String {
         val currentLocaleCode = Locale.getDefault().language
