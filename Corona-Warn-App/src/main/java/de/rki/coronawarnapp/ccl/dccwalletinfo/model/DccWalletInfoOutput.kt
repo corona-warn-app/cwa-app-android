@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState.MaskStateIdentifier.OPTIONAL
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState.MaskStateIdentifier.REQUIRED
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.ACTION_RENEW
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
@@ -48,7 +50,8 @@ data class DccWalletInfo(
 
     @get:JsonIgnore
     val hasMaskState: Boolean
-        get() = maskState?.visible ?: false
+        get() = (maskState?.visible ?: false) &&
+            maskState?.identifier in listOf(REQUIRED, OPTIONAL)
 }
 
 @JsonTypeInfo(
