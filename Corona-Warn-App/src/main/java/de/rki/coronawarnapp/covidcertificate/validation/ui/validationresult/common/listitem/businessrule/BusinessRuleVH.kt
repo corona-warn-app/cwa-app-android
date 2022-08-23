@@ -3,13 +3,14 @@ package de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.com
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.BaseValidationResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.EvaluatedField
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationResultItem
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.LazyString
+import java.util.Locale
 
 class BusinessRuleVH(
     parent: ViewGroup
@@ -31,8 +32,17 @@ class BusinessRuleVH(
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         with(curItem) {
             ruleIcon.setImageResource(ruleIconRes)
-            ruleDescription.text = ruleDescriptionText.get(context)
-            countryInformation.text = countryInformationText.get(context)
+
+            ruleDescription.text = dccValidationRule.getRuleDescription()
+            countryInformation.text = when (dccValidationRule.typeDcc) {
+                DccValidationRule.Type.ACCEPTANCE -> context.getString(
+                    R.string.validation_rules_acceptance_country,
+                    countryName(dccValidationRule.country)
+                )
+                DccValidationRule.Type.INVALIDATION -> context.getString(R.string.validation_rules_invalidation_country)
+                DccValidationRule.Type.BOOSTER_NOTIFICATION ->
+                    throw IllegalStateException("Booster notification rules are not allowed here!")
+            }
             adapter.update(affectedFields)
             ruleId.text = identifier
 
@@ -42,10 +52,19 @@ class BusinessRuleVH(
         }
     }
 
+    private fun countryName(countryCode: String, userLocale: Locale = Locale.getDefault()): String =
+        Locale(userLocale.language, countryCode.uppercase()).getDisplayCountry(userLocale)
+
+    private fun DccValidationRule.getRuleDescription(): String {
+        val currentLocaleCode = Locale.getDefault().language
+        val descItem = description.find { it.languageCode == currentLocaleCode }
+            ?: description.find { it.languageCode == "en" } ?: description.firstOrNull()
+        return descItem?.description ?: identifier
+    }
+
     data class Item(
         @DrawableRes val ruleIconRes: Int,
-        val ruleDescriptionText: LazyString,
-        val countryInformationText: LazyString,
+        val dccValidationRule: DccValidationRule,
         val affectedFields: List<EvaluatedField>,
         val identifier: String
     ) : ValidationResultItem, HasPayloadDiffer {
