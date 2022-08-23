@@ -55,58 +55,58 @@ class MappingsTest : BaseTest() {
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.0",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // Has newer version
         val vacA2 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.1",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // :)
         val vacA3 = createDccRule(
             certificateType = RuleCertificateType.VACCINATION,
             identifier = "VR-DE-1",
             version = "1.0.2",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
             country = "NL"
         ) // Wrong arrival country
         val vacB1 = createDccRule(
             certificateType = RuleCertificateType.TEST,
             identifier = "TR-DE-2",
             version = "1.0.0",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // Wrong type
         val genA1 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.0",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // Has newer version
         val genA2 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "1.0.1",
-            validFrom = validationClock.minus(100, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.minus(100, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // :)
         val genA3 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
-            validFrom = validationClock.plus(1, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.plus(100, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.plus(1, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.plus(100, ChronoUnit.MILLIS).toString(),
         ) // validFrom is in the future
         val genA4 = createDccRule(
             certificateType = RuleCertificateType.GENERAL,
             identifier = "GR-DE-1",
             version = "2.0.1",
-            validFrom = validationClock.plus(1, ChronoUnit.DAYS).toString(),
-            validTo = validationClock.minus(1, ChronoUnit.DAYS).toString(),
+            validFrom = validationClock.plus(1, ChronoUnit.MILLIS).toString(),
+            validTo = validationClock.minus(1, ChronoUnit.MILLIS).toString(),
         ) // validTo is in the past
 
         val genA5 = createDccRule(
