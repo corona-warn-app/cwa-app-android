@@ -15,7 +15,10 @@ internal class DccWalletInfoParserTest : BaseTest() {
     @Test
     fun `Deserialize DCCWalletInfo`() {
         javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output.json").use {
-            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfo
+            val output = mapper.readValue<DccWalletInfo>(it)
+            output shouldBe dccWalletInfo
+            output.hasReissuance shouldBe false
+            output.hasMaskState shouldBe false
         }
     }
 
@@ -115,6 +118,22 @@ internal class DccWalletInfoParserTest : BaseTest() {
             mapper.writeValueAsString(dccWalletInfoWithCertificatesRevokedByInvalidationRules)
                 .toComparableJsonPretty() shouldBe it.readText().toComparableJsonPretty()
         }
+    }
+
+    @Test
+    fun `Deserialize DCCWalletInfo with MaskState`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_mask_state.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoWithMaskState
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo with MaskState`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_mask_state.json").bufferedReader()
+            .use {
+                mapper.writeValueAsString(dccWalletInfoWithMaskState).toComparableJsonPretty() shouldBe
+                    it.readText().toComparableJsonPretty()
+            }
     }
 }
 

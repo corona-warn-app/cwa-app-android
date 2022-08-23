@@ -34,7 +34,9 @@ data class DccWalletInfo(
 
     @JsonProperty("certificatesRevokedByInvalidationRules")
     val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules>? = null,
-    // ToDo maskState
+
+    @JsonProperty("maskState")
+    val maskState: MaskState? = null
 ) {
     @get:JsonIgnore
     val validUntilInstant: Instant
@@ -42,8 +44,11 @@ data class DccWalletInfo(
 
     @get:JsonIgnore
     val hasReissuance: Boolean
-        get() = certificateReissuance != null &&
-            certificateReissuance.reissuanceDivision.visible
+        get() = certificateReissuance?.reissuanceDivision?.visible ?: false
+
+    @get:JsonIgnore
+    val hasMaskState: Boolean
+        get() = maskState?.visible ?: false
 }
 
 @JsonTypeInfo(
@@ -181,19 +186,19 @@ data class BoosterNotification(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CclText?,
+    val titleText: CclText? = null,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CclText?,
+    val subtitleText: CclText? = null,
 
     @JsonProperty("longText")
-    val longText: CclText?,
+    val longText: CclText? = null,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String?,
+    val faqAnchor: String? = null,
 
     @JsonProperty("identifier")
-    val identifier: String?
+    val identifier: String? = null
 )
 
 data class CertificateRef(
@@ -339,7 +344,7 @@ data class ReissuanceDivision(
     val faqAnchor: String?,
 
     @JsonProperty("identifier")
-    val identifier: String? = DEFAULT_IDENTIFIER,
+    val identifier: String? = REISSUANCE_DEFAULT_IDENTIFIER,
 
     @JsonProperty("listTitleText")
     val listTitleText: CclText? = null,
@@ -353,4 +358,36 @@ data class CertificatesRevokedByInvalidationRules(
     val certificateRef: CertificateRef
 )
 
-internal const val DEFAULT_IDENTIFIER = "renew"
+data class MaskState(
+    @JsonProperty("visible")
+    val visible: Boolean = false,
+
+    @JsonProperty("badgeText")
+    val badgeText: CclText? = null,
+
+    @JsonProperty("titleText")
+    val titleText: CclText? = null,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CclText? = null,
+
+    @JsonProperty("longText")
+    val longText: CclText? = null,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String? = null,
+
+    @JsonProperty("identifier")
+    val identifier: MaskStateIdentifier? = null
+) {
+
+    enum class MaskStateIdentifier(private val identifier: String) {
+        REQUIRED("MASK_REQUIRED"),
+        OPTIONAL("MASK_OPTIONAL"),
+        OTHER("OTHER");
+        @JsonValue
+        fun value() = identifier
+    }
+}
+
+internal const val REISSUANCE_DEFAULT_IDENTIFIER = "renew"
