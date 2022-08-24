@@ -33,10 +33,10 @@ class MaskRequirementsCard(parent: ViewGroup) :
         if (curItem.badgeState != null) {
             badge.isVisible = true
             when (curItem.badgeState) {
-                MaskState.MaskStateIdentifier.REQUIRED -> badge.background =
-                    context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
-                MaskState.MaskStateIdentifier.OPTIONAL -> badge.background =
-                    context.getDrawableCompat(curItem.colorShade.noMaskSmallBadge)
+                MaskState.MaskStateIdentifier.REQUIRED ->
+                    badge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
+                MaskState.MaskStateIdentifier.OPTIONAL ->
+                    badge.background = context.getDrawableCompat(curItem.colorShade.noMaskSmallBadge)
                 else -> badge.isVisible = false
             }
         }
