@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
 import android.widget.TextView
@@ -137,8 +138,15 @@ fun PersonOverviewItemBinding.setUIState(
     val statusBadgeText = item.admissionBadgeText
     qrCodeCard.apply {
         loadQrImage(firstCertificate.cwaCertificate)
-        statusText.isVisible = statusBadgeText.isNotEmpty()
-        statusBadge.isVisible = statusBadgeText.isNotEmpty()
+        if (item.hasMaskState) {
+            setMaskBadge(maskBadge, item, color)
+        }
+        if (statusBadgeText.isEmpty() && !item.hasMaskState) {
+            statusBadge.visibility = View.GONE
+        } else if (statusBadgeText.isEmpty() && item.hasMaskState) {
+            statusBadge.visibility = View.INVISIBLE
+        }
+        statusBadge.setBackgroundResource(color.admissionBadgeBg)
         if (statusBadgeText.isNotEmpty()) {
             statusBadge.text = statusBadgeText
         }
@@ -168,6 +176,15 @@ fun PersonOverviewItemBinding.setUIState(
         )
 
         else -> updateExpirationViews()
+    }
+}
+
+private fun setMaskBadge(maskBadge: TextView, item: PersonCertificateCard.Item, color: PersonColorShade) {
+    maskBadge.text = item.maskBadgeText
+    maskBadge.setBackgroundResource(color.maskLargeBadgeBg)
+    maskBadge.setCompoundDrawablesWithIntrinsicBounds(color.maskIcon, 0, 0, 0)
+    if (item.maskBadgeWhiteTextColor) {
+        maskBadge.setTextColor(Color.WHITE)
     }
 }
 

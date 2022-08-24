@@ -9,13 +9,20 @@
     android:padding="12dp">
 
     <TextView
-        android:id="@+id/status_text"
-        style="@style/subtitleBoldSixteen"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/person_overview_status_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/mask_badge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/maskBadgeColor"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status_badge"
+        tools:text="Keine Maskenpflicht"
+        tools:drawableLeft="@drawable/ic_no_mask"
+        tools:background="@drawable/no_mask_badge_bg"/>
 
     <TextView
         android:id="@+id/status_badge"
@@ -25,7 +32,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/status_text"
+        app:layout_constraintBottom_toBottomOf="@id/mask_badge"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"

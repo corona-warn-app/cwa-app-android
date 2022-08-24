@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="12dp" />
+    <padding
+        android:top="3dp"
+        android:bottom="3dp"
+        android:left="8dp"
+        android:right="10dp" />
     <stroke
         android:width="2dp"
         android:color="@color/maskBadgeColor" />
