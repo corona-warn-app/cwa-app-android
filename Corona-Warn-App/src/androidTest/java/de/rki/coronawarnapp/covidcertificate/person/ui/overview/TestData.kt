@@ -85,11 +85,7 @@ fun maskFree() = mutableListOf<PersonCertificatesItem>().apply {
         PersonCertificateCard.Item(
             overviewCertificates = listOf(
                 PersonCertificateCard.Item.OverviewCertificate(
-                    mockVaccinationCertificate("Andrea Schneider"),
-                    buttonText = when (Locale.getDefault()) {
-                        Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                        else -> "2G Certificate"
-                    }
+                    mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
             admissionBadgeText = "2G",
@@ -110,17 +106,12 @@ fun maskReqiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
         PersonCertificateCard.Item(
             overviewCertificates = listOf(
                 PersonCertificateCard.Item.OverviewCertificate(
-                    mockVaccinationCertificate("Andrea Schneider"),
-                    buttonText = when (Locale.getDefault()) {
-                        Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                        else -> "2G Certificate"
-                    }
+                    mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
             admissionBadgeText = "2G",
             hasMaskState = true,
             maskBadgeText = "Maskenpflicht",
-            maskBadgeWhiteTextColor = false,
             colorShade = PersonColorShade.COLOR_3,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -131,6 +122,22 @@ fun maskReqiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
 }
 
 fun maskInvalidOutdated() = mutableListOf<PersonCertificatesItem>().apply {
+    add(
+        PersonCertificateCard.Item(
+            overviewCertificates = listOf(
+                PersonCertificateCard.Item.OverviewCertificate(
+                    mockInvalidVaccinationCertificate("Andrea Schneider")
+                )
+            ),
+            hasMaskState = true,
+            maskBadgeText = "Maskenpflicht",
+            colorShade = PersonColorShade.COLOR_INVALID,
+            badgeCount = 0,
+            onClickAction = { _, _ -> },
+            onCovPassInfoAction = {},
+            onCertificateSelected = {},
+        )
+    )
 }
 
 fun noMaskInfoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
@@ -138,11 +145,7 @@ fun noMaskInfoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
         PersonCertificateCard.Item(
             overviewCertificates = listOf(
                 PersonCertificateCard.Item.OverviewCertificate(
-                    mockVaccinationCertificate("Andrea Schneider"),
-                    buttonText = when (Locale.getDefault()) {
-                        Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                        else -> "2G Certificate"
-                    }
+                    mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
             admissionBadgeText = "2G",
@@ -161,11 +164,7 @@ fun noMaskInfoNoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
         PersonCertificateCard.Item(
             overviewCertificates = listOf(
                 PersonCertificateCard.Item.OverviewCertificate(
-                    mockVaccinationCertificate("Andrea Schneider"),
-                    buttonText = when (Locale.getDefault()) {
-                        Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                        else -> "2G Certificate"
-                    }
+                    mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
             hasMaskState = false,
@@ -430,5 +429,25 @@ private fun mockVaccinationCertificate(name: String): VaccinationCertificate =
         )
         every { isDisplayValid } returns true
         every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+    }
+
+private fun mockInvalidVaccinationCertificate(name: String): VaccinationCertificate =
+    mockk<VaccinationCertificate>().apply {
+        every { headerExpiresAt } returns Instant.now().plus(20)
+        every { containerId } returns VaccinationCertificateContainerId("2")
+        val localDate = Instant.parse("2019-06-01T11:35:00.000Z").toLocalDateUserTz()
+        every { fullName } returns name
+        every { fullNameFormatted } returns name
+        every { doseNumber } returns 2
+        every { totalSeriesOfDoses } returns 2
+        every { vaccinatedOn } returns localDate.minusDays(15)
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized",
+            dateOfBirthFormatted = "1943-04-18"
+        )
+        every { isDisplayValid } returns false
+        every { state } returns CwaCovidCertificate.State.Invalid()
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
     }

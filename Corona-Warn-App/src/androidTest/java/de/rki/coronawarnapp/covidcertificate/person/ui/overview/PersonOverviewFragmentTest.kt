@@ -208,6 +208,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_mask_invalid() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskInvalidOutdated()))
+        takeSelfieWithBottomNavBadge("mask_invalid", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_many_persons() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(personsItems()))
         takeSelfie("many_persons")
