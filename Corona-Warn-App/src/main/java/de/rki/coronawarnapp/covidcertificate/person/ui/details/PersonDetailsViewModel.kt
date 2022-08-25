@@ -8,6 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.VaccinationState
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
@@ -23,6 +24,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.MaskRequirementsCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -95,17 +97,19 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         val certificateItems = mutableListOf<CertificateItem>()
         personCertificates.dccWalletInfo?.let { info ->
-            // 1. Admission state tile
+            // 1. Mask state tile
+            if (info.hasMaskState) info.maskState?.let { state -> certificateItems.add(maskStateItem(state, color)) }
+            // 2. Admission state tile
             if (info.admissionState.visible)
                 certificateItems.add(admissionStateItem(info.admissionState, personCertificates, color))
-            // 2. Dcc reissuance tile
+            // 3. Dcc reissuance tile
             if (info.hasReissuance) info.certificateReissuance?.reissuanceDivision?.let { division ->
                 certificateItems.add(dccReissuanceItem(division, personCertificates))
             }
-            // 3. Booster notification tile
+            // 4. Booster notification tile
             if (info.boosterNotification.visible)
                 certificateItems.add(boosterItem(info.boosterNotification, personCertificates))
-            // 4.Vaccination state tile
+            // 5.Vaccination state tile
             if (info.vaccinationState.visible)
                 certificateItems.add(vaccinationInfoItem(info.vaccinationState))
         }
@@ -152,6 +156,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
             )
         }
     }
+
+    private suspend fun maskStateItem(
+        maskState: MaskState,
+        colorShade: PersonColorShade
+    ) = MaskRequirementsCard.Item(
+        titleText = format(maskState.titleText),
+        subtitleText = format(maskState.subtitleText),
+        badgeState = maskState.identifier,
+        longText = format(maskState.longText),
+        faqAnchor = format(maskState.faqAnchor),
+        colorShade = colorShade
+    )
 
     private suspend fun vaccinationInfoItem(
         vaccinationState: VaccinationState

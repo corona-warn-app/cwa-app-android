@@ -13,6 +13,7 @@ enum class PersonColorShade(
     @DrawableRes val maskIcon: Int = R.drawable.ic_mask,
     @DrawableRes val maskLargeBadgeBg: Int = R.drawable.mask_badge_bg,
     @DrawableRes val maskSmallBadge: Int = R.drawable.mask_small_badge,
+    @DrawableRes val noMaskSmallBadge: Int = R.drawable.no_mask_small_badge
 ) {
 
     COLOR_1(
