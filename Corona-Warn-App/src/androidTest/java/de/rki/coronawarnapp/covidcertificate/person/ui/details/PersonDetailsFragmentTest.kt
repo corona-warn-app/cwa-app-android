@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import android.app.Person
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
