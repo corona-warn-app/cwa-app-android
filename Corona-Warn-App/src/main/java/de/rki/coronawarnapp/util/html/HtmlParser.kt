@@ -13,16 +13,9 @@ class HtmlParser @Inject constructor(
     private val assets: AssetManager
 ) {
 
-    fun parseByAssetPath(path: String): Spanned = assets.open(path).bufferedReader().use {
-        Timber.v("parseByAssetPath($path)")
-        parse(it.readText())
-    }
-
-    fun parse(html: String): Spanned {
-        val (result, time) = measureTimeMillisWithResult {
-            HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    fun parseByAssetPath(path: String): String = assets.open(path).bufferedReader()
+        .use {
+            Timber.v("parseByAssetPath($path)")
+            it.readText()
         }
-        Timber.v("parse(html.length=${html.length}) took ${time}ms")
-        return result
-    }
 }

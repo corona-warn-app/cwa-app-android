@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.webkit.WebView
 import android.widget.ImageView
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
@@ -62,4 +63,15 @@ fun setTint(view: ImageView, color: Int) {
 @BindingAdapter("indicatorColor")
 fun setIndicatorColor(view: CircularProgressIndicator, color: Int) {
     view.setIndicatorColor(color)
+}
+
+@BindingAdapter("loadAssetData")
+fun loadAssetData(webView: WebView, data: String) {
+    webView.loadDataWithBaseURL(
+        null,
+        data,
+        "text/HTML",
+        "UTF-8",
+        null
+    )
 }

@@ -78,6 +78,6 @@ fun formatVisibilityText(text: String?): Int = formatVisibility(text != null && 
  */
 fun formatVisibilityText(text: CharSequence?): Int = formatVisibility(text != null && text != "")
 
-fun parseHtmlFromAssets(context: Context, path: String): Spanned {
+fun parseHtmlFromAssets(context: Context, path: String): String {
     return HtmlParser(context.assets).parseByAssetPath(path)
 }
