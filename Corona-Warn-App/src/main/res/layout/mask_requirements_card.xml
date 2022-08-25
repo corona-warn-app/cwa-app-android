@@ -60,11 +60,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/confirmed_status_faq_text"
+        android:text="@string/mask_requirements_faq_text"
         android:textColorLink="@color/colorTextTint"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/body"
         app:layout_constraintTop_toBottomOf="@id/body"
-        tools:text="Mehr Informationen zur Maskenbefreiung  in den FAQ." />
+        tools:text="Mehr Informationen zur Maskenbefreiung in den FAQ." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

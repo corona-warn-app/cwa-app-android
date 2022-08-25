@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- ####################################
        Special string files for the strings
@@ -347,7 +348,8 @@
 
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"For further information, please see our FAQ page."</string>
-
+    <!-- XTXT: Mask requirements card FAQ link -->
+    <string name="mask_requirements_faq_text">"Mehr Informationen zur Maskenbefreiung in den FAQ."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Status for the following federal state"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->

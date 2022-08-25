@@ -32,13 +32,7 @@ class MaskRequirementsCard(parent: ViewGroup) :
         body.text = curItem.longText
         if (curItem.badgeState != null) {
             badge.isVisible = true
-            when (curItem.badgeState) {
-                MaskState.MaskStateIdentifier.REQUIRED ->
-                    badge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
-                MaskState.MaskStateIdentifier.OPTIONAL ->
-                    badge.background = context.getDrawableCompat(curItem.colorShade.noMaskSmallBadge)
-                else -> badge.isVisible = false
-            }
+            badge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
         }
         faq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
