@@ -631,6 +631,7 @@
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/colorSecondary</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
     </style>
 
     <style name="CardOverFlowButton">
