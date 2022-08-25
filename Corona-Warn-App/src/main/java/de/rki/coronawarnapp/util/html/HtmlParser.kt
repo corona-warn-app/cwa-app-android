@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.util.html
 
 import android.content.res.AssetManager
-import android.text.Spanned
-import androidx.core.text.HtmlCompat
 import dagger.Reusable
-import de.rki.coronawarnapp.util.debug.measureTimeMillisWithResult
 import timber.log.Timber
 import javax.inject.Inject
 

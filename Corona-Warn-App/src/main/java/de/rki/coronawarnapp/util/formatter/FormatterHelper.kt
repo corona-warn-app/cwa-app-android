@@ -3,7 +3,6 @@
 package de.rki.coronawarnapp.util.formatter
 
 import android.content.Context
-import android.text.Spanned
 import android.view.View
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.html.HtmlParser
