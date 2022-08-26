@@ -46,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_normal"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/onboarding_headline"
                     app:layout_constraintEnd_toEndOf="parent"
