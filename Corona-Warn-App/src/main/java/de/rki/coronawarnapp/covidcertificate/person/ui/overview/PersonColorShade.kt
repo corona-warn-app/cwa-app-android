@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
 
+@Suppress("LongParameterList")
 enum class PersonColorShade(
     @ColorRes val starsTint: Int,
     @DrawableRes val background: Int,
