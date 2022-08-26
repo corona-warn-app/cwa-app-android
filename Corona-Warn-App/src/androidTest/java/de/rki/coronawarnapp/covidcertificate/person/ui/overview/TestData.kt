@@ -91,7 +91,6 @@ fun maskFree() = mutableListOf<PersonCertificatesItem>().apply {
             admissionBadgeText = "2G",
             hasMaskState = true,
             maskBadgeText = "Keine Maskenpflicht",
-            maskBadgeWhiteTextColor = true,
             colorShade = PersonColorShade.GREEN,
             badgeCount = 0,
             onClickAction = { _, _ -> },
