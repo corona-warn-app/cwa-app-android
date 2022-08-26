@@ -30,6 +30,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
+import de.rki.coronawarnapp.covidcertificate.validation.core.settings.DccValidationSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetServer
@@ -274,4 +275,7 @@ object MockProvider {
 
     @Provides
     fun provideDefaultExposureDetectionTracker(): DefaultExposureDetectionTracker = mockk(relaxed = true)
+
+    @Provides
+    fun provideDccValidationSettings(): DccValidationSettings = mockk(relaxed = true)
 }

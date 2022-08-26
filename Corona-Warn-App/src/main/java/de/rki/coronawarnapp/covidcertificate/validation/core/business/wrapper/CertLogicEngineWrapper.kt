@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTime
 import timber.log.Timber
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @Reusable
@@ -20,7 +20,7 @@ class CertLogicEngineWrapper @Inject constructor(
 
     suspend fun process(
         rules: List<DccValidationRule>,
-        validationDateTime: DateTime,
+        validationDateTime: ZonedDateTime,
         certificate: DccData<out DccV1.MetaData>,
         countryCode: String,
     ): Set<EvaluatedDccRule> {

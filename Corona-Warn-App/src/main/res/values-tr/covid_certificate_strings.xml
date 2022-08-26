@@ -233,8 +233,6 @@
     <string name="validation_rules_result_valid_header">"Sertifika Geçerli"</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"Bu sertifika türü için seçilen ülke ve seçilen zamana ilişkin herhangi bir giriş kuralı bulunmamaktadır. Lütfen aşağıda listelenen bilgileri not edin."</string>
-    <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"Gidilecek ülkenin %1$d kuralları başarıyla incelendi."</string>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Başka Ülke İçin Kontrol Et"</string>
     <!-- Validation Failed Screen-->
