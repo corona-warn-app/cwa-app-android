@@ -71,7 +71,7 @@ class ValidationResultItemCreator @Inject constructor() {
                 title = "".toLazyString()
             }
             DccValidation.State.OPEN -> {
-                title = R.string.validation_rules_open_header_title.toResolvingString()
+                title = R.string.validation_start_note_subtitle.toResolvingString()
                 subtitle = R.string.validation_rules_open_header_subtitle.toResolvingString()
             }
             DccValidation.State.TECHNICAL_FAILURE -> {
