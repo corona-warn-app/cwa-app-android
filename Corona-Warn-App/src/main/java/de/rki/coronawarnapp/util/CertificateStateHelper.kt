@@ -140,14 +140,19 @@ fun PersonOverviewItemBinding.setUIState(
         if (item.hasMaskState) {
             setMaskBadge(maskBadge, item, color)
         }
+        statusBadge.setBackgroundResource(color.admissionBadgeBg)
+        statusBadge.text = statusBadgeText
         if (statusBadgeText.isEmpty() && !item.hasMaskState) {
             statusBadge.visibility = View.GONE
         } else if (statusBadgeText.isEmpty() && item.hasMaskState) {
             statusBadge.visibility = View.INVISIBLE
+        } else if (statusBadgeText.isNotEmpty()) {
+            statusBadge.visibility = View.VISIBLE
         }
-        statusBadge.setBackgroundResource(color.admissionBadgeBg)
-        if (statusBadgeText.isNotEmpty()) {
-            statusBadge.text = statusBadgeText
+        if (item.maskBadgeText.isEmpty()) {
+            maskBadge.visibility = View.INVISIBLE
+        } else {
+            maskBadge.visibility = View.VISIBLE
         }
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid

@@ -187,6 +187,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_mask_free_multiline_with_badge() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskFreeMultiLine()))
+        takeSelfieWithBottomNavBadge("mask_free_multiline_with_badge", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_mask_required_nostatus_with_badge() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskReqiredAndNoStatus()))
         takeSelfieWithBottomNavBadge("mask_required_nostatus_with_badge", R.id.covid_certificates_graph, 1)

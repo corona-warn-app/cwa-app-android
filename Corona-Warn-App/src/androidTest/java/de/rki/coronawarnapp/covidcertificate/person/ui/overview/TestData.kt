@@ -100,6 +100,26 @@ fun maskFree() = mutableListOf<PersonCertificatesItem>().apply {
     )
 }
 
+fun maskFreeMultiLine() = mutableListOf<PersonCertificatesItem>().apply {
+    add(
+        PersonCertificateCard.Item(
+            overviewCertificates = listOf(
+                PersonCertificateCard.Item.OverviewCertificate(
+                    mockVaccinationCertificate("Andrea Schneider")
+                )
+            ),
+            admissionBadgeText = "2G",
+            hasMaskState = true,
+            maskBadgeText = "Keine Maskenpflicht, Multi Line, aber mindestens zwei",
+            colorShade = PersonColorShade.GREEN,
+            badgeCount = 0,
+            onClickAction = { _, _ -> },
+            onCovPassInfoAction = {},
+            onCertificateSelected = {},
+        )
+    )
+}
+
 fun maskReqiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
     add(
         PersonCertificateCard.Item(

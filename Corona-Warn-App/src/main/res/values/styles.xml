@@ -683,4 +683,13 @@
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
+    <style name="statusBadge">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:minHeight">26dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

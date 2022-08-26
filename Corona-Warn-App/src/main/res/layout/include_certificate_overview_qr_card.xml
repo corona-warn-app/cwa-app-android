@@ -16,8 +16,6 @@
         android:paddingHorizontal="8dp"
         android:layout_marginEnd="8dp"
         android:drawablePadding="8dp"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:gravity="center_vertical"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/image"
@@ -29,17 +27,13 @@
 
     <TextView
         android:id="@+id/status_badge"
+        style="@style/statusBadge"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="26dp"
-        android:paddingHorizontal="6dp"
+        android:layout_height="0dp"
         android:background="@drawable/ic_admission_badge_1"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@id/mask_badge"
         app:layout_constraintBottom_toBottomOf="@id/mask_badge"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:text="2G+ PCR Test" />
 
