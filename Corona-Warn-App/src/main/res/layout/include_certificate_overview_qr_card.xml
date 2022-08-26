@@ -37,7 +37,7 @@
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/mask_badge"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="parent"
