@@ -19,7 +19,6 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:textColor="@color/maskBadgeColor"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toTopOf="parent"

@@ -6,7 +6,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
@@ -120,8 +119,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 admissionBadgeText = format(admissionState?.badgeText),
                 hasMaskState = person.dccWalletInfo?.hasMaskState ?: false,
                 maskBadgeText = format(person.dccWalletInfo?.maskState?.badgeText),
-                maskBadgeWhiteTextColor =
-                person.dccWalletInfo?.maskState?.identifier == MaskState.MaskStateIdentifier.OPTIONAL,
                 colorShade = color,
                 badgeCount = person.badgeCount,
                 certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,

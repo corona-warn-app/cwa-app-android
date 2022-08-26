@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
 import android.widget.TextView
@@ -183,9 +182,7 @@ private fun setMaskBadge(maskBadge: TextView, item: PersonCertificateCard.Item, 
     maskBadge.text = item.maskBadgeText
     maskBadge.setBackgroundResource(color.maskLargeBadgeBg)
     maskBadge.setCompoundDrawablesWithIntrinsicBounds(color.maskIcon, 0, 0, 0)
-    if (item.maskBadgeWhiteTextColor) {
-        maskBadge.setTextColor(Color.WHITE)
-    }
+    maskBadge.setTextColor(maskBadge.resources.getColor(color.maskBadgeTextColor, null))
 }
 
 private fun IncludeCertificateOverviewQrCardBinding.bindButtonToggleGroup(

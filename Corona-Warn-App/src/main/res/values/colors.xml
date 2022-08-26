@@ -125,4 +125,6 @@
     <color name="contactDiaryOverviewBorderColor">#E2E2E2</color>
     <color name="maskGStatusBadgeColor">#1F5932</color>
     <color name="maskBadgeColor">#505968</color>
+    <color name="maskBadgeTextColorRegular">#505968</color>
+    <color name="maskBadgeTextColorGreenBg">#FFFFFF</color>
 </resources>
