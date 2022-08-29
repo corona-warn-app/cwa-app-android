@@ -6,26 +6,38 @@ import android.os.PowerManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.initializer.Initializer
-import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
-import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
-import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.storage.TracingRepository
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.ProcessLifecycle
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/*
+* Triggers risk calculation when app comes into foreground,
+* once at app start and at most every hour when while still alive
+* */
 @Singleton
-class WatchdogService @Inject constructor(
+class ForegroundRiskCalculationService @Inject constructor(
     @AppContext private val context: Context,
-    private val backgroundModeStatus: BackgroundModeStatus,
     @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
-    private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
-    private val presenceTracingRiskRepository: PresenceTracingRiskWorkScheduler,
+    private val tracingRepository: TracingRepository,
+    private val foregroundState: ForegroundState,
+    @AppScope private val appScope: CoroutineScope,
+    private val timeStamper: TimeStamper
 ) : Initializer {
 
     private val powerManager by lazy {
@@ -35,13 +47,24 @@ class WatchdogService @Inject constructor(
         context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
     }
 
+    private val mutex = Mutex()
+
+    private var latestRunTimeStamp: Instant = Instant.EPOCH
+
     override fun initialize() {
-        val isAutoModeEnable = runBlocking { backgroundModeStatus.isAutoModeEnabled.first() }
-        // Only do this if the background jobs are enabled
-        if (!isAutoModeEnable) {
-            Timber.tag(TAG).d("Background jobs are not enabled, aborting.")
-            return
+        foregroundState.isInForeground
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach { runRiskCalculations() }
+            .launchIn(appScope)
+    }
+
+    private suspend fun runRiskCalculations() = mutex.withLock {
+        if (Duration.between(latestRunTimeStamp, timeStamper.nowJavaUTC) < minTimeBetweenRuns) {
+            Timber.tag(TAG).d("Min time between runs of $minTimeBetweenRuns not passed, aborting.")
+            return@withLock
         }
+        latestRunTimeStamp = timeStamper.nowJavaUTC
 
         // If we are being bound by Google Play Services (which is only a few seconds)
         // and don't have a worker or foreground service, the system may still kill us and the tasks
@@ -53,13 +76,7 @@ class WatchdogService @Inject constructor(
             // A wifi lock to wake up the wifi connection in case the device is dozing
             val wifiLock = createWifiLock()
 
-            Timber.tag(TAG).d("Automatic mode is on, check if we have downloaded keys already today")
-
-            Timber.tag(TAG).d("Running EW risk tasks now.")
-            exposureWindowRiskWorkScheduler.runRiskTasksNow(TAG)
-
-            Timber.tag(TAG).d("Rnuning PT risk tasks now.")
-            presenceTracingRiskRepository.runRiskTaskNow(TAG)
+            tracingRepository.runRiskCalculations()
 
             if (wifiLock.isHeld) wifiLock.release()
             if (wakeLock.isHeld) wakeLock.release()
@@ -75,7 +92,8 @@ class WatchdogService @Inject constructor(
         .apply { acquire() }
 
     companion object {
-        private const val TAG = "WatchdogService"
+        private const val TAG = "ForegroundRiskCalc"
         private const val TEN_MINUTE_TIMEOUT_IN_MS = 10 * 60 * 1000L
+        private val minTimeBetweenRuns = Duration.ofMinutes(60)
     }
 }

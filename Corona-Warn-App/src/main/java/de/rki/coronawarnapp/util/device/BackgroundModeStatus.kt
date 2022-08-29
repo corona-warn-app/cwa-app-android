@@ -86,8 +86,8 @@ class BackgroundModeStatus @Inject constructor(
     }
 
     val isIgnoringBatteryOptimizations: Flow<Boolean> = foregroundState.isInForeground
-        .map { pollisIgnoringBatteryOptimizations() }
-        .onStart { emit(pollisIgnoringBatteryOptimizations()) }
+        .map { isIgnoringBatteryOptimizations() }
+        .onStart { emit(isIgnoringBatteryOptimizations()) }
         .distinctUntilChanged()
         .onCompletion {
             when {
@@ -100,7 +100,7 @@ class BackgroundModeStatus @Inject constructor(
             scope = appScope
         )
 
-    private fun pollisIgnoringBatteryOptimizations(): Boolean {
+    private fun isIgnoringBatteryOptimizations(): Boolean {
         return powerManagement.isIgnoringBatteryOptimizations
     }
 

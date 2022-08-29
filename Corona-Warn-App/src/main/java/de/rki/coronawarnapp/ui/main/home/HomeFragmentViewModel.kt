@@ -81,13 +81,13 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import kotlinx.coroutines.flow.combine
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -227,7 +227,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         errorResetTool.isResetNoticeToBeShown = false
     }
 
-    fun refreshRequiredData() {
+    fun refreshTests() {
         launch {
             try {
                 submissionRepository.refreshTest()
@@ -236,7 +236,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 Timber.e(e, "refreshTest failed")
                 errorEvent.postValue(e)
             }
-            tracingRepository.refreshRiskLevel()
         }
     }
 
@@ -479,8 +478,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
         }
 
-    private fun refreshRiskResult() {
-        tracingRepository.refreshRiskResult()
+    private fun runRiskCalculations() {
+        tracingRepository.runRiskCalculations()
     }
 
     private fun tracingStateItem(tracingState: TracingState) = when (tracingState) {
@@ -496,17 +495,17 @@ class HomeFragmentViewModel @AssistedInject constructor(
         is LowRisk -> LowRiskCard.Item(
             state = tracingState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
-            onUpdateClick = { refreshRiskResult() }
+            onUpdateClick = { runRiskCalculations() }
         )
         is IncreasedRisk -> IncreasedRiskCard.Item(
             state = tracingState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
-            onUpdateClick = { refreshRiskResult() }
+            onUpdateClick = { runRiskCalculations() }
         )
         is TracingFailed -> TracingFailedCard.Item(
             state = tracingState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
-            onRetryClick = { refreshRiskResult() }
+            onRetryClick = { runRiskCalculations() }
         )
     }
 

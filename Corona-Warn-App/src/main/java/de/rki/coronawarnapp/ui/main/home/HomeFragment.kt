@@ -130,7 +130,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshRequiredData()
+        viewModel.refreshTests()
         viewModel.initAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }

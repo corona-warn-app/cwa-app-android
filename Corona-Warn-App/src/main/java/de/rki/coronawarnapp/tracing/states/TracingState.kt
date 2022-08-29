@@ -5,7 +5,7 @@ import android.text.format.DateUtils
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.RiskCalculationState
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -222,19 +222,19 @@ data class TracingDisabled(
 data class TracingInProgress(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
-    val tracingProgress: TracingProgress
+    val riskCalculationState: RiskCalculationState
 ) : TracingState() {
 
-    fun getProgressCardHeadline(context: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
-        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
-        TracingProgress.Idle -> null
+    fun getProgressCardHeadline(context: Context): String = when (riskCalculationState) {
+        RiskCalculationState.Downloading -> R.string.risk_card_progress_download_headline
+        RiskCalculationState.IsCalculating -> R.string.risk_card_progress_calculation_headline
+        RiskCalculationState.Idle -> null
     }?.let { context.getString(it) } ?: ""
 
-    fun getProgressCardBody(context: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_body
-        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
-        TracingProgress.Idle -> null
+    fun getProgressCardBody(context: Context): String = when (riskCalculationState) {
+        RiskCalculationState.Downloading -> R.string.risk_card_progress_download_body
+        RiskCalculationState.IsCalculating -> R.string.risk_card_progress_calculation_body
+        RiskCalculationState.Idle -> null
     }?.let { context.getString(it) } ?: ""
 
     /**

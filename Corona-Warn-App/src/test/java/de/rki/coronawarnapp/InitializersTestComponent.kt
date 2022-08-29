@@ -31,7 +31,7 @@ import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsRetrievalScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.util.WatchdogService
+import de.rki.coronawarnapp.util.ForegroundRiskCalculationService
 import io.mockk.mockk
 import javax.inject.Singleton
 
@@ -57,7 +57,7 @@ interface InitializersTestComponent {
 class MockInitializerProvider {
 
     @Provides
-    fun watchdogService() = mockk<WatchdogService>(relaxed = true)
+    fun watchdogService() = mockk<ForegroundRiskCalculationService>(relaxed = true)
 
     @Provides
     fun configChangeDetector() = mockk<ConfigChangeDetector>(relaxed = true)

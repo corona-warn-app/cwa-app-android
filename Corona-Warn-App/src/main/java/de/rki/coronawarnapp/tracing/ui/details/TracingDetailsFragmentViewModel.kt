@@ -97,14 +97,8 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<TracingDetailsNavigationEvents> = SingleLiveEvent()
 
-    fun refreshData() {
-        launch {
-            tracingRepository.refreshRiskLevel()
-        }
-    }
-
     fun updateRiskDetails() {
-        tracingRepository.refreshRiskResult()
+        tracingRepository.runRiskCalculations()
     }
 
     fun onItemClicked(item: DetailsItem) {

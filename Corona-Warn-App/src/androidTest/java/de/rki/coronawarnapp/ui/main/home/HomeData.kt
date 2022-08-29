@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
-import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.RiskCalculationState
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
@@ -109,7 +109,7 @@ object HomeData {
             state = TracingInProgress(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                tracingProgress = TracingProgress.Downloading
+                riskCalculationState = RiskCalculationState.Downloading
             ),
             onCardClick = {}
         )
