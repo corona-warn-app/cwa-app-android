@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.ui.validationstart
 
-import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -11,21 +10,25 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.Companion.DE
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.covidcertificate.validation.core.settings.DccValidationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
+import de.rki.coronawarnapp.util.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import timber.log.Timber
 import java.text.Collator
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.temporal.ChronoUnit
 
 class ValidationStartViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -34,6 +37,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     private val certificateProvider: CertificateProvider,
     @Assisted private val containerId: CertificateContainerId,
     private val networkStateProvider: NetworkStateProvider,
+    private val dccValidationSettings: DccValidationSettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     @AssistedFactory
@@ -42,11 +46,19 @@ class ValidationStartViewModel @AssistedInject constructor(
     }
 
     private val collator = Collator.getInstance()
-    private val uiState = MutableStateFlow(UIState())
-    val state: LiveData<UIState> = uiState.asLiveData2()
-    val selectedDate: LocalDate get() = uiState.value.localDate
-    val selectedTime: LocalTime get() = uiState.value.localTime
-    val selectedCountryCode: String get() = uiState.value.dccCountry.countryCode
+    val state = dccValidationSettings.settings.map { (country, timestamp) ->
+        val localDateTime = Instant.ofEpochMilli(timestamp).toUserTimeZone()
+        UIState(
+            DccCountry(country),
+            localDateTime.toLocalDate(),
+            localDateTime.toLocalTime()
+        )
+    }.asLiveData2()
+
+    val selectedDate: LocalDate get() = state.value?.localDate ?: LocalDate.now()
+    val selectedTime: LocalTime get() = state.value?.localTime ?: LocalTime.now()
+    val selectedCountryCode: String get() = state.value?.dccCountry?.countryCode ?: DccCountry.DE
+
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
         val countries = countryList.ifEmpty { listOf(DccCountry(DE)) }
@@ -57,18 +69,18 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     fun onPrivacyClick() = events.postValue(NavigateToPrivacyFragment)
 
-    fun countryChanged(country: DccCountry) = uiState.apply { value = value.copy(dccCountry = country) }
-
-    fun refreshTimeCheck() = dateChanged(selectedDate, selectedTime)
+    fun countryChanged(country: DccCountry) = launch {
+        dccValidationSettings.updateDccValidationCountry(country.countryCode)
+    }
 
     fun onCheckClick() = launch {
         val event = if (networkStateProvider.networkState.first().isInternetAvailable) {
             try {
-                val state = uiState.value
+                val state = state.value!!
                 val country = state.dccCountry
                 val certificateData = certificateProvider.findCertificate(containerId).dccData
                 val validationResult = dccValidator.validateDcc(
-                    ValidationUserInput(country, state.localDate.toLocalDateTime(state.localTime)),
+                    ValidationUserInput(country, state.localDate.atTime(state.localTime)),
                     certificateData
                 )
 
@@ -85,10 +97,16 @@ class ValidationStartViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    fun dateChanged(localDate: LocalDate, localTime: LocalTime) {
-        val invalidTime = localDate.toDateTime(localTime).isBefore(DateTime.now().withSecondOfMinute(0))
+    fun dateChanged(localDate: LocalDate, localTime: LocalTime) = launch {
+        val localDateTime = localDate.atTime(localTime)
+        val invalidTime = localDateTime.isBefore(
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+        )
+
+        dccValidationSettings.updateDccValidationTime(
+            localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        )
         events.postValue(ShowTimeMessage(invalidTime))
-        uiState.apply { value = value.copy(localDate = localDate, localTime = localTime) }
     }
 
     data class UIState(
@@ -96,6 +114,10 @@ class ValidationStartViewModel @AssistedInject constructor(
         val localDate: LocalDate = LocalDate.now(),
         val localTime: LocalTime = LocalTime.now(),
     ) {
-        fun formattedDateTime() = "${localDate.toDayFormat()} ${localTime.toShortTimeFormat()}"
+        fun formattedDateTime(): String {
+            val dateFormat = localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            val timeFormat = localTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            return "$dateFormat $timeFormat"
+        }
     }
 }

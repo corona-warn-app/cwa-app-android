@@ -14,16 +14,15 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingQuantityString
 import de.rki.coronawarnapp.util.ui.toResolvingString
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 @Reusable
@@ -72,7 +71,7 @@ class ValidationResultItemCreator @Inject constructor() {
                 title = "".toLazyString()
             }
             DccValidation.State.OPEN -> {
-                title = R.string.validation_rules_open_header_title.toResolvingString()
+                title = R.string.validation_start_note_subtitle.toResolvingString()
                 subtitle = R.string.validation_rules_open_header_subtitle.toResolvingString()
             }
             DccValidation.State.TECHNICAL_FAILURE -> {
@@ -98,20 +97,26 @@ class ValidationResultItemCreator @Inject constructor() {
     ): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
             validation = validation,
-            certificateExpiresAt = certificate.headerExpiresAt.toLocalDateTimeUserTz()
+            certificateExpiresAt = certificate.headerExpiresAt.toJavaInstant().toUserTimeZone()
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    fun validationInputVHItem(userInput: ValidationUserInput, validatedAt: Instant): ValidationInputVH.Item =
-        ValidationInputVH.Item(
+    fun validationInputVHItem(userInput: ValidationUserInput, validatedAt: Instant): ValidationInputVH.Item {
+        val dateFormat =
+            userInput.arrivalDateTime.toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        val timeFormat =
+            userInput.arrivalDateTime.toLocalTime().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        return ValidationInputVH.Item(
             dateDetails = R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
                 userInput.arrivalCountry,
-                "${userInput.arrivalDateTime.toLocalDate().toShortDayFormat()} " +
-                    userInput.arrivalDateTime.toLocalTime().toShortTimeFormat(),
-                validatedAt.toUserTimeZone().toShortDateTimeFormat()
+                "$dateFormat $timeFormat",
+                validatedAt.toUserTimeZone().format(
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+                )
             )
         )
+    }
 
     fun validationOverallResultVHItem(state: DccValidation.State, ruleCount: Int = 0): ValidationOverallResultVH.Item =
         ValidationOverallResultVH.Item(
