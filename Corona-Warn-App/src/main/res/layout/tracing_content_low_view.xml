@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSemanticLowRisk"
-        android:padding="@dimen/spacing_normal">
+        android:padding="@dimen/spacing_normal"
+        android:animateLayoutChanges="true">
 
         <TextView
             android:id="@+id/headline"
@@ -66,6 +67,7 @@
             android:icon="@drawable/ic_risk_card_calendar"
             android:text="@{state.getRiskContactLast(context) ?? ``}"
             android:textColor="@color/colorTextPrimary1InvertedStable"
+            android:visibility="gone"
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +82,7 @@
             android:icon="@drawable/ic_download"
             android:text="@{state.getDaysSinceInstall(context)}"
             android:textColor="@color/colorTextPrimary1InvertedStable"
+            android:visibility="gone"
             app:compatIconTint="@color/colorStableLight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/risk_card_button_update"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/row_time_fetched" />
