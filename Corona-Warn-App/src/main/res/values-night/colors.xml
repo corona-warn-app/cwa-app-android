@@ -94,6 +94,5 @@
     <color name="maskGStatusBadgeColor">#31A056</color>
     <color name="maskBadgeColor">#FFFFFF</color>
     <color name="maskBadgeTextColorRegular">#FFFFFF</color>
-    <color name="maskBadgeTextColorGreenBg">#FFFFFF</color>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.loadAny
 import com.google.android.material.button.MaterialButton
@@ -142,18 +143,18 @@ fun PersonOverviewItemBinding.setUIState(
         }
         statusBadge.setBackgroundResource(color.admissionBadgeBg)
         statusBadge.text = statusBadgeText
-        if (statusBadgeText.isEmpty() && !item.hasMaskState) {
-            statusBadge.visibility = View.GONE
-        } else if (statusBadgeText.isEmpty() && item.hasMaskState) {
-            statusBadge.visibility = View.INVISIBLE
-        } else if (statusBadgeText.isNotEmpty()) {
-            statusBadge.visibility = View.VISIBLE
+
+        when (statusBadgeText.isEmpty()) {
+            true -> {
+                when (item.hasMaskState) {
+                    true -> statusBadge.visibility = View.INVISIBLE
+                    false -> statusBadge.visibility = View.GONE
+                }
+            }
+            false -> statusBadge.visibility = View.VISIBLE
         }
-        if (item.maskBadgeText.isEmpty()) {
-            maskBadge.visibility = View.INVISIBLE
-        } else {
-            maskBadge.visibility = View.VISIBLE
-        }
+
+        maskBadge.isInvisible = item.maskBadgeText.isEmpty()
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid
         covpassInfoButton.setOnClickListener { item.onCovPassInfoAction() }
