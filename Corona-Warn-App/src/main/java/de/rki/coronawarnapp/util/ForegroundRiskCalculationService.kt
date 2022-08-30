@@ -3,14 +3,12 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.PowerManager
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import de.rki.coronawarnapp.initializer.Initializer
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.di.ProcessLifecycle
+import de.rki.coronawarnapp.util.di.ProcessLifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -28,12 +26,12 @@ import javax.inject.Singleton
 
 /*
 * Triggers risk calculation when app comes into foreground,
-* once at app start and at most every hour when while still alive
+* once at app start and at most every hour
 * */
 @Singleton
 class ForegroundRiskCalculationService @Inject constructor(
     @AppContext private val context: Context,
-    @ProcessLifecycle private val processLifecycleOwner: LifecycleOwner,
+    @ProcessLifecycleScope private val processLifecycleScope: CoroutineScope,
     private val tracingRepository: TracingRepository,
     private val foregroundState: ForegroundState,
     @AppScope private val appScope: CoroutineScope,
@@ -60,18 +58,20 @@ class ForegroundRiskCalculationService @Inject constructor(
     }
 
     private suspend fun runRiskCalculations() = mutex.withLock {
-        if ( timeStamper.nowJavaUTC < latestRunTimeStamp || // for time travellers
-            Duration.between(latestRunTimeStamp, timeStamper.nowJavaUTC) < minTimeBetweenRuns) {
+        val now = timeStamper.nowJavaUTC
+        if (now > latestRunTimeStamp && // for time travellers
+            Duration.between(latestRunTimeStamp, now) < minTimeBetweenRuns
+        ) {
             Timber.tag(TAG).d("Min time between runs of $minTimeBetweenRuns not passed, aborting.")
             return@withLock
         }
-        latestRunTimeStamp = timeStamper.nowJavaUTC
+        latestRunTimeStamp = now
 
         // If we are being bound by Google Play Services (which is only a few seconds)
         // and don't have a worker or foreground service, the system may still kill us and the tasks
         // before they have finished executing.
         Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
-        processLifecycleOwner.lifecycleScope.launch {
+        processLifecycleScope.launch {
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing
