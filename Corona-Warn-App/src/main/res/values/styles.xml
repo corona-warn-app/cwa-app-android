@@ -688,6 +688,7 @@
         <item name="android:paddingStart">6dp</item>
         <item name="android:paddingEnd">6dp</item>
         <item name="android:minHeight">26dp</item>
+        <item name="android:minWidth">40dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
