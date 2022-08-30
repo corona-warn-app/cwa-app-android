@@ -51,7 +51,14 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
                 toolbar.setNavigationIcon(R.drawable.ic_back)
             }
 
-            recyclerView.adapter = ItemAdapter(getItems())
+            val items = getItems()
+            recyclerView.adapter = ItemAdapter(items)
+
+            newReleaseInfoBody.text = if (items.isNotEmpty()) {
+                getText(R.string.release_info_version_body)
+            } else {
+                getText(R.string.release_info_version_body_no_new_features)
+            }
         }
 
         // Override android back button to bypass the infinite loop

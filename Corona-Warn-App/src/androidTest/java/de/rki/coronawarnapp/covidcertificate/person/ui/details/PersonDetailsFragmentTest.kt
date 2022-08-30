@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.MaskRequirementsCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -89,7 +91,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_cwa_user() {
-        every { viewModel.uiState } returns certificateData(true)
+        every { viewModel.uiState } returns certificateData(true, withoutMask = null)
 
         launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
         takeScreenshot<PersonDetailsFragment>("cwa")
@@ -101,7 +103,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_not_cwa_user() {
-        every { viewModel.uiState } returns certificateData()
+        every { viewModel.uiState } returns certificateData(withoutMask = null)
         launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
         takeScreenshot<PersonDetailsFragment>("not_cwa")
     }
@@ -109,9 +111,26 @@ class PersonDetailsFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_admission_berlin() {
-        every { viewModel.uiState } returns certificateData(admissionSubtitle = "Berlin")
+        every { viewModel.uiState } returns certificateData(admissionSubtitle = "Berlin", withoutMask = null)
         launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
         takeScreenshot<PersonDetailsFragment>("admission_berlin")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_without_mask() {
+        every { viewModel.currentColorShade } returns MutableLiveData(PersonColorShade.GREEN)
+        every { viewModel.uiState } returns certificateData(withoutMask = true)
+        launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<PersonDetailsFragment>("no_mask_required")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_with_mask() {
+        every { viewModel.uiState } returns certificateData(withoutMask = false)
+        launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<PersonDetailsFragment>("no_mask_required")
     }
 
     @Test
@@ -127,9 +146,11 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
     private fun certificateData(
         isCwa: Boolean = false,
-        admissionSubtitle: String = "2G+ PCR-Test"
+        admissionSubtitle: String = "2G+ PCR-Test",
+        withoutMask: Boolean?
     ): LiveData<PersonDetailsViewModel.UiState> {
         var name: String
+        var colorShade = PersonColorShade.COLOR_1
         val certificateItems = mutableListOf<CertificateItem>().apply {
             val testCertificate = mockTestCertificate().also { name = it.fullName }
             val vaccinationCertificate1 = mockVaccinationCertificate(number = 1, final = false)
@@ -141,10 +162,35 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
+            if (withoutMask != null) {
+                add(
+                    if (withoutMask) {
+                        colorShade = PersonColorShade.GREEN
+                        MaskRequirementsCard.Item(
+                            titleText = "Keine Maskenpflicht",
+                            subtitleText = "Eine Maske ist dennoch empfohlen",
+                            badgeState = MaskState.MaskStateIdentifier.OPTIONAL,
+                            longText = "Von der Maskenpflicht sind alle Personen befreit, die innerhalb der letzten 3 Monate geimpft wurden oder genesen sind oder innerhalb der letzten 24 Stunden negativ getestet wurden.",
+                            faqAnchor = "FAQ",
+                            colorShade = PersonColorShade.GREEN
+                        )
+                    } else {
+                        MaskRequirementsCard.Item(
+                            titleText = "Maskenpflicht",
+                            subtitleText = "Sie sind nicht von der Maskenpflicht ausgenommen",
+                            badgeState = MaskState.MaskStateIdentifier.REQUIRED,
+                            longText = "Von der Maskenpflicht sind alle Personen befreit, die innerhalb der letzten 3 Monate geimpft wurden oder genesen sind oder innerhalb der letzten 24 Stunden negativ getestet wurden.",
+                            faqAnchor = "FAQ",
+                            colorShade = PersonColorShade.COLOR_1
+                        )
+                    }
+                )
+            }
+
             add(
                 when (Locale.getDefault()) {
                     Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
+                        colorShade = colorShade,
                         titleText = "Status-Nachweis",
                         subtitleText = admissionSubtitle,
                         badgeText = "2G+",
@@ -153,7 +199,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
                     )
                     else -> AdmissionStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
+                        colorShade = colorShade,
                         titleText = "Proof of Status",
                         subtitleText = admissionSubtitle,
                         badgeText = "2G+",
