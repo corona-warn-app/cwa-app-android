@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
@@ -29,7 +28,6 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
@@ -123,12 +121,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 } else {
                     it.toErrorDialogBuilder(requireContext()).show()
                 }
-            }
-
-            viewModel.exportError.observe(viewLifecycleOwner) {
-                CertificateExportErrorDialog.showDialog(
-                    requireContext()
-                ) { openUrl(getString(R.string.certificate_export_error_dialog_faq_link)) }
             }
 
             viewModel.events.observe(viewLifecycleOwner) { event ->
