@@ -4,7 +4,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -38,8 +37,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     val errors = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<VaccinationDetailsNavigation>()
 
-    val exportError = SingleLiveEvent<Unit>()
-
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
@@ -65,13 +62,9 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         if (!fromScanner) vaccinationCertificateRepository.markAsSeenByUser(containerId)
     }
 
-    fun onExport() {
-        if (vaccinationCertificate.value?.canBeExported() == false) {
-            exportError.postValue(null)
-        } else {
-            events.postValue(VaccinationDetailsNavigation.Export(containerId))
-        }
-    }
+    fun onExport() = events.postValue(
+        VaccinationDetailsNavigation.Export(containerId)
+    )
 
     fun onCovPassInfoAction() {
         events.postValue(VaccinationDetailsNavigation.OpenCovPassInfo)

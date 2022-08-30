@@ -32,8 +32,6 @@
     <string name="validation_start_faq_link">"https://www.coronawarn.app/en/faq/#cert_eu_travel"</string>
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
-    <!-- XBUT: PDF Export: Not possible dialog faq link -->
-    <string name="certificate_export_error_dialog_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_export"</string>
     <!-- XBUT: PDF Export All: error dialog faq link -->
     <string name="certificate_export_all_error_dialog_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_export_error"</string>
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->

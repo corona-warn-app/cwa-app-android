@@ -4,7 +4,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -28,9 +27,6 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     private var qrCode: CoilQrCode? = null
     val events = SingleLiveEvent<RecoveryCertificateDetailsNavigation>()
     val errors = SingleLiveEvent<Throwable>()
-
-    val exportError = SingleLiveEvent<Unit>()
-
     val recoveryCertificate = recoveryCertificateRepository.findCertificateDetails(containerId).map { certificate ->
         certificate?.also { qrCode = it.qrCodeToDisplay }
     }.asLiveData2()
@@ -61,13 +57,9 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
         if (!fromScanner) recoveryCertificateRepository.markAsSeenByUser(containerId)
     }
 
-    fun onExport() {
-        if (recoveryCertificate.value?.canBeExported() == false) {
-            exportError.postValue(null)
-        } else {
-            events.postValue(RecoveryCertificateDetailsNavigation.Export(containerId))
-        }
-    }
+    fun onExport() = events.postValue(
+        RecoveryCertificateDetailsNavigation.Export(containerId)
+    )
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RecoveryCertificateDetailsViewModel> {
