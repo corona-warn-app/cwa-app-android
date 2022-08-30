@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
                     android:scaleType="centerCrop"
+                    android:paddingTop="20dp"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/ic_cov_pass_info" />
 
