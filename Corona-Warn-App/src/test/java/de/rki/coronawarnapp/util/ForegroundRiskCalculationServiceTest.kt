@@ -22,7 +22,7 @@ import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import java.time.Instant
 
-class ForegroundRiskCalculationServiceTest : BaseTest()  {
+class ForegroundRiskCalculationServiceTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var tracingRepository: TracingRepository
