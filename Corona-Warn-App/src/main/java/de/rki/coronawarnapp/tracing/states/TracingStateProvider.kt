@@ -28,7 +28,7 @@ class TracingStateProvider @AssistedInject constructor(
     exposureDetectionTracker: ExposureDetectionTracker,
     installTimeProvider: InstallTimeProvider
 ) {
-    val state: Flow<TracingState> = combine(
+    val state: Flow<RiskCalculationCardState> = combine(
         tracingStatus.generalStatus.onEach {
             Timber.tag(TAG).v("tracingStatus: $it")
         },
@@ -45,7 +45,7 @@ class TracingStateProvider @AssistedInject constructor(
             Timber.tag(TAG).v("isAutoModeEnabled: $it")
         }
     ) { tracingStatus,
-        tracingProgress,
+        riskCalculationState,
         riskLevelResults,
         latestSubmission,
         isBackgroundJobEnabled ->
@@ -59,10 +59,10 @@ class TracingStateProvider @AssistedInject constructor(
                 riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt
             )
-            tracingProgress != RiskCalculationState.Idle -> TracingInProgress(
+            riskCalculationState != RiskCalculationState.Idle -> RiskCalculationInProgress(
                 isInDetailsMode = isDetailsMode,
                 riskState = latestCalc.riskState,
-                riskCalculationState = tracingProgress
+                riskCalculationState = riskCalculationState
             )
             latestCalc.riskState == RiskState.LOW_RISK -> LowRisk(
                 isInDetailsMode = isDetailsMode,
@@ -81,7 +81,7 @@ class TracingStateProvider @AssistedInject constructor(
                 daysWithEncounters = latestCalc.daysWithEncounters,
                 allowManualUpdate = !isBackgroundJobEnabled
             )
-            else -> TracingFailed(
+            else -> RiskCalculationFailed(
                 isInDetailsMode = isDetailsMode,
                 riskState = lastSuccessfullyCalc.riskState,
                 lastExposureDetectionTime = latestSubmission?.startedAt

@@ -57,7 +57,7 @@ interface InitializersTestComponent {
 class MockInitializerProvider {
 
     @Provides
-    fun watchdogService() = mockk<ForegroundRiskCalculationService>(relaxed = true)
+    fun foregroundRiskCalculationService() = mockk<ForegroundRiskCalculationService>(relaxed = true)
 
     @Provides
     fun configChangeDetector() = mockk<ConfigChangeDetector>(relaxed = true)

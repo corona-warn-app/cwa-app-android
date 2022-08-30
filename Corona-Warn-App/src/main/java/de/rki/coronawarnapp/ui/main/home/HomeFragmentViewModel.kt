@@ -57,10 +57,10 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
+import de.rki.coronawarnapp.tracing.states.RiskCalculationCardState
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
+import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
-import de.rki.coronawarnapp.tracing.states.TracingFailed
-import de.rki.coronawarnapp.tracing.states.TracingInProgress
-import de.rki.coronawarnapp.tracing.states.TracingState
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.homecards.IncreasedRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
@@ -482,28 +482,28 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingRepository.runRiskCalculations()
     }
 
-    private fun tracingStateItem(tracingState: TracingState) = when (tracingState) {
-        is TracingInProgress -> TracingProgressCard.Item(
-            state = tracingState,
+    private fun tracingStateItem(riskCalculationCardState: RiskCalculationCardState) = when (riskCalculationCardState) {
+        is RiskCalculationInProgress -> TracingProgressCard.Item(
+            state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) }
         )
         is TracingDisabled -> TracingDisabledCard.Item(
-            state = tracingState,
+            state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onEnableTracingClick = { events.postValue(HomeFragmentEvents.GoToSettingsTracingFragment) }
         )
         is LowRisk -> LowRiskCard.Item(
-            state = tracingState,
+            state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onUpdateClick = { runRiskCalculations() }
         )
         is IncreasedRisk -> IncreasedRiskCard.Item(
-            state = tracingState,
+            state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onUpdateClick = { runRiskCalculations() }
         )
-        is TracingFailed -> TracingFailedCard.Item(
-            state = tracingState,
+        is RiskCalculationFailed -> TracingFailedCard.Item(
+            state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onRetryClick = { runRiskCalculations() }
         )

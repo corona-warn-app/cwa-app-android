@@ -11,7 +11,7 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
-sealed class TracingState {
+sealed class RiskCalculationCardState {
     abstract val riskState: RiskState
     abstract val isInDetailsMode: Boolean
 
@@ -33,7 +33,7 @@ data class IncreasedRisk(
     val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
@@ -95,7 +95,7 @@ data class LowRisk(
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
     val daysSinceInstallation: Int
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
@@ -160,11 +160,11 @@ data class LowRisk(
 }
 
 // tracing_content_failed_view
-data class TracingFailed(
+data class RiskCalculationFailed(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showRestartButton: Boolean = !isInDetailsMode
 
@@ -194,7 +194,7 @@ data class TracingDisabled(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
 
@@ -219,11 +219,11 @@ data class TracingDisabled(
     }
 }
 
-data class TracingInProgress(
+data class RiskCalculationInProgress(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
     val riskCalculationState: RiskCalculationState
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     fun getProgressCardHeadline(context: Context): String = when (riskCalculationState) {
         RiskCalculationState.Downloading -> R.string.risk_card_progress_download_headline
