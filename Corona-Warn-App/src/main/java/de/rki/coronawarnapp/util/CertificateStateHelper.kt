@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import coil.loadAny
 import com.google.android.material.button.MaterialButton
@@ -137,11 +138,23 @@ fun PersonOverviewItemBinding.setUIState(
     val statusBadgeText = item.admissionBadgeText
     qrCodeCard.apply {
         loadQrImage(firstCertificate.cwaCertificate)
-        statusText.isVisible = statusBadgeText.isNotEmpty()
-        statusBadge.isVisible = statusBadgeText.isNotEmpty()
-        if (statusBadgeText.isNotEmpty()) {
-            statusBadge.text = statusBadgeText
+        if (item.hasMaskState) {
+            setMaskBadge(maskBadge, item, color)
         }
+        statusBadge.setBackgroundResource(color.admissionBadgeBg)
+        statusBadge.text = statusBadgeText
+
+        when (statusBadgeText.isEmpty()) {
+            true -> {
+                when (item.hasMaskState) {
+                    true -> statusBadge.visibility = View.INVISIBLE
+                    false -> statusBadge.visibility = View.GONE
+                }
+            }
+            false -> statusBadge.visibility = View.VISIBLE
+        }
+
+        maskBadge.isInvisible = item.maskBadgeText.isEmpty()
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid
         covpassInfoButton.setOnClickListener { item.onCovPassInfoAction() }
@@ -169,6 +182,13 @@ fun PersonOverviewItemBinding.setUIState(
 
         else -> updateExpirationViews()
     }
+}
+
+private fun setMaskBadge(maskBadge: TextView, item: PersonCertificateCard.Item, color: PersonColorShade) {
+    maskBadge.text = item.maskBadgeText
+    maskBadge.setBackgroundResource(color.maskLargeBadgeBg)
+    maskBadge.setCompoundDrawablesWithIntrinsicBounds(color.maskIcon, 0, 0, 0)
+    maskBadge.setTextColor(maskBadge.resources.getColor(color.maskBadgeTextColor, null))
 }
 
 private fun IncludeCertificateOverviewQrCardBinding.bindButtonToggleGroup(

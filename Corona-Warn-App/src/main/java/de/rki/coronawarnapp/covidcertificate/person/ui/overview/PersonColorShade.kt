@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
 
+@Suppress("LongParameterList")
 enum class PersonColorShade(
     @ColorRes val starsTint: Int,
     @DrawableRes val background: Int,
@@ -13,7 +14,8 @@ enum class PersonColorShade(
     @DrawableRes val maskIcon: Int = R.drawable.ic_mask,
     @DrawableRes val maskLargeBadgeBg: Int = R.drawable.mask_badge_bg,
     @DrawableRes val maskSmallBadge: Int = R.drawable.mask_small_badge,
-    @DrawableRes val noMaskSmallBadge: Int = R.drawable.no_mask_small_badge
+    @DrawableRes val noMaskSmallBadge: Int = R.drawable.no_mask_small_badge,
+    @ColorRes val maskBadgeTextColor: Int = R.color.maskBadgeTextColorRegular
 ) {
 
     COLOR_1(
@@ -60,6 +62,7 @@ enum class PersonColorShade(
         maskIcon = R.drawable.ic_no_mask,
         maskLargeBadgeBg = R.drawable.no_mask_badge_bg,
         maskSmallBadge = R.drawable.no_mask_small_badge,
+        maskBadgeTextColor = R.color.maskBadgeTextColorGreenBg
     );
 
     @DrawableRes val defaultCertificateBg: Int = R.drawable.bg_certificate_grey
