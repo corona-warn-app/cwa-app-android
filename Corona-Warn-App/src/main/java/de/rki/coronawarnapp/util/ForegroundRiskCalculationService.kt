@@ -60,7 +60,8 @@ class ForegroundRiskCalculationService @Inject constructor(
     }
 
     private suspend fun runRiskCalculations() = mutex.withLock {
-        if (Duration.between(latestRunTimeStamp, timeStamper.nowJavaUTC) < minTimeBetweenRuns) {
+        if ( timeStamper.nowJavaUTC < latestRunTimeStamp || // for time travellers
+            Duration.between(latestRunTimeStamp, timeStamper.nowJavaUTC) < minTimeBetweenRuns) {
             Timber.tag(TAG).d("Min time between runs of $minTimeBetweenRuns not passed, aborting.")
             return@withLock
         }

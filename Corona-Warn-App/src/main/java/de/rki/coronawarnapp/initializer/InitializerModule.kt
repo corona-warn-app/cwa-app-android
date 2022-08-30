@@ -38,7 +38,7 @@ interface InitializerModule {
 
     @Binds
     @IntoSet
-    fun watchdogService(initializer: ForegroundRiskCalculationService): Initializer
+    fun foregroundRiskCalculationService(initializer: ForegroundRiskCalculationService): Initializer
 
     @Binds
     @IntoSet
