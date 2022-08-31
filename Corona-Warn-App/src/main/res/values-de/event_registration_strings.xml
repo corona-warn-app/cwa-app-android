@@ -34,7 +34,7 @@
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
     <string name="trace_location_checkins_card_highlight_duration_label">Dauer</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
-    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - Automatisch auschecken nach %3$s."</string>
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s, %2$s - Automatisch auschecken nach %3$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">QR-Code erstellen</string>
@@ -196,7 +196,7 @@
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>
 
     <!-- XTXT: Event organiser list item: duration same day-->
-    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s Uhr"</string>
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s, %2$s - %3$s Uhr"</string>
 
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">Selbst einchecken</string>
