@@ -41,6 +41,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
+import de.rki.coronawarnapp.util.ui.setTextSize
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -74,6 +75,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             setupDebugMenu(menu)
             setupMenuItemClickListener()
             menu.setItemContentDescription(requireContext())
+            menu.setTextSize()
         }
 
         binding.recyclerView.apply {
