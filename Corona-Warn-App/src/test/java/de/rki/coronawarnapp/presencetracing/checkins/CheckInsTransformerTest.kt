@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminator
+import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -169,6 +169,7 @@ class CheckInsTransformerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
+        every { timeStamper.nowJavaUTC } returns java.time.Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
@@ -183,7 +184,7 @@ class CheckInsTransformerTest : BaseTest() {
         }
         checkInTransformer = CheckInsTransformer(
             timeStamper = timeStamper,
-            transmissionDeterminator = TransmissionRiskVectorDeterminator(timeStamper),
+            transmissionDeterminator = TransmissionRiskVectorDeterminer(timeStamper),
             checkInCryptography = checkInCryptography,
             appConfigProvider = appConfigProvider
         )

@@ -31,15 +31,15 @@ class DccReissuer @Inject constructor(
         }.orEmpty()
 
         updates.flatMap {
-            it.recycleBin
-        }.toSet().forEach {
-            moveToBin(it)
-        }
-
-        updates.flatMap {
             it.register
         }.toSet().forEach {
             register(it)
+        }
+
+        updates.flatMap {
+            it.recycleBin
+        }.toSet().forEach {
+            moveToBin(it)
         }
     }
 

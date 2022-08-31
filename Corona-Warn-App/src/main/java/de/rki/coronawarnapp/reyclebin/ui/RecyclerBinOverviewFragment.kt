@@ -47,6 +47,7 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
         viewModel.listItems.observe2(this) {
             binding.emptyListInfoContainer.isVisible = it.isEmpty()
             recyclerBinAdapter.update(it)
+            binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = it.isNotEmpty()
         }
 
         viewModel.events.observe2(this) { handleRecyclerEvent(it) }

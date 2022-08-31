@@ -55,7 +55,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     private val lastAnalyticsDataInternal = MutableStateFlow<LastAnalyticsSubmission?>(null)
     val lastAnalyticsData = lastAnalyticsDataInternal.asLiveData(context = dispatcherProvider.Default)
 
-    val isSafetyNetTimeCheckSkipped = testSettings.skipSafetyNetTimeCheck.flow
+    val isSafetyNetTimeCheckSkipped = testSettings.skipSafetyNetTimeCheck
         .asLiveData(context = dispatcherProvider.Default)
 
     val otp: String = otpRepository.otpAuthorizationResult?.toString() ?: "No OTP generated and authorized yet"
@@ -162,8 +162,8 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun toggleSkipSafetyNetTimeCheck() {
-        testSettings.skipSafetyNetTimeCheck.update { !it }
+    fun toggleSkipSafetyNetTimeCheck() = launch {
+        testSettings.updateSkipSafetyNetTimeCheck { !it }
     }
 
     fun selectSafetyNetExceptionType(type: SafetyNetException.Type) {

@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -60,6 +61,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             setupSwipe(context = requireContext())
         }
 
+        binding.toolbar.addMenuId(R.id.trace_locations_fragment_menu_id)
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
         }
@@ -69,6 +71,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             binding.apply {
                 recyclerView.isGone = it.isEmpty()
                 qrCodesListNoItemsGroup.isGone = it.isNotEmpty()
+                binding.toolbar.menu.findItem(R.id.menu_remove_all)?.isEnabled = it.isNotEmpty()
             }
         }
 

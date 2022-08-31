@@ -11,6 +11,7 @@ class DccHolderNameComponentsTest : testhelpers.BaseTest() {
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderNameComponentsTestCaseProvider::class)
     fun allTestCases(testCase: TestCaseName) {
+        print(testCase)
         CertificatePersonIdentifier("", testCase.name).sanitizedFamilyName shouldBe testCase.expectedResult
     }
 }

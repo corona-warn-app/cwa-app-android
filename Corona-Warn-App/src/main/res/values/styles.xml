@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorSecondary</item>
         <item name="actionBarSize">56dp</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
@@ -167,7 +167,7 @@
     </style>
 
     <style name="materialTextButton" parent="Widget.Material3.Button.TextButton">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorSecondary</item>
     </style>
 
     <style name="buttonIcon">
@@ -179,6 +179,8 @@
         <item name="colorSecondary">@color/colorPrimary</item>
         <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
         <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0.01</item>
     </style>
 
     <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
@@ -628,7 +630,7 @@
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
-        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorSecondary</item>
     </style>
 
     <style name="CardOverFlowButton">
@@ -672,6 +674,12 @@
         <item name="android:textFontWeight" tools:targetApi="p">700</item>
         <item name="android:fontWeight" tools:targetApi="o">700</item>
         <item name="android:textColor">@color/tipTitleColor</item>
+    </style>
+
+    <style name="closeTooltip">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:background">?selectableItemBackground</item>
     </style>
 
 </resources>

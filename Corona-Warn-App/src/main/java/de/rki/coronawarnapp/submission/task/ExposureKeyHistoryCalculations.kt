@@ -15,8 +15,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ExposureKeyHistoryCalculations @Inject constructor(
-    private val transmissionRiskVectorDeterminator: TransmissionRiskVectorDeterminator,
-    private val daysSinceOnsetOfSymptomsVectorDeterminator: DaysSinceOnsetOfSymptomsVectorDeterminator,
+    private val transmissionRiskVectorDeterminer: TransmissionRiskVectorDeterminer,
+    private val daysSinceOnsetOfSymptomsVectorDeterminer: DaysSinceOnsetOfSymptomsVectorDeterminer,
     private val keyConverter: KeyConverter,
     private val timeStamper: TimeStamper
 ) {
@@ -26,8 +26,8 @@ class ExposureKeyHistoryCalculations @Inject constructor(
         symptoms: Symptoms
     ) = toExternalFormat(
         removeOldKeys(sortWithRecentKeyFirst(keys)),
-        transmissionRiskVectorDeterminator.determine(symptoms),
-        daysSinceOnsetOfSymptomsVectorDeterminator.determine(symptoms)
+        transmissionRiskVectorDeterminer.determine(symptoms),
+        daysSinceOnsetOfSymptomsVectorDeterminer.determine(symptoms)
     )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

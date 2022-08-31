@@ -119,9 +119,7 @@
         tools:layout="@layout/trace_location_organizer_warn_info_fragment">
         <action
             android:id="@+id/action_traceLocationWarnInfoFragment_to_traceLocationSelectionFragment"
-            app:destination="@id/traceLocationSelectionFragment"
-            app:popUpTo="@id/traceLocationWarnInfoFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/traceLocationSelectionFragment" />
     </fragment>
 
     <fragment
@@ -155,7 +153,7 @@
         android:id="@+id/traceLocationOrganizerThanksFragment"
         android:name="de.rki.coronawarnapp.ui.presencetracing.organizer.thanks.TraceLocationOrganizerThanksFragment"
         android:label="trace_location_organizer_thanks_fragment"
-        tools:layout="@layout/trace_location_organizer_thanks_fragment"/>
+        tools:layout="@layout/trace_location_organizer_thanks_fragment" />
 
     <fragment
         android:id="@+id/traceLocationQrScannerFragment"

@@ -299,10 +299,13 @@ class BaseRiskLevelStorageTest : BaseTest() {
         riskLevelResults.size shouldBe 4
         riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
+
         riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
-        riskLevelResults[1].riskState shouldBe RiskState.CALCULATION_FAILED
-        riskLevelResults[2].calculatedAt shouldBe ptResult2Failed.calculatedAt
-        riskLevelResults[2].riskState shouldBe RiskState.CALCULATION_FAILED
+        riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
+
+        riskLevelResults[2].calculatedAt shouldBe ewRiskResult2Low.calculatedAt
+        riskLevelResults[2].riskState shouldBe RiskState.LOW_RISK
+
         riskLevelResults[3].calculatedAt shouldBe ewRiskResult2Low.calculatedAt
         riskLevelResults[3].riskState shouldBe RiskState.LOW_RISK
 

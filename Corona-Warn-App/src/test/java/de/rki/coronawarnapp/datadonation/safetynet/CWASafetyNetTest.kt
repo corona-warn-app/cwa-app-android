@@ -26,12 +26,12 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.time.Duration
 import java.time.Instant
 import kotlin.random.Random
@@ -85,7 +85,7 @@ class CWASafetyNetTest : BaseTest() {
         every { cwaSettings.firstReliableDeviceTime } returns Instant.EPOCH.plus(Duration.ofDays(7))
         every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(8))
 
-        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(false)
+        every { testSettings.skipSafetyNetTimeCheck } returns flowOf(false)
     }
 
     private fun createInstance() = CWASafetyNet(
@@ -236,7 +236,7 @@ class CWASafetyNetTest : BaseTest() {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }.type shouldBe SafetyNetException.Type.TIME_SINCE_ONBOARDING_UNVERIFIED
 
-        every { testSettings.skipSafetyNetTimeCheck } returns mockFlowPreference(true)
+        every { testSettings.skipSafetyNetTimeCheck } returns flowOf(true)
 
         shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))

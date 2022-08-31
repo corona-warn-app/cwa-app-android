@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -17,7 +18,8 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSurface">
+        android:background="@color/colorSurface"
+        tools:context="ui.submission.qrcode.consent.SubmissionConsentFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/submission_consent_header"
@@ -137,13 +139,13 @@
 
         </ScrollView>
 
-        <Button
+        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
             android:id="@+id/submission_consent_button"
             style="@style/buttonPrimary"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
-            android:text="@string/submission_accept_button"
+            app:buttonText="@string/submission_accept_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -157,17 +159,6 @@
             app:layout_constraintGuide_end="@dimen/guideline_action" />
 
         <include layout="@layout/merge_guidelines_side" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

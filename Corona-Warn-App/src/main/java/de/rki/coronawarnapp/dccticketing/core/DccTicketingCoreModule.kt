@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.dccticketing.core
 
 import android.content.Context
+import androidx.datastore.preferences.SharedPreferencesMigration
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -14,8 +17,12 @@ import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,10 +30,24 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.File
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module(includes = [DccTicketingCoreModule.ResetModule::class])
 object DccTicketingCoreModule {
+
+    @Singleton
+    @Provides
+    @DccTicketingDataStore
+    fun provideDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ) = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(DCC_TICKETING_DATASTORE_NAME) },
+        migrations = LEGACY_SHARED_PREFS.map { SharedPreferencesMigration(context, it) }
+    )
 
     @DccTicketingHttpClient
     @Provides
@@ -107,3 +128,13 @@ private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
 private const val BASE_URL = "https://localhost"
 
 private const val TAG = "DccTicketingOkHttpClient"
+
+private const val DCC_TICKETING_DATASTORE_NAME = "dcc_ticketing_localdata"
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class DccTicketingDataStore
+
+private val LEGACY_SHARED_PREFS
+    get() = listOf("dccTicketing_qrcode")

@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/colorSurface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="contactdiary.ui.day.tabs.person.ContactDiaryPersonListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contact_diary_person_list_recycler_view"

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -41,7 +40,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
 
         viewModel.state.observe2(this) {
             binding.apply {
-                tanButtonEnter.isEnabled = it.isTanValid
+                tanButtonEnter.isActive = it.isTanValid
                 tanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
                 if (it.isCorrectLength) {
                     tanContent.submissionTanError.isGone = it.isTanValid
@@ -67,7 +66,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         }
 
         viewModel.registrationState.observe2(this) {
-            binding.tanSpinner.isVisible = it == ApiRequestState.STARTED
+            binding.tanButtonEnter.isLoading = it == ApiRequestState.STARTED
             if (ApiRequestState.SUCCESS == it) {
                 doNavigate(
                     TraceLocationWarnTanFragmentDirections

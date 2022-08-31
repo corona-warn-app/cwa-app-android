@@ -1,6 +1,6 @@
 {
-  "$comment": "Generated at Mon Feb 07 2022 14:33:50 GMT+0100 (Central European Standard Time)",
-  "$sourceHash": "7237e59ac249676777277bdb1573aba3b0eacc16f3f585ff082f3ec2b0fc9492",
+  "$comment": "Generated at Mon Aug 08 2022 12:22:20 GMT+0200 (Central European Summer Time)",
+  "$sourceHash": "310d05c317544e54a20b8be2f25c4a26ed57bc57ea4e2c3be72fc70462709fd9",
   "data": [
     {
       "description": "happy path - match",
@@ -399,7 +399,7 @@
       "expIsSameHolder": false
     },
     {
-      "description": "match if both first names are empty (gnt is optional)",
+      "description": "match if both first names are empty (only one of fnt/gnt is mandatory)",
       "actHolderA": {
         "nam": {
           "gnt": "",
@@ -411,6 +411,56 @@
         "nam": {
           "gnt": "",
           "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match if both first names are absent (only one of fnt/gnt is mandatory)",
+      "actHolderA": {
+        "nam": {
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match if both last names are empty (only one of fnt/gnt is mandatory)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match if both last names are absent (only one of fnt/gnt is mandatory)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA"
         },
         "dob": "1980-02-03"
       },
@@ -489,7 +539,7 @@
       "expIsSameHolder": true
     },
     {
-      "description": "german Ä",
+      "description": "match german Ä",
       "actHolderA": {
         "nam": {
           "gnt": "MÄRTHE<täve",
@@ -507,7 +557,7 @@
       "expIsSameHolder": true
     },
     {
-      "description": "german Ö",
+      "description": "match german Ö",
       "actHolderA": {
         "nam": {
           "gnt": "VÖLKER<völker",
@@ -525,7 +575,7 @@
       "expIsSameHolder": true
     },
     {
-      "description": "german Ü",
+      "description": "match german Ü",
       "actHolderA": {
         "nam": {
           "gnt": "GÜNTHER<Jürgen",
@@ -543,7 +593,7 @@
       "expIsSameHolder": true
     },
     {
-      "description": "german ß",
+      "description": "match german ß",
       "actHolderA": {
         "nam": {
           "gnt": "ANGELIKA<MARIA",
@@ -561,25 +611,25 @@
       "expIsSameHolder": true
     },
     {
-      "description": "mars adventurer (unusual name)",
+      "description": "match mars adventurer (unusual name)",
       "actHolderA": {
         "nam": {
           "gnt": "X Æ A-12",
-          "fnt": "ROCKET"
+          "fnt": "MUSK"
         },
-        "dob": "2010-01-01"
+        "dob": "1980-02-03"
       },
       "actHolderB": {
         "nam": {
-          "gnt": "ROCKET",
+          "gnt": "MUSK",
           "fnt": "X Æ A-12"
         },
-        "dob": "2010-01-01"
+        "dob": "1980-02-03"
       },
       "expIsSameHolder": true
     },
     {
-      "description": "match if partly swaped",
+      "description": "edge case for swapped first/last name",
       "actHolderA": {
         "nam": {
           "gnt": "ERIKA<MARIA",
@@ -591,6 +641,42 @@
         "nam": {
           "gnt": "MUSTERMANN<MARIA",
           "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "edge case for swapped first/last name with empty name component (1)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "edge case for swapped first/last name with empty name component (2)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": ""
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
         },
         "dob": "1980-02-03"
       },

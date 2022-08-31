@@ -52,7 +52,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             toolbar.setNavigationOnClickListener { popBackStack() }
             dateInfoIcon.setOnClickListener { viewModel.onInfoClick() }
             privacyInformation.setOnClickListener { viewModel.onPrivacyClick() }
-            startValidationCheck.defaultButton.setOnClickListener {
+            startValidationCheck.setOnClickListener {
                 startValidationCheck.isLoading = true
                 viewModel.onCheckClick()
             }

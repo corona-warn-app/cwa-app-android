@@ -24,6 +24,9 @@ interface PersonalCoronaTestProcessor {
 
     suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest
 
+    suspend fun updateAuthCode(test: PersonalCoronaTest, authCode: String): PersonalCoronaTest
+
     suspend fun markSubmitted(test: PersonalCoronaTest): PersonalCoronaTest
+
     suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest
 }

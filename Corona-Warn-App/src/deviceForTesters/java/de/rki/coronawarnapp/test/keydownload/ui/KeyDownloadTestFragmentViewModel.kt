@@ -43,13 +43,13 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
         .map { it.isMeteredConnection }
         .asLiveData()
 
-    val fakeMeteredConnection = testSettings.fakeMeteredConnection.flow.asLiveData()
+    val fakeMeteredConnection = testSettings.fakeMeteredConnection.asLiveData()
 
     val isSyncRunning = MutableLiveData(false)
     val errorEvent = SingleLiveEvent<Exception>()
 
-    fun toggleAllowMeteredConnections() {
-        testSettings.fakeMeteredConnection.update { !it }
+    fun toggleAllowMeteredConnections() = launch {
+        testSettings.updateFakeMeteredConnection { !it }
     }
 
     fun download() = launchWithSyncProgress {

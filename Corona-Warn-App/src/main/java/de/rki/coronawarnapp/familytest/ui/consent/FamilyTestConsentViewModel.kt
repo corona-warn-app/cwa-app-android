@@ -42,6 +42,10 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
         routeToScreen.postValue(FamilyTestConsentNavigationEvents.NavigateBack)
     }
 
+    fun onNavigateClose() {
+        routeToScreen.postValue(FamilyTestConsentNavigationEvents.NavigateClose)
+    }
+
     fun onConsentButtonClick() = launch {
         val personName = personName.first()
         familyTestCensor.addName(personName)

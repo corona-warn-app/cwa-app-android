@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.util.network
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.LinkProperties
@@ -23,9 +22,9 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,7 +41,7 @@ class NetworkStateProvider @Inject constructor(
         get() = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     val networkState: Flow<State> = callbackFlow {
-        send(currentState)
+        send(currentState())
 
         val request = networkRequestBuilderProvider.get()
             .addCapability(NET_CAPABILITY_INTERNET)
@@ -55,7 +54,7 @@ class NetworkStateProvider @Inject constructor(
             fun refreshState(delayValue: Long = 0) {
                 appScope.launch {
                     delay(delayValue)
-                    send(currentState)
+                    send(currentState())
                 }
             }
 
@@ -121,10 +120,10 @@ class NetworkStateProvider @Inject constructor(
         }
 
         val fakeConnectionSubscriber = launch {
-            testSettings.fakeMeteredConnection.flow.drop(1)
+            testSettings.fakeMeteredConnection.drop(1)
                 .collect {
                     Timber.v("fakeMeteredConnection=%b", it)
-                    send(currentState)
+                    send(currentState())
                 }
         }
 
@@ -140,15 +139,13 @@ class NetworkStateProvider @Inject constructor(
             scope = appScope
         )
 
-    private val currentState: State
-        @SuppressLint("NewApi")
-        get() = when {
-            BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M) -> modernNetworkState()
-            else -> legacyNetworkState()
-        }
+    private suspend fun currentState(): State = when {
+        BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.M) -> modernNetworkState()
+        else -> legacyNetworkState()
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun modernNetworkState(): State = manager.activeNetwork.let { network ->
+    private suspend fun modernNetworkState(): State = manager.activeNetwork.let { network ->
         ModernState(
             activeNetwork = network,
             capabilities = network?.let {
@@ -159,14 +156,14 @@ class NetworkStateProvider @Inject constructor(
                     null
                 }
             },
-            assumeMeteredConnection = testSettings.fakeMeteredConnection.value
+            assumeMeteredConnection = testSettings.fakeMeteredConnection.first()
         )
     }
 
     @Suppress("DEPRECATION")
-    private fun legacyNetworkState(): State = StateLegacyAPI21(
+    private suspend fun legacyNetworkState(): State = StateLegacyAPI21(
         isInternetAvailable = manager.activeNetworkInfo?.isConnected ?: false,
-        isMeteredConnection = testSettings.fakeMeteredConnection.value ||
+        isMeteredConnection = testSettings.fakeMeteredConnection.first() ||
             ConnectivityManagerCompat.isActiveNetworkMetered(manager)
     )
 

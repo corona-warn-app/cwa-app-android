@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import timber.log.Timber
+import java.text.Collator
 
 class ContactDiaryLocationListViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
@@ -46,7 +47,9 @@ class ContactDiaryLocationListViewModel @AssistedInject constructor(
 
     private val diaryLocationListItems: Flow<List<DiaryLocationListItem>> =
         selectableLocations.combine(dayElement) { locations, encounters ->
-            locations.map { location ->
+            locations.sortedWith(
+                compareBy(Collator.getInstance()) { it.locationName }
+            ).map { location ->
                 val visit = encounters.singleOrNull {
                     it.contactDiaryLocation.locationId == location.locationId
                 }

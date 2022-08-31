@@ -26,6 +26,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
 
         title.text = curItem.titleText
         subtitle.text = curItem.subtitleText
+        subtitle.isVisible = curItem.subtitleText.isNotEmpty()
         body.text = curItem.longText
         faq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->

@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ccl.configuration.update
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
@@ -109,17 +108,6 @@ class CclSettings @Inject constructor(
         }
     }
 
-    /**
-     * Get the default value (true) of force ccl calculation and set to false, subsequent calls will false
-     */
-    suspend fun forceCclCalculation(): Boolean {
-        val force = dataStoreFlow.map { prefs -> prefs[FORCE_CCL_CALCULATION_KEY] ?: true }.first()
-        if (force) {
-            dataStore.edit { prefs -> prefs[FORCE_CCL_CALCULATION_KEY] = false }
-        }
-        return force.also { Timber.tag(TAG).d("forceCclCalculation() -> $it") }
-    }
-
     override suspend fun reset() {
         Timber.tag(TAG).d("Clearing CCL Settings data store.")
         runCatching {
@@ -130,7 +118,6 @@ class CclSettings @Inject constructor(
     }
 
     companion object {
-        internal val FORCE_CCL_CALCULATION_KEY = booleanPreferencesKey("ccl.settings.forceCclCalculation")
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
         internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioId")
         internal val ADMISSION_CHECK_SCENARIOS_KEY = stringPreferencesKey("ccl.settings.admissionCheckScenarios")

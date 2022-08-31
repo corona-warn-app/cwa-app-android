@@ -3,14 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="@dimen/spacing_tiny"
-        android:background="@color/dividerColor" />
-
+    android:background="@color/colorSurface"
+    android:orientation="vertical"
+    android:padding="10dp">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/flagGrid"
         android:layout_width="match_parent"
@@ -23,9 +18,4 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/spacing_tiny"
         tools:text="Deutschland, Frankreich" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/dividerColor" />
 </LinearLayout>

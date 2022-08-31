@@ -68,7 +68,7 @@
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
     <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
     <!-- XMSG: risk details - STIKO, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_3_link">"http://www.rki.de/stiko"</string>
+    <string name="risk_details_behavior_increased_body_3_link">"https://www.rki.de/stiko"</string>
     <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->

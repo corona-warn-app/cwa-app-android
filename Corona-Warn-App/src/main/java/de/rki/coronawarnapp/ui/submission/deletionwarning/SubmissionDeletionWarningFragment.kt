@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.submission.deletionwarning
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -71,8 +70,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         viewModel.registrationState.observe2(this) { state ->
             val isWorking = state is State.Working
             binding.apply {
-                submissionQrCodeScanSpinner.isVisible = isWorking
-                continueButton.isVisible = !isWorking
+                continueButton.isLoading = isWorking
             }
             when (state) {
                 State.Idle,

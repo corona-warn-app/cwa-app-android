@@ -14,4 +14,6 @@ sealed class FamilyTestConsentNavigationEvents {
     object NavigateToDataPrivacy : FamilyTestConsentNavigationEvents()
 
     object NavigateBack : FamilyTestConsentNavigationEvents()
+
+    object NavigateClose : FamilyTestConsentNavigationEvents()
 }

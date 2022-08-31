@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
@@ -67,6 +68,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding.toolbar) {
+            addMenuId(R.id.home_fragment_menu_id)
             setupMenuIcons(menu)
             setupDebugMenu(menu)
             setupMenuItemClickListener()

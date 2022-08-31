@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.UploadHis
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeTypedDataStore
@@ -25,8 +25,8 @@ class UploadHistoryStorageTest : BaseTest() {
 
     private val testUploadHistory = UploadHistory(logs = testLogs)
 
-    @BeforeEach
-    fun setup() {
+    @AfterEach
+    fun cleanup() {
         dataStore.reset()
     }
 

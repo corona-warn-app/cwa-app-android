@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import timber.log.Timber
+import java.text.Collator
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
@@ -47,7 +48,9 @@ class ContactDiaryPersonListViewModel @AssistedInject constructor(
         selectablePersons,
         dayEncounters
     ) { persons, encounters ->
-        persons.map { person ->
+        persons.sortedWith(
+            compareBy(Collator.getInstance()) { it.fullName }
+        ).map { person ->
             val encounter = encounters.singleOrNull {
                 it.contactDiaryPerson.personId == person.personId
             }

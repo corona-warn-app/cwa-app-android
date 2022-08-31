@@ -36,7 +36,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Your test could not be evaluated."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Your test is more than 21 days old and is therefore no longer relevant. Please delete the test. You can then add another. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Your test is more than 2 days old and is therefore no longer relevant. Please delete the test. You can then add another."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"You have not been diagnosed with the SARS-CoV-2 virus."</string>
     <!-- XTXT: homescreen card: body - positive -->

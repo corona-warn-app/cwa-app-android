@@ -57,9 +57,8 @@ class TraceLocationWarnDurationFragment :
 
         viewModel.state.observe2(this) { uiState ->
             with(binding) {
-                if (uiState.description != null) {
-                    description.text = uiState.description
-                }
+                description.text = uiState.description
+                eventAddress.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 

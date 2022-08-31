@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         viewModel.mainBadgeCount.observe(this) { count ->
             Timber.tag(TAG).d("mainBadgeCount=$count")
-            binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
+            binding.mainBottomNavigation.updateCountBadge(R.id.status_nav_graph, count)
         }
 
         viewModel.event.observe(this) { event ->
@@ -316,7 +316,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
      */
     override fun onResume() {
         super.onResume()
-        viewModel.doBackgroundNoiseCheck()
         dataDonationAnalyticsScheduler.initialize()
     }
 

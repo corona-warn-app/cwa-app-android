@@ -38,6 +38,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -65,7 +66,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
 
-        startValidationCheck.defaultButton.setOnClickListener {
+        startValidationCheck.setOnClickListener {
             startValidationCheck.isLoading = true
             viewModel.startValidationRulesDownload()
         }
@@ -107,8 +108,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         startValidationCheck.apply {
-            isEnabled = certificate.isNotScreened
-            defaultButton.isEnabled = certificate.isNotScreened
+            isActive = certificate.isNotScreened
         }
         toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotScreened
         qrCodeCard.bindValidityViews(
@@ -195,6 +195,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
+        addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
         setNavigationOnClickListener { viewModel.onClose() }
         setOnMenuItemClickListener {

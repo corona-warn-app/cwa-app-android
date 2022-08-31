@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiaryUiSettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.playbook.BackgroundNoise
+import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -42,8 +42,7 @@ class MainActivityViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val environmentSetup: EnvironmentSetup,
     private val backgroundModeStatus: BackgroundModeStatus,
-    private val contactDiarySettings: ContactDiarySettings,
-    private val backgroundNoise: BackgroundNoise,
+    contactDiaryUiSettings: ContactDiaryUiSettings,
     private val onboardingSettings: OnboardingSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -57,13 +56,14 @@ class MainActivityViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
     tracingSettings: TracingSettings,
+    installTimeProvider: InstallTimeProvider,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
-    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone.flow.map { done ->
-        !done
-    }.asLiveData2()
+    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone
+        .map { done -> done.not() && installTimeProvider.isInstallFromUpdate }
+        .asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
@@ -75,8 +75,7 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
-    private val mutableIsContactDiaryOnboardingDone = MutableLiveData<Boolean>()
-    val isContactDiaryOnboardingDone: LiveData<Boolean> = mutableIsContactDiaryOnboardingDone
+    val isContactDiaryOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone.asLiveData2()
     private val mutableIsTraceLocationOnboardingDone = MutableLiveData<Boolean>()
     val isTraceLocationOnboardingDone: LiveData<Boolean> = mutableIsTraceLocationOnboardingDone
     private val mutableIsCertificatesOnboardingDone = MutableLiveData<Boolean>()
@@ -91,7 +90,7 @@ class MainActivityViewModel @AssistedInject constructor(
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
         familyTestRepository.familyTests,
-        tracingSettings.showRiskLevelBadge.flow
+        tracingSettings.showRiskLevelBadge
     ) { personalTests, familyTests, showBadge ->
         personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
     }.asLiveData2()
@@ -113,20 +112,14 @@ class MainActivityViewModel @AssistedInject constructor(
         valueSetRepository.triggerUpdateValueSet()
 
         launch {
-            if (!onboardingSettings.isBackgroundCheckDone) {
-                onboardingSettings.isBackgroundCheckDone = true
+            if (!onboardingSettings.isBackgroundCheckDone.first()) {
+                onboardingSettings.updateBackgroundCheckDone(isDone = true)
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
                     showBackgroundJobDisabledNotification.postValue(Unit)
                 } else {
                     checkForEnergyOptimizedEnabled()
                 }
             }
-        }
-    }
-
-    fun doBackgroundNoiseCheck() {
-        launch {
-            backgroundNoise.foregroundScheduleCheck()
         }
     }
 
@@ -137,7 +130,6 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onBottomNavSelected() {
-        mutableIsContactDiaryOnboardingDone.value = contactDiarySettings.isOnboardingDone
         mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
         mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.value
     }
@@ -176,8 +168,8 @@ class MainActivityViewModel @AssistedInject constructor(
         event.postValue(MainActivityEvent.OpenScanner)
     }
 
-    fun dismissTooltip() {
-        onboardingSettings.fabScannerOnboardingDone.update { true }
+    fun dismissTooltip() = launch {
+        onboardingSettings.updateFabScannerOnboardingDone(isDone = true)
     }
 
     @AssistedFactory

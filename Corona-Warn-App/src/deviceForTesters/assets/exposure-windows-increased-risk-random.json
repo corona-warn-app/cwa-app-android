@@ -643,13 +643,6 @@
     "ageInDays": 1,
     "calibrationConfidence": 0,
     "infectiousness": 2,
-    "reportType": 2,
-    "scanInstances": []
-  },
-  {
-    "ageInDays": 1,
-    "calibrationConfidence": 0,
-    "infectiousness": 2,
     "reportType": 3,
     "scanInstances": [
       {

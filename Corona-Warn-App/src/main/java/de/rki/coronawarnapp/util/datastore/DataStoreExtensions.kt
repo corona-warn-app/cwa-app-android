@@ -31,10 +31,24 @@ val DataStore<Preferences>.dataRecovering
 fun <T> Flow<Preferences>.map(key: Preferences.Key<T>) = map { prefs -> prefs[key] }
 
 /**
+ * Returns a [Flow] containing the value set for the specified [key]. If no value is set for the
+ * key, the flow contains [defaultValue]. Uses [Preferences.get] to get the value.
+ * Be aware that this can emit the value multiple times, e.g. when another preferences gets changed.
+ */
+fun <T> Flow<Preferences>.map(key: Preferences.Key<T>, defaultValue: T) = map { prefs -> prefs[key] ?: defaultValue }
+
+/**
  * Combines [map] to get the value for the specified [Preferences.Key] and
  * [Flow.distinctUntilChanged] to filter out repetitions.
  */
 fun <T> Flow<Preferences>.distinctUntilChanged(key: Preferences.Key<T>) = map(key)
+    .distinctUntilChanged()
+
+/**
+ * Combines [map] to get the value for the specified [Preferences.Key] and
+ * [Flow.distinctUntilChanged] to filter out repetitions.
+ */
+fun <T> Flow<Preferences>.distinctUntilChanged(key: Preferences.Key<T>, defaultValue: T) = map(key, defaultValue)
     .distinctUntilChanged()
 
 /**
@@ -61,7 +75,40 @@ suspend fun <T> DataStore<Preferences>.setValue(
     preferencesKey: Preferences.Key<T>,
     value: T
 ) {
-    edit { prefs -> prefs[preferencesKey] = value }
+    updateValue(preferencesKey) { value }
+}
+
+/**
+ * Tries to set the [value] for the specified [Preferences.Key]. Fails silently and logs the error.
+ */
+suspend fun <T> DataStore<Preferences>.trySetValue(
+    preferencesKey: Preferences.Key<T>,
+    value: T
+) {
+    tryUpdateValue(preferencesKey) { value }
+}
+
+/**
+ * Update with [transform] for the specified [Preferences.Key]. Fails silently and logs the error.
+ */
+suspend fun <T> DataStore<Preferences>.updateValue(
+    preferencesKey: Preferences.Key<T>,
+    transform: suspend (T?) -> T
+) {
+    edit { prefs ->
+        prefs[preferencesKey] = transform(prefs[preferencesKey])
+    }
+}
+
+/**
+ * Tries to update with [transform] for the specified [Preferences.Key]. Fails silently and logs the error.
+ */
+suspend fun <T> DataStore<Preferences>.tryUpdateValue(
+    preferencesKey: Preferences.Key<T>,
+    transform: suspend (T?) -> T
+) {
+    runCatching { updateValue(preferencesKey, transform) }
+        .onFailure { Timber.e(it, "Failed to update key=%s", preferencesKey) }
 }
 
 /**

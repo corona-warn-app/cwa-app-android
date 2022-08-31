@@ -189,8 +189,6 @@
     <string name="request_green_certificate_privacy_section_4" translatable="false">Eğer Uygulamada test sertifikasına ilişkin QR kodu gösterirseniz ve bu bir kontrol uygulamasıyla taranırsa, diğer kişiler sizin test sertifikanızı öğrenebilir. Kontrol işlemi sırasında adınız ve doğum tarihiniz de resmi kontrol uygulamasında görüntülenecektir.</string>
     <!-- XTXT: Request GC bullet point 5 for privacy card -->
     <string name="request_green_certificate_privacy_section_5" translatable="false">Test sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar test sertifikaları akıllı telefonunuzda kayıtlı kalacaktır.</string>
-    <!-- XTXT: Request GC legal information section for privacy card -->
-    <string name="request_green_certificate_privacy_legal_information" translatable="false">Veri işleme ile ilgili ayrıntılı bilgileri Veri Gizliliği Beyanında bulabilirsiniz</string>
 
     <!-- DCC Ticketing Sonsent Screen -->
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->

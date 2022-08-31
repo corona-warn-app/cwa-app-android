@@ -1,90 +1,122 @@
 package de.rki.coronawarnapp.storage
 
-import android.content.Context
-import androidx.core.content.edit
+import androidx.annotation.VisibleForTesting
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.getValueOrDefault
+import de.rki.coronawarnapp.util.datastore.map
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TracingSettings @Inject constructor(@AppContext private val context: Context) : Resettable {
+class TracingSettings @Inject constructor(
+    @TracingSettingsDataStore private val dataStore: DataStore<Preferences>
+) : Resettable {
 
-    private val prefs by lazy {
-        context.getSharedPreferences("tracing_settings", Context.MODE_PRIVATE)
-    }
+    suspend fun isConsentGiven() = dataStore.getValueOrDefault(TRACING_ACTIVATION_TIMESTAMP, false)
 
-    var isConsentGiven: Boolean
-        get() = prefs.getBoolean(TRACING_ACTIVATION_TIMESTAMP, false)
-        set(value) = prefs.edit(true) {
-            putBoolean(TRACING_ACTIVATION_TIMESTAMP, value)
-        }
+    suspend fun updateConsentGiven(isConsentGiven: Boolean) = dataStore.trySetValue(
+        preferencesKey = TRACING_ACTIVATION_TIMESTAMP,
+        value = isConsentGiven
+    )
 
     //region needed for migration ONLY. Use CoronaTestRepository
-    var initialPollingForTestResultTimeStampMigration: Long
-        get() = prefs.getLong(TRACING_POOLING_TIMESTAMP, 0L)
-        set(value) = prefs.edit(true) {
-            putLong(TRACING_POOLING_TIMESTAMP, value)
-        }
+    suspend fun isTestResultAvailableNotificationSentMigration() = dataStore.getValueOrDefault(
+        preferencesKey = TEST_RESULT_NOTIFICATION_SENT,
+        defaultValue = false
+    )
 
-    var isTestResultAvailableNotificationSentMigration: Boolean
-        get() = prefs.getBoolean(TEST_RESULT_NOTIFICATION_SENT, false)
-        set(value) = prefs.edit(true) {
-            putBoolean(TEST_RESULT_NOTIFICATION_SENT, value)
-        }
+    suspend fun updateTestResultAvailableNotificationSentMigration(sent: Boolean) = dataStore.trySetValue(
+        preferencesKey = TEST_RESULT_NOTIFICATION_SENT,
+        value = sent
+    )
     //endregion needed for migration ONLY.
 
-    val isUserToBeNotifiedOfLoweredRiskLevel = prefs.createFlowPreference(
+    val isUserToBeNotifiedOfLoweredRiskLevel = dataStore.dataRecovering.distinctUntilChanged(
         key = LOWERED_RISK_LEVEL,
         defaultValue = false
     )
 
-    val isUserToBeNotifiedOfAdditionalHighRiskLevel = prefs.createFlowPreference(
+    suspend fun updateUserToBeNotifiedOfLoweredRiskLevel(notify: Boolean) = dataStore.trySetValue(
+        preferencesKey = LOWERED_RISK_LEVEL,
+        value = notify
+    )
+
+    val isUserToBeNotifiedOfAdditionalHighRiskLevel = dataStore.dataRecovering.distinctUntilChanged(
         key = ADDITIONAL_HIGH_RISK_LEVEL,
         defaultValue = false
     )
 
-    var lastHighRiskDate: LocalDate?
-        get() = prefs.getLong(LAST_HIGH_RISK_LOCALDATE, 0L).toInstantOrNull()?.toLocalDateUtc()
-        set(value) = prefs.edit(true) {
-            putLong(LAST_HIGH_RISK_LOCALDATE, value?.toInstantMidnightUtc()?.millis ?: 0L)
-        }
+    suspend fun updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify: Boolean) = dataStore.trySetValue(
+        preferencesKey = ADDITIONAL_HIGH_RISK_LEVEL,
+        value = notify
+    )
+
+    val lastHighRiskDate = dataStore.dataRecovering
+        .map(LAST_HIGH_RISK_LOCALDATE)
+        .map { it?.toInstantOrNull()?.toLocalDateUtc() }
+        .distinctUntilChanged()
+
+    suspend fun updateLastHighRiskDate(date: LocalDate?) = dataStore.trySetValue(
+        preferencesKey = LAST_HIGH_RISK_LOCALDATE,
+        value = date?.toInstantMidnightUtc()?.millis ?: 0L
+    )
 
     /**
      * A flag to show a badge in home screen when risk level changes from Low to High or vice versa
      */
-    val showRiskLevelBadge = prefs.createFlowPreference(
+    val showRiskLevelBadge = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_SHOW_RISK_LEVEL_BADGE,
         defaultValue = false
     )
 
-    fun deleteLegacyTestData() {
+    suspend fun updateShowRiskLevelBadge(show: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_SHOW_RISK_LEVEL_BADGE,
+        value = show
+    )
+
+    suspend fun deleteLegacyTestData() {
         Timber.d("deleteLegacyTestData()")
-        prefs.edit {
-            remove(TEST_RESULT_NOTIFICATION_SENT)
-            remove(TRACING_POOLING_TIMESTAMP)
-        }
+        dataStore.edit { prefs -> prefs.remove(TEST_RESULT_NOTIFICATION_SENT) }
     }
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 
     companion object {
-        const val TRACING_POOLING_TIMESTAMP = "tracing.pooling.timestamp"
-        const val TRACING_ACTIVATION_TIMESTAMP = "tracing.activation.timestamp"
-        const val TEST_RESULT_NOTIFICATION_SENT = "test.notification.sent"
-        const val LOWERED_RISK_LEVEL = "notification.risk.lowered"
-        const val ADDITIONAL_HIGH_RISK_LEVEL = "notification.risk.additionalhigh"
-        const val LAST_HIGH_RISK_LOCALDATE = "tracing.lasthighrisk.localdate"
-        private const val PKEY_SHOW_RISK_LEVEL_BADGE = "notifications.risk.level.change.badge"
+        @VisibleForTesting
+        val TRACING_ACTIVATION_TIMESTAMP = booleanPreferencesKey("tracing.activation.timestamp")
+
+        @VisibleForTesting
+        val TEST_RESULT_NOTIFICATION_SENT = booleanPreferencesKey("test.notification.sent")
+
+        @VisibleForTesting
+        val LOWERED_RISK_LEVEL = booleanPreferencesKey("notification.risk.lowered")
+
+        @VisibleForTesting
+        val ADDITIONAL_HIGH_RISK_LEVEL = booleanPreferencesKey("notification.risk.additionalhigh")
+
+        @VisibleForTesting
+        val LAST_HIGH_RISK_LOCALDATE = longPreferencesKey("tracing.lasthighrisk.localdate")
+
+        @VisibleForTesting
+        val PKEY_SHOW_RISK_LEVEL_BADGE = booleanPreferencesKey("notifications.risk.level.change.badge")
     }
 }

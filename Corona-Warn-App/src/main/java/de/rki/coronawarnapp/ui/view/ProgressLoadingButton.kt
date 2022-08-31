@@ -6,7 +6,6 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.withStyledAttributes
@@ -23,7 +22,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
     private val binding: ViewProgressLoadingButtonBinding
     private var defaultText: String = ""
-    lateinit var defaultButton: Button
+    lateinit var defaultButton: MaterialButton
         private set
 
     init {
@@ -54,12 +53,10 @@ class ProgressLoadingButton @JvmOverloads constructor(
                 applyTo(parentLayout)
             }
 
-            val loadingText = getText(R.styleable.ProgressLoadingButton_loadingText) ?: ""
             val loading = getBoolean(R.styleable.ProgressLoadingButton_isLoading, false)
-            defaultText = getText(R.styleable.ProgressLoadingButton_buttonText).toString()
+            defaultText = getText(R.styleable.ProgressLoadingButton_buttonText)?.toString() ?: ""
             binding.apply {
                 defaultButton.text = defaultText
-                loadingButton.text = loadingText
                 isLoading = loading
             }
         }
@@ -67,13 +64,38 @@ class ProgressLoadingButton @JvmOverloads constructor(
 
     var isLoading: Boolean = false
         set(value) {
+            if (isActive) {
+                setLoadingState(value)
+                field = value
+            }
+        }
+
+    var isActive: Boolean = true
+        set(value) {
+            if (!value) {
+                setLoadingState(false)
+            }
             binding.apply {
-                defaultButton.isClickable = !value
-                loadingButtonContainer.isVisible = value
-                defaultButton.text = if (value) "" else defaultText
+                isEnabled = value
+                defaultButton.isEnabled = value
             }
             field = value
         }
+
+    private fun setLoadingState(loading: Boolean) {
+        binding.apply {
+            isClickable = !loading
+            defaultButton.isClickable = !loading
+            isEnabled = !loading
+            defaultButton.isEnabled = !loading
+            defaultButton.text = if (loading) "" else defaultText
+            progressIndicator.isVisible = loading
+        }
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        defaultButton.setOnClickListener(l)
+    }
 
     override fun onSaveInstanceState(): Parcelable =
         Bundle().apply {

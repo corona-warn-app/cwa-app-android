@@ -262,7 +262,7 @@
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"Якщо у вас виникли запитання, телефонуйте за номером 116 117 (у Німеччині). Потім під час автоматичного повідомлення натисніть 2 для направлення до пункту обслуговування Федерального міністерства охорони здоров’я. Натискайте лише 1 (загальна служба невідкладної медичної допомоги), якщо у вас є симптоми."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
-    <string name="risk_details_behavior_body_wash_hands">"Регулярно мийте руки з милом протягом 20 секунд."</string>
+    <string name="risk_details_behavior_body_wash_hands">"Регулярно мийте руки з милом принаймні протягом 20 секунд."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
     <string name="risk_details_behavior_body_wear_mask">"Одягайте маску для обличчя, коли ви зустрічаєте інших людей у приміщенні та скрізь, де це вимагається або рекомендовано законом."</string>
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
@@ -901,7 +901,7 @@
     <!-- XHED: Dialog title for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_title">"QR-код більше не дійсний"</string>
     <!-- XMSG: Dialog body for submission tan redeemed -->
-    <string name="submission_error_dialog_web_tan_redeemed_body">"Вашому тесту більше 21 дня, і його більше не можна зареєструвати в застосунку. Якщо в майбутньому ви знову проходите тестування, не забудьте відсканувати QR-код, як тільки ви його отримаєте."</string>
+    <string name="submission_error_dialog_web_tan_redeemed_body">"Вашому тесту більше 2 дня, і його більше не можна зареєструвати в застосунку. Якщо в майбутньому ви знову проходите тестування, не забудьте відсканувати QR-код, як тільки ви його отримаєте."</string>
     <!-- XBUT: Positive button for submission tan redeemed -->
     <string name="submission_error_dialog_web_tan_redeemed_button_positive">"OK"</string>
 
@@ -1168,8 +1168,6 @@
     <string name="submission_dispatcher_card_tan_tele">"Запитати TAN для ПЛР-тесту"</string>
     <!-- YTXT: Body text for TELE_TAN dispatcher option -->
     <string name="submission_dispatcher_tan_tele_card_text">"Зателефонуйте нам і отримайте TAN для ПЛР-тесту."</string>
-    <!-- XACT: Dispatcher Tan page title -->
-    <string name="submission_dispatcher_accessibility_title">"Якою інформацією ви володієте?"</string>
 
     <!-- Submission Positive Other Warning -->
     <!-- XHED: Page title for the positive result additional warning page-->
@@ -1547,7 +1545,7 @@
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Плитка статистики"</string>
     <!-- XTXT: Statistics Card Navigation Announcement -->
-    <string name="accessibility_statistics_card_navigation_information">"Проведіть пальцем по горизонталі між плитками, щоб відобразити більше статистичних даних"</string>
+    <string name="accessibility_statistics_card_navigation_information">"Прогорніть плитки ліворуч або праворуч, щоб відобразити більше статистичних даних."</string>
 
     <!-- Persons Vaccinated Once Statistics Card -->
     <!-- XHED: Title for vaccinated once statistics card -->

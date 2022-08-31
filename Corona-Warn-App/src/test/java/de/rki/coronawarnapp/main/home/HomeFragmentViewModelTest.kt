@@ -36,9 +36,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.joda.time.Instant
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -47,7 +50,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.preferences.FakeDataStore
 
 @ExtendWith(InstantExecutorExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
@@ -66,7 +69,6 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
-    @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
@@ -74,6 +76,9 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
+
+    private val dataStore = FakeDataStore()
+    private val tracingSettings = TracingSettings(dataStore)
 
     @BeforeEach
     fun setup() {
@@ -99,15 +104,17 @@ class HomeFragmentViewModelTest : BaseTest() {
         }
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
-        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
 
         every { errorResetTool.isResetNoticeToBeShown } returns false
         every { cwaSettings.wasTracingExplanationDialogShown } returns true
-        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
-        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
         every { familyTestRepository.familyTests } returns flowOf()
+    }
+
+    @AfterEach
+    fun cleanup() {
+        dataStore.reset()
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -197,17 +204,15 @@ class HomeFragmentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `mark risk level badge as seen`() {
+    fun `mark risk level badge as seen`() = runTest {
         createInstance().markRiskBadgeAsSeen()
-        coVerify {
-            tracingSettings.showRiskLevelBadge
-        }
+        tracingSettings.showRiskLevelBadge.first() shouldBe false
     }
 
     @Test
-    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() {
-        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(true)
-        createInstance().userHasAcknowledgedAdditionalHighRiskLevel()
-        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value shouldBe false
-    }
+    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() =
+        runTest {
+            createInstance().userHasAcknowledgedAdditionalHighRiskLevel()
+            tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.first() shouldBe false
+        }
 }

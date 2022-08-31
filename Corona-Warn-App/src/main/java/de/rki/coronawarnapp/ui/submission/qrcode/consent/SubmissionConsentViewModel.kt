@@ -71,6 +71,14 @@ class SubmissionConsentViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToDataPrivacy)
     }
 
+    fun navigateBackToTestRegistration() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateBackToTestRegistration)
+    }
+
+    fun onNavigateClose() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateClose)
+    }
+
     fun giveGoogleConsentResult(accepted: Boolean) = launch {
         Timber.i("User allowed Google consent:$accepted")
         // Navigate regardless of consent result

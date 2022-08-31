@@ -35,7 +35,7 @@ class CwaUserCensor @Inject constructor(
         )
 
         newMessage = newMessage.censor(
-            cwaUser.lastNameStandardized,
+            cwaUser.lastNameStandardized.orEmpty(),
             "cwaUser/lastNameStandardized"
         )
 

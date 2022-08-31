@@ -39,7 +39,7 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
         ) -> Unit = { key, _ ->
             contactDiaryOverviewElementImage.setImageResource(key.drawableId)
             contactDiaryOverviewElementName.text = key.name
-            contactDiaryOverviewElementName.contentDescription = when (key.type) {
+            contactDiaryOverviewElementNestedBody.contentDescription = when (key.type) {
                 ContactItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
                 ContactItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
             }

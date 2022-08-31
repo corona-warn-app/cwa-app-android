@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
-    android:focusable="true">
+    android:focusable="true"
+    tools:context="ui.presencetracing.organizer.list.TraceLocationsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

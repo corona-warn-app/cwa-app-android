@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
@@ -13,11 +11,14 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
@@ -25,7 +26,8 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: Type
+    @Assisted private val testType: Type,
+    @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
@@ -34,17 +36,6 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     val navigation = SingleLiveEvent<NavDirections>()
 
     val showCancelDialog = SingleLiveEvent<Unit>()
-    private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
-
-    init {
-        mediatorShowUploadDialog.addSource(
-            autoSubmission.isSubmissionRunning.asLiveData(context = dispatcherProvider.Default)
-        ) { show ->
-            mediatorShowUploadDialog.postValue(show)
-        }
-    }
-
-    val showUploadDialog: LiveData<Boolean> = mediatorShowUploadDialog
 
     fun onNextClicked() {
         launch {
@@ -65,8 +56,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             symptomIndication = Symptoms.Indication.NEGATIVE
                         )
                     }
-                    doSubmit()
-
+                    performSubmission()
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
@@ -79,8 +69,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             symptomIndication = Symptoms.Indication.NO_INFORMATION
                         )
                     }
-                    doSubmit()
-
+                    performSubmission()
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
@@ -114,22 +103,18 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     fun onCancelConfirmed() {
         Timber.d("Symptom submission was cancelled.")
-        doSubmit()
+        performSubmission()
+        navigation.postValue(
+            SubmissionSymptomIntroductionFragmentDirections.actionSubmissionSymptomIntroductionFragmentToMainFragment()
+        )
     }
 
-    private fun doSubmit() {
-        launch {
+    private fun performSubmission() {
+        appScope.launch {
             try {
                 autoSubmission.runSubmissionNow(testType)
             } catch (e: Exception) {
-                Timber.e(e, "doSubmit() failed.")
-            } finally {
-                Timber.i("Hide uploading progress and navigate to HomeFragment")
-                mediatorShowUploadDialog.postValue(false)
-                navigation.postValue(
-                    SubmissionSymptomIntroductionFragmentDirections
-                        .actionSubmissionSymptomIntroductionFragmentToMainFragment()
-                )
+                Timber.e(e, "performSubmission() failed.")
             }
         }
     }

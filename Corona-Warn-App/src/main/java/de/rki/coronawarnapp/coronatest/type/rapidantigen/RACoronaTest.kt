@@ -28,6 +28,9 @@ data class RACoronaTest(
     @SerializedName("registrationToken")
     override val registrationToken: RegistrationToken,
 
+    @SerializedName("authCode")
+    override val authCode: String? = null,
+
     @SerializedName("isSubmitted")
     override val isSubmitted: Boolean = false,
 

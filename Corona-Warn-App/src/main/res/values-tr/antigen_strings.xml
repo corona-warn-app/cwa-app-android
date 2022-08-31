@@ -36,7 +36,7 @@
     <!-- XTXT: homescreen card: body - error -->
     <string name="ag_homescreen_card_body_error">"Testiniz değerlendirilemedi."</string>
     <!-- XTXT: homescreen card: body - not valid test -->
-    <string name="ag_homescreen_card_body_not_valid_test">"Testiniz 21 günden eski ve bu nedenle artık geçerli değil. Lütfen testi silin. Ardından başka bir test ekleyebilirsiniz. "</string>
+    <string name="ag_homescreen_card_body_not_valid_test">"Testiniz 2 günden eski ve bu nedenle artık geçerli değil. Lütfen testi silin. Ardından başka bir test ekleyebilirsiniz."</string>
     <!-- XTXT: homescreen card: body - negative -->
     <string name="ag_homescreen_card_body_result_negative">"SARS-CoV-2 virüsü tanısı almadınız."</string>
     <!-- XTXT: homescreen card: body - positive -->

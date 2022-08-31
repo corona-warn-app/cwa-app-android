@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -55,9 +56,11 @@ class FamilyTestRepository @Inject constructor(
         qrCode: CoronaTestQRCode,
         personName: String
     ): FamilyCoronaTest {
+        val coronaTest = processor.register(qrCode)
+        if (coronaTest.isRedeemed) throw AlreadyRedeemedException(coronaTest)
         return FamilyCoronaTest(
             personName = personName,
-            coronaTest = processor.register(qrCode)
+            coronaTest = coronaTest
         ).also { test ->
             storage.save(test)
         }

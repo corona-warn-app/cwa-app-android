@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.installTime
 
 import android.content.Context
+import android.content.pm.PackageManager
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Days
@@ -26,4 +27,20 @@ class InstallTimeProvider @Inject constructor(
 
     val daysSinceInstallation: Int
         get() = Days.daysBetween(dayOfInstallation, today).days
+
+    val isInstallFromUpdate
+        get() = try {
+            val installTime = context.packageManager
+                .getPackageInfo(context.packageName, 0)
+                .firstInstallTime
+
+            val updateTime = context.packageManager
+                .getPackageInfo(context.packageName, 0)
+                .lastUpdateTime
+
+            installTime != updateTime
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            false
+        }
 }

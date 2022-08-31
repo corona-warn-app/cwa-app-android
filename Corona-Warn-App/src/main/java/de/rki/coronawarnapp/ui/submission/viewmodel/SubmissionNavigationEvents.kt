@@ -36,4 +36,8 @@ sealed class SubmissionNavigationEvents {
     data class ResolvePlayServicesException(val exception: ApiException) : SubmissionNavigationEvents()
 
     object OpenTestCenterUrl : SubmissionNavigationEvents()
+
+    object NavigateBackToTestRegistration : SubmissionNavigationEvents()
+
+    object NavigateClose : SubmissionNavigationEvents()
 }

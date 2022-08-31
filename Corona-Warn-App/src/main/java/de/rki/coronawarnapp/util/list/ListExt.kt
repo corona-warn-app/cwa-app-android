@@ -5,5 +5,5 @@ package de.rki.coronawarnapp.util.list
  * one common element, otherwise it returns False.
  */
 fun <T> Iterable<T>.hasIntersect(other: Iterable<T>): Boolean {
-    return intersect(other).isNotEmpty()
+    return intersect(other.toSet()).isNotEmpty()
 }

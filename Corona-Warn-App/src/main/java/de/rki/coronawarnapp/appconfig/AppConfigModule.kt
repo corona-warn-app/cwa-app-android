@@ -24,7 +24,6 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.time.Duration
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -38,7 +37,6 @@ object AppConfigModule {
         @RemoteAppConfigCache cache: Cache,
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory
     ): AppConfigApiV2 {
 
         val configHttpClient = client.newBuilder().apply {
@@ -52,7 +50,6 @@ object AppConfigModule {
         return Retrofit.Builder()
             .client(configHttpClient)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
             .build()
             .create(AppConfigApiV2::class.java)
     }

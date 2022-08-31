@@ -119,3 +119,4 @@
 -keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.common.certificate.** { *; }
 -keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
+-keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }

@@ -49,7 +49,7 @@ class ValidationStartViewModel @AssistedInject constructor(
     val selectedCountryCode: String get() = uiState.value.dccCountry.countryCode
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->
-        val countries = if (countryList.isEmpty()) listOf(DccCountry(DE)) else countryList
+        val countries = countryList.ifEmpty { listOf(DccCountry(DE)) }
         countries.sortedWith(compareBy(collator) { it.displayName() })
     }.asLiveData2()
 

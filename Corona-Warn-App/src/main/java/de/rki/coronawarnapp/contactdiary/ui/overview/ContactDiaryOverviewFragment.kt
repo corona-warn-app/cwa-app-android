@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewAdapter
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.contactdiary.util.MarginRecyclerViewDecoration
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -59,6 +61,14 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
             adapter.update(it)
         }
 
+        vm.locations.observe2(this) {
+            binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_locations)?.isEnabled = it.isNotEmpty()
+        }
+
+        vm.people.observe2(this) {
+            binding.toolbar.menu.findItem(R.id.menu_contact_diary_edit_persons)?.isEnabled = it.isNotEmpty()
+        }
+
         vm.routeToScreen.observe2(this) {
             when (it) {
                 ContactDiaryOverviewNavigationEvents.NavigateToMainActivity -> {
@@ -80,6 +90,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     override fun onResume() {
         super.onResume()
+        vm.updateTime()
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
@@ -100,6 +111,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
 
     private fun setupMenu(toolbar: Toolbar) = toolbar.apply {
         inflateMenu(R.menu.menu_contact_diary_overview)
+        (this as MaterialToolbar).addMenuId(R.id.contact_diary_overview_fragment_menu_id)
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_contact_diary_information -> {

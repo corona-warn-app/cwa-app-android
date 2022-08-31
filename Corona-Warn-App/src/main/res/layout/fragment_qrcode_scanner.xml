@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/qr_code_scan_body"
-    android:transitionName="shared_element_container">
+    android:transitionName="shared_element_container"
+    tools:context="qrcode.ui.QrCodeScannerFragment">
 
     <de.rki.coronawarnapp.qrcode.ui.QrCodeScannerPreviewView
         android:id="@+id/scanner_preview"

@@ -7,7 +7,8 @@
     android:background="@color/colorSurface"
     android:contentDescription="@string/tracelocation_organizer_category_title"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    tools:context="covidcertificate.validation.ui.validationstart.ValidationStartFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

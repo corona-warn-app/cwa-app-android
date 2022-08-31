@@ -147,8 +147,8 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }
     }
 
-    private fun isJustInstalledOrUpdated() =
-        !onboardingSettings.isOnboarded || !cwaSettings.wasInteroperabilityShownAtLeastOnce ||
+    private suspend fun isJustInstalledOrUpdated() =
+        !onboardingSettings.isOnboarded() || !cwaSettings.wasInteroperabilityShownAtLeastOnce ||
             cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE
 
     @AssistedFactory

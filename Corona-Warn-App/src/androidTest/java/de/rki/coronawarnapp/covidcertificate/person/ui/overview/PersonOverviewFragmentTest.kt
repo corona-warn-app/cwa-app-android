@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -85,7 +86,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
         )
         setupMockViewModel(
             object : PersonOverviewViewModel.Factory {
-                override fun create(admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel): PersonOverviewViewModel {
+                override fun create(
+                    admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
+                    savedStateHandle: SavedStateHandle
+                ): PersonOverviewViewModel {
                     return viewModel
                 }
             }
@@ -253,7 +257,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -283,7 +288,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -305,7 +311,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 5,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
 
@@ -324,7 +331,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_2,
                     badgeCount = 3,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
 
@@ -343,7 +351,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_3,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -365,7 +374,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -387,7 +397,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 1,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -416,7 +427,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -452,7 +464,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }
@@ -481,7 +494,8 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 1,
                     onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {}
+                    onCovPassInfoAction = {},
+                    onCertificateSelected = {},
                 )
             )
         }

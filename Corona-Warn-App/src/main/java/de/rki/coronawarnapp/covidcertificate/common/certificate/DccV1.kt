@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -14,33 +15,41 @@ data class DccV1(
 ) {
     data class NameData(
         @SerializedName("fn") internal val familyName: String?,
-        @SerializedName("fnt") internal val familyNameStandardized: String,
+        @SerializedName("fnt") internal val familyNameStandardized: String?,
         @SerializedName("gn") internal val givenName: String?,
         @SerializedName("gnt") internal val givenNameStandardized: String?,
     ) {
         val firstName: String?
             get() = if (givenName.isNullOrBlank()) givenNameStandardized else givenName
 
-        val lastName: String
+        val lastName: String?
             get() = if (familyName.isNullOrBlank()) familyNameStandardized else familyName
 
         val fullName: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName
+                firstName.isNullOrBlank() -> lastName.assertName()
+                lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$firstName $lastName"
             }
 
         val fullNameFormatted: String
             get() = when {
-                firstName.isNullOrBlank() -> lastName
+                firstName.isNullOrBlank() -> lastName.assertName()
+                lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$lastName, $firstName"
             }
 
         val fullNameStandardizedFormatted: String
             get() = when {
-                givenNameStandardized.isNullOrBlank() -> familyNameStandardized.trim()
+                givenNameStandardized.isNullOrBlank() -> familyNameStandardized.assertName()
+                familyNameStandardized.isNullOrBlank() -> givenNameStandardized.assertName()
                 else -> familyNameStandardized.trim() + "<<" + givenNameStandardized.trim()
             }
+
+        private fun String?.assertName(): String {
+            if (isNullOrBlank()) throw throw InvalidQRCodeException("Person `fnt` or `gnt` should be present!")
+            return this
+        }
     }
 
     val dateOfBirthFormatted: String

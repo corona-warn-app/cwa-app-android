@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/submission_deletion_warning_title"
-    android:focusable="true">
+    android:focusable="true"
+    tools:context="ui.submission.deletionwarning.SubmissionDeletionWarningFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -87,33 +88,17 @@
 
     </ScrollView>
 
-    <Button
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/continue_button"
         style="@style/buttonPrimary"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:text="@string/submission_deletion_warning_continue_button"
+        app:buttonText="@string/submission_deletion_warning_continue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="@string/submission_deletion_warning_continue_button" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/submission_qr_code_scan_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorAccentTintIcon"
-        android:indeterminateTintMode="src_in"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/continue_button"
-        app:layout_constraintEnd_toEndOf="@id/continue_button"
-        app:layout_constraintStart_toStartOf="@id/continue_button"
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

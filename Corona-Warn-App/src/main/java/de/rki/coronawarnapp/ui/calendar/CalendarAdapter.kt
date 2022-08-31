@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 /**
  * Calendar adapter for recycler view

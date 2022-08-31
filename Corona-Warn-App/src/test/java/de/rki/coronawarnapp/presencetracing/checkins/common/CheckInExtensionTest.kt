@@ -30,7 +30,7 @@ class CheckInExtensionTest : BaseTest() {
         createJournalEntry = true
     )
 
-    private fun Instant.toPrettyDate(): String = toUserTimeZone().toString(DateTimeFormat.shortDateTime())
+    private fun Instant.toPrettyDate(): String = toUserTimeZone().toString(DateTimeFormat.shortDate())
 
     @Test
     fun `Location name concatenates description, address and if both are set trace location start and end date`() {

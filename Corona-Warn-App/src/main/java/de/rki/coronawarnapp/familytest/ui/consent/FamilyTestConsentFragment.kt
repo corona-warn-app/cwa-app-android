@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.familytest.ui.consent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -43,9 +43,27 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.onNavigateBack()
+                }
+            }
+        )
+
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is FamilyTestConsentNavigationEvents.NavigateBack -> {
+                    binding.root.hideKeyboard()
+                    doNavigate(
+                        FamilyTestConsentFragmentDirections
+                            .actionFamilyTestConsentFragmentToTestRegistrationSelectionFragment(
+                                navArgs.coronaTestQrCode
+                            )
+                    )
+                }
+                is FamilyTestConsentNavigationEvents.NavigateClose -> {
                     binding.root.hideKeyboard()
                     popBackStack()
                 }
@@ -68,7 +86,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         viewModel.registrationState.observe2(this) { state ->
             val isWorking = state is TestRegistrationStateProcessor.State.Working
             binding.apply {
-                progressSpinner.isVisible = isWorking
+                consentButton.isLoading = isWorking
             }
             when (state) {
                 TestRegistrationStateProcessor.State.Idle,
@@ -111,7 +129,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             }
             nameInputEdit.setText(qrcodeSharedViewModel.familyTestPersonName)
             toolbar.setNavigationOnClickListener {
-                viewModel.onNavigateBack()
+                viewModel.onNavigateClose()
             }
             dataPrivacy.setOnClickListener {
                 viewModel.onDataPrivacyClick()
@@ -122,7 +140,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         }
 
         viewModel.isSubmittable.observe2(this) {
-            binding.consentButton.isEnabled = it
+            binding.consentButton.isActive = it
         }
     }
 }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
@@ -36,7 +37,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
@@ -79,7 +79,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             )
         )
         coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
-        every { onboardingSettings.exportAllOnboardingDone } returns mockFlowPreference(true)
+        every { onboardingSettings.exportAllOnboardingDone } returns flowOf(true)
     }
 
     @Test
@@ -297,6 +297,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider,
             migrationCheck = migrationCheck,
-            onboardingSettings = onboardingSettings
+            onboardingSettings = onboardingSettings,
+            savedState = SavedStateHandle()
         )
 }

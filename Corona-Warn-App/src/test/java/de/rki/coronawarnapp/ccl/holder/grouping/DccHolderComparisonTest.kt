@@ -13,7 +13,7 @@ class DccHolderComparisonTest : testhelpers.BaseTest() {
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderComparisonTestCaseProvider::class)
     fun allTestCases(testCase: TestCase) {
-
+        print(testCase)
         val certA: CwaCovidCertificate = mockk {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = testCase.holderA.dateOfBirth,
