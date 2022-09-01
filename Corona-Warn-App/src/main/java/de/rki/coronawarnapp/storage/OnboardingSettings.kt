@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.main.CWASettings.Companion.DEFAULT_APP_VERSION
 import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
@@ -44,6 +46,11 @@ class OnboardingSettings @Inject constructor(
         defaultValue = false
     )
 
+    val fabUqsLogVersion = dataStore.dataRecovering.distinctUntilChanged(
+        key = FAB_UQS_LOG_VERSION,
+        defaultValue = DEFAULT_APP_VERSION
+    )
+
     val exportAllOnboardingDone = dataStore.dataRecovering.distinctUntilChanged(
         key = ONBOARDING_EXPORT_ALL_DONE,
         defaultValue = false
@@ -52,6 +59,11 @@ class OnboardingSettings @Inject constructor(
     suspend fun updateFabScannerOnboardingDone(isDone: Boolean) = dataStore.trySetValue(
         preferencesKey = ONBOARDING_FAB_SCANNER_DONE,
         value = isDone
+    )
+
+    suspend fun updateFabUqsVersion(version: Long) = dataStore.trySetValue(
+        preferencesKey = FAB_UQS_LOG_VERSION,
+        value = version
     )
 
     suspend fun updateExportAllOnboardingDone(isDone: Boolean) = dataStore.trySetValue(
@@ -77,11 +89,17 @@ class OnboardingSettings @Inject constructor(
     companion object {
         @VisibleForTesting
         val ONBOARDING_COMPLETED_TIMESTAMP = longPreferencesKey("onboarding.done.timestamp")
+
         @VisibleForTesting
         val BACKGROUND_CHECK_DONE = booleanPreferencesKey("onboarding.background.checked")
+
         @VisibleForTesting
         val ONBOARDING_FAB_SCANNER_DONE = booleanPreferencesKey("onboarding.fab.scanner.done")
+
         @VisibleForTesting
         val ONBOARDING_EXPORT_ALL_DONE = booleanPreferencesKey("onboarding.dcc.export_all.done")
+
+        @VisibleForTesting
+        val FAB_UQS_LOG_VERSION = longPreferencesKey("fab.uqs.log.version")
     }
 }

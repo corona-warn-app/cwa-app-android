@@ -69,7 +69,6 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
     @MockK lateinit var familyTestRepository: FamilyTestRepository
-    @MockK lateinit var installTimeProvider: InstallTimeProvider
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -93,8 +92,6 @@ class MainActivityViewModelTest2 : BaseTest() {
         every { valueSetsRepository.context } returns mockk()
         every { valueSetsRepository.context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
-        every { installTimeProvider.isInstallFromUpdate } returns false
-
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
             every { personsBadgeCount } returns flowOf(0)
@@ -124,7 +121,6 @@ class MainActivityViewModelTest2 : BaseTest() {
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,
         coronaTestRestoreHandler = coronaTestRestoreHandler,
         familyTestRepository = familyTestRepository,
-        installTimeProvider = installTimeProvider,
     )
 
     @Test
