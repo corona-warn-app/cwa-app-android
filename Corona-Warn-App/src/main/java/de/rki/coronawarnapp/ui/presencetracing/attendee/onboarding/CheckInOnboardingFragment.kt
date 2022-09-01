@@ -76,7 +76,8 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                     } else {
                         doNavigate(
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                                args.uri
+                                uri = args.uri,
+                                cleanHistory = true
                             )
                         )
                     }
