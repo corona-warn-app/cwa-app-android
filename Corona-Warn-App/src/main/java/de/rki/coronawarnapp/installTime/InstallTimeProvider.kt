@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.installTime
 
 import android.content.Context
-import android.content.pm.PackageManager
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.di.AppContext
 import org.joda.time.Days
