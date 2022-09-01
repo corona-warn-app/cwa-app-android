@@ -84,7 +84,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     private fun copyLastLogVersion() = launch {
         runCatching {
-            if (onboardingSettings.fabUqsLogVersion.first() != CWASettings.DEFAULT_APP_VERSION) {
+            if (onboardingSettings.fabUqsLogVersion.first() == CWASettings.DEFAULT_APP_VERSION) {
                 onboardingSettings.updateFabUqsVersion(cwaSettings.lastChangelogVersion.value)
             }
         }.onFailure {
