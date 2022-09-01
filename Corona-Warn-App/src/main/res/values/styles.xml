@@ -21,6 +21,7 @@
         <item name="floatingActionButtonStyle">
             @style/Widget.MaterialComponents.FloatingActionButton
         </item>
+        <item name="textAppearanceLargePopupMenu">@style/body2</item>
     </style>
 
     <style name="CertificateDetailTheme" parent="BaseTheme">
