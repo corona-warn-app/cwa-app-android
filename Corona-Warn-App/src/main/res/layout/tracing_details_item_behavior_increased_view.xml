@@ -60,20 +60,55 @@
             android:icon="@drawable/ic_thermometer"
             android:text="@string/risk_details_faq_symptoms_increase" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:backgroundTint="@color/colorSemanticHighRisk"
-            android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_faq_information"
-            android:text="@string/risk_details_increased_risk_faq_link_text" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false">
+
+            <FrameLayout
+                android:id="@+id/erlenmeyer_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/erlenmeyer_text">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    style="@style/icon"
+                    android:layout_width="@dimen/icon_size_risk_details_behavior"
+                    android:layout_height="@dimen/icon_size_risk_details_behavior"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/icon_margin_risk_details_behavior"
+                    android:focusable="false"
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/ic_faq_information"
+                    app:tint="@color/colorStableLight" />
+            </FrameLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:background="@color/dividerColor"
+                app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_1_icon"
+                app:layout_constraintEnd_toEndOf="@id/erlenmeyer_icon"
+                app:layout_constraintStart_toStartOf="@id/erlenmeyer_icon"
+                app:layout_constraintTop_toBottomOf="@id/erlenmeyer_icon" />
+
+            <TextView
+                android:id="@+id/erlenmeyer_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:focusable="true"
+                android:text="@string/risk_details_increased_risk_faq_link_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_1_icon"
@@ -87,6 +122,17 @@
                 app:srcCompat="@drawable/bullet_point"
                 app:tint="@color/colorSemanticHighRisk" />
 
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:background="@color/dividerColor"
+                app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_2_icon"
+                app:layout_constraintEnd_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
+                app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1_icon"
+                app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1_icon" />
+
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_1"
                 style="@style/subtitle"
@@ -98,7 +144,7 @@
                 android:text="@string/risk_details_behavior_increased_body_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/erlenmeyer_text" />
 
             <ImageView
                 android:id="@+id/risk_details_behavior_bullet_point_2_icon"
