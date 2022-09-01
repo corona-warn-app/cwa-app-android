@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -78,6 +77,7 @@ class MainActivityViewModelTest : BaseTest() {
 
         coEvery { onboardingSettings.isOnboarded() } returns true
         every { onboardingSettings.fabScannerOnboardingDone } returns flowOf(true)
+        every { onboardingSettings.fabUqsLogVersion } returns flowOf(0)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
         every { environmentSetup.launchEnvironment } returns null
         every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
