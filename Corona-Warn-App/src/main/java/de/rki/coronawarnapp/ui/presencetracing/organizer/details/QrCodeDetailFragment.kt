@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -120,8 +121,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime!!.toDateTime()
-                    val endTime = uiState.endDateTime!!.toDateTime()
+                    val startTime = uiState.startDateTime!!.toUserTimeZone()
+                    val endTime = uiState.endDateTime!!.toUserTimeZone()
 
                     eventDate.isGone = false
 

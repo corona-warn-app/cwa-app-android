@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -28,6 +29,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 class TraceLocationWarnDurationFragment :
@@ -171,7 +173,7 @@ class TraceLocationWarnDurationFragment :
             .build()
             .apply {
                 setDurationChangeListener {
-                    viewModel.durationChanged(it)
+                    viewModel.durationChanged(it.toJava())
                 }
             }
             .show(childFragmentManager, DURATION_PICKER_TAG)
