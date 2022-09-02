@@ -47,7 +47,7 @@ object TimeAndDateExtensions {
     /**
      * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
      */
-    fun Instant.derive10MinutesInterval(): Long =
+    fun java.time.Instant.derive10MinutesInterval(): Long =
         seconds / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
 
     /**
@@ -70,6 +70,7 @@ object TimeAndDateExtensions {
     fun Instant.toLocalDateTime(timeZone: DateTimeZone): LocalDateTime = this.toDateTime(timeZone).toLocalDateTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
+    val java.time.Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(toEpochMilli())
 
     fun Instant.toUserTimeZone(): DateTime = this.toDateTime(DateTimeZone.getDefault())
 

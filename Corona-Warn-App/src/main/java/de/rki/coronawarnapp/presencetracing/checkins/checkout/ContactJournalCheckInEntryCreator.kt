@@ -11,10 +11,11 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Seconds
 import timber.log.Timber
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlin.math.roundToLong
 
@@ -60,12 +61,12 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         // Duration column is set by calculating the time difference in minutes between Check-in StartDate
         // and Check-in EndDate and rounding it to the closest 10-minute duration
         // Use Seconds for more precision
-        val durationInMinutes = Seconds.secondsBetween(checkInStart, checkInEnd).seconds / 60.0
+        val durationInMinutes = ChronoUnit.SECONDS.between(checkInStart, checkInEnd) / 60.0
         val duration = (durationInMinutes / 10).roundToLong() * 10
         return DefaultContactDiaryLocationVisit(
             date = checkInStart.toLocalDateUtc(),
             contactDiaryLocation = location,
-            duration = Duration.standardMinutes(duration),
+            duration = Duration.ofMinutes(duration),
             checkInID = id
         ).also { Timber.d("Created %s for %s", it, this) }
     }

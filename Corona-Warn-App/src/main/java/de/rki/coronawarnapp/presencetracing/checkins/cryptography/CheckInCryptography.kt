@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 import javax.crypto.Mac
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec

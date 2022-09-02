@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
+import java.time.Instant
 
 @Entity(tableName = "checkin")
 data class TraceLocationCheckInEntity(

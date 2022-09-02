@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 private const val CHECK_IN_RETENTION_DAYS = 15
