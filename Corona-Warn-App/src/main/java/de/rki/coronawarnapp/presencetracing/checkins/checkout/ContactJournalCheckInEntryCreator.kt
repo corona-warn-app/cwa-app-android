@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJoda
+import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -64,9 +66,9 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         val durationInMinutes = ChronoUnit.SECONDS.between(checkInStart, checkInEnd) / 60.0
         val duration = (durationInMinutes / 10).roundToLong() * 10
         return DefaultContactDiaryLocationVisit(
-            date = checkInStart.toLocalDateUtc(),
+            date = checkInStart.toLocalDateUtc().toJodaTime(),
             contactDiaryLocation = location,
-            duration = Duration.ofMinutes(duration),
+            duration = Duration.ofMinutes(duration).toJoda(),
             checkInID = id
         ).also { Timber.d("Created %s for %s", it, this) }
     }
@@ -74,25 +76,25 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     suspend fun List<CheckIn>.createMissingLocationVisits(location: ContactDiaryLocation):
         List<ContactDiaryLocationVisit> {
-            Timber.d(
-                "createMissingLocationVisits(location=%s) for %s",
-                location,
-                this.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
-            )
-            val existingLocationVisits = diaryRepository.locationVisits.first()
-            // Existing location visits shall not be updated, so just drop them
-            return filter {
-                existingLocationVisits.none { visit ->
-                    visit.date == it.checkInStart.toLocalDateUtc() &&
-                        visit.contactDiaryLocation.locationId == location.locationId
-                }
+        Timber.d(
+            "createMissingLocationVisits(location=%s) for %s",
+            location,
+            this.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+        )
+        val existingLocationVisits = diaryRepository.locationVisits.first()
+        // Existing location visits shall not be updated, so just drop them
+        return filter {
+            existingLocationVisits.none { visit ->
+                visit.date == it.checkInStart.toLocalDateUtc().toJodaTime() &&
+                    visit.contactDiaryLocation.locationId == location.locationId
             }
-                .map { it.toLocationVisit(location) }
-                .also {
-                    Timber.d(
-                        "Created location visits: %s",
-                        it.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
-                    )
-                }
         }
+            .map { it.toLocationVisit(location) }
+            .also {
+                Timber.d(
+                    "Created location visits: %s",
+                    it.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+                )
+            }
+    }
 }

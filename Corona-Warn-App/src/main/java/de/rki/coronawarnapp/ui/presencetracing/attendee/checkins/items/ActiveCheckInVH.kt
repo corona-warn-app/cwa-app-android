@@ -9,13 +9,9 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Duration
-import org.joda.time.DurationFieldType
-import org.joda.time.Instant
-import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.PeriodFormat
-import org.joda.time.format.PeriodFormatterBuilder
+import de.rki.coronawarnapp.util.toUserTimeZone
+import java.time.Duration
+import java.time.Instant
 
 class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
@@ -48,8 +44,8 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
         highlightDuration.text = kotlin.run {
-            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
-            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
+            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now())
+            val saneDuration = if (currentDuration < Duration.ZERO) {
                 Duration.ZERO
             } else {
                 currentDuration
@@ -61,16 +57,16 @@ class ActiveCheckInVH(parent: ViewGroup) :
         address.text = curItem.checkin.address
 
         checkoutInfo.text = run {
-            val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
-                val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
-                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
-                    )
-                    it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
-                    else -> PeriodType.minutes()
-                }
-                it.toPeriod(periodType)
+            val checkoutIn = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
+            val periodType = when {
+                it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
+                    arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+                )
+                it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
+                else -> PeriodType.minutes()
             }
+            it.toPeriod(periodType)
+        }
 
             val startDate = checkInStartUserTZ.toString(DateTimeFormat.shortDate())
             val startTime = checkInStartUserTZ.toString(DateTimeFormat.shortTime())

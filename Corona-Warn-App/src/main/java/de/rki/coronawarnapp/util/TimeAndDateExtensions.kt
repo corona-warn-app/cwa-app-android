@@ -53,7 +53,7 @@ object TimeAndDateExtensions {
     /**
      * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
      */
-    fun Instant.deriveHourInterval(): HourInterval = millis / 3600000
+    fun java.time.Instant.deriveHourInterval(): HourInterval = toEpochMilli() / 3600000
 
     /**
      * Converts milliseconds to human readable format hh:mm:ss

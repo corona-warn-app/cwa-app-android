@@ -16,6 +16,10 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toJodaInstant
+import de.rki.coronawarnapp.util.toJodaTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
@@ -80,11 +84,11 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         if (oldResult == null || newResult == null) return
 
         val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp
-        if (lastCheckedResult == newResult.calculatedAt) {
+        if (lastCheckedResult?.toJavaInstant() == newResult.calculatedAt) {
             Timber.d("We already checked this risk level change, skipping further checks.")
             return
         }
-        riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = newResult.calculatedAt
+        riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = newResult.calculatedAt.toJodaInstant()
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
@@ -124,14 +128,14 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 when (lastHighRiskDate) {
                     null -> {
                         Timber.d("initial HIGH risk - no notification")
-                        tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt)
+                        tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt?.toJodaTime())
                     }
                     else -> {
-                        if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                        if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate.toJavaTime())) {
                             Timber.d("additional HIGH risk - trigger notification")
                             sendNotification()
                             tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = true)
-                            tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt)
+                            tracingSettings.updateLastHighRiskDate(date = lastRiskEncounterAt?.toJodaTime())
                         } else {
                             Timber.d("HIGH risk is not newer than the stored one - do nothing")
                         }
@@ -143,7 +147,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                     Timber.d("lastHighRiskDate is null, do nothing")
                     return
                 }
-                if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate.toJavaTime())) {
                     Timber.d("LOW risk - Resetting lastHighRiskDate")
                     tracingSettings.updateLastHighRiskDate(date = null)
                     tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = false)

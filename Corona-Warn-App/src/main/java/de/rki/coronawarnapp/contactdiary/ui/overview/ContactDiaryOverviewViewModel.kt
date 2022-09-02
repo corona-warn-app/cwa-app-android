@@ -40,6 +40,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -162,7 +163,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
 
             val visitsForDate = visits.filter { it.date == date }
             val encountersForDate = encounters.filter { it.date == date }
-            val traceLocationCheckInRisksForDate = traceLocationCheckInRiskList.filter { it.localDateUtc == date }
+            val traceLocationCheckInRisksForDate =
+                traceLocationCheckInRiskList.filter { it.localDateUtc.toJodaTime() == date }
             val testResultForDate = coronaTests.filter { it.time.toLocalDateUserTz() == date }
 
             val coreItemData =

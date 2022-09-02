@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
+import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
@@ -54,7 +55,7 @@ class ContactDiaryCleanTask @Inject constructor(
     }
 
     class Config : TaskFactory.Config {
-        override val executionTimeout: Duration = Duration.ofMinutes(9)
+        override val executionTimeout = Duration.ofMinutes(9).toJoda()
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
         override val errorHandling: TaskFactory.Config.ErrorHandling = TaskFactory.Config.ErrorHandling.SILENT
