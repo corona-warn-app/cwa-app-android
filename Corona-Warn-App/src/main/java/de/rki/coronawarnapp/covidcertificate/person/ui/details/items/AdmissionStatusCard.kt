@@ -26,21 +26,21 @@ class AdmissionStatusCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        title.text = curItem.titleText
+        admissionStateTitle.text = curItem.titleText
         admissionStateBadge.isVisible = curItem.badgeVisible
-        subtitle.isVisible = curItem.subtitleText.isNotEmpty()
-        subtitle.text = curItem.subtitleText
+        admissionStateSubtitle.isVisible = curItem.subtitleText.isNotEmpty()
+        admissionStateSubtitle.text = curItem.subtitleText
         badge.isVisible = curItem.badgeText.isNotBlank()
         badge.text = curItem.badgeText
         if (curItem.badgeVisible && curItem.longTextWithBadge != null) {
-            body.text = curItem.longTextWithBadge
+            admissionStateBody.text = curItem.longTextWithBadge
         } else {
-            body.text = curItem.longText
+            admissionStateBody.text = curItem.longText
         }
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
-        faq.isVisible = curItem.faqAnchor != null
+        admissionStateFaq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
-            faq.convertToHyperlink(url)
+            admissionStateFaq.convertToHyperlink(url)
         }
     }
 
