@@ -24,6 +24,7 @@ import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
 import timber.log.Timber
 
@@ -36,10 +37,14 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private val appUpdateManager: AppUpdateManager,
     private val envSetup: EnvironmentSetup,
     private val dscRepository: DscRepository,
-    @BaseJackson private val objectMapper: ObjectMapper
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
+
+    init {
+        copyLastLogVersion()
+    }
 
     fun initialization() {
         Timber.tag(TAG).d("init()")
@@ -74,6 +79,16 @@ class LauncherActivityViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("checkForUpdate - appUpdateInfo=%s", appUpdateInfo)
         if (appUpdateInfo?.updateAvailability() == UPDATE_AVAILABLE) {
             events.postValue(forceUpdateEvent(appUpdateInfo))
+        }
+    }
+
+    private fun copyLastLogVersion() = launch {
+        runCatching {
+            if (onboardingSettings.fabUqsLogVersion.first() == CWASettings.DEFAULT_APP_VERSION) {
+                onboardingSettings.updateFabUqsVersion(cwaSettings.lastChangelogVersion.value)
+            }
+        }.onFailure {
+            Timber.d(it, "copyLastLogVersion() failed")
         }
     }
 
