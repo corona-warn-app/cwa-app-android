@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
 
@@ -112,8 +113,10 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
             .show()
     }
 
-    private fun navigateToPersonOverview() {
+    private fun navigateToPersonOverview() = runCatching {
         val navOptions = NavOptions.Builder().setPopUpTo(R.id.personOverviewFragment, true).build()
         findNavController().navigate(R.id.covid_certificates_graph, null, navOptions)
+    }.onFailure {
+        Timber.d(it, "navigateToPersonOverview()")
     }
 }
