@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
 import java.time.Duration
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -133,7 +134,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         }
 
         private fun getFormattedTime(value: ZonedDateTime?, locale: Locale) =
-            value?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
+            value?.format(DateTimeFormatter.ofPattern("E, ${locale.shortDatePattern()}   HH:mm"))
     }
 
     sealed class Result {

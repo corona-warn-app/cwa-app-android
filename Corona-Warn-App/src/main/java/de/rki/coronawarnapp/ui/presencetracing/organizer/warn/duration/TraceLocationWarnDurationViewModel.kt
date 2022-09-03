@@ -9,10 +9,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -20,6 +19,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import kotlin.math.roundToInt
 
 class TraceLocationWarnDurationViewModel @AssistedInject constructor(
@@ -67,7 +69,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
             !traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC)
         ) {
             uiState.apply {
-                value = value.copy(localDateTime = traceLocation.startDate.toDateTime().toLocalDateTime())
+                value = value.copy(localDateTime = traceLocation.startDate.toUserTimeZone())
             }
         }
 
@@ -95,7 +97,11 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         val localDateTime: LocalDateTime = LocalDateTime.now(),
         val duration: Duration = Duration.ofMinutes(15)
     ) {
-        fun formattedDateTime() = "${localDateTime.toDayFormat()} ${localDateTime.toShortTimeFormat()}"
+        fun formattedDateTime() = "${
+            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+        } ${
+            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        }"
 
         fun getReadableDuration(resources: Resources): String {
             return duration.toReadableDuration(
@@ -104,7 +110,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         }
 
         fun getTraceLocationWarnDuration(traceLocation: TraceLocation): TraceLocationWarnDuration {
-            val startDate = localDateTime.toDateTime().toInstant()
+            val startDate = localDateTime.toInstant(ZoneOffset.UTC)
             return TraceLocationWarnDuration(
                 traceLocation = traceLocation,
                 startDate = startDate,
