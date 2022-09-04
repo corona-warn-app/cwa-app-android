@@ -19,9 +19,10 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -50,13 +51,11 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            appBarLayout.addOnOffsetChangedListener(
-                AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                    title.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
-                        )
-                }
-            )
+            appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                title.alpha = (
+                    1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
+                    )
+            }
 
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
@@ -151,11 +150,11 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTimeAtStartOfDay(DateTimeZone.UTC)?.millis)
+            .setSelection(defaultValue?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(LocalDate(it, DateTimeZone.UTC))
+                    callback(Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate())
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -172,14 +171,14 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             )
             .apply {
                 if (defaultValue != null) {
-                    setHour(defaultValue.hourOfDay)
-                    setMinute(defaultValue.minuteOfHour)
+                    setHour(defaultValue.hour)
+                    setMinute(defaultValue.minute)
                 }
             }
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(LocalTime(this.hour, this.minute))
+                    callback(LocalTime.of(this.hour, this.minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

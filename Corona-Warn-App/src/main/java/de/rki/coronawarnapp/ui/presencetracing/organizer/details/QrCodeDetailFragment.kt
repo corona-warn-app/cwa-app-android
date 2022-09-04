@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
@@ -126,10 +127,10 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
                     eventDate.isGone = false
 
-                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
-                    val startHour = startTime.toLocalTime().toString("HH:mm")
-                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
-                    val endHour = endTime.toLocalTime().toString("HH:mm")
+                    val startDay = startTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    val startHour = startTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                    val endDay = endTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    val endHour = endTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
