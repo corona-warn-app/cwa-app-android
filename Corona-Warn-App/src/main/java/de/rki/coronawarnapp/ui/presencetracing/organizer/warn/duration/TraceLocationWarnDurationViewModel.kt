@@ -97,11 +97,11 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         val localDateTime: LocalDateTime = LocalDateTime.now(),
         val duration: Duration = Duration.ofMinutes(15)
     ) {
-        fun formattedDateTime() = "${
-            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-        } ${
-            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-        }"
+        fun formattedDateTime(): String {
+            val date = localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            val time = localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            return "$date $time"
+        }
 
         fun getReadableDuration(resources: Resources): String {
             return duration.toReadableDuration(
