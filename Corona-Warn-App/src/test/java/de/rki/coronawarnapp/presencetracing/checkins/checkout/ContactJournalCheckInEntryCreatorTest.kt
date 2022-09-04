@@ -5,7 +5,9 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJoda
+import de.rki.coronawarnapp.util.toJodaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -18,12 +20,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
-import org.joda.time.Days
-import org.joda.time.Instant
-import org.joda.time.Minutes
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
+import java.time.Instant
 
 class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
@@ -55,10 +56,10 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
     private val testLocationVisit = DefaultContactDiaryLocationVisit(
         id = 0,
-        date = testCheckIn.checkInStart.toLocalDateUtc(),
+        date = testCheckIn.checkInStart.toLocalDateUtc().toJodaTime(),
         contactDiaryLocation = testLocation,
         checkInID = testCheckIn.id,
-        duration = Minutes.minutes(60).toStandardDuration()
+        duration = Duration.ofMinutes(60).toJoda()
     )
 
     @BeforeEach
@@ -114,7 +115,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             testCheckIn.toLocationVisit(testLocation).also {
                 it.checkInID shouldBe testCheckIn.id
                 it.date shouldBe testCheckIn.checkInStart.toLocalDateUtc()
-                it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
+                it.duration!!.toStandardMinutes().minutes shouldBe 60
                 it.contactDiaryLocation shouldBe testLocation
             }
         }
@@ -126,22 +127,22 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             // Rounds duration to closest 15 minutes
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:04:59+01:00")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
+                    it.duration!!.toStandardMinutes().minutes shouldBe 60
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:05:00+01:00")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(70)
+                    it.duration!!.toStandardMinutes().minutes shouldBe 70
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:54:29+01:00")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(50)
+                    it.duration!!.toStandardMinutes().minutes shouldBe 50
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:55:00+01:00")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
+                    it.duration!!.toStandardMinutes().minutes shouldBe 60
                 }
         }
     }
@@ -163,8 +164,8 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
             // Create check in for next day which should also create a visit for the next day
             val testCheckInNextDay = testCheckIn.copy(
-                checkInStart = testCheckIn.checkInStart.plus(Days.ONE.toStandardDuration()),
-                checkInEnd = testCheckIn.checkInEnd.plus(Days.ONE.toStandardDuration())
+                checkInStart = testCheckIn.checkInStart.plus(Duration.ofDays(1)),
+                checkInEnd = testCheckIn.checkInEnd.plus(Duration.ofDays(1))
             )
             checkins.add(testCheckInNextDay)
 

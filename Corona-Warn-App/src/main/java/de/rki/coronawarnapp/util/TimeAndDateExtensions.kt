@@ -10,6 +10,8 @@ import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
 import org.joda.time.format.DateTimeFormat
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -22,8 +24,6 @@ object TimeAndDateExtensions {
     private val dayFormatter2DigitYear = DateTimeFormat.shortDate()
 
     private val shortTime = DateTimeFormat.shortTime()
-
-    fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
 
     fun Date.toUIFormat(context: Context): String = DateFormat.getDateFormat(context).format(this)
 
@@ -159,13 +159,13 @@ object TimeAndDateExtensions {
     /*
     * Returns date changes until
     */
-    fun Instant.daysUntil(
-        date: Instant,
-        timeZone: DateTimeZone = DateTimeZone.getDefault()
+    fun java.time.Instant.daysUntil(
+        date: java.time.Instant,
+        timeZone: ZoneId = ZoneId.systemDefault()
     ): Int {
-        val startDate = toDateTime(timeZone).toLocalDate()
-        val endDate = date.toDateTime(timeZone).toLocalDate()
-        return Days.daysBetween(startDate, endDate).days
+        val startDate = atZone(timeZone).toLocalDate()
+        val endDate = date.atZone(timeZone).toLocalDate()
+        return ChronoUnit.DAYS.between(startDate, endDate).toInt()
     }
 }
 

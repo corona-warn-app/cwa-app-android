@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
+import de.rki.coronawarnapp.util.toJodaInstant
 import de.rki.coronawarnapp.util.toOkioByteString
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,11 +26,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.SecureRandom
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import kotlin.random.asKotlinRandom
 
@@ -168,8 +169,8 @@ class CheckInsTransformerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
-        every { timeStamper.nowJavaUTC } returns java.time.Instant.parse("2021-03-11T10:00:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-11T10:00:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z").toJodaInstant()
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {

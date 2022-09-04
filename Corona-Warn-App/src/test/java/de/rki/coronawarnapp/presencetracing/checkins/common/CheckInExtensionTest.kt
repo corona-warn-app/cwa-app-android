@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.presencetracing.checkins.common
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.toUserTimeZone
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class CheckInExtensionTest : BaseTest() {
 
@@ -30,7 +32,8 @@ class CheckInExtensionTest : BaseTest() {
         createJournalEntry = true
     )
 
-    private fun Instant.toPrettyDate(): String = toUserTimeZone().toString(DateTimeFormat.shortDate())
+    private fun Instant.toPrettyDate(): String =
+        toUserTimeZone().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 
     @Test
     fun `Location name concatenates description, address and if both are set trace location start and end date`() {

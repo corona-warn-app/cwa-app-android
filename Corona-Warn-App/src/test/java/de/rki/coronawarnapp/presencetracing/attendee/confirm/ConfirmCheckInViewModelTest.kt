@@ -18,14 +18,14 @@ import io.mockk.just
 import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import java.time.Duration
+import java.time.Instant
 
 @ExtendWith(InstantExecutorExtension::class)
 class ConfirmCheckInViewModelTest : BaseTest() {
@@ -40,8 +40,8 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
         description = "My Birthday Party",
         address = "at my place",
-        startDate = 2687955L.secondsToInstant(),
-        endDate = 2687991L.secondsToInstant(),
+        startDate = Instant.ofEpochSecond(2687955L),
+        endDate = Instant.ofEpochSecond(2687991L),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "CRYPTOGRAPHIC_SEED".decodeBase64()!!,
         cnPublicKey = "PUB_KEY",
@@ -54,7 +54,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
 
         coEvery { checkInRepository.addCheckIn(any()) } returns 1L
         every { verifiedTraceLocation.traceLocation } returns traceLocation
-        every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-04T10:30:00Z")
         every { traceLocationAttendeeSettings.createJournalEntryCheckedState } returns flowOf(true)
         every { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
     }
@@ -80,13 +80,13 @@ class ConfirmCheckInViewModelTest : BaseTest() {
 
     @Test
     fun `confirm button should be disabled when autoCheckOutLength is 0`() = with(createInstance()) {
-        durationUpdated(Duration.standardMinutes(0))
+        durationUpdated(Duration.ofMinutes(0))
         uiState.getOrAwaitValue().confirmButtonEnabled shouldBe false
     }
 
     @Test
     fun `confirm button should be enabled when autoCheckOutLength is greater than 0`() = with(createInstance()) {
-        durationUpdated(Duration.standardMinutes(15))
+        durationUpdated(Duration.ofMinutes(15))
         uiState.getOrAwaitValue().confirmButtonEnabled shouldBe true
     }
 }
