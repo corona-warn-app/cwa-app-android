@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/vaccination_info_title"
             style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,14 +26,14 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/vaccination_info_subtitle"
         style="@style/body2Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Letzte Impfung noch XX Tage gültig" />
 
     <TextView
-        android:id="@+id/body"
+        android:id="@+id/vaccination_info_body"
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         tools:text="Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig." />
 
     <TextView
-        android:id="@+id/faq"
+        android:id="@+id/vaccination_info_faq"
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -27,16 +27,16 @@ class MaskRequirementsCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        title.text = curItem.titleText
-        subtitle.text = curItem.subtitleText
-        body.text = curItem.longText
+        maskReqTitle.text = curItem.titleText
+        maskReqSubtitle.text = curItem.subtitleText
+        maskReqBody.text = curItem.longText
         if (curItem.badgeState != null) {
-            badge.isVisible = true
-            badge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
+            maskReqBadge.isVisible = true
+            maskReqBadge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
         }
-        faq.isVisible = curItem.faqAnchor != null
+        maskReqFaq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
-            faq.convertToHyperlink(url)
+            maskReqFaq.convertToHyperlink(url)
         }
     }
 

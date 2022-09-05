@@ -107,7 +107,7 @@ class CWASettings @Inject constructor(
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT = "testresults.id.rat"
 
         private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
-        private const val DEFAULT_APP_VERSION = 1L
+        const val DEFAULT_APP_VERSION = 1L
 
         private const val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE = "notifications.onboarding.versionCode"
 

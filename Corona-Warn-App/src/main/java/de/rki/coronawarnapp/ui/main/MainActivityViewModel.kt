@@ -13,9 +13,10 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.installTime.InstallTimeProvider
+import de.rki.coronawarnapp.main.CWASettings.Companion.DEFAULT_APP_VERSION
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -56,14 +57,16 @@ class MainActivityViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
     tracingSettings: TracingSettings,
-    installTimeProvider: InstallTimeProvider,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
 
-    val isToolTipVisible: LiveData<Boolean> = onboardingSettings.fabScannerOnboardingDone
-        .map { done -> done.not() && installTimeProvider.isInstallFromUpdate }
-        .asLiveData2()
+    val isToolTipVisible: LiveData<Boolean> = combine(
+        onboardingSettings.fabScannerOnboardingDone,
+        onboardingSettings.fabUqsLogVersion
+    ) { done, version ->
+        !done && version != DEFAULT_APP_VERSION && version < BuildConfigWrap.VERSION_CODE
+    }.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
 
@@ -170,6 +173,7 @@ class MainActivityViewModel @AssistedInject constructor(
 
     fun dismissTooltip() = launch {
         onboardingSettings.updateFabScannerOnboardingDone(isDone = true)
+        onboardingSettings.updateFabUqsVersion(BuildConfigWrap.VERSION_CODE)
     }
 
     @AssistedFactory
