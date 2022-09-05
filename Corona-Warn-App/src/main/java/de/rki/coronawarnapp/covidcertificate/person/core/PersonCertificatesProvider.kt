@@ -47,7 +47,7 @@ class PersonCertificatesProvider @Inject constructor(
                 certs.isEmpty() // Any person should have at least one certificate to show up in the list
             }.map { certs ->
                 val (personIdentifier: CertificatePersonIdentifier, dccWalletInfo: DccWalletInfo?) =
-                    certs.firstNotNullOfOrNull {
+                    certs.toCertificateSortOrder().firstNotNullOfOrNull {
                         personWalletsGroup[it.personIdentifier.groupingKey]?.let { walletGroup ->
                             it.personIdentifier to walletGroup.dccWalletInfo
                         }
