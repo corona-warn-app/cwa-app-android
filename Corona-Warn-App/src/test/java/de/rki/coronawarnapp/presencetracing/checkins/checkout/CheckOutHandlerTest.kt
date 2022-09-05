@@ -38,7 +38,7 @@ class CheckOutHandlerTest : BaseTest() {
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
-        checkInEnd = Instant.EPOCH.plus(100,ChronoUnit.MILLIS),
+        checkInEnd = Instant.EPOCH.plus(100, ChronoUnit.MILLIS),
         completed = false,
         createJournalEntry = true
     )
