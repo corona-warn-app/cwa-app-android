@@ -125,7 +125,7 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     fun `CheckIn to ContactDiaryLocationVisit duration mapping is correct`() {
         createInstance().apply {
             // Rounds duration to closest 15 minutes
-            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:04:59+01:00")).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:07:29+01:00")).toLocationVisit(testLocation)
                 .also {
                     it.duration!!.toStandardMinutes().minutes shouldBe 60
                 }
@@ -135,14 +135,19 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
                     it.duration!!.toStandardMinutes().minutes shouldBe 70
                 }
 
-            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:54:29+01:00")).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:07:30+01:00")).toLocationVisit(testLocation)
                 .also {
                     it.duration!!.toStandardMinutes().minutes shouldBe 50
                 }
 
-            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:55:00+01:00")).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:52:30+01:00")).toLocationVisit(testLocation)
                 .also {
                     it.duration!!.toStandardMinutes().minutes shouldBe 60
+                }
+
+            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:52:29+01:00")).toLocationVisit(testLocation)
+                .also {
+                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(45)
                 }
         }
     }

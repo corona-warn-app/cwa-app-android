@@ -60,10 +60,10 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun CheckIn.toLocationVisit(location: ContactDiaryLocation): ContactDiaryLocationVisit {
         // Duration column is set by calculating the time difference in minutes between Check-in StartDate
-        // and Check-in EndDate and rounding it to the closest 10-minute duration
+        // and Check-in EndDate and rounding it to the closest 15-minute duration
         // Use Seconds for more precision
         val durationInMinutes = ChronoUnit.SECONDS.between(checkInStart, checkInEnd) / 60.0
-        val duration = (durationInMinutes / 10).roundToLong() * 10
+        val duration = (durationInMinutes / 15).roundToLong() * 15
         return DefaultContactDiaryLocationVisit(
             date = checkInStart.toLocalDateUtc().toJodaTime(),
             contactDiaryLocation = location,
