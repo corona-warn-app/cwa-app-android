@@ -4,12 +4,14 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.PowerManager
 import de.rki.coronawarnapp.initializer.Initializer
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.ProcessLifecycleScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -35,7 +37,8 @@ class ForegroundRiskCalculationService @Inject constructor(
     private val tracingRepository: TracingRepository,
     private val foregroundState: ForegroundState,
     @AppScope private val appScope: CoroutineScope,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val onboardingSettings: OnboardingSettings,
 ) : Initializer {
 
     private val powerManager by lazy {
@@ -50,7 +53,12 @@ class ForegroundRiskCalculationService @Inject constructor(
     private var latestRunTimeStamp: Instant = Instant.EPOCH
 
     override fun initialize() {
-        foregroundState.isInForeground
+        combine(
+            foregroundState.isInForeground,
+            onboardingSettings.isOnboardedFlow,
+        ) { isInForeground, isOnboarded ->
+            isInForeground && isOnboarded
+        }
             .distinctUntilChanged()
             .filter { it }
             .onEach { runRiskCalculations() }
@@ -67,11 +75,11 @@ class ForegroundRiskCalculationService @Inject constructor(
         }
         latestRunTimeStamp = now
 
-        // If we are being bound by Google Play Services (which is only a few seconds)
-        // and don't have a worker or foreground service, the system may still kill us and the tasks
-        // before they have finished executing.
-        Timber.tag(TAG).v("Acquiring wakelocks for watchdog routine.")
         processLifecycleScope.launch {
+            // If we are being bound by Google Play Services (which is only a few seconds)
+            // and don't have a worker or foreground service, the system may still abort the tasks
+            // before they have finished executing.
+            Timber.tag(TAG).v("Acquiring wakelocks for risk calculations in foreground.")
             // A wakelock as the OS does not handle this for us like in the background job execution
             val wakeLock = createWakeLock()
             // A wifi lock to wake up the wifi connection in case the device is dozing

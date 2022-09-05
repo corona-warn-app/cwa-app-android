@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.PowerManager
+import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
@@ -27,6 +28,7 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var foregroundState: ForegroundState
+    @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var powerManager: PowerManager
     @MockK lateinit var wifiManager: WifiManager
@@ -34,15 +36,17 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
     @MockK lateinit var wifiLock: WifiManager.WifiLock
 
     private val foregroundFlow = MutableStateFlow(true)
+    private val onboardedFlow = MutableStateFlow(false)
 
     private fun createService(scope: CoroutineScope) = ForegroundRiskCalculationService(
-        context, scope, tracingRepository, foregroundState, scope, timeStamper
+        context, scope, tracingRepository, foregroundState, scope, timeStamper, onboardingSettings
     )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { foregroundState.isInForeground } returns foregroundFlow
+        every { onboardingSettings.isOnboardedFlow } returns onboardedFlow
         every { timeStamper.nowJavaUTC } returnsMany listOf(
             Instant.ofEpochMilli(10000000000),
             Instant.ofEpochMilli(20000000000),
@@ -67,6 +71,7 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
     @Test
     fun `runs on app start`() = runTest2 {
         createService(this).initialize()
+        onboardedFlow.emit(true)
 
         advanceUntilIdle()
 
@@ -79,9 +84,8 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
     fun `runs on every first change to foreground`() = runTest2 {
         createService(this).initialize()
 
-        advanceUntilIdle()
-
         foregroundFlow.emit(true)
+        onboardedFlow.emit(true)
         foregroundFlow.emit(true)
         foregroundFlow.emit(false)
         foregroundFlow.emit(true)
@@ -103,11 +107,37 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
         )
 
         createService(this).initialize()
+        onboardedFlow.emit(true)
         foregroundFlow.emit(true)
         foregroundFlow.emit(false)
         foregroundFlow.emit(true)
         advanceUntilIdle()
 
+        coVerify(exactly = 1) {
+            tracingRepository.runRiskCalculations()
+        }
+    }
+
+    @Test
+    fun `wait until user is onboarded`() = runTest2 {
+        every { timeStamper.nowJavaUTC } returnsMany listOf(
+            Instant.ofEpochMilli(10000000000),
+            Instant.ofEpochMilli(10000000001),
+            Instant.ofEpochMilli(10000000002),
+            Instant.ofEpochMilli(10000000003),
+        )
+
+        createService(this).initialize()
+        foregroundFlow.emit(true)
+
+        advanceUntilIdle()
+        coVerify(exactly = 0) {
+            tracingRepository.runRiskCalculations()
+        }
+
+        onboardedFlow.emit(true)
+
+        advanceUntilIdle()
         coVerify(exactly = 1) {
             tracingRepository.runRiskCalculations()
         }
