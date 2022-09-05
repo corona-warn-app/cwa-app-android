@@ -10,7 +10,7 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/admission_state_title"
         style="@style/body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,20 +29,20 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:importantForAccessibility="no"
-        app:layout_constraintStart_toEndOf="@id/title"
+        app:layout_constraintStart_toEndOf="@id/admission_state_title"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_badge"
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/admission_state_subtitle"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="@+id/admission_state_title"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/admission_state_title"
+        app:layout_constraintTop_toBottomOf="@id/admission_state_title"
         tools:text="2G" />
 
     <TextView
@@ -53,22 +53,22 @@
         android:background="@drawable/ic_admission_badge_1"
         android:maxWidth="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/admission_state_title"
         tools:text="2G+ PCR Test" />
 
     <TextView
-        android:id="@+id/body"
+        android:id="@+id/admission_state_body"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/subtitle"
-        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        app:layout_constraintStart_toStartOf="@id/admission_state_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/admission_state_subtitle"
         tools:text="Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht." />
 
     <TextView
-        android:id="@+id/faq"
+        android:id="@+id/admission_state_faq"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         android:text="@string/confirmed_status_faq_text"
         android:textColorLink="@color/colorTextTint"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@id/body"
-        app:layout_constraintTop_toBottomOf="@id/body" />
+        app:layout_constraintStart_toStartOf="@id/admission_state_body"
+        app:layout_constraintTop_toBottomOf="@id/admission_state_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
