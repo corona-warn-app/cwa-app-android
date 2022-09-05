@@ -601,7 +601,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"So funktioniert die Begegnungs-Aufzeichnung"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Erlauben Sie Aufzeichnung und Weitergabe von COVID-19-Zufalls-IDs."</string>
+    <string name="settings_tracing_body_description">"Erlauben Sie die Aufzeichnung und Weitergabe von COVID-19-Zufalls-IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Risiko-Ermittlung aktiv"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
