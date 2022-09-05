@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.toJoda
 import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
@@ -74,13 +73,11 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    suspend fun List<CheckIn>.createMissingLocationVisits(location: ContactDiaryLocation):
-        List<ContactDiaryLocationVisit> {
-        Timber.d(
-            "createMissingLocationVisits(location=%s) for %s",
-            location,
-            this.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
-        )
+    suspend fun List<CheckIn>.createMissingLocationVisits(
+        location: ContactDiaryLocation
+    ): List<ContactDiaryLocationVisit> {
+        val checkIns = this.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+        Timber.d("createMissingLocationVisits(location=%s) for %s", location, checkIns)
         val existingLocationVisits = diaryRepository.locationVisits.first()
         // Existing location visits shall not be updated, so just drop them
         return filter {
@@ -88,13 +85,13 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
                 visit.date == it.checkInStart.toLocalDateUtc().toJodaTime() &&
                     visit.contactDiaryLocation.locationId == location.locationId
             }
+        }.map {
+            it.toLocationVisit(location)
+        }.also {
+            Timber.d(
+                "Created location visits: %s",
+                it.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
+            )
         }
-            .map { it.toLocationVisit(location) }
-            .also {
-                Timber.d(
-                    "Created location visits: %s",
-                    it.joinToString(prefix = System.lineSeparator(), separator = System.lineSeparator())
-                )
-            }
     }
 }
