@@ -41,6 +41,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="42dp"
         android:maxLines="1"
+        android:ellipsize="end"
         android:text="@string/person_details_certificate_title"
         android:textColor="@color/colorTextPrimary1InvertedStable"
         android:textSize="20sp"

@@ -3,9 +3,5 @@
     android:shape="rectangle">
 
     <corners android:radius="100dp" />
-    <gradient
-        android:angle="0"
-        android:endColor="#FF0F689D"
-        android:startColor="#2077AB"
-        android:type="linear" />
+    <solid android:color="@color/maskGStatusBadgeColor" />
 </shape>

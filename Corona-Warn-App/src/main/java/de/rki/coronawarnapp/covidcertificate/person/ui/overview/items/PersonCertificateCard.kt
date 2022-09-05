@@ -39,6 +39,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
+        val hasMaskState: Boolean = false,
+        val maskBadgeText: String = "",
         val certificateSelection: CertificateSelection = CertificateSelection.FIRST,
         val colorShade: PersonColorShade,
         val badgeCount: Int,

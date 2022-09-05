@@ -55,11 +55,16 @@ class TraceLocationVH(parent: ViewGroup) :
                 )
             } else {
                 icon.setCaption(null)
-                val dateTimeFormat = DateTimeFormat.shortDateTime()
+                val dateFormat = DateTimeFormat.shortDate()
+                val timeFormat = DateTimeFormat.shortTime()
+                val startDateTime =
+                    "${startTime.toLocalDate().toString(dateFormat)}, ${startTime.toLocalTime().toString(timeFormat)}"
+                val endDateTime =
+                    "${endTime.toLocalDate().toString(dateFormat)}, ${endTime.toLocalTime().toString(timeFormat)}"
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration,
-                    startTime.toString(dateTimeFormat),
-                    endTime.toString(dateTimeFormat)
+                    startDateTime,
+                    endDateTime
                 )
             }
         } else {
