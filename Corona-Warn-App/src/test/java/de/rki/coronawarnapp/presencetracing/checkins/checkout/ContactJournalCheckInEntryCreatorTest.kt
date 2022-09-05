@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
+import org.joda.time.Minutes
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -128,27 +129,22 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
             // Rounds duration to closest 15 minutes
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:07:29Z")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes().minutes shouldBe 60
-                }
-
-            testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:05:00Z")).toLocationVisit(testLocation)
-                .also {
-                    it.duration!!.toStandardMinutes().minutes shouldBe 70
+                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T23:07:30Z")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes().minutes shouldBe 50
+                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(75)
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:52:30Z")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes().minutes shouldBe 60
+                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
                 }
 
             testCheckIn.copy(checkInEnd = Instant.parse("2021-03-04T22:52:29Z")).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes().minutes shouldBe 45
+                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(45)
                 }
         }
     }
