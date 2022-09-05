@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentProgressViewBinding
-import de.rki.coronawarnapp.tracing.states.TracingInProgress
+import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingProgressBox.Item
 
@@ -32,6 +32,6 @@ class TracingProgressBox(
     }
 
     data class Item(
-        val state: TracingInProgress
+        val state: RiskCalculationInProgress
     ) : RiskStateItem
 }

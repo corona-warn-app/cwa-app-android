@@ -61,7 +61,7 @@ class HomeFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         with(homeFragmentViewModel) {
-            every { refreshRequiredData() } just Runs
+            every { refreshTests() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { homeItems } returns homeFragmentItemsLiveData()
             every { events } returns SingleLiveEvent()
@@ -312,7 +312,7 @@ class HomeFragmentTest : BaseUITest() {
         launchInMainActivity<HomeFragment>(
             testNavHostController = navController
         )
-        verify(exactly = 1) { homeFragmentViewModel.refreshRequiredData() }
+        verify(exactly = 1) { homeFragmentViewModel.refreshTests() }
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
