@@ -21,13 +21,13 @@ class CheckInExtensionTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = Instant.parse("2021-03-04T22:00+01:00"),
-        traceLocationEnd = Instant.parse("2021-03-04T23:00+01:00"),
+        traceLocationStart = Instant.parse("2021-03-04T22:00:00Z"),
+        traceLocationEnd = Instant.parse("2021-03-04T23:00:00Z"),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = Instant.parse("2021-03-04T22:00+01:00"),
-        checkInEnd = Instant.parse("2021-03-04T23:00+01:00"),
+        checkInStart = Instant.parse("2021-03-04T22:00:00Z"),
+        checkInEnd = Instant.parse("2021-03-04T23:00:00Z"),
         completed = false,
         createJournalEntry = true
     )

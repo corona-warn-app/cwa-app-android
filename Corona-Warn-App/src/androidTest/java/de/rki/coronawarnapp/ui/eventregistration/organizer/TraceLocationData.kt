@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.catego
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationUIType
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import okio.ByteString.Companion.decodeBase64
+import java.time.Instant
 
 object TraceLocationData {
 
@@ -21,8 +22,8 @@ object TraceLocationData {
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
         description = "Jahrestreffen der deutschen SAP Anwendergruppe",
         address = "Hauptstr. 3, 69115 Heidelberg",
-        startDate = 1624291200L.secondsToInstant(),
-        endDate = 1624302000L.secondsToInstant(),
+        startDate = Instant.ofEpochSecond(1624291200L),
+        endDate = Instant.ofEpochSecond(1624302000L),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
         cnPublicKey = PUB_KEY,
@@ -34,8 +35,8 @@ object TraceLocationData {
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
         description = "Event XYZ",
         address = "Otto-Hahn-Str. 3, 123456 Berlin",
-        startDate = 1618740005L.secondsToInstant(),
-        endDate = 1618865545L.secondsToInstant(),
+        startDate = Instant.ofEpochSecond(1618740005L),
+        endDate = Instant.ofEpochSecond(1618865545L),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
         cnPublicKey = PUB_KEY,
