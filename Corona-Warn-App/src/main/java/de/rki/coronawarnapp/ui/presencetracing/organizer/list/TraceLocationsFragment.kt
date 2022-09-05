@@ -186,7 +186,8 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             R.string.trace_location_organiser_list_delete_all_popup_negative_button,
             positiveButtonFunction = {
                 viewModel.deleteAllTraceLocations()
-            }
+            },
+            isDeleteDialog = true
         )
         DialogHelper.showDialog(deleteAllDialog)
     }
