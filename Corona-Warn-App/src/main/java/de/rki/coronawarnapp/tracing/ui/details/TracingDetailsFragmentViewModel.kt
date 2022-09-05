@@ -13,9 +13,9 @@ import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
+import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
-import de.rki.coronawarnapp.tracing.states.TracingFailed
-import de.rki.coronawarnapp.tracing.states.TracingInProgress
 import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.IncreasedRiskBox
@@ -52,11 +52,11 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     private val tracingCardItems = tracingStateProvider.state.map { tracingState ->
         when (tracingState) {
-            is TracingInProgress -> TracingProgressBox.Item(state = tracingState)
+            is RiskCalculationInProgress -> TracingProgressBox.Item(state = tracingState)
             is TracingDisabled -> TracingDisabledBox.Item(state = tracingState)
             is LowRisk -> LowRiskBox.Item(state = tracingState)
             is IncreasedRisk -> IncreasedRiskBox.Item(state = tracingState)
-            is TracingFailed -> TracingFailedBox.Item(state = tracingState)
+            is RiskCalculationFailed -> TracingFailedBox.Item(state = tracingState)
         }
     }
 
@@ -97,14 +97,8 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<TracingDetailsNavigationEvents> = SingleLiveEvent()
 
-    fun refreshData() {
-        launch {
-            tracingRepository.refreshRiskLevel()
-        }
-    }
-
     fun updateRiskDetails() {
-        tracingRepository.refreshRiskResult()
+        tracingRepository.runRiskCalculations()
     }
 
     fun onItemClicked(item: DetailsItem) {

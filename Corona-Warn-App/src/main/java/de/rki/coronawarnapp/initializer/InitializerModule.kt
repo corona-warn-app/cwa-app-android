@@ -30,7 +30,7 @@ import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsRetrievalScheduler
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.util.WatchdogService
+import de.rki.coronawarnapp.util.ForegroundRiskCalculationService
 
 @Suppress("TooManyFunctions")
 @Module
@@ -38,7 +38,7 @@ interface InitializerModule {
 
     @Binds
     @IntoSet
-    fun watchdogService(initializer: WatchdogService): Initializer
+    fun foregroundRiskCalculationService(initializer: ForegroundRiskCalculationService): Initializer
 
     @Binds
     @IntoSet

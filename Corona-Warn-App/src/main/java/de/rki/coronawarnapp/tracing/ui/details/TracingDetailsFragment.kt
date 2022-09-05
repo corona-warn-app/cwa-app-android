@@ -91,7 +91,6 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
     override fun onResume() {
         super.onResume()
-        vm.refreshData()
         binding.riskDetailsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 }
