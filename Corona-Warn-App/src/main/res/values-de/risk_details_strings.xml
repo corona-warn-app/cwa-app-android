@@ -3,7 +3,7 @@
     <!-- XHED: Hygiene rules title -->
     <string name="risk_details_hygiene_rules_title">Hygieneregeln</string>
     <!-- XHED: Home rules title -->
-    <string name="risk_details_stay_at_home_title">Ansteckungsrisiko minimieren</string>
+    <string name="risk_details_stay_at_home_title">Infektionsrisiko minimieren</string>
     <!-- XTXT: risk details - hygiene info -->
     <string name="risk_details_behavior_body_hygiene">Bitte achten Sie jetzt besonders auf die üblichen Hygieneregeln.</string>
     <!-- XTXT: risk details - meetings info -->
