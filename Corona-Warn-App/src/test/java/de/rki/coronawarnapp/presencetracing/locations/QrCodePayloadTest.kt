@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing.locations
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.qrCodePayload
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test

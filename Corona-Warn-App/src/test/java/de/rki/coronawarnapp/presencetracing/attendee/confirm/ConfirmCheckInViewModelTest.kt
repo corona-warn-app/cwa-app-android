@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInNavigation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInViewModel
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
