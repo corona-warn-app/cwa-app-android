@@ -58,7 +58,7 @@ class TimeAndDateExtensionsTest : BaseTest() {
 
     @Test
     fun `derive 10 minutes interval`() {
-        Instant.parse("2021-03-02T09:57:11.000Z").derive10MinutesInterval() shouldBe 2691125
+        Instant.parse("2021-03-02T08:57:11Z").derive10MinutesInterval() shouldBe 2691125
     }
 
     @Test
