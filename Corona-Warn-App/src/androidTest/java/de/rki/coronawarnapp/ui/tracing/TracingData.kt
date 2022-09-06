@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
-import de.rki.coronawarnapp.tracing.states.TracingFailed
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsState
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
@@ -158,7 +158,7 @@ object TracingData {
         ),
         listOf(
             TracingFailedBox.Item(
-                state = TracingFailed(
+                state = RiskCalculationFailed(
                     riskState = RiskState.CALCULATION_FAILED,
                     isInDetailsMode = true,
                     lastExposureDetectionTime = null

@@ -19,12 +19,12 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
-import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.RiskCalculationState
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
+import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
 import de.rki.coronawarnapp.tracing.states.TracingDisabled
-import de.rki.coronawarnapp.tracing.states.TracingFailed
-import de.rki.coronawarnapp.tracing.states.TracingInProgress
 import de.rki.coronawarnapp.tracing.ui.homecards.IncreasedRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
@@ -106,16 +106,16 @@ object HomeData {
         )
 
         val TRACING_PROGRESS_ITEM = TracingProgressCard.Item(
-            state = TracingInProgress(
+            state = RiskCalculationInProgress(
                 riskState = RiskState.LOW_RISK,
                 isInDetailsMode = false,
-                tracingProgress = TracingProgress.Downloading
+                riskCalculationState = RiskCalculationState.Downloading
             ),
             onCardClick = {}
         )
 
         val TRACING_FAILED_ITEM = TracingFailedCard.Item(
-            state = TracingFailed(
+            state = RiskCalculationFailed(
                 riskState = RiskState.CALCULATION_FAILED,
                 isInDetailsMode = false,
                 lastExposureDetectionTime = todayAtNineFiftyFive
