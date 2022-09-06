@@ -35,15 +35,17 @@ data class CombinedEwPtRiskLevelResult(
 
     val daysWithEncounters: Int by lazy {
         when (riskState) {
-            RiskState.INCREASED_RISK -> ewDaysWithHighRisk
-                .plus(ptRiskLevelResult.daysWithHighRisk.map { it.toJodaTime() })
-                .distinct()
-                .count()
+            RiskState.INCREASED_RISK ->
+                ewDaysWithHighRisk
+                    .plus(ptRiskLevelResult.daysWithHighRisk.map { it.toJodaTime() })
+                    .distinct()
+                    .count()
 
-            RiskState.LOW_RISK -> ewDaysWithLowRisk
-                .plus(ptRiskLevelResult.daysWithLowRisk.map { it.toJodaTime() })
-                .distinct()
-                .count()
+            RiskState.LOW_RISK ->
+                ewDaysWithLowRisk
+                    .plus(ptRiskLevelResult.daysWithLowRisk.map { it.toJodaTime() })
+                    .distinct()
+                    .count()
 
             else -> 0
         }
