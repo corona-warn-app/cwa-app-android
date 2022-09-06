@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdapter
 import de.rki.coronawarnapp.util.list.Swipeable
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -42,14 +42,14 @@ class TraceLocationVH(parent: ViewGroup) :
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
-            val startTime = item.traceLocation.startDate.atZone(ZoneOffset.UTC)
-            val endTime = item.traceLocation.endDate.atZone(ZoneOffset.UTC)
+            val startTime = item.traceLocation.startDate.atZone(ZoneId.systemDefault())
+            val endTime = item.traceLocation.endDate.atZone(ZoneId.systemDefault())
 
             val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
             val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
                     startTime.format(dateFormat),
