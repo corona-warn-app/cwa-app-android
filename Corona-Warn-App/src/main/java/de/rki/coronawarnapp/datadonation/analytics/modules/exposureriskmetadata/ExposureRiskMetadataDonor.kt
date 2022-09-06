@@ -49,7 +49,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
         val lastEWRiskResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .lastCalculated
+            .lastSuccessfullyCalculated
             .ewRiskLevelResult
 
         val riskLevelEWForMetadata = lastEWRiskResult.riskState.toMetadataRiskLevel()
@@ -69,7 +69,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
         val lastPTRiskResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
-            .lastCalculated
+            .lastSuccessfullyCalculated
             .ptRiskLevelResult
 
         val riskLevelPtForMetadata = lastPTRiskResult.toMetadataRiskLevel()
@@ -108,7 +108,6 @@ class ExposureRiskMetadataDonor @Inject constructor(
 
 private fun PtRiskLevelResult.toMetadataRiskLevel(): PpaData.PPARiskLevel =
     when (riskState) {
-        RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         RiskState.INCREASED_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_HIGH
-        else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
+        else -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
     }

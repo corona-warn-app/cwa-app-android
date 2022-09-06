@@ -10,6 +10,9 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.LastSuccessfulCombinedRiskResults
+import de.rki.coronawarnapp.risk.LastSuccessfulEwRiskResult
+import de.rki.coronawarnapp.risk.LastSuccessfulPtRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -17,6 +20,7 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -204,6 +208,42 @@ abstract class BaseRiskLevelStorage constructor(
                 lastSuccessfullyCalculated = lastSuccessfullyCalculated
             )
         }
+
+    override val lastSuccessfulCombinedRiskLevelResult: Flow<LastSuccessfulCombinedRiskResults>
+        get() = combine(
+            allCombinedEwPtRiskLevelResults,
+            ewDayRiskStates,
+        ) { combinedResults, ewDayRiskStates ->
+
+            val lastSuccessfullyCalculated = (combinedResults.find {
+                it.wasSuccessfullyCalculated
+            } ?: riskCombinator.initialCombinedResult).copy(
+                // need to supplement the data here as they are null by default
+                exposureWindowDayRisks = ewDayRiskStates,
+            )
+
+            val lastSuccessfulEwRiskResult = LastSuccessfulEwRiskResult(
+                riskState = lastSuccessfullyCalculated.ewRiskLevelResult.riskState,
+                mostRecentDateAtRiskLevel = lastSuccessfullyCalculated
+                    .ewRiskLevelResult
+                    .mostRecentDateAtRiskState ?: lastSuccessfullyCalculated.calculatedAt
+            )
+
+            val lastSuccessfulPtRiskResult = LastSuccessfulPtRiskResult(
+                riskState = lastSuccessfullyCalculated.ptRiskLevelResult.riskState,
+                mostRecentDateAtRiskLevel = lastSuccessfullyCalculated
+                    .ptRiskLevelResult
+                    .mostRecentDateAtRiskState
+                    ?.toDateTimeAtStartOfDayUtc()
+                    ?.toInstant() ?: lastSuccessfullyCalculated.calculatedAt
+            )
+
+            LastSuccessfulCombinedRiskResults(
+                ewResult = lastSuccessfulEwRiskResult,
+                ptResult = lastSuccessfulPtRiskResult
+            )
+        }
+
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult)
 
