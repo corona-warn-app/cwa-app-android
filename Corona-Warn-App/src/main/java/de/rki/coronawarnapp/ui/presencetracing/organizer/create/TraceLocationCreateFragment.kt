@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toJava
-import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -32,7 +31,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -129,8 +128,8 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     placeInputEdit.setText(it.address)
                 }
                 viewModel.apply {
-                    begin = it.startDate?.atZone(ZoneOffset.UTC)
-                    end = it.endDate?.atZone(ZoneOffset.UTC)
+                    begin = it.startDate?.atZone(ZoneId.systemDefault())
+                    end = it.endDate?.atZone(ZoneId.systemDefault())
                     checkInLength = Duration.ofMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
                 }
             }
@@ -174,7 +173,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.truncatedTo(ChronoUnit.SECONDS).toInstant().toEpochMilli())
+                                    .from(minConstraint.truncatedTo(ChronoUnit.MILLIS).toInstant().toEpochMilli())
                             )
                             .build()
                     )
@@ -184,7 +183,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .apply {
                 addOnPositiveButtonClickListener {
                     showTimePicker(
-                        Instant.ofEpochMilli(it).toLocalDateUserTimeZone(),
+                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate(),
                         defaultValue?.hour,
                         defaultValue?.minute,
                         callback
@@ -207,7 +206,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(date.atTime(this.hour, this.minute).atZone(ZoneOffset.UTC))
+                    callback(date.atTime(this.hour, this.minute).atZone(ZoneId.systemDefault()))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)

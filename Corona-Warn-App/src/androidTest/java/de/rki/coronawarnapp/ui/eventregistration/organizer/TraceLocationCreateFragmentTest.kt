@@ -50,7 +50,6 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         TimeZone.setDefault(timeZone)
-        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.addTraceLocation(any()) } returns TraceLocationData.traceLocationSameDate
