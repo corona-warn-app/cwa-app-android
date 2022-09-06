@@ -3,11 +3,16 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.toJoda
 import de.rki.coronawarnapp.util.toUserTimeZone
+import org.joda.time.DurationFieldType
+import org.joda.time.PeriodType
+import org.joda.time.format.PeriodFormat
 import java.time.Duration
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -31,6 +36,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         TraceLocationAttendeeCheckinsItemActiveBinding.bind(itemView)
     }
 
+    private val hourPeriodFormatter by lazy {
+        PeriodFormat.wordBased(context.getLocale())
+    }
+
     override val onBindData: TraceLocationAttendeeCheckinsItemActiveBinding.(
         item: Item,
         payloads: List<Any>
@@ -52,11 +61,14 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         checkoutInfo.text = run {
             val checkoutIn = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
-                when {
-                    it > Duration.ofHours(1) -> "hh:mm"
-                    it > Duration.ofDays(1) -> "dd"
-                    else -> "mm"
+                val periodType = when {
+                    it > Duration.ofHours(1) -> PeriodType.forFields(
+                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+                    )
+                    it > Duration.ofDays(1) -> PeriodType.days()
+                    else -> PeriodType.minutes()
                 }
+                it.toJoda().toPeriod(periodType)
             }
 
             val startDate = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
@@ -65,7 +77,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
                 R.string.trace_location_checkins_card_automatic_checkout_info_format,
                 startDate,
                 startTime,
-                checkoutIn
+                hourPeriodFormatter.print(checkoutIn)
             )
         }
 
