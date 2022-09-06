@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import de.rki.coronawarnapp.util.toProtoByteString

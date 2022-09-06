@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.deriveHourInterval
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

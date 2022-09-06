@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 

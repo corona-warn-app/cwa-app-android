@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.presencetracing.checkins
 
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 

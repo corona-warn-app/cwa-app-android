@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationCategory
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.TraceLocationUIType
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import okio.ByteString.Companion.decodeBase64
 import java.time.Instant
 

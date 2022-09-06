@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptog
 import de.rki.coronawarnapp.presencetracing.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
