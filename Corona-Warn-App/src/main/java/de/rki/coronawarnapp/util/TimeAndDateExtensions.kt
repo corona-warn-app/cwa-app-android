@@ -155,18 +155,6 @@ object TimeAndDateExtensions {
      * Converts this LocalDate to a full datetime at the earliest valid time for the date using timezone UTC
      */
     fun LocalDate.toDateTimeAtStartOfDayUtc(): DateTime = toDateTimeAtStartOfDay(DateTimeZone.UTC)
-
-    /*
-    * Returns date changes until
-    */
-    fun java.time.Instant.daysUntil(
-        date: java.time.Instant,
-        timeZone: ZoneId = ZoneId.systemDefault()
-    ): Int {
-        val startDate = atZone(timeZone).toLocalDate()
-        val endDate = date.atZone(timeZone).toLocalDate()
-        return ChronoUnit.DAYS.between(startDate, endDate).toInt()
-    }
 }
 
 typealias HourInterval = Long

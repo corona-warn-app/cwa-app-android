@@ -27,8 +27,8 @@ internal class CheckInWarningMatcherTest2 : BaseTest() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         createInstance().deriveTraceWarnings(emptyList(), listOf(checkIn1)).size shouldBe 0
@@ -47,8 +47,8 @@ internal class CheckInWarningMatcherTest2 : BaseTest() {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         val checkInReport1 = CheckInOuterClass.CheckInProtectedReport.newBuilder()
@@ -72,15 +72,15 @@ internal class CheckInWarningMatcherTest2 : BaseTest() {
         val checkIn1 = createCheckIn(
             id = 1L,
             traceLocationId = "9baf3a40312f39849f46dad1040f2f039f1cffa1238c41e9db675315cfad39b6",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         val checkIn2 = createCheckIn(
             id = 2L,
             traceLocationId = "03ad6b333d445099c7dfe0ff745ec5cc1330d149ef752f36c3aed4efea13f725",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         val checkInReport1 = CheckInOuterClass.CheckInProtectedReport.parseFrom(
@@ -103,15 +103,15 @@ internal class CheckInWarningMatcherTest2 : BaseTest() {
         val checkIn1 = createCheckIn(
             id = 1L,
             traceLocationId = "9baf3a40312f39849f46dad1040f2f039f1cffa1238c41e9db675315cfad39b6",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         val checkIn2 = createCheckIn(
             id = 2L,
             traceLocationId = "03ad6b333d445099c7dfe0ff745ec5cc1330d149ef752f36c3aed4efea13f725",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
 
         val checkInReport1 = CheckInOuterClass.CheckInProtectedReport.parseFrom(
