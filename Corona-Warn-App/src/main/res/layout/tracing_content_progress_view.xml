@@ -6,7 +6,7 @@
     <data>
         <variable
             name="state"
-            type="de.rki.coronawarnapp.tracing.states.TracingInProgress" />
+            type="de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

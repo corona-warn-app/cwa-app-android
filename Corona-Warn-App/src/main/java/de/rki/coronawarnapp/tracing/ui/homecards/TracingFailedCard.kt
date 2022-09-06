@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentFailedViewBinding
-import de.rki.coronawarnapp.tracing.states.TracingFailed
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
@@ -28,7 +28,7 @@ class TracingFailedCard(
     }
 
     data class Item(
-        val state: TracingFailed,
+        val state: RiskCalculationFailed,
         val onCardClick: (Item) -> Unit,
         val onRetryClick: (Item) -> Unit
     ) : TracingStateItem

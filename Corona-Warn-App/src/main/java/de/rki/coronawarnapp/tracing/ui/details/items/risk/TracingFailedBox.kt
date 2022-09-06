@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentFailedViewBinding
-import de.rki.coronawarnapp.tracing.states.TracingFailed
+import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox.Item
 import de.rki.coronawarnapp.util.ui.setGone
@@ -34,6 +34,6 @@ class TracingFailedBox(
     }
 
     data class Item(
-        val state: TracingFailed
+        val state: RiskCalculationFailed
     ) : RiskStateItem
 }
