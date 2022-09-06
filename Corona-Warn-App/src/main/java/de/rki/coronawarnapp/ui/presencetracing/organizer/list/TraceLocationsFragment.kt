@@ -206,21 +206,20 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         }
     }
 
-    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.trace_location_organiser_list_delete_single_popup_title)
-            setMessage(R.string.trace_location_organiser_list_delete_single_popup_message)
-            setPositiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) { _, _ ->
-                viewModel.deleteSingleTraceLocation(traceLocation)
-            }
-            setNegativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) { _, _ ->
-                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
-            }
-            setOnCancelListener {
-                position?.let { traceLocationsAdapter.notifyItemChanged(position) }
-            }
-        }.show()
-    }
+    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) =
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.trace_location_organiser_list_delete_single_popup_title,
+                R.string.trace_location_organiser_list_delete_single_popup_message,
+                R.string.trace_location_organiser_list_delete_all_popup_positive_button,
+                R.string.trace_location_organiser_list_delete_all_popup_negative_button,
+                positiveButtonFunction = { viewModel.deleteSingleTraceLocation(traceLocation) },
+                negativeButtonFunction = { position?.let { traceLocationsAdapter.notifyItemChanged(position) } },
+                cancelFunction = { position?.let { traceLocationsAdapter.notifyItemChanged(position) } },
+                isDeleteDialog = true
+            )
+        )
 
     private fun onScrollChange(extend: Boolean) =
         with(binding.qrCodeFab) {
