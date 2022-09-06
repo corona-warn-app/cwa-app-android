@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.toJodaInstant
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
