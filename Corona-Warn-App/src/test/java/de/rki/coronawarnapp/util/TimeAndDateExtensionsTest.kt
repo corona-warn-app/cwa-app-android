@@ -43,16 +43,6 @@ class TimeAndDateExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `instant seconds extension`() {
-        Instant.ofEpochMilli(-1).seconds shouldBe 0
-        Instant.ofEpochMilli(0).seconds shouldBe 0
-        Instant.ofEpochMilli(999).seconds shouldBe 0
-        Instant.ofEpochMilli(1000).seconds shouldBe 1
-        Instant.ofEpochMilli(1999).seconds shouldBe 1
-        Instant.ofEpochMilli(2000).seconds shouldBe 2
-    }
-
-    @Test
     fun `seconds to instant`() {
         2687955L.secondsToInstant() shouldBe org.joda.time.Instant.parse("1970-02-01T02:39:15.000Z")
     }
@@ -92,7 +82,7 @@ class TimeAndDateExtensionsTest : BaseTest() {
     fun `toDateTimeAtStartOfDayUtc returns a date on the same day if converted to instant`() {
         val day = LocalDate.of(2021, 2, 15)
         val startOfDayUtc = day.atStartOfDay(ZoneOffset.UTC)
-        val timeStampUtc = startOfDayUtc.toInstant().seconds
+        val timeStampUtc = startOfDayUtc.toInstant().epochSecond
         val tsuInstantString = timeStampUtc.secondsToInstant().toString()
 
         tsuInstantString shouldBe "2021-02-15T00:00:00.000Z"

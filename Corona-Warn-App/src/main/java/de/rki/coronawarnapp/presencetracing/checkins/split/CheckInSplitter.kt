@@ -16,8 +16,8 @@ import kotlin.math.ceil
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     Timber.d("Starting splitByMidnightUTC ...")
 
-    val startTimeSeconds = checkInStart.seconds
-    val endTimeSeconds = checkInEnd.seconds
+    val startTimeSeconds = checkInStart.epochSecond
+    val endTimeSeconds = checkInEnd.epochSecond
     if (endTimeSeconds < startTimeSeconds) return listOf()
     if (checkInStart.toLocalDateUtc() == checkInEnd.toLocalDateUtc()) return listOf(this)
 

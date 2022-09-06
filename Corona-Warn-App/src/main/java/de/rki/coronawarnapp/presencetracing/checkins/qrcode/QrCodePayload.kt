@@ -25,8 +25,8 @@ fun TraceLocation.qrCodePayload(): QRCodePayload {
     val locationData = TraceLocationOuterClass.TraceLocation.newBuilder()
         .setDescription(description)
         .setAddress(address)
-        .setStartTimestamp(startDate?.seconds ?: 0)
-        .setEndTimestamp(endDate?.seconds ?: 0)
+        .setStartTimestamp(startDate?.epochSecond ?: 0)
+        .setEndTimestamp(endDate?.epochSecond ?: 0)
         .setVersion(TraceLocation.VERSION)
         .build()
 

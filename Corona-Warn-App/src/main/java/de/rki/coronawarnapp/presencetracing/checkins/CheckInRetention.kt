@@ -11,8 +11,8 @@ private val CHECK_IN_RETENTION_SECONDS = TimeUnit.DAYS.toSeconds(CHECK_IN_RETENT
  * returns true if the end date of the check-in isn't older than [CHECK_IN_RETENTION_DAYS], otherwise false
  */
 fun CheckIn.isWithinRetention(now: Instant): Boolean {
-    val retentionThreshold = (now.seconds - CHECK_IN_RETENTION_SECONDS)
-    return checkInEnd.seconds >= retentionThreshold
+    val retentionThreshold = (now.epochSecond - CHECK_IN_RETENTION_SECONDS)
+    return checkInEnd.epochSecond >= retentionThreshold
 }
 
 /**

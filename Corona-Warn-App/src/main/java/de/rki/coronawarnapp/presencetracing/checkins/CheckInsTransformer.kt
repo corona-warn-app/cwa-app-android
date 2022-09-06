@@ -49,8 +49,8 @@ class CheckInsTransformer @Inject constructor(
         for (originalCheckIn in checkIns) {
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
-                originalCheckIn.checkInStart.seconds,
-                originalCheckIn.checkInEnd.seconds
+                originalCheckIn.checkInStart.epochSecond,
+                originalCheckIn.checkInEnd.epochSecond
             )
 
             if (derivedTimes == null) {

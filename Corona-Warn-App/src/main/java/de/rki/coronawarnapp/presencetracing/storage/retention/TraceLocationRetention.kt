@@ -13,11 +13,11 @@ private val TRACE_LOCATION_RETENTION_SECONDS = TimeUnit.DAYS.toSeconds(TRACE_LOC
  * [TRACE_LOCATION_RETENTION_DAYS], otherwise false
  */
 fun TraceLocation.isWithinRetention(now: Instant): Boolean {
-    val retentionThreshold = (now.seconds - TRACE_LOCATION_RETENTION_SECONDS)
+    val retentionThreshold = (now.epochSecond - TRACE_LOCATION_RETENTION_SECONDS)
     return if (endDate == null) {
         true
     } else {
-        endDate.seconds >= retentionThreshold
+        endDate.epochSecond >= retentionThreshold
     }
 }
 
