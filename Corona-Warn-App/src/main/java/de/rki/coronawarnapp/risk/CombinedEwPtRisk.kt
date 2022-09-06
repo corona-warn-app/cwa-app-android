@@ -87,22 +87,17 @@ data class LastCombinedRiskResults(
     // may also be failed, contains all data
     val lastCalculated: CombinedEwPtRiskLevelResult,
     // may only be low or increased risk, does not contain additional information
-    val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
-)
-
-data class LastSuccessfulCombinedRiskResults(
-    val ewResult: LastSuccessfulEwRiskResult,
-    val ptResult: LastSuccessfulPtRiskResult
+    val lastSuccessfullyCalculatedRiskState: RiskState
 )
 
 data class LastSuccessfulEwRiskResult(
     val riskState: RiskState,
-    val mostRecentDateAtRiskLevel: Instant
+    val mostRecentDateAtRiskState: Instant?
 )
 
 data class LastSuccessfulPtRiskResult(
     val riskState: RiskState,
-    val mostRecentDateAtRiskLevel: Instant
+    val mostRecentDateAtRiskState: Instant?
 )
 
 internal fun max(left: Instant, right: Instant): Instant {

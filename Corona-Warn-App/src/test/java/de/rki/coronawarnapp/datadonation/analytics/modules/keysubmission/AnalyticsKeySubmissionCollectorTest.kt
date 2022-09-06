@@ -21,11 +21,11 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.Days
-import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Instant
 
 class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
@@ -60,7 +60,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         coEvery {
             riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
-        } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, combinedEwPtRiskLevelResult))
+        } returns flowOf(LastCombinedRiskResults(combinedEwPtRiskLevelResult, RiskState.INCREASED_RISK))
 
         coEvery { riskLevelStorage.allEwRiskLevelResultsWithExposureWindows } returns flowOf(listOf(ewRiskLevelResult))
         coEvery { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(ewRiskLevelResult))

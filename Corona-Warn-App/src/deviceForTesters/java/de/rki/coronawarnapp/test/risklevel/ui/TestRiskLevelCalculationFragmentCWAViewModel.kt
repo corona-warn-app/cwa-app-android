@@ -107,12 +107,11 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
     ) { riskLevelResults, latestSubmission ->
 
         val latestCalc = riskLevelResults.lastCalculated.ewRiskLevelResult
-        val latestSuccessfulCalc = riskLevelResults.lastSuccessfullyCalculated.ewRiskLevelResult
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
             riskLevel = latestCalc.riskState,
-            riskLevelLastSuccessfulCalculated = latestSuccessfulCalc.riskState,
+            riskLevelLastSuccessfulCalculated = riskLevelResults.lastSuccessfullyCalculatedRiskState,
             matchedKeyCount = latestCalc.matchedKeyCount,
             noOfDaysWithExposures = if (latestCalc.riskState == RiskState.INCREASED_RISK)
                 latestCalc.ewAggregatedRiskResult?.numberOfDaysWithHighRisk ?: 0

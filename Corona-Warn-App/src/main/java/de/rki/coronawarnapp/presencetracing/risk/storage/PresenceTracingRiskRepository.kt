@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayR
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.joda.time.Days
@@ -74,6 +74,12 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     val latestRiskLevelResult: Flow<PtRiskLevelResult?> = allRiskLevelResults.map {
         it.firstOrNull()
+    }
+
+    val lastSuccessfulRiskLevelResult: Flow<PtRiskLevelResult?> = allRiskLevelResults.map {
+        it.firstOrNull {
+            it.wasSuccessfullyCalculated
+        }
     }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =

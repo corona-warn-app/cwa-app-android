@@ -74,8 +74,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { ewRiskResultDatabase.clearAllTables() } just Runs
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
         every { ewRiskResultTables.latestEntries(1) } returns flowOf(listOf(ewRiskResult1Increased))
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns
-            flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
+        every { ewRiskResultTables.lastSuccessful() } returns
+            flowOf(listOf(ewRiskResult1Increased))
         coEvery { ewRiskResultTables.insertEntry(any()) } just Runs
         coEvery { ewRiskResultTables.deleteOldest(any()) } returns 7
         every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
@@ -327,8 +327,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.INCREASED_RISK
 
             verify {
                 ptRiskRepository.allRiskLevelResults
@@ -347,8 +346,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
             riskLevelResult.lastCalculated.calculatedAt shouldBe Instant.EPOCH
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
+            riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.LOW_RISK
         }
     }
 
