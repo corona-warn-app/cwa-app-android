@@ -21,7 +21,7 @@
         <item name="floatingActionButtonStyle">
             @style/Widget.MaterialComponents.FloatingActionButton
         </item>
-        <item name="textAppearanceLargePopupMenu">@style/body2</item>
+        <item name="textAppearanceLargePopupMenu">@style/menu_text</item>
     </style>
 
     <style name="CertificateDetailTheme" parent="BaseTheme">
@@ -389,6 +389,10 @@
 
     <style name="body2" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+    <style name="menu_text" parent="@style/TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/menu_text_color</item>
     </style>
 
     <style name="body2Medium" parent="@style/TextAppearance.Material3.BodyMedium">

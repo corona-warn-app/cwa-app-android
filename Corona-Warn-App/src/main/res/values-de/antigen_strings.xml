@@ -76,15 +76,15 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Test registriert am %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Test überschreiben"</string>
+    <string name="submission_deletion_warning_continue_button">"Weiter"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Hinweis"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
+    <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert"</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest in den Papierkorb verschoben. Dort können Sie ihn endgültig löschen oder wiederherstellen."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
+    <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert"</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test in den Papierkorb verschoben. Dort können Sie ihn endgültig löschen oder wiederherstellen."</string>
 

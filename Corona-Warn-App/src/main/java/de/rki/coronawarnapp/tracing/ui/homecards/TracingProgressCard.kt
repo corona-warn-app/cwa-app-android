@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentProgressViewBinding
-import de.rki.coronawarnapp.tracing.states.TracingInProgress
+import de.rki.coronawarnapp.tracing.states.RiskCalculationInProgress
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard.Item
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 
@@ -28,7 +28,7 @@ class TracingProgressCard(
         }
 
     data class Item(
-        val state: TracingInProgress,
+        val state: RiskCalculationInProgress,
         val onCardClick: (Item) -> Unit
     ) : TracingStateItem
 }
