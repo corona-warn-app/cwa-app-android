@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.checkins.split
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import timber.log.Timber
 import java.time.Instant
