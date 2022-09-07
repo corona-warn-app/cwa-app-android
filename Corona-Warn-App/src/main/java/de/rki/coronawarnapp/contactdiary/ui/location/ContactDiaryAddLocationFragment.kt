@@ -122,7 +122,8 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                 navArgs.selectedLocation?.let {
                     viewModel.deleteLocation(it)
                 }
-            }
+            },
+            isDeleteDialog = true
         )
     }
 }

@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -159,16 +160,17 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }
 
-    private fun showLogDeletionRequest() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.debugging_debuglog_stop_confirmation_title)
-            setMessage(R.string.debugging_debuglog_stop_confirmation_message)
-            setPositiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { _, _ ->
-                vm.stopAndDeleteDebugLog()
-            }
-            setNegativeButton(R.string.debugging_debuglog_stop_confirmation_discard_button) { _, _ -> /* dismiss */ }
-        }.show()
-    }
+    private fun showLogDeletionRequest() = DialogHelper.showDialog(
+        DialogHelper.DialogInstance(
+            context = requireContext(),
+            title = R.string.debugging_debuglog_stop_confirmation_title,
+            message = R.string.debugging_debuglog_stop_confirmation_message,
+            positiveButton = R.string.debugging_debuglog_stop_confirmation_confirmation_button,
+            negativeButton = R.string.debugging_debuglog_stop_confirmation_discard_button,
+            positiveButtonFunction = { vm.stopAndDeleteDebugLog() },
+            isDeleteDialog = true
+        )
+    )
 
     private fun showLowStorageError() {
         MaterialAlertDialogBuilder(requireContext()).apply {

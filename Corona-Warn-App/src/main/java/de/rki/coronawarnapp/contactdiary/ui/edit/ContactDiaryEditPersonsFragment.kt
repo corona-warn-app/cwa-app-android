@@ -97,7 +97,8 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
             R.string.contact_diary_delete_button_negative,
             positiveButtonFunction = {
                 viewModel.onDeleteAllConfirmedClick()
-            }
+            },
+            isDeleteDialog = true
         )
     }
 }
