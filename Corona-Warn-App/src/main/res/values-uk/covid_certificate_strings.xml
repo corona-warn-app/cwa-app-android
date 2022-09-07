@@ -233,6 +233,15 @@
     <string name="validation_rules_result_valid_header">"Сертифікат дійсний"</string>
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"Наразі немає правил в’їзду для вибраної країни та вибраного часу для цього типу сертифіката. Зверніть увагу на інформацію, наведену нижче."</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one">"%1$d правило країни призначення було успішно перевірено."</item>
+        <item quantity="other">"Таку кількість правил країни призначення було успішно перевірено: %1$d."</item>
+        <item quantity="zero">"Наразі немає правил в’їзду для вибраної країни та вибраного часу для цього типу сертифіката. Зверніть увагу на інформацію, наведену нижче."</item>
+        <item quantity="two">"Таку кількість правил країни призначення було успішно перевірено: %1$d."</item>
+        <item quantity="few">"Таку кількість правил країни призначення було успішно перевірено: %1$d."</item>
+        <item quantity="many">"Таку кількість правил країни призначення було успішно перевірено: %1$d."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Перевірте іншу країну"</string>
     <!-- Validation Failed Screen-->
@@ -283,18 +292,6 @@
     <string name="dcc_notification_channel_title">"Сертифікати"</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">"Керувати сповіщеннями для сертифікатів"</string>
-
-    <!-- PDF Export: Not possible dialog -->
-    <!-- XHED: PDF Export: Not possible dialog title -->
-    <string name="certificate_export_error_dialog_title">"Неможливо відобразити версію для друку"</string>
-    <!-- XHED: PDF Export: Not possible dialog body -->
-    <string name="certificate_export_error_dialog_body">"Версію для друку сертифіката неможливо відобразити, оскільки сертифікат виданий не в Німеччині"</string>
-    <!-- XBUT: PDF Export: Not possible dialog faq button -->
-    <string name="certificate_export_error_dialog_faq_button">"ЗіВ щодо версії для друку"</string>
-
-    <!-- XBUT: PDF Export: Not possible dialog ok button -->
-    <string name="certificate_export_error_dialog_ok_button">"OK"</string>
-
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">"Відобразити версію для друку"</string>
@@ -345,7 +342,8 @@
 
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
-
+    <!-- XTXT: Mask requirements card FAQ link -->
+    <string name="mask_requirements_faq_text">"Щоб отримати додаткову інформацію про винятки щодо носіння маски, перегляньте нашу сторінку запитань і відповідей."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Статус для наступної федеральної землі"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->

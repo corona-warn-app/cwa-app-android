@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Wersja %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">""</string>
+    <string name="release_info_version_body">"Oprócz poprawek błędów ta aktualizacja zawiera również nowe i ulepszone funkcje."</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Ta aktualizacja poprawia błędy w aplikacji. Nie zawiera żadnych nowych funkcji."</string>
     <!-- XBUT: Continue button for the release info screen -->
@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>""</item>
+        <item>"Wyświetl zwolnienie z obowiązku noszenia maseczki"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>""</item>
+        <item>"Twój cyfrowy certyfikat COVID wskazuje, czy jesteś zwolniony(-a) z noszenia maseczki zgodnie z aktualnie obowiązującymi przepisami, czy też musisz ją nosić."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -75,15 +75,15 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Дата на регистриране на теста: %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Презаписване на тест"</string>
+    <string name="submission_deletion_warning_continue_button">"Напред"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Бележка"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_antigen_test">"Вече сте регистрирали бърз тест."</string>
+    <string name="submission_deletion_warning_headline_antigen_test">"Вече сте регистрирали бърз тест"</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_body_antigen_test">"Вече сте регистрирали бърз тест. Приложението може да обработва едновременно само един бърз тест и един PCR тест. Ако регистрирате друг бърз тест, предходният бърз тест ще бъде преместен в кошчето, от където може да го възстановите или изтриете."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_headline_pcr_test">"Вече сте регистрирали PCR тест."</string>
+    <string name="submission_deletion_warning_headline_pcr_test">"Вече сте регистрирали PCR тест"</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_body_pcr_test">"Вече сте регистрирали PCR тест. Приложението може да обработва едновременно само един бърз тест и един PCR тест. Ако регистрирате друг PCR тест, предходният PCR тест ще бъде преместен в кошчето, от където може да го възстановите или изтриете."</string>
 
