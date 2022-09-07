@@ -80,6 +80,6 @@
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
     <string name="reycle_bin_rat_test_date">"Дата виконання %1$s"</string>
     <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
-    <string name="recycle_bin_item_deletion_date_info">"Дата %1$s час %2$s видалення назавжди"</string>
+    <string name="recycle_bin_item_deletion_date_info">"Дата та час остаточного видалення: %1$s о %2$s"</string>
 
 </resources>
