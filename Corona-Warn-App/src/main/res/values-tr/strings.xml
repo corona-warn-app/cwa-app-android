@@ -1499,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %%1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->

@@ -1499,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"infectări noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI. Numerele sub pragul de 1% a mediei pe 7 zile nu sunt afișate. Vedeți și explicațiile din secțiunea Legendă &gt; Perioadă de timp."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI. Numerele sub pragul de 1%% a mediei pe 7 zile nu sunt afișate. Vedeți și explicațiile din secțiunea Legendă &gt; Perioadă de timp."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
