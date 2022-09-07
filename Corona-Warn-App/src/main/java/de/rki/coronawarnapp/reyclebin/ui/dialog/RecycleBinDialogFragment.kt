@@ -36,7 +36,7 @@ class RecycleBinDialogFragment : DialogFragment() {
         val config = requireArguments().getParcelable<Config>(PARAM_DIALOG_CONFIG)
         if (config?.isDeleteDialog == true) {
             (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
-                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
+                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextDeleteButtonDialog))
         }
     }
 

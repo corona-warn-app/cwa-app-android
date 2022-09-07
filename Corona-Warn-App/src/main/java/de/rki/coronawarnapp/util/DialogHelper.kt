@@ -114,7 +114,7 @@ object DialogHelper {
             show()
             if (dialogInstance.isDeleteDialog) {
                 this.getButton(DialogInterface.BUTTON_POSITIVE)
-                    ?.setTextColor(dialogInstance.context.getColorCompat(R.color.colorTextSemanticRed))
+                    ?.setTextColor(dialogInstance.context.getColorCompat(R.color.colorTextDeleteButtonDialog))
             }
         }
     }

@@ -195,7 +195,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
         dialog.show().apply {
             getButton(DialogInterface.BUTTON_NEGATIVE)
-                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextSemanticRed))
+                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextDeleteButtonDialog))
         }
         showsPermissionDialog = true
     }
