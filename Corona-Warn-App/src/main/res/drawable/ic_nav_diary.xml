@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_nav_diary_active" android:state_checked="true" />
-    <item android:drawable="@drawable/ic_nav_diary_inactive" />
+    <item android:drawable="@drawable/ic_nav_diary_active" android:state_checked="true"/>
+    <item android:drawable="@drawable/ic_nav_diary_inactive"/>
 </selector>
