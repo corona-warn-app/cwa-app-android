@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -22,6 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationN
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -162,21 +162,20 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     }
 
-    private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) {
-        val (title, message, button) = Triple(
-            R.string.recycle_bin_recycle_certificate_dialog_title,
-            R.string.recycle_bin_recycle_certificate_dialog_message,
-            R.string.recycle_bin_recycle_certificate_dialog_positive_button
+    private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
+        DialogHelper.showDialog(
+            DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.recycle_bin_recycle_certificate_dialog_title,
+                R.string.recycle_bin_recycle_certificate_dialog_message,
+                R.string.recycle_bin_recycle_certificate_dialog_positive_button,
+                R.string.family_tests_list_deletion_alert_cancel_button,
+                positiveButtonFunction = { viewModel.recycleCertificate(certificate) },
+                negativeButtonFunction = { position.let { personDetailsAdapter.notifyItemChanged(position) } },
+                cancelFunction = { position.let { personDetailsAdapter.notifyItemChanged(position) } },
+                isDeleteDialog = true
+            )
         )
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(button) { _, _ -> viewModel.recycleCertificate(certificate) }
-            .setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
-            .setOnDismissListener {
-                position.let { personDetailsAdapter.notifyItemChanged(position) }
-            }.show()
-    }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         try {

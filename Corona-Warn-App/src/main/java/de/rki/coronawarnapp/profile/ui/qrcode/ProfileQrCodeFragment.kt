@@ -12,12 +12,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -44,6 +44,20 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
             factory.create(navArgs.profileId)
         }
     )
+
+    private val deleteRatProfileConfirmationDialog by lazy {
+        DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.rat_qr_code_profile_dialog_title,
+            R.string.rat_qr_code_profile_dialog_message,
+            R.string.rat_qr_code_profile_dialog_positive_button,
+            R.string.rat_qr_code_profile_dialog_negative_button,
+            positiveButtonFunction = {
+                viewModel.deleteProfile()
+            },
+            isDeleteDialog = true
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()
@@ -110,18 +124,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
         }
     }
 
-    private fun confirmDeletionDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.rat_qr_code_profile_dialog_title))
-            .setMessage(getString(R.string.rat_qr_code_profile_dialog_message))
-            .setPositiveButton(getString(R.string.rat_qr_code_profile_dialog_positive_button)) { _, _ ->
-                viewModel.deleteProfile()
-            }
-            .setNegativeButton(getString(R.string.rat_qr_code_profile_dialog_negative_button)) { _, _ ->
-                // No-Op
-            }
-            .show()
-    }
+    private fun confirmDeletionDialog() = DialogHelper.showDialog(deleteRatProfileConfirmationDialog)
 
     private fun bindPersonInfo(profile: Profile) = with(profile) {
         val name = buildSpannedString { bold { append("$firstName $lastName".trim()) } }
