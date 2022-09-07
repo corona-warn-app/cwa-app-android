@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Версія %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">""</string>
+    <string name="release_info_version_body">"Поряд із виправленнями помилок, це оновлення також містить нові й розширені функції."</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Це оновлення містить виправлення помилок застосунку. У ньому немає жодних нових функцій."</string>
     <!-- XBUT: Continue button for the release info screen -->
@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>""</item>
+        <item>"Відобразити виняток щодо носіння маски"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>""</item>
+        <item>"У вашому цифровому COVID-сертифікаті вказано, чи вас звільнено від носіння маски згідно з чинними правилами або чи вам потрібно носити маску."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
