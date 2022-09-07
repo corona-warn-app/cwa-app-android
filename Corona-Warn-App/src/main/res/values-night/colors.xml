@@ -27,6 +27,7 @@
     <color name="colorTextSemanticGreen">#6ACC8B</color>
     <color name="colorTextSemanticNeutral">#B8C8D9</color>
     <color name="colorTextTint">#83D2F2</color>
+    <color name="colorTextDeleteButtonDialog">#ED5360</color>
 
     <!-- Cards -->
     <color name="colorPersonOverviewQrCardGrey">#1E1E1F</color>
