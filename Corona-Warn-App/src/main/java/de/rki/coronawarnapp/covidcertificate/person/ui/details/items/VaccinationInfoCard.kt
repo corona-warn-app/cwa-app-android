@@ -24,13 +24,13 @@ class VaccinationInfoCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        title.text = curItem.titleText
-        subtitle.text = curItem.subtitleText
-        subtitle.isVisible = curItem.subtitleText.isNotEmpty()
-        body.text = curItem.longText
-        faq.isVisible = curItem.faqAnchor != null
+        vaccinationInfoTitle.text = curItem.titleText
+        vaccinationInfoSubtitle.text = curItem.subtitleText
+        vaccinationInfoSubtitle.isVisible = curItem.subtitleText.isNotEmpty()
+        vaccinationInfoBody.text = curItem.longText
+        vaccinationInfoFaq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
-            faq.convertToHyperlink(url)
+            vaccinationInfoFaq.convertToHyperlink(url)
         }
     }
 

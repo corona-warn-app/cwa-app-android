@@ -43,6 +43,7 @@
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
     <color name="colorTextTint">@color/colorPrimary</color>
+    <color name="colorTextDeleteButtonDialog">#C00F2D</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>

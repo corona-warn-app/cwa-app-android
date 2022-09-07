@@ -7,7 +7,6 @@ import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import de.rki.coronawarnapp.util.recyclerview.ThrottledClickListener
 import timber.log.Timber
 
 @BindingAdapter("gone")
@@ -19,9 +18,6 @@ fun View.setGone(gone: Boolean) {
 fun View.setInvisible(invisible: Boolean) {
     visibility = if (invisible) View.INVISIBLE else View.VISIBLE
 }
-
-fun View.setOnClickListenerThrottled(interval: Long = 300L, listenerBlock: (View) -> Unit) =
-    setOnClickListener(ThrottledClickListener(interval, listenerBlock))
 
 val View.hostLifecycle: Lifecycle?
     get() = try {
