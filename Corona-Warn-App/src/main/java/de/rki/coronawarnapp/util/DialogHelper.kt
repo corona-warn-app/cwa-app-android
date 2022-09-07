@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.content.DialogInterface
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getColorStateListCompat
 import java.util.regex.Pattern
 
@@ -24,7 +26,8 @@ object DialogHelper {
         val isTextSelectable: Boolean = false,
         val positiveButtonFunction: () -> Unit? = {},
         val negativeButtonFunction: () -> Unit? = {},
-        val cancelFunction: () -> Unit? = {}
+        val cancelFunction: () -> Unit? = {},
+        val isDeleteDialog: Boolean = false
     ) {
         constructor(
             context: Context,
@@ -35,7 +38,8 @@ object DialogHelper {
             cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {},
-            cancelFunction: () -> Unit? = {}
+            cancelFunction: () -> Unit? = {},
+            isDeleteDialog: Boolean = false
         ) : this(
             context = context,
             title = context.resources.getString(title),
@@ -45,7 +49,8 @@ object DialogHelper {
             cancelable = cancelable,
             positiveButtonFunction = positiveButtonFunction,
             negativeButtonFunction = negativeButtonFunction,
-            cancelFunction = cancelFunction
+            cancelFunction = cancelFunction,
+            isDeleteDialog = isDeleteDialog
         )
 
         constructor(
@@ -57,7 +62,8 @@ object DialogHelper {
             cancelable: Boolean? = true,
             positiveButtonFunction: () -> Unit? = {},
             negativeButtonFunction: () -> Unit? = {},
-            cancelFunction: () -> Unit? = {}
+            cancelFunction: () -> Unit? = {},
+            isDeleteDialog: Boolean = false
         ) : this(
             context = context,
             title = context.resources.getString(title),
@@ -67,7 +73,8 @@ object DialogHelper {
             cancelable = cancelable,
             positiveButtonFunction = positiveButtonFunction,
             negativeButtonFunction = negativeButtonFunction,
-            cancelFunction = cancelFunction
+            cancelFunction = cancelFunction,
+            isDeleteDialog = isDeleteDialog
         )
     }
 
@@ -102,8 +109,14 @@ object DialogHelper {
             }
             builder.create()
         }
-        alertDialog.show()
-        return alertDialog
+
+        return alertDialog.apply {
+            show()
+            if (dialogInstance.isDeleteDialog) {
+                this.getButton(DialogInterface.BUTTON_POSITIVE)
+                    ?.setTextColor(dialogInstance.context.getColorCompat(R.color.colorTextDeleteButtonDialog))
+            }
+        }
     }
 
     private fun getMessage(context: Context, message: String?, isTextSelectable: Boolean): TextView {

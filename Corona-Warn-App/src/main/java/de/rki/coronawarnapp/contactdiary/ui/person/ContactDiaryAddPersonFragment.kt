@@ -122,7 +122,8 @@ class ContactDiaryAddPersonFragment :
                 navArgs.selectedPerson?.let {
                     viewModel.deletePerson(it)
                 }
-            }
+            },
+            isDeleteDialog = true
         )
     }
 }
