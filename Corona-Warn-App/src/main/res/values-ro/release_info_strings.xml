@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Versiunea %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">""</string>
+    <string name="release_info_version_body">"Pe lângă remedierile de erori, această actualizare include și caracteristici noi și îmbunătățiri."</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Această actualizare corectează erori din aplicație. Nu conține caracteristici noi."</string>
     <!-- XBUT: Continue button for the release info screen -->
@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>""</item>
+        <item>"Afișarea scutirii de purtare a măștii"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>""</item>
+        <item>"Certificatul COVID digital indică dacă sunteți scutit să purtați masca, în conformitate cu regulile valabile în prezent, sau dacă este obligatoriu să purtați masca."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

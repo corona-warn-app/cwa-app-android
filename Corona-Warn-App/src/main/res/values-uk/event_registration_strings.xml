@@ -33,7 +33,7 @@
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
     <string name="trace_location_checkins_card_highlight_duration_label">"Тривалість"</string>
     <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
-    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - зареєструватися при виході автоматично після %3$s."</string>
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s, %2$s – зареєструватися при виході автоматично після %3$s."</string>
 
     <!-- XHED: Title of the category list screen of the event creation  -->
     <string name="tracelocation_organizer_category_title">"Створити QR-код"</string>
@@ -195,7 +195,7 @@
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
 
     <!-- XTXT: Event organiser list item: duration same day-->
-    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s, %2$s - %3$s"</string>
 
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">"Реєстрація при вході"</string>

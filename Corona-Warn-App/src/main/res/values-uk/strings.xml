@@ -26,6 +26,8 @@
     <string name="menu_trash">"Кошик"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Соціальна мережа"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"Записів %s: %d з %d"</string>
 
     <!-- ####################################
                Notification
@@ -69,7 +71,7 @@
     <!-- XTXT: risk card - Days since installation if today -->
     <string name="risk_card_body_installation_today">"Встановлено сьогодні"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Встановлено вчора"</string>
+    <string name="risk_card_body_installation_yesterday">"Установлено %s дн. тому"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Зустрічі ще не перевірені."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -419,7 +421,7 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Як активувати реєстрацію ризику зараження у журналі"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"Щоб визначити, чи є у вас ризик зараження, необхідно активувати реєстрацію ризиків зараження у журналі."</string>
+    <string name="onboarding_tracing_subtitle">"Щоб визначити, чи є у вас ризик зараження, необхідно активувати функцію реєстрації ризиків зараження в журналі."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Реєстрація ризиків зараження у журналі працює так, що ваш смартфон на платформі Android отримує через Bluetooth зашифровані випадкові ідентифікатори інших користувачів застосунку та передає ваші власні випадкові ідентифікатори на їхні смартфони. Реєстрацію ризиків зараження у журналі можна деактивувати в будь-який час."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Це як працює реєстрація ризиків зараження"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Дозволити створювати та ділитися випадковими ідентифікаторами COVID-19."</string>
+    <string name="settings_tracing_body_description">"Дозволити записувати та поширювати випадкові ідентифікатори COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Реєстрація ризику зараження активна"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Пріоритетна операція у фоновому режимі"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Дозволити автоматичні оновлення статусу ризику"</string>
+    <string name="settings_background_priority_body_description">"Дозволити автоматичні оновлення вашого статусу ризику."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Автоматично оновлювати статус ризику"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1037,7 +1039,7 @@
     <!-- YTXT: Body text for for results next steps pcr -->
     <string name="submission_test_result_steps_added_body_pcr">"Ваш тест було збережено в Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
-    <string name="submission_test_result_steps_added_body_rat"></string>
+    <string name="submission_test_result_steps_added_body_rat">"Результат тесту відображається тут протягом 48 годин. Застосунок також створює запис у вашому журналі контактів."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"ПЛР-тест було додано"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1180,6 +1182,14 @@
     <string name="submission_accept_button">"Прийняти"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфон передає в систему зашифрований позитивний результат тесту."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Поділитися випадковими ідентифікаторами через застосунок Corona-Warn-App?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"Ваші випадкові ідентифікатори за останні 14 днів використовуються для сповіщення інших про те, що ви були поруч із ними, і, отже, вони могли контактувати з людиною з діагнозом COVID-19. Дані про вашу особу ніколи не передаватимуться іншим людям."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Не ділитися"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Поділитися"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1489,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"підтверджені нові інфекції"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус та повідомили в РКІ."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 % від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Застереження користувачами застосунку"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1510,7 +1520,7 @@
     <string name="statistics_explanation_period_title">"Період часу"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Для «Вчора/До вчора» відображається кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, відображається остання дата, на яку доступні цифри."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Для «Вчора/До вчора» відображається кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, оскільки лише кілька державних установ охорони здоров’я наразі надсилають дані до RKI у вихідні та святкові дні, то відображається остання дата, на яку доступні цифри."</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Тенденція"</string>
     <!-- XTXT: Explanation screen trend text -->
