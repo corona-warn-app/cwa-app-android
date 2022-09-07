@@ -26,6 +26,8 @@
     <string name="menu_trash">"Coș de reciclare"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social media"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"Intrare %s, %d din %d"</string>
 
     <!-- ####################################
                Notification
@@ -65,11 +67,11 @@
     ###################################### -->
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
-    <string name="risk_card_body_days_since_installation">"Instalat acum %s zile"</string>
+    <string name="risk_card_body_days_since_installation">"Instalată acum %s zile"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today">"Instalat astăzi"</string>
+    <string name="risk_card_body_installation_today">"Instalată astăzi"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Instalat ieri"</string>
+    <string name="risk_card_body_installation_yesterday">"Instalată acum %s zi"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Întâlnirile nu au fost încă verificate."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -419,7 +421,7 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Cum se activează înregistrarea în jurnal a expunerilor"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"Pentru a identifica dacă sunteți supus riscului de infectare, trebuie să activați înregistrarea în jurnal a expunerilor."</string>
+    <string name="onboarding_tracing_subtitle">"Pentru a identifica dacă sunteți supus riscului de infectare, trebuie să activați caracteristica de înregistrare în jurnal a expunerilor."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Înregistrarea în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. Android primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori ai aplicației și transmite propriile dvs. ID-uri aleatorii către smartphone-urile acestora. Înregistrarea în jurnal a expunerilor poate fi oricând dezactivată."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Permiteți crearea și partajarea de ID-uri aleatorii asociate COVID-19."</string>
+    <string name="settings_tracing_body_description">"Permiteți înregistrarea și trimiterea de ID-uri aleatorii de COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Înregistrarea în jurnal a expunerilor este activă"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Activitate în fundal cu prioritate"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Permiteți actualizări automate privind starea riscului"</string>
+    <string name="settings_background_priority_body_description">"Permiteți actualizările automate privind starea riscului dvs."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Actualizare automată a stării de risc"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1037,7 +1039,7 @@
     <!-- YTXT: Body text for for results next steps pcr -->
     <string name="submission_test_result_steps_added_body_pcr">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
-    <string name="submission_test_result_steps_added_body_rat"></string>
+    <string name="submission_test_result_steps_added_body_rat">"Rezultatul testului dvs. este afișat aici timp de 48 de ore. De asemenea, aplicația creează o intrare în jurnalul dvs. de contacte."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"Testul PCR a fost adăugat"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1180,6 +1182,14 @@
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un smartphone transmite un diagnostic de test pozitiv criptat către sistem."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Partajați ID-uri aleatorii prin Corona-Warn-App?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"ID-urile dvs. aleatorii din ultimele 14 zile sunt utilizate pentru a notifica alte persoane că ați fost în apropierea lor și că, astfel, este posibil să fi fost expuse la o persoană diagnosticată cu COVID-19. Identitatea dvs. nu va fi niciodată partajată cu alte persoane."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Fără partajare"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Partajare"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1489,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"infectări noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI. Numerele sub pragul de 1% a mediei pe 7 zile nu sunt afișate. Vedeți și explicațiile din secțiunea Legendă &gt; Perioadă de timp."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1510,7 +1520,7 @@
     <string name="statistics_explanation_period_title">"Perioadă de timp"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, de exemplu, din cauză că puține autorități de sănătate publică trimit acum datele la RKI în weekend și în zilele de sărbătoare legală, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
     <!-- XTXT: Explanation screen trend text -->

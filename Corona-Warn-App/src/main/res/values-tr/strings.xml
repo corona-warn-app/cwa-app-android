@@ -26,6 +26,8 @@
     <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Sosyal Medya"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"%s giriş %d/%d"</string>
 
     <!-- ####################################
                Notification
@@ -69,7 +71,7 @@
     <!-- XTXT: risk card - Days since installation if today -->
     <string name="risk_card_body_installation_today">"Bugün yüklendi"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Dün yüklendi"</string>
+    <string name="risk_card_body_installation_yesterday">"%s gün önce yüklendi"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Karşılaşmalar henüz kontrol edilmedi."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -419,7 +421,7 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Maruz Kalma Günlüğünü Etkinleştirme"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"Enfeksiyon riski taşıyıp taşımadığınızı belirlemek için maruz kalma günlüğünü etkinleştirmeniz gerekir."</string>
+    <string name="onboarding_tracing_subtitle">"Enfeksiyon riski taşıyıp taşımadığınızı belirlemek için maruz kalma günlüğü özelliğini etkinleştirmeniz gerekir."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Maruz kalma günlüğü, Android akıllı telefonunuzun Bluetooth üzerinden diğer uygulama kullanıcılarının şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Maruz kalma günlüğü, dilediğiniz zaman devre dışı bırakılabilir."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Maruz kalma günlüğü bu şekilde çalışır"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"COVID-19 rastgele kimliklerinin oluşturulmasına ve paylaşılmasına izin verin."</string>
+    <string name="settings_tracing_body_description">"COVID-19 rastgele kimliklerinin kaydedilmesine ve paylaşılmasına izin verin."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Maruz Kalma Günlüğü Etkin"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Önceliklendirilmiş Arka Plan Aktivitesi"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Otomatik risk durumu güncellemelerinen izin ver"</string>
+    <string name="settings_background_priority_body_description">"Risk durumunuz ile ilgili otomatik güncellemelere izin verin."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Risk Durumunu Otomatik Olarak Güncelle"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1037,7 +1039,7 @@
     <!-- YTXT: Body text for for results next steps pcr -->
     <string name="submission_test_result_steps_added_body_pcr">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
     <!-- YTXT: Body text for for results next steps rat -->
-    <string name="submission_test_result_steps_added_body_rat"></string>
+    <string name="submission_test_result_steps_added_body_rat">"Test sonucu 48 saat süreyle burada görüntülenir. Uygulama ayrıca temas güncenizde bir giriş oluşturur."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"PCR testi eklendi"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1180,6 +1182,14 @@
     <string name="submission_accept_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Bir akıllı telefon şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Corona-Warn-App üzerinden rastgele kimlikler paylaşılsın mı?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"Son 14 güne ait rastgele kimlikleriniz kullanılarak yakınında olduğunuz kişilere, onların yakınında olduğunuza ve bu nedenle, COVID-19 tanısı almış bir kişiyle temas etmiş olabileceklerine dair bildirim gönderilir. Kimliğiniz, hiçbir zaman başkalarıyla paylaşılmaz."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Paylaşma"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Paylaş"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1489,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1510,7 +1520,7 @@
     <string name="statistics_explanation_period_title">"Dönem"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Örneğin hafta sonlarında ve resmi tatillerde yalnızca birkaç kamu sağlığı görevlisinin RKI\'ye veri göndermesi gibi bir nedenle, önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
