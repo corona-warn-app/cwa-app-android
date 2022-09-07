@@ -111,12 +111,12 @@
 -keep class androidx.window.** { *; }
 
 # Jackson Kotlin Module
--keep class kotlin.Metadata { *; }
--keep class kotlin.reflect.** { *; }
--keep class de.rki.coronawarnapp.ccl.configuration.model.** { *; }
--keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
--keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }
--keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
--keep class de.rki.coronawarnapp.covidcertificate.common.certificate.** { *; }
--keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
--keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
+#-keep class kotlin.Metadata { *; }
+#-keep class kotlin.reflect.** { *; }
+#-keep class de.rki.coronawarnapp.ccl.configuration.model.** { *; }
+#-keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
+#-keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }
+#-keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
+#-keep class de.rki.coronawarnapp.covidcertificate.common.certificate.** { *; }
+#-keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
+#-keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
