@@ -15,7 +15,7 @@ __Thank you for this PR! Please consider the following:__
     * Use a descriptive title: {task_name} (closes #{issue_number}),
       e.g.: `Use logger (closes # 41)`.
     * If this PR comes from a
-      fork,please [Allow edits from maintainers](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)
+      fork, please [allow edits from maintainers](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)
     * The PR can not contain changes in localization files, e.g. `values-[LANGUAGE-CODE]/strings/*`
       and `/`
       or `assets/*` (see [#332](https://github.com/corona-warn-app/cwa-app-android/issues/332) for
