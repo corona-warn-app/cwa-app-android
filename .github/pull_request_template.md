@@ -38,7 +38,7 @@ __Thank you for this PR! Please consider the following:__
     * Provide at least a few unit and/or instrumentation tests.
     * Use a meaningful branch name. Use either `fix` or `feature` as prefix for your branch,
       e.g. `fix/prevent-npe-on-device-rotation-issue_123`
-    * Test your changes thoroughly. Only open PRs which you think is ready to be merged. If you
+    * Test your changes thoroughly. Only open PRs which you think are ready to be merged. If you
       explicitly need feedback mark the PR as `DRAFT` on GitHub.
     * Don't introduce unrelated code reformatting (e.g., on-save hooks in your IDE)
     * Remove this checklist before creating your pull request.
