@@ -13,10 +13,11 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 import javax.inject.Inject
 
@@ -103,7 +104,7 @@ class CclTextFormatter @Inject constructor(
 
     private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CclText? =
         runCatching {
-            val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
+            val defaultParameters = getDefaultInputParameters(ZonedDateTime.now()).toObjectNode()
             val allParameters = JsonNodeFactory.instance.objectNode()
                 .setAll<ObjectNode>(defaultParameters)
                 .setAll<ObjectNode>(parameters)
@@ -120,43 +121,46 @@ class CclTextFormatter @Inject constructor(
         Parameters.Type.STRING -> value.toString()
         Parameters.Type.NUMBER -> toNumber()
         Parameters.Type.BOOLEAN -> toBoolean()
-        Parameters.Type.LOCAL_DATE -> toLocalDate(locale)
-        Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime(locale)
-        Parameters.Type.UTC_DATE -> toUTCDate(locale)
-        Parameters.Type.UTC_DATE_TIME -> toUTCDateTime(locale)
+        Parameters.Type.LOCAL_DATE -> toLocalDate()
+        Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime()
+        Parameters.Type.UTC_DATE -> toUTCDate()
+        Parameters.Type.UTC_DATE_TIME -> toUTCDateTime()
     }
 
-    private fun Parameters.toUTCDateTime(locale: Locale): String {
+    private fun Parameters.toUTCDateTime(): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZoneUTC().withLocale(locale)),
-                )
-            }
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneOffset.UTC).run {
+                    "%s, %s".format(
+                        format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                        format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    )
+                }
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDateTime() failed")
             ""
         }
     }
 
-    private fun Parameters.toUTCDate(locale: Locale): String {
+    private fun Parameters.toUTCDate(): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)
-            )
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .format(
+                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                )
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDate() failed")
             ""
         }
     }
 
-    private fun Parameters.toLocalDateTime(locale: Locale): String {
+    private fun Parameters.toLocalDateTime(): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
+            ZonedDateTime.parse(value.toString()).run {
                 "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZone(DateTimeZone.getDefault()).withLocale(locale)),
+                    format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                    format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
                 )
             }
         }.getOrElse {
@@ -165,10 +169,10 @@ class CclTextFormatter @Inject constructor(
         }
     }
 
-    private fun Parameters.toLocalDate(locale: Locale): String {
+    private fun Parameters.toLocalDate(): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)
+            ZonedDateTime.parse(value.toString()).format(
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
             )
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDate() failed")
