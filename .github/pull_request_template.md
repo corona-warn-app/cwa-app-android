@@ -22,7 +22,7 @@ __Thank you for this PR! Please consider the following:__
       further information).
     * Before submitting a PR, please make sure that you target the active `release/*.*.*` branch
       which can be determined by the active milestone on GitHub
-    * Set `community` label
+    * Include `community` in PR title such as "PR is fixing issue ### (community)"
 * To the _Maintainers_ :coffee::
     * Title structure: `Jira ticket name (EXPOSUREAPP-XXXX)`.
     * Set labels: `maintainers` and (`bug`or `text change`).
