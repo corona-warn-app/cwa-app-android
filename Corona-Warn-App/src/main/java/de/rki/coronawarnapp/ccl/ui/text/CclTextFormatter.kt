@@ -18,6 +18,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.Locale
 import javax.inject.Inject
@@ -122,19 +123,19 @@ class CclTextFormatter @Inject constructor(
         Parameters.Type.STRING -> value.toString()
         Parameters.Type.NUMBER -> toNumber()
         Parameters.Type.BOOLEAN -> toBoolean()
-        Parameters.Type.LOCAL_DATE -> toLocalDate()
-        Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime()
-        Parameters.Type.UTC_DATE -> toUTCDate()
-        Parameters.Type.UTC_DATE_TIME -> toUTCDateTime()
+        Parameters.Type.LOCAL_DATE -> toLocalDate(locale)
+        Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime(locale)
+        Parameters.Type.UTC_DATE -> toUTCDate(locale)
+        Parameters.Type.UTC_DATE_TIME -> toUTCDateTime(locale)
     }
 
-    private fun Parameters.toUTCDateTime(): String {
+    private fun Parameters.toUTCDateTime(locale: Locale): String {
         return runCatching {
             ZonedDateTime.parse(value.toString())
                 .withZoneSameInstant(ZoneOffset.UTC).run {
                     "%s, %s".format(
-                        format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-                        format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                        format(shortDateFormat(locale)),
+                        format(shortTimeFormat(locale)),
                     )
                 }
         }.getOrElse {
@@ -143,27 +144,25 @@ class CclTextFormatter @Inject constructor(
         }
     }
 
-    private fun Parameters.toUTCDate(): String {
+    private fun Parameters.toUTCDate(locale: Locale): String {
         return runCatching {
             ZonedDateTime.parse(value.toString())
                 .withZoneSameInstant(ZoneOffset.UTC)
-                .format(
-                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                )
+                .format(shortDateFormat(locale))
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDate() failed")
             ""
         }
     }
 
-    private fun Parameters.toLocalDateTime(): String {
+    private fun Parameters.toLocalDateTime(locale: Locale): String {
         return runCatching {
             ZonedDateTime.parse(value.toString())
                 .withZoneSameInstant(ZoneId.systemDefault())
                 .run {
                     "%s, %s".format(
-                        format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-                        format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                        format(shortDateFormat(locale)),
+                        format(shortTimeFormat(locale)),
                     )
                 }
         }.getOrElse {
@@ -172,13 +171,11 @@ class CclTextFormatter @Inject constructor(
         }
     }
 
-    private fun Parameters.toLocalDate(): String {
+    private fun Parameters.toLocalDate(locale: Locale): String {
         return runCatching {
             ZonedDateTime.parse(value.toString())
                 .withZoneSameInstant(ZoneId.systemDefault())
-                .format(
-                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                )
+                .format(shortDateFormat(locale))
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDate() failed")
             ""
@@ -200,6 +197,14 @@ class CclTextFormatter @Inject constructor(
     }
 
     private fun Any.toObjectNode(): ObjectNode = mapper.valueToTree(this)
+
+    private fun shortDateFormat(locale: Locale) = DateTimeFormatterBuilder()
+        .append(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        .toFormatter(locale)
+
+    private fun shortTimeFormat(locale: Locale) = DateTimeFormatterBuilder()
+        .append(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        .toFormatter(locale)
 
     companion object {
         private const val EN = "en"
