@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import timber.log.Timber
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -157,12 +158,14 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDateTime(): String {
         return runCatching {
-            ZonedDateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-                    format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-                )
-            }
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneId.systemDefault())
+                .run {
+                    "%s, %s".format(
+                        format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                        format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
+                    )
+                }
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDateTime() failed")
             ""
@@ -171,9 +174,11 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDate(): String {
         return runCatching {
-            ZonedDateTime.parse(value.toString()).format(
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-            )
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneId.systemDefault())
+                .format(
+                    DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+                )
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDate() failed")
             ""
