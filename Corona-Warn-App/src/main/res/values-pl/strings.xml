@@ -26,6 +26,8 @@
     <string name="menu_trash">"Kosz"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Media społecznościowe"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"%s wpis %d z %d"</string>
 
     <!-- ####################################
                Notification
@@ -69,7 +71,7 @@
     <!-- XTXT: risk card - Days since installation if today -->
     <string name="risk_card_body_installation_today">"Zainstalowano dzisiaj"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Zainstalowano wczoraj"</string>
+    <string name="risk_card_body_installation_yesterday">"Zainstalowano %s dzień temu"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Kontakty nie zostały jeszcze sprawdzone."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -286,7 +288,7 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Możesz zapoznać się z możliwościami testowania w tym miejscu lub skontaktować się z lekarzem rodzinnym lub apteką."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Możesz zapoznać się z możliwościami testowania w tym miejscu."</string>
+    <string name="risk_details_behavior_increased_body_1_label">"Możesz zapoznać się z możliwościami testowania w tym miejscu"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Sposób działania funkcji rejestrowania narażenia"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Zezwól na tworzenie i udostępnianie losowych identyfikatorów COVID-19."</string>
+    <string name="settings_tracing_body_description">"Zezwól na rejestrowanie i udostępnianie losowych identyfikatorów COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Rejestrowanie narażenia aktywne"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Priorytetowe działanie w tle"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Zezwól na automatyczne aktualizacje statusu ryzyka"</string>
+    <string name="settings_background_priority_body_description">"Zezwól na automatyczne aktualizacje statusu ryzyka."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Zaktualizuj automatycznie status ryzyka"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1037,7 +1039,7 @@
     <!-- YTXT: Body text for for results next steps pcr -->
     <string name="submission_test_result_steps_added_body_pcr">"Twój test został zapisany w Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
-    <string name="submission_test_result_steps_added_body_rat"></string>
+    <string name="submission_test_result_steps_added_body_rat">"Wynik testu jest wyświetlany tutaj przez 48 godzin. Aplikacja tworzy również wpis w Twoim dzienniku kontaktów."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"Test PCR został dodany"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1180,6 +1182,14 @@
     <string name="submission_accept_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Udostępniać losowe identyfikatory za pośrednictwem Corona-Warn-App?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"Twoje losowe identyfikatory z ostatnich 14 dni służą do powiadamiania innych osób o przebywaniu w ich pobliżu, a tym samym narażeniu na kontakt z osobą, u której zdiagnozowano COVID-19. Twoja tożsamość nigdy nie będzie udostępniana innym osobom."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Nie udostępniaj"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Udostępnij"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1489,7 +1499,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób, u których zdiagnozowano koronawirusa i które zostały zgłoszone do RKI. Liczby poniżej progu wynoszącego 1%% średniej z 7 dni nie są wyświetlane; zobacz również wyjaśnienie w opcji menu: Legenda &gt; Okres czasu."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1510,7 +1520,7 @@
     <string name="statistics_explanation_period_title">"Okres"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"W przypadku przedziału czasu „Wczoraj/do wczoraj” wyświetlana jest liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, wyświetlana jest ostatnia data, dla której istnieją dane."</string>
+    <string name="statistics_explanation_period_yesterday_text">"W przypadku przedziału czasu „Wczoraj/do wczoraj” wyświetlana jest liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, na przykład dlatego, że tylko nieliczne instytucje zdrowia publicznego przesyłają obecnie dane do RKI w weekendy i dni świąteczne, wyświetlana jest ostatnia data, dla której dane są dostępne."</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->

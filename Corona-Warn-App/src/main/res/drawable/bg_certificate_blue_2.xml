@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="@dimen/radius_card" />
-
-    <gradient
-        android:angle="0"
-        android:endColor="#2077AB"
-        android:startColor="#FF0F689D"
-        android:type="linear" />
+    <corners android:radius="@dimen/radius_card"/>
+    <gradient android:angle="0" android:endColor="#2077AB" android:startColor="#FF0F689D" android:type="linear"/>
 </shape>

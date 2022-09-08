@@ -8,7 +8,7 @@
     <!-- XHED: Version title for the release info screen -->
     <string name="release_info_version_title">"Версия %1$s"</string>
     <!-- XTXT: Description for the release info screen -->
-    <string name="release_info_version_body">""</string>
+    <string name="release_info_version_body">"Наред с корекциите на грешки настоящата актуализация съдържа също и нови и разширени функции."</string>
     <!-- XTXT: Description for the release info screen -->
     <string name="release_info_version_body_no_new_features">"Настоящата актуализация съдържа корекциите на грешки в приложението. Не съдържа нови функции."</string>
     <!-- XBUT: Continue button for the release info screen -->
@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>""</item>
+        <item>"Показване на изключения за носене на маска"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>""</item>
+        <item>"Вашият Цифров сертификат за тест за COVID показва дали имате право на изключение за носене на маска според текущите валидни правила или трябва да носите маска."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
