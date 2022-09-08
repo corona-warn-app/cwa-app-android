@@ -1,19 +1,6 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="32dp"
-    android:height="32dp"
-    android:viewportWidth="32"
-    android:viewportHeight="32">
-  <path
-      android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0"
-      android:fillColor="#BF0F2D"/>
-  <path
-      android:pathData="M15.1471,6.3963C15.5371,5.7582 16.4638,5.7582 16.8537,6.3963L26.0703,21.4786C26.4775,22.1449 25.9979,23 25.217,23H6.7831C6.0022,23 5.5226,22.1449 5.9298,21.4785L15.1471,6.3963Z"
-      android:fillColor="#ffffff"/>
-  <path
-      android:pathData="M14.6861,11.4884C14.5873,10.6981 15.2035,10 16,10V10C16.7965,10 17.4127,10.6981 17.3139,11.4884L16.562,17.5039C16.5266,17.7873 16.2856,18 16,18V18C15.7144,18 15.4734,17.7873 15.438,17.5039L14.6861,11.4884Z"
-      android:fillColor="#BF0F2D"/>
-  <path
-      android:pathData="M15.8354,19.0139C16.3805,18.9229 16.8952,19.287 16.9861,19.833C17.0769,20.3791 16.7136,20.8948 16.1685,20.9858C15.6321,21.0768 15.1217,20.7214 15.0179,20.184C14.9141,19.6423 15.2731,19.1179 15.8138,19.0139C15.8181,19.0139 15.8181,19.0139 15.8225,19.0139"
-      android:fillColor="#BF0F2D"
-      android:fillType="evenOdd"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="32dp" android:height="32dp" android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M0 16a16 16 0 1 1 32 0 16 16 0 1 1-32 0" android:fillColor="#BF0F2D"/>
+    <path android:pathData="M15.147 6.396c0.39-0.638 1.317-0.638 1.707 0L26.07 21.48c0.407 0.665-0.072 1.52-0.853 1.52H6.783c-0.78 0-1.26-0.855-0.853-1.521l9.217-15.083z" android:fillColor="#ffffff"/>
+    <path android:pathData="M14.686 11.488C14.587 10.698 15.204 10 16 10c0.797 0 1.413 0.698 1.314 1.488l-0.752 6.016C16.527 17.787 16.286 18 16 18c-0.286 0-0.527-0.213-0.562-0.496l-0.752-6.016z" android:fillColor="#BF0F2D"/>
+    <path android:pathData="M15.835 19.014c0.546-0.091 1.06 0.273 1.151 0.819 0.09 0.546-0.272 1.062-0.817 1.153-0.537 0.09-1.047-0.265-1.151-0.802-0.104-0.542 0.255-1.066 0.796-1.17h0.008" android:fillColor="#BF0F2D" android:fillType="evenOdd"/>
 </vector>

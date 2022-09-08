@@ -426,7 +426,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -1502,7 +1502,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1%% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
