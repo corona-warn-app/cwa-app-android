@@ -52,7 +52,7 @@ val cclLanguage: String by lazy {
 private fun ZonedDateTime.toLocalDateString() = toLocalDate().toString()
 
 private fun ZonedDateTime.toLocalDateTimeString() =
-    truncatedTo(ChronoUnit.MILLIS).format(DateTimeFormatter.ISO_DATE_TIME)
+    truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME)
 
 private fun ZonedDateTime.toLocalDateTimeMidnightString() =
     truncatedTo(ChronoUnit.DAYS).format(DateTimeFormatter.ISO_DATE_TIME)
