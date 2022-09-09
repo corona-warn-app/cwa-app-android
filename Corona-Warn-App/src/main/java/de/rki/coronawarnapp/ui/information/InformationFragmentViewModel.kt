@@ -42,7 +42,9 @@ class InformationFragmentViewModel @AssistedInject constructor(
                 vString.getOrElse(1) { '0' },
                 vString
             )
-            "ENF ${context.getString(R.string.information_version).format(version)}"
+            // Note for Devs: Google official abbreviation is ENS (Exposure Notifications System)
+            // while for some historic reasons it is referred to as ENF (Exposure Notifications Framework)
+            "ENS ${context.getString(R.string.information_version).format(version)}"
         }
         emit(enfVersion)
     }.asLiveData(context = dispatcherProvider.Default)
