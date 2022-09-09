@@ -40,7 +40,7 @@ The goal of this project is to develop the official Corona-Warn-App for Germany 
 * In General every TODO comment within the code or the documentation can be regarded as an issue. You are free to tackle the TODOs anytime!
 * We are aware of the Play Store Limitations of GMS.
 * Without your own server instance (e.g. a local Docker setup), you will not be able to test the Application. For help, please refer to the [server implementation](https://github.com/corona-warn-app/cwa-server).
-* Strings including translations are handled separately, for suggestions / findings please have a look at issue [#332](https://github.com/corona-warn-app/cwa-app-android/issues/332)
+* Strings including translations are provided and approved by the UA team. For suggestions / findings please open a dedicated issue.
 
 ## Architecture & Documentation
 
