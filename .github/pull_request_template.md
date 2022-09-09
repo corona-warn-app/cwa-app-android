@@ -17,7 +17,7 @@ __Thank you for this PR! Please consider the following:__
     * If this PR comes from a
       fork, please [allow edits from maintainers](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)
     * The PR can not contain changes in localization files, e.g. `values-[LANGUAGE-CODE]/strings/*`
-      and `/` or `assets/*`). Localizations are usually provided and approved by UA team.
+      and `/` or `assets/*`). Localizations are usually provided and approved by the UA team.
     * Before submitting a PR, please make sure that you target the active `release/*.*.*` branch
       which can be determined by the active milestone on GitHub
     * Include `COMMUNITY` in the PR title such as "PR fixes issue ### (COMMUNITY)".
