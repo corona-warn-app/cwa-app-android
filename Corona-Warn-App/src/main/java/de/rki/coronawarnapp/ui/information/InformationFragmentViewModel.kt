@@ -35,8 +35,15 @@ class InformationFragmentViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     val currentENFVersion = flow {
-        val enfVersion = enfClient.getENFClientVersion()
-            ?.let { "ENF ${context.getString(R.string.information_version).format(it)}" }
+        val enfVersion = enfClient.getENFClientVersion()?.let { v ->
+            val vString = v.toString()
+            val version = "v%s.%s (%s)".format(
+                vString.getOrElse(0) { '0' },
+                vString.getOrElse(1) { '0' },
+                vString
+            )
+            "ENF ${context.getString(R.string.information_version).format(version)}"
+        }
         emit(enfVersion)
     }.asLiveData(context = dispatcherProvider.Default)
 
