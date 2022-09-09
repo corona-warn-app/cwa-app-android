@@ -104,7 +104,7 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
         vm.checkLastAnalytics()
 
-        binding.oneTimePasswordBody.text = vm.otp
+        binding.oneTimePasswordBody.text = vm.otp.value.toString() ?: "No OTP generated and authorized yet"
 
         vm.surveyConfig.observe2(this) {
             binding.surveyConfigBody.text = it

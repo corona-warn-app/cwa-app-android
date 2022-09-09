@@ -44,7 +44,7 @@ class EwRiskLevelChangeDetector @Inject constructor(
             .launchIn(appScope)
     }
 
-    private fun List<EwRiskLevelResult>.checkForRiskLevelChanges() {
+    private suspend fun List<EwRiskLevelResult>.checkForRiskLevelChanges() {
         if (isEmpty()) return
 
         val oldResult = minByOrNull { it.calculatedAt }

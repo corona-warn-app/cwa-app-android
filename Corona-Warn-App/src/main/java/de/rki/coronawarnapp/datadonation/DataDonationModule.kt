@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.datadonation.survey.SurveyModule
 @Module(
     includes = [
         SurveyModule::class,
+        SurveyModule.ResetModule::class,
         AnalyticsModule::class
     ]
 )
