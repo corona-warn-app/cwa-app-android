@@ -23,6 +23,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -43,7 +44,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
+        coEvery { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp.first() } returns null
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 
@@ -173,7 +174,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
+        coEvery { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp.first() } returns Instant.EPOCH.plus(1)
 
         runTest {
             val instance = createInstance(scope = this)
@@ -203,7 +204,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
                 )
             )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(1)
+        coEvery { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp.first() } returns Instant.EPOCH.plus(1)
 
         runTest {
             val instance = createInstance(scope = this)

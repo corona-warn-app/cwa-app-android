@@ -26,7 +26,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTime
@@ -76,7 +75,7 @@ class EwRiskLevelTaskTest : BaseTest() {
             every { maxEncounterAgeInDays } returns 14
         }
 
-        every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
+        coEvery { riskLevelSettings.updateLastUsedConfigIdentifier(any()) } just Runs
 
         coEvery { riskLevelStorage.storeResult(any()) } just Runs
 
@@ -124,7 +123,7 @@ class EwRiskLevelTaskTest : BaseTest() {
         val task = createTask()
         task.run(arguments)
 
-        verify { riskLevelSettings.lastUsedConfigIdentifier = "config-identifier" }
+        coVerify { riskLevelSettings.updateLastUsedConfigIdentifier("config-identifier") }
     }
 
     @Test

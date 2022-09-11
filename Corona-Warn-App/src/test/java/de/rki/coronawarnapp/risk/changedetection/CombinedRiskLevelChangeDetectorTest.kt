@@ -70,8 +70,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns null
+        coEvery { riskLevelSettings.updateLastChangeCheckedRiskLevelCombinedTimestamp(any()) } just Runs
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns flowOf(null)
 
         every { builder.build() } returns notification
         every { builder.setContentTitle(any()) } returns builder
@@ -288,7 +288,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns flowOf(Instant.parse("2022-01-03"))
 
         runTest {
             createInstance(scope = this).initialize()

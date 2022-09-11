@@ -14,6 +14,7 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -55,7 +56,7 @@ class ConfigChangeDetectorTest : BaseTest() {
     @Test
     fun `new identifier without previous one is ignored`() = runTest2 {
 
-        every { riskLevelSettings.lastUsedConfigIdentifier } returns null
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns flowOf(null)
 
         createInstance(this).initialize()
 
@@ -67,7 +68,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
     @Test
     fun `new identifier results in new risk level calculation`() = runTest2 {
-        every { riskLevelSettings.lastUsedConfigIdentifier } returns "I'm a new identifier"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns flowOf("I'm a new identifier")
 
         createInstance(this).initialize()
 
@@ -84,7 +85,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
     @Test
     fun `same identifier results in no op`() = runTest2 {
-        every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns flowOf("initial")
 
         createInstance(this).initialize()
 
@@ -96,7 +97,7 @@ class ConfigChangeDetectorTest : BaseTest() {
 
     @Test
     fun `new emissions keep triggering the check`() = runTest2 {
-        every { riskLevelSettings.lastUsedConfigIdentifier } returns "initial"
+        every { riskLevelSettings.lastUsedConfigIdentifier } returns flowOf("initial")
 
         createInstance(this).initialize()
         currentConfigFake.value = mockConfigId("Straw")
