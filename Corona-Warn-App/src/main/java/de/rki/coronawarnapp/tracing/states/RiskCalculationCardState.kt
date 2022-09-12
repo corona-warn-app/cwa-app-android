@@ -133,7 +133,7 @@ data class LowRisk(
     fun getDaysSinceInstall(context: Context): String =
         when (daysSinceInstallation) {
             0 -> context.getString(R.string.risk_card_body_installation_today)
-            1 -> context.getString(R.string.risk_card_body_installation_yesterday)
+            1 -> context.getString(R.string.risk_card_body_installation_yesterday).format(daysSinceInstallation)
             else -> context.getString(R.string.risk_card_body_days_since_installation).format(daysSinceInstallation)
         }
 

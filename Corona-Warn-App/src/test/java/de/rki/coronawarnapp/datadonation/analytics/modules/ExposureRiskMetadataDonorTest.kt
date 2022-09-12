@@ -17,6 +17,8 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -49,9 +51,9 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { lowEwAggregatedRiskResult.isIncreasedRisk() } returns false
         every { lowEwAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
         every { highPtDayRisk.riskState } returns RiskState.INCREASED_RISK
-        every { highPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc()
+        every { highPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
         every { lowPtDayRisk.riskState } returns RiskState.LOW_RISK
-        every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc()
+        every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
     }
 
     private fun createEwRiskLevelResult(
@@ -71,10 +73,10 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         presenceTracingDayRisk: PresenceTracingDayRisk,
         calculatedAt: Instant = Instant.EPOCH,
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt,
+        calculatedAt = calculatedAt.toJavaInstant(),
         riskState = riskState,
         presenceTracingDayRisk = listOf(presenceTracingDayRisk),
-        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createInstance() = ExposureRiskMetadataDonor(

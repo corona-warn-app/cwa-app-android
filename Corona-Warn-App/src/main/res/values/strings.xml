@@ -28,7 +28,7 @@
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social Media"</string>
     <!-- XMIT: Menu item accessibility content description -->
-    <string name="menu_item_accessibility_description">%s entry %d of %d</string>
+    <string name="menu_item_accessibility_description">"%s entry %d of %d"</string>
 
     <!-- ####################################
                Notification
@@ -422,7 +422,7 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"How to Enable Exposure Logging"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"To identify whether you are at risk of infection, you must activate exposure logging."</string>
+    <string name="onboarding_tracing_subtitle">"To identify whether you are at risk of infection, you must activate the exposure logging feature."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Exposure logging works by your Android smartphone receiving, via Bluetooth, encrypted random IDs of other app users and passing your own random IDs to their smartphones. Exposure logging can be deactivated at any time."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
@@ -601,7 +601,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"This is how exposure logging works"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Allow creation and sharing of COVID-19 random IDs."</string>
+    <string name="settings_tracing_body_description">"Allow COVID-19 random IDs to be recorded and shared."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Exposure Logging Active"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -680,7 +680,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Prioritized Background Activity"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Allow automatic risk status updates"</string>
+    <string name="settings_background_priority_body_description">"Allow automatic updates of your risk status."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Update Risk Status Automatically"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1040,7 +1040,7 @@
     <!-- YTXT: Body text for for results next steps pcr -->
     <string name="submission_test_result_steps_added_body_pcr">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
-    <string name="submission_test_result_steps_added_body_rat"></string>
+    <string name="submission_test_result_steps_added_body_rat">"The test result is displayed here for 48 hours. The app also creates an entry in your contact journal."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"The PCR test was added"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1184,13 +1184,13 @@
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A smartphone transmits an encrypted positive test diagnosis to the system."</string>
     <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Zufallskennungen mit der App „Corona-Warn“ teilen?"</string>
+    <string name="submission_positive_other_warning_dialog_title">"Share random IDs through the Corona-Warn-App?"</string>
     <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Deine Zufallskennungen der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist. Deine Identität wird niemals mit anderen Personen geteilt."</string>
+    <string name="submission_positive_other_warning_dialog_body">"Your random IDs over the last 14 days are used to notify others that you were near them, and therefore that they may have been exposed to a person diagnosed with COVID-19. Your identity will never be shared with other people."</string>
     <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Nicht Teilen"</string>
+    <string name="submission_positive_other_warning_dialog_negative_button">"Do Not Share"</string>
     <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Teilen"</string>
+    <string name="submission_positive_other_warning_dialog_positive_button">"Share"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1497,10 +1497,12 @@
     <string name="statistics_explanation_title">"Key Figures"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explanation of Statistics"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">Neuinfektionen</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"confirmed new infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI. Numbers below a threshold of 1%% of the 7-day average are not displayed; also see the explanation under Legend &gt; Time Period."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1519,9 +1521,18 @@
     <string name="statistics_explanation_legend_title">"Legend"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Time Period"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">Gestern / Bis gestern</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, for example, because only few public health offices now send data to the RKI on weekends and public holidays, then the last date for which figures are available is displayed."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">Mittelwert der vergangenen 7 Tage </string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">Gesamt</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">Gesamtzahl seit Jahresbeginn 2020 bzw. Einführung der App (15. Juni 2020)</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->

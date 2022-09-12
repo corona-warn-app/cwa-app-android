@@ -6,10 +6,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class CheckInAgeFilterTest : BaseTest() {
 
@@ -68,8 +68,8 @@ class CheckInAgeFilterTest : BaseTest() {
     @Test
     fun `filter works 5`() {
         val now = Instant.parse("2020-12-28T12:00:00Z")
-        every { checkIn1.checkInEnd } returns Instant.parse("2020-12-13T13:59:59+02:00")
-        every { checkIn2.checkInEnd } returns Instant.parse("2020-12-14T15:00:00+02:00")
+        every { checkIn1.checkInEnd } returns Instant.parse("2020-12-13T13:59:59Z")
+        every { checkIn2.checkInEnd } returns Instant.parse("2020-12-14T15:00:00Z")
         listOf(checkIn1, checkIn2).filterByAge(
             14,
             now

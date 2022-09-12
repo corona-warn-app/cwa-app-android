@@ -25,26 +25,26 @@ class FindMatchesTest {
         val checkIn1 = createCheckIn(
             id = 2L,
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
-            startDateStr = "2021-03-04T10:15+01:00",
-            endDateStr = "2021-03-04T10:17+01:00"
+            startDateStr = "2021-03-04T10:15:00Z",
+            endDateStr = "2021-03-04T10:17:00Z"
         )
         val checkIn2 = createCheckIn(
             id = 3L,
             traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
-            startDateStr = "2021-03-04T09:15+01:00",
-            endDateStr = "2021-03-04T10:45+01:00"
+            startDateStr = "2021-03-04T09:15:00Z",
+            endDateStr = "2021-03-04T10:45:00Z"
         )
 
         val warning1 = createWarning(
             traceLocationId = "69eb427e1a48133970486244487e31b3f1c5bde47415db9b52cc5a2ece1e0060",
-            startIntervalDateStr = "2021-03-04T10:30+01:00",
+            startIntervalDateStr = "2021-03-04T10:30:00Z",
             period = 6,
             transmissionRiskLevel = 8
         )
 
         val warning2 = createWarning(
             traceLocationId = "fe84394e73838590cc7707aba0350c130f6d0fb6f0f2535f9735f481dee61871",
-            startIntervalDateStr = "2021-03-04T15:30+01:00",
+            startIntervalDateStr = "2021-03-04T15:30:00Z",
             period = 6,
             transmissionRiskLevel = 8
         )

@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.presencetracing.risk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 
 /**
  * @param presenceTracingDayRisk Only available for the latest calculation, otherwise null

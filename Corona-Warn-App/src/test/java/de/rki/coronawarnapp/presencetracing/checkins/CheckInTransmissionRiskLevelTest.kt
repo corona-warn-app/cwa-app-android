@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.presencetracing.checkins
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class CheckInTransmissionRiskLevelTest : BaseTest() {
 

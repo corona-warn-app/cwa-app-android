@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -103,7 +104,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
         viewModel.openDatePickerEvent.observe2(this) { time ->
             showDurationPicker(time) {
-                viewModel.durationUpdated(it)
+                viewModel.durationUpdated(it.toJava())
             }
         }
     }

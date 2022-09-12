@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
@@ -105,9 +106,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt,
+        calculatedAt = calculatedAt.toJavaInstant(),
         riskState = riskState,
-        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(

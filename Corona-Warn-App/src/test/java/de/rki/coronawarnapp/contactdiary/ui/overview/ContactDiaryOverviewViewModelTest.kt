@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -131,13 +132,13 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val traceLocationCheckInRiskLow = object : TraceLocationCheckInRisk {
         override val checkInId: Long = checkInLow.id
-        override val localDateUtc: LocalDate = date
+        override val localDateUtc: java.time.LocalDate = date.toJavaTime()
         override val riskState: RiskState = RiskState.LOW_RISK
     }
 
     private val traceLocationCheckInRiskHigh = object : TraceLocationCheckInRisk {
         override val checkInId: Long = checkInHigh.id
-        override val localDateUtc: LocalDate = date
+        override val localDateUtc: java.time.LocalDate = date.toJavaTime()
         override val riskState: RiskState = RiskState.INCREASED_RISK
     }
 

@@ -13,15 +13,17 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.LocalDate
 
 class RiskCombinatorTest : BaseTest() {
 
@@ -31,6 +33,7 @@ class RiskCombinatorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234567890).toJavaInstant()
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234567890)
     }
 
@@ -55,27 +58,27 @@ class RiskCombinatorTest : BaseTest() {
     @Test
     fun `combineRisk works`() {
         val ptRisk0 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 19),
+            localDateUtc = LocalDate.of(2021, 3, 19),
             riskState = LOW_RISK
         )
         val ptRisk1 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 20),
+            localDateUtc = LocalDate.of(2021, 3, 20),
             riskState = INCREASED_RISK
         )
         val ptRisk2 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 21),
+            localDateUtc = LocalDate.of(2021, 3, 21),
             riskState = LOW_RISK
         )
         val ptRisk3 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 22),
+            localDateUtc = LocalDate.of(2021, 3, 22),
             riskState = CALCULATION_FAILED
         )
         val ptRisk4 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 23),
+            localDateUtc = LocalDate.of(2021, 3, 23),
             riskState = LOW_RISK
         )
         val ptRisk5 = PresenceTracingDayRisk(
-            localDateUtc = LocalDate(2021, 3, 24),
+            localDateUtc = LocalDate.of(2021, 3, 24),
             riskState = INCREASED_RISK
         )
 
@@ -122,28 +125,28 @@ class RiskCombinatorTest : BaseTest() {
         result.size shouldBe 7
 
         result.single {
-            it.localDate == LocalDate(2021, 3, 15)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 15)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 19)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 19)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 20)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 20)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 21)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 21)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 22)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 22)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate == LocalDate(2021, 3, 23)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 23)
         }.riskState shouldBe INCREASED_RISK
         result.single {
-            it.localDate == LocalDate(2021, 3, 24)
+            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 24)
         }.riskState shouldBe INCREASED_RISK
     }
 
@@ -153,24 +156,28 @@ class RiskCombinatorTest : BaseTest() {
         val startInstant = Instant.ofEpochMilli(10000)
 
         val ptResult = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(1000L),
+            calculatedAt = startInstant.plus(1000L).toJavaInstant(),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plus(1000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+                .toInstant()
         )
         val ptResult2 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(3000L),
+            calculatedAt = startInstant.plus(3000L).toJavaInstant(),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(3000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plus(3000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+                .toInstant()
         )
         val ptResult3 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(6000L),
+            calculatedAt = startInstant.plus(6000L).toJavaInstant(),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(6000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plus(6000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+                .toInstant()
         )
         val ptResult4 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(7000L),
+            calculatedAt = startInstant.plus(7000L).toJavaInstant(),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(7000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
+            calculatedFrom = startInstant.plus(7000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+                .toInstant()
         )
 
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)

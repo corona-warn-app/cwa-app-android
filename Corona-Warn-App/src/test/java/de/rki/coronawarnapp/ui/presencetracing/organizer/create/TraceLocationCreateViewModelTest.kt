@@ -13,9 +13,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.DateTime
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,6 +23,9 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.observeForTesting
+import java.time.Duration
+import java.time.Instant
+import java.time.ZonedDateTime
 
 @ExtendWith(InstantExecutorExtension::class)
 internal class TraceLocationCreateViewModelTest : BaseTest() {
@@ -67,9 +67,9 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = DateTime()
-        viewModel.end = DateTime().plusHours(1)
-        viewModel.checkInLength = Duration.standardMinutes(1)
+        viewModel.begin = ZonedDateTime.now()
+        viewModel.end = ZonedDateTime.now().plusHours(1)
+        viewModel.checkInLength = Duration.ofMinutes(1)
 
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isSendEnable shouldBe true
@@ -83,9 +83,9 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "A".repeat(256)
-        viewModel.begin = DateTime()
-        viewModel.end = DateTime().plusHours(1)
-        viewModel.checkInLength = Duration.standardMinutes(1)
+        viewModel.begin = ZonedDateTime.now()
+        viewModel.end = ZonedDateTime.now().plusHours(1)
+        viewModel.checkInLength = Duration.ofMinutes(1)
 
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isSendEnable shouldBe false
@@ -99,9 +99,9 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "A".repeat(256)
         viewModel.description = "Description"
-        viewModel.begin = DateTime()
-        viewModel.end = DateTime().plusHours(1)
-        viewModel.checkInLength = Duration.standardMinutes(1)
+        viewModel.begin = ZonedDateTime.now()
+        viewModel.end = ZonedDateTime.now().plusHours(1)
+        viewModel.checkInLength = Duration.ofMinutes(1)
 
         viewModel.uiState.observeForTesting {
             viewModel.uiState.value?.isSendEnable shouldBe false
@@ -143,8 +143,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = DateTime()
-        viewModel.end = DateTime().plusHours(1)
+        viewModel.begin = ZonedDateTime.now()
+        viewModel.end = ZonedDateTime.now().plusHours(1)
         viewModel.checkInLength = Duration.ZERO
 
         viewModel.uiState.observeForTesting {
@@ -158,8 +158,8 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
 
         viewModel.address = "Address"
         viewModel.description = "Description"
-        viewModel.begin = DateTime().plusHours(1)
-        viewModel.end = DateTime()
+        viewModel.begin = ZonedDateTime.now().plusHours(1)
+        viewModel.end = ZonedDateTime.now()
         viewModel.checkInLength = Duration.ZERO
 
         viewModel.uiState.observeForTesting {
