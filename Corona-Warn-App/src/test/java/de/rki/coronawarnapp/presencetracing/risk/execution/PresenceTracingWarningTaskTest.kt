@@ -39,7 +39,6 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
 import java.io.IOException
 
 class PresenceTracingWarningTaskTest : BaseTest() {
