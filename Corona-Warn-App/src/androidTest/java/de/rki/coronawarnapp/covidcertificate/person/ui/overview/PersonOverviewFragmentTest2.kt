@@ -11,8 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
@@ -30,7 +28,6 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.createFakeImageLoaderForQrCodes
 import testhelpers.launchInMainActivity
-import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
