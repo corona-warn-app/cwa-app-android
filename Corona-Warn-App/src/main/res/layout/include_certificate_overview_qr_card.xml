@@ -32,10 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@drawable/ic_admission_badge_1"
-        app:layout_constraintBottom_toBottomOf="@id/mask_badge"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/mask_badge"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="2G+ PCR Test" />
 
     <androidx.constraintlayout.widget.Barrier
