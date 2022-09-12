@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -39,7 +42,14 @@ fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState,
+                    maskBadgeText = "Maskenpflicht"
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -70,7 +80,225 @@ fun listItemWithUpdatingItem() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(),
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsNullAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = ""
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState,
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsNullAndMaskIsNullItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = ""
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = null,
+                    maskBadgeText = ""
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsNullAndMaskIsInvisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = ""
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsInvisibleAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState.copy(visible = false),
+                    admissionBadgeText = "2G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState,
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsInvisibleAndMaskIsInvisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState.copy(visible = false),
+                    admissionBadgeText = "2G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsVisibleAndMaskIsInvisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState.copy(visible = true),
+                    admissionBadgeText = "2G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = "Maskenpflicht"
+                ),
+                colorShade = PersonColorShade.COLOR_1,
+                badgeCount = 0,
+                onClickAction = { _, _ -> },
+                onCovPassInfoAction = {},
+                onCertificateSelected = {},
+            )
+        )
+    }
+
+fun gStatusIsVisibleAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesItem>()
+    .apply {
+        add(
+            PersonCertificateCard.Item(
+                overviewCertificates = listOf(
+                    PersonCertificateCard.Item.OverviewCertificate(
+                        mockVaccinationCertificate("Andrea Schneider"),
+                        buttonText = when (Locale.getDefault()) {
+                            Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                            else -> "2G Certificate"
+                        }
+                    )
+                ),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState,
+                    maskBadgeText = "Maskenpflicht"
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -88,9 +316,14 @@ fun maskFree() = mutableListOf<PersonCertificatesItem>().apply {
                     mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            admissionBadgeText = "2G",
-            hasMaskState = true,
-            maskBadgeText = "Keine Maskenpflicht",
+            admission = PersonCertificateCard.Item.Admission(
+                state = admissionState,
+                admissionBadgeText = "2G"
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState.copy(identifier = MaskState.MaskStateIdentifier.OPTIONAL),
+                maskBadgeText = "Keine Maskenpflicht"
+            ),
             colorShade = PersonColorShade.GREEN,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -108,9 +341,14 @@ fun maskFreeMultiLine() = mutableListOf<PersonCertificatesItem>().apply {
                     mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            admissionBadgeText = "2G",
-            hasMaskState = true,
-            maskBadgeText = "Keine Maskenpflicht, Multi Line, aber mindestens zwei",
+            admission = PersonCertificateCard.Item.Admission(
+                state = admissionState,
+                admissionBadgeText = "2G"
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState,
+                maskBadgeText = "Keine Maskenpflicht, Multi Line, aber mindestens zwei"
+            ),
             colorShade = PersonColorShade.GREEN,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -120,7 +358,7 @@ fun maskFreeMultiLine() = mutableListOf<PersonCertificatesItem>().apply {
     )
 }
 
-fun maskReqiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
+fun maskRequiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
     add(
         PersonCertificateCard.Item(
             overviewCertificates = listOf(
@@ -128,9 +366,14 @@ fun maskReqiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
                     mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            admissionBadgeText = "2G",
-            hasMaskState = true,
-            maskBadgeText = "Maskenpflicht",
+            admission = PersonCertificateCard.Item.Admission(
+                state = null,
+                admissionBadgeText = "2G+"
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState.copy(identifier = MaskState.MaskStateIdentifier.REQUIRED),
+                maskBadgeText = "Maskenpflicht"
+            ),
             colorShade = PersonColorShade.COLOR_3,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -148,8 +391,14 @@ fun maskInvalidOutdated() = mutableListOf<PersonCertificatesItem>().apply {
                     mockInvalidVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            hasMaskState = true,
-            maskBadgeText = "Maskenpflicht",
+            admission = PersonCertificateCard.Item.Admission(
+                state = null,
+                admissionBadgeText = "2G+"
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState.copy(),
+                maskBadgeText = "Maskenpflicht"
+            ),
             colorShade = PersonColorShade.COLOR_INVALID,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -167,8 +416,14 @@ fun noMaskInfoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
                     mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            admissionBadgeText = "2G",
-            hasMaskState = false,
+            admission = PersonCertificateCard.Item.Admission(
+                state = admissionState,
+                admissionBadgeText = "2G+"
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState.copy(visible = false),
+                maskBadgeText = ""
+            ),
             colorShade = PersonColorShade.COLOR_1,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -186,7 +441,14 @@ fun noMaskInfoNoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
                     mockVaccinationCertificate("Andrea Schneider")
                 )
             ),
-            hasMaskState = false,
+            admission = PersonCertificateCard.Item.Admission(
+                state = null,
+                admissionBadgeText = ""
+            ),
+            mask = PersonCertificateCard.Item.Mask(
+                state = maskState.copy(visible = false),
+                maskBadgeText = ""
+            ),
             colorShade = PersonColorShade.COLOR_3,
             badgeCount = 0,
             onClickAction = { _, _ -> },
@@ -209,7 +471,14 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                         }
                     ),
                 ),
-                admissionBadgeText = "3G",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "3G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 5,
                 onClickAction = { _, _ -> },
@@ -229,7 +498,14 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "3G",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "3G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_2,
                 badgeCount = 3,
                 onClickAction = { _, _ -> },
@@ -249,7 +525,14 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(),
+                    maskBadgeText = "Maskenpflicht"
+                ),
                 colorShade = PersonColorShade.COLOR_3,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -272,7 +555,14 @@ fun onePersonItem() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = null,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(),
+                    maskBadgeText = "Maskenpflicht"
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -295,7 +585,14 @@ fun onePersonItemWithBadgeCount() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 1,
                 onClickAction = { _, _ -> },
@@ -325,7 +622,14 @@ fun twoGPlusCertificate() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G+",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -362,7 +666,14 @@ fun threeCertificates() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G+",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
                 onClickAction = { _, _ -> },
@@ -392,7 +703,14 @@ fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
                         }
                     )
                 ),
-                admissionBadgeText = "2G+",
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    admissionBadgeText = "2G+"
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = maskState.copy(visible = false),
+                    maskBadgeText = ""
+                ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 1,
                 onClickAction = { _, _ -> },
@@ -401,6 +719,63 @@ fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
             )
         )
     }
+
+val maskState = MaskState(
+    visible = true,
+    badgeText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Befreiung"),
+        parameters = listOf()
+    ),
+    titleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Masken-Befreiung"),
+        parameters = listOf()
+    ),
+    subtitleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Für Sie gilt keine Maskenpflicht"),
+        parameters = listOf()
+    ),
+    longText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Aufgrund Ihrer Zertifikate [...]"),
+        parameters = listOf()
+    ),
+    faqAnchor = "dcc_admission_state",
+    identifier = MaskState.MaskStateIdentifier.OPTIONAL
+)
+
+private val admissionState = AdmissionState(
+    visible = true,
+    badgeText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "2G+"),
+        parameters = listOf()
+    ),
+    titleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Status-Nachweis"),
+        parameters = listOf()
+    ),
+    subtitleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "2G+ PCR-Test"),
+        parameters = listOf()
+    ),
+    longText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Ihre Zertifikate erfüllen [...]"),
+        parameters = listOf()
+    ),
+    stateChangeNotificationText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Ihre Zertifikate erfüllen derzeit keine Regel."),
+        parameters = listOf()
+    ),
+    identifier = "admission_state_identifier",
+    faqAnchor = "dcc_admission_state"
+)
 
 private fun mockTestCertificate(
     name: String,

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import coil.loadAny
 import com.google.android.material.button.MaterialButton
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
@@ -135,26 +136,11 @@ fun PersonOverviewItemBinding.setUIState(
     certificateBadgeCount.text = badgeCount.toString()
     certificateBadgeText.isVisible = badgeCount != 0
 
-    val statusBadgeText = item.admissionBadgeText
     qrCodeCard.apply {
         loadQrImage(firstCertificate.cwaCertificate)
-        if (item.hasMaskState) {
-            setMaskBadge(maskBadge, item, color)
-        }
-        statusBadge.setBackgroundResource(color.admissionBadgeBg)
-        statusBadge.text = statusBadgeText
+        setMaskBadge(item, color)
+        setGStatusBadge(item, color)
 
-        when (statusBadgeText.isEmpty()) {
-            true -> {
-                when (item.hasMaskState) {
-                    true -> statusBadge.visibility = View.INVISIBLE
-                    false -> statusBadge.visibility = View.GONE
-                }
-            }
-            false -> statusBadge.visibility = View.VISIBLE
-        }
-
-        maskBadge.isInvisible = item.maskBadgeText.isEmpty()
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid
         covpassInfoButton.setOnClickListener { item.onCovPassInfoAction() }
@@ -184,8 +170,25 @@ fun PersonOverviewItemBinding.setUIState(
     }
 }
 
-private fun setMaskBadge(maskBadge: TextView, item: PersonCertificateCard.Item, color: PersonColorShade) {
-    maskBadge.text = item.maskBadgeText
+private fun IncludeCertificateOverviewQrCardBinding.setGStatusBadge(
+    item: PersonCertificateCard.Item,
+    color: PersonColorShade
+) {
+    statusBadge.setBackgroundResource(color.admissionBadgeBg)
+    statusBadge.text = item.admission.admissionBadgeText
+    statusBadge.visibility = when {
+        item.admission.state == null -> View.INVISIBLE
+        item.admission.state.visible -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
+private fun IncludeCertificateOverviewQrCardBinding.setMaskBadge(
+    item: PersonCertificateCard.Item,
+    color: PersonColorShade
+) {
+    maskBadge.isVisible = item.mask.state?.visible == true
+    maskBadge.text = item.mask.maskBadgeText
     maskBadge.setBackgroundResource(color.maskLargeBadgeBg)
     maskBadge.setCompoundDrawablesWithIntrinsicBounds(color.maskIcon, 0, 0, 0)
     maskBadge.setTextColor(maskBadge.resources.getColor(color.maskBadgeTextColor, null))
