@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.nearby.ENFClient
+import de.rki.coronawarnapp.nearby.modules.version.ENFVersion
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -35,8 +36,20 @@ class InformationFragmentViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     val currentENFVersion = flow {
-        val enfVersion = enfClient.getENFClientVersion()
-            ?.let { "ENF ${context.getString(R.string.information_version).format(it)}" }
+        val enfVersion = enfClient.getENFClientVersion()?.let { v ->
+            val vString = v.toString()
+            val version = "v%s.%s (%s)".format(
+                vString.getOrElse(0) { '0' },
+                vString.getOrElse(1) { '0' },
+                vString
+            )
+            /**
+             * Note for Devs: Google official abbreviation is ENS (Exposure Notifications System)
+             * while for some historic reasons it is referred to as ENF (Exposure Notifications Framework)
+             * in the code see [ENFClient] and [ENFVersion]
+             */
+            "ENS ${context.getString(R.string.information_version).format(version)}"
+        }
         emit(enfVersion)
     }.asLiveData(context = dispatcherProvider.Default)
 
