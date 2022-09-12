@@ -35,6 +35,11 @@ data class PtRiskLevelResult(
         }?.map { it.localDateUtc } ?: emptyList()
     }
 
+    val checkInOverlapCount: Int by lazy {
+        checkInWarningOverlaps?.size ?: 0
+    }
+
+    // todo remove
     val mostRecentDateWithHighRisk: LocalDate? by lazy {
         presenceTracingDayRisk
             ?.filter { it.riskState == RiskState.INCREASED_RISK }
@@ -55,9 +60,5 @@ data class PtRiskLevelResult(
             RiskState.LOW_RISK -> mostRecentDateWithLowRisk
             else -> null
         }
-    }
-
-    val checkInOverlapCount: Int by lazy {
-        checkInWarningOverlaps?.size ?: 0
     }
 }

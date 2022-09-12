@@ -7,8 +7,7 @@ import de.rki.coronawarnapp.risk.CombinedEwPtDayRisk
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
-import de.rki.coronawarnapp.risk.LastSuccessfulEwRiskResult
-import de.rki.coronawarnapp.risk.LastSuccessfulPtRiskResult
+import de.rki.coronawarnapp.risk.LastSuccessfulRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
@@ -51,8 +50,8 @@ interface RiskLevelStorage : Resettable {
     /*
     * Used by analytics, ExposureRiskMetadataDonor
     * */
-    val lastSuccessfulPtRiskResult: Flow<LastSuccessfulPtRiskResult?>
-    val lastSuccessfulEwRiskResult: Flow<LastSuccessfulEwRiskResult?>
+    val lastSuccessfulPtRiskResult: Flow<LastSuccessfulRiskResult?>
+    val lastSuccessfulEwRiskResult: Flow<LastSuccessfulRiskResult?>
 
     /** EXPOSURE WINDOW RISK RESULT
      * Risk level per date/day

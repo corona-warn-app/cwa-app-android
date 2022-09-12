@@ -10,8 +10,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
-import de.rki.coronawarnapp.risk.LastSuccessfulEwRiskResult
-import de.rki.coronawarnapp.risk.LastSuccessfulPtRiskResult
+import de.rki.coronawarnapp.risk.LastSuccessfulRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -208,22 +207,22 @@ abstract class BaseRiskLevelStorage constructor(
             )
         }
 
-    override val lastSuccessfulPtRiskResult: Flow<LastSuccessfulPtRiskResult?>
+    override val lastSuccessfulPtRiskResult: Flow<LastSuccessfulRiskResult?>
         get() = presenceTracingRiskRepository.lastSuccessfulRiskLevelResult.map {
             it?.let {
-                LastSuccessfulPtRiskResult(
+                LastSuccessfulRiskResult(
                     riskState = it.riskState,
                     mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.toDateTimeAtStartOfDayUtc()?.toInstant()
                 )
             }
         }
 
-    override val lastSuccessfulEwRiskResult: Flow<LastSuccessfulEwRiskResult?>
+    override val lastSuccessfulEwRiskResult: Flow<LastSuccessfulRiskResult?>
         get() = ewRiskResultsTables.lastSuccessful().map {
             it.combineWithWindows(null).firstOrNull()
         }.map {
             it?.let {
-                LastSuccessfulEwRiskResult(
+                LastSuccessfulRiskResult(
                     riskState = it.riskState,
                     mostRecentDateAtRiskState = it.mostRecentDateAtRiskState
                 )
