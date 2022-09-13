@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState.MaskStateIdentifie
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState.MaskStateIdentifier.REQUIRED
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.ACTION_RENEW
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import org.joda.time.Instant
+import java.time.Instant
 
 data class DccWalletInfo(
     @JsonProperty("admissionState")

@@ -9,7 +9,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.CoroutineScope
@@ -18,9 +17,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.joda.time.Instant
 import timber.log.Timber
 import java.io.IOException
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -68,7 +67,7 @@ class CclSettings @Inject constructor(
         Timber.tag(TAG).d("Storing executionTime to CCL settings data store: %s", executionTime)
         runCatching {
             dataStore.edit { prefs ->
-                prefs[LAST_EXECUTION_TIME_KEY] = executionTime.seconds
+                prefs[LAST_EXECUTION_TIME_KEY] = executionTime.epochSecond
             }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
