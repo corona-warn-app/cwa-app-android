@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock

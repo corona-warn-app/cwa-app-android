@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -45,8 +46,8 @@ data class VaccinationCertificateContainer(
     override val qrCodeHash: String
         get() = data.vaccinationQrCode.toSHA256()
 
-    override val recycledAt: Instant?
-        get() = data.recycledAt
+    override val recycledAt: java.time.Instant?
+        get() = data.recycledAt?.toJavaInstant()
 
     override val containerId: VaccinationCertificateContainerId
         get() = VaccinationCertificateContainerId(qrCodeHash)
@@ -165,7 +166,7 @@ data class VaccinationCertificateContainer(
 
         override val isNew: Boolean get() = !data.certificateSeenByUser
 
-        override val recycledAt: Instant?
+        override val recycledAt: java.time.Instant?
             get() = this@VaccinationCertificateContainer.recycledAt
 
         override fun toString(): String = "VaccinationCertificate($containerId)"

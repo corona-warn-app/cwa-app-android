@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted private val testRequest: TestRegistrationRequest,
