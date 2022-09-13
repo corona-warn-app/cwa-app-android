@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.checkins.OrganizerCheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -16,10 +15,10 @@ import io.mockk.just
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 internal class OrganizerSubmissionRepositoryTest : BaseTest() {
 
@@ -31,8 +30,8 @@ internal class OrganizerSubmissionRepositoryTest : BaseTest() {
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
         description = "Your Birthday Party",
         address = "at your place",
-        startDate = 1618740005L.secondsToInstant(),
-        endDate = 1618865545L.secondsToInstant(),
+        startDate = Instant.ofEpochSecond(1618740005L),
+        endDate = Instant.ofEpochSecond(1618865545L),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = OrganizerSubmissionPayloadTest.CRYPTOGRAPHIC_SEED.decodeBase64()!!,
         cnPublicKey = OrganizerSubmissionPayloadTest.PUB_KEY,

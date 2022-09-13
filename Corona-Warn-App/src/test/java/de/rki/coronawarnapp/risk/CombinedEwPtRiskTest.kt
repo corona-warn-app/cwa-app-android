@@ -7,15 +7,16 @@ import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJodaInstant
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class CombinedEwPtRiskTest : BaseTest() {
 
@@ -171,7 +172,7 @@ class CombinedEwPtRiskTest : BaseTest() {
         calculatedAt: Instant,
         ewAggregatedRiskResult: EwAggregatedRiskResult?
     ): EwRiskLevelResult = object : EwRiskLevelResult {
-        override val calculatedAt = calculatedAt
+        override val calculatedAt = calculatedAt.toJodaInstant()
         override val ewAggregatedRiskResult: EwAggregatedRiskResult? = ewAggregatedRiskResult
         override val failureReason: EwRiskLevelResult.FailureReason? = null
         override val exposureWindows: List<ExposureWindow>? = null

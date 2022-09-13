@@ -3,12 +3,11 @@ package de.rki.coronawarnapp.presencetracing.organizer.submission
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 internal class OrganizerSubmissionPayloadTest : BaseTest() {
 
@@ -19,8 +18,8 @@ internal class OrganizerSubmissionPayloadTest : BaseTest() {
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
             description = "Your Birthday Party",
             address = "at your place",
-            startDate = 1618740005L.secondsToInstant(),
-            endDate = 1618865545L.secondsToInstant(),
+            startDate = Instant.ofEpochSecond(1618740005L),
+            endDate = Instant.ofEpochSecond(1618865545L),
             defaultCheckInLengthInMinutes = null,
             cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
             cnPublicKey = PUB_KEY,

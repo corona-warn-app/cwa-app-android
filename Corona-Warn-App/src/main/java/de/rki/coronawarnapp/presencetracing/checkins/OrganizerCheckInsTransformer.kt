@@ -5,9 +5,8 @@ import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptog
 import de.rki.coronawarnapp.presencetracing.checkins.derivetime.deriveTime
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 class OrganizerCheckInsTransformer @Inject constructor(
@@ -24,8 +23,8 @@ class OrganizerCheckInsTransformer @Inject constructor(
         for (originalCheckIn in checkIns) {
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
-                originalCheckIn.checkInStart.seconds,
-                originalCheckIn.checkInEnd.seconds
+                originalCheckIn.checkInStart.epochSecond,
+                originalCheckIn.checkInEnd.epochSecond
             )
 
             if (derivedTimes == null) {
@@ -35,8 +34,8 @@ class OrganizerCheckInsTransformer @Inject constructor(
 
             Timber.d("Derived times=$derivedTimes")
             val derivedCheckIn = originalCheckIn.copy(
-                checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
-                checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
+                checkInStart = Instant.ofEpochSecond(derivedTimes.startTimeSeconds),
+                checkInEnd = Instant.ofEpochSecond(derivedTimes.endTimeSeconds)
             )
 
             derivedCheckIn.splitByMidnightUTC().forEach { checkIn ->
