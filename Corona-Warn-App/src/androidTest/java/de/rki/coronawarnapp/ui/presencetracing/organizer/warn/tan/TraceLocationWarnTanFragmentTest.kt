@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -22,6 +21,7 @@ import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class TraceLocationWarnTanFragmentTest : BaseUITest() {

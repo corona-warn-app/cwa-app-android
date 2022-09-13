@@ -19,7 +19,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
-import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -42,7 +41,6 @@ class TraceLocationsFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         TimeZone.setDefault(timeZone)
-        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())

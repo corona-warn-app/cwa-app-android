@@ -9,14 +9,12 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVector
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminer
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import de.rki.coronawarnapp.util.toProtoByteString
-import org.joda.time.Days
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,7 +40,7 @@ class CheckInsTransformer @Inject constructor(
         val submissionParams = appConfig.presenceTracing.submissionParameters
         val trvMappings = appConfig.presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
         val unencryptedCheckIns = mutableListOf<CheckInOuterClass.CheckIn>()
         val encryptedCheckIns = mutableListOf<CheckInOuterClass.CheckInProtectedReport>()
@@ -50,8 +48,8 @@ class CheckInsTransformer @Inject constructor(
         for (originalCheckIn in checkIns) {
             Timber.d("Transforming check-in=$originalCheckIn")
             val derivedTimes = submissionParams.deriveTime(
-                originalCheckIn.checkInStart.seconds,
-                originalCheckIn.checkInEnd.seconds
+                originalCheckIn.checkInStart.epochSecond,
+                originalCheckIn.checkInEnd.epochSecond
             )
 
             if (derivedTimes == null) {
@@ -61,8 +59,8 @@ class CheckInsTransformer @Inject constructor(
 
             Timber.d("Derived times=$derivedTimes")
             val derivedCheckIn = originalCheckIn.copy(
-                checkInStart = derivedTimes.startTimeSeconds.secondsToInstant(),
-                checkInEnd = derivedTimes.endTimeSeconds.secondsToInstant()
+                checkInStart = Instant.ofEpochSecond(derivedTimes.startTimeSeconds),
+                checkInEnd = Instant.ofEpochSecond(derivedTimes.endTimeSeconds)
             )
 
             derivedCheckIn.splitByMidnightUTC().forEach { checkIn ->
@@ -104,9 +102,9 @@ fun CheckIn.toUnencryptedCheckIn(riskLevel: Int): CheckInOuterClass.CheckIn =
  * @param transmissionVector [TransmissionRiskVector]
  */
 fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: TransmissionRiskVector): Int {
-    val startMidnight = checkInStart.toLocalDateUtc().toDateTimeAtStartOfDay()
-    val nowMidnight = now.toLocalDateUtc().toDateTimeAtStartOfDay()
-    val ageInDays = Days.daysBetween(startMidnight, nowMidnight).days
+    val startMidnight = checkInStart.toLocalDateUtc().atStartOfDay()
+    val nowMidnight = now.toLocalDateUtc().atStartOfDay()
+    val ageInDays = ChronoUnit.DAYS.between(startMidnight, nowMidnight).toInt()
     return transmissionVector.raw.getOrElse(ageInDays) { 1 } // Default value
 }
 

@@ -5,9 +5,9 @@ import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 internal class TraceLocationEntityTest : BaseTest() {
 

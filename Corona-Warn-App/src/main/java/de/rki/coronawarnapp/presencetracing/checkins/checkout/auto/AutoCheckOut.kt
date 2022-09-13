@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -57,7 +57,7 @@ class AutoCheckOut @Inject constructor(
     suspend fun refreshAlarm(): Boolean = mutex.withLock {
         Timber.tag(TAG).d("refreshAlarm()")
 
-        val nowUTC = timeStamper.nowUTC
+        val nowUTC = timeStamper.nowJavaUTC
         // We only create alarms that are in the future
         val nextCheckout = findNextAutoCheckOut(nowUTC)
 
@@ -65,12 +65,12 @@ class AutoCheckOut @Inject constructor(
             Timber.tag(TAG).d(
                 "Next check-out will be at %s (in %d min) for %s",
                 nextCheckout.checkInEnd,
-                Duration(nowUTC, nextCheckout.checkInEnd).standardMinutes,
+                Duration.between(nowUTC, nextCheckout.checkInEnd).toMinutes(),
                 nextCheckout
             )
             alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
-                nextCheckout.checkInEnd.millis,
+                nextCheckout.checkInEnd.toEpochMilli(),
                 intentFactory.createIntent(nextCheckout.id)
             )
             true
@@ -85,10 +85,10 @@ class AutoCheckOut @Inject constructor(
         Timber.tag(TAG).d("processOverDueCheckouts()")
 
         val overDueCheckouts = run {
-            val nowUTC = timeStamper.nowUTC
+            val nowUTC = timeStamper.nowJavaUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
-                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC.isEqual(it.checkInEnd)) }
+                .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC == it.checkInEnd) }
                 .sortedBy { it.checkInEnd }
         }.also {
             Timber.tag(TAG).d("${it.size} checkins are overdue for auto checkout: %s", it)

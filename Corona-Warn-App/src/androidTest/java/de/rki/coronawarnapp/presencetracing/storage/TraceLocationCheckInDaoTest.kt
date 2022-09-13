@@ -10,10 +10,10 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation
+import java.time.Instant
 
 class TraceLocationCheckInDaoTest : BaseTestInstrumentation() {
 

@@ -15,7 +15,10 @@ import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindo
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
 import org.joda.time.Instant
+import java.time.temporal.ChronoUnit
 
 object RiskStorageTestData {
 
@@ -123,19 +126,20 @@ object RiskStorageTestData {
     private const val maxCheckInAgeInDays = 10
 
     val ptDayRisk = PresenceTracingDayRisk(
-        Instant.now().toLocalDateUtc(),
+        Instant.now().toLocalDateUtc().toJavaTime(),
         RiskState.INCREASED_RISK
     )
 
     val ptResult1Low = PtRiskLevelResult(
-        calculatedAt = ptCalculatedAt,
-        calculatedFrom = ptCalculatedAt.minusDaysAtStartOfDayUtc(4).toInstant(),
+        calculatedAt = ptCalculatedAt.toJavaInstant(),
+        calculatedFrom = ptCalculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(4).toInstant(),
         riskState = RiskState.LOW_RISK
     )
     val ptResult2Failed = PtRiskLevelResult(
-        calculatedAt = ptCalculatedAt.minus(1000L),
+        calculatedAt = ptCalculatedAt.toJavaInstant().minus(1000L, ChronoUnit.MILLIS),
         presenceTracingDayRisk = null,
         riskState = RiskState.CALCULATION_FAILED,
-        calculatedFrom = ptCalculatedAt.minus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+        calculatedFrom = ptCalculatedAt.minus(1000L)
+            .toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
     )
 }

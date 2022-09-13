@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.presencetracing.checkins.split
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import timber.log.Timber
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import kotlin.math.ceil
 
@@ -16,8 +15,8 @@ import kotlin.math.ceil
 fun CheckIn.splitByMidnightUTC(): List<CheckIn> {
     Timber.d("Starting splitByMidnightUTC ...")
 
-    val startTimeSeconds = checkInStart.seconds
-    val endTimeSeconds = checkInEnd.seconds
+    val startTimeSeconds = checkInStart.epochSecond
+    val endTimeSeconds = checkInEnd.epochSecond
     if (endTimeSeconds < startTimeSeconds) return listOf()
     if (checkInStart.toLocalDateUtc() == checkInEnd.toLocalDateUtc()) return listOf(this)
 

@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJodaInstant
+import de.rki.coronawarnapp.util.toJodaTime
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -28,21 +30,23 @@ data class CombinedEwPtRiskLevelResult(
     }
 
     val calculatedAt: Instant by lazy {
-        max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
+        max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt.toJodaInstant())
     }
 
     val daysWithEncounters: Int by lazy {
         when (riskState) {
-            RiskState.INCREASED_RISK -> {
+            RiskState.INCREASED_RISK ->
                 ewDaysWithHighRisk
-                    .plus(ptRiskLevelResult.daysWithHighRisk)
-                    .distinct().count()
-            }
-            RiskState.LOW_RISK -> {
+                    .plus(ptRiskLevelResult.daysWithHighRisk.map { it.toJodaTime() })
+                    .distinct()
+                    .count()
+
+            RiskState.LOW_RISK ->
                 ewDaysWithLowRisk
-                    .plus(ptRiskLevelResult.daysWithLowRisk)
-                    .distinct().count()
-            }
+                    .plus(ptRiskLevelResult.daysWithLowRisk.map { it.toJodaTime() })
+                    .distinct()
+                    .count()
+
             else -> 0
         }
     }
@@ -51,11 +55,11 @@ data class CombinedEwPtRiskLevelResult(
         when (riskState) {
             RiskState.INCREASED_RISK -> max(
                 ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithHighRisk
+                ptRiskLevelResult.mostRecentDateWithHighRisk?.toJodaTime()
             )
             RiskState.LOW_RISK -> max(
                 ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithLowRisk
+                ptRiskLevelResult.mostRecentDateWithLowRisk?.toJodaTime()
             )
             else -> null
         }

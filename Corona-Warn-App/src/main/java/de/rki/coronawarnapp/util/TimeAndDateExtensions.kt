@@ -23,8 +23,6 @@ object TimeAndDateExtensions {
 
     private val shortTime = DateTimeFormat.shortTime()
 
-    fun getCurrentHourUTC(): Int = DateTime(Instant.now(), DateTimeZone.UTC).hourOfDay().get()
-
     fun Date.toUIFormat(context: Context): String = DateFormat.getDateFormat(context).format(this)
 
     fun Date.logUTCFormat(): String = DateTime(this, DateTimeZone.UTC).toString()
@@ -47,13 +45,13 @@ object TimeAndDateExtensions {
     /**
      * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
      */
-    fun Instant.derive10MinutesInterval(): Long =
-        seconds / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
+    fun java.time.Instant.derive10MinutesInterval(): Long =
+        epochSecond / TimeUnit.MINUTES.toSeconds(10) // 10 min in seconds
 
     /**
      * Derive a UNIX timestamp (in seconds) and returns the corresponding 10-minute interval
      */
-    fun Instant.deriveHourInterval(): HourInterval = millis / 3600000
+    fun java.time.Instant.deriveHourInterval(): HourInterval = toEpochMilli() / 3600000
 
     /**
      * Converts milliseconds to human readable format hh:mm:ss
@@ -66,8 +64,6 @@ object TimeAndDateExtensions {
     fun LocalDate.ageInDays(now: LocalDate) = Days.daysBetween(this, now).days
 
     fun Instant.toLocalDateUtc(): LocalDate = this.toDateTime(DateTimeZone.UTC).toLocalDate()
-
-    fun Instant.toLocalDateTime(timeZone: DateTimeZone): LocalDateTime = this.toDateTime(timeZone).toLocalDateTime()
 
     val Instant.seconds get() = TimeUnit.MILLISECONDS.toSeconds(millis)
 
@@ -154,18 +150,6 @@ object TimeAndDateExtensions {
      * Converts this LocalDate to a full datetime at the earliest valid time for the date using timezone UTC
      */
     fun LocalDate.toDateTimeAtStartOfDayUtc(): DateTime = toDateTimeAtStartOfDay(DateTimeZone.UTC)
-
-    /*
-    * Returns date changes until
-    */
-    fun Instant.daysUntil(
-        date: Instant,
-        timeZone: DateTimeZone = DateTimeZone.getDefault()
-    ): Int {
-        val startDate = toDateTime(timeZone).toLocalDate()
-        val endDate = date.toDateTime(timeZone).toLocalDate()
-        return Days.daysBetween(startDate, endDate).days
-    }
 }
 
 typealias HourInterval = Long

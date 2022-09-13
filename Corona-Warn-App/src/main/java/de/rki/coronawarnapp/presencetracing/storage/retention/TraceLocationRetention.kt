@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.storage.retention
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 private const val TRACE_LOCATION_RETENTION_DAYS = 15
@@ -13,11 +12,11 @@ private val TRACE_LOCATION_RETENTION_SECONDS = TimeUnit.DAYS.toSeconds(TRACE_LOC
  * [TRACE_LOCATION_RETENTION_DAYS], otherwise false
  */
 fun TraceLocation.isWithinRetention(now: Instant): Boolean {
-    val retentionThreshold = (now.seconds - TRACE_LOCATION_RETENTION_SECONDS)
+    val retentionThreshold = (now.epochSecond - TRACE_LOCATION_RETENTION_SECONDS)
     return if (endDate == null) {
         true
     } else {
-        endDate.seconds >= retentionThreshold
+        endDate.epochSecond >= retentionThreshold
     }
 }
 

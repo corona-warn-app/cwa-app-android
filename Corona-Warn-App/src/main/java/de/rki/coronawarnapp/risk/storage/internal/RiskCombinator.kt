@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJodaInstant
+import de.rki.coronawarnapp.util.toJodaTime
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -30,9 +32,9 @@ class RiskCombinator @Inject constructor(
     }
 
     private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = Instant.EPOCH,
+        calculatedAt = java.time.Instant.EPOCH,
         riskState = RiskState.LOW_RISK,
-        calculatedFrom = Instant.EPOCH
+        calculatedFrom = java.time.Instant.EPOCH
     )
 
     internal val initialCombinedResult = CombinedEwPtRiskLevelResult(
@@ -52,7 +54,7 @@ class RiskCombinator @Inject constructor(
 
     private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
         get() {
-            val now = timeStamper.nowUTC
+            val now = timeStamper.nowJavaUTC
             return PtRiskLevelResult(
                 calculatedAt = now,
                 riskState = RiskState.LOW_RISK,
@@ -70,13 +72,14 @@ class RiskCombinator @Inject constructor(
         ptRiskResults: List<PtRiskLevelResult>,
         ewRiskResults: List<EwRiskLevelResult>
     ): List<CombinedEwPtRiskLevelResult> {
-        val allDates = ptRiskResults.map { it.calculatedAt }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
+        val allDates =
+            ptRiskResults.map { it.calculatedAt.toJodaInstant() }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
         val sortedPtResults = ptRiskResults.sortedByDescending { it.calculatedAt }
         val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
         return allDates.map { date ->
             val ptRisk = sortedPtResults.find {
                 // Consider only presence tracing "successful" risk calculation. See EXPOSUREAPP-13383
-                it.calculatedAt <= date && it.riskState != RiskState.CALCULATION_FAILED
+                it.calculatedAt.toJodaInstant() <= date && it.riskState != RiskState.CALCULATION_FAILED
             } ?: initialPTRiskLevelResult
             val ewRisk = sortedEwResults.find {
                 it.calculatedAt <= date
@@ -94,9 +97,13 @@ class RiskCombinator @Inject constructor(
         exposureWindowDayRiskList: List<ExposureWindowDayRisk>
     ): List<CombinedEwPtDayRisk> {
         val allDates =
-            ptRiskList.map { it.localDateUtc }.plus(exposureWindowDayRiskList.map { it.localDateUtc }).distinct()
+            ptRiskList.map {
+                it.localDateUtc.toJodaTime()
+            }.plus(
+                exposureWindowDayRiskList.map { it.localDateUtc }
+            ).distinct()
         return allDates.map { date ->
-            val ptRisk = ptRiskList.find { it.localDateUtc == date }
+            val ptRisk = ptRiskList.find { it.localDateUtc.toJodaTime() == date }
             val ewRisk = exposureWindowDayRiskList.find { it.localDateUtc == date }
             CombinedEwPtDayRisk(
                 localDate = date,
