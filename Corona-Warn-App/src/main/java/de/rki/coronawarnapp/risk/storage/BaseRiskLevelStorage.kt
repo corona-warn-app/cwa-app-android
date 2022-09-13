@@ -18,7 +18,8 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
+import de.rki.coronawarnapp.util.toJavaInstant
+import dgca.verifier.app.engine.UTC_ZONE_ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -212,7 +213,7 @@ abstract class BaseRiskLevelStorage constructor(
             it?.let {
                 LastSuccessfulRiskResult(
                     riskState = it.riskState,
-                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.toDateTimeAtStartOfDayUtc()?.toInstant()
+                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.atStartOfDay(UTC_ZONE_ID)?.toInstant()
                 )
             }
         }
@@ -224,7 +225,7 @@ abstract class BaseRiskLevelStorage constructor(
             it?.let {
                 LastSuccessfulRiskResult(
                     riskState = it.riskState,
-                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState
+                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.toJavaInstant()
                 )
             }
         }
@@ -234,14 +235,14 @@ abstract class BaseRiskLevelStorage constructor(
     internal abstract suspend fun deletedOrphanedExposureWindows()
 
     override suspend fun reset() {
-        Timber.w("reset() - Clearing stored risklevel/exposure-detection results.")
+        Timber.w("reset() - Clearing stored exposure-detection results.")
         database.clearAllTables()
         Timber.w("reset() - Clearing stored presence tracing matches and results.")
         presenceTracingRiskRepository.clearAllTables()
     }
 
     override suspend fun clearResults() {
-        Timber.w("clearResults() - Clearing stored risklevel/exposure-detection results.")
+        Timber.w("clearResults() - Clearing stored exposure-detection results.")
         database.clearAllTables()
         Timber.w("clearResults() - Clearing stored presence tracing results.")
         presenceTracingRiskRepository.clearResults()

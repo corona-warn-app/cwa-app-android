@@ -78,7 +78,7 @@ class DefaultRiskLevelStorageTest : testhelpers.BaseTest() {
 
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
         every { riskResultTables.latestEntries(2) } returns emptyFlow()
-        every { riskResultTables.latestAndLastSuccessful() } returns emptyFlow()
+        every { riskResultTables.lastSuccessful() } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 

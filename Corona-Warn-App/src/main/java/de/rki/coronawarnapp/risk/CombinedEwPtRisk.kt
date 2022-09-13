@@ -94,7 +94,7 @@ data class LastCombinedRiskResults(
 
 data class LastSuccessfulRiskResult(
     val riskState: RiskState,
-    val mostRecentDateAtRiskState: Instant?
+    val mostRecentDateAtRiskState: java.time.Instant?
 )
 
 internal fun max(left: Instant, right: Instant): Instant {
