@@ -4,7 +4,7 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
+import de.rki.coronawarnapp.util.toUserTimeZone
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -14,7 +14,7 @@ fun RecyclerBinCertificateItemBinding.addDeletionInfoIfExists(item: Recyclable) 
 
     certificateDeletionDateInfo.isVisible = item.recycledAt != null
     item.recycledAt?.let { recycledAt ->
-        val deletionDate = recycledAt.plus(Recyclable.RETENTION_DAYS).toLocalDateUserTimeZone()
+        val deletionDate = recycledAt.plus(Recyclable.RETENTION_DAYS).toUserTimeZone()
         certificateDeletionDateInfo.text = with(deletionDate) {
             root.context.getString(
                 R.string.recycle_bin_item_deletion_date_info,
