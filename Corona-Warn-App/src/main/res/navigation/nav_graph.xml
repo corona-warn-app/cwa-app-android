@@ -618,6 +618,11 @@
             app:destination="@id/testRegistrationSelectionFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_familyTestConsentFragment_to_submissionTestResultAvailableFragment"
+            app:destination="@id/submissionTestResultAvailableFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
