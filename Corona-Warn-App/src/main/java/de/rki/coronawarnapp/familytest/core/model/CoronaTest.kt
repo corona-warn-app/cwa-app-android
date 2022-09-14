@@ -152,8 +152,7 @@ data class CoronaTest(
 
         @SerializedName("hasResultChangeBadge")
         override val hasResultChangeBadge: Boolean = false,
-
-        ) : CoronaTestUiState
+    ) : CoronaTestUiState
 
     data class AdditionalInfo(
         @SerializedName("createdAt")
@@ -202,8 +201,8 @@ internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
 }
 
 internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
-    val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
     // shouldn't occur, sampleCollectedAt should also be when the test has been created
+    val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }
