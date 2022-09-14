@@ -1501,7 +1501,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób, u których zdiagnozowano koronawirusa i które zostały zgłoszone do RKI. Liczby poniżej progu wynoszącego 1% średniej z 7 dni nie są wyświetlane; zobacz również wyjaśnienie w opcji menu: Legenda &gt; Okres czasu."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Liczba osób, u których zdiagnozowano koronawirusa i które zostały zgłoszone do RKI. Liczby poniżej progu wynoszącego 1% średniej z 7 dni nie są wyświetlane; zobacz również wyjaśnienie w opcji menu: Legenda &gt; Okres czasu."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
