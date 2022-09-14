@@ -1496,10 +1496,12 @@
     <string name="statistics_explanation_title">"Показники"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Пояснення статистики"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">"нові інфекції"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"підтверджені нові інфекції"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 %% від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 % від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Застереження користувачами застосунку"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1509,7 +1511,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-денна захворюваність"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Загальна кількість підтверджених нових випадків зараження за останні 7 днів (за датою звітування) на 100 000 жителів."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-денне значення R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1518,9 +1520,18 @@
     <string name="statistics_explanation_legend_title">"Легенда"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Період часу"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">"Вчора/до вчора"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Для «Вчора/До вчора» відображається кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, оскільки лише кілька державних установ охорони здоров’я наразі надсилають дані до RKI у вихідні та святкові дні, то відображається остання дата, на яку доступні цифри."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, оскільки лише кілька державних установ охорони здоров’я наразі надсилають дані до RKI у вихідні та святкові дні, то відображається остання дата, на яку доступні цифри."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">"Середня статистика за 7 днів"</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">"Середнє значення за останні 7 днів"</string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">"Всього"</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">"Загальна кількість з початку року або запуску застосунку (15 червня 2020 р.)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Тенденція"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1599,9 +1610,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Кількість осіб, повідомлених до РКІ, які отримали першу дозу вакцини."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Ви знайдете відповіді на поширені запитання на нашій сторінці ЗіВ:"</string>
+    <string name="statistics_faq_text">"Щоб отримати додаткову інформацію, перегляньте нашу сторінку ЗіВ: ЗіВ для статистики"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"ЗіВ"</string>
+    <string name="statistics_faq_label">"ЗіВ для статистики"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
@@ -1971,57 +1982,6 @@
     <string name="generic_action_abort">"Скасувати"</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">"Видалити"</string>
-
-    <!-- ####################################
-       Trace Location
-    ###################################### -->
-    <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">"Реєстрація"</string>
-    <!-- XTXT: subtitle for the trace location onboarding -->
-    <string name="trace_location_onboarding_title2">"Швидко та надійно переривати ланцюги зараження"</string>
-    <!-- YMSG: Onboarding trace location intro section -->
-    <string name="trace_location_onboarding_subheadline">"Відскануйте QR-код події або місця, щоб зареєструватися, і зафіксуйте свою присутність на цій події чи місці на своєму смартфоні."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_warning">"Кожна реєстрація також враховується при обчисленні вашого статусу ризику. Якщо у когось, хто зареєструвався на цій події чи місці, пізніше діагностують коронавірус, ви можете отримати сповіщення, якщо ви були в тій самій кімнаті одночасно або через 30 хвилин після того, як діагностовано людину."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">"Вкажіть тривалість перебування якомога точніше, щоб активувати цільові попередження."</string>
-    <!-- XACT: Button/Dialog label to consent-->
-    <string name="trace_location_onboarding_body_confirm">"Прийняти"</string>
-    <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">"Троє людей стоять за високим столом, двоє з них дивляться у свої смартфони."</string>
-    <!-- XMIT: Trace location poster print -->
-    <string name="trace_location_organiser_poster_print">"Друкувати"</string>
-    <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Поділіться"</string>
-    <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Версія для друку"</string>
-    <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Поділитися реєстраціями?"</string>
-    <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Попередьте інших, хто зареєструвався з вами. Ваші персональні дані не будуть передані."</string>
-    <!-- XBUT: Trace location check-ins consent screen header button -->
-    <string name="trace_location_attendee_consent_header_button">"Вибрати все"</string>
-    <!-- XBUT: Trace location check-ins consent screen continue button -->
-    <string name="trace_location_attendee_consent_continue">"Подати"</string>
-    <!-- XBUT: Trace location check-ins consent screen skip button -->
-    <string name="trace_location_attendee_consent_skip">"Пропустити"</string>
-    <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">"Ви впевнені, що не хочете ділитися своїми реєстраціями?"</string>
-    <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Пропуск не попередить жодних контактів, які зареєструвалися з вами."</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
-    <string name="trace_location_attendee_consent_dialog_positive_button">"Поділіться"</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
-    <string name="trace_location_attendee_consent_dialog_negative_button">"Не ділитися"</string>
-
-    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Недійсний QR-код"</string>
-    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Відсканований QR-код недійсний для реєстрації на подію або місце.\nВідскануйте відповідний QR-код.\n\n(%1$s)"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Скасувати"</string>
 
     <!-- ####################################
         Incompatibility warning card
