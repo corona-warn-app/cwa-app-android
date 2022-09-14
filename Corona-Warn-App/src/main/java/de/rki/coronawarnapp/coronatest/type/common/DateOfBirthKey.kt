@@ -20,6 +20,6 @@ data class DateOfBirthKey constructor(
     }
 
     companion object {
-        private val DOB_FORMATTER = DateTimeFormatter.ofPattern("ddMMYYYY")
+        private val DOB_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy")
     }
 }

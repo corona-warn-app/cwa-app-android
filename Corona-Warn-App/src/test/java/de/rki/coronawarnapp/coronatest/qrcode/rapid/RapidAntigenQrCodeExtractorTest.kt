@@ -20,10 +20,10 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDate
 
 class RapidAntigenQrCodeExtractorTest : BaseTest() {
 
