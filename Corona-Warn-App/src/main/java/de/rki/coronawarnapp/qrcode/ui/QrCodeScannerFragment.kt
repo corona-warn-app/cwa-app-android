@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.Manifest
-import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -18,7 +17,6 @@ import androidx.navigation.navGraphViewModels
 import androidx.transition.Fade
 import androidx.transition.Slide
 import androidx.transition.TransitionSet
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -28,11 +26,10 @@ import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
 import de.rki.coronawarnapp.dccticketing.ui.dialog.show
-import de.rki.coronawarnapp.reyclebin.coronatest.handler.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.showDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -169,49 +166,46 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.camera_permission_dialog_title)
-            .setMessage(R.string.camera_permission_dialog_message)
-            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ ->
+        showDialog(
+            title = getString(R.string.camera_permission_dialog_title),
+            message = getString(R.string.camera_permission_dialog_message),
+            positiveButton = getString(android.R.string.ok),
+            positiveButtonAction = { leave() },
+            negativeButton = getString(R.string.camera_permission_dialog_settings),
+            negativeButtonAction = {
                 showsPermissionDialog = false
                 requireContext().openAppDetailsSettings()
             }
-            .setPositiveButton(android.R.string.ok) { _, _ -> leave() }
-            .show()
+        )
         showsPermissionDialog = true
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.camera_permission_rationale_dialog_headline)
-            setMessage(R.string.camera_permission_rationale_dialog_body)
-            setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
+        showDialog(
+            title = getString(R.string.camera_permission_rationale_dialog_headline),
+            message = getString(R.string.camera_permission_rationale_dialog_body),
+            positiveButton = getString(R.string.camera_permission_rationale_dialog_button_positive),
+            positiveButtonAction = {
                 showsPermissionDialog = false
                 requestCameraPermission()
-            }
-            setNegativeButton(R.string.camera_permission_rationale_dialog_button_negative) { _, _ ->
-                leave()
-            }
-        }
-        dialog.show().apply {
-            getButton(DialogInterface.BUTTON_NEGATIVE)
-                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextDeleteButtonDialog))
-        }
+            },
+            negativeButton = getString(R.string.camera_permission_rationale_dialog_button_negative),
+            negativeButtonAction = { leave() }
+        )
         showsPermissionDialog = true
     }
 
-    private fun showCheckInQrCodeError(lazyErrorText: LazyString) =
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            val errorText = lazyErrorText.get(context)
-            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
-            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
-            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
-                startDecode()
-            }
-            setNegativeButton(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button) { _, _ ->
-                popBackStack()
-            }
-        }.show()
+    private fun showCheckInQrCodeError(lazyErrorText: LazyString) {
+        val errorText = lazyErrorText.get(requireContext())
+        showDialog(
+            title = getString(R.string.trace_location_attendee_invalid_qr_code_dialog_title),
+            message = getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText),
+            positiveButton = getString(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button),
+            positiveButtonAction = { startDecode() },
+            negativeButton = getString(R.string.trace_location_attendee_invalid_qr_code_dialog_negative_button),
+            negativeButtonAction = { popBackStack() }
+        )
+    }
 
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
@@ -350,52 +344,50 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
     }
 
-    private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.recycle_bin_restore_dgc_dialog_title)
-            .setCancelable(false)
-            .setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
-            .show()
-    }
+    private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) =
+        showDialog(
+            title = getString(R.string.recycle_bin_restore_dgc_dialog_title),
+            message = getString(R.string.recycle_bin_restore_dgc_dialog_message),
+            positiveButton = getString(android.R.string.ok),
+            positiveButtonAction = { viewModel.restoreCertificate(containerId) },
+            isCancelable = false
+        )
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
-        RestoreCoronaTestConfirmationDialog
-            .showDialog(context = requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
+        showDialog(
+            title = getString(R.string.recycle_bin_restore_corona_test_dialog_title),
+            message = getString(R.string.recycle_bin_restore_corona_test_dialog_message),
+            positiveButton = getString(R.string.recycle_bin_restore_corona_test_dialog_title),
+            positiveButtonAction = { viewModel.restoreCoronaTest(recycledCoronaTest) },
+            isCancelable = false
+        )
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.qr_code_error_max_person_threshold_title)
-            .setCancelable(false)
-            .setMessage(getString(R.string.qr_code_error_max_person_threshold_body, max))
-            .setOnDismissListener {
-                findNavController().navigate(deeplink, navOptions)
-            }
-            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
-                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
-            }
-            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
-                openUrl(R.string.qr_code_error_max_person_faq_link)
-            }
-            .setNeutralButton(android.R.string.ok) { _, _ -> }
-            .show()
+        showDialog(
+            title = getString(R.string.qr_code_error_max_person_threshold_title),
+            message = getString(R.string.qr_code_error_max_person_threshold_body, max),
+            positiveButton = getString(R.string.qr_code_error_max_person_covpasscheck_button),
+            positiveButtonAction = { openUrl(R.string.qr_code_error_max_person_covpasscheck_link) },
+            negativeButton = getString(R.string.qr_code_error_max_person_faq_button),
+            negativeButtonAction = { openUrl(R.string.qr_code_error_max_person_faq_link) },
+            neutralButton = getString(android.R.string.ok),
+            dismissAction = { findNavController().navigate(deeplink, navOptions) },
+            isCancelable = false
+        )
     }
 
-    private fun showMaxPersonExceedsMaxResult(max: Int) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.qr_code_error_max_person_max_title)
-            .setCancelable(false)
-            .setMessage(getString(R.string.qr_code_error_max_person_max_body, max))
-            .setOnDismissListener { popBackStack() }
-            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
-                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
-            }
-            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
-                openUrl(R.string.qr_code_error_max_person_faq_link)
-            }
-            .setNeutralButton(android.R.string.ok) { _, _ -> }
-            .show()
-    }
+    private fun showMaxPersonExceedsMaxResult(max: Int) =
+        showDialog(
+            title = getString(R.string.qr_code_error_max_person_max_title),
+            message = getString(R.string.qr_code_error_max_person_max_body, max),
+            positiveButton = getString(R.string.qr_code_error_max_person_covpasscheck_button),
+            positiveButtonAction = { openUrl(R.string.qr_code_error_max_person_covpasscheck_link) },
+            negativeButton = getString(R.string.qr_code_error_max_person_faq_button),
+            negativeButtonAction = { openUrl(R.string.qr_code_error_max_person_faq_link) },
+            neutralButton = getString(android.R.string.ok),
+            dismissAction = { popBackStack() },
+            isCancelable = false
+        )
 
     private fun showDccTicketingErrorDialog(humanReadableError: HumanReadableError) {
         val dialogType = DccTicketingDialogType.ErrorDialog(
