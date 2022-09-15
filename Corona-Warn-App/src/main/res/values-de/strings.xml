@@ -1504,7 +1504,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
