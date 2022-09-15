@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.util
 import android.content.Context
 import android.graphics.Typeface
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
@@ -174,13 +177,11 @@ private fun IncludeCertificateOverviewQrCardBinding.setGStatusBadge(
 ) {
     statusBadge.setBackgroundResource(color.admissionBadgeBg)
     statusBadge.text = item.admission.admissionBadgeText
+    val state = item.admission.state
     statusBadge.visibility = when {
-        item.admission.state == null -> View.INVISIBLE
-        item.admission.state.visible -> {
-            val notEmpty = item.admission.admissionBadgeText.isNotEmpty()
-            if (notEmpty) View.VISIBLE else View.INVISIBLE
-        }
-        else -> View.GONE
+        state == null -> INVISIBLE
+        state.visible -> if (item.admission.admissionBadgeText.isNotEmpty()) VISIBLE else INVISIBLE
+        else -> GONE
     }
 }
 
@@ -188,7 +189,12 @@ private fun IncludeCertificateOverviewQrCardBinding.setMaskBadge(
     item: PersonCertificateCard.Item,
     color: PersonColorShade
 ) {
-    maskBadge.isVisible = item.mask.state?.visible == true
+    val state = item.mask.state
+    maskBadge.visibility = when {
+        state == null -> INVISIBLE
+        state.visible -> if (item.mask.maskBadgeText.isNotEmpty()) VISIBLE else INVISIBLE
+        else -> GONE
+    }
     maskBadge.text = item.mask.maskBadgeText
     maskBadge.setBackgroundResource(color.maskLargeBadgeBg)
     maskBadge.setCompoundDrawablesWithIntrinsicBounds(color.maskIcon, 0, 0, 0)
