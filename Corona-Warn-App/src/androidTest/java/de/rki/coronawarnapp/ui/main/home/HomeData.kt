@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toJavaInstant
 import org.joda.time.Instant
 
 object HomeData {
@@ -137,7 +138,7 @@ object HomeData {
 
         val TEST_POSITIVE_ITEM = PcrTestPositiveCard.Item(
             state = TestPositive(
-                testRegisteredAt = Instant.now()
+                testRegisteredAt = Instant.now().toJavaInstant()
             ),
             onClickAction = {},
             onRemoveAction = {}
@@ -145,14 +146,14 @@ object HomeData {
 
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
             state = TestNegative(
-                testRegisteredAt = Instant.now()
+                testRegisteredAt = Instant.now().toJavaInstant()
             ),
             onClickAction = {}
         )
 
         val TEST_NEGATIVE_ITEM_RAT = RapidTestNegativeCard.Item(
             state = SubmissionStateRAT.TestNegative(
-                testRegisteredAt = Instant.now()
+                testRegisteredAt = Instant.now().toJavaInstant()
             ),
             onClickAction = {}
         )
@@ -174,7 +175,7 @@ object HomeData {
 
         val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
-                testRegisteredAt = Instant.now()
+                testRegisteredAt = Instant.now().toJavaInstant()
             ),
             onClickAction = {}
         )

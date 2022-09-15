@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisi
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterWrapper
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -67,7 +68,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         id = "123-456-7890",
         testType = PCR,
         result = POSITIVE,
-        time = Instant.now()
+        time = Instant.now().toJavaInstant()
     )
 
     // DB
@@ -251,7 +252,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
         coronaTestsFlow.first().single() shouldBe coronaTest
 
         val updatedTest = coronaTest.copy(
-            time = Instant.now(),
+            time = Instant.now().toJavaInstant(),
             result = NEGATIVE,
             testType = ANTIGEN
         )
