@@ -113,7 +113,7 @@ class CWASafetyNet @Inject constructor(
 
         val skip24hCheck = CWADebug.isDeviceForTestersBuild && testSettings.skipSafetyNetTimeCheck.first()
         val nowUTC = timeStamper.nowJavaUTC
-        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime
+        val firstReliableTimeStamp = cwaSettings.firstReliableDeviceTime.first()
         val timeSinceOnboarding = Duration.between(firstReliableTimeStamp, nowUTC)
         Timber.d("firstReliableTimeStamp=%s, now=%s", firstReliableTimeStamp, nowUTC)
         Timber.d("skip24hCheck=%b, timeSinceOnboarding=%dh", skip24hCheck, timeSinceOnboarding.toHours())

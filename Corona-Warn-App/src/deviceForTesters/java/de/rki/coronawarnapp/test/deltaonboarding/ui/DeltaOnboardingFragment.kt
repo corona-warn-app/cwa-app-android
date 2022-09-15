@@ -24,10 +24,10 @@ class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.switchDeltaOnboarding.isChecked = viewModel.isDeltaOnboardingDone()
+        binding.switchDeltaOnboarding.isChecked = viewModel.isDeltaOnboardingDone.value ?: false
         binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOnboardingDone()
         binding.switchVaccinationOnboarding.isChecked = viewModel.isVaccinationRegistrationOnboardingDone()
-        binding.switchNotificationsDeltaOnboarding.isChecked = viewModel.isNotificationsOnboardingDone()
+        binding.switchNotificationsDeltaOnboarding.isChecked = viewModel.lastNotificationsOnboardingVersionCode.value != 0L
         binding.switchAnalyticsDeltaOnboarding.isChecked = viewModel.isAnalyticsOnboardingDone()
 
         viewModel.changelogVersion.observe(viewLifecycleOwner) {

@@ -30,7 +30,7 @@ class EncryptedPreferencesMigration @Inject constructor(
 
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    fun doMigration() {
+    suspend fun doMigration() {
         Timber.d("Migration start")
         try {
             encryptedPreferences.instance?.let { copyData(it) }
@@ -52,13 +52,14 @@ class EncryptedPreferencesMigration @Inject constructor(
         Timber.d("Migration finish")
     }
 
-    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
+    private suspend fun copyData(encryptedSharedPreferences: SharedPreferences) {
         Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
-            cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
-            cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
-            cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
+            cwaSettings.updateWasInteroperabilityShownAtLeastOnce(wasInteroperabilityShown())
+            cwaSettings.updateWasTracingExplanationDialogShown(wasTracingExplanationDialogShown())
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(
                 numberOfRemainingSharePositiveTestResultReminders()
+            )
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {

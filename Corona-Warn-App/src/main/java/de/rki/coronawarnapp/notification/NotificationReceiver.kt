@@ -13,6 +13,9 @@ import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RAT_RESU
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
 import de.rki.coronawarnapp.tag
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,6 +24,8 @@ typealias NotificationId = Int
 class NotificationReceiver : BroadcastReceiver() {
 
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
+
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     @Suppress("MaxLineLength")
     override fun onReceive(context: Context, intent: Intent) {
@@ -40,11 +45,13 @@ class NotificationReceiver : BroadcastReceiver() {
                         "NotificationReceiver received intent to show a positive test result notification for test type %s",
                         testType
                     )
-                    shareTestResultNotificationService.maybeShowSharePositiveTestResultNotification(
-                        notificationId,
-                        testType,
-                        testIdentifier
-                    )
+                    coroutineScope.launch {
+                        shareTestResultNotificationService.maybeShowSharePositiveTestResultNotification(
+                            notificationId,
+                            testType,
+                            testIdentifier
+                        )
+                    }
                 }
             }
             else ->
