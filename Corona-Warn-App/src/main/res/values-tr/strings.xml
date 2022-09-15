@@ -425,7 +425,7 @@
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Maruz kalma günlüğü, Android akıllı telefonunuzun Bluetooth üzerinden diğer uygulama kullanıcılarının şifrelenmiş rastgele kimliklerini alması ve size ait rastgele kimlikleri diğer kullanıcıların akıllı telefonlarına aktarmasıyla çalışır. Maruz kalma günlüğü, dilediğiniz zaman devre dışı bırakılabilir."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Şifrelenmiş rastgele kimlikler diğer kullanıcılara yalnızca tarih, süre ve yakınlık (sinyal gücü ile hesaplanır) hakkındaki bilgileri aktarır. Kişilerin kimlikleri rastgele kimliklere göre belirlenemez."</string>
+    <string name="onboarding_tracing_body_emphasized">"Şifrelenmiş rastgele kimliklerde diğer kişilere yalnızca tarih, süre ve yakınlık bilgileri (sinyal gücüne göre hesaplanır) gönderilir. Ad, adres ve konum gibi kişisel veriler hiçbir durumda kaydedilmez. Rastgele kimliklere göre kişilerin kimlikleri belirlenemez."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Basitleştirilmiş Dilde ve İşaret Dilinde Uygulama Bilgileri"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -1496,10 +1496,12 @@
     <string name="statistics_explanation_title">"Önemli Değerler"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">"yeni enfeksiyon sayısı"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %%1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1509,7 +1511,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1518,9 +1520,18 @@
     <string name="statistics_explanation_legend_title">"Açıklama"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Dönem"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Örneğin hafta sonlarında ve resmi tatillerde yalnızca birkaç kamu sağlığı görevlisinin RKI\'ye veri göndermesi gibi bir nedenle, önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Önceki güne ait/önceki güne kadar olan sayı. Örneğin hafta sonlarında ve resmi tatillerde yalnızca birkaç kamu sağlığı görevlisinin RKI\'ye veri göndermesi gibi bir nedenle, önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">"7 Günlük Ortalama"</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">"Son 7 güne ait ortalama değer"</string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">"Toplam"</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">"Yıl başından ya da uygulamanın kullanıma sunulmasından itibaren toplam sayı (15 Haziran 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1599,9 +1610,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Sık sorulan soruların yanıtlarını SSS sayfamızda bulabilirsiniz:"</string>
+    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\nİstatistikler için SSS"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"SSS"</string>
+    <string name="statistics_faq_label">"İstatistikler için SSS"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
@@ -1971,57 +1982,6 @@
     <string name="generic_action_abort">"İptal Et"</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">"Sil"</string>
-
-    <!-- ####################################
-       Trace Location
-    ###################################### -->
-    <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">"Check In"</string>
-    <!-- XTXT: subtitle for the trace location onboarding -->
-    <string name="trace_location_onboarding_title2">"Enfeksiyon zincirlerini hızlı ve güvenilir şekilde kırın"</string>
-    <!-- YMSG: Onboarding trace location intro section -->
-    <string name="trace_location_onboarding_subheadline">"Bir etkinlik veya yer için QR kodu tarayarak check in yapın ve akıllı telefonunuza bu etkinliğe ya da yere katıldığınızı kaydedin."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_warning">"Risk durumunuz hesaplanırken her bir check-in de dikkate alınır. Bu etkinliğe veya yere check in yapan biri daha sonra koronavirüs tanısı alırsa tanı alan kişi ile aynı anda ya da bu kişi odadan çıktıktan sonra en fazla 30 dakika içinde aynı odada bulunmuşsanız size uyarı gönderilebilir."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">"Hedeflenen uyarıları etkinleştirmek için lütfen kalış sürenizi mümkün olduğunca net bir biçimde belirtin."</string>
-    <!-- XACT: Button/Dialog label to consent-->
-    <string name="trace_location_onboarding_body_confirm">"Kabul Et"</string>
-    <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">"Üç kişi yüksek bir masanın etrafında ayakta duruyor, ikisi akıllı telefonuna bakıyor."</string>
-    <!-- XMIT: Trace location poster print -->
-    <string name="trace_location_organiser_poster_print">"Yazdır"</string>
-    <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Paylaş"</string>
-    <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Yazdırma Sürümü"</string>
-    <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Check-In’ler Paylaşılsın Mı?"</string>
-    <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Sizinle birlikte check in yapmış olan diğer kullanıcıları uyarın. Kişisel verileriniz paylaşılmayacaktır."</string>
-    <!-- XBUT: Trace location check-ins consent screen header button -->
-    <string name="trace_location_attendee_consent_header_button">"Tümünü seç"</string>
-    <!-- XBUT: Trace location check-ins consent screen continue button -->
-    <string name="trace_location_attendee_consent_continue">"Gönder"</string>
-    <!-- XBUT: Trace location check-ins consent screen skip button -->
-    <string name="trace_location_attendee_consent_skip">"Atla"</string>
-    <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">"Check-in’lerinizi paylaşmak istemediğinizden emin misiniz?"</string>
-    <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Bu adımı atladığınızda sizinle birlikte check in yapmış olan hiç kimseye uyarı gönderilmeyecektir."</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
-    <string name="trace_location_attendee_consent_dialog_positive_button">"Paylaş"</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
-    <string name="trace_location_attendee_consent_dialog_negative_button">"Paylaşma"</string>
-
-    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Geçersiz QR Kod"</string>
-    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Taranan QR kod, etkinlik veya yer check-in’leri için geçerli değil. \nLütfen uygun bir QR kod tarayın.\n\n(%1$s)"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"Tamam"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"İptal Et"</string>
 
     <!-- ####################################
         Incompatibility warning card
