@@ -327,4 +327,55 @@
     <!-- Trace Location QR export strings -->
     <string name="trace_location_export_qr_code_view_content_description">"Перегляд QR-коду події перед друком"</string>
 
+    <!-- ####################################
+      Trace Location
+   ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Реєстрація"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Швидко та надійно переривати ланцюги зараження"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Відскануйте QR-код події або місця, щоб зареєструватися, і зафіксуйте свою присутність на цій події чи місці на своєму смартфоні."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Кожна реєстрація також враховується при обчисленні вашого статусу ризику. Якщо у когось, хто зареєструвався на цій події чи місці, пізніше діагностують коронавірус, ви можете отримати сповіщення, якщо ви були в тій самій кімнаті одночасно або через 30 хвилин після того, як діагностовано людину."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Вкажіть тривалість перебування якомога точніше, щоб активувати цільові попередження."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Прийняти"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Троє людей стоять за високим столом, двоє з них дивляться у свої смартфони."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Друкувати"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Поділитися"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Версія для друку"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Поділитися реєстраціями?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Попередьте інших, хто зареєструвався з вами. Ваші персональні дані не будуть передані."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Вибрати все"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Подати"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Пропустити"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Ви впевнені, що не хочете ділитися своїми реєстраціями?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Пропуск не попередить жодних контактів, які зареєструвалися з вами."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Поділитися"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Не ділитися"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Недійсний QR-код"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Відсканований QR-код недійсний для реєстрації на подію або місце.\nВідскануйте відповідний QR-код.\n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Скасувати"</string>
+
 </resources>
