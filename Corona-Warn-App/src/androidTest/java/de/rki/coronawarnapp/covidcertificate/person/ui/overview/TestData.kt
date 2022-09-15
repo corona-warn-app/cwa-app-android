@@ -44,11 +44,11 @@ fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState,
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -82,11 +82,11 @@ fun listItemWithUpdatingItem() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -112,11 +112,11 @@ fun gStatusIsNullAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesItem>(
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = ""
+                    text = ""
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState,
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -142,11 +142,11 @@ fun gStatusIsNullAndMaskIsNullItem() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = ""
+                    text = ""
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = null,
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -173,11 +173,11 @@ fun gStatusIsNullAndMaskIsInvisibleItem() = mutableListOf<PersonCertificatesItem
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = ""
+                    text = ""
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -203,11 +203,11 @@ fun gStatusIsInvisibleAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesI
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState.copy(visible = false),
-                    admissionBadgeText = "2G"
+                    text = "2G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState,
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -233,11 +233,11 @@ fun gStatusIsInvisibleAndMaskIsInvisibleItem() = mutableListOf<PersonCertificate
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState.copy(visible = false),
-                    admissionBadgeText = "2G"
+                    text = "2G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -263,11 +263,11 @@ fun gStatusIsVisibleAndMaskIsInvisibleItem() = mutableListOf<PersonCertificatesI
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState.copy(visible = true),
-                    admissionBadgeText = "2G"
+                    text = "2G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -293,11 +293,11 @@ fun gStatusIsVisibleAndMaskIsVisibleItem() = mutableListOf<PersonCertificatesIte
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G"
+                    text = "2G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState,
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -318,11 +318,11 @@ fun maskFree() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = admissionState,
-                admissionBadgeText = "2G"
+                text = "2G"
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState.copy(identifier = MaskState.MaskStateIdentifier.OPTIONAL),
-                maskBadgeText = "Keine Maskenpflicht"
+                text = "Keine Maskenpflicht"
             ),
             colorShade = PersonColorShade.GREEN,
             badgeCount = 0,
@@ -343,11 +343,11 @@ fun maskFreeMultiLine() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = admissionState,
-                admissionBadgeText = "2G"
+                text = "2G"
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState,
-                maskBadgeText = "Keine Maskenpflicht, Multi Line, aber mindestens zwei"
+                text = "Keine Maskenpflicht, Multi Line, aber mindestens zwei"
             ),
             colorShade = PersonColorShade.GREEN,
             badgeCount = 0,
@@ -368,11 +368,11 @@ fun maskRequiredAndNoStatus() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = null,
-                admissionBadgeText = "2G+"
+                text = "2G+"
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState.copy(identifier = MaskState.MaskStateIdentifier.REQUIRED),
-                maskBadgeText = "Maskenpflicht"
+                text = "Maskenpflicht"
             ),
             colorShade = PersonColorShade.COLOR_3,
             badgeCount = 0,
@@ -393,11 +393,11 @@ fun maskInvalidOutdated() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = null,
-                admissionBadgeText = "2G+"
+                text = "2G+"
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState.copy(),
-                maskBadgeText = "Maskenpflicht"
+                text = "Maskenpflicht"
             ),
             colorShade = PersonColorShade.COLOR_INVALID,
             badgeCount = 0,
@@ -418,11 +418,11 @@ fun noMaskInfoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = admissionState,
-                admissionBadgeText = "2G+"
+                text = "2G+"
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState.copy(visible = false),
-                maskBadgeText = ""
+                text = ""
             ),
             colorShade = PersonColorShade.COLOR_1,
             badgeCount = 0,
@@ -443,11 +443,11 @@ fun noMaskInfoNoStatusInfo() = mutableListOf<PersonCertificatesItem>().apply {
             ),
             admission = PersonCertificateCard.Item.Admission(
                 state = null,
-                admissionBadgeText = ""
+                text = ""
             ),
             mask = PersonCertificateCard.Item.Mask(
                 state = maskState.copy(visible = false),
-                maskBadgeText = ""
+                text = ""
             ),
             colorShade = PersonColorShade.COLOR_3,
             badgeCount = 0,
@@ -473,11 +473,11 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "3G"
+                    text = "3G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 5,
@@ -500,11 +500,11 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "3G"
+                    text = "3G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_2,
                 badgeCount = 3,
@@ -527,11 +527,11 @@ fun personsItems() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_3,
                 badgeCount = 0,
@@ -557,11 +557,11 @@ fun onePersonItem() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = null,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(),
-                    maskBadgeText = "Maskenpflicht"
+                    text = "Maskenpflicht"
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -587,11 +587,11 @@ fun onePersonItemWithBadgeCount() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G"
+                    text = "2G"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 1,
@@ -624,11 +624,11 @@ fun twoGPlusCertificate() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -668,11 +668,11 @@ fun threeCertificates() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 0,
@@ -705,11 +705,11 @@ fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
                 ),
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = "2G+"
+                    text = "2G+"
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = maskState.copy(visible = false),
-                    maskBadgeText = ""
+                    text = ""
                 ),
                 colorShade = PersonColorShade.COLOR_1,
                 badgeCount = 1,
