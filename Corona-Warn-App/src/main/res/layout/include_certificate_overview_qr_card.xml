@@ -12,18 +12,19 @@
         android:id="@+id/mask_badge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="26dp"
-        android:paddingHorizontal="8dp"
         android:layout_marginEnd="8dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
+        android:minHeight="26dp"
+        android:paddingHorizontal="8dp"
         android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/status_badge"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/status_badge"
-        tools:text="Keine Maskenpflicht"
+        app:layout_goneMarginEnd="0dp"
+        tools:background="@drawable/no_mask_badge_bg"
         tools:drawableLeft="@drawable/ic_no_mask"
-        tools:background="@drawable/no_mask_badge_bg"/>
+        tools:text="Keine Maskenpflicht" />
 
     <TextView
         android:id="@+id/status_badge"
@@ -31,24 +32,31 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@drawable/ic_admission_badge_1"
-        app:layout_constraintTop_toTopOf="@id/mask_badge"
-        app:layout_constraintBottom_toBottomOf="@id/mask_badge"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="2G+ PCR Test" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/badges_barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:barrierMargin="14dp"
+        app:constraint_referenced_ids="mask_badge,status_badge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="14dp"
-        app:layout_goneMarginTop="0dp"
         android:contentDescription="@string/vaccination_list_qr_code_accessibility"
         android:transitionName="full_qr_code_image"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_badge"
+        app:layout_constraintTop_toBottomOf="@id/badges_barrier"
+        app:layout_goneMarginTop="0dp"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
