@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 
 typealias DialogAction = () -> Unit
 
+@Suppress("LongParameterList")
 fun Fragment.showDialog(
     title: String,
     message: String,
