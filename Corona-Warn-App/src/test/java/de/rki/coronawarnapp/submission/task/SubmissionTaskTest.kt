@@ -48,6 +48,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 import java.io.IOException
+import java.time.temporal.ChronoUnit
 
 class SubmissionTaskTest : BaseTest() {
 
@@ -98,13 +99,13 @@ class SubmissionTaskTest : BaseTest() {
         type = 2,
         description = "brothers birthday",
         address = "Malibu",
-        traceLocationStart = Instant.EPOCH,
+        traceLocationStart = java.time.Instant.EPOCH,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = mockk(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = Instant.EPOCH,
-        checkInEnd = Instant.EPOCH.plus(9000),
+        checkInStart = java.time.Instant.EPOCH,
+        checkInEnd = java.time.Instant.EPOCH.plus(9000, ChronoUnit.MILLIS),
         completed = true,
         createJournalEntry = false,
         isSubmitted = false,

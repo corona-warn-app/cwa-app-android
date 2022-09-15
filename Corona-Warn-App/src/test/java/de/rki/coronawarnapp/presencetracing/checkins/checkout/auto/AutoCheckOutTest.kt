@@ -22,10 +22,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 class AutoCheckOutTest : BaseTest() {
 
@@ -55,27 +56,27 @@ class AutoCheckOutTest : BaseTest() {
 
     private val testCheckIn1 = baseCheckin.copy(
         id = 42L,
-        checkInEnd = Instant.EPOCH.plus(500),
+        checkInEnd = Instant.EPOCH.plus(500, ChronoUnit.MILLIS),
         completed = true
     )
     private val testCheckIn2 = baseCheckin.copy(
         id = 43L,
-        checkInEnd = Instant.EPOCH.plus(600)
+        checkInEnd = Instant.EPOCH.plus(600, ChronoUnit.MILLIS)
     )
     private val testCheckIn3 = baseCheckin.copy(
         id = 44L,
-        checkInEnd = Instant.EPOCH.plus(700)
+        checkInEnd = Instant.EPOCH.plus(700, ChronoUnit.MILLIS)
     )
     private val testCheckIn4 = baseCheckin.copy(
         id = 45L,
-        checkInEnd = Instant.EPOCH.plus(2000)
+        checkInEnd = Instant.EPOCH.plus(2000, ChronoUnit.MILLIS)
     )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { repository.allCheckIns } returns flowOf(listOf(testCheckIn2, testCheckIn1, testCheckIn3, testCheckIn4))
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1000)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(1000, ChronoUnit.MILLIS)
         coEvery { repository.getCheckInById(42L) } returns testCheckIn1
         coEvery { repository.getCheckInById(43L) } returns testCheckIn2
         coEvery { repository.getCheckInById(44L) } returns testCheckIn3
@@ -185,13 +186,13 @@ class AutoCheckOutTest : BaseTest() {
 
         verify {
             intentFactory.createIntent(45L)
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, testCheckIn4.checkInEnd.millis, mockIntent)
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, testCheckIn4.checkInEnd.toEpochMilli(), mockIntent)
         }
     }
 
     @Test
     fun `if there is no upcoming check-out, we cancel any alarms`() = runTest {
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(2000)
+        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(2000, ChronoUnit.MILLIS)
 
         val mockIntent = mockk<PendingIntent>()
         every { intentFactory.createIntent(any()) } returns mockIntent

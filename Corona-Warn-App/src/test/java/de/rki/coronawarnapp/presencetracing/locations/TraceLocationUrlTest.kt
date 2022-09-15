@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.presencetracing.locations
 
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class TraceLocationUrlTest : BaseTest() {
 
@@ -18,8 +18,8 @@ class TraceLocationUrlTest : BaseTest() {
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
             description = "My Birthday Party",
             address = "at my place",
-            startDate = 2687955L.secondsToInstant(),
-            endDate = 2687991L.secondsToInstant(),
+            startDate = Instant.ofEpochSecond(2687955L),
+            endDate = Instant.ofEpochSecond(2687991L),
             defaultCheckInLengthInMinutes = null,
             cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
             cnPublicKey = PUB_KEY,

@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Days
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -109,7 +109,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private suspend fun calculateRiskResult(successful: Boolean): PtRiskLevelResult {
-        val nowUtc = timeStamper.nowUTC
+        val nowUtc = timeStamper.nowJavaUTC
         val deadline = checkInsFilter.calculateDeadline(nowUtc)
 
         val riskState = if (successful) {
@@ -131,12 +131,12 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     internal suspend fun deleteStaleData() {
         Timber.d("deleteStaleData()")
-        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.millis)
-        riskLevelResultDao.deleteOlderThan(retentionTime.millis)
+        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.toEpochMilli())
+        riskLevelResultDao.deleteOlderThan(retentionTime.toEpochMilli())
     }
 
     private val retentionTime: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+        get() = timeStamper.nowJavaUTC.minus(Duration.ofDays(15))
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")

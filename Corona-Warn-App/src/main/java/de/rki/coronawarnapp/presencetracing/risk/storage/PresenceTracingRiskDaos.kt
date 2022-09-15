@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverl
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Instant
+import java.time.Instant
 
 /*
 * Stores matches from the last successful execution
@@ -52,8 +52,8 @@ internal fun CheckInWarningOverlap.toTraceTimeIntervalMatchEntity() = TraceTimeI
     checkInId = checkInId,
     traceWarningPackageId = traceWarningPackageId,
     transmissionRiskLevel = transmissionRiskLevel,
-    startTimeMillis = startTime.millis,
-    endTimeMillis = endTime.millis
+    startTimeMillis = startTime.toEpochMilli(),
+    endTimeMillis = endTime.toEpochMilli()
 )
 
 internal fun TraceTimeIntervalMatchEntity.toCheckInWarningOverlap() = CheckInWarningOverlap(
@@ -105,9 +105,9 @@ internal fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
 )
 
 internal fun PtRiskLevelResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
-    calculatedAtMillis = calculatedAt.millis,
+    calculatedAtMillis = calculatedAt.toEpochMilli(),
     riskState = riskState,
-    calculatedFromMillis = calculatedFrom.millis,
+    calculatedFromMillis = calculatedFrom.toEpochMilli(),
 )
 
 class RiskStateConverter {
