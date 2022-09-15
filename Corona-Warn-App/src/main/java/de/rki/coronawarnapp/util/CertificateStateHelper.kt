@@ -176,7 +176,10 @@ private fun IncludeCertificateOverviewQrCardBinding.setGStatusBadge(
     statusBadge.text = item.admission.admissionBadgeText
     statusBadge.visibility = when {
         item.admission.state == null -> View.INVISIBLE
-        item.admission.state.visible -> View.VISIBLE
+        item.admission.state.visible -> {
+            val notEmpty = item.admission.admissionBadgeText.isNotEmpty()
+            if (notEmpty) View.VISIBLE else View.INVISIBLE
+        }
         else -> View.GONE
     }
 }
