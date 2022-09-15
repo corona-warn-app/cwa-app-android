@@ -6,16 +6,18 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.Duration
+import de.rki.coronawarnapp.util.toJoda
+import de.rki.coronawarnapp.util.toUserTimeZone
 import org.joda.time.DurationFieldType
-import org.joda.time.Instant
 import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
-import org.joda.time.format.PeriodFormatterBuilder
+import java.time.Duration
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.concurrent.TimeUnit
 
 class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
@@ -47,33 +49,30 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
 
-        highlightDuration.text = kotlin.run {
-            val currentDuration = Duration(checkInStartUserTZ, Instant.now())
-            val saneDuration = if (currentDuration.isShorterThan(Duration.ZERO)) {
-                Duration.ZERO
-            } else {
-                currentDuration
-            }
-            highlightDurationFormatter.print(saneDuration.toPeriod())
+        highlightDuration.text = run {
+            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now().toUserTimeZone())
+            val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
+            val seconds = saneDuration.toMinutes() * 60
+            "%02d:%02d".format(seconds / SECONDS_IN_HOURS, (seconds % SECONDS_IN_HOURS) / 60)
         }
 
         description.text = curItem.checkin.description
         address.text = curItem.checkin.address
 
         checkoutInfo.text = run {
-            val checkoutIn = Duration(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
+            val checkoutIn = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
                 val periodType = when {
-                    it.isLongerThan(Duration.standardHours(1)) -> PeriodType.forFields(
+                    it > Duration.ofHours(1) -> PeriodType.forFields(
                         arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
                     )
-                    it.isLongerThan(Duration.standardDays(1)) -> PeriodType.days()
+                    it > Duration.ofDays(1) -> PeriodType.days()
                     else -> PeriodType.minutes()
                 }
-                it.toPeriod(periodType)
+                it.toJoda().toPeriod(periodType)
             }
 
-            val startDate = checkInStartUserTZ.toString(DateTimeFormat.shortDate())
-            val startTime = checkInStartUserTZ.toString(DateTimeFormat.shortTime())
+            val startDate = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+            val startTime = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info_format,
                 startDate,
@@ -107,12 +106,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
     }
 
     companion object {
-        private val highlightDurationFormatter = PeriodFormatterBuilder().apply {
-            printZeroAlways()
-            minimumPrintedDigits(2)
-            appendHours()
-            appendSuffix(":")
-            appendMinutes()
-        }.toFormatter()
+        private val SECONDS_IN_HOURS = TimeUnit.HOURS.toSeconds(1)
     }
 }

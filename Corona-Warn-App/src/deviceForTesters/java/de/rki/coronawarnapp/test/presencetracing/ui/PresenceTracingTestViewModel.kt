@@ -26,11 +26,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDateTime
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.PeriodFormatter
-import org.joda.time.format.PeriodFormatterBuilder
 import timber.log.Timber
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import kotlin.system.measureTimeMillis
 
 class PresenceTracingTestViewModel @AssistedInject constructor(
@@ -90,7 +90,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                 stringBuilder
                     .append("CheckIn Id ${checkInOverlap.checkInId}, ")
                     .append("Date ${checkInOverlap.localDateUtc}, ")
-                    .append("Min. ${checkInOverlap.overlap.standardMinutes}")
+                    .append("Min. ${checkInOverlap.overlap.toMinutes()}")
                     .appendLine()
             }.toString()
             else -> "Unknown state"
@@ -157,15 +157,10 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
     fun submit(traceLocation: TraceLocation, tan: String, startTime: String, duration: String) {
         launch {
             try {
-                val localeDateTime = LocalDateTime.parse(startTime, DateTimeFormat.forPattern("dd.MM.yy HH:mm"))
-                val startDate = localeDateTime.toDateTime().toInstant()
-
-                val formatter: PeriodFormatter = PeriodFormatterBuilder()
-                    .appendHours()
-                    .appendLiteral(":")
-                    .appendMinutes()
-                    .toFormatter()
-                val parsedDuration = formatter.parsePeriod(duration).toStandardDuration()
+                val localeDateTime = LocalDateTime.parse(startTime, DateTimeFormatter.ofPattern("dd.MM.yy HH:mm"))
+                val startDate = localeDateTime.toInstant(ZoneOffset.UTC)
+                val (hours, minutes) = duration.split(":")
+                val parsedDuration = Duration.parse("PT${hours}H${minutes}M")
 
                 val payload = OrganizerSubmissionPayload(
                     traceLocation = traceLocation,

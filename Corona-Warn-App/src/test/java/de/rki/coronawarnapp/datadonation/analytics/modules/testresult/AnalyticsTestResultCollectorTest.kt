@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -72,7 +73,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { ewRiskLevelResult.mostRecentDateAtRiskState } returns
             org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00")
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc()
+            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc().toJavaTime()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
         every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)

@@ -20,14 +20,14 @@ fun calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
 
 fun List<PtRiskLevelResult>.getLastChangeToHighPtRiskBefore(testRegisteredAt: Instant): Instant? {
     val successfulResults = filter { it.wasSuccessfullyCalculated }
-        .filter { it.calculatedAt.toJavaInstant() <= testRegisteredAt }
+        .filter { it.calculatedAt <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
     successfulResults.forEachIndexed { index, ptRiskLevelResult ->
         if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
             (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
-            return ptRiskLevelResult.calculatedAt.toJavaInstant()
+            return ptRiskLevelResult.calculatedAt
         }
     }
     return null
@@ -38,11 +38,11 @@ fun List<EwRiskLevelResult>.getLastChangeToHighEwRiskBefore(testRegisteredAt: In
         .filter { it.calculatedAt.toJavaInstant() <= testRegisteredAt }
         .sortedByDescending { it.calculatedAt }
 
-    successfulResults.forEachIndexed { index, ptRiskLevelResult ->
-        if (ptRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
+    successfulResults.forEachIndexed { index, ewRiskLevelResult ->
+        if (ewRiskLevelResult.riskState == RiskState.INCREASED_RISK &&
             (index == successfulResults.lastIndex || successfulResults[index + 1].riskState == RiskState.LOW_RISK)
         ) {
-            return ptRiskLevelResult.calculatedAt.toJavaInstant()
+            return ewRiskLevelResult.calculatedAt.toJavaInstant()
         }
     }
     return null

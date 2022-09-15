@@ -13,10 +13,11 @@ import io.mockk.just
 import io.mockk.runs
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 class CheckOutHandlerTest : BaseTest() {
 
@@ -37,7 +38,7 @@ class CheckOutHandlerTest : BaseTest() {
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
         checkInStart = Instant.EPOCH,
-        checkInEnd = Instant.EPOCH.plus(100),
+        checkInEnd = Instant.EPOCH.plus(100, ChronoUnit.MILLIS),
         completed = false,
         createJournalEntry = true
     )
@@ -54,7 +55,7 @@ class CheckOutHandlerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowUTC
 
         coEvery { repository.updateCheckIn(42, any()) } coAnswers {
             val callback: (CheckIn) -> CheckIn = arg(1)
