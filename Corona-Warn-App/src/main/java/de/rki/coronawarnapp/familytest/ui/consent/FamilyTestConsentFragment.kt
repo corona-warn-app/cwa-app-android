@@ -96,19 +96,13 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
                     dialog.show()
                 }
-                is TestRegistrationStateProcessor.State.TestRegistered -> when {
-                    state.test.isPositive ->
-                        doNavigate(
-                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                testIdentifier = state.test.identifier
-                            )
-                        )
-                    else -> doNavigate(
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testIdentifier = state.test.identifier
-                        )
-                    )
-                }
+                is TestRegistrationStateProcessor.State.TestRegistered -> findNavController().navigate(
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                        testIdentifier = state.test.identifier,
+                        comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
+                    ),
+                    navOptions
+                )
             }
         }
 
