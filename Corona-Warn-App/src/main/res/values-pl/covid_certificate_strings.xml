@@ -343,7 +343,7 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
     <!-- XTXT: Mask requirements card FAQ link -->
-    <string name="mask_requirements_faq_text">"Więcej informacji na temat wyjątków dotyczących maseczek znajduje się na naszej stronie z często zadawanymi pytaniami."</string>
+    <string name="mask_requirements_faq_text">"Więcej informacji na temat obowiązku noszenia maseczki znajduje się na naszej stronie z często zadawanymi pytaniami."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Status dla następujących krajów związkowych"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->

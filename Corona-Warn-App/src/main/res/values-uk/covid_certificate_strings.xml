@@ -343,7 +343,7 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
     <!-- XTXT: Mask requirements card FAQ link -->
-    <string name="mask_requirements_faq_text">"Щоб отримати додаткову інформацію про винятки щодо носіння маски, перегляньте нашу сторінку запитань і відповідей."</string>
+    <string name="mask_requirements_faq_text">"Щоб отримати додаткову інформацію щодо обов’язкового носіння маски, перегляньте нашу сторінку запитань і відповідей."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Статус для наступної федеральної землі"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
