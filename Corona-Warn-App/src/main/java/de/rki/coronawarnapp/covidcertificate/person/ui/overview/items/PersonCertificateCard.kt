@@ -65,12 +65,12 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         data class Admission(
             val state: AdmissionState?,
-            val admissionBadgeText: String
+            val text: String
         )
 
         data class Mask(
             val state: MaskState?,
-            val maskBadgeText: String
+            val text: String
         )
     }
 }

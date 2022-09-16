@@ -125,6 +125,42 @@ class PersonOverviewFragmentTest2 : BaseUITest() {
         takeSelfieWithBottomNavBadge("gStatusIsNullAndMaskIsVisible", R.id.covid_certificates_graph)
     }
 
+    @Test
+    @Screenshot
+    fun gStatusIsVisibleTextEmptyAndMaskIsVisible() {
+        every { viewModel.uiState } returns MutableLiveData(
+            UiState.Done(
+                gStatusIsVisibleTextEmptyAndMaskIsVisibleItem()
+            )
+        )
+        takeSelfieWithBottomNavBadge("gStatusIsVisibleTextEmptyAndMaskIsVisible", R.id.covid_certificates_graph)
+    }
+
+    @Test
+    @Screenshot
+    fun gStatusIsVisibleAndMaskIsVisibleTextEmpty() {
+        every { viewModel.uiState } returns MutableLiveData(
+            UiState.Done(
+                gStatusIsVisibleAndMaskIsVisibleTextEmptyItem()
+            )
+        )
+        takeSelfieWithBottomNavBadge("gStatusIsVisibleAndMaskIsVisibleTextEmpty", R.id.covid_certificates_graph)
+    }
+
+    @Test
+    @Screenshot
+    fun gStatusIsVisibleTextEmptyAndMaskIsVisibleTextEmpty() {
+        every { viewModel.uiState } returns MutableLiveData(
+            UiState.Done(
+                gStatusIsVisibleTextEmptyAndMaskIsVisibleTextEmptyItem()
+            )
+        )
+        takeSelfieWithBottomNavBadge(
+            "gStatusIsVisibleTextEmptyAndMaskIsVisibleTextEmpty",
+            R.id.covid_certificates_graph
+        )
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
