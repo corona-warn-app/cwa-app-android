@@ -118,11 +118,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 },
                 admission = PersonCertificateCard.Item.Admission(
                     state = admissionState,
-                    admissionBadgeText = format(admissionState?.badgeText)
+                    text = format(admissionState?.badgeText)
                 ),
                 mask = PersonCertificateCard.Item.Mask(
                     state = person.dccWalletInfo?.maskState,
-                    maskBadgeText = format(person.dccWalletInfo?.maskState?.badgeText)
+                    text = format(person.dccWalletInfo?.maskState?.badgeText)
                 ),
                 colorShade = color,
                 badgeCount = person.badgeCount,
