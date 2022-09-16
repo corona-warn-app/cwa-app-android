@@ -62,7 +62,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
     }
 
     // Reset tracing state in onboarding
-    fun resetTracing() {
+    fun disableTracingIfEnabled() {
         launch {
             try {
                 if (enfClient.disableTracingIfEnabled()) {
