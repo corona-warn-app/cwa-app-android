@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.rootdetection.ui
 
 import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import io.mockk.MockKAnnotations
+import io.mockk.coVerifyOrder
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verifyOrder
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,7 +27,7 @@ class RootDetectionDialogViewModelTest : BaseTest() {
             onSuppressCheckedChanged(isChecked = false)
         }
 
-        verifyOrder {
+        coVerifyOrder {
             with(rootDetectionCheck) {
                 suppressRootInfoForCurrentVersion(suppress = true)
                 suppressRootInfoForCurrentVersion(suppress = false)

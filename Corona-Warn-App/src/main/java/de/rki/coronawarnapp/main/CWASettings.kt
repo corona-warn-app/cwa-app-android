@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -61,16 +62,16 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_CERT_GROUPING_MIGRATION, value = value
     )
 
-    var firstReliableDeviceTime: Flow<Instant?> = dataStore.dataRecovering.map(PKEY_DEVICE_TIME_FIRST_RELIABLE)
-        .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
+    var firstReliableDeviceTime: Flow<Instant> = dataStore.dataRecovering.map(PKEY_DEVICE_TIME_FIRST_RELIABLE)
+        .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
 
     suspend fun updateFirstReliableDeviceTime(value: Instant) = dataStore.trySetValue(
         preferencesKey = PKEY_DEVICE_TIME_FIRST_RELIABLE, value = value.toEpochMilli()
     )
 
-    var lastDeviceTimeStateChangeAt: Flow<Instant?> =
+    var lastDeviceTimeStateChangeAt: Flow<Instant> =
         dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME)
-            .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
+            .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
 
     suspend fun updateLastDeviceTimeStateChangeAt(value: Instant) = dataStore.trySetValue(
         preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value = value.toEpochMilli()
@@ -146,12 +147,16 @@ class CWASettings @Inject constructor(
     }
 
     companion object {
-        private val PKEY_DEVICE_TIME_INCORRECT_ACK = booleanPreferencesKey("devicetime.incorrect.acknowledged")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_INCORRECT_ACK = booleanPreferencesKey("devicetime.incorrect.acknowledged")
         private val PKEY_TRACING_DIALOG_SHOWN = booleanPreferencesKey("tracing.dialog.shown")
         private val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = booleanPreferencesKey("interoperability.showed")
-        private val PKEY_DEVICE_TIME_FIRST_RELIABLE = longPreferencesKey("devicetime.correct.first")
-        private val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = longPreferencesKey("devicetime.laststatechange.timestamp")
-        private val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = stringPreferencesKey("devicetime.laststatechange.state")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_FIRST_RELIABLE = longPreferencesKey("devicetime.correct.first")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = longPreferencesKey("devicetime.laststatechange.timestamp")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = stringPreferencesKey("devicetime.laststatechange.state")
         private val PKEY_CERT_GROUPING_MIGRATION = booleanPreferencesKey("device.grouping.migration")
 
         private val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = intPreferencesKey("testresults.count")

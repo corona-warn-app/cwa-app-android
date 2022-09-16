@@ -67,7 +67,7 @@ class PersonOverviewViewModelTest : BaseTest() {
                 )
             )
         )
-        every { migrationCheck.shouldShowMigrationInfo(any()) } returns false
+        coEvery { migrationCheck.shouldShowMigrationInfo(any()) } returns false
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs

@@ -106,7 +106,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         coEvery { networkStateProvider.networkState } returns emptyFlow()
 
         every { errorResetTool.isResetNoticeToBeShown } returns false
-        every { cwaSettings.wasTracingExplanationDialogShown } returns true
+        coEvery { cwaSettings.wasTracingExplanationDialogShown } returns flowOf(true)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
         every { familyTestRepository.familyTests } returns flowOf()
@@ -189,11 +189,11 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `test correct order of displaying delta onboarding, release notes and popups`() {
-        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns false andThen true
+        coEvery { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns flowOf(false) andThen flowOf(true)
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
-        every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
+        coEvery { cwaSettings.lastChangelogVersion } returns flowOf(1L) andThen flowOf(1120004)
 
         every { errorResetTool.isResetNoticeToBeShown } returns true
 
