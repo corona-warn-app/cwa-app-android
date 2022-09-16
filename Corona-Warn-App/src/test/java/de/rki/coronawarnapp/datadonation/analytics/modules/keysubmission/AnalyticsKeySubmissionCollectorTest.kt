@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJavaTime
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -54,7 +56,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ewRiskLevelResult.calculatedAt } returns nowJoda
-        every { ptRiskLevelResult.calculatedAt } returns nowJoda
+        every { ptRiskLevelResult.calculatedAt } returns nowJoda.toJavaInstant()
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         every { ptRiskLevelResult.wasSuccessfullyCalculated } returns true
 
@@ -95,7 +97,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         every { ewRiskLevelResult.mostRecentDateAtRiskState } returns nowJoda.minus(Days.days(2).toStandardDuration())
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            nowJoda.minus(Days.days(2).toStandardDuration()).toLocalDateUtc()
+            nowJoda.minus(Days.days(2).toStandardDuration()).toLocalDateUtc().toJavaTime()
 
         runTest {
             val collector = createInstance()

@@ -6,15 +6,14 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.qrCodePayload
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.traceLocation
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import io.kotest.matchers.shouldBe
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 @Suppress("MaxLineLength")
 class TraceLocationIdTest : BaseTest() {
@@ -48,8 +47,8 @@ class TraceLocationIdTest : BaseTest() {
             type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
             description = "My Birthday Party",
             address = "at my place",
-            startDate = 2687955L.secondsToInstant(),
-            endDate = 2687991L.secondsToInstant(),
+            startDate = Instant.ofEpochSecond(2687955L),
+            endDate = Instant.ofEpochSecond(2687991L),
             defaultCheckInLengthInMinutes = null,
             cryptographicSeed = "MTIzNA==".decodeBase64()!!,
             cnPublicKey = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEc7DEstcUIRcyk35OYDJ95/hTg3UVhsaDXKT0zK7NhHPXoyzipEnOp3GyNXDVpaPi3cAfQmxeuFMZAIX2+6A5Xg==",

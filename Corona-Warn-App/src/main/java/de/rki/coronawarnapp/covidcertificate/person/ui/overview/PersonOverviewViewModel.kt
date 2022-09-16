@@ -116,9 +116,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 overviewCertificates = certificates.map {
                     OverviewCertificate(it.cwaCertificate, format(it.buttonText))
                 },
-                admissionBadgeText = format(admissionState?.badgeText),
-                hasMaskState = person.dccWalletInfo?.hasMaskState ?: false,
-                maskBadgeText = format(person.dccWalletInfo?.maskState?.badgeText),
+                admission = PersonCertificateCard.Item.Admission(
+                    state = admissionState,
+                    text = format(admissionState?.badgeText)
+                ),
+                mask = PersonCertificateCard.Item.Mask(
+                    state = person.dccWalletInfo?.maskState,
+                    text = format(person.dccWalletInfo?.maskState?.badgeText)
+                ),
                 colorShade = color,
                 badgeCount = person.badgeCount,
                 certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,

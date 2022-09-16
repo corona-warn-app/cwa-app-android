@@ -19,8 +19,8 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 
 class QrCodeDetailViewModel @AssistedInject constructor(
     @Assisted private val traceLocationId: Long,

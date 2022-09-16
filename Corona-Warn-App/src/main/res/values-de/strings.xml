@@ -1499,10 +1499,12 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="statistics_explanation_title">"Kennzahlen"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Erklärung der Statistiken"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">Neuinfektionen</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1%% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1512,7 +1514,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1521,9 +1523,18 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="statistics_explanation_legend_title">"Legende"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Zeitraum"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">Gestern / Bis gestern</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">Mittelwert der vergangenen 7 Tage </string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">Gesamt</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">Gesamtzahl seit Jahresbeginn 2020 bzw. Einführung der App (15. Juni 2020)</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1602,9 +1613,9 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Häufig gestellte Fragen und die passenden Antworten finden Sie in den FAQ."</string>
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\nFAQ zu Statistiken"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"FAQ"</string>
+    <string name="statistics_faq_label">"FAQ zu Statistiken"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->

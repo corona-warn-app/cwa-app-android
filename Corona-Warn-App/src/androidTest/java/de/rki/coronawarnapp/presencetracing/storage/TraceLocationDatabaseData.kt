@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationEntity
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_PERMANENT_OTHER
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
+import java.time.Instant
 
 object TraceLocationDatabaseData {
 

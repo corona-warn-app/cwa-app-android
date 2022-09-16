@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -65,9 +66,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt,
+        calculatedAt = calculatedAt.toJavaInstant(),
         riskState = riskState,
-        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(
