@@ -69,6 +69,7 @@ internal class GStatusNotificationServiceTest : BaseTest() {
     fun `notify person if admission state for person changes`() = runTest {
         every { oldAdmissionState.identifier } returns "1"
         every { newAdmissionState.identifier } returns "2"
+        every { newAdmissionState.visible } returns true
 
         GStatusNotificationService(
             personCertificatesSettings = personCertificatesSettings,
@@ -80,6 +81,27 @@ internal class GStatusNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
+            personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
+            personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
+        }
+    }
+
+    @Test
+    fun `Don't notify person if admission state is not visible for person changes`() = runTest {
+        every { oldAdmissionState.identifier } returns "1"
+        every { newAdmissionState.identifier } returns "2"
+        every { newAdmissionState.visible } returns false
+
+        GStatusNotificationService(
+            personCertificatesSettings = personCertificatesSettings,
+            personNotificationSender = personNotificationSender
+        ).notifyIfNecessary(
+            personIdentifier = personIdentifier,
+            oldWalletInfo = oldWalletInfo,
+            newWalletInfo = newWalletInfo
+        )
+
+        coVerify(exactly = 0) {
             personNotificationSender.showNotification(personIdentifier, any(), R.string.notification_body)
             personCertificatesSettings.setGStatusNotifiedAt(personIdentifier, any())
         }
