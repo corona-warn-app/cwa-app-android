@@ -54,4 +54,4 @@ class DccBoosterRulesStorage @Inject constructor(
     }
 }
 
-private val TAG = "BoosterRuleStorage"
+private const val TAG = "BoosterRuleStorage"
