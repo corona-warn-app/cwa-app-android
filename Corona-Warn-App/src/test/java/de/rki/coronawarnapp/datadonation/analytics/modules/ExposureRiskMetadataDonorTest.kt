@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.LastSuccessfulRiskResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -42,6 +43,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
     private val baseDate: Instant = Instant.ofEpochMilli(101010)
 
+    private val ewResult = LastSuccessfulRiskResult(
+        RiskState.LOW_RISK,
+        baseDate.toJavaInstant()
+    )
+
+    private val ptResult = LastSuccessfulRiskResult(
+        RiskState.LOW_RISK,
+        null
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -54,6 +65,8 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { highPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
         every { lowPtDayRisk.riskState } returns RiskState.LOW_RISK
         every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
+        every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(ewResult)
+        every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(ptResult)
     }
 
     private fun createEwRiskLevelResult(
@@ -98,32 +111,18 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .build()
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
-        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            LastCombinedRiskResults(
-                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                ),
-                lastCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                )
+
+        every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
+            LastSuccessfulRiskResult(
+                RiskState.INCREASED_RISK,
+                baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().toJavaInstant()
+            )
+        )
+
+        every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(
+            LastSuccessfulRiskResult(
+                RiskState.INCREASED_RISK,
+                baseDate.toJavaInstant()
             )
         )
 
@@ -170,32 +169,17 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
 
-        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            LastCombinedRiskResults(
-                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                ),
-                lastCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                )
+        every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
+            LastSuccessfulRiskResult(
+                RiskState.INCREASED_RISK,
+                baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().toJavaInstant()
+            )
+        )
+
+        every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(
+            LastSuccessfulRiskResult(
+                RiskState.INCREASED_RISK,
+                baseDate.toJavaInstant()
             )
         )
 
@@ -221,18 +205,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
             LastCombinedRiskResults(
-                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                ),
+                lastSuccessfullyCalculatedRiskState = RiskState.INCREASED_RISK,
                 lastCalculated = CombinedEwPtRiskLevelResult(
                     ptRiskLevelResult = createPtRiskLevelResult(
                         riskState = RiskState.INCREASED_RISK,
@@ -279,18 +252,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
             LastCombinedRiskResults(
-                lastSuccessfullyCalculated = CombinedEwPtRiskLevelResult(
-                    ptRiskLevelResult = createPtRiskLevelResult(
-                        riskState = RiskState.INCREASED_RISK,
-                        presenceTracingDayRisk = highPtDayRisk,
-                        calculatedAt = baseDate
-                    ),
-                    ewRiskLevelResult = createEwRiskLevelResult(
-                        ewAggregatedRiskResult = highEwAggregatedRiskResult,
-                        failureReason = null,
-                        calculatedAt = baseDate
-                    )
-                ),
+                lastSuccessfullyCalculatedRiskState = RiskState.INCREASED_RISK,
                 lastCalculated = CombinedEwPtRiskLevelResult(
                     ptRiskLevelResult = createPtRiskLevelResult(
                         riskState = RiskState.INCREASED_RISK,

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.LastSuccessfulRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
@@ -17,6 +18,8 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
+import de.rki.coronawarnapp.util.toJavaInstant
+import dgca.verifier.app.engine.UTC_ZONE_ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -201,8 +204,30 @@ abstract class BaseRiskLevelStorage constructor(
 
             LastCombinedRiskResults(
                 lastCalculated = lastCalculated,
-                lastSuccessfullyCalculated = lastSuccessfullyCalculated
+                lastSuccessfullyCalculatedRiskState = lastSuccessfullyCalculated.riskState
             )
+        }
+
+    override val lastSuccessfulPtRiskResult: Flow<LastSuccessfulRiskResult?>
+        get() = presenceTracingRiskRepository.lastSuccessfulRiskLevelResult.map {
+            it?.let {
+                LastSuccessfulRiskResult(
+                    riskState = it.riskState,
+                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.atStartOfDay(UTC_ZONE_ID)?.toInstant()
+                )
+            }
+        }
+
+    override val lastSuccessfulEwRiskResult: Flow<LastSuccessfulRiskResult?>
+        get() = ewRiskResultsTables.lastSuccessful().map {
+            it.combineWithWindows(null).firstOrNull()
+        }.map {
+            it?.let {
+                LastSuccessfulRiskResult(
+                    riskState = it.riskState,
+                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.toJavaInstant()
+                )
+            }
         }
 
     internal abstract suspend fun storeExposureWindows(storedResultId: String, resultEw: EwRiskLevelResult)
@@ -210,14 +235,14 @@ abstract class BaseRiskLevelStorage constructor(
     internal abstract suspend fun deletedOrphanedExposureWindows()
 
     override suspend fun reset() {
-        Timber.w("reset() - Clearing stored risklevel/exposure-detection results.")
+        Timber.w("reset() - Clearing stored exposure-detection results.")
         database.clearAllTables()
         Timber.w("reset() - Clearing stored presence tracing matches and results.")
         presenceTracingRiskRepository.clearAllTables()
     }
 
     override suspend fun clearResults() {
-        Timber.w("clearResults() - Clearing stored risklevel/exposure-detection results.")
+        Timber.w("clearResults() - Clearing stored exposure-detection results.")
         database.clearAllTables()
         Timber.w("clearResults() - Clearing stored presence tracing results.")
         presenceTracingRiskRepository.clearResults()
