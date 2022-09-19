@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -68,6 +69,11 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.ensErrorEvents.observe2(this) { error ->
             error.toErrorDialogBuilder(requireContext()).show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
