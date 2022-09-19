@@ -56,8 +56,8 @@ abstract class RiskResultDatabase : RoomDatabase() {
         @Query("SELECT * FROM riskresults ORDER BY monotonicId DESC LIMIT :limit")
         fun latestEntries(limit: Int): Flow<List<PersistedRiskLevelResultDao>>
 
-        @Query("SELECT * FROM (SELECT * FROM riskresults ORDER BY monotonicId DESC LIMIT 1) UNION ALL SELECT * FROM (SELECT * FROM riskresults where failureReason is null ORDER BY monotonicId DESC LIMIT 1)")
-        fun latestAndLastSuccessful(): Flow<List<PersistedRiskLevelResultDao>>
+        @Query("SELECT * FROM riskresults where failureReason is null ORDER BY monotonicId DESC LIMIT 1")
+        fun lastSuccessful(): Flow<List<PersistedRiskLevelResultDao>>
 
         @Insert(onConflict = OnConflictStrategy.ABORT)
         suspend fun insertEntry(riskResultDao: PersistedRiskLevelResultDao)
