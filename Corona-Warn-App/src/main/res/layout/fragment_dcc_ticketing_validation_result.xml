@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:background="@color/colorSurface"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".dccticketing.ui.validationresult.DccTicketingValidationResultFragment">
 
     <include
@@ -13,10 +13,10 @@
         layout="@layout/covid_certificate_validation_result_fragments"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_done"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_done" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_done"
@@ -24,11 +24,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="@dimen/spacing_small"
         android:text="@string/dcc_ticketing_done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/validation_result_fragments"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/validation_result_fragments" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

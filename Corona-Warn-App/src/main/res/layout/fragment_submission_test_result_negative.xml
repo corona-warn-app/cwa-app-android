@@ -71,15 +71,14 @@
                     android:importantForAccessibility="yes"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/family_member_name" />
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section"/>
+                    app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/test_certificate_card"
@@ -165,8 +164,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_antigen_negative_proof_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -273,12 +272,12 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/submission_test_result_negative_remove_test_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

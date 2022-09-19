@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/tracelocation_organizer_category_title"
     android:background="@color/colorSurface"
+    android:contentDescription="@string/tracelocation_organizer_category_title"
     tools:context=".ui.presencetracing.organizer.qrinfo.TraceLocationQRInfoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -22,10 +22,10 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/trace_location_qr_info_understand_button">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,10 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_huge"
                 android:contentDescription="@string/trace_location_qr_info_content_description"
-                app:srcCompat="@drawable/ic_qr_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_qr_info" />
 
             <TextView
                 android:id="@+id/trace_location_qr_info_headline"
@@ -76,9 +76,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_qr_tracing_static"
                 app:layout_constraintStart_toStartOf="@id/trace_location_qr_info_subtitle"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_subtitle" />
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_subtitle"
+                app:srcCompat="@drawable/ic_qr_tracing_static" />
 
             <TextView
                 android:id="@+id/trace_location_qr_info_tracing"
@@ -98,9 +98,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_qr_code_illustration"
                 app:layout_constraintStart_toStartOf="@id/trace_location_tracing_icon"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_tracing" />
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_info_tracing"
+                app:srcCompat="@drawable/ic_qr_code_illustration" />
 
             <TextView
                 android:id="@+id/trace_location_qr_code_illustration_text"
@@ -120,9 +120,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_qr_time"
+                app:layout_constraintStart_toStartOf="@id/trace_location_qr_code_icon"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_code_illustration_text"
-                app:layout_constraintStart_toStartOf="@id/trace_location_qr_code_icon" />
+                app:srcCompat="@drawable/ic_qr_time" />
 
             <TextView
                 android:id="@+id/trace_location_qr_time_sheet_text"
@@ -132,9 +132,9 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/trace_location_qr_info_time_text"
-                app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_time_sheet_icon"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon" />
 
             <ImageView
                 android:id="@+id/trace_location_qr_people_icon"
@@ -142,9 +142,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_two_people_icon"
+                app:layout_constraintStart_toStartOf="@id/trace_location_qr_time_sheet_icon"
                 app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text"
-                app:layout_constraintStart_toStartOf="@id/trace_location_qr_time_sheet_icon" />
+                app:srcCompat="@drawable/ic_two_people_icon" />
 
             <TextView
                 android:id="@+id/trace_location_qr_people_text"
@@ -154,17 +154,17 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:text="@string/trace_location_qr_info_warn_text"
-                app:layout_constraintTop_toTopOf="@id/trace_location_qr_people_icon"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_people_icon"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/trace_location_qr_people_icon" />
 
             <include
                 android:id="@+id/privacy_card"
                 layout="@layout/trace_location_privacy_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -174,16 +174,16 @@
                 android:id="@+id/privacy_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="@dimen/spacing_medium"
                 android:layout_marginBottom="@dimen/spacing_medium"
                 android:focusable="true"
-                app:titleText="@string/contact_diary_onboarding_legal_information"
-                app:layout_constraintTop_toBottomOf="@id/privacy_card"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card"
+                app:titleText="@string/contact_diary_onboarding_legal_information" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -193,15 +193,13 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginVertical="@dimen/spacing_small"
         android:text="@string/acknowledge_button"
-        app:layout_constraintTop_toBottomOf="@id/scrollview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
         tools:text="@string/acknowledge_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
