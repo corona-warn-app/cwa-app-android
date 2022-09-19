@@ -53,7 +53,7 @@ class BoosterRulesRepository @Inject constructor(
      * there were no new rules from the server, or UpdateResult.FAIL if the request or parsing failed.
      */
     suspend fun update(): UpdateResult {
-        Timber.tag(TAG).d("updateB booster rules from server")
+        Timber.tag(TAG).d("update booster rules from server")
 
         var updateResult = UpdateResult.NO_UPDATE
 
