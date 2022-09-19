@@ -35,6 +35,8 @@ import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import java.io.File
+import javax.inject.Singleton
 
 @Module(
     includes = [

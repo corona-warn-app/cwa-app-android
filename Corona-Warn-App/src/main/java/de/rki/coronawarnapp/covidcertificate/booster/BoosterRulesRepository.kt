@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
+import de.rki.coronawarnapp.ccl.configuration.storage.DccBoosterRulesStorage
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
@@ -25,7 +25,7 @@ class BoosterRulesRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val converter: DccValidationRuleConverter,
     private val server: DccValidationServer,
-    private val localCache: DccValidationCache
+    private val storage: DccBoosterRulesStorage
 ) : Resettable {
 
     private val internalData: HotDataFlow<List<DccValidationRule>> = HotDataFlow(
@@ -33,11 +33,11 @@ class BoosterRulesRepository @Inject constructor(
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly
     ) {
-        val rawJson = localCache.loadBoosterNotificationRulesJson()
+        val rawJson = storage.loadBoosterRulesJson()
         return@HotDataFlow try {
             rawJson.toRuleSet()
         } catch (e: Exception) {
-            Timber.tag(TAG).w("Failed to parse cached boosterNotificationRules: %s", rawJson)
+            Timber.tag(TAG).w("Failed to parse booster rules: %s", rawJson)
             emptyList()
         }
     }
@@ -46,14 +46,14 @@ class BoosterRulesRepository @Inject constructor(
 
     /**
      * This updates the booster notification rules.
-     * Falls back to previous cached rules in case of an error.
+     * Falls back to previous stored rules in case of an error.
      * Worst case is an empty list.
      *
      * @return UpdateResult.UPDATE if new booster rules got downloaded from the server, UpdateResult.NO_UPDATE when
      * there were no new rules from the server, or UpdateResult.FAIL if the request or parsing failed.
      */
     suspend fun update(): UpdateResult {
-        Timber.tag(TAG).d("updateBoosterNotificationRules()")
+        Timber.tag(TAG).d("updateB booster rules from server")
 
         var updateResult = UpdateResult.NO_UPDATE
 
@@ -64,7 +64,7 @@ class BoosterRulesRepository @Inject constructor(
                     SERVER -> {
                         updateResult = UpdateResult.UPDATE
                         ruleSetResult.ruleSetJson.toRuleSet()
-                            .also { localCache.saveBoosterNotificationRulesJson(ruleSetResult.ruleSetJson) }
+                            .also { storage.saveBoosterRulesJson(ruleSetResult.ruleSetJson) }
                     }
                     CACHE -> {
                         updateResult = UpdateResult.NO_UPDATE
@@ -73,11 +73,11 @@ class BoosterRulesRepository @Inject constructor(
                 }
             } catch (e: Exception) {
                 updateResult = UpdateResult.FAIL
-                Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
-                localCache.loadBoosterNotificationRulesJson().toRuleSet()
+                Timber.tag(TAG).w(e, "Updating booster rules from server failed, loading stored rules")
+                storage.loadBoosterRulesJson().toRuleSet()
             }
-        }.let { boosterNotificationRules ->
-            boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
+        }.let { boosterRules ->
+            boosterRules.also { Timber.tag(TAG).d("Booster rules size=%s: %s", it.size, it) }
         }
 
         return updateResult
