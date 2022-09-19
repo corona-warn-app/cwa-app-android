@@ -13,10 +13,13 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
 import java.util.Locale
 import javax.inject.Inject
 
@@ -103,7 +106,7 @@ class CclTextFormatter @Inject constructor(
 
     private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CclText? =
         runCatching {
-            val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
+            val defaultParameters = getDefaultInputParameters(ZonedDateTime.now()).toObjectNode()
             val allParameters = JsonNodeFactory.instance.objectNode()
                 .setAll<ObjectNode>(defaultParameters)
                 .setAll<ObjectNode>(parameters)
@@ -128,12 +131,13 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toUTCDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZoneUTC().withLocale(locale)),
-                )
-            }
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneOffset.UTC).run {
+                    "%s, %s".format(
+                        format(shortDateFormat(locale)),
+                        format(shortTimeFormat(locale)),
+                    )
+                }
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDateTime() failed")
             ""
@@ -142,9 +146,9 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toUTCDate(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)
-            )
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .format(shortDateFormat(locale))
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDate() failed")
             ""
@@ -153,12 +157,14 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).run {
-                "%s, %s".format(
-                    toString(DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)),
-                    toString(DateTimeFormat.shortTime().withZone(DateTimeZone.getDefault()).withLocale(locale)),
-                )
-            }
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneId.systemDefault())
+                .run {
+                    "%s, %s".format(
+                        format(shortDateFormat(locale)),
+                        format(shortTimeFormat(locale)),
+                    )
+                }
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDateTime() failed")
             ""
@@ -167,9 +173,9 @@ class CclTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDate(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)
-            )
+            ZonedDateTime.parse(value.toString())
+                .withZoneSameInstant(ZoneId.systemDefault())
+                .format(shortDateFormat(locale))
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDate() failed")
             ""
@@ -191,6 +197,14 @@ class CclTextFormatter @Inject constructor(
     }
 
     private fun Any.toObjectNode(): ObjectNode = mapper.valueToTree(this)
+
+    private fun shortDateFormat(locale: Locale) = DateTimeFormatterBuilder()
+        .append(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        .toFormatter(locale)
+
+    private fun shortTimeFormat(locale: Locale) = DateTimeFormatterBuilder()
+        .append(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        .toFormatter(locale)
 
     companion object {
         private const val EN = "en"

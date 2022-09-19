@@ -343,7 +343,7 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: Mask requirements card FAQ link -->
-    <string name="mask_requirements_faq_text">"Pentru mai multe informații despre scutirea de purtare a măștii, consultați pagina noastră de întrebări frecvente."</string>
+    <string name="mask_requirements_faq_text">"Pentru mai multe informații despre obligativitatea purtării măștii, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Starea pentru următorul stat federal"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->

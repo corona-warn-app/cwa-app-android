@@ -343,7 +343,7 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: Mask requirements card FAQ link -->
-    <string name="mask_requirements_faq_text">"Maske muafiyetleri hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <string name="mask_requirements_faq_text">"Maske zorunlulukları hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Şu eyalete ilişkin durum"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
