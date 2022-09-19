@@ -57,7 +57,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
-    private val now = Instant.parse("2021-03-05T10:15:00Z")
+    private val now = Instant.parse("2021-03-05T10:15+01:00")
 
     @BeforeEach
     fun setup() {
