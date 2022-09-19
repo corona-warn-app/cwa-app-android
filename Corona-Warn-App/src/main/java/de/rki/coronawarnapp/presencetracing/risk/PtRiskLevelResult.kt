@@ -39,7 +39,6 @@ data class PtRiskLevelResult(
         checkInWarningOverlaps?.size ?: 0
     }
 
-    // todo remove
     val mostRecentDateWithHighRisk: LocalDate? by lazy {
         presenceTracingDayRisk
             ?.filter { it.riskState == RiskState.INCREASED_RISK }
