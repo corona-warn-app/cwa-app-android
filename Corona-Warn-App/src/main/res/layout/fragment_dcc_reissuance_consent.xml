@@ -337,8 +337,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:paddingStart="@dimen/button_padding_start_end"
-        android:paddingEnd="@dimen/button_padding_start_end"
         android:text="@string/dcc_ticketing_consent_two_cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
