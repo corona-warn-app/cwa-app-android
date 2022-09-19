@@ -35,6 +35,12 @@ interface EwRiskLevelResult {
             ewAggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
         }
 
+    val mostRecentDateAtHighRisk
+        get() = ewAggregatedRiskResult?.mostRecentDateWithHighRisk
+
+    val mostRecentDateAtLowRisk
+        get() = ewAggregatedRiskResult?.mostRecentDateWithLowRisk
+
     val mostRecentDateAtRiskState: Instant?
         get() = if (isIncreasedRisk) {
             ewAggregatedRiskResult?.mostRecentDateWithHighRisk

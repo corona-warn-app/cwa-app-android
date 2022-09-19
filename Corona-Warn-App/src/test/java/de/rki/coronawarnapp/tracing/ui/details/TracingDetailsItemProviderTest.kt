@@ -102,7 +102,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
 
         val lastCombined = LastCombinedRiskResults(
             lastCalculated = combinedResult,
-            lastSuccessfullyCalculated = combinedResult
+            lastSuccessfullyCalculatedRiskState = combinedResult.riskState
         )
         every { ewRiskLevelTaskResult.matchedKeyCount } returns matchedKeyCount
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(lastCombined)
