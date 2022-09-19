@@ -89,7 +89,12 @@ data class CombinedEwPtRiskLevelResult(
 
 data class LastCombinedRiskResults(
     val lastCalculated: CombinedEwPtRiskLevelResult,
-    val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
+    val lastSuccessfullyCalculatedRiskState: RiskState
+)
+
+data class LastSuccessfulRiskResult(
+    val riskState: RiskState,
+    val mostRecentDateAtRiskState: java.time.Instant?
 )
 
 internal fun max(left: Instant, right: Instant): Instant {
