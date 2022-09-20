@@ -143,7 +143,7 @@ class RiskResultDatabaseTest {
             insertEntry(oldestSuccessfulEntry)
             insertEntry(newestEntryFailed)
 
-            latestAndLastSuccessful().first() shouldBe listOf(newestEntryFailed, oldestSuccessfulEntry)
+            lastSuccessful().first() shouldBe listOf(oldestSuccessfulEntry)
         }
     }
 

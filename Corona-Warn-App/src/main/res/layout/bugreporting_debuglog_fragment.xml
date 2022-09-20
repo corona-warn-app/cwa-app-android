@@ -128,10 +128,10 @@
                 android:layout_marginVertical="8dp"
                 android:layout_marginStart="16dp"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/ic_debug_log_indicator_deactivated"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_debug_log_indicator_deactivated"
                 tools:src="@drawable/ic_debug_log_indicator_deactivated" />
 
             <TextView
@@ -170,14 +170,15 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/debugging_debuglog_action_share_log"
-            tools:text="@string/debugging_debuglog_action_share_log" />
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/debugging_debuglog_action_share_log" />
 
         <Button
             android:id="@+id/toggle_export_log"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/debugging_debuglog_action_local_log_export"
             tools:text="@string/debugging_debuglog_action_local_log_export" />
 
@@ -186,8 +187,8 @@
             style="@style/buttonBarAlertRed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/debugging_debuglog_action_start_recording"
-            tools:text="@string/debugging_debuglog_action_start_recording" />
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/debugging_debuglog_action_start_recording" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

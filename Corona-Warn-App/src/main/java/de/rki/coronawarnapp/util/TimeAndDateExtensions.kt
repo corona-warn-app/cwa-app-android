@@ -150,6 +150,8 @@ object TimeAndDateExtensions {
      * Converts this LocalDate to a full datetime at the earliest valid time for the date using timezone UTC
      */
     fun LocalDate.toDateTimeAtStartOfDayUtc(): DateTime = toDateTimeAtStartOfDay(DateTimeZone.UTC)
+
+    fun java.time.Instant.toDate(): Date = Date.from(this)
 }
 
 typealias HourInterval = Long

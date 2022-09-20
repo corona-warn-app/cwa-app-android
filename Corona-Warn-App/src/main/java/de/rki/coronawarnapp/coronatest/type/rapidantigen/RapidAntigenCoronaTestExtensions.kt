@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.Test
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestPositive
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT.TestResultReady
 import de.rki.coronawarnapp.exception.http.BadRequestException
-import org.joda.time.Instant
+import java.time.Instant
 
 fun RACoronaTest?.toSubmissionState(
     nowUTC: Instant = Instant.now(),

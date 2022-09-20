@@ -360,7 +360,7 @@ dependencies {
 
     def activity_version = "1.5.1"
     implementation "androidx.activity:activity-ktx:$activity_version"
-    def fragment_version = "1.5.1"
+    def fragment_version = "1.5.2"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.5.1'
@@ -458,7 +458,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'androidx.work:work-testing:2.7.1'
     androidTestImplementation 'io.mockk:mockk-android:1.11.0'
-    debugImplementation 'androidx.fragment:fragment-testing:1.5.1'
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     debugImplementation 'androidx.test:core-ktx:1.4.0'
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
@@ -492,7 +492,7 @@ dependencies {
     implementation project(":Server-Protocol-Buffer")
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.google.guava:guava:31.1-android'
-    implementation 'joda-time:joda-time:2.10.14'
+    implementation 'joda-time:joda-time:2.11.1'
 
     // Jackson
     def jackson = "2.13.3"

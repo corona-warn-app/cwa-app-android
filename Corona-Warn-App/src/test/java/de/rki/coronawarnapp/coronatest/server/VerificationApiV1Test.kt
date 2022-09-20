@@ -10,7 +10,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import okhttp3.ConnectionSpec
 import okhttp3.mockwebserver.MockWebServer
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,6 +17,7 @@ import testhelpers.BaseIOTest
 import testhelpers.extensions.toComparableJson
 import testhelpers.extensions.toJsonResponse
 import java.io.File
+import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 
 class VerificationApiV1Test : BaseIOTest() {

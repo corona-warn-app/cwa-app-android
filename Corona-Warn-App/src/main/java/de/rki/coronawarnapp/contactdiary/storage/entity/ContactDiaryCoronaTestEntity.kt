@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEn
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import org.joda.time.Instant
+import java.time.Instant
 
 @Entity(tableName = "corona_tests")
 data class ContactDiaryCoronaTestEntity(

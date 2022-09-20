@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 interface TestRegistrationRequest : Parcelable {
     val type: BaseCoronaTest.Type

@@ -126,7 +126,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/contact_diary_add_person_save_button"
             app:layout_constraintBottom_toBottomOf="parent"
