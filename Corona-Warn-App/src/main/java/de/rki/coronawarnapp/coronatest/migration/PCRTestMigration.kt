@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -63,13 +64,13 @@ class PCRTestMigration @Inject constructor(
         val legacyPCRTest = PCRCoronaTest(
             identifier = LEGACY_IDENTIFIER,
             registrationToken = token,
-            registeredAt = devicePairingSuccessfulAt,
-            lastUpdatedAt = devicePairingSuccessfulAt,
+            registeredAt = devicePairingSuccessfulAt.toJavaInstant(),
+            lastUpdatedAt = devicePairingSuccessfulAt.toJavaInstant(),
             testResult = when (isAllowedToSubmitKeys) {
                 true -> CoronaTestResult.PCR_POSITIVE
                 else -> CoronaTestResult.PCR_OR_RAT_PENDING
             },
-            testResultReceivedAt = devicePairingSuccessfulAt,
+            testResultReceivedAt = devicePairingSuccessfulAt.toJavaInstant(),
             isSubmitted = isSubmissionSuccessful,
             isViewed = hasViewedTestResult,
             isAdvancedConsentGiven = hasGivenConsent,

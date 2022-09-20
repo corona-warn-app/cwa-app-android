@@ -19,14 +19,16 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate), AutoInject {
@@ -143,8 +145,10 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->
-                    val localDate = LocalDate(timestamp)
-                    binding.dateInputEdit.setText(localDate.toDayFormat())
+                    val localDate = Instant.ofEpochMilli(timestamp).toLocalDateUserTimeZone()
+                    binding.dateInputEdit.setText(
+                        localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+                    )
                     viewModel.birthDateChanged(localDate)
                 }
             }

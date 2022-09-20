@@ -22,10 +22,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class FamilyTestRepositoryTest : BaseTest() {
 
@@ -63,7 +63,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns instant
+        every { timeStamper.nowJavaUTC } returns instant
         coEvery { processor.register(qrCode) } returns test
         coEvery { processor.pollServer(test) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))

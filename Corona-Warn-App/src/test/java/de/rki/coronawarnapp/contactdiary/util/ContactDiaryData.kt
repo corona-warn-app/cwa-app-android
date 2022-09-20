@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.util.toJavaInstant
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
@@ -16,13 +17,13 @@ object ContactDiaryData {
             id = "PCR_01",
             testType = ContactDiaryCoronaTestEntity.TestType.PCR,
             result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
-            time = LocalDate.parse("2021-01-01").toDateTimeAtStartOfDay().toInstant()
+            time = LocalDate.parse("2021-01-01").toDateTimeAtStartOfDay().toInstant().toJavaInstant()
         ),
         ContactDiaryCoronaTestEntity(
             id = "RAT_01",
             testType = ContactDiaryCoronaTestEntity.TestType.ANTIGEN,
             result = ContactDiaryCoronaTestEntity.TestResult.NEGATIVE,
-            time = LocalDate.parse("2021-01-02").toDateTimeAtStartOfDay().toInstant()
+            time = LocalDate.parse("2021-01-02").toDateTimeAtStartOfDay().toInstant().toJavaInstant()
         )
     )
 

@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -71,7 +72,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                 TestResultUIState(
                     coronaTest = mockk<PersonalCoronaTest>().apply {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                        every { registeredAt } returns Instant.now()
+                        every { registeredAt } returns Instant.now().toJavaInstant()
                         every { isProcessing } returns false
                         every { type } returns BaseCoronaTest.Type.PCR
                     }
@@ -121,7 +122,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
-                    every { registeredAt } returns Instant.now()
+                    every { registeredAt } returns Instant.now().toJavaInstant()
                     every { isProcessing } returns false
                     every { type } returns BaseCoronaTest.Type.PCR
                 }
@@ -138,7 +139,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<FamilyCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
-                    every { registeredAt } returns Instant.now()
+                    every { registeredAt } returns Instant.now().toJavaInstant()
                     every { type } returns BaseCoronaTest.Type.PCR
                     every { identifier } returns ""
                     every { personName } returns "Lara"
