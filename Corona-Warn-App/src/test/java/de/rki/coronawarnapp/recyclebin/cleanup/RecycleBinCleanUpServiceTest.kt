@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -38,6 +39,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-10-13T12:00:00.000Z").toJavaInstant()
 
         coEvery { recycledCoronaTestsProvider.deleteCoronaTest(any()) } just Runs
     }
@@ -53,7 +55,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     private fun createCert(recycleTime: Instant): CwaCovidCertificate {
         val mockContainerId = mockk<CertificateContainerId>()
         return mockk {
-            every { recycledAt } returns recycleTime
+            every { recycledAt } returns recycleTime.toJavaInstant()
             every { containerId } returns mockContainerId
         }
     }
@@ -62,12 +64,12 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     private fun familyTest(days: Int) = createFamilyTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
 
     private fun createTest(recycleTime: Instant): PersonalCoronaTest = mockk {
-        every { recycledAt } returns recycleTime
+        every { recycledAt } returns recycleTime.toJavaInstant()
         every { identifier } returns recycleTime.toString()
     }
 
     private fun createFamilyTest(recycleTime: Instant): FamilyCoronaTest = mockk {
-        every { recycledAt } returns recycleTime
+        every { recycledAt } returns recycleTime.toJavaInstant()
         every { identifier } returns recycleTime.toString()
     }
 

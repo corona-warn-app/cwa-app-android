@@ -19,17 +19,17 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
-            app:contentScrim="@drawable/top_app_bar_shape"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:contentScrim="@drawable/top_app_bar_shape">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/covid_certificate_validation_gradient"
                 android:nestedScrollingEnabled="true"
                 app:contentScrim="@drawable/top_app_bar_shape"
-                android:background="@drawable/covid_certificate_validation_gradient"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
@@ -155,9 +155,7 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/acknowledge_button"
         app:layout_constraintBottom_toBottomOf="parent"

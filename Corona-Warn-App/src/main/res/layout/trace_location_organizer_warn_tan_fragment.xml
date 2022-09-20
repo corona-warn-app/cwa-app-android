@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tan_root"
-    android:background="@color/colorSurface"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/submission_tan_accessibility_title"
     android:fillViewport="true"
     tools:context=".ui.presencetracing.organizer.warn.tan.TraceLocationWarnTanFragment">
@@ -26,7 +26,7 @@
         layout="@layout/include_submission_tan"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_action"
+        app:layout_constraintBottom_toTopOf="@id/tan_button_enter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -38,16 +38,8 @@
         android:layout_height="wrap_content"
         app:buttonText="@string/trace_location_organizer_warn_tan_submit_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/guideline_action" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/guideline_action" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include layout="@layout/merge_guidelines_side" />
 

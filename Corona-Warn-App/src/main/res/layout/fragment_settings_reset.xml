@@ -85,6 +85,7 @@
             style="@style/buttonReset"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/settings_reset_button_positive"
             app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_cancel"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
@@ -119,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="8dp" />
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

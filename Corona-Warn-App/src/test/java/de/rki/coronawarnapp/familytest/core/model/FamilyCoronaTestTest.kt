@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.familytest.core.model
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class FamilyCoronaTestTest : BaseTest() {
 
