@@ -32,8 +32,7 @@ class DccBoosterRulesStorage @Inject constructor(
         boosterRulesCacheFile.save(null)
     }
 
-    @VisibleForTesting
-    internal suspend fun File.load(): String? = mutex.withLock {
+    private suspend fun File.load(): String? = mutex.withLock {
         try {
             if (exists()) readText() else null
         } catch (e: Exception) {
@@ -42,8 +41,7 @@ class DccBoosterRulesStorage @Inject constructor(
         }
     }
 
-    @VisibleForTesting
-    internal suspend fun File.save(data: String?) = mutex.withLock {
+    private suspend fun File.save(data: String?) = mutex.withLock {
         if (data == null) {
             if (exists() && delete()) {
                 Timber.tag(TAG).d("File $path was deleted.")
@@ -58,4 +56,4 @@ class DccBoosterRulesStorage @Inject constructor(
     }
 }
 
-private const val TAG = "BoosterRuleStorage"
+private const val TAG = "DccBoosterRuleStorage"
