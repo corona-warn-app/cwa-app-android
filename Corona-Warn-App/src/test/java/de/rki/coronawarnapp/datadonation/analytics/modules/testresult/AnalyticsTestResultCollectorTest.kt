@@ -33,11 +33,11 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Instant
 import java.time.OffsetDateTime
 
 class AnalyticsTestResultCollectorTest : BaseTest() {
@@ -65,7 +65,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { pcrTestResultSettings.clear() } just Runs
         every { raTestResultSettings.clear() } just Runs
 
-        val lastCombinedResults = LastCombinedRiskResults(combinedResult, combinedResult)
+        val lastCombinedResults = LastCombinedRiskResults(combinedResult, RiskState.LOW_RISK)
         every { combinedResult.ewRiskLevelResult } returns ewRiskLevelResult
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK

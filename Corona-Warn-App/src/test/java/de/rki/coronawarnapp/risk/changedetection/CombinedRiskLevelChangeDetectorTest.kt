@@ -33,7 +33,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -131,7 +130,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         return LastCombinedRiskResults(
             lastCalculated = lastCalculatedResultSpy,
-            lastSuccessfullyCalculated = mockk()
+            lastSuccessfullyCalculatedRiskState = LOW_RISK
         )
     }
 
