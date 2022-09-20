@@ -53,6 +53,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                             negativeButton = R.string.onboarding_tracing_dialog_button_negative,
                             cancelable = true,
                             positiveButtonFunction = {
+                                vm.disableTracingIfEnabled()
                                 navigateToOnboardingTestFragment()
                             }
                         )
@@ -73,7 +74,6 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     override fun onResume() {
         super.onResume()
         binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        vm.resetTracing()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
