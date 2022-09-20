@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
-import de.rki.coronawarnapp.ccl.configuration.storage.BoosterRulesStorage
+import de.rki.coronawarnapp.ccl.configuration.storage.DccBoosterRulesStorage
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
@@ -26,7 +26,7 @@ import testhelpers.coroutines.runTest2
 class BoosterRulesRepositoryTest : BaseTest() {
 
     @MockK lateinit var server: DccValidationServer
-    @MockK lateinit var storage: BoosterRulesStorage
+    @MockK lateinit var storage: DccBoosterRulesStorage
 
     private val testBoosterNotificationRulesData =
         """

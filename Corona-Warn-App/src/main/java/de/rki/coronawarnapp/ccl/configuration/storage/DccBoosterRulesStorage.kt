@@ -24,6 +24,10 @@ class DccBoosterRulesStorage @Inject constructor(
 
     suspend fun loadBoosterRulesJson(): String? = boosterRulesFile.load() ?: loadLegacyBoosterRulesJson()?.also {
         Timber.tag(TAG).i("Loading legacy booster rules.")
+        Timber.tag(TAG).i("Move booster rules to new directory.")
+        saveBoosterRulesJson(it)
+        Timber.tag(TAG).i("Delete legacy booster rules.")
+        boosterRulesCacheFile.save(null)
     }
 
     suspend fun saveBoosterRulesJson(data: String?) = boosterRulesFile.save(data)
