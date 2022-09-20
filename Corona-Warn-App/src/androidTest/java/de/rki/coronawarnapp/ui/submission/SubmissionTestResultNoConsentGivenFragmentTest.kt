@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -60,7 +61,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                    every { registeredAt } returns Instant.now()
+                    every { registeredAt } returns Instant.now().toJavaInstant()
                     every { identifier } returns ""
                     every { type } returns BaseCoronaTest.Type.PCR
                 }

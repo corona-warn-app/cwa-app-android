@@ -101,7 +101,7 @@ fun testCertificate(
     override val isNew: Boolean
         get() = false
 
-    override val recycledAt: Instant?
+    override val recycledAt: java.time.Instant?
         get() = null
     override val notifiedBlockedAt: Instant?
         get() = null
