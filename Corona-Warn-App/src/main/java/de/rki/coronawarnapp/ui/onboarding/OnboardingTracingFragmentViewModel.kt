@@ -61,8 +61,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
         interoperabilityRepository.saveInteroperabilityUsed()
     }
 
-    // Reset tracing state in onboarding
-    fun resetTracing() {
+    fun disableTracingIfEnabled() {
         launch {
             try {
                 if (enfClient.disableTracingIfEnabled()) {

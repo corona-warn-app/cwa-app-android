@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertifica
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJodaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -28,12 +30,12 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString
-import java.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
+import java.time.Duration
+import java.time.Instant
 
 class TestCertificateProcessorTest : BaseTest() {
 
@@ -58,7 +60,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     private val pcrCertificateDataRegistered = pcrCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
+        publicKeyRegisteredAt = Instant.EPOCH.plusMillis(9000)
     )
 
     private val raCertificateData = run {
@@ -74,7 +76,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     private val raCertificateDataRegistered = raCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
+        publicKeyRegisteredAt = Instant.EPOCH.plusMillis(9000)
     )
 
     private val testCerticateComponents = mockk<TestCertificateComponents>().apply {
@@ -86,7 +88,7 @@ class TestCertificateProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567).toJodaInstant()
         every { timeStamper.nowJavaUTC } returns java.time.Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
@@ -190,7 +192,7 @@ class TestCertificateProcessorTest : BaseTest() {
 
         raCertificateData.publicKeyRegisteredAt shouldBe null
 
-        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC
+        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC.toJavaInstant()
 
         coVerify(exactly = 1) {
             certificateServer.registerPublicKeyForTest(

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTe
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
@@ -124,7 +123,7 @@ class TestCertificateProcessor @Inject constructor(
             }
         }
 
-        val nowUTC = timeStamper.nowUTC
+        val nowUTC = timeStamper.nowJavaUTC
 
         return when (dataToSave) {
             is PCRCertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowUTC)
@@ -162,7 +161,6 @@ class TestCertificateProcessor @Inject constructor(
 
         val nowUTC = timeStamper.nowJavaUTC
         val certAvailableAt = data.publicKeyRegisteredAt
-            ?.toJavaInstant()
             ?.plus(certConfig.waitAfterPublicKeyRegistration)
         val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
 
@@ -204,7 +202,7 @@ class TestCertificateProcessor @Inject constructor(
             rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
         )
 
-        val nowUtc = timeStamper.nowUTC
+        val nowUtc = timeStamper.nowJavaUTC
 
         return when (data) {
             is PCRCertificateData -> data.copy(

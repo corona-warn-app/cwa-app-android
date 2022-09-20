@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertifi
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -133,7 +134,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 every { isDccSupportedByPoc } returns true
                 every { isDccConsentGiven } returns true
                 every { type } returns BaseCoronaTest.Type.PCR
-                every { registeredAt } returns Instant.ofEpochSecond(4555)
+                every { registeredAt } returns Instant.ofEpochSecond(4555).toJavaInstant()
                 every { registrationToken } returns "token"
                 every { labId } returns "best-lab"
             }
@@ -154,7 +155,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
             identifier.isNotEmpty() shouldBe true
 
-            registeredAt shouldBe Instant.ofEpochSecond(4555)
+            registeredAt shouldBe Instant.ofEpochSecond(4555).toJavaInstant()
             certificateReceivedAt shouldBe null
             registrationToken shouldBe "token"
 
@@ -184,8 +185,8 @@ class TestCertificateRepositoryTest : BaseTest() {
             this as GenericTestCertificateData
             testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             identifier.isNotEmpty() shouldBe true
-            registeredAt shouldBe timeStamper.nowUTC
-            certificateReceivedAt shouldBe timeStamper.nowUTC
+            registeredAt shouldBe timeStamper.nowUTC.toJavaInstant()
+            certificateReceivedAt shouldBe timeStamper.nowUTC.toJavaInstant()
         }
 
         shouldThrow<InvalidTestCertificateException> {
@@ -230,7 +231,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun `filter by recycled`() = runTest2 {
         val recycled = testData.personATest2StoredData.copy(
             identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
-            recycledAt = nowUTC
+            recycledAt = nowUTC.toJavaInstant()
         )
         val notRecycled =
             testData.personATest1StoredData.copy(

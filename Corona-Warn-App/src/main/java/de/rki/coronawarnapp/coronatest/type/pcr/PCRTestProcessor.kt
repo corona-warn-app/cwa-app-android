@@ -34,9 +34,9 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -84,7 +84,7 @@ class PCRTestProcessor @Inject constructor(
         analyticsTestResultCollector.reportTestRegistered(type)
         analyticsTestResultCollector.reportTestResultReceived(testResult, type)
 
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
         return PCRCoronaTest(
             identifier = request.identifier,
@@ -167,7 +167,7 @@ class PCRTestProcessor @Inject constructor(
             analyticsTestResultCollector.reportTestResultReceived(testResult, type)
         }
 
-        val now = timeStamper.nowUTC
+        val now = timeStamper.nowJavaUTC
 
         return PCRCoronaTest(
             identifier = request.identifier,
@@ -193,7 +193,7 @@ class PCRTestProcessor @Inject constructor(
                 return test
             }
 
-            val nowUTC = timeStamper.nowUTC
+            val nowUTC = timeStamper.nowJavaUTC
             val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
             if (isOlderThan21Days && test.testResult == PCR_OR_RAT_REDEEMED) {
@@ -225,7 +225,7 @@ class PCRTestProcessor @Inject constructor(
             analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
-                testResult = check60DaysPcr(test, response.coronaTestResult, timeStamper.nowUTC),
+                testResult = check60DaysPcr(test, response.coronaTestResult, timeStamper.nowJavaUTC),
                 testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
                 lastUpdatedAt = nowUTC,
                 labId = response.labId ?: test.labId,
@@ -242,7 +242,7 @@ class PCRTestProcessor @Inject constructor(
 
     private fun determineReceivedDate(oldTest: PCRCoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
         oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
-        FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
+        FINAL_STATES.contains(newTestResult) -> timeStamper.nowJavaUTC
         else -> null
     }
 
@@ -306,7 +306,7 @@ class PCRTestProcessor @Inject constructor(
         Timber.tag(TAG).v("recycle(test=%s)", test.identifier)
         test as PCRCoronaTest
 
-        return test.copy(recycledAt = timeStamper.nowUTC)
+        return test.copy(recycledAt = timeStamper.nowJavaUTC)
     }
 
     override suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest {
@@ -347,8 +347,8 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
-    val testAge = Duration(test.registeredAt, now)
-    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+    val testAge = Duration.between(test.registeredAt, now)
+    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.toDays(), newResult)
 
     return if (newResult == PCR_OR_RAT_PENDING && testAge > VerificationServer.TestAvailabilityDuration) {
         Timber.tag(PCRTestProcessor.TAG).d("%s is exceeding the test availability.", testAge)

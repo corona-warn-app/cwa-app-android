@@ -171,10 +171,6 @@
         android:background="@color/colorSurface1"
         android:elevation="8dp"
         android:orientation="vertical"
-        android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -184,6 +180,8 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
             android:text="@string/nm_delta_onboarding_device_settings_button" />
 
         <Button
@@ -191,6 +189,8 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_small"
             android:text="@string/onboarding_button_next" />
     </LinearLayout>
 

@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
-import org.joda.time.Instant
+import java.time.Instant
 
 /**
  * A test certificate that is, or will be, retrieved by the CWA.

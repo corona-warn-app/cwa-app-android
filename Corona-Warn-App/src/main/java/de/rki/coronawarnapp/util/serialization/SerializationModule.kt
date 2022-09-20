@@ -19,7 +19,9 @@ import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaDurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.JavaLocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
@@ -54,10 +56,15 @@ class SerializationModule {
 
         val baseGson: Gson by lazy {
             GsonBuilder()
-                .registerTypeAdapter(Instant::class.java, InstantAdapter())
+                // Java time
                 .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
+                .registerTypeAdapter(java.time.LocalDate::class.java, JavaLocalDateAdapter())
+                .registerTypeAdapter(java.time.Duration::class.java, JavaDurationAdapter())
+                // Joda time
+                .registerTypeAdapter(Instant::class.java, InstantAdapter())
                 .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
                 .registerTypeAdapter(Duration::class.java, DurationAdapter())
+                // Others
                 .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
                 .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
                 .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
