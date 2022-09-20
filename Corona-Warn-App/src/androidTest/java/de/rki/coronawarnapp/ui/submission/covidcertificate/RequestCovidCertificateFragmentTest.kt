@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
+import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -62,7 +63,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Test
     fun launch_fragment_rat() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH, rawQrCode = "rawQrCode")
+            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH.toJavaInstant(), rawQrCode = "rawQrCode")
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
     }
@@ -95,7 +96,7 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_rat() {
         val args = RequestCovidCertificateFragmentArgs(
-            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH, rawQrCode = "rawQrCode")
+            CoronaTestQRCode.RapidAntigen(hash = "hash", createdAt = Instant.EPOCH.toJavaInstant(), rawQrCode = "rawQrCode")
         ).toBundle()
         launchFragmentInContainer2<RequestCovidCertificateFragment>(fragmentArgs = args)
         takeScreenshot<RequestCovidCertificateFragment>("rat")

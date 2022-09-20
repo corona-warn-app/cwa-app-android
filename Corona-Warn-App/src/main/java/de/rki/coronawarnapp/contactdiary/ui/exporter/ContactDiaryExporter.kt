@@ -7,11 +7,12 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.toJodaTime
+import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import kotlinx.coroutines.withContext
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -89,7 +90,7 @@ class ContactDiaryExporter @Inject constructor(
 
         val groupedPersonEncounters = personEncounters.groupBy { it.date }
         val groupedLocationVisits = locationVisits.groupBy { it.date }
-        val groupedTestResults = testResults.groupBy { it.time.toLocalDateUserTz() }
+        val groupedTestResults = testResults.groupBy { it.time.toLocalDateUserTimeZone().toJodaTime() }
 
         for (date in datesToExport) {
 

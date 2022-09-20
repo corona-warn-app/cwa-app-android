@@ -7,8 +7,10 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryReposit
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toJodaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -150,7 +152,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         createInstance().run {
             val list: List<ContactDiaryCoronaTestEntity> =
                 testDates.map { createContactDiaryCoronaTestEntity(Instant.parse(it)) }
-            val filteredList = list.filter { isOutOfRetention(it.time.toLocalDateUtc()) }
+            val filteredList = list.filter { isOutOfRetention(it.time.toLocalDateUtc().toJodaTime()) }
 
             every { contactDiaryRepository.testResults } returns flowOf(list)
             coEvery { contactDiaryRepository.deleteTests(any()) } just runs
@@ -165,6 +167,6 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
         id = "Test for testing...",
         testType = ContactDiaryCoronaTestEntity.TestType.ANTIGEN,
         result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
-        time = date
+        time = date.toJavaInstant()
     )
 }

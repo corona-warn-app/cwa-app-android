@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.instanceOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.net.SocketException
+import java.time.Instant
 
 class PCRCoronaTestExtensionsTest : BaseTest() {
 

@@ -29,12 +29,13 @@ import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.toJodaInstant
+import de.rki.coronawarnapp.util.toJodaTime
+import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,6 +43,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class RecyclerBinOverviewFragmentTest : BaseUITest() {
@@ -174,18 +176,18 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
                 every { testType } returns "LP6464-4"
             }
         }
-        every { sampleCollectedAt } returns Instant.parse("2021-06-30T11:35:00.000Z")
+        every { sampleCollectedAt } returns Instant.parse("2021-06-30T11:35:00.000Z").toJodaInstant()
         every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
 
     private fun mockVaccinationCertificate(): VaccinationCertificate =
         mockk<VaccinationCertificate>().apply {
             every { containerId } returns VaccinationCertificateContainerId("2")
-            val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTimeZone()
             every { fullName } returns "Mia Schneider"
             every { doseNumber } returns 1
             every { totalSeriesOfDoses } returns 2
-            every { vaccinatedOn } returns localDate
+            every { vaccinatedOn } returns localDate.toJodaTime()
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
@@ -193,7 +195,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
         mockk<RecoveryCertificate>().apply {
             every { containerId } returns RecoveryCertificateContainerId("3")
             every { fullName } returns "Thomas Schneider"
-            every { testedPositiveOn } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
+            every { testedPositiveOn } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTimeZone().toJodaTime()
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 

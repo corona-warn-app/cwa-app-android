@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -49,7 +50,7 @@ data class RecoveryCertificateContainer(
     val personIdentifier: CertificatePersonIdentifier
         get() = certificateData.certificate.personIdentifier
 
-    override val recycledAt: Instant? = data.recycledAt
+    override val recycledAt: java.time.Instant? = data.recycledAt?.toJavaInstant()
 
     /**
      * May throw an **[InvalidHealthCertificateException]**
@@ -156,8 +157,8 @@ data class RecoveryCertificateContainer(
             override val isNew: Boolean
                 get() = !data.certificateSeenByUser
 
-            override val recycledAt: Instant?
-                get() = data.recycledAt
+            override val recycledAt: java.time.Instant?
+                get() = data.recycledAt?.toJavaInstant()
 
             override fun toString(): String = "RecoveryCertificate($containerId)"
         }
