@@ -222,6 +222,10 @@ class BoosterRulesRepositoryTest : BaseTest() {
             reset()
 
             rules.first() shouldBe emptyList()
+
+            coVerify {
+                storage.saveBoosterRulesJson(null)
+            }
         }
     }
 }

@@ -88,6 +88,7 @@ class BoosterRulesRepository @Inject constructor(
     override suspend fun reset() {
         Timber.tag(TAG).i("reset()")
         internalData.updateBlocking { emptyList() }
+        storage.saveBoosterRulesJson(null)
     }
 }
 
