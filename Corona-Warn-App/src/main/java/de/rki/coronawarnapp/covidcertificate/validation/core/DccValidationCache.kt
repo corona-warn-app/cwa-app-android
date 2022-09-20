@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -35,8 +34,7 @@ class DccValidationCache @Inject constructor(
             .also { Timber.d("Successfully deleted %s: %b", cacheDir.name, it) }
     }
 
-    @VisibleForTesting
-    internal suspend fun File.load(): String? = mutex.withLock {
+    private suspend fun File.load(): String? = mutex.withLock {
         try {
             if (exists()) readText() else null
         } catch (e: Exception) {
@@ -45,8 +43,7 @@ class DccValidationCache @Inject constructor(
         }
     }
 
-    @VisibleForTesting
-    internal suspend fun File.save(data: String?) = mutex.withLock {
+    private suspend fun File.save(data: String?) = mutex.withLock {
         if (data == null) {
             if (exists() && delete()) {
                 Timber.tag(TAG).d("Cache file for $name was deleted.")

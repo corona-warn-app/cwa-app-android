@@ -16,9 +16,10 @@ class DccBoosterRulesStorage @Inject constructor(
     private val mutex = Mutex()
 
     // legacy
-    private val boosterRulesCacheFile = File(cacheDir, "dcc_validation_cache_bn_rules_raw")
-
-    private val boosterRulesFile = File(cclFile, "dcc_booster_rules")
+    @VisibleForTesting
+    internal val boosterRulesCacheFile = File(cacheDir, "dcc_validation_cache_bn_rules_raw")
+    @VisibleForTesting
+    internal val boosterRulesFile = File(cclFile, "dcc_booster_rules")
 
     private suspend fun loadLegacyBoosterRulesJson(): String? = boosterRulesCacheFile.load()
 
@@ -58,3 +59,5 @@ class DccBoosterRulesStorage @Inject constructor(
 }
 
 private const val TAG = "BoosterRuleStorage"
+
+
