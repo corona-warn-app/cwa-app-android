@@ -1,59 +1,18 @@
 package de.rki.coronawarnapp.ui.dialog
 
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-typealias DialogAction = () -> Unit
-
-@Suppress("LongParameterList")
-fun Fragment.showDialog(
-    title: String,
-    message: String,
-    positiveButton: String,
-    positiveButtonAction: DialogAction,
-    negativeButton: String? = null,
-    negativeButtonAction: DialogAction = { },
-    neutralButton: String? = null,
-    neutralButtonAction: DialogAction = { },
-    dismissAction: DialogAction = { },
+fun Fragment.displayDialog(
+    cancelable: Boolean = true,
     isDeleteDialog: Boolean = false,
-    isCancelable: Boolean = true
+    tag: String? = null,
+    onDismissAction: () -> Unit = { },
+    dialog: MaterialAlertDialogBuilder? = null,
+    config: MaterialAlertDialogBuilder.() -> Unit = { }
 ) {
-    val dialogConfig = DialogFragmentTemplate.Config(
-        titleRes = title,
-        messageRes = message,
-        positiveButtonRes = positiveButton,
-        negativeButtonRes = negativeButton,
-        neutralButtonRes = neutralButton,
-        isDeleteDialog = isDeleteDialog,
-        isCancelable = isCancelable
+    DialogFragmentTemplate(cancelable, isDeleteDialog, onDismissAction, dialog, config).show(
+        childFragmentManager,
+        tag ?: DialogFragmentTemplate.TAG // if no tag is passed, we default to the tag of the template
     )
-    this.displayDialog(dialogConfig, positiveButtonAction, negativeButtonAction, neutralButtonAction, dismissAction)
-}
-
-private fun Fragment.displayDialog(
-    dialogConfig: DialogFragmentTemplate.Config,
-    positiveButtonAction: DialogAction,
-    negativeButtonAction: DialogAction,
-    neutralButtonAction: DialogAction,
-    dismissAction: DialogAction
-) {
-    val dialog = DialogFragmentTemplate.newInstance(dialogConfig)
-    childFragmentManager.also {
-        it.setFragmentResultListener(DialogFragmentTemplate.REQUEST_KEY, viewLifecycleOwner) { _, bundle ->
-            val action = bundle.getSerializable(
-                DialogFragmentTemplate.PARAM_DIALOG_ACTION,
-            ) as DialogFragmentTemplate.Action
-
-            requireNotNull(action) { "Action is null" }
-
-            when (action) {
-                DialogFragmentTemplate.Action.PositiveButtonClicked -> positiveButtonAction()
-                DialogFragmentTemplate.Action.NegativeButtonClicked -> negativeButtonAction()
-                DialogFragmentTemplate.Action.NeutralButtonClicked -> neutralButtonAction()
-                DialogFragmentTemplate.Action.Dismissed -> dismissAction()
-            }
-        }
-
-        dialog.show(it, DialogFragmentTemplate.TAG)
-    }
 }
