@@ -8,7 +8,9 @@ import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DccBoosterRulesStorage @Inject constructor(
     @CertificateValidation private val cacheDir: File,
     @CclConfiguration private val cclFile: File
@@ -18,6 +20,7 @@ class DccBoosterRulesStorage @Inject constructor(
     // legacy
     @VisibleForTesting
     internal val boosterRulesCacheFile = File(cacheDir, "dcc_validation_cache_bn_rules_raw")
+
     @VisibleForTesting
     internal val boosterRulesFile = File(cclFile, "dcc_booster_rules")
 
