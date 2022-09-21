@@ -47,11 +47,6 @@ data class DccWalletInfo(
     @get:JsonIgnore
     val hasReissuance: Boolean
         get() = certificateReissuance?.reissuanceDivision?.visible ?: false
-
-    @get:JsonIgnore
-    val hasMaskState: Boolean
-        get() = (maskState?.visible ?: false) &&
-            maskState?.identifier in listOf(REQUIRED, OPTIONAL)
 }
 
 @JsonTypeInfo(

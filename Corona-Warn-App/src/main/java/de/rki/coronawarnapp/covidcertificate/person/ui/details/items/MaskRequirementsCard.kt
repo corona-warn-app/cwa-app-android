@@ -30,9 +30,13 @@ class MaskRequirementsCard(parent: ViewGroup) :
         maskReqTitle.text = curItem.titleText
         maskReqSubtitle.text = curItem.subtitleText
         maskReqBody.text = curItem.longText
-        if (curItem.badgeState != null) {
-            maskReqBadge.isVisible = true
-            maskReqBadge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
+        when (curItem.maskStateIdentifier) {
+            MaskState.MaskStateIdentifier.REQUIRED,
+            MaskState.MaskStateIdentifier.OPTIONAL -> {
+                maskReqBadge.isVisible = true
+                maskReqBadge.background = context.getDrawableCompat(curItem.colorShade.maskSmallBadge)
+            }
+            else -> maskReqBadge.isVisible = false
         }
         maskReqFaq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
@@ -43,7 +47,7 @@ class MaskRequirementsCard(parent: ViewGroup) :
     data class Item(
         val titleText: String,
         val subtitleText: String,
-        val badgeState: MaskState.MaskStateIdentifier?,
+        val maskStateIdentifier: MaskState.MaskStateIdentifier?,
         val longText: String,
         val faqAnchor: String?,
         val colorShade: PersonColorShade
