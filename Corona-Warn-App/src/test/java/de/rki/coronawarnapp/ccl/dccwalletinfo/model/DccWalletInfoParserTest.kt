@@ -18,7 +18,6 @@ internal class DccWalletInfoParserTest : BaseTest() {
             val output = mapper.readValue<DccWalletInfo>(it)
             output shouldBe dccWalletInfo
             output.hasReissuance shouldBe false
-            output.hasMaskState shouldBe false
         }
     }
 
