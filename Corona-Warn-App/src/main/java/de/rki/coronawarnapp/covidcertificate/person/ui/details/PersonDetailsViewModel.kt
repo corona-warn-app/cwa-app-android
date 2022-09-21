@@ -98,7 +98,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
         val certificateItems = mutableListOf<CertificateItem>()
         personCertificates.dccWalletInfo?.let { info ->
             // 1. Mask state tile
-            if (info.hasMaskState) info.maskState?.let { state -> certificateItems.add(maskStateItem(state, color)) }
+            val maskState = info.maskState
+            if (maskState?.visible == true) {
+                certificateItems.add(maskStateItem(maskState, color))
+            }
             // 2. Admission state tile
             if (info.admissionState.visible)
                 certificateItems.add(admissionStateItem(info.admissionState, personCertificates, color))
@@ -163,7 +166,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     ) = MaskRequirementsCard.Item(
         titleText = format(maskState.titleText),
         subtitleText = format(maskState.subtitleText),
-        badgeState = maskState.identifier,
+        maskStateIdentifier = maskState.identifier,
         longText = format(maskState.longText),
         faqAnchor = format(maskState.faqAnchor),
         colorShade = colorShade
