@@ -164,10 +164,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        displayDialog(
-            tag = "$TAG.showCameraPermissionDeniedDialog()",
-            onDismissAction = { popBackStack() }
-        ) {
+        displayDialog(onDismissAction = { popBackStack() }) {
             setTitle(R.string.camera_permission_dialog_title)
             setMessage(R.string.camera_permission_dialog_message)
             setPositiveButton(android.R.string.ok) { _, _ -> leave() }
@@ -180,7 +177,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        displayDialog(tag = "$TAG.showCameraPermissionRationaleDialog()") {
+        displayDialog {
             setTitle(R.string.camera_permission_rationale_dialog_headline)
             setMessage(R.string.camera_permission_rationale_dialog_body)
             setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
@@ -196,7 +193,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun showCheckInQrCodeError(lazyErrorText: LazyString) {
         val errorText = lazyErrorText.get(requireContext())
-        displayDialog(tag = "$TAG.showCheckInQrCodeError") {
+        displayDialog {
             setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
             setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
             setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
@@ -210,17 +207,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun showScannerResultErrorDialog(error: Throwable) {
         displayDialog(
-            tag = "$TAG.showScannerResultErrorDialog",
             onDismissAction = { startDecode() },
             dialog = error.toQrCodeErrorDialogBuilder(requireContext())
         )
     }
 
     private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) {
-        displayDialog(
-            tag = "$TAG.showValidationServiceMinVersionDialog",
-            onDismissAction = { startDecode() }
-        ) {
+        displayDialog(onDismissAction = { startDecode() }) {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(errorMsg.get(requireContext()))
             setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> startDecode() }
@@ -350,20 +343,14 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) =
-        displayDialog(
-            tag = "$TAG.showRestoreDgcConfirmation()",
-            cancelable = false
-        ) {
+        displayDialog(cancelable = false) {
             setTitle(R.string.recycle_bin_restore_dgc_dialog_title)
             setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
             setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
         }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
-        displayDialog(
-            tag = "$TAG.showRestoreCoronaTestConfirmation()",
-            cancelable = false
-        ) {
+        displayDialog(cancelable = false) {
             setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
             setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
             setPositiveButton(R.string.recycle_bin_restore_corona_test_dialog_title) { _, _ ->
@@ -374,10 +361,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) =
-        displayDialog(
-            tag = "$TAG.showMaxPersonExceedsThresholdResult()",
-            cancelable = false
-        ) {
+        displayDialog(cancelable = false) {
             setTitle(R.string.qr_code_error_max_person_threshold_title)
             setMessage(getString(R.string.qr_code_error_max_person_threshold_body, max))
             setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
@@ -392,10 +376,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showMaxPersonExceedsMaxResult(max: Int) =
-        displayDialog(
-            tag = "$TAG.showMaxPersonExceedsMaxResult()",
-            cancelable = false
-        ) {
+        displayDialog(cancelable = false) {
             setTitle(R.string.qr_code_error_max_person_max_title)
             setMessage(R.string.qr_code_error_max_person_covpasscheck_button)
             setOnDismissListener { popBackStack() }
@@ -409,10 +390,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showDccTicketingErrorDialog(humanReadableError: HumanReadableError) {
-        displayDialog(
-            tag = "$TAG.showDccTicketingErrorDialog",
-            onDismissAction = { startDecode() }
-        ) {
+        displayDialog(onDismissAction = { startDecode() }) {
             setTitle(humanReadableError.title)
             setMessage(humanReadableError.description)
             setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
@@ -420,10 +398,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showDccTicketingErrorDialog(errorMsg: LazyString) {
-        displayDialog(
-            tag = "$TAG.showDccTicketingErrorDialog",
-            onDismissAction = { startDecode() }
-        ) {
+        displayDialog(onDismissAction = { startDecode() }) {
             setTitle(R.string.errors_generic_headline_short)
             setMessage(errorMsg.get(requireContext()))
             setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
