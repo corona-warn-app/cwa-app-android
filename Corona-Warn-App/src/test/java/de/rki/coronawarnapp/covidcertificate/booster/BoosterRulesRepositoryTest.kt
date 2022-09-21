@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
+import de.rki.coronawarnapp.ccl.configuration.storage.DccBoosterRulesStorage
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
@@ -26,7 +26,7 @@ import testhelpers.coroutines.runTest2
 class BoosterRulesRepositoryTest : BaseTest() {
 
     @MockK lateinit var server: DccValidationServer
-    @MockK lateinit var localCache: DccValidationCache
+    @MockK lateinit var storage: DccBoosterRulesStorage
 
     private val testBoosterNotificationRulesData =
         """
@@ -76,9 +76,9 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        localCache.apply {
-            coEvery { loadBoosterNotificationRulesJson() } returns null
-            coEvery { saveBoosterNotificationRulesJson(any()) } just runs
+        storage.apply {
+            coEvery { loadBoosterRulesJson() } returns null
+            coEvery { saveBoosterRulesJson(any()) } just runs
         }
 
         server.apply {
@@ -112,7 +112,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         converter = converter,
         server = server,
-        localCache = localCache
+        storage = storage,
     )
 
     @Test
@@ -131,7 +131,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            localCache.saveBoosterNotificationRulesJson(any())
+            storage.saveBoosterRulesJson(any())
         }
     }
 
@@ -148,7 +148,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
         coVerify {
             server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
-            localCache.saveBoosterNotificationRulesJson(any())
+            storage.saveBoosterRulesJson(any())
         }
     }
 
@@ -166,11 +166,11 @@ class BoosterRulesRepositoryTest : BaseTest() {
 
             coVerify {
                 server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
-                localCache.loadBoosterNotificationRulesJson()
+                storage.loadBoosterRulesJson()
             }
 
             coVerify(exactly = 0) {
-                localCache.saveBoosterNotificationRulesJson(any())
+                storage.saveBoosterRulesJson(any())
             }
         }
 
@@ -194,7 +194,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
             source = DccValidationServer.RuleSetSource.SERVER
         )
 
-        coEvery { localCache.loadBoosterNotificationRulesJson() } returns testBoosterNotificationRulesData
+        coEvery { storage.loadBoosterRulesJson() } returns testBoosterNotificationRulesData
 
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
@@ -208,7 +208,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            localCache.saveBoosterNotificationRulesJson(any())
+            storage.saveBoosterRulesJson(any())
         }
     }
 
@@ -222,6 +222,10 @@ class BoosterRulesRepositoryTest : BaseTest() {
             reset()
 
             rules.first() shouldBe emptyList()
+
+            coVerify {
+                storage.saveBoosterRulesJson(null)
+            }
         }
     }
 }
