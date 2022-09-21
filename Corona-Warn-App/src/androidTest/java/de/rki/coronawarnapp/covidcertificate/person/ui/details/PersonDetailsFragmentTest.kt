@@ -169,7 +169,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         MaskRequirementsCard.Item(
                             titleText = "Keine Maskenpflicht",
                             subtitleText = "Eine Maske ist dennoch empfohlen",
-                            badgeState = MaskState.MaskStateIdentifier.OPTIONAL,
+                            maskStateIdentifier = MaskState.MaskStateIdentifier.OPTIONAL,
                             longText = "Von der Maskenpflicht sind alle Personen befreit, die innerhalb der letzten 3 Monate geimpft wurden oder genesen sind oder innerhalb der letzten 24 Stunden negativ getestet wurden.",
                             faqAnchor = "FAQ",
                             colorShade = PersonColorShade.GREEN
@@ -178,7 +178,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         MaskRequirementsCard.Item(
                             titleText = "Maskenpflicht",
                             subtitleText = "Sie sind nicht von der Maskenpflicht ausgenommen",
-                            badgeState = MaskState.MaskStateIdentifier.REQUIRED,
+                            maskStateIdentifier = MaskState.MaskStateIdentifier.REQUIRED,
                             longText = "Von der Maskenpflicht sind alle Personen befreit, die innerhalb der letzten 3 Monate geimpft wurden oder genesen sind oder innerhalb der letzten 24 Stunden negativ getestet wurden.",
                             faqAnchor = "FAQ",
                             colorShade = PersonColorShade.COLOR_1
