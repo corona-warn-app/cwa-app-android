@@ -180,7 +180,7 @@ private fun IncludeCertificateOverviewQrCardBinding.setGStatusBadge(
     val state = item.admission.state
     statusBadge.visibility = when {
         state == null -> INVISIBLE
-        state.visible -> if (item.admission.text.isNotEmpty()) VISIBLE else INVISIBLE
+        state.visible -> if (item.admission.text.isNotEmpty()) VISIBLE else GONE
         else -> GONE
     }
 }
@@ -192,7 +192,7 @@ private fun IncludeCertificateOverviewQrCardBinding.setMaskBadge(
     val state = item.mask.state
     maskBadge.visibility = when {
         state == null -> INVISIBLE
-        state.visible -> if (item.mask.text.isNotEmpty()) VISIBLE else INVISIBLE
+        state.visible -> if (item.mask.text.isNotEmpty()) VISIBLE else GONE
         else -> GONE
     }
     maskBadge.text = item.mask.text
