@@ -1521,4 +1521,8 @@
         <tspan x="25.4" y="94.8" class="st8 st9 st67">Certificate </tspan></text>
     <rect x="171.2" y="237.1" class="st4" width="111.9" height="20.7" />
     <text transform="matrix(-1 0 0 -1 283.1815 251.7176)" class="st5 st6 st7">$nm</text>
+    <text class="st6 st7" transform="matrix(1 0 0 1 332.85 767.05)">
+	<tspan x="0" y="0">Zertifikatsnachdruck - erzeugt mit der Corona-Warn-App</tspan>
+        <tspan x="0" y="9.6">Certificate reprint - generated with the Corona-Warn-App</tspan>
+</text>
 </svg>
