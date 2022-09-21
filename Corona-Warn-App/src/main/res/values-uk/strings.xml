@@ -1501,7 +1501,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"підтверджені нові інфекції"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 % від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
+    <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 % від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Застереження користувачами застосунку"</string>
     <!-- XTXT: Explanation screen warned persons text -->
