@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
-import org.joda.time.Instant
+import java.time.Instant
 
 /**
  * A generic data class used to store data for scanned qrcodes.

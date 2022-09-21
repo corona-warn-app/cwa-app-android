@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryReposit
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toJodaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import org.joda.time.Days
 import org.joda.time.LocalDate
@@ -64,7 +66,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     suspend fun clearObsoleteCoronaTests() {
         repository.testResults.first()
             .also { Timber.d("Contact Diary Corona Tests total count: %d", it.size) }
-            .filter { isOutOfRetention(it.time.toLocalDateUtc()) }
+            .filter { isOutOfRetention(it.time.toLocalDateUtc().toJodaTime()) }
             .also {
                 Timber.d("Contact Diary Corona Tests to be deleted: %d", it.size)
                 repository.deleteTests(it)

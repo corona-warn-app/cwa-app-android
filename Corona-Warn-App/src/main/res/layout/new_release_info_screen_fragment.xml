@@ -5,9 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:contentDescription="@string/release_info_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/release_info_header">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -36,18 +36,18 @@
                     android:id="@+id/new_release_info_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@string/release_info_header"
                     android:focusable="true"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    app:srcCompat="@drawable/ic_new_release_info"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_new_release_info"
                     tools:src="@drawable/ic_new_release_info" />
 
                 <TextView
-                    style="@style/headline5"
                     android:id="@+id/headline"
+                    style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/spacing_normal"
@@ -58,18 +58,18 @@
                     app:layout_constraintTop_toBottomOf="@id/new_release_info_illustration" />
 
                 <TextView
-                    style="@style/subtitleMedium"
                     android:id="@+id/new_release_info_body"
+                    style="@style/subtitleMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginEnd="@dimen/spacing_normal"
                     android:focusable="true"
                     android:text="@string/release_info_version_body"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/headline"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/headline" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -85,16 +85,16 @@
                     tools:listitem="@layout/new_release_info_item" />
 
                 <TextView
-                    style="@style/subtitle"
                     android:id="@+id/new_release_info_bottom"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/spacing_normal"
                     android:focusable="true"
                     android:text="@string/new_release_bottom"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recycler_view" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -102,11 +102,12 @@
         </androidx.core.widget.NestedScrollView>
 
         <Button
-            style="@style/buttonPrimary"
             android:id="@+id/new_release_info_next_button"
+            style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
             android:text="@string/release_info_continue_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

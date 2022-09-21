@@ -10,9 +10,9 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.PersonalRapidTestResultNegativeBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.toUserTimeZone
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 /**
  * The [NegativeRapidTestResultView] Displays the appropriate test result.
@@ -53,7 +53,7 @@ constructor(
             test?.dateOfBirth?.let {
                 val birthDate = context.getString(
                     R.string.submission_test_result_antigen_patient_birth_date_placeholder,
-                    it.toDayFormat()
+                    it.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
                 )
                 if (this.isNotBlank()) append(", ")
                 append(birthDate)
@@ -65,8 +65,8 @@ constructor(
         val localTime = test?.testTakenAt?.toUserTimeZone() ?: return ""
         return context.getString(
             R.string.coronatest_negative_rapid_test_result_time_date_placeholder,
-            localTime.toDayFormat(),
-            localTime.toShortTimeFormat()
+            localTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+            localTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         )
     }
 }

@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCode
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 
 sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
 
