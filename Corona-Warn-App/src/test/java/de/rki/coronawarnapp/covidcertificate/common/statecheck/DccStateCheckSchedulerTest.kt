@@ -19,12 +19,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
+import java.time.Duration
+import java.time.Instant
 
 class DccStateCheckSchedulerTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
@@ -47,7 +47,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
         }
 
         every { mockDscData.updatedAt } returns Instant.EPOCH
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1234567)
     }
 
     fun createInstance(scope: CoroutineScope) = DccStateCheckScheduler(
@@ -99,7 +99,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
 
     @Test
     fun `do not refresh dsc data when last refresh was recent`() = runTest2 {
-        every { mockDscData.updatedAt } returns Instant.ofEpochSecond(1234567).minus(Duration.standardHours(12))
+        every { mockDscData.updatedAt } returns Instant.ofEpochSecond(1234567).minus(Duration.ofHours(12))
         createInstance(this).apply {
             initialize()
 

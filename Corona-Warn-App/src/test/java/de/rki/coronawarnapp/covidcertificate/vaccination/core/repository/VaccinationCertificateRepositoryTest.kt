@@ -32,13 +32,13 @@ import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 class VaccinationCertificateRepositoryTest : BaseTest() {
@@ -74,7 +74,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             )
         } returns CwaCovidCertificate.State.Invalid()
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowUTC
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
@@ -185,7 +185,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         val instance = createInstance(this)
 
-        every { timeStamper.nowUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
+        every { timeStamper.nowJavaUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
         instance.registerCertificate(VaccinationTestData.personBVac1QRCode)
 

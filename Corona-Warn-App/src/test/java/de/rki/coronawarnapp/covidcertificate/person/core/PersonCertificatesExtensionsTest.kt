@@ -3,21 +3,21 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
+import java.time.Instant
 
 class PersonCertificatesExtensionsTest : BaseTest() {
 
     private val time = Instant.now()
-    private val oneDayDuration = Duration.standardDays(1)
+    private val oneDayDuration = Duration.ofDays(1)
 
     @Test
     fun `certificate sort order`() {
