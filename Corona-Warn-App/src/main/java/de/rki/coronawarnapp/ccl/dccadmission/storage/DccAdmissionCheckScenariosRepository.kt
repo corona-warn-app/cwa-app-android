@@ -34,8 +34,7 @@ class DccAdmissionCheckScenariosRepository @Inject constructor(
             }
         }
 
-    suspend fun save(scenarios: DccAdmissionCheckScenarios) {
-        val json = mapper.writeValueAsString(scenarios)
+    suspend fun save(json: String) {
         cclSettings.setAdmissionCheckScenarios(json)
     }
 }
