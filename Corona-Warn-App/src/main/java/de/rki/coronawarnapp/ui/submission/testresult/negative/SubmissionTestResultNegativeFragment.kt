@@ -23,8 +23,6 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.Back
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate

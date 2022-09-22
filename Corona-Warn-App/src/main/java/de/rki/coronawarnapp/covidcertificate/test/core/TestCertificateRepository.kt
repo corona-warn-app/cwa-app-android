@@ -620,7 +620,9 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowJavaUTC): TestCertificateContainer {
+    private fun TestCertificateQRCode.createContainer(
+        nowUtc: Instant = timeStamper.nowJavaUTC
+    ): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),
             registeredAt = nowUtc,

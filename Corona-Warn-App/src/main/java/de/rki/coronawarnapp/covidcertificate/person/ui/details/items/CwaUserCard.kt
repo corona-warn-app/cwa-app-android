@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.parseLocalDate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
