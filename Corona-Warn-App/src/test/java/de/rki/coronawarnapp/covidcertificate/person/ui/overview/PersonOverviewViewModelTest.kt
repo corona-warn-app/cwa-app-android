@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenario
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
@@ -264,7 +266,32 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
         coVerify {
             admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
-            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+            admissionScenariosSharedViewModel.setAdmissionScenarios(
+                AdmissionScenarios(
+                    title = "Ihr Bundesland",
+                    scenarios = listOf(
+                        AdmissionScenario(
+                            identifier = "DE",
+                            title = "Bundesweit",
+                            subtitle = "",
+                            enabled = true,
+                        ),
+                        AdmissionScenario(
+                            identifier = "BW",
+                            title = "Baden-Württemberg",
+                            subtitle = "Schön hier",
+                            enabled = true
+                        ),
+                        AdmissionScenario(
+                            identifier = "HE",
+                            title = "Hesse",
+                            subtitle = "Für dieses Bundesland liegen momentan keine Regeln vor",
+                            enabled = false
+                        )
+                    ),
+                    scenariosAsJson = mapper.writeValueAsString(dccAdmissionCheckScenarios)
+                )
+            )
         }
     }
 
@@ -298,6 +325,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             dccAdmissionTileProvider = admissionTileProvider,
             migrationCheck = migrationCheck,
             onboardingSettings = onboardingSettings,
-            savedState = SavedStateHandle()
+            savedState = SavedStateHandle(),
+            mapper = mapper
         )
 }
