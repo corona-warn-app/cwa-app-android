@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import java.time.Instant
 import java.time.LocalDate
 import timber.log.Timber
 import java.time.OffsetDateTime
@@ -37,7 +36,7 @@ internal fun String.parseLocalDate(): LocalDate? = try {
 }
 
 internal fun String.parseInstant() = try {
-    Instant.parse(this)
+    OffsetDateTime.parse(this).toInstant()
 } catch (e: Exception) {
     Timber.e(e, "Malformed instant")
     null

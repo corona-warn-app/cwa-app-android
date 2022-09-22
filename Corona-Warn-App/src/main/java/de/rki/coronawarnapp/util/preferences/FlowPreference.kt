@@ -80,6 +80,8 @@ class FlowPreference<T> constructor(
         inline fun <reified T> basicReader(defaultValue: T): SharedPreferences.(key: String) -> T = { key ->
             when (T::class) {
                 Instant::class -> all[key]?.let { Instant.ofEpochMilli(it as Long) as T } ?: defaultValue
+                java.time.Instant::class -> all[key]?.let { java.time.Instant.ofEpochMilli(it as Long) as T }
+                    ?: defaultValue
                 else -> (this.all[key] ?: defaultValue) as T
             }
         }
