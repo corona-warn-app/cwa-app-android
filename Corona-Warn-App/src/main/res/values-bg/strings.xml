@@ -1102,7 +1102,7 @@
     <string name="submission_test_result_delete_steps_invalid_heading">"Изтриване на тест"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест.Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_delete_steps_invalid_body">"Трябва да изтриете последния тест, за да можете да регистрирате нов."</string>
 
@@ -1501,7 +1501,7 @@
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Потвърдени нови случаи на заразяване"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“. Числа под прагова стойност на 1% от 7-дневната заболеваемост не се показват. Вижте обяснението под Легенда&gt;Времеви период."</string>
+    <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“. Числа под прагова стойност на 1% от 7-дневната заболеваемост не се показват. Вижте обяснението под Легенда&gt;Времеви период."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
