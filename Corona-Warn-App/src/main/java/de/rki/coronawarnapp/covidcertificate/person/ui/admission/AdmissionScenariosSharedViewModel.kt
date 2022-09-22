@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenarios
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import timber.log.Timber
 class AdmissionScenariosSharedViewModel(private val savedState: SavedStateHandle) : ViewModel() {
     private val currentAdmissionScenarios = MutableStateFlow(savedAdmissionScenarios)
 
-    val admissionScenarios: Flow<DccAdmissionCheckScenarios> = currentAdmissionScenarios.filterNotNull()
+    val admissionScenarios: Flow<AdmissionScenarios> = currentAdmissionScenarios.filterNotNull()
 
     init {
         admissionScenarios
@@ -28,10 +28,10 @@ class AdmissionScenariosSharedViewModel(private val savedState: SavedStateHandle
             .launchIn(viewModelScope)
     }
 
-    suspend fun setAdmissionScenarios(admissionCheckScenarios: DccAdmissionCheckScenarios) =
-        currentAdmissionScenarios.emit(admissionCheckScenarios)
+    suspend fun setAdmissionScenarios(admissionScenarios: AdmissionScenarios) =
+        currentAdmissionScenarios.emit(admissionScenarios)
 
-    private var savedAdmissionScenarios: DccAdmissionCheckScenarios?
+    private var savedAdmissionScenarios: AdmissionScenarios?
         get() = savedState[ADMISSION_SCENARIOS]
         set(value) {
             Timber.tag(TAG).v("Saving %s into savedStateHandle", value)
