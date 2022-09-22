@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.dialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-@SuppressWarnings("LongParameterList")
 fun Fragment.displayDialog(
     cancelable: Boolean = true,
     isDeleteDialog: Boolean = false,
