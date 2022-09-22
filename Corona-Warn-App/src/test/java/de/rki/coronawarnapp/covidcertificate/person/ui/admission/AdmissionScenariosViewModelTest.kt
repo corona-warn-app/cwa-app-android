@@ -59,7 +59,16 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
 
     @Test
     fun getState() {
-        instance().state.getOrAwaitValue() shouldBe admissionScenarios
+        instance().state.getOrAwaitValue().apply {
+            scenarios.size shouldBe admissionScenarios.scenarios.size
+            title shouldBe admissionScenarios.title
+            scenarios[0].apply {
+                identifier shouldBe admissionScenarios.scenarios[0].identifier
+                title shouldBe admissionScenarios.scenarios[0].title
+                subtitle shouldBe admissionScenarios.scenarios[0].subtitle
+                enabled shouldBe admissionScenarios.scenarios[0].enabled
+            }
+        }
     }
 
     @Test
