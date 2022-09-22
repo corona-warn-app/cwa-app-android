@@ -201,7 +201,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                 Timber.d(e, "URL Encoding failed url($rootUri)")
                 rootUri // Pass original
             }
-            return "cwa://check-in-onboarding/$encodedUrl/?cleanHistory=$cleanHistory".toUri()
+            return "cwa://check-in-onboarding/$encodedUrl/?cleanHistory=$cleanHistory&showBottomNav=false".toUri()
         }
 
         fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://e.coronawarn.app")
