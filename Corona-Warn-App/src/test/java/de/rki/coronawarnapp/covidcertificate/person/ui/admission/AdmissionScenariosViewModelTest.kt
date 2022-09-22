@@ -2,11 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenario
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -29,19 +28,29 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 internal class AdmissionScenariosViewModelTest : BaseTest() {
 
-    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository
     @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
     @MockK lateinit var cclSetting: CclSettings
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
-    private val mapper = SerializationModule.jacksonBaseMapper
+    private val admissionScenarios = AdmissionScenarios(
+        title = "title",
+        scenarios = listOf(
+            AdmissionScenario(
+                identifier = "BY",
+                title = "Bayern",
+                subtitle = "",
+                enabled = true
+            )
+        ),
+        scenariosAsJson = ""
+    )
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
 
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(dccAdmissionCheckScenarios)
-        every { admissionScenariosSharedViewModel.admissionScenarios } returns flowOf(dccAdmissionCheckScenarios)
+        every { admissionScenariosSharedViewModel.admissionScenarios } returns flowOf(admissionScenarios)
 
         coEvery { admissionCheckScenariosRepository.save(any()) } just Runs
         coEvery { cclSetting.saveAdmissionScenarioId(any()) } returns Job()
@@ -51,27 +60,13 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
     @Test
     fun getState() {
         instance().state.getOrAwaitValue().apply {
-            title shouldBe "Ihr Bundesland"
-            scenarios.size shouldBe 3
+            scenarios.size shouldBe admissionScenarios.scenarios.size
+            title shouldBe admissionScenarios.title
             scenarios[0].apply {
-                identifier shouldBe "DE"
-                title shouldBe "Bundesweit"
-                subtitle shouldBe ""
-                enabled shouldBe true
-            }
-
-            scenarios[1].apply {
-                identifier shouldBe "BW"
-                title shouldBe "Baden-Württemberg"
-                subtitle shouldBe "Schön hier"
-                enabled shouldBe true
-            }
-
-            scenarios[2].apply {
-                identifier shouldBe "HE"
-                title shouldBe "Hesse"
-                subtitle shouldBe "Für dieses Bundesland liegen momentan keine Regeln vor"
-                enabled shouldBe false
+                identifier shouldBe admissionScenarios.scenarios[0].identifier
+                title shouldBe admissionScenarios.scenarios[0].title
+                subtitle shouldBe admissionScenarios.scenarios[0].subtitle
+                enabled shouldBe admissionScenarios.scenarios[0].enabled
             }
         }
     }
@@ -88,7 +83,6 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
 
     private fun instance() = AdmissionScenariosViewModel(
         dispatcherProvider = TestDispatcherProvider(),
-        format = CclTextFormatter(cclJsonFunctions, mapper),
         admissionCheckScenariosRepository = admissionCheckScenariosRepository,
         admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
         cclSettings = cclSetting,
