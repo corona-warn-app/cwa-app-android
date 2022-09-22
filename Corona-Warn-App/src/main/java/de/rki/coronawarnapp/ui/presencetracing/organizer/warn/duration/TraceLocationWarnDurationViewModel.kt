@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.TraceLocationWarnDuration
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -69,7 +69,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
             !traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC)
         ) {
             uiState.apply {
-                value = value.copy(localDateTime = traceLocation.startDate.toUserTimeZone())
+                value = value.copy(localDateTime = traceLocation.startDate.toLocalDateTimeUserTz())
             }
         }
 

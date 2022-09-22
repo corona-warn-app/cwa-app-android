@@ -14,8 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingQuantityString
@@ -97,7 +96,7 @@ class ValidationResultItemCreator @Inject constructor() {
     ): TechnicalValidationFailedVH.Item =
         TechnicalValidationFailedVH.Item(
             validation = validation,
-            certificateExpiresAt = certificate.headerExpiresAt.toJavaInstant().toUserTimeZone()
+            certificateExpiresAt = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         )
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
@@ -111,7 +110,7 @@ class ValidationResultItemCreator @Inject constructor() {
             dateDetails = R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
                 userInput.arrivalCountry,
                 "$dateFormat, $timeFormat",
-                validatedAt.toUserTimeZone().format(
+                validatedAt.toLocalDateTimeUserTz().format(
                     DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
                 )
             )

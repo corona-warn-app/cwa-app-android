@@ -92,8 +92,8 @@ class DccWalletInfoCalculation @Inject constructor(
                 cose = Cose(it.dccData.kid),
                 cwt = Cwt(
                     iss = it.headerIssuer,
-                    iat = it.headerIssuedAt.seconds,
-                    exp = it.headerExpiresAt.seconds
+                    iat = it.headerIssuedAt.epochSecond,
+                    exp = it.headerExpiresAt.epochSecond
                 ),
                 hcert = it.dccData.certificateJson.toJsonNode(),
                 validityState = it.state.toCclState()

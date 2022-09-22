@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import timber.log.Timber
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class CwaUserCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<CwaUserCard.Item, CwaUserCardItemBinding>(
@@ -56,7 +58,7 @@ internal fun formatBirthDate(dateOfBirthFormatted: String): String =
     try {
         // Formatted dob should be in the form of `yyyy-MM-dd` -> short day format like any other date in the screen
         // if failed display the original provided value , please note that dob can be YYYY-MM or YYYY only
-        dateOfBirthFormatted.parseLocalDate()?.toShortDayFormat()!!
+        dateOfBirthFormatted.parseLocalDate()?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))!!
     } catch (e: Exception) {
         Timber.d(e, "Formatting to local format failed, falling back to $dateOfBirthFormatted")
         dateOfBirthFormatted

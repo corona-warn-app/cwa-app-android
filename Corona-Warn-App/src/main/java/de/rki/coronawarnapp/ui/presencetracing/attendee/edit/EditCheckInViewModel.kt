@@ -8,8 +8,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
-import de.rki.coronawarnapp.util.toLocaleDateTimeUtc
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUtc
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -69,27 +69,27 @@ class EditCheckInViewModel @AssistedInject constructor(
     }
 
     fun onStartDateClicked() {
-        val utcDateTime = checkInStartTime.value?.toLocaleDateTimeUtc()
+        val utcDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
         openStartPickerEvent.value = DateTimePickerEvent.DatePickerEvent(utcDateTime?.toLocalDate())
     }
 
     fun onStartTimeClicked() {
-        val utcDateTime = checkInStartTime.value?.toLocaleDateTimeUtc()
+        val utcDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
         openStartPickerEvent.value = DateTimePickerEvent.TimePickerEvent(utcDateTime?.toLocalTime())
     }
 
     fun onEndDateClicked() {
-        val utcDateTime = checkInEndTime.value?.toLocaleDateTimeUtc()
+        val utcDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
         openEndPickerEvent.value = DateTimePickerEvent.DatePickerEvent(utcDateTime?.toLocalDate())
     }
 
     fun onEndTimeClicked() {
-        val utcDateTime = checkInEndTime.value?.toLocaleDateTimeUtc()
+        val utcDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
         openEndPickerEvent.value = DateTimePickerEvent.TimePickerEvent(utcDateTime?.toLocalTime())
     }
 
     fun onStartTimeChanged(event: DateTimePickerEvent) {
-        val startDateTime = checkInStartTime.value?.toLocaleDateTimeUtc()
+        val startDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
@@ -102,7 +102,7 @@ class EditCheckInViewModel @AssistedInject constructor(
     }
 
     fun onEndTimeChanged(event: DateTimePickerEvent) {
-        val endDateTime = checkInEndTime.value?.toLocaleDateTimeUtc()
+        val endDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
@@ -146,10 +146,10 @@ class EditCheckInViewModel @AssistedInject constructor(
         @get:StringRes val typeRes: Int get() = mapTraceLocationToTitleRes(checkIn.type)
         val address: String get() = checkIn.address
         val diaryWarningVisible: Boolean get() = checkIn.createJournalEntry
-        val checkInStartDate: String get() = checkInStartInstant.toUserTimeZone().format(dateFormatter)
-        val checkInStartTime: String get() = checkInStartInstant.toUserTimeZone().format(timeFormatter)
-        val checkInEndDate: String get() = checkInEndInstant.toUserTimeZone().format(dateFormatter)
-        val checkInEndTime: String get() = checkInEndInstant.toUserTimeZone().format(timeFormatter)
+        val checkInStartDate: String get() = checkInStartInstant.toLocalDateTimeUserTz().format(dateFormatter)
+        val checkInStartTime: String get() = checkInStartInstant.toLocalDateTimeUserTz().format(timeFormatter)
+        val checkInEndDate: String get() = checkInEndInstant.toLocalDateTimeUserTz().format(dateFormatter)
+        val checkInEndTime: String get() = checkInEndInstant.toLocalDateTimeUserTz().format(timeFormatter)
         val saveButtonEnabled: Boolean get() = isInputValid()
         val wrongInputErrorShown: Boolean get() = !saveButtonEnabled
 
