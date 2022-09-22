@@ -1,15 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
-import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenario
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
