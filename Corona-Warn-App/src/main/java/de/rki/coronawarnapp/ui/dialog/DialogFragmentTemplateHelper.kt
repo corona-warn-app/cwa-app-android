@@ -10,7 +10,13 @@ fun Fragment.displayDialog(
     dialog: MaterialAlertDialogBuilder? = null,
     config: MaterialAlertDialogBuilder.() -> Unit = { }
 ) {
-    DialogFragmentTemplate(cancelable, isDeleteDialog, onDismissAction, dialog, config).show(
-        childFragmentManager, DialogFragmentTemplate.TAG
-    )
+    DialogFragmentTemplate.newInstance(
+        DialogFragmentTemplate.DialogTemplateParams(
+            cancelable,
+            isDeleteDialog,
+            onDismissAction,
+            dialog,
+            config
+        )
+    ).show(childFragmentManager, DialogFragmentTemplate.TAG)
 }

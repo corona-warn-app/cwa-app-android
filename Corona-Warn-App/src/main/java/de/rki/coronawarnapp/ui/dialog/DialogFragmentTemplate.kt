@@ -3,39 +3,56 @@ package de.rki.coronawarnapp.ui.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
-class DialogFragmentTemplate(
-    private val cancelable: Boolean = true,
-    private val isDeleteDialog: Boolean = false,
-    private val dismissAction: () -> Unit = { },
-    private val materialDialog: MaterialAlertDialogBuilder? = null,
-    private val config: MaterialAlertDialogBuilder.() -> Unit
-) : DialogFragment() {
+class DialogFragmentTemplate : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        isCancelable = cancelable
-        return materialDialog?.create() ?: MaterialAlertDialogBuilder(requireContext()).apply(config).create()
+        val dialogParams = requireArguments().getParcelable<DialogTemplateParams>(DIALOG_TEMPLATE_PARAMS)
+        requireNotNull(dialogParams) { "DialogTemplateParams is null" }
+        isCancelable = dialogParams.cancelable == true
+        return dialogParams.materialDialog?.apply(dialogParams.config)?.create()
+            ?: MaterialAlertDialogBuilder(requireContext()).apply(dialogParams.config).create()
     }
 
     override fun onStart() {
         super.onStart()
-        if (isDeleteDialog) {
+        val dialogParams = requireArguments().getParcelable<DialogTemplateParams>(DIALOG_TEMPLATE_PARAMS)
+        if (dialogParams?.isDeleteDialog == true) {
             (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                 ?.setTextColor(requireContext().getColorCompat(R.color.colorTextDeleteButtonDialog))
         }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        dismissAction()
+        val dialogParams = requireArguments().getParcelable<DialogTemplateParams>(DIALOG_TEMPLATE_PARAMS)
+        dialogParams?.dismissAction?.let { it() }
         super.onDismiss(dialog)
     }
 
+    @Parcelize
+    data class DialogTemplateParams(
+        val cancelable: Boolean = true,
+        val isDeleteDialog: Boolean = false,
+        val dismissAction: () -> Unit = { },
+        val materialDialog: @RawValue MaterialAlertDialogBuilder? = null,
+        val config: MaterialAlertDialogBuilder.() -> Unit
+    ) : Parcelable
+
     companion object {
         val TAG: String = DialogFragmentTemplate::class.java.simpleName
+        private val DIALOG_TEMPLATE_PARAMS = "${DialogFragmentTemplate.TAG}_DIALOG_TEMPLATE_PARAMS"
+
+        fun newInstance(dialogParams: DialogTemplateParams) = DialogFragmentTemplate().apply {
+            arguments = bundleOf(DIALOG_TEMPLATE_PARAMS to dialogParams)
+        }
     }
 }
