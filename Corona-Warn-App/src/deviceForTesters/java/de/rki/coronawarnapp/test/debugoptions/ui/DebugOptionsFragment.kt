@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton

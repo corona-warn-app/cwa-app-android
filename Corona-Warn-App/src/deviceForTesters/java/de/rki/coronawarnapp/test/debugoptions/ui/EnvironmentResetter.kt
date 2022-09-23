@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import timber.log.Timber
