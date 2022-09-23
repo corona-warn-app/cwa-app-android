@@ -7,16 +7,20 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.EnvironmentSetup.Type.Companion.toEnvironmentType
 import de.rki.coronawarnapp.test.debugoptions.ui.EnvironmentState.Companion.toEnvironmentState
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private val envSetup: EnvironmentSetup,
     dispatcherProvider: DispatcherProvider,
-    private val dscRepository: DscRepository
+    private val environmentResetter: EnvironmentResetter,
+    @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val environmentStateFlow = MutableStateFlow(envSetup.toEnvironmentState())
@@ -42,10 +46,8 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
         cleanCachedData()
     }
 
-    private fun cleanCachedData() {
-        launch {
-            dscRepository.reset()
-        }
+    private fun cleanCachedData() = appScope.launch {
+        environmentResetter.reset()
     }
 
     @AssistedFactory

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
@@ -14,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.processphoenix.ProcessPhoenix
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -46,6 +48,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 val chip = group.findViewById<RadioButton>(checkedId)
                 if (!chip.isPressed) return@setOnCheckedChangeListener
                 vm.selectEnvironmentType(chip.text.toString())
+                ProcessPhoenix.triggerRebirth(context)
             }
         }
 
