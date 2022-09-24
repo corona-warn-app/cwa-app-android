@@ -51,7 +51,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 vm.selectEnvironmentType(type)
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("Restarting ↻")
-                    .setMessage("Configuring $type environment. It might take a few moments ⌛")
+                    .setMessage("Configuring $type environment. Get yourself a glass of water \uD83D\uDEB0")
                     .setCancelable(false)
                     .show()
                 ProcessPhoenix.triggerRebirth(context)
