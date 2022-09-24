@@ -18,7 +18,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import java.time.Duration
@@ -219,8 +218,8 @@ class AppConfigSourceTest : BaseTest() {
 
         createInstance().getConfigData()
 
-        verify(exactly = 0) {
-            cwaSettings.firstReliableDeviceTime = any()
+        coVerify(exactly = 0) {
+            cwaSettings.updateFirstReliableDeviceTime(any())
         }
     }
 
@@ -231,8 +230,8 @@ class AppConfigSourceTest : BaseTest() {
 
         createInstance().getConfigData()
 
-        verify(exactly = 0) {
-            cwaSettings.firstReliableDeviceTime = any()
+        coVerify(exactly = 0) {
+            cwaSettings.updateFirstReliableDeviceTime(any())
         }
     }
 
@@ -244,9 +243,9 @@ class AppConfigSourceTest : BaseTest() {
 
         createInstance().getConfigData()
 
-        verify(exactly = 0) {
-            cwaSettings.lastDeviceTimeStateChangeAt = any()
-            cwaSettings.lastDeviceTimeStateChangeState = any()
+        coVerify(exactly = 0) {
+            cwaSettings.updateLastDeviceTimeStateChangeAt(any())
+            cwaSettings.updateLastDeviceTimeStateChangeState(any())
         }
 
         coEvery { remoteSource.getConfigData() } returns remoteConfig

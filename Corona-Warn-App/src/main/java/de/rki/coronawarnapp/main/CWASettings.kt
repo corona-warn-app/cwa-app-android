@@ -30,7 +30,7 @@ class CWASettings @Inject constructor(
     @CwaSettingsDataStore val dataStore: DataStore<Preferences>
 ) : Resettable {
 
-    var wasDeviceTimeIncorrectAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
+    val wasDeviceTimeIncorrectAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_DEVICE_TIME_INCORRECT_ACK, defaultValue = false
     )
 
@@ -38,7 +38,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_DEVICE_TIME_INCORRECT_ACK, value = value
     )
 
-    var wasTracingExplanationDialogShown = dataStore.dataRecovering.distinctUntilChanged(
+    val wasTracingExplanationDialogShown = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_TRACING_DIALOG_SHOWN, defaultValue = false
     )
 
@@ -46,7 +46,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_TRACING_DIALOG_SHOWN, value = value
     )
 
-    var wasInteroperabilityShownAtLeastOnce = dataStore.dataRecovering.distinctUntilChanged(
+    val wasInteroperabilityShownAtLeastOnce = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, defaultValue = false
     )
 
@@ -54,7 +54,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value = value
     )
 
-    var wasCertificateGroupingMigrationAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
+    val wasCertificateGroupingMigrationAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_CERT_GROUPING_MIGRATION, defaultValue = false
     )
 
@@ -62,14 +62,14 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_CERT_GROUPING_MIGRATION, value = value
     )
 
-    var firstReliableDeviceTime: Flow<Instant> = dataStore.dataRecovering.map(PKEY_DEVICE_TIME_FIRST_RELIABLE)
+    val firstReliableDeviceTime: Flow<Instant> = dataStore.dataRecovering.map(PKEY_DEVICE_TIME_FIRST_RELIABLE)
         .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
 
     suspend fun updateFirstReliableDeviceTime(value: Instant) = dataStore.trySetValue(
         preferencesKey = PKEY_DEVICE_TIME_FIRST_RELIABLE, value = value.toEpochMilli()
     )
 
-    var lastDeviceTimeStateChangeAt: Flow<Instant> =
+    val lastDeviceTimeStateChangeAt: Flow<Instant> =
         dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME)
             .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
 
@@ -77,7 +77,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value = value.toEpochMilli()
     )
 
-    var lastDeviceTimeStateChangeState: Flow<DeviceTimeState> =
+    val lastDeviceTimeStateChangeState: Flow<DeviceTimeState> =
         dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE)
             .map { value -> DeviceTimeState.values().single { it.key == value } }.distinctUntilChanged()
 
@@ -85,7 +85,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value = value.key
     )
 
-    var numberOfRemainingSharePositiveTestResultRemindersPcr: Flow<Int> = dataStore.dataRecovering.distinctUntilChanged(
+    val numberOfRemainingSharePositiveTestResultRemindersPcr: Flow<Int> = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, defaultValue = Int.MIN_VALUE
     )
 
@@ -93,7 +93,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, value = value
     )
 
-    var idOfPositiveTestResultRemindersPcr: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
+    val idOfPositiveTestResultRemindersPcr: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, defaultValue = String()
     )
 
@@ -101,7 +101,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, value = value
     )
 
-    var numberOfRemainingSharePositiveTestResultRemindersRat = dataStore.dataRecovering.distinctUntilChanged(
+    val numberOfRemainingSharePositiveTestResultRemindersRat = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, defaultValue = Int.MIN_VALUE
     )
 
@@ -109,7 +109,7 @@ class CWASettings @Inject constructor(
         preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, value = value
     )
 
-    var idOfPositiveTestResultRemindersRat: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
+    val idOfPositiveTestResultRemindersRat: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, defaultValue = String()
     )
 

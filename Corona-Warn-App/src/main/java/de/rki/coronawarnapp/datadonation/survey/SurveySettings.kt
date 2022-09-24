@@ -26,7 +26,7 @@ class SurveySettings @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) : Resettable {
 
-    var oneTimePassword = dataStore.dataRecovering.distinctUntilChanged(
+    val oneTimePassword = dataStore.dataRecovering.distinctUntilChanged(
         key = KEY_OTP
     ).map { json ->
         if (json != null) {

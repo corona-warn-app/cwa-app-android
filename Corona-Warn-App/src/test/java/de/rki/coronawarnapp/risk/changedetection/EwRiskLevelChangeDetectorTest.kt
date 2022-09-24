@@ -24,7 +24,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -32,20 +31,20 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.FakeDataStore
 
 class EwRiskLevelChangeDetectorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
-    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var surveys: Surveys
+    lateinit var riskLevelSettings: RiskLevelSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        coEvery { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp.first() } returns null
+        riskLevelSettings = RiskLevelSettings(FakeDataStore())
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 
@@ -175,8 +174,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        coEvery { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp.first() } returns Instant.EPOCH.plus(1)
-
         runTest {
             val instance = createInstance(scope = this)
             instance.initialize()
@@ -204,8 +201,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
-
-        coEvery { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp.first() } returns Instant.EPOCH.plus(1)
 
         runTest {
             val instance = createInstance(scope = this)

@@ -24,7 +24,7 @@ class RiskLevelSettings @Inject constructor(
      * The identifier of the config used during the last risklevel calculation
      */
 
-    var lastUsedConfigIdentifier: Flow<String?> = dataStore.dataRecovering.distinctUntilChanged(
+    val lastUsedConfigIdentifier: Flow<String?> = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID
     )
 
@@ -33,7 +33,7 @@ class RiskLevelSettings @Inject constructor(
         value = identifier
     )
 
-    var ewLastChangeCheckedRiskLevelTimestamp: Flow<Instant?> =
+    val ewLastChangeCheckedRiskLevelTimestamp: Flow<Instant?> =
         dataStore.dataRecovering.map(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW)
             .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
 
@@ -42,7 +42,7 @@ class RiskLevelSettings @Inject constructor(
         value = value?.millis ?: 0L
     )
 
-    var lastChangeCheckedRiskLevelCombinedTimestamp: Flow<Instant?> =
+    val lastChangeCheckedRiskLevelCombinedTimestamp: Flow<Instant?> =
         dataStore.dataRecovering.map(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED)
             .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
 

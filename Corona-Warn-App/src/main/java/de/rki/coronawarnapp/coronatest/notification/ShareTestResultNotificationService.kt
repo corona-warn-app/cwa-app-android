@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.notification
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
@@ -28,7 +29,7 @@ import javax.inject.Singleton
 @Singleton
 class ShareTestResultNotificationService @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val cwaSettings: CWASettings,
+    @get:VisibleForTesting val cwaSettings: CWASettings,
     private val coronaTestRepository: CoronaTestRepository,
     private val notification: ShareTestResultNotification
 ) : Initializer {
@@ -131,7 +132,7 @@ class ShareTestResultNotificationService @Inject constructor(
             PCR -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr.first() < 0 ||
                     (
-                        cwaSettings.idOfPositiveTestResultRemindersPcr.first() != null &&
+                        cwaSettings.idOfPositiveTestResultRemindersPcr.first() != String() &&
                             testId != cwaSettings.idOfPositiveTestResultRemindersPcr.first()
                         )
                 ) {
@@ -152,7 +153,7 @@ class ShareTestResultNotificationService @Inject constructor(
             RAPID_ANTIGEN -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat.first() < 0 ||
                     (
-                        cwaSettings.idOfPositiveTestResultRemindersRat.first() != null &&
+                        cwaSettings.idOfPositiveTestResultRemindersRat.first() != String() &&
                             testId != cwaSettings.idOfPositiveTestResultRemindersRat.first()
                         )
                 ) {
