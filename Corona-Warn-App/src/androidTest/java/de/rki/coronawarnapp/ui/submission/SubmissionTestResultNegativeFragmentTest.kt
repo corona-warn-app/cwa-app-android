@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.toJodaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -136,15 +135,15 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {
                 every { testType } returns "PCR-Test"
-                every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z").toJodaInstant()
+                every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
             }
         }
         every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
         every { testType } returns "PCR-Test"
         every { isPCRTestCertificate } returns true
         every { dateOfBirthFormatted } returns "1943-04-18"
-        every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z").toJodaInstant()
-        every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z").toJodaInstant()
+        every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
+        every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
         every { personIdentifier } returns CertificatePersonIdentifier(
@@ -153,8 +152,8 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
             dateOfBirthFormatted = "1943-04-18"
         )
         every { isDisplayValid } returns true
-        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z").toJodaInstant()
-        every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20).toJodaInstant())
+        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
+        every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
     }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
