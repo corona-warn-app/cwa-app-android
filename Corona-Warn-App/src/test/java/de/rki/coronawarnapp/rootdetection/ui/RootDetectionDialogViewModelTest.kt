@@ -29,8 +29,8 @@ class RootDetectionDialogViewModelTest : BaseTest() {
 
         coVerifyOrder {
             with(rootDetectionCheck) {
-                suppressRootInfoForCurrentVersion(suppress = true)
                 suppressRootInfoForCurrentVersion(suppress = false)
+                suppressRootInfoForCurrentVersion(suppress = true)
             }
         }
     }
