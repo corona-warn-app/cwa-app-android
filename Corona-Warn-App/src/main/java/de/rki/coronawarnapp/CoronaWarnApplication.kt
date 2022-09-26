@@ -51,14 +51,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         super.onCreate()
         CWADebug.init(this)
 
-        AppInjector.init(this).let { compPreview ->
-            if (BuildVersionWrap.hasAPILevel(23)) {
-                appScope.launch {
-                    Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-                    compPreview.encryptedMigration.get().doMigration()
-                }
-            }
-
+        val component = AppInjector.init(this).also { compPreview ->
             CWADebug.initAfterInjection(compPreview)
 
             Timber.v("Completing application injection")
@@ -78,6 +71,13 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Coil.setImageLoader(imageLoaderFactory)
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
+
+        if (BuildVersionWrap.hasAPILevel(23)) {
+            appScope.launch {
+                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+                component.encryptedMigration.get().doMigration()
+            }
+        }
 
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }

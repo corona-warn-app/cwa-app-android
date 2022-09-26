@@ -1,24 +1,26 @@
 package de.rki.coronawarnapp.datadonation
 
 import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtp
 import java.time.Instant
 import java.util.UUID
 
 @Keep
 data class OneTimePassword(
-    @SerializedName("uuid")
+    @JsonProperty("uuid")
     val uuid: UUID = UUID.randomUUID(),
-    @SerializedName("time")
+    @JsonProperty("time")
     val time: Instant = Instant.now()
 ) {
-
+    @get:JsonIgnore
     val edusOneTimePassword: EdusOtp.EDUSOneTimePassword
         get() = EdusOtp.EDUSOneTimePassword.newBuilder()
             .setOtp(uuid.toString())
             .build()
 
+    @get:JsonIgnore
     val payloadForRequest: ByteArray
         get() = edusOneTimePassword.toByteArray()
 }

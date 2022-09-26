@@ -75,8 +75,7 @@ class CWASettingsTest : BaseTest() {
         createInstance().apply {
             fakeDataStore[PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE] shouldBe null
 
-            // TODO: check initial value
-            // lastDeviceTimeStateChangeState.first() shouldBe ConfigData.DeviceTimeState.INCORRECT
+            lastDeviceTimeStateChangeState.first() shouldBe ConfigData.DeviceTimeState.INCORRECT
             updateLastDeviceTimeStateChangeState(ConfigData.DeviceTimeState.CORRECT)
             fakeDataStore[PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE] shouldBe "CORRECT"
 

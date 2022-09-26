@@ -44,11 +44,15 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { coronaTestRepository.coronaTests } returns coronaTestFlow
-        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(any()) } just Runs
+        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(any()) } answers {
+            numberOfRemainingSharePositiveTestResultRemindersPcr = arg(0)
+        }
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr } answers {
             flowOf(numberOfRemainingSharePositiveTestResultRemindersPcr)
         }
-        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(any()) } just Runs
+        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(any()) } answers {
+            numberOfRemainingSharePositiveTestResultRemindersRat = arg(0)
+        }
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat } answers {
             flowOf(numberOfRemainingSharePositiveTestResultRemindersRat)
         }

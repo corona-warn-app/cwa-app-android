@@ -253,8 +253,7 @@ class AppConfigSourceTest : BaseTest() {
         createInstance().getConfigData()
 
         coVerify {
-            // TODO
-            // cwaSettings.updateLastDeviceTimeStateChangeAt(Instant.EPOCH.plus(Duration.standardHours(1)))
+            cwaSettings.updateLastDeviceTimeStateChangeAt(Instant.EPOCH.plus(Duration.ofHours(1)))
             cwaSettings.updateLastDeviceTimeStateChangeState(ConfigData.DeviceTimeState.CORRECT)
         }
     }

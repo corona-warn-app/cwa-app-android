@@ -65,6 +65,7 @@ class SurveySettingsTest : BaseTest() {
 
     @Test
     fun `load and deserialize auth result json`() = runTest {
+        dataStore[SurveySettings.KEY_OTP_RESULT] shouldBe null
         with(buildInstance()) {
             otpAuthorizationResult.first() shouldBe null
 

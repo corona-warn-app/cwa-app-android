@@ -81,4 +81,4 @@ interface RiskModule {
 annotation class RiskLevelSettingsDataStore
 
 private const val LEGACY_SHARED_PREFS_RISK_LEVEL_SETTINGS_NAME = "risklevel_localdata"
-private const val STORAGE_DATASTORE_RISK_LEVEL_SETTINGS_NAME = "test_settings_storage"
+private const val STORAGE_DATASTORE_RISK_LEVEL_SETTINGS_NAME = "risklevel_storage"

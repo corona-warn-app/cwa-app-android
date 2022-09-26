@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.survey
 import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -11,7 +12,6 @@ import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
-import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class SurveySettings @Inject constructor(
     val oneTimePassword = dataStore.dataRecovering.distinctUntilChanged(
         key = KEY_OTP
     ).map { json ->
-        if (json != null) {
+        if (json != null && json != String()) {
             val otp = objectMapper.readValue<OneTimePassword>(json)
             requireNotNull(otp.uuid)
             requireNotNull(otp.time)
@@ -39,14 +39,18 @@ class SurveySettings @Inject constructor(
         }
     }
 
-    suspend fun updateOneTimePassword(otp: OneTimePassword?) =
-        dataStore.trySetValue(preferencesKey = KEY_OTP, value = objectMapper.writeValueAsString(otp))
+    suspend fun updateOneTimePassword(otp: OneTimePassword?) = dataStore.edit {
+        it[KEY_OTP] = when (otp) {
+            null -> String()
+            else -> objectMapper.writeValueAsString(otp)
+        }
+    }
 
     val otpAuthorizationResult: Flow<OTPAuthorizationResult?> = dataStore.dataRecovering.distinctUntilChanged(
         key = KEY_OTP_RESULT
     ).map { json ->
         try {
-            if (json != null) {
+            if (json != null && json != String()) {
                 val result = objectMapper.readValue<OTPAuthorizationResult>(json)
                 requireNotNull(result.uuid)
                 requireNotNull(result.authorized)
@@ -62,8 +66,12 @@ class SurveySettings @Inject constructor(
         }
     }
 
-    suspend fun updateOtpAuthorizationResult(result: OTPAuthorizationResult?) =
-        dataStore.trySetValue(preferencesKey = KEY_OTP_RESULT, value = objectMapper.writeValueAsString(result))
+    suspend fun updateOtpAuthorizationResult(result: OTPAuthorizationResult?) = dataStore.edit {
+        it[KEY_OTP_RESULT] = when (result) {
+            null -> String()
+            else -> objectMapper.writeValueAsString(result)
+        }
+    }
 
     override suspend fun reset() {
         Timber.d("reset()")

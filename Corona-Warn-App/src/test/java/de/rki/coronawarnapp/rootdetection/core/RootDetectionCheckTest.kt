@@ -118,7 +118,6 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `updates lastSuppressRootInfoVersionCode with current version code if suppress is true`() = runTest {
-        // TODO: check with coVerify
         val versionCode = 123L
         every { BuildConfigWrap.VERSION_CODE } returns versionCode
         every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(versionCode)
@@ -130,11 +129,14 @@ class RootDetectionCheckTest : BaseTest() {
         verify {
             cwaSettings.lastSuppressRootInfoVersionCode
         }
+
+        coVerify(exactly = 1) {
+            cwaSettings.updateLastSuppressRootInfoVersionCode(versionCode)
+        }
     }
 
     @Test
     fun `updates lastSuppressRootInfoVersionCode with default version code if suppress is false`() = runTest {
-        // TODO: check with coVerify
         val versionCode = 123L
         every { BuildConfigWrap.VERSION_CODE } returns versionCode
 
@@ -144,6 +146,10 @@ class RootDetectionCheckTest : BaseTest() {
 
         verify {
             cwaSettings.lastSuppressRootInfoVersionCode
+        }
+
+        coVerify(exactly = 1) {
+            cwaSettings.updateLastSuppressRootInfoVersionCode(0L)
         }
     }
 }

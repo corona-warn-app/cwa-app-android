@@ -40,7 +40,7 @@ class ConfigChangeDetector @Inject constructor(
 
     @VisibleForTesting
     internal suspend fun check(newIdentifier: String) {
-        if (riskLevelSettings.lastUsedConfigIdentifier == null) {
+        if (riskLevelSettings.lastUsedConfigIdentifier.first() == null) {
             // No need to reset anything if we didn't calculate a risklevel yet.
             Timber.tag(TAG).d("Config changed, but no previous identifier is available.")
             return

@@ -79,7 +79,8 @@ class CWASettings @Inject constructor(
 
     val lastDeviceTimeStateChangeState: Flow<DeviceTimeState> =
         dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE)
-            .map { value -> DeviceTimeState.values().single { it.key == value } }.distinctUntilChanged()
+            .map { value -> DeviceTimeState.values().singleOrNull { it.key == value } ?: DeviceTimeState.INCORRECT }
+            .distinctUntilChanged()
 
     suspend fun updateLastDeviceTimeStateChangeState(value: DeviceTimeState) = dataStore.trySetValue(
         preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value = value.key
