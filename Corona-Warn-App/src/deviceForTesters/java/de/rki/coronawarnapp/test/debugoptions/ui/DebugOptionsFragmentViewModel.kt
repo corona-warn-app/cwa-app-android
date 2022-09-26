@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class DebugOptionsFragmentViewModel @AssistedInject constructor(
     private val envSetup: EnvironmentSetup,
     dispatcherProvider: DispatcherProvider,
-    private val environmentResetter: EnvironmentSunset,
+    private val environmentSunset: EnvironmentSunset,
     @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -45,7 +45,7 @@ class DebugOptionsFragmentViewModel @AssistedInject constructor(
     }
 
     private fun cleanCachedData() = appScope.launch {
-        environmentResetter.reset()
+        environmentSunset.reset()
     }
 
     @AssistedFactory
