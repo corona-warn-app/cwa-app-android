@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertifi
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -185,8 +184,8 @@ class TestCertificateRepositoryTest : BaseTest() {
             this as GenericTestCertificateData
             testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             identifier.isNotEmpty() shouldBe true
-            registeredAt shouldBe timeStamper.nowUTC.toJavaInstant()
-            certificateReceivedAt shouldBe timeStamper.nowUTC.toJavaInstant()
+            registeredAt shouldBe timeStamper.nowJavaUTC
+            certificateReceivedAt shouldBe timeStamper.nowJavaUTC
         }
 
         shouldThrow<InvalidTestCertificateException> {

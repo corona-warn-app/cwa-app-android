@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneOffset
 
 class DccSortingTest : BaseTest() {
 
@@ -29,7 +30,8 @@ class DccSortingTest : BaseTest() {
     fun `sort works`() {
         every { vacQrCode.data.certificate.vaccination.vaccinatedOn } returns LocalDate.parse("2022-01-01")
         every { recQrCode.data.certificate.recovery.testedPositiveOn } returns LocalDate.parse("2022-01-03")
-        every { testQrCode.data.certificate.test.sampleCollectedAt } returns Instant.parse("2022-01-05")
+        every { testQrCode.data.certificate.test.sampleCollectedAt } returns LocalDate.parse("2022-01-05")
+            .atStartOfDay().toInstant(ZoneOffset.UTC)
         listOf(vacQrCode, testQrCode, recQrCode).sort() shouldBe listOf(testQrCode, recQrCode, vacQrCode)
     }
 
@@ -37,7 +39,8 @@ class DccSortingTest : BaseTest() {
     fun `sort works 2`() {
         every { vacQrCode.data.certificate.vaccination.vaccinatedOn } returns LocalDate.parse("2022-02-01")
         every { recQrCode.data.certificate.recovery.testedPositiveOn } returns LocalDate.parse("2022-01-03")
-        every { testQrCode.data.certificate.test.sampleCollectedAt } returns Instant.parse("2022-03-05")
+        every { testQrCode.data.certificate.test.sampleCollectedAt } returns LocalDate.parse("2022-03-05")
+            .atStartOfDay().toInstant(ZoneOffset.UTC)
         listOf(vacQrCode, testQrCode, recQrCode).sort() shouldBe listOf(testQrCode, vacQrCode, recQrCode)
     }
 }

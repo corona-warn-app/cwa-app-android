@@ -27,10 +27,11 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toJavaInstant
+import java.time.Instant
 
 class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val schemaValidator by lazy {
@@ -82,7 +83,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
-                sampleCollectedAt shouldBe Instant.parse("2021-02-20T12:34:56+00:00")
+                sampleCollectedAt shouldBe "2021-02-20T12:34:56+00:00".toJavaInstant()
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
                 testNameAndManufacturer shouldBe "1232"

@@ -30,6 +30,7 @@ import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneOffset
 
 internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
@@ -43,21 +44,21 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     private val vc1 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash1"
         every { personIdentifier } returns mockk()
-        every { vaccinatedOn } returns LocalDate.from(Instant.ofEpochMilli(10000L))
+        every { vaccinatedOn } returns Instant.ofEpochMilli(10000L).atZone(ZoneOffset.UTC).toLocalDate()
         every { headerIssuedAt } returns Instant.ofEpochMilli(10000L)
     }
 
     private val vc2 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash2"
         every { personIdentifier } returns mockk()
-        every { vaccinatedOn } returns LocalDate.from(Instant.ofEpochMilli(20000L))
+        every { vaccinatedOn } returns Instant.ofEpochMilli(20000L).atZone(ZoneOffset.UTC).toLocalDate()
         every { headerIssuedAt } returns Instant.ofEpochMilli(20000L)
     }
 
     private val vc3 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash3"
         every { personIdentifier } returns mockk()
-        every { vaccinatedOn } returns LocalDate.from(Instant.ofEpochMilli(30000L))
+        every { vaccinatedOn } returns Instant.ofEpochMilli(30000L).atZone(ZoneOffset.UTC).toLocalDate()
         every { headerIssuedAt } returns Instant.ofEpochMilli(30000L)
     }
 
