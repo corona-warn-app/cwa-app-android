@@ -14,16 +14,10 @@ internal fun String.formatDate(): String {
 
 internal fun String.formatDateTime(tz: ZoneId = ZoneId.systemDefault()): String = try {
     val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm 'UTC' ZZ")
-    OffsetDateTime.parse(
-        this,
-        DateTimeFormatterBuilder()
-            .append(DateTimeFormatter.ISO_DATE)
-            .append(DateTimeFormatter.ISO_OFFSET_TIME)
-            .toFormatter()
-    )
+    OffsetDateTime.parse(this)
         .atZoneSameInstant(tz)
         .format(pattern)
-        .removeSuffix(":00")
+        .removeSuffix("00")
 } catch (e: Exception) {
     this
 }
