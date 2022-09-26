@@ -361,7 +361,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) =
-        displayDialog(cancelable = false) {
+        displayDialog(
+            cancelable = false,
+            onDismissAction = { findNavController().navigate(deeplink, navOptions) }
+        ) {
             setTitle(R.string.qr_code_error_max_person_threshold_title)
             setMessage(getString(R.string.qr_code_error_max_person_threshold_body, max))
             setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
@@ -370,16 +373,16 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_faq_link)
             }
-            setNeutralButton(android.R.string.ok) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
-            }
+            setNeutralButton(android.R.string.ok) { _, _ -> }
         }
 
     private fun showMaxPersonExceedsMaxResult(max: Int) =
-        displayDialog(cancelable = false) {
+        displayDialog(
+            cancelable = false,
+            onDismissAction = { popBackStack() }
+        ) {
             setTitle(R.string.qr_code_error_max_person_max_title)
             setMessage(getString(R.string.qr_code_error_max_person_max_body, max))
-            setOnDismissListener { popBackStack() }
             setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
             }
