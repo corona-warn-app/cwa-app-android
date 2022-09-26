@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneOffset
 
 internal class DccWalletInfoUpdateTriggerTest : BaseTest() {

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
