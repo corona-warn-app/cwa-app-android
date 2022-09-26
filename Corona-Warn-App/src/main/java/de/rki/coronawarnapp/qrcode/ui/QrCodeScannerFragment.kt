@@ -378,7 +378,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun showMaxPersonExceedsMaxResult(max: Int) =
         displayDialog(cancelable = false) {
             setTitle(R.string.qr_code_error_max_person_max_title)
-            setMessage(R.string.qr_code_error_max_person_covpasscheck_button)
+            setMessage(getString(R.string.qr_code_error_max_person_max_body, max))
             setOnDismissListener { popBackStack() }
             setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
