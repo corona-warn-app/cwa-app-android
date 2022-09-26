@@ -1,11 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
+import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
@@ -14,6 +17,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.person.core.isHighestCertificateDisplayValid
 import de.rki.coronawarnapp.covidcertificate.person.core.isMaskOptional
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenario
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.AdmissionScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade.Companion.colorForState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade.Companion.shadeFor
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
@@ -29,6 +34,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.mutate
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -46,6 +52,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     @Assisted private val savedState: SavedStateHandle,
     @AppScope private val appScope: CoroutineScope,
+    @BaseJackson private val mapper: ObjectMapper,
     private val testCertificateRepository: TestCertificateRepository,
     private val format: CclTextFormatter,
     private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
@@ -126,7 +133,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 ),
                 colorShade = color,
                 badgeCount = person.badgeCount,
-                certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,
+                certificateSelection = selections[person.selectionKey] ?: CertificateSelection.FIRST,
                 onClickAction = { _, position ->
                     person.personIdentifier.let { personIdentifier ->
                         events.postValue(
@@ -138,7 +145,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 onCertificateSelected = { selection ->
                     selectedCertificates.update { prevSelections ->
                         prevSelections.mutate {
-                            put(person.personIdentifier.groupingKey, selection)
+                            put(person.selectionKey, selection)
                         }.also {
                             savedState[SELECTIONS_KEY] = it
                         }
@@ -146,6 +153,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 }
             )
         }
+
+    private val PersonCertificates.selectionKey
+        get() = verificationCertificates.map { it.cwaCertificate.qrCodeHash }.sorted().joinToString()
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
         tcWrappers.filter {
@@ -178,12 +188,32 @@ class PersonOverviewViewModel @AssistedInject constructor(
     }
 
     fun openAdmissionScenarioScreen() = launch {
-        runCatching { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() }
-            .onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
+        runCatching {
+            mapToUiAdmissionScenarios(
+                admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
+            )
+        }.onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
             .onSuccess {
                 admissionScenariosSharedViewModel.setAdmissionScenarios(it)
                 events.postValue(OpenAdmissionScenarioScreen)
             }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun mapToUiAdmissionScenarios(checkScenarios: DccAdmissionCheckScenarios): AdmissionScenarios {
+        val scenarioSelection = checkScenarios.scenarioSelection
+        return AdmissionScenarios(
+            title = format(scenarioSelection.titleText),
+            scenarios = scenarioSelection.items.map { scenario ->
+                AdmissionScenario(
+                    identifier = scenario.identifier,
+                    title = format(scenario.titleText),
+                    subtitle = format(scenario.subtitleText),
+                    enabled = scenario.enabled
+                )
+            },
+            scenariosAsJson = mapper.writeValueAsString(checkScenarios)
+        )
     }
 
     fun dismissExportAllToolTip() = launch {

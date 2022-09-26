@@ -65,9 +65,10 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
     @Test
     fun `save works`() = runTest2 {
         instance = createInstance()
-        instance.save(admissionCheckScenarios)
+        val json = mapper.writeValueAsString(admissionCheckScenarios)
+        instance.save(json)
         coVerify {
-            cclSettings.setAdmissionCheckScenarios(any())
+            cclSettings.setAdmissionCheckScenarios(json)
         }
     }
 
