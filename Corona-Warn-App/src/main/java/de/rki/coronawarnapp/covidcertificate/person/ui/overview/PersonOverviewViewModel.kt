@@ -133,7 +133,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 ),
                 colorShade = color,
                 badgeCount = person.badgeCount,
-                certificateSelection = selections[person.personIdentifier.groupingKey] ?: CertificateSelection.FIRST,
+                certificateSelection = selections[person.selectionKey] ?: CertificateSelection.FIRST,
                 onClickAction = { _, position ->
                     person.personIdentifier.let { personIdentifier ->
                         events.postValue(
@@ -145,7 +145,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 onCertificateSelected = { selection ->
                     selectedCertificates.update { prevSelections ->
                         prevSelections.mutate {
-                            put(person.personIdentifier.groupingKey, selection)
+                            put(person.selectionKey, selection)
                         }.also {
                             savedState[SELECTIONS_KEY] = it
                         }
@@ -153,6 +153,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 }
             )
         }
+
+    private val PersonCertificates.selectionKey
+        get() = verificationCertificates.map { it.cwaCertificate.qrCodeHash }.sorted().joinToString()
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
         tcWrappers.filter {
