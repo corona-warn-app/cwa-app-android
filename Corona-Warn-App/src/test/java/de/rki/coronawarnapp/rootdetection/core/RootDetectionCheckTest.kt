@@ -14,13 +14,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockkObject
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.coroutines.runTest2
 
 class RootDetectionCheckTest : BaseTest() {
 
@@ -29,10 +30,11 @@ class RootDetectionCheckTest : BaseTest() {
 
     private val testDispatcherProvider = TestDispatcherProvider()
 
-    private fun createInstance() = RootDetectionCheck(
+    private fun createInstance(scope: CoroutineScope) = RootDetectionCheck(
         rootBeer = rootBeer,
         dispatcherProvider = testDispatcherProvider,
-        cwaSettings = cwaSettings
+        cwaSettings = cwaSettings,
+        scope = scope
     )
 
     @BeforeEach
@@ -47,35 +49,35 @@ class RootDetectionCheckTest : BaseTest() {
     }
 
     @Test
-    fun `device is rooted`() = runTest {
+    fun `device is rooted`() = runTest2 {
         every { rootBeer.isRooted } returns true
-        createInstance().isRooted() shouldBe true
+        createInstance(this).isRooted() shouldBe true
         verify { rootBeer.isRooted }
     }
 
     @Test
-    fun `device is not rooted`() = runTest {
+    fun `device is not rooted`() = runTest2 {
         every { rootBeer.isRooted } returns false
-        createInstance().isRooted() shouldBe false
+        createInstance(this).isRooted() shouldBe false
         verify { rootBeer.isRooted }
     }
 
     @Test
-    fun `fallback to false in case of an error`() = runTest {
+    fun `fallback to false in case of an error`() = runTest2 {
         every { rootBeer.isRooted } throws Exception("Test error")
-        createInstance().isRooted() shouldBe false
+        createInstance(this).isRooted() shouldBe false
         verify { rootBeer.isRooted }
     }
 
     @Test
     fun `device is rooted and current version is greater than last suppress root info version code`() =
-        runTest {
+        runTest2 {
             every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(9L)
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 
             coEvery { rootBeer.isRooted } returns true
 
-            createInstance().shouldShowRootInfo() shouldBe true
+            createInstance(this).shouldShowRootInfo() shouldBe true
 
             coVerify {
                 rootBeer.isRooted
@@ -84,13 +86,13 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `device is not rooted and current version is greater than last suppress root info version code`() =
-        runTest {
+        runTest2 {
             every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(9L)
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 
             coEvery { rootBeer.isRooted } returns false
 
-            createInstance().shouldShowRootInfo() shouldBe false
+            createInstance(this).shouldShowRootInfo() shouldBe false
 
             coVerify {
                 rootBeer.isRooted
@@ -99,13 +101,13 @@ class RootDetectionCheckTest : BaseTest() {
 
     @Test
     fun `device is rooted but current version is less than or equal to last suppress root info version code`() =
-        runTest {
+        runTest2 {
             every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(10)
             every { BuildConfigWrap.VERSION_CODE } returns 10L
 
             coEvery { rootBeer.isRooted } returns true
 
-            with(createInstance()) {
+            with(createInstance(this)) {
                 shouldShowRootInfo() shouldBe false
                 every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(11)
                 shouldShowRootInfo() shouldBe false
@@ -117,12 +119,12 @@ class RootDetectionCheckTest : BaseTest() {
         }
 
     @Test
-    fun `updates lastSuppressRootInfoVersionCode with current version code if suppress is true`() = runTest {
+    fun `updates lastSuppressRootInfoVersionCode with current version code if suppress is true`() = runTest2 {
         val versionCode = 123L
         every { BuildConfigWrap.VERSION_CODE } returns versionCode
         every { cwaSettings.lastSuppressRootInfoVersionCode } returns flowOf(versionCode)
 
-        createInstance().suppressRootInfoForCurrentVersion(suppress = true)
+        createInstance(this).suppressRootInfoForCurrentVersion(suppress = true)
 
         cwaSettings.lastSuppressRootInfoVersionCode.first() shouldBe versionCode
 
@@ -136,11 +138,11 @@ class RootDetectionCheckTest : BaseTest() {
     }
 
     @Test
-    fun `updates lastSuppressRootInfoVersionCode with default version code if suppress is false`() = runTest {
+    fun `updates lastSuppressRootInfoVersionCode with default version code if suppress is false`() = runTest2 {
         val versionCode = 123L
         every { BuildConfigWrap.VERSION_CODE } returns versionCode
 
-        createInstance().suppressRootInfoForCurrentVersion(suppress = false)
+        createInstance(this).suppressRootInfoForCurrentVersion(suppress = false)
 
         cwaSettings.lastSuppressRootInfoVersionCode.first() shouldBe 0
 
