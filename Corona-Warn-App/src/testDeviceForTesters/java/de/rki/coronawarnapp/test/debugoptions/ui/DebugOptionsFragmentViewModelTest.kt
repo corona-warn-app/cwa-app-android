@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.test.debugoptions.ui
 
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -17,7 +17,7 @@ import testhelpers.extensions.getOrAwaitValue
 class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
 
     @MockK private lateinit var environmentSetup: EnvironmentSetup
-    @MockK private lateinit var dscRepository: DscRepository
+    @MockK private lateinit var environmentSunset: EnvironmentSunset
 
     private var currentEnvironment = EnvironmentSetup.Type.DEV
 
@@ -45,7 +45,8 @@ class DebugOptionsFragmentViewModelTest : testhelpers.BaseTest() {
     private fun createViewModel(): DebugOptionsFragmentViewModel = DebugOptionsFragmentViewModel(
         envSetup = environmentSetup,
         dispatcherProvider = TestDispatcherProvider(),
-        dscRepository = dscRepository,
+        environmentSunset = environmentSunset,
+        appScope = TestScope()
     )
 
     @Test
