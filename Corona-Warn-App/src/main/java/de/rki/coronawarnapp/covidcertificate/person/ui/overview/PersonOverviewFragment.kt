@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -79,15 +80,18 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.test_certificate_delete_dialog_title)
-                .setMessage(R.string.test_certificate_delete_dialog_body)
-                .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
-                .setCancelable(false)
-                .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
-                    viewModel.deleteTestCertificate(event.containerId)
-                }
-                .show()
+            is ShowDeleteDialog -> DialogHelper.showDialog(
+                DialogHelper.DialogInstance(
+                    requireActivity(),
+                    R.string.test_certificate_delete_dialog_title,
+                    R.string.test_certificate_delete_dialog_body,
+                    R.string.test_certificate_delete_dialog_confirm_button,
+                    R.string.test_certificate_delete_dialog_cancel_button,
+                    false,
+                    positiveButtonFunction = { viewModel.deleteTestCertificate(event.containerId) },
+                    isDeleteDialog = true
+                )
+            )
 
             is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
                 setTitle(R.string.test_certificate_refresh_dialog_title)
