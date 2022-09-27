@@ -13,7 +13,9 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.processphoenix.ProcessPhoenix
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -45,7 +47,14 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
             setOnCheckedChangeListener { group, checkedId ->
                 val chip = group.findViewById<RadioButton>(checkedId)
                 if (!chip.isPressed) return@setOnCheckedChangeListener
-                vm.selectEnvironmentType(chip.text.toString())
+                val type = chip.text.toString()
+                vm.selectEnvironmentType(type)
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Restarting ↻")
+                    .setMessage("Configuring $type environment. Get yourself a glass of water \uD83D\uDEB0")
+                    .setCancelable(false)
+                    .show()
+                ProcessPhoenix.triggerRebirth(context)
             }
         }
 

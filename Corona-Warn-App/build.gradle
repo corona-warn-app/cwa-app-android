@@ -527,6 +527,8 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
     implementation "androidx.window:window:1.0.0"
+    // App process rebirth
+    deviceForTestersImplementation "com.jakewharton:process-phoenix:2.1.2"
 }
 
 sonarqube {
