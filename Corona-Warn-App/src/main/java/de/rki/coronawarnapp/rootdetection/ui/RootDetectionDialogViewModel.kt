@@ -12,7 +12,7 @@ class RootDetectionDialogViewModel @AssistedInject constructor(
     private val rootDetectionCheck: RootDetectionCheck
 ) : CWAViewModel() {
 
-    fun onSuppressCheckedChanged(isChecked: Boolean) = launch {
+    fun onSuppressCheckedChanged(isChecked: Boolean) {
         Timber.tag(TAG).d("onSuppressCheckedChanged(isChecked=%s)", isChecked)
         rootDetectionCheck.suppressRootInfoForCurrentVersion(suppress = isChecked)
     }

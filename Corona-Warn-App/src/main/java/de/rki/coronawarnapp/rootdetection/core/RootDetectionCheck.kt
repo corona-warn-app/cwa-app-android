@@ -4,8 +4,11 @@ import com.scottyab.rootbeer.RootBeer
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -13,17 +16,20 @@ import javax.inject.Inject
 class RootDetectionCheck @Inject constructor(
     private val rootBeer: RootBeer,
     private val dispatcherProvider: DispatcherProvider,
-    private val cwaSettings: CWASettings
+    private val cwaSettings: CWASettings,
+    @AppScope private val scope: CoroutineScope
 ) {
 
     suspend fun shouldShowRootInfo(): Boolean = (shouldShow() && isRooted())
         .also { Timber.tag(TAG).d("Should show root info - %b", it) }
 
-    suspend fun suppressRootInfoForCurrentVersion(suppress: Boolean) {
-        Timber.tag(TAG).d("suppressRootInfoForCurrentVersion(suppress=%s)", suppress)
-        when (suppress) {
-            true -> cwaSettings.updateLastSuppressRootInfoVersionCode(currentVersionCode)
-            false -> cwaSettings.updateLastSuppressRootInfoVersionCode(DEFAULT_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE)
+    fun suppressRootInfoForCurrentVersion(suppress: Boolean) {
+        scope.launch(context = scope.coroutineContext) {
+            Timber.tag(TAG).d("suppressRootInfoForCurrentVersion(suppress=%s)", suppress)
+            when (suppress) {
+                true -> cwaSettings.updateLastSuppressRootInfoVersionCode(currentVersionCode)
+                false -> cwaSettings.updateLastSuppressRootInfoVersionCode(DEFAULT_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE)
+            }
         }
     }
 
