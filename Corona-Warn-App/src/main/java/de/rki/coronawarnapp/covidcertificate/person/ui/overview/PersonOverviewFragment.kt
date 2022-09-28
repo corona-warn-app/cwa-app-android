@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -79,15 +80,14 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.test_certificate_delete_dialog_title)
-                .setMessage(R.string.test_certificate_delete_dialog_body)
-                .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
-                .setCancelable(false)
-                .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
+            is ShowDeleteDialog -> displayDialog(cancelable = false, isDeleteDialog = true) {
+                setTitle(R.string.test_certificate_delete_dialog_title)
+                setMessage(R.string.test_certificate_delete_dialog_body)
+                setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
                     viewModel.deleteTestCertificate(event.containerId)
                 }
-                .show()
+                setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
+            }
 
             is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
                 setTitle(R.string.test_certificate_refresh_dialog_title)
