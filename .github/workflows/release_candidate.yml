@@ -81,7 +81,7 @@ jobs:
           --header "Authorization: Bearer $tsystems_upload_bearer" \
           --form "file=@${fileName}" \
           --form "camera=true" \
-          --form "uniqueName='${file}'"
+          --form "uniqueName=${file}"
 
       - name: Trigger App Automation Testing
         env:
