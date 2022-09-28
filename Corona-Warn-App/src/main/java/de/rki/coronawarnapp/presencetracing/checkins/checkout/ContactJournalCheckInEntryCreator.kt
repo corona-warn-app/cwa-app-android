@@ -10,8 +10,6 @@ import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
 import de.rki.coronawarnapp.presencetracing.checkins.split.splitByMidnightUTC
-import de.rki.coronawarnapp.util.toJoda
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -65,9 +63,9 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         val durationInMinutes = ChronoUnit.SECONDS.between(checkInStart, checkInEnd) / 60.0
         val duration = (durationInMinutes / 15).roundToLong() * 15
         return DefaultContactDiaryLocationVisit(
-            date = checkInStart.toLocalDateUtc().toJodaTime(),
+            date = checkInStart.toLocalDateUtc(),
             contactDiaryLocation = location,
-            duration = Duration.ofMinutes(duration).toJoda(),
+            duration = Duration.ofMinutes(duration),
             checkInID = id
         ).also { Timber.d("Created %s for %s", it, this) }
     }
@@ -82,7 +80,7 @@ class ContactJournalCheckInEntryCreator @Inject constructor(
         // Existing location visits shall not be updated, so just drop them
         return filter {
             existingLocationVisits.none { visit ->
-                visit.date == it.checkInStart.toLocalDateUtc().toJodaTime() &&
+                visit.date == it.checkInStart.toLocalDateUtc() &&
                     visit.contactDiaryLocation.locationId == location.locationId
             }
         }.map {

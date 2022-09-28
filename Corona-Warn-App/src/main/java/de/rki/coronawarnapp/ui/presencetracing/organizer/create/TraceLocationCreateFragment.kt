@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -219,10 +218,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .build()
             .apply {
                 setDurationChangeListener {
-                    viewModel.checkInLength = it.toJava()
+                    viewModel.checkInLength = it
                 }
                 setDurationValueChangeListener { duration ->
-                    if (duration.toJava() == Duration.ZERO) setDuration(arrayOf("00", "15"))
+                    if (duration == Duration.ZERO) setDuration(arrayOf("00", "15"))
                 }
             }
             .show(parentFragmentManager, DURATION_PICKER_TAG)

@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppInstallTime
-import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeConstants
 import timber.log.Timber
@@ -33,7 +32,7 @@ class DeadmanNotificationTimeCalculation @Inject constructor(
 
         Timber.d("Last successful diagnosis key package download: $lastSuccess")
         Timber.d("Install time=%s", installTime)
-        return calculateDelay(lastSuccess?.createdAt?.toJavaInstant() ?: installTime)
+        return calculateDelay(lastSuccess?.createdAt ?: installTime)
     }
 
     /**

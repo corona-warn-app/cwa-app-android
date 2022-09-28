@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import java.time.LocalTime
 import javax.inject.Inject
 
 /**
@@ -43,7 +44,7 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
         binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {
+    private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Long) {
         mainOverviewRisk.mainOverviewSegmentBody.text =
             getString(R.string.main_overview_body_risk, maxEncounterAgeInDays)
     }

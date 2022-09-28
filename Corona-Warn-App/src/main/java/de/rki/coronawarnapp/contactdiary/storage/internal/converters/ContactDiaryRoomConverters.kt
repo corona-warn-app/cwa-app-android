@@ -31,6 +31,16 @@ class ContactDiaryRoomConverters {
     }
 
     @TypeConverter
+    fun toJavaDuration(millis: Long?): java.time.Duration? {
+        return millis?.let { java.time.Duration.ofMillis(it) }
+    }
+
+    @TypeConverter
+    fun fromJavaDuration(duration: java.time.Duration?): Long? {
+        return duration?.toMillis()
+    }
+
+    @TypeConverter
     fun toTestType(value: String?): ContactDiaryCoronaTestEntity.TestType? =
         ContactDiaryCoronaTestEntity.TestType.values().singleOrNull { it.raw == value }
 

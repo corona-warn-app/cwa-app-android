@@ -185,7 +185,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
     }
 
-    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.risk_lowered_dialog_headline,
@@ -201,7 +201,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.additional_high_risk_dialog_headline)
             setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))

@@ -7,9 +7,7 @@ import androidx.fragment.app.DialogFragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DurationPickerBinding
 import de.rki.coronawarnapp.util.ui.viewBinding
-import org.joda.time.Duration
-import org.joda.time.format.PeriodFormatter
-import org.joda.time.format.PeriodFormatterBuilder
+import java.time.Duration
 import kotlin.math.max
 
 class DurationPicker : DialogFragment(R.layout.duration_picker) {
@@ -95,13 +93,7 @@ class DurationPicker : DialogFragment(R.layout.duration_picker) {
     }
 
     private fun getDuration(): Duration {
-        val durationString = hoursArray[binding.hours.value] + ":" + minutesArray[binding.minutes.value]
-        val formatter: PeriodFormatter = PeriodFormatterBuilder()
-            .appendHours()
-            .appendLiteral(":")
-            .appendMinutes()
-            .toFormatter()
-        return formatter.parsePeriod(durationString).toStandardDuration()
+        return Duration.parse("PT${hoursArray[binding.hours.value]}H${minutesArray[binding.minutes.value]}M")
     }
 
     companion object {

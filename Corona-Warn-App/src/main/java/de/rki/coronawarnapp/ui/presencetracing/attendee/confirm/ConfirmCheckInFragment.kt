@@ -7,20 +7,18 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -52,13 +50,11 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            appBarLayout.addOnOffsetChangedListener(
-                AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                    title.alpha = (
-                        1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
-                        )
-                }
-            )
+            appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                title.alpha = (
+                    1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.6f))
+                    )
+            }
 
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
 
@@ -104,7 +100,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
 
         viewModel.openDatePickerEvent.observe2(this) { time ->
             showDurationPicker(time) {
-                viewModel.durationUpdated(it.toJava())
+                viewModel.durationUpdated(it)
             }
         }
     }

@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 data class DayOverviewItem(
     val date: LocalDate,

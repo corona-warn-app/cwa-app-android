@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -118,7 +117,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 "with lastRiskEncounterAt: $lastRiskEncounterAt"
         )
         val lastHighRiskDate = tracingSettings.lastHighRiskDate.first()
-        Timber.d("Last high risk date: ${lastHighRiskDate?.toDayFormat()}")
+        Timber.d("Last high risk date: $lastHighRiskDate")
         when (riskState) {
             RiskState.INCREASED_RISK -> {
                 when (lastHighRiskDate) {

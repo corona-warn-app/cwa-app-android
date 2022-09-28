@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragme
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -182,7 +181,7 @@ class TraceLocationWarnDurationFragment :
             .build()
             .apply {
                 setDurationChangeListener {
-                    viewModel.durationChanged(it.toJava())
+                    viewModel.durationChanged(it)
                 }
             }
             .show(childFragmentManager, DURATION_PICKER_TAG)

@@ -53,7 +53,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
         binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun FragmentOnboardingBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {
+    private fun FragmentOnboardingBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Long) {
         onboardingBody2.text = getString(R.string.onboarding_body_2, maxEncounterAgeInDays)
     }
 }
