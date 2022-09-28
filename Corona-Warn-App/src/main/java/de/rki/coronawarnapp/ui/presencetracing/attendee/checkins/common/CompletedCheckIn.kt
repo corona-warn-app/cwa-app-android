@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.common
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 inline val CheckIn.checkoutInfo: String
     get() {
-        val checkInStartUserTZ = checkInStart.toUserTimeZone()
-        val checkInEndUserTZ = checkInEnd.toUserTimeZone()
+        val checkInStartUserTZ = checkInStart.toLocalDateTimeUserTz()
+        val checkInEndUserTZ = checkInEnd.toLocalDateTimeUserTz()
 
         return if (checkInStartUserTZ.toLocalDate() == checkInEndUserTZ.toLocalDate()) {
             val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)

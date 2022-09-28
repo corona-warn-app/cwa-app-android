@@ -6,7 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -53,7 +53,7 @@ class TraceLocationWarnDurationFragmentTest : BaseUITest() {
         dispatcherProvider = TestDispatcherProvider()
     ).apply {
         durationChanged(Duration.ofHours(3))
-        dateChanged(TraceLocationData.traceLocationSameDate.startDate!!.toUserTimeZone())
+        dateChanged(TraceLocationData.traceLocationSameDate.startDate!!.toLocalDateTimeUserTz())
     }
 }
 

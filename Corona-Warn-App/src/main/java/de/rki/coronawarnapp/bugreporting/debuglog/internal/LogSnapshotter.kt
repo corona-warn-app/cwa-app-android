@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.files.Zipper
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
 import timber.log.Timber
 import java.io.File
@@ -33,7 +33,7 @@ class LogSnapshotter @Inject constructor(
             if (it.delete()) Timber.tag(TAG).w("Deleted stale snapshot: %s", it)
         }
 
-        val now = timeStamper.nowJavaUTC.toUserTimeZone()
+        val now = timeStamper.nowJavaUTC.toLocalDateTimeUserTz()
         // Avoid ":" in filename since it is a reserved character in Microsoft Windows
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH_mm_ss.SSS")
         val formattedFileName = "CWA Log ${now.format(formatter)}"

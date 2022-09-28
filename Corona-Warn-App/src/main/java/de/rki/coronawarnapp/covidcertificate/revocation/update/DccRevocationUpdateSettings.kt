@@ -7,11 +7,10 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationDataStore
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -47,7 +46,7 @@ class DccRevocationUpdateSettings @Inject constructor(
      */
     suspend fun setUpdateTimeToNow(time: Instant = Instant.now()) {
         runCatching {
-            revocationDataStore.edit { prefs -> prefs[LAST_UPDATE_TIME_KEY] = time.seconds }
+            revocationDataStore.edit { prefs -> prefs[LAST_UPDATE_TIME_KEY] = time.epochSecond }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "Failed to set RevocationList update time.")
         }

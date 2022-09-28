@@ -19,9 +19,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,6 +30,11 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @RunWith(AndroidJUnit4::class)
 class VaccinationDetailsFragmentTest : BaseUITest() {
@@ -44,15 +46,15 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         colorShade = PersonColorShade.COLOR_1
     ).toBundle()
 
-    val vaccinationDateFormatted = "2021-02-18"
-    val vaccinationDate = LocalDate.parse(
+    private val vaccinationDateFormatted = "2021-02-18"
+    private val vaccinationDate: LocalDate = LocalDate.parse(
         "18.02.2021",
-        DateTimeFormat.forPattern("dd.MM.yyyy")
+        DateTimeFormatter.ofPattern("dd.MM.yyyy")
     )
-    val expirationDate = DateTime.parse(
+    private val expirationDate: Instant = LocalDateTime.parse(
         "18.02.2022 15:00",
-        DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
-    ).toInstant()
+        DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    ).atZone(ZoneId.systemDefault()).toInstant()
 
     @Before
     fun setUp() {

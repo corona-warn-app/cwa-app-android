@@ -4,10 +4,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
-import de.rki.coronawarnapp.util.toJavaInstant
 import java.time.Duration
 import java.time.Instant
+import java.time.ZoneOffset
 
 internal fun Collection<CwaCovidCertificate>.filterAndSortForExport(
     nowUtc: Instant
@@ -30,8 +29,8 @@ internal fun List<CwaCovidCertificate>.sort(): List<CwaCovidCertificate> = sorte
         {
             when (it) {
                 is TestCertificate -> it.sampleCollectedAt
-                is VaccinationCertificate -> it.vaccinatedOn?.toInstantMidnightUtc()
-                is RecoveryCertificate -> it.testedPositiveOn?.toInstantMidnightUtc()
+                is VaccinationCertificate -> it.vaccinatedOn?.atStartOfDay(ZoneOffset.UTC)?.toInstant()
+                is RecoveryCertificate -> it.testedPositiveOn?.atStartOfDay(ZoneOffset.UTC)?.toInstant()
                 else -> null
             }
         }
@@ -40,7 +39,7 @@ internal fun List<CwaCovidCertificate>.sort(): List<CwaCovidCertificate> = sorte
 
 internal fun TestCertificate.isRecent(nowUtc: Instant): Boolean {
     return this.sampleCollectedAt?.let {
-        Duration.between(it.toJavaInstant(), nowUtc) <= Duration.ofHours(72)
+        Duration.between(it, nowUtc) <= Duration.ofHours(72)
     } ?: false
 }
 

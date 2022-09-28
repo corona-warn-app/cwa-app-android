@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
 import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -63,7 +63,7 @@ data class CoronaTest(
     }
 
     fun getFormattedRegistrationDate(): String =
-        registeredAt.toUserTimeZone().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        registeredAt.toLocalDateTimeUserTz().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 
     val testTakenAt: Instant
         get() = (additionalInfo?.sampleCollectedAt ?: additionalInfo?.createdAt) as Instant
