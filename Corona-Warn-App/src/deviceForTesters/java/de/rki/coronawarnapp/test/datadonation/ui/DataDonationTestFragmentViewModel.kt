@@ -58,7 +58,7 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     val isSafetyNetTimeCheckSkipped = testSettings.skipSafetyNetTimeCheck
         .asLiveData(context = dispatcherProvider.Default)
 
-    val otp = otpRepository.getOtpAuthorizationResult().asLiveData()
+    val otp = otpRepository.getOtpAuthorizationResult().asLiveData(context = dispatcherProvider.Default)
 
     val surveyConfig = appConfigProvider.currentConfig
         .map { it.survey.toString() }

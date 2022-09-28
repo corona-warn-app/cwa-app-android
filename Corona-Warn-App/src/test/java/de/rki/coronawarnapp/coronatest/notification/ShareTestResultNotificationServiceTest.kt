@@ -106,8 +106,6 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 PCR_ID,
                 POSITIVE_PCR_RESULT_NOTIFICATION_ID
             )
-        }
-        verify(exactly = 1) {
             shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                 RAPID_ANTIGEN,
                 RAT_ID,
@@ -115,10 +113,12 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             )
         }
 
-        coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(2) }
-        coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(2) }
-        coVerify { cwaSettings.updateIdOfPositiveTestResultRemindersPcr("PCR-ID") }
-        coVerify { cwaSettings.updateIdOfPositiveTestResultRemindersRat("RAT-ID") }
+        coVerify {
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(2)
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(2)
+            cwaSettings.updateIdOfPositiveTestResultRemindersPcr("PCR-ID")
+            cwaSettings.updateIdOfPositiveTestResultRemindersRat("RAT-ID")
+        }
     }
 
     @Test
@@ -150,8 +150,6 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                     PCR_ID,
                     POSITIVE_PCR_RESULT_NOTIFICATION_ID
                 )
-            }
-            verify(exactly = 0) {
                 shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                     RAPID_ANTIGEN,
                     RAT_ID,
@@ -159,8 +157,10 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 )
             }
 
-            coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE) }
-            coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE) }
+            coVerify {
+                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE)
+                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE)
+            }
         }
 
     @Test
@@ -175,46 +175,44 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 1
         numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 1
 
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR_ID) }
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, RAT_ID) }
+        verify {
+            shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR_ID)
+            shareTestResultNotification.showSharePositiveTestResultNotification(1, RAT_ID)
+        }
     }
 
     @Test
-    fun `if there are no tokens left to show a notification, cancel the current one`() =
-        runTest2 {
-            val instance = createInstance(this)
+    fun `if there are no tokens left to show a notification, cancel the current one`() = runTest2 {
+        val instance = createInstance(this)
 
-            // PCR
-            numberOfRemainingSharePositiveTestResultRemindersPcr = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
-            numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
-            verify {
-                shareTestResultNotification.cancelSharePositiveTestResultNotification(
-                    PCR,
-                    POSITIVE_PCR_RESULT_NOTIFICATION_ID
-                )
-            }
-
-            // RAT
-            numberOfRemainingSharePositiveTestResultRemindersRat = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
-            numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
-            verify {
-                shareTestResultNotification.cancelSharePositiveTestResultNotification(
-                    RAPID_ANTIGEN,
-                    POSITIVE_RAT_RESULT_NOTIFICATION_ID
-                )
-            }
+        // PCR
+        numberOfRemainingSharePositiveTestResultRemindersPcr = 0
+        instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
+        numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                PCR,
+                POSITIVE_PCR_RESULT_NOTIFICATION_ID
+            )
         }
+
+        // RAT
+        numberOfRemainingSharePositiveTestResultRemindersRat = 0
+        instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
+        numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                RAPID_ANTIGEN,
+                POSITIVE_RAT_RESULT_NOTIFICATION_ID
+            )
+        }
+    }
 
     @Test
     fun `reset notification if no test is stored or test was deleted`() = runTest2 {
         val instance = createInstance(this)
-
         coronaTestFlow.value = emptySet()
-
         instance.initialize()
-
         advanceUntilIdle()
 
         verify {
@@ -222,15 +220,16 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 PCR,
                 POSITIVE_PCR_RESULT_NOTIFICATION_ID
             )
-        }
-        verify {
             shareTestResultNotification.cancelSharePositiveTestResultNotification(
                 RAPID_ANTIGEN,
                 POSITIVE_RAT_RESULT_NOTIFICATION_ID
             )
         }
-        coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE) }
-        coVerify { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE) }
+
+        coVerify {
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE)
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE)
+        }
     }
 
     companion object {

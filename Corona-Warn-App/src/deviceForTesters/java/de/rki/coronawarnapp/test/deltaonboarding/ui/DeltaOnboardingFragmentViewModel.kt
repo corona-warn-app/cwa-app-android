@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.test.deltaonboarding.ui
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
@@ -24,8 +23,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val changelogVersion: LiveData<Long> =
-        settings.lastChangelogVersion.asLiveData(context = dispatcherProvider.Default)
+    val changelogVersion: LiveData<Long> = settings.lastChangelogVersion.asLiveData2()
 
     val isContactJournalOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
         .asLiveData2()
@@ -51,7 +49,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }.also { contactDiaryUiSettings.updateOnboardingStatus(onboardingStatus = it) }
     }
 
-    var isDeltaOnboardingDone = settings.wasInteroperabilityShownAtLeastOnce.asLiveData()
+    var isDeltaOnboardingDone = settings.wasInteroperabilityShownAtLeastOnce.asLiveData2()
 
     fun setDeltaOnboardingDone(value: Boolean) {
         launch { settings.updateWasInteroperabilityShownAtLeastOnce(value) }

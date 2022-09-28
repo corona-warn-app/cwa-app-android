@@ -17,7 +17,6 @@ import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
-@Suppress("MaxLineLength")
 class RecoveryCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
     private val dataStore = FakeDataStore()

@@ -27,7 +27,6 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -51,7 +50,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         super.onCreate()
         CWADebug.init(this)
 
-        val component = AppInjector.init(this).also { compPreview ->
+        AppInjector.init(this).let { compPreview ->
+            if (BuildVersionWrap.hasAPILevel(23)) {
+                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
+                compPreview.encryptedMigration.get().doMigration()
+            }
             CWADebug.initAfterInjection(compPreview)
 
             Timber.v("Completing application injection")
@@ -71,13 +74,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Coil.setImageLoader(imageLoaderFactory)
 
         registerActivityLifecycleCallbacks(activityLifecycleCallback)
-
-        if (BuildVersionWrap.hasAPILevel(23)) {
-            appScope.launch {
-                Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
-                component.encryptedMigration.get().doMigration()
-            }
-        }
 
         foregroundState.isInForeground
             .onEach { isAppInForeground = it }

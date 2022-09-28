@@ -30,26 +30,28 @@ class EncryptedPreferencesMigration @Inject constructor(
 
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    suspend fun doMigration() {
-        Timber.d("Migration start")
-        try {
-            encryptedPreferences.instance?.let { copyData(it) }
-        } catch (e: Exception) {
-            e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
-            errorResetTool.isResetNoticeToBeShown = true
-        } finally {
+    fun doMigration() {
+        coroutineScope.launch {
+            Timber.d("Migration start")
             try {
-                encryptedPreferences.clean()
+                encryptedPreferences.instance?.let { copyData(it) }
             } catch (e: Exception) {
-                e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+                e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
+                errorResetTool.isResetNoticeToBeShown = true
+            } finally {
+                try {
+                    encryptedPreferences.clean()
+                } catch (e: Exception) {
+                    e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+                }
             }
+            try {
+                dropDatabase()
+            } catch (e: Exception) {
+                e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
+            }
+            Timber.d("Migration finish")
         }
-        try {
-            dropDatabase()
-        } catch (e: Exception) {
-            e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
-        }
-        Timber.d("Migration finish")
     }
 
     private suspend fun copyData(encryptedSharedPreferences: SharedPreferences) {

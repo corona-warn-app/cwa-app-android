@@ -44,14 +44,16 @@ class RecoveryCertificateStorage @Inject constructor(
             .onEach { Timber.tag(TAG).v("StoredRecoveryCertificateData loaded: %s", it) }
     }
 
-    suspend fun save(certificates: Set<StoredRecoveryCertificateData>): Any = mutex.withLock {
+    suspend fun save(certificates: Set<StoredRecoveryCertificateData>) = mutex.withLock {
         Timber.tag(TAG).d("recoveryCertificates - save(%s)", certificates.size)
 
         if (certificates.isEmpty()) {
             dataStore.edit { it.remove(PKEY_RECOVERY_CERT) }
+            Unit
         } else {
             val rawJson = gson.toJson(certificates, TYPE_TOKEN)
             dataStore.edit { it[PKEY_RECOVERY_CERT] = rawJson }
+            Unit
         }
     }
 

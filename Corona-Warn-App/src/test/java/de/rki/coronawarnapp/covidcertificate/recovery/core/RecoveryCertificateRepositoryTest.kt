@@ -22,6 +22,8 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.just
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -69,7 +71,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         storage.apply {
             coEvery { load() } answers { testStorage }
-            coEvery { save(any()) } answers { }
+            coEvery { save(any()) } just Runs
         }
 
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
@@ -116,7 +118,9 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             recoveryCertificate.qrCodeToDisplay.options.correctionLevel shouldBe ErrorCorrectionLevel.M
         }
 
-        // testStorage.first().recoveryCertificateQrCode shouldBe RecoveryQrCodeTestData.recoveryQrCode1
+        coVerify(exactly = 1) {
+            storage.save(any())
+        }
     }
 
     @Test

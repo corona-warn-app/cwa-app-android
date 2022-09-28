@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,32 +44,34 @@ class ShareTestResultNotificationService @Inject constructor(
         resetPositiveRATTestReminder()
     }
 
-    suspend fun maybeShowSharePositiveTestResultNotification(
+    fun maybeShowSharePositiveTestResultNotification(
         notificationId: Int,
         testType: BaseCoronaTest.Type,
         testIdentifier: TestIdentifier
     ) {
-        Timber.tag(TAG).d(
-            "maybeShowSharePositiveTestResultNotification(notificationId=%s, testType=%s, testIdentifier=%s)",
-            notificationId,
-            testType,
-            testIdentifier
-        )
-        if (testType == PCR) {
-            val remaining = cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr.first()
-            if (remaining > 0) {
-                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(remaining - 1)
-                notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
-            } else {
-                notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_PCR_RESULT_NOTIFICATION_ID)
-            }
-        } else if (testType == RAPID_ANTIGEN) {
-            val remaining = cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat.first()
-            if (remaining > 0) {
-                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(remaining - 1)
-                notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
-            } else {
-                notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_RAT_RESULT_NOTIFICATION_ID)
+        appScope.launch {
+            Timber.tag(TAG).d(
+                "maybeShowSharePositiveTestResultNotification(notificationId=%s, testType=%s, testIdentifier=%s)",
+                notificationId,
+                testType,
+                testIdentifier
+            )
+            if (testType == PCR) {
+                val remaining = cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr.first()
+                if (remaining > 0) {
+                    cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(remaining - 1)
+                    notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
+                } else {
+                    notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_PCR_RESULT_NOTIFICATION_ID)
+                }
+            } else if (testType == RAPID_ANTIGEN) {
+                val remaining = cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat.first()
+                if (remaining > 0) {
+                    cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(remaining - 1)
+                    notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
+                } else {
+                    notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_RAT_RESULT_NOTIFICATION_ID)
+                }
             }
         }
     }
