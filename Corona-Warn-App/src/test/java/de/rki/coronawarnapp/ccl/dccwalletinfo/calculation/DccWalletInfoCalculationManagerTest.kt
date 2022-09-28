@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.dccreissuance.notification.DccReissuanceNotificationService
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -53,9 +53,9 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     private val vaccinationCertA = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
-        every { vaccinatedOn } returns org.joda.time.Instant.EPOCH.toLocalDateUtc()
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns false
-        every { headerIssuedAt } returns org.joda.time.Instant.EPOCH
+        every { headerIssuedAt } returns Instant.EPOCH
     }
 
     private val identifierB = CertificatePersonIdentifier(
@@ -66,9 +66,9 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     private val vaccinationCertB = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierB
-        every { vaccinatedOn } returns org.joda.time.Instant.EPOCH.toLocalDateUtc()
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns false
-        every { headerIssuedAt } returns org.joda.time.Instant.EPOCH
+        every { headerIssuedAt } returns Instant.EPOCH
     }
 
     @BeforeEach

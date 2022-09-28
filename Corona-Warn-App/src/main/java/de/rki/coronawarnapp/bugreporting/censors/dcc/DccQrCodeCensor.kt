@@ -8,10 +8,12 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -77,7 +79,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         dates += validUntilFormatted
 
         validUntil?.let {
-            dates += it.toShortDayFormat()
+            dates += it.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         }
     }
 
@@ -101,7 +103,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
 
         dates += sampleCollectedAtFormatted
         sampleCollectedAt?.let {
-            dates += it.toShortDayFormat()
+            dates += it.toLocalDateUtc().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
         }
 
         identifiers += uniqueCertificateIdentifier

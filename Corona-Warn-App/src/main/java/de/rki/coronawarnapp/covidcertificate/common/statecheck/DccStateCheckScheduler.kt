@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import org.joda.time.Duration
+import java.time.Duration
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class DccStateCheckScheduler @Inject constructor(
             .filter { it } // Only when going into foreground
             .onEach {
                 val currentDscData = dscRepository.dscSignatureList.first()
-                if (Duration(currentDscData.updatedAt, timeStamper.nowUTC) < Duration.standardHours(12)) {
+                if (Duration.between(currentDscData.updatedAt, timeStamper.nowJavaUTC) < Duration.ofHours(12)) {
                     Timber.tag(TAG).d("Last DSC data refresh was recent: %s", currentDscData.updatedAt)
                     return@onEach
                 }

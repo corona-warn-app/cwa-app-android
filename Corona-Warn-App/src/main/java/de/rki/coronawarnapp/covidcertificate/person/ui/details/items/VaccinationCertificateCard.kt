@@ -10,10 +10,11 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Vaccination
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class VaccinationCertificateCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<Item, VaccinationCertificateCardBinding>(
@@ -49,7 +50,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
             certificateDate.text = context.getString(
                 R.string.vaccination_certificate_vaccinated_on,
-                certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
+                certificate.vaccinatedOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                    ?: certificate.rawCertificate.vaccination.dt
             )
             val bookmarkIcon = if (item.certificate.isDisplayValid)
                 item.colorShade.bookmarkIcon else R.drawable.ic_bookmark

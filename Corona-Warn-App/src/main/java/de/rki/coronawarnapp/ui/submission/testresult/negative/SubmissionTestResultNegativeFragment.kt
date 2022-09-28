@@ -23,15 +23,16 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.Back
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submission_test_result_negative), AutoInject {
@@ -161,7 +162,8 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
         binding.certificateDate.text = getString(
             R.string.test_certificate_sampled_on,
-            certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+            certificate?.sampleCollectedAt?.toLocalDateTimeUserTz()
+                ?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
         )
     }
 

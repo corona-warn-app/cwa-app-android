@@ -28,13 +28,11 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.mutateDrawable
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -43,6 +41,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -210,10 +210,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
+        val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         )
     }
 

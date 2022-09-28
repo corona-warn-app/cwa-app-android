@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 
 data class DccV1(
     @SerializedName("ver") val version: String,

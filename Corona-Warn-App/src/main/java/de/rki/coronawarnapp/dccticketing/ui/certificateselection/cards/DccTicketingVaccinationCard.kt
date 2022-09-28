@@ -7,8 +7,9 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.DccTicketingVaccinationCardBinding
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateItem
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class DccTicketingVaccinationCard(parent: ViewGroup) :
     DccTicketingCertificateSelectionAdapter.CertificatesItemVH<DccTicketingVaccinationCard.Item,
@@ -33,7 +34,8 @@ class DccTicketingVaccinationCard(parent: ViewGroup) :
 
         certificateDate.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
+            certificate.vaccinatedOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                ?: certificate.rawCertificate.vaccination.dt
         )
 
         arrow.isVisible = item.showArrow
