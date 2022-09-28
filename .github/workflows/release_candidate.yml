@@ -79,9 +79,9 @@ jobs:
           fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
           curl --location --request POST $tsystems_upload_url \
           --header "Authorization: Bearer $tsystems_upload_bearer" \
-          --form "uniqueName='@${fileName}'" \ 
           --form "file=@${fileName}" \
-          --form "camera=true"
+          --form "camera=true" \
+          --form "uniqueName='${fileName}'"
 
       - name: Trigger App Automation Testing
         env:
