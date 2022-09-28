@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
-import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
