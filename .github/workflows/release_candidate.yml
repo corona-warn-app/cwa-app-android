@@ -75,14 +75,13 @@ jobs:
           tsystems_upload_bearer: '${{ secrets.TSYSTEM_UPLOAD_BEARER }}'
         run: |
           fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
-          echo "${fileName}"
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}""
+          file=$(basename ${filename})
+          echo "${file}"
           curl --location --request POST $tsystems_upload_url \
           --header "Authorization: Bearer $tsystems_upload_bearer" \
           --form "file=@${fileName}" \
           --form "camera=true" \
-          --form "uniqueName='${fileName}'"
+          --form "uniqueName='${file}'"
 
       - name: Trigger App Automation Testing
         env:
