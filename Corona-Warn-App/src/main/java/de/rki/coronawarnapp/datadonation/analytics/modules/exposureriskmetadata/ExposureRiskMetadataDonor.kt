@@ -51,9 +51,11 @@ class ExposureRiskMetadataDonor @Inject constructor(
 
         builder
             .setRiskLevel(riskLevelEWForMetadata)
-            .setRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.riskLevel != riskLevelEWForMetadata)
-            .setMostRecentDateAtRiskLevel(mostRecentDateAtEWRiskLevel).dateChangedComparedToPreviousSubmission =
-            previousMetadata?.mostRecentDateAtRiskLevel != mostRecentDateAtEWRiskLevel
+            .setRiskLevelChangedComparedToPreviousSubmission(
+                previousMetadata != null && previousMetadata.riskLevel != riskLevelEWForMetadata
+            ).setMostRecentDateAtRiskLevel(mostRecentDateAtEWRiskLevel)
+            .dateChangedComparedToPreviousSubmission =
+            previousMetadata != null && previousMetadata.mostRecentDateAtRiskLevel != mostRecentDateAtEWRiskLevel
     }
 
     private suspend fun buildPTMetadata(
@@ -71,10 +73,11 @@ class ExposureRiskMetadataDonor @Inject constructor(
 
         builder
             .setPtRiskLevel(riskLevelPtForMetadata)
-            .setPtRiskLevelChangedComparedToPreviousSubmission(previousMetadata?.ptRiskLevel != riskLevelPtForMetadata)
-            .setPtMostRecentDateAtRiskLevel(mostRecentDateAtPtRiskLevel)
+            .setPtRiskLevelChangedComparedToPreviousSubmission(
+                previousMetadata != null && previousMetadata.ptRiskLevel != riskLevelPtForMetadata
+            ).setPtMostRecentDateAtRiskLevel(mostRecentDateAtPtRiskLevel)
             .ptDateChangedComparedToPreviousSubmission =
-            previousMetadata?.ptMostRecentDateAtRiskLevel != mostRecentDateAtPtRiskLevel
+            previousMetadata != null && previousMetadata.ptMostRecentDateAtRiskLevel != mostRecentDateAtPtRiskLevel
     }
 
     override suspend fun deleteData() {
