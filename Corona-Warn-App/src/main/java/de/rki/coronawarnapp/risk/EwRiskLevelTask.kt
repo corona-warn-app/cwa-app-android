@@ -129,7 +129,7 @@ class EwRiskLevelTask @Inject constructor(
             return true
         }
 
-        val downloadAge = Duration.between(latestDownload.info.sortDateTime, nowUTC).also {
+        val downloadAge = Duration.between(latestDownload.info.sortDateTime.toInstant(), nowUTC).also {
             Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.toHours(), latestDownload)
         }
 
