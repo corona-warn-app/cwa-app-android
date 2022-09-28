@@ -32,9 +32,9 @@ object TimeAndDateExtensions {
     /**
      * Converts a Long to Instant or null if the long is 0 or null
      */
-    fun Long?.toInstantOrNull(): Instant? =
+    fun Long?.toInstantOrNull(): java.time.Instant? =
         if (this != null && this != 0L) {
-            Instant.ofEpochMilli(this)
+            java.time.Instant.ofEpochMilli(this)
         } else null
 
     /**

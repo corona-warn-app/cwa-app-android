@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.risk.result
 
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
 
 data class ExposureWindowDayRisk(
     val dateMillisSinceEpoch: Long,

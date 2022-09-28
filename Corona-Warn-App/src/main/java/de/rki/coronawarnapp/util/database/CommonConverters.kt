@@ -73,6 +73,18 @@ class CommonConverters {
     fun fromJavaInstant(date: java.time.Instant?): String? = date?.toString()
 
     @TypeConverter
+    fun toJavaLocalDate(value: String?):  java.time.LocalDate? = value?.let {  java.time.LocalDate.parse(it) }
+
+    @TypeConverter
+    fun fromJavaLocalDate(date:  java.time.LocalDate?): String? = date?.toString()
+
+    @TypeConverter
+    fun toJavaLocalTime(value: String?): java.time.LocalTime? = value?.let { java.time.LocalTime.parse(it) }
+
+    @TypeConverter
+    fun fromJavaLocalTime(date: java.time.LocalTime?): String? = date?.toString()
+
+    @TypeConverter
     fun toLocationCode(value: String?): LocationCode? = value?.let { LocationCode(it) }
 
     @TypeConverter

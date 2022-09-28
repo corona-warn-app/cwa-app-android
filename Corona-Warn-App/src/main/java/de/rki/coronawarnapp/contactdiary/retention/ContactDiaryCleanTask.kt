@@ -55,7 +55,7 @@ class ContactDiaryCleanTask @Inject constructor(
     }
 
     class Config : TaskFactory.Config {
-        override val executionTimeout = Duration.ofMinutes(9).toJoda()
+        override val executionTimeout: Duration = Duration.ofMinutes(9)
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
         override val errorHandling: TaskFactory.Config.ErrorHandling = TaskFactory.Config.ErrorHandling.SILENT

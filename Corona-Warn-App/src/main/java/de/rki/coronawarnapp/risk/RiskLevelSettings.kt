@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.risk
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.util.di.AppContext
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +30,7 @@ class RiskLevelSettings @Inject constructor(
             if (it != 0L) Instant.ofEpochMilli(it) else null
         }
         set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW, value?.millis ?: 0L)
+            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW, value?.toEpochMilli() ?: 0L)
         }
 
     var lastChangeCheckedRiskLevelCombinedTimestamp: Instant?
@@ -38,7 +38,7 @@ class RiskLevelSettings @Inject constructor(
             if (it != 0L) Instant.ofEpochMilli(it) else null
         }
         set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, value?.millis ?: 0L)
+            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, value?.toEpochMilli() ?: 0L)
         }
 
     companion object {
