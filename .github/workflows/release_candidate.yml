@@ -2,8 +2,6 @@ name: Create Release Candidate
 
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 env:
   JVM_OPTS: -Xmx4096m
@@ -91,7 +89,7 @@ jobs:
         run: |
           curl \
           -X POST \
-          -H 'Accept: application/vnd.github.v3+json' \
-          -H 'authorization: Bearer $GITHUB_ACCESS_TOKEN' \
-          -d '{\"ref\":\"main\"}' \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "authorization: Bearer $GITHUB_ACCESS_TOKEN" \
+          -d "{\"ref\":\"main\"}"" \
           https://api.github.com/repos/corona-warn-app/cwa-app-automation/actions/workflows/32064115/dispatches
