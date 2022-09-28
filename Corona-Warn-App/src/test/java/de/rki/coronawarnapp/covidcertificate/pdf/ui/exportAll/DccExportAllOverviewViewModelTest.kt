@@ -58,7 +58,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
 
         val vc = mockk<VaccinationCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
-            every { dateOfBirthFormatted } returns "1990-10-10"
+            every { rawCertificate.dob } returns "1990-10-10"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
             every { certificateCountry } returns "Germany"
@@ -74,11 +74,15 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
             every { rawCertificate.payload.certificateCountry } returns "DE"
             every { vaccinatedOn } returns LocalDate.now()
             every { fullName } returns "A"
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.doseNumber } returns 1
+            every { rawCertificate.vaccination.dt } returns "2020-10-12"
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
         }
 
         val rc = mockk<RecoveryCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
-            every { dateOfBirthFormatted } returns "1990-10-10"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
             every { certificateCountry } returns "Germany"
@@ -92,12 +96,16 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
             every { validUntil } returns LocalDate.now()
             every { fullName } returns "A"
             every { testedPositiveOn } returns LocalDate.now()
-            every { rawCertificate.payload.certificateCountry } returns "DE"
+            every { rawCertificate.dob } returns "1990-10-10"
+            every { rawCertificate.recovery.df } returns "2020-12-10"
+            every { rawCertificate.recovery.du } returns "2021-12-10"
+            every { rawCertificate.recovery.fr } returns "2021-11-10"
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
         }
 
         val tc = mockk<TestCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
-            every { dateOfBirthFormatted } returns "1990-10-10"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
             every { certificateCountry } returns "Germany"
@@ -112,7 +120,11 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
             every { state } returns CwaCovidCertificate.State.Valid(Instant.now())
             every { sampleCollectedAt } returns Instant.now()
             every { fullName } returns "A"
-            every { rawCertificate.payload.certificateCountry } returns "DE"
+            every { rawCertificate.dob } returns "1990-10-10"
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
+            every { rawCertificate.test.sc } returns "2020-10-20"
+            every { rawCertificate.test.testCenter } returns "TestIQ"
         }
         every { template.invoke(any()) } returns "Template"
         every { personCertificatesProvider.certificateContainer } returns flowOf(

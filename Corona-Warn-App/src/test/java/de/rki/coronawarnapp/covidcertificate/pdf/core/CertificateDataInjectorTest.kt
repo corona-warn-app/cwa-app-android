@@ -22,18 +22,17 @@ internal class CertificateDataInjectorTest : BaseTest() {
     fun `test VC injector`() {
         val vc = mockk<VaccinationCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
-            every { dateOfBirthFormatted } returns "1990-10-10"
+            every { rawCertificate.dob } returns "1990-10-10"
+            every { rawCertificate.vaccination.dt } returns "2020-10-12"
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
+            every { rawCertificate.vaccination.doseNumber } returns 1
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
-            every { certificateCountry } returns "Germany"
-            every { rawCertificate.payload.certificateCountry } returns "DE"
             every { qrCodeBase64() } returns "1234"
-            every { certificateIssuer } returns "Robert Koch"
             every { medicalProductName } returns "mRNa"
             every { vaccineManufacturer } returns "BionTech"
-            every { doseNumber } returns 1
-            every { totalSeriesOfDoses } returns 2
-            every { vaccinatedOnFormatted } returns "2020-10-12"
             every { vaccineTypeName } returns "Astra"
         }
 
@@ -45,16 +44,16 @@ internal class CertificateDataInjectorTest : BaseTest() {
     fun `test RC injector`() {
         val rc = mockk<RecoveryCertificate>().apply {
             every { fullNameFormatted } returns "Full Name"
-            every { dateOfBirthFormatted } returns "1990-10-10"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
-            every { certificateCountry } returns "Germany"
             every { rawCertificate.payload.certificateCountry } returns "DE"
             every { qrCodeBase64() } returns "1234"
-            every { certificateIssuer } returns "Robert Koch"
-            every { validFromFormatted } returns "2020-12-10"
-            every { validUntilFormatted } returns "2021-12-10"
-            every { testedPositiveOnFormatted } returns "2021-11-10"
+            every { rawCertificate.dob } returns "1990-10-10"
+            every { rawCertificate.recovery.df } returns "2020-12-10"
+            every { rawCertificate.recovery.du } returns "2021-12-10"
+            every { rawCertificate.recovery.fr } returns "2021-11-10"
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
         }
 
         template(fileName = "template/de_rc_v4.1.svg").inject(rc).contains("\$") shouldBe false
@@ -68,16 +67,16 @@ internal class CertificateDataInjectorTest : BaseTest() {
             every { dateOfBirthFormatted } returns "1990-10-10"
             every { uniqueCertificateIdentifier } returns "UNIQUE_CERTIFICATE_IDENTIFIER"
             every { targetDisease } returns "Covid 19"
-            every { certificateCountry } returns "Germany"
-            every { rawCertificate.payload.certificateCountry } returns "DE"
             every { qrCodeBase64() } returns "1234"
-            every { certificateIssuer } returns "Robert Koch"
             every { testName } returns "Rapid"
             every { testNameAndManufacturer } returns "Robert Koch"
-            every { sampleCollectedAtFormatted } returns "2020-10-20"
             every { testResult } returns "Negative"
-            every { testCenter } returns "TestIQ"
             every { testType } returns "Rapid"
+            every { rawCertificate.dob } returns "1990-10-10"
+            every { rawCertificate.payload.certificateIssuer } returns "Robert Koch"
+            every { rawCertificate.payload.certificateCountry } returns "Germany"
+            every { rawCertificate.test.sc } returns "2020-10-20"
+            every { rawCertificate.test.testCenter } returns "TestIQ"
         }
 
         template(fileName = "template/de_tc_v4.1.svg").inject(tc).contains("\$") shouldBe false
