@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
-import de.rki.coronawarnapp.util.toJavaInstant
 import dgca.verifier.app.engine.Result
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.CertificateType
@@ -33,8 +32,8 @@ internal fun assembleExternalParameter(
         valueSets = valueSets,
         countryCode = countryCode,
         issuerCountryCode = certificate.header.issuer,
-        exp = certificate.header.expiresAt.toJavaInstant().atZone(UTC_ZONE_ID),
-        iat = certificate.header.issuedAt.toJavaInstant().atZone(UTC_ZONE_ID)
+        exp = certificate.header.expiresAt.atZone(UTC_ZONE_ID),
+        iat = certificate.header.issuedAt.atZone(UTC_ZONE_ID)
     )
 }
 

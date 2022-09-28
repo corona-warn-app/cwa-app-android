@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.toJoda
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import org.joda.time.DurationFieldType
 import org.joda.time.PeriodType
 import org.joda.time.format.PeriodFormat
@@ -47,10 +47,10 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         latestItem = curItem
 
-        val checkInStartUserTZ = curItem.checkin.checkInStart.toUserTimeZone()
+        val checkInStartUserTZ = curItem.checkin.checkInStart.toLocalDateTimeUserTz()
 
         highlightDuration.text = run {
-            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now().toUserTimeZone())
+            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now().toLocalDateTimeUserTz())
             val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
             val seconds = saneDuration.toMinutes() * 60
             "%02d:%02d".format(seconds / SECONDS_IN_HOURS, (seconds % SECONDS_IN_HOURS) / 60)

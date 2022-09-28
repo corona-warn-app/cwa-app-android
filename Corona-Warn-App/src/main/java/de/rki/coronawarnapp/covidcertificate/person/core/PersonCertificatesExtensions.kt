@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 
 /*
     The list items shall be sorted descending by the following date attributes depending on the type of the DGC:

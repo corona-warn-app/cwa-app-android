@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.checkins.common
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
@@ -33,7 +33,7 @@ class CheckInExtensionTest : BaseTest() {
     )
 
     private fun Instant.toPrettyDate(): String =
-        toUserTimeZone().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+        toLocalDateTimeUserTz().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 
     @Test
     fun `Location name concatenates description, address and if both are set trace location start and end date`() {

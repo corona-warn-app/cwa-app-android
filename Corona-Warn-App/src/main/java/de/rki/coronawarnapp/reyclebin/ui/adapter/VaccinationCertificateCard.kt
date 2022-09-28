@@ -8,9 +8,10 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class VaccinationCertificateCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<VaccinationCertificateCard.Item, RecyclerBinCertificateItemBinding>(
@@ -42,7 +43,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         )
         certificateInfoLine2.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
+            certificate.vaccinatedOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                ?: certificate.rawCertificate.vaccination.dt
         )
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.vaccination_certificate_name)

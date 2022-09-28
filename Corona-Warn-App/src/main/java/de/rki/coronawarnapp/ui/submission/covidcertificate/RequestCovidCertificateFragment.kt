@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -145,7 +145,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->
-                    val localDate = Instant.ofEpochMilli(timestamp).toLocalDateUserTimeZone()
+                    val localDate = Instant.ofEpochMilli(timestamp).toLocalDateUserTz()
                     binding.dateInputEdit.setText(
                         localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
                     )

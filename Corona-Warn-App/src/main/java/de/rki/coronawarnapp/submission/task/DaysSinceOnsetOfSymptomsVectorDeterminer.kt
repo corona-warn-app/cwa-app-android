@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ageInDays
 import de.rki.coronawarnapp.util.toJavaTime
-import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import javax.inject.Inject
 
 /**
@@ -32,7 +32,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminer @Inject constructor(
     private fun determinePositiveIndication(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.startOfSymptoms) {
             is Symptoms.StartOf.Date -> createDaysSinceOnsetOfSymptomsVectorWith(
-                symptoms.startOfSymptoms.date.toJavaTime().ageInDays(timeStamper.nowJavaUTC.toLocalDateUserTimeZone())
+                symptoms.startOfSymptoms.date.toJavaTime().ageInDays(timeStamper.nowJavaUTC.toLocalDateUserTz())
             )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)
