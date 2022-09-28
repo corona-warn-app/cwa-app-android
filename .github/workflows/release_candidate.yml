@@ -75,7 +75,7 @@ jobs:
           tsystems_upload_bearer: '${{ secrets.TSYSTEM_UPLOAD_BEARER }}'
         run: |
           fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
-          file=$(basename ${filename})
+          file=$(basename $fileName)
           echo "${file}"
           curl --location --request POST $tsystems_upload_url \
           --header "Authorization: Bearer $tsystems_upload_bearer" \
