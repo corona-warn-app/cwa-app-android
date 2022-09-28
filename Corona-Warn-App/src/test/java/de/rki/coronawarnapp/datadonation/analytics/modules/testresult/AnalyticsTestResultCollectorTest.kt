@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -36,6 +36,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toJavaInstant
 import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -70,10 +71,9 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00")
-        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc().toJavaTime()
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toJavaInstant()
+        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toJavaInstant()
+            .toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
         every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)

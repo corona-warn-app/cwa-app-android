@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
-import dagger.Lazy
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -8,14 +7,14 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import retrofit2.Response
 import testhelpers.BaseIOTest
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalTime
 
 class DiagnosisKeyServerTest : BaseIOTest() {
 
@@ -23,8 +22,6 @@ class DiagnosisKeyServerTest : BaseIOTest() {
     lateinit var api: DiagnosisKeyApiV1
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
-
-    private val defaultHomeCountry = LocationCode("DE")
 
     @BeforeEach
     fun setup() {
@@ -38,11 +35,8 @@ class DiagnosisKeyServerTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createDownloadServer(
-        homeCountry: LocationCode = defaultHomeCountry
-    ) = DiagnosisKeyServer(
-        diagnosisKeyAPI = Lazy { api },
-        homeCountry = homeCountry
+    private fun createDownloadServer() = DiagnosisKeyServer(
+        diagnosisKeyAPI = { api }
     )
 
     @Test

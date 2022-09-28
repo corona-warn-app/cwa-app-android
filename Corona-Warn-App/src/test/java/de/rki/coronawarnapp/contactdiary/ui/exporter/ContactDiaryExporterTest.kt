@@ -32,7 +32,7 @@ internal class ContactDiaryExporterTest {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var context: Context
 
-    private val numberOfLastDaysToExport = 15
+    private val numberOfLastDaysToExport = 15L
 
     @BeforeEach
     fun setUp() {

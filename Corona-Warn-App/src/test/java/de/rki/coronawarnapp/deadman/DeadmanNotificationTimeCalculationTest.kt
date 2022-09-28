@@ -13,12 +13,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 
 class DeadmanNotificationTimeCalculationTest : BaseTest() {
 

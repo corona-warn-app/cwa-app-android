@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.diagnosiskeys.storage
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 
 class CachedKeyFileTest : BaseTest() {
     private val type = CachedKeyInfo.Type.LOCATION_DAY

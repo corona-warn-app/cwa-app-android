@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.contactdiary.util
 import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import io.kotest.matchers.shouldBe
 import org.junit.Test
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.Locale
 
 class CWADateTimeFormatPatternFactoryTest {
@@ -15,6 +18,11 @@ class CWADateTimeFormatPatternFactoryTest {
     @Test
     fun `pattern for bulgarian date`() {
         Locale("bg", "BG").shortDatePattern() shouldBe "d.MM.yy 'г'."
+        LocalDate.now()
+            .format(DateTimeFormatter.ofPattern("d.MM.yy 'г'.").withLocale(Locale("bg", "BG"))) shouldBe LocalDate.now()
+            .format(
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale("bg", "BG"))
+            )
     }
 
     @Test

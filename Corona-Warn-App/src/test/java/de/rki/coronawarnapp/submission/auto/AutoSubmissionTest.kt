@@ -26,11 +26,11 @@ import io.mockk.verify
 import io.mockk.verifySequence
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Instant
 
 class AutoSubmissionTest : BaseTest() {
 
@@ -58,7 +58,7 @@ class AutoSubmissionTest : BaseTest() {
 
         every { taskController.tasks } returns emptyFlow()
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(123456789)
 
         mockkStatic("de.rki.coronawarnapp.task.TaskControllerExtensionsKt")
     }

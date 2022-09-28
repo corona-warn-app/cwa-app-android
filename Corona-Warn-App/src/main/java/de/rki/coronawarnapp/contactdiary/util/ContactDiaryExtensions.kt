@@ -9,9 +9,9 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.viewpager2.widget.ViewPager2
-import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.Locale
 
@@ -36,7 +36,13 @@ fun Context.getLocale(): Locale {
 }
 
 fun LocalDate.toFormattedDay(locale: Locale): String =
-    format(DateTimeFormatter.ofPattern("EEEE, ${locale.shortDatePattern()}", locale))
+    format(
+        DateTimeFormatterBuilder()
+            .append(DateTimeFormatter.ofPattern("EEEE", locale))
+            .appendLiteral(", ")
+            .append(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+            .toFormatter(locale)
+    )
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
     // Use two different methods to get the final date format (Weekday, Longdate)
