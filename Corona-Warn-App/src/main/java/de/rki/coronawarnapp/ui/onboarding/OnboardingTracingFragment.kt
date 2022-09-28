@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
-import de.rki.coronawarnapp.ui.doNavigate
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -44,20 +43,15 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
-                    DialogHelper.showDialog(
-                        DialogHelper.DialogInstance(
-                            context = requireActivity(),
-                            title = R.string.onboarding_tracing_dialog_headline,
-                            message = R.string.onboarding_tracing_dialog_body,
-                            positiveButton = R.string.onboarding_tracing_dialog_button_positive,
-                            negativeButton = R.string.onboarding_tracing_dialog_button_negative,
-                            cancelable = true,
-                            positiveButtonFunction = {
-                                vm.disableTracingIfEnabled()
-                                navigateToOnboardingTestFragment()
-                            }
-                        )
-                    )
+                    displayDialog {
+                        setTitle(R.string.onboarding_tracing_dialog_headline)
+                        setMessage(R.string.onboarding_tracing_dialog_body)
+                        setPositiveButton(R.string.onboarding_tracing_dialog_button_positive) { _, _ ->
+                            vm.disableTracingIfEnabled()
+                            navigateToOnboardingTestFragment()
+                        }
+                        setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
+                    }
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
 
                 else -> Unit
@@ -76,12 +70,13 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         binding.onboardingTracingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
+    // TODO update deprecated fun with registerForActivityResult() method
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         vm.handleActivityResult(requestCode, resultCode, data)
     }
 
     private fun navigateToOnboardingTestFragment() {
-        findNavController().doNavigate(
+        doNavigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
     }
