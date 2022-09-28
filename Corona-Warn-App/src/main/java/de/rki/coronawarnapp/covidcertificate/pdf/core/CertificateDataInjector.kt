@@ -16,32 +16,32 @@ internal fun String.inject(
     cert: CwaCovidCertificate
 ): String = this
     .replace("\$nam", cert.fullNameFormatted.sanitize())
-    .replace("\$dob", cert.dateOfBirthFormatted.sanitize())
+    .replace("\$dob", cert.rawCertificate.dob.sanitize())
     .replace("\$ci", cert.uniqueCertificateIdentifier.sanitize().removePrefix(CI_PREFIX))
     .replace("\$tg", cert.targetDisease.sanitize())
     .replace("\$co", cert.rawCertificate.payload.certificateCountry.sanitize())
     .replace("\$qr", cert.qrCodeBase64())
-    .replace("\$is", cert.certificateIssuer.sanitize())
+    .replace("\$is", cert.rawCertificate.payload.certificateIssuer.sanitize())
     .replaceFieldsOf(cert)
 
 private fun String.replaceFieldsOf(cert: CwaCovidCertificate) = when (cert) {
     is VaccinationCertificate -> replace("\$vp", cert.vaccineTypeName.sanitize())
         .replace("\$mp", cert.medicalProductName.sanitize())
         .replace("\$ma", cert.vaccineManufacturer.sanitize())
-        .replace("\$dn", cert.doseNumber.toString())
-        .replace("\$sd", cert.totalSeriesOfDoses.toString())
-        .replace("\$dt", cert.vaccinatedOnFormatted)
+        .replace("\$dn", cert.rawCertificate.vaccination.doseNumber.toString())
+        .replace("\$sd", cert.rawCertificate.vaccination.totalSeriesOfDoses.toString())
+        .replace("\$dt", cert.rawCertificate.vaccination.dt)
 
-    is RecoveryCertificate -> replace("\$fr", cert.testedPositiveOnFormatted)
-        .replace("\$df", cert.validFromFormatted)
-        .replace("\$du", cert.validUntilFormatted)
+    is RecoveryCertificate -> replace("\$fr", cert.rawCertificate.recovery.fr)
+        .replace("\$df", cert.rawCertificate.recovery.df)
+        .replace("\$du", cert.rawCertificate.recovery.du)
 
     is TestCertificate -> replace("\$tt", cert.testType)
         .replace("\$nm", cert.testName.orEmpty())
         .replace("\$ma", cert.testNameAndManufacturer.orEmpty().sanitize())
-        .replace("\$sc", cert.sampleCollectedAtFormatted)
+        .replace("\$sc", cert.rawCertificate.test.sc)
         .replace("\$tr", cert.testResult.sanitize())
-        .replace("\$tc", cert.testCenter.toString())
+        .replace("\$tc", cert.rawCertificate.test.testCenter.toString())
 
     else -> throw UnsupportedOperationException("${cert::class.simpleName} isn't supported")
 }

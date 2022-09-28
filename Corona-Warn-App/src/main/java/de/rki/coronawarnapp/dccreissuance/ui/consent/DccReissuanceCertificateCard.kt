@@ -13,9 +13,10 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.DccReissuanceCertificateCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class DccReissuanceCertificateCard(parent: ViewGroup) :
     DccReissuanceAdapter.ItemVH<DccReissuanceCertificateCard.Item, DccReissuanceCertificateCardBinding>(
@@ -69,7 +70,7 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
         )
         val certificateDate = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            vaccination.vaccinatedOn?.toShortDayFormat()
+            vaccination.vaccinatedOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
                 ?: vaccination.dt
         )
         return "$fullName\n$vaccinationDosesInfo\n$certificateDate"
@@ -84,7 +85,7 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
         val fullName = nameData.fullName
         val info = context.getString(
             R.string.recovery_certificate_sample_collection,
-            recovery.testedPositiveOn?.toShortDayFormat()
+            recovery.testedPositiveOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
                 ?: recovery.fr
         )
         return "$fullName\n$info"
@@ -105,7 +106,8 @@ class DccReissuanceCertificateCard(parent: ViewGroup) :
 
         val info = context.getString(
             R.string.test_certificate_sampled_on,
-            test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
+            test.sampleCollectedAt?.toLocalDateTimeUserTz()
+                ?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
                 ?: test.sc
         )
         return "$fullName\n$testType\n$info"

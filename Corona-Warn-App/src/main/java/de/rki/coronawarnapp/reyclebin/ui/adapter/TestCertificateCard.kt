@@ -8,10 +8,11 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class TestCertificateCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<TestCertificateCard.Item, RecyclerBinCertificateItemBinding>(
@@ -39,7 +40,9 @@ class TestCertificateCard(parent: ViewGroup) :
         certificateInfoLine1.isGone = false
         certificateInfoLine2.text = context.getString(
             R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
+            certificate.sampleCollectedAt?.toLocalDateTimeUserTz()
+                ?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                ?: certificate.rawCertificate.test.sc
         )
 
         when (certificate.rawCertificate.test.testType) {

@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 
 internal fun List<DccQrCode>.sort() = sortedByDescending {
     when (it) {

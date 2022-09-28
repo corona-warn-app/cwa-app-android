@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainer
 import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")

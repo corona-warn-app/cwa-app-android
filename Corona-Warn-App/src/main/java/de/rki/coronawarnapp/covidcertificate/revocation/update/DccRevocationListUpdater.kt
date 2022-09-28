@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.launchInLatest
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChangedBy
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -65,7 +66,7 @@ class DccRevocationListUpdater @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowUTC): Boolean {
+    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowJavaUTC): Boolean {
         val lastExecution = revocationUpdateSettings.getLastUpdateTime() ?: return true
 
         // update is needed if the last update was on a different day

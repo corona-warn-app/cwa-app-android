@@ -34,10 +34,9 @@ import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coil.loadingView
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
@@ -63,8 +62,10 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
             statusTitle.text = context.getString(
                 R.string.certificate_qr_expiration,
-                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
-                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+                certificate.headerExpiresAt.toLocalDateTimeUserTz()
+                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                certificate.headerExpiresAt.toLocalDateTimeUserTz()
+                    .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             )
             statusBody.text = context.getText(R.string.expiration_info)
         }
@@ -303,8 +304,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
             isVisible = true
             text = context.getString(
                 R.string.certificate_person_details_card_expiration,
-                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
-                certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+                certificate.headerExpiresAt.toLocalDateTimeUserTz()
+                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                certificate.headerExpiresAt.toLocalDateTimeUserTz()
+                    .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             )
         }
 

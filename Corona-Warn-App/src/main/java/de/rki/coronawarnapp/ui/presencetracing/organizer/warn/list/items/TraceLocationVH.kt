@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnItemBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.list.TraceLocationSelectionAdapter
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -31,8 +31,8 @@ class TraceLocationVH(parent: ViewGroup) :
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
-            val startTime = item.traceLocation.startDate.toUserTimeZone()
-            val endTime = item.traceLocation.endDate.toUserTimeZone()
+            val startTime = item.traceLocation.startDate.toLocalDateTimeUserTz()
+            val endTime = item.traceLocation.endDate.toLocalDateTimeUserTz()
 
             duration.isInvisible = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {

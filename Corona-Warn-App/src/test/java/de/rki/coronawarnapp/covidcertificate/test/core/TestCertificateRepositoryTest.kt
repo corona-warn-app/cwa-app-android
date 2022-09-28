@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertifi
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -38,13 +37,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 class TestCertificateRepositoryTest : BaseTest() {
@@ -101,7 +100,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
         every { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
+        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(12345678)
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
             DccValidityMeasures(
                 dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
@@ -134,7 +133,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 every { isDccSupportedByPoc } returns true
                 every { isDccConsentGiven } returns true
                 every { type } returns BaseCoronaTest.Type.PCR
-                every { registeredAt } returns Instant.ofEpochSecond(4555).toJavaInstant()
+                every { registeredAt } returns Instant.ofEpochSecond(4555)
                 every { registrationToken } returns "token"
                 every { labId } returns "best-lab"
             }
@@ -155,7 +154,7 @@ class TestCertificateRepositoryTest : BaseTest() {
 
             identifier.isNotEmpty() shouldBe true
 
-            registeredAt shouldBe Instant.ofEpochSecond(4555).toJavaInstant()
+            registeredAt shouldBe Instant.ofEpochSecond(4555)
             certificateReceivedAt shouldBe null
             registrationToken shouldBe "token"
 
@@ -185,8 +184,8 @@ class TestCertificateRepositoryTest : BaseTest() {
             this as GenericTestCertificateData
             testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             identifier.isNotEmpty() shouldBe true
-            registeredAt shouldBe timeStamper.nowUTC.toJavaInstant()
-            certificateReceivedAt shouldBe timeStamper.nowUTC.toJavaInstant()
+            registeredAt shouldBe timeStamper.nowJavaUTC
+            certificateReceivedAt shouldBe timeStamper.nowJavaUTC
         }
 
         shouldThrow<InvalidTestCertificateException> {
@@ -231,7 +230,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     fun `filter by recycled`() = runTest2 {
         val recycled = testData.personATest2StoredData.copy(
             identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
-            recycledAt = nowUTC.toJavaInstant()
+            recycledAt = nowUTC
         )
         val notRecycled =
             testData.personATest1StoredData.copy(
