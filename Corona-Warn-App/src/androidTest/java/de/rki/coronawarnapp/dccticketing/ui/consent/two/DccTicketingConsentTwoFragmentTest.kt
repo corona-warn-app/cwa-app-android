@@ -25,13 +25,12 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidat
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,6 +38,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
@@ -139,7 +139,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true

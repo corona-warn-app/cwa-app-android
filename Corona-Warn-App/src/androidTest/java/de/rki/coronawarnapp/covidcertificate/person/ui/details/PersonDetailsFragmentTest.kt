@@ -34,14 +34,13 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -53,6 +52,7 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.time.Instant
 import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
@@ -395,7 +395,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
             }
         }
-        every { headerExpiresAt } returns Instant.now().plus(20)
+        every { headerExpiresAt } returns Instant.now().plusMillis(20)
         every { containerId } returns tcsContainerId
         every { testType } returns "PCR-Test"
         every { dateOfBirthFormatted } returns "1943-04-18"
@@ -451,7 +451,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true
@@ -469,7 +469,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true

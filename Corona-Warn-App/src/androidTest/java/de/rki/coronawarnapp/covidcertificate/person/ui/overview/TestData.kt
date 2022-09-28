@@ -14,11 +14,11 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.Locale
 
 fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
@@ -872,7 +872,7 @@ private fun mockTestCertificate(
     isPending: Boolean = false,
     isUpdating: Boolean = false
 ): TestCertificate = mockk<TestCertificate>().apply {
-    every { headerExpiresAt } returns Instant.now().plus(20)
+    every { headerExpiresAt } returns Instant.now().plusMillis(20)
     every { isCertificateRetrievalPending } returns isPending
     every { isUpdatingData } returns isUpdating
     every { fullName } returns name
@@ -898,7 +898,7 @@ private fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertific
 
 private fun mockVaccinationCertificate(name: String): VaccinationCertificate =
     mockk<VaccinationCertificate>().apply {
-        every { headerExpiresAt } returns Instant.now().plus(20)
+        every { headerExpiresAt } returns Instant.now().plusMillis(20)
         every { containerId } returns VaccinationCertificateContainerId("2")
         val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
         every { fullName } returns name
@@ -918,7 +918,7 @@ private fun mockVaccinationCertificate(name: String): VaccinationCertificate =
 
 private fun mockInvalidVaccinationCertificate(name: String): VaccinationCertificate =
     mockk<VaccinationCertificate>().apply {
-        every { headerExpiresAt } returns Instant.now().plus(20)
+        every { headerExpiresAt } returns Instant.now().plusMillis(20)
         every { containerId } returns VaccinationCertificateContainerId("2")
         val localDate = Instant.parse("2019-06-01T11:35:00.000Z").toLocalDateUserTz()
         every { fullName } returns name

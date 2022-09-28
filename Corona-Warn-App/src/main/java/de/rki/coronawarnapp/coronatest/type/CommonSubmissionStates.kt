@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -20,7 +20,7 @@ interface CommonSubmissionStates {
         val testRegisteredAt: Instant
 
         fun getFormattedRegistrationDate(): String = testRegisteredAt
-            .toUserTimeZone()
+            .toLocalDateTimeUserTz()
             .toLocalDate()
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
     }

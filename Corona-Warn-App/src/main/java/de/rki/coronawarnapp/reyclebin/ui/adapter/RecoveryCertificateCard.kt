@@ -8,9 +8,10 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class RecoveryCertificateCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<RecoveryCertificateCard.Item, RecyclerBinCertificateItemBinding>(
@@ -37,7 +38,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         certificateInfoLine1.isGone = true
         certificateInfoLine2.text = context.getString(
             R.string.recovery_certificate_sample_collection,
-            certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
+            certificate.testedPositiveOn?.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                ?: certificate.rawCertificate.recovery.fr
         )
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.recovery_certificate_name)

@@ -18,9 +18,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTe
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.toJodaInstant
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.Locale
 
 data class TestCertificateContainer(
@@ -60,7 +59,7 @@ data class TestCertificateContainer(
         get() = data.certificateSeenByUser
 
     val registeredAt: Instant
-        get() = data.registeredAt.toJodaInstant()
+        get() = data.registeredAt
 
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
@@ -157,7 +156,7 @@ data class TestCertificateContainer(
                 get() = this@TestCertificateContainer.isUpdatingData
 
             override val registeredAt: Instant
-                get() = data.registeredAt.toJodaInstant()
+                get() = data.registeredAt
 
             override val isCertificateRetrievalPending: Boolean
                 get() = this@TestCertificateContainer.isCertificateRetrievalPending
@@ -166,24 +165,24 @@ data class TestCertificateContainer(
                 get() = testCertificateQRCode!!.data
 
             override val notifiedInvalidAt: Instant?
-                get() = data.notifiedInvalidAt?.toJodaInstant()
+                get() = data.notifiedInvalidAt
 
             override val notifiedBlockedAt: Instant?
-                get() = data.notifiedBlockedAt?.toJodaInstant()
+                get() = data.notifiedBlockedAt
 
             override val notifiedRevokedAt: Instant?
-                get() = data.notifiedRevokedAt?.toJodaInstant()
+                get() = data.notifiedRevokedAt
 
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
 
             override val lastSeenStateChangeAt: Instant?
-                get() = data.lastSeenStateChangeAt?.toJodaInstant()
+                get() = data.lastSeenStateChangeAt
 
             override val isNew: Boolean
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
-            override val recycledAt: java.time.Instant?
+            override val recycledAt: Instant?
                 get() = data.recycledAt
 
             override fun toString(): String = "TestCertificate($containerId)"

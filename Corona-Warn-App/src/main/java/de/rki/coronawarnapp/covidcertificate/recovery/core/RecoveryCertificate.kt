@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 interface RecoveryCertificate : CwaCovidCertificate {
     override val containerId: RecoveryCertificateContainerId

@@ -31,12 +31,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
+import java.time.Instant
 import javax.inject.Inject
 
 class RecoveryCertificateRepositoryTest : BaseTest() {
@@ -60,7 +60,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowJavaUTC } returns nowUTC
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)

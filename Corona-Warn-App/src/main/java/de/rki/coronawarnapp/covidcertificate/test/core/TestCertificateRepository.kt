@@ -33,7 +33,6 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,7 +46,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -532,7 +531,7 @@ class TestCertificateRepository @Inject constructor(
         }
 
         return copy(
-            data = updateRecycledAt(data, timeStamper.nowUTC)
+            data = updateRecycledAt(data, timeStamper.nowJavaUTC)
         )
     }
 
@@ -589,21 +588,21 @@ class TestCertificateRepository @Inject constructor(
     ): BaseTestCertificateData {
         return when (state) {
             is Blocked -> when (data) {
-                is PCRCertificateData -> data.copy(notifiedBlockedAt = now.toJavaInstant())
-                is RACertificateData -> data.copy(notifiedBlockedAt = now.toJavaInstant())
-                is GenericTestCertificateData -> data.copy(notifiedBlockedAt = now.toJavaInstant())
+                is PCRCertificateData -> data.copy(notifiedBlockedAt = now)
+                is RACertificateData -> data.copy(notifiedBlockedAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedBlockedAt = now)
             }
 
             is Revoked -> when (data) {
-                is PCRCertificateData -> data.copy(notifiedRevokedAt = now.toJavaInstant())
-                is RACertificateData -> data.copy(notifiedRevokedAt = now.toJavaInstant())
-                is GenericTestCertificateData -> data.copy(notifiedRevokedAt = now.toJavaInstant())
+                is PCRCertificateData -> data.copy(notifiedRevokedAt = now)
+                is RACertificateData -> data.copy(notifiedRevokedAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedRevokedAt = now)
             }
 
             is Invalid -> when (data) {
-                is PCRCertificateData -> data.copy(notifiedInvalidAt = now.toJavaInstant())
-                is RACertificateData -> data.copy(notifiedInvalidAt = now.toJavaInstant())
-                is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now.toJavaInstant())
+                is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
+                is RACertificateData -> data.copy(notifiedInvalidAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
             }
             // Test certificates notifies only about invalid and blocked states
             else -> throw UnsupportedOperationException("$state is not supported.")
@@ -615,17 +614,19 @@ class TestCertificateRepository @Inject constructor(
         time: Instant?
     ): BaseTestCertificateData {
         return when (data) {
-            is PCRCertificateData -> data.copy(recycledAt = time?.toJavaInstant())
-            is RACertificateData -> data.copy(recycledAt = time?.toJavaInstant())
-            is GenericTestCertificateData -> data.copy(recycledAt = time?.toJavaInstant())
+            is PCRCertificateData -> data.copy(recycledAt = time)
+            is RACertificateData -> data.copy(recycledAt = time)
+            is GenericTestCertificateData -> data.copy(recycledAt = time)
         }
     }
 
-    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowUTC): TestCertificateContainer {
+    private fun TestCertificateQRCode.createContainer(
+        nowUtc: Instant = timeStamper.nowJavaUTC
+    ): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),
-            registeredAt = nowUtc.toJavaInstant(),
-            certificateReceivedAt = nowUtc.toJavaInstant(), // Set this as we don't need to retrieve one
+            registeredAt = nowUtc,
+            certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
             testCertificateQrCode = qrCode,
             certificateSeenByUser = false // Newly added, should show badge
         )

@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -24,11 +23,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import java.time.Instant
 import java.time.ZonedDateTime
 
 class DccWalletInfoCalculationTest : BaseTest() {
@@ -106,8 +105,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
             cose = Cose("kid"),
             cwt = Cwt(
                 iss = "Landratsamt Musterstadt",
-                iat = issuedAt.seconds,
-                exp = expiresAt.seconds
+                iat = issuedAt.epochSecond,
+                exp = expiresAt.epochSecond
             ),
             hcert = ObjectMapper().readTree(json),
             validityState = CclCertificate.Validity.BLOCKED

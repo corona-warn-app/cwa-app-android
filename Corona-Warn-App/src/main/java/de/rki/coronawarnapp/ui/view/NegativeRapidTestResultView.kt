@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.PersonalRapidTestResultNegativeBinding
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -62,7 +62,7 @@ constructor(
     }
 
     private fun formatTestResultTimestampText(test: RACoronaTest?): String {
-        val localTime = test?.testTakenAt?.toUserTimeZone() ?: return ""
+        val localTime = test?.testTakenAt?.toLocalDateTimeUserTz() ?: return ""
         return context.getString(
             R.string.coronatest_negative_rapid_test_result_time_date_placeholder,
             localTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),

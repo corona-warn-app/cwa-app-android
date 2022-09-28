@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.databinding.CovidTestErrorCardBinding
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class CovidTestCertificatePendingCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<CovidTestCertificatePendingCard.Item, CovidTestErrorCardBinding>(
@@ -28,11 +28,11 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        val registrationTime = curItem.certificate.registeredAt.toUserTimeZone()
+        val registrationTime = curItem.certificate.registeredAt.toLocalDateTimeUserTz()
         testTime.text = context.getString(
             R.string.test_certificate_registration_time,
-            registrationTime.toDayFormat(),
-            registrationTime.toShortTimeFormat()
+            registrationTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+            registrationTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         )
 
         retryButton.setOnClickListener {
