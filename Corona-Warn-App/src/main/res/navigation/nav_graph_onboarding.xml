@@ -30,6 +30,15 @@
             app:destination="@id/onboardingPrivacyFragment" />
     </fragment>
     <fragment
+        android:id="@+id/onboardingNotificationsFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsFragment"
+        android:label="OnboardingNotificationsFragment"
+        tools:layout="@layout/fragment_onboarding_notifications">
+        <action
+            android:id="@+id/action_onboardingNotificationsFragment_to_onboardingAnalyticsFragment"
+            app:destination="@id/onboardingAnalyticsFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/onboardingPrivacyFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingPrivacyFragment"
         android:label="OnboardingPrivacyFragment"
@@ -37,15 +46,6 @@
         <action
             android:id="@+id/action_onboardingPrivacyFragment_to_onboardingTracingFragment"
             app:destination="@id/onboardingTracingFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/onboardingTracingFragment"
-        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragment"
-        android:label="OnboardingTracingFragment"
-        tools:layout="@layout/fragment_onboarding_tracing">
-        <action
-            android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
-            app:destination="@id/onboardingTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingTestFragment"
@@ -57,13 +57,13 @@
             app:destination="@id/onboardingNotificationsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/onboardingNotificationsFragment"
-        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingNotificationsFragment"
-        android:label="OnboardingNotificationsFragment"
-        tools:layout="@layout/fragment_onboarding_notifications">
+        android:id="@+id/onboardingTracingFragment"
+        android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingTracingFragment"
+        android:label="OnboardingTracingFragment"
+        tools:layout="@layout/fragment_onboarding_tracing">
         <action
-            android:id="@+id/action_onboardingNotificationsFragment_to_onboardingAnalyticsFragment"
-            app:destination="@id/onboardingAnalyticsFragment" />
+            android:id="@+id/action_onboardingTracingFragment_to_onboardingTestFragment"
+            app:destination="@id/onboardingTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardingAnalyticsFragment"
@@ -96,8 +96,8 @@
     <fragment
         android:id="@+id/newReleaseInfoFragment"
         android:name="de.rki.coronawarnapp.release.NewReleaseInfoFragment"
-        android:label="NewReleaseInfoFragment"
-        tools:layout="@layout/new_release_info_screen_fragment">
+        tools:layout="@layout/new_release_info_screen_fragment"
+        android:label="NewReleaseInfoFragment">
         <argument
             android:name="comesFromInfoScreen"
             android:defaultValue="false"
@@ -111,7 +111,7 @@
             android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaNotificationsFragment"
             app:destination="@id/onboardingDeltaNotificationsFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/onboardingDeltaAnalyticsFragment"
@@ -150,7 +150,7 @@
             android:id="@+id/action_onboardingDeltaNotificationsFragment_to_onboardingDeltaAnalyticsFragment"
             app:destination="@id/onboardingDeltaAnalyticsFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
     </fragment>
 
 </navigation>
