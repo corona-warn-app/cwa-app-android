@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
+import java.time.Instant
 
 class RecoveryCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
