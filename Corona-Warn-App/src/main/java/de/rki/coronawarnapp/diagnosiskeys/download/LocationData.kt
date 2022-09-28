@@ -62,7 +62,7 @@ internal data class LocationHours(
         }
     }
 
-    fun getMissingHours(cachedKeys: List<CachedKey>): Map<LocalDate, List<LocalTime>>{
+    fun getMissingHours(cachedKeys: List<CachedKey>): Map<LocalDate, List<LocalTime>> {
         val cachedHours = cachedKeys
             .filter { it.info.location == location }
 

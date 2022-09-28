@@ -53,32 +53,32 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
 
     private fun AppConfigAndroid.ApplicationConfigurationAndroid.diagnosisKeysDataMapping():
         DiagnosisKeysDataMapping {
-        val diagnosisKeyDataMapping = this.diagnosisKeysDataMapping
-        return DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
-            .apply {
-                setDaysSinceOnsetToInfectiousness(diagnosisKeyDataMapping.daysSinceOnsetToInfectiousnessMap)
-                setInfectiousnessWhenDaysSinceOnsetMissing(
-                    diagnosisKeysDataMapping.infectiousnessWhenDaysSinceOnsetMissing
-                )
-                setReportTypeWhenMissing(diagnosisKeysDataMapping.reportTypeWhenMissing)
-            }.build()
-    }
+            val diagnosisKeyDataMapping = this.diagnosisKeysDataMapping
+            return DiagnosisKeysDataMapping.DiagnosisKeysDataMappingBuilder()
+                .apply {
+                    setDaysSinceOnsetToInfectiousness(diagnosisKeyDataMapping.daysSinceOnsetToInfectiousnessMap)
+                    setInfectiousnessWhenDaysSinceOnsetMissing(
+                        diagnosisKeysDataMapping.infectiousnessWhenDaysSinceOnsetMissing
+                    )
+                    setReportTypeWhenMissing(diagnosisKeysDataMapping.reportTypeWhenMissing)
+                }.build()
+        }
 
     data class ExposureWindowRiskCalculationContainer(
         override val minutesAtAttenuationFilters:
-        List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
         override val minutesAtAttenuationWeights:
-        List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
+            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
         override val transmissionRiskLevelEncoding:
-        RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
+            RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
         override val transmissionRiskLevelFilters:
-        List<RiskCalculationParametersOuterClass.TrlFilter>,
+            List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
-        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
-        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val transmissionRiskValueMapping:
-        List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
+            List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
         override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping,
         override val maxEncounterAgeInDays: Long
     ) : ExposureWindowRiskCalculationConfig

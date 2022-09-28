@@ -38,12 +38,11 @@ class KeyFileDownloadAdapter(
         holder.bind(item)
     }
 
-    class CachedKeyViewHolder(
-        val parent: ViewGroup
-    ) : VH(
-        R.layout.fragment_test_keydownload_adapter_line,
-        parent
-    ),
+    class CachedKeyViewHolder(val parent: ViewGroup) :
+        VH(
+            R.layout.fragment_test_keydownload_adapter_line,
+            parent
+        ),
         BindableVH<CachedKeyListItem, FragmentTestKeydownloadAdapterLineBinding> {
 
         override val viewBinding = lazy { FragmentTestKeydownloadAdapterLineBinding.bind(itemView) }

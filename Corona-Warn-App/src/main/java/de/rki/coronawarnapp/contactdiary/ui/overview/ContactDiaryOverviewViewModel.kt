@@ -72,13 +72,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private fun dates() = (0L until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
     private val datesFlow = MutableStateFlow(dates())
 
-    private val reloadDatesMidnightTimer = fixedRateTimer(name = "Reload-contact-journal-dates-timer-thread",
+    private val reloadDatesMidnightTimer = fixedRateTimer(
+        name = "Reload-contact-journal-dates-timer-thread",
         daemon = true,
         startAt = Date.from(
             timeStamper.localDate().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()
         ),
         period = Duration.ofDays(1).toMillis(),
-        action = { datesFlow.value = dates() })
+        action = { datesFlow.value = dates() }
+    )
 
     private val diaryDataFlow = combine(
         contactDiaryRepository.locationVisits,
@@ -137,7 +139,14 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         coronaTests: List<ContactDiaryCoronaTestEntity>
     ): List<DiaryOverviewItem> {
         Timber.v(
-            "createListItemList(" + "dateList=%s, " + "visits=%s, " + "encounters=%s, " + "riskLevelPerDateList=%s, " + "traceLocationCheckInRiskList=%s," + "checkInList=%s" + "coronaTests=%s",
+            "createListItemList(" +
+                "dateList=%s, " +
+                "visits=%s, " +
+                "encounters=%s, " +
+                "riskLevelPerDateList=%s, " +
+                "traceLocationCheckInRiskList=%s," +
+                "checkInList=%s" +
+                "coronaTests=%s",
             this,
             visits,
             encounters,
@@ -225,7 +234,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     )
 
     private data class RiskEventDataHolder(
-        val traceLocationCheckInRisk: TraceLocationCheckInRisk, val checkIn: CheckIn
+        val traceLocationCheckInRisk: TraceLocationCheckInRisk,
+        val checkIn: CheckIn
     )
 
     private fun List<RiskEventDataHolder>.toRiskEventItem(): RiskEventItem? {
@@ -283,20 +293,24 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         )
     }
 
-    fun List<ContactDiaryCoronaTestEntity>.toCoronaTestItem() = CoronaTestItem(map {
-        CoronaTestItem.Data(
-            icon = when (it.result) {
-                POSITIVE -> R.drawable.ic_corona_test_icon_red
-                NEGATIVE -> R.drawable.ic_corona_test_icon_green
-            }, header = when (it.testType) {
-                PCR -> R.string.contact_diary_corona_test_pcr_title
-                ANTIGEN -> R.string.contact_diary_corona_test_rat_title
-            }, body = when (it.result) {
-                POSITIVE -> R.string.contact_diary_corona_test_positive
-                NEGATIVE -> R.string.contact_diary_corona_test_negative
-            }
-        )
-    })
+    fun List<ContactDiaryCoronaTestEntity>.toCoronaTestItem() = CoronaTestItem(
+        map {
+            CoronaTestItem.Data(
+                icon = when (it.result) {
+                    POSITIVE -> R.drawable.ic_corona_test_icon_red
+                    NEGATIVE -> R.drawable.ic_corona_test_icon_green
+                },
+                header = when (it.testType) {
+                    PCR -> R.string.contact_diary_corona_test_pcr_title
+                    ANTIGEN -> R.string.contact_diary_corona_test_rat_title
+                },
+                body = when (it.result) {
+                    POSITIVE -> R.string.contact_diary_corona_test_positive
+                    NEGATIVE -> R.string.contact_diary_corona_test_negative
+                }
+            )
+        }
+    )
 
     fun onBackButtonPress() {
         routeToScreen.postValue(ContactDiaryOverviewNavigationEvents.NavigateToMainActivity)
