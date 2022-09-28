@@ -25,18 +25,21 @@ internal fun String.inject(
     .replaceFieldsOf(cert)
 
 private fun String.replaceFieldsOf(cert: CwaCovidCertificate) = when (cert) {
-    is VaccinationCertificate -> replace("\$vp", cert.vaccineTypeName.sanitize())
+    is VaccinationCertificate -> this
+        .replace("\$vp", cert.vaccineTypeName.sanitize())
         .replace("\$mp", cert.medicalProductName.sanitize())
         .replace("\$ma", cert.vaccineManufacturer.sanitize())
         .replace("\$dn", cert.rawCertificate.vaccination.doseNumber.toString())
         .replace("\$sd", cert.rawCertificate.vaccination.totalSeriesOfDoses.toString())
         .replace("\$dt", cert.rawCertificate.vaccination.dt)
 
-    is RecoveryCertificate -> replace("\$fr", cert.testedPositiveOnFormatted)
+    is RecoveryCertificate -> this
+        .replace("\$fr", cert.rawCertificate.recovery.fr)
         .replace("\$df", cert.rawCertificate.recovery.df)
         .replace("\$du", cert.rawCertificate.recovery.du)
 
-    is TestCertificate -> replace("\$tt", cert.testType)
+    is TestCertificate -> this
+        .replace("\$tt", cert.testType)
         .replace("\$nm", cert.testName.orEmpty())
         .replace("\$ma", cert.testNameAndManufacturer.orEmpty().sanitize())
         .replace("\$sc", cert.rawCertificate.test.sc)
