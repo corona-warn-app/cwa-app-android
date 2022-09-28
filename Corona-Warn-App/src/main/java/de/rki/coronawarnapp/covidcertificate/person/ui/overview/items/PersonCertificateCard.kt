@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MaskState
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
@@ -38,7 +40,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         val overviewCertificates: List<OverviewCertificate>,
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
-        val admissionBadgeText: String = "",
+        val admission: Admission,
+        val mask: Mask,
         val certificateSelection: CertificateSelection = CertificateSelection.FIRST,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
@@ -59,5 +62,15 @@ class PersonCertificateCard(parent: ViewGroup) :
             SECOND,
             THIRD
         }
+
+        data class Admission(
+            val state: AdmissionState?,
+            val text: String
+        )
+
+        data class Mask(
+            val state: MaskState?,
+            val text: String
+        )
     }
 }

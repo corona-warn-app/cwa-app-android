@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContain
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
+import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -23,15 +24,15 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.Locale
 import javax.inject.Inject
 
@@ -46,8 +47,6 @@ class CertLogicEngineWrapperTest : BaseTest() {
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var engine: Lazy<DefaultCertLogicEngine>
     @Inject @BaseGson lateinit var gson: Gson
-
-    private val timeZoneOffsetBerlin = 2 // Berlin
 
     private val valueSet = VaccinationValueSets(
         languageCode = Locale.ENGLISH,
@@ -84,7 +83,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDateTime = DateTime.parse("2022-06-11T14:23:00+02:00")
+        val validationDateTime = ZonedDateTime.parse("2022-06-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
             validationDateTime = validationDateTime,
@@ -108,7 +107,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         )
         // certificate valid until 2022-06-11T14:23:17.000Z
         val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
-        val validationDateTime = DateTime.parse("2021-11-11T14:23:00+02:00")
+        val validationDateTime = ZonedDateTime.parse("2021-11-11T14:23:00+02:00")
         val evaluatedRules = wrapper.process(
             rules = listOf(rule),
             validationDateTime = validationDateTime,
@@ -139,7 +138,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         val validationDateTime = LocalDateTime.parse("2021-07-20T19:10:00") // should be valid
         val evaluatedRules = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationDateTime = validationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            validationDateTime = validationDateTime.atZone(ZoneId.of("Europe/Berlin")),
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -152,7 +151,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
         val evaluatedRules2 = wrapper.process(
             rules = listOf(rule, ruleGeneral),
-            validationDateTime = invalidationDateTime.toDateTime(DateTimeZone.forOffsetHours(timeZoneOffsetBerlin)),
+            validationDateTime = invalidationDateTime.atZone(ZoneId.of("Europe/Berlin")),
             certificate = certificate.data,
             countryCode = "DE",
         )
@@ -177,7 +176,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
         val certificate = extractor.extract(certLogicTestCase.dcc)
         val validationClock = Instant.ofEpochSecond(Integer.parseInt(certLogicTestCase.validationClock).toLong())
-        val validationDateTime = validationClock.toDateTime()
+        val validationDateTime = validationClock.atZone(UTC_ZONE_ID)
         val acceptanceRules = certLogicTestCase.rules.filter {
             it.typeDcc == DccValidationRule.Type.ACCEPTANCE
         }.filterRelevantRules(

@@ -21,6 +21,7 @@
         <item name="floatingActionButtonStyle">
             @style/Widget.MaterialComponents.FloatingActionButton
         </item>
+        <item name="textAppearanceLargePopupMenu">@style/menu_text</item>
     </style>
 
     <style name="CertificateDetailTheme" parent="BaseTheme">
@@ -390,6 +391,10 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
+    <style name="menu_text" parent="@style/TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/menu_text_color</item>
+    </style>
+
     <style name="body2Medium" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>
@@ -619,18 +624,19 @@
 
     <style name="TextInputLayoutTheme" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
-        <item name="android:textColorHint">@color/colorTextPrimary2</item>
-        <item name="hintTextColor">@color/colorTextPrimary2</item>
+        <item name="android:textColorHint">@color/colorInputText</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
         <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="textColor">@color/colorInputText</item>
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
         <item name="colorControlNormal">@color/colorSecondary</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
     </style>
 
     <style name="CardOverFlowButton">
@@ -680,6 +686,16 @@
         <item name="android:layout_width">56dp</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="statusBadge">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingEnd">6dp</item>
+        <item name="android:minHeight">26dp</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
 </resources>

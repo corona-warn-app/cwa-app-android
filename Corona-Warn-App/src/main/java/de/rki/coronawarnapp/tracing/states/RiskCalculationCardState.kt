@@ -5,13 +5,13 @@ import android.text.format.DateUtils
 import androidx.annotation.ColorInt
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.tracing.TracingProgress
+import de.rki.coronawarnapp.tracing.RiskCalculationState
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 
-sealed class TracingState {
+sealed class RiskCalculationCardState {
     abstract val riskState: RiskState
     abstract val isInDetailsMode: Boolean
 
@@ -33,7 +33,7 @@ data class IncreasedRisk(
     val lastEncounterAt: LocalDate?,
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
@@ -95,7 +95,7 @@ data class LowRisk(
     val allowManualUpdate: Boolean,
     val daysWithEncounters: Int,
     val daysSinceInstallation: Int
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showUpdateButton: Boolean = allowManualUpdate && !isInDetailsMode
 
@@ -133,7 +133,7 @@ data class LowRisk(
     fun getDaysSinceInstall(context: Context): String =
         when (daysSinceInstallation) {
             0 -> context.getString(R.string.risk_card_body_installation_today)
-            1 -> context.getString(R.string.risk_card_body_installation_yesterday)
+            1 -> context.getString(R.string.risk_card_body_installation_yesterday).format(daysSinceInstallation)
             else -> context.getString(R.string.risk_card_body_days_since_installation).format(daysSinceInstallation)
         }
 
@@ -160,11 +160,11 @@ data class LowRisk(
 }
 
 // tracing_content_failed_view
-data class TracingFailed(
+data class RiskCalculationFailed(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showRestartButton: Boolean = !isInDetailsMode
 
@@ -194,7 +194,7 @@ data class TracingDisabled(
     override val riskState: RiskState, // Here it's the latest successful
     override val isInDetailsMode: Boolean,
     val lastExposureDetectionTime: Instant?
-) : TracingState() {
+) : RiskCalculationCardState() {
 
     val showEnableTracingButton: Boolean = !isInDetailsMode
 
@@ -219,22 +219,22 @@ data class TracingDisabled(
     }
 }
 
-data class TracingInProgress(
+data class RiskCalculationInProgress(
     override val riskState: RiskState,
     override val isInDetailsMode: Boolean,
-    val tracingProgress: TracingProgress
-) : TracingState() {
+    val riskCalculationState: RiskCalculationState
+) : RiskCalculationCardState() {
 
-    fun getProgressCardHeadline(context: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_headline
-        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_headline
-        TracingProgress.Idle -> null
+    fun getProgressCardHeadline(context: Context): String = when (riskCalculationState) {
+        RiskCalculationState.Downloading -> R.string.risk_card_progress_download_headline
+        RiskCalculationState.IsCalculating -> R.string.risk_card_progress_calculation_headline
+        RiskCalculationState.Idle -> null
     }?.let { context.getString(it) } ?: ""
 
-    fun getProgressCardBody(context: Context): String = when (tracingProgress) {
-        TracingProgress.Downloading -> R.string.risk_card_progress_download_body
-        TracingProgress.IsCalculating -> R.string.risk_card_progress_calculation_body
-        TracingProgress.Idle -> null
+    fun getProgressCardBody(context: Context): String = when (riskCalculationState) {
+        RiskCalculationState.Downloading -> R.string.risk_card_progress_download_body
+        RiskCalculationState.IsCalculating -> R.string.risk_card_progress_calculation_body
+        RiskCalculationState.Idle -> null
     }?.let { context.getString(it) } ?: ""
 
     /**

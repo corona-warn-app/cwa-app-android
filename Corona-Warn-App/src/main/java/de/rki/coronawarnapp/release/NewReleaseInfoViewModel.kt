@@ -48,7 +48,7 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
         }
         val items = mutableListOf<NewReleaseInfoItem>()
         titles.indices.forEach { i ->
-            if (linkifiedLabels[i].isNullOrBlank() || linkTargets[i].isNullOrBlank()) {
+            if (linkifiedLabels[i].isBlank() || linkTargets[i].isBlank()) {
                 items.add(NewReleaseInfoItemText(titles[i], bodies[i]))
             } else {
                 items.add(NewReleaseInfoItemLinked(titles[i], bodies[i], linkifiedLabels[i], linkTargets[i]))

@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -94,18 +95,21 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                 state.test.isPositive ->
                     if (state.test is FamilyCoronaTest) {
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = args.comesFromDispatcherFragment
                         )
                     } else {
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = args.comesFromDispatcherFragment
                         )
                     }
                         .run { findNavController().navigate(this, navOptions) }
 
                 else ->
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testIdentifier = state.test.identifier
+                        testIdentifier = state.test.identifier,
+                        comesFromDispatcherFragment = args.comesFromDispatcherFragment
                     )
                         .run { findNavController().navigate(this, navOptions) }
             }
@@ -116,7 +120,13 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         .setTitle(R.string.request_gc_dialog_title)
         .setMessage(R.string.request_gc_dialog_message)
         .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
-        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ -> popBackStack() }
+        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
+            if (args.comesFromDispatcherFragment) {
+                doNavigate(
+                    RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
+                )
+            } else popBackStack()
+        }
         .create()
         .show()
 

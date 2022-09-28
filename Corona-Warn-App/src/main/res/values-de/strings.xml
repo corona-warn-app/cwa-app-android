@@ -27,6 +27,8 @@
     <string name="menu_trash">"Papierkorb"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social Media"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">%s eintrag %d von %d</string>
 
     <!-- ####################################
                Notification
@@ -70,7 +72,7 @@
     <!-- XTXT: risk card - Days since installation if today -->
     <string name="risk_card_body_installation_today">Heute installiert</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">Gestern installiert</string>
+    <string name="risk_card_body_installation_yesterday">Seit %s Tag installiert</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Begegnungen wurden noch nicht überprüft."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -420,11 +422,11 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Wie Sie die Risiko-Ermittlung ermöglichen"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren."</string>
+    <string name="onboarding_tracing_subtitle">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Persönliche Daten wie Name, Adresse oder Aufenthaltsort werden zu keiner Zeit erfasst. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -516,7 +518,7 @@
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing body -->
     <string name="onboarding_ppa_more_info_data_processing_body">"Im Rahmen der Datenspende übermittelt die App verschiedene Daten täglich an das RKI. Die übermittelten Daten dienen der Bewertung der Wirksamkeit der App und sie werden ausgewertet, um folgende Verbesserungen zu ermöglichen:"</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 1 -->
-    <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Verbesserung der Risiko-Ermittlung – Die Genauigkeit und Zuverlässigkeit der technischen Berechnung der Ansteckungsrisiken sollen verbessert werden. Hierfür werden Angaben über Risiko-Begegnungen und Ihnen angezeigte Warnungen ausgewertet. In der Folge kann die Berechnungsmethode verfeinert werden."</string>
+    <string name="onboarding_ppa_more_info_data_processing_point_1_text">"Verbesserung der Risiko-Ermittlung – Die Genauigkeit und Zuverlässigkeit der technischen Berechnung der Infektionsrisiken sollen verbessert werden. Hierfür werden Angaben über Risiko-Begegnungen und Ihnen angezeigte Warnungen ausgewertet. In der Folge kann die Berechnungsmethode verfeinert werden."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 2 -->
     <string name="onboarding_ppa_more_info_data_processing_point_2_text">"Verbesserung der Nutzerführung in der App – Die Bedienung der App soll erleichtert werden. Hierfür werden Angaben über die einzelnen Schritte ausgewertet, die Nutzer in der App vornehmen. So können Beschriftungen und Hinweistexte klarer gestaltet und Bedienelemente so platziert werden, dass sie besser gefunden werden können. Außerdem können Darstellungen für verschiedene Smartphone-Modelle angepasst werden."</string>
     <!-- YTXT: onboarding privacy preserving analytics (ppa) - more info - data processing point 3 -->
@@ -599,7 +601,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"So funktioniert die Begegnungs-Aufzeichnung"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Erlauben Sie Erfassung und Weitergabe von COVID-19-Zufalls-IDs."</string>
+    <string name="settings_tracing_body_description">"Erlauben Sie die Aufzeichnung und Weitergabe von COVID-19-Zufalls-IDs."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Risiko-Ermittlung aktiv"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -609,7 +611,7 @@
     <!-- XHED: settings(tracing) - headline of tracing explanation -->
     <string name="settings_tracing_body_headline">"So funktioniert die Risiko-Ermittlung"</string>
     <!-- YTXT: settings(tracing) - explains tracings -->
-    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Ansteckungsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich Listen mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die ihr Testergebnis (genauer gesagt: ihre Zufalls-IDs) freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer, denen Sie begegnet sind, verglichen, um Ihr Ansteckungsrisiko zu berechnen und Sie zu warnen. \n\nDie Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden bei der Risiko-Ermittlung zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
+    <string name="settings_tracing_body_text">"Um zu erkennen, ob für Sie ein Infektionsrisiko vorliegt, müssen Sie die Risiko-Ermittlung aktivieren. Die Risiko-Ermittlung funktioniert länderübergreifend, so dass auch Risiko-Begegnungen mit Nutzern von anderen offiziellen Corona-Apps erkannt werden.\n\nDie Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphone weitergibt. Die App lädt täglich Listen mit den Zufalls-IDs und eventuellen Angaben zum Symptombeginn aller Corona-positiv getesteten Nutzer herunter, die ihr Testergebnis (genauer gesagt: ihre Zufalls-IDs) freiwillig über ihre App geteilt haben. Diese Liste wird dann mit den von Ihrem Android-Smartphone aufgezeichneten Zufalls-IDs anderer Nutzer, denen Sie begegnet sind, verglichen, um Ihr Infektionsrisiko zu berechnen und Sie zu warnen. \n\nDie Risiko-Ermittlung lässt sich jederzeit über den Schieberegler deaktivieren.\n\nPersönliche Daten wie Ihr Name, Ihre Adresse oder Ihr Aufenthaltsort werden bei der Risiko-Ermittlung zu keiner Zeit erfasst oder an andere Nutzer übermittelt. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
     <string name="settings_tracing_status_active">"Aktiv"</string>
     <!-- XTXT: settings(tracing) - status next to switch under title -->
@@ -642,7 +644,7 @@
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
-    <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
+    <string name="settings_notifications_body_description">"Erlauben Sie automatische Mitteilungen zu Ihrem COVID-19-Risikostatus."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"Um Mitteilungen in der Corona-Warn-App zu aktivieren, müssen Sie Mitteilungen in Ihren Geräteeinstellungen zulassen."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
@@ -1037,8 +1039,10 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt"</string>
-    <!-- YTXT: Body text for for results next steps  -->
-    <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
+    <!-- YTXT: Body text for for results next steps pcr -->
+    <string name="submission_test_result_steps_added_body_pcr">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
+    <!-- YTXT: Body text for for results next steps rat -->
+    <string name="submission_test_result_steps_added_body_rat">"Das Test-Ergebnis wird 48 Stunden hier angezeigt. Zusätzlich legt die App einen Eintrag in Ihrem Kontakt-Tagebuch an."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"Der PCR-Test wurde hinzugefügt"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1181,6 +1185,14 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_accept_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Zufalls-IDs über Corona-Warn-App teilen?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"Ihre Zufalls-IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass Sie in ihrer Nähe gewesen sind und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist. Ihre Identität wird niemals mit anderen Personen geteilt."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Nicht Teilen"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Teilen"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1487,10 +1499,12 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="statistics_explanation_title">"Kennzahlen"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Erklärung der Statistiken"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">Neuinfektionen</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Bestätigte Neuinfektionen"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen."</string>
+    <string name="statistics_explanation_confirmed_new_infection_text" formatted="false">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen. Anzahlen unter einem Schwellenwert von 1% des 7-Tage-Mittelwerts werden nicht angezeigt; siehe auch Erläuterung unter Legende > Zeitraum."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1500,7 +1514,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Anzahl der an das RKI übermittelten Corona-positiv getesteten Personen."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1509,9 +1523,18 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="statistics_explanation_legend_title">"Legende"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Zeitraum"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">Gestern / Bis gestern</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">Mittelwert der vergangenen 7 Tage </string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">Gesamt</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">Gesamtzahl seit Jahresbeginn 2020 bzw. Einführung der App (15. Juni 2020)</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1590,9 +1613,9 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Häufig gestellte Fragen und die passenden Antworten finden Sie in den FAQ."</string>
+    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:\nFAQ zu Statistiken"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"FAQ"</string>
+    <string name="statistics_faq_label">"FAQ zu Statistiken"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
@@ -1962,57 +1985,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="generic_action_abort">Abbrechen</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">Löschen</string>
-
-    <!-- ####################################
-       Trace Location
-    ###################################### -->
-    <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">Einchecken</string>
-    <!-- XTXT: subtitle for the trace location onboarding -->
-    <string name="trace_location_onboarding_title2">Infektionsketten schnell und sicher unterbrechen</string>
-    <!-- YMSG: Onboarding trace location intro section -->
-    <string name="trace_location_onboarding_subheadline">Scannen Sie den QR-Code zu einem Event oder Ort, um sich einzuchecken und so Ihre Anwesenheit für dieses Event oder diesen Ort auf Ihrem Smartphone zu speichern.</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_warning">Jeder Check-in wird bei der Ermittlung des Risikostatus zusätzlich berücksichtigt. Wird eine eingecheckte Person später positiv getestet, können Sie gewarnt werden, wenn Sie sich zur gleichen Zeit oder bis zu 30 Minuten nach der positiv getesteten Person im gleichen Raum aufgehalten haben.</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
-    <!-- XACT: Button/Dialog label to consent-->
-    <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
-    <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
-    <!-- XMIT: Trace location poster print -->
-    <string name="trace_location_organiser_poster_print">"Drucken"</string>
-    <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Teilen"</string>
-    <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Druckversion"</string>
-    <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">Check-ins teilen?</string>
-    <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">Teilen Sie Ihre Check-ins, um andere zu warnen, die mit Ihnen eingecheckt waren. Ihre Identität bleibt geheim.</string>
-    <!-- XBUT: Trace location check-ins consent screen header button -->
-    <string name="trace_location_attendee_consent_header_button">Alle auswählen</string>
-    <!-- XBUT: Trace location check-ins consent screen continue button -->
-    <string name="trace_location_attendee_consent_continue">Weiter</string>
-    <!-- XBUT: Trace location check-ins consent screen skip button -->
-    <string name="trace_location_attendee_consent_skip">Überspringen</string>
-    <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">Sind Sie sicher, dass Sie Ihre Check-ins nicht teilen wollen?</string>
-    <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">Dadurch werden andere nicht gewarnt, die mit Ihnen eingecheckt waren.</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
-    <string name="trace_location_attendee_consent_dialog_positive_button">Teilen</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
-    <string name="trace_location_attendee_consent_dialog_negative_button">Nicht teilen</string>
-
-    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_title">QR-Code nicht gültig</string>
-    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">Der gescannte QR-Code gilt nicht für das Einchecken für ein Event oder einen Ort. \nBitte scannen Sie einen geeigneten QR-Code.\n\n(%1$s)</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">OK</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">Abbrechen</string>
 
     <!-- ####################################
         Incompatibility warning card

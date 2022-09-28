@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.EvaluatedDccRule
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import org.joda.time.Instant
-import org.joda.time.LocalDateTime
+import java.time.Instant
+import java.time.LocalDateTime
 
 @Parcelize
 data class DccValidation(

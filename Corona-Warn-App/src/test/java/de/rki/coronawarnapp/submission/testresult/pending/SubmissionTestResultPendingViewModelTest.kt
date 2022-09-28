@@ -45,7 +45,8 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
             initialUpdate = forceInitialUpdate,
             recycledTestProvider = recycledTestProvider,
             testIdentifier = "",
-            coronaTestProvider = coronaTestProvider
+            coronaTestProvider = coronaTestProvider,
+            comesFromDispatcherFragment = false
         )
 
     @Test

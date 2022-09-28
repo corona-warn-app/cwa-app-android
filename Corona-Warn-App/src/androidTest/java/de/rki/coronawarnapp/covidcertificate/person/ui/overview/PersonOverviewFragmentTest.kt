@@ -14,30 +14,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
-import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.updateCountBadge
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -50,7 +34,6 @@ import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
-import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class PersonOverviewFragmentTest : BaseUITest() {
@@ -197,6 +180,48 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_mask_free_with_badge() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskFree()))
+        takeSelfieWithBottomNavBadge("mask_free_with_badge", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_mask_free_multiline_with_badge() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskFreeMultiLine()))
+        takeSelfieWithBottomNavBadge("mask_free_multiline_with_badge", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_mask_required_nostatus_with_badge() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskRequiredAndNoStatus()))
+        takeSelfieWithBottomNavBadge("mask_required_nostatus_with_badge", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_no_mask_info_status_info() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(noMaskInfoStatusInfo()))
+        takeSelfieWithBottomNavBadge("no_mask_info_status_info", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_no_mask_info_no_status_info() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(noMaskInfoNoStatusInfo()))
+        takeSelfieWithBottomNavBadge("no_mask_info_no_status_info", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_mask_invalid() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(maskInvalidOutdated()))
+        takeSelfieWithBottomNavBadge("mask_invalid", R.id.covid_certificates_graph, 1)
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_many_persons() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(personsItems()))
         takeSelfie("many_persons")
@@ -231,323 +256,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.covid_certificates_graph))
         takeScreenshot<PersonOverviewFragment>(suffix)
     }
-
-    private fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                CovidTestCertificatePendingCard.Item(
-                    certificate = mockTestCertificateWrapper(false),
-                    onDeleteAction = {},
-                    onRetryAction = {},
-                )
-            )
-
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun listItemWithUpdatingItem() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                CovidTestCertificatePendingCard.Item(
-                    certificate = mockTestCertificateWrapper(true),
-                    onDeleteAction = {},
-                    onRetryAction = {},
-                )
-            )
-
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun personsItems() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockTestCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
-                                else -> "Test Certificate"
-                            }
-                        ),
-                    ),
-                    admissionBadgeText = "3G",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 5,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockTestCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
-                                else -> "Test Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "3G",
-                    colorShade = PersonColorShade.COLOR_2,
-                    badgeCount = 3,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G",
-                    colorShade = PersonColorShade.COLOR_3,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun onePersonItem() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun onePersonItemWithBadgeCount() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 1,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun twoGPlusCertificate() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        ),
-                        OverviewCertificate(
-                            mockTestCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
-                                else -> "Test Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G+",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun threeCertificates() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Geimpft"
-                                else -> "2G Certificate"
-                            }
-                        ),
-                        OverviewCertificate(
-                            mockTestCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Getestet"
-                                else -> "Test Certificate"
-                            }
-                        ),
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Genesen"
-                                else -> "Recovery Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G+",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 0,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
-        .apply {
-            add(
-                PersonCertificateCard.Item(
-                    overviewCertificates = listOf(
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
-                                else -> "2G Certificate"
-                            }
-                        ),
-                        OverviewCertificate(
-                            mockTestCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
-                                else -> "Test Certificate"
-                            }
-                        )
-                    ),
-                    admissionBadgeText = "2G+",
-                    colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 1,
-                    onClickAction = { _, _ -> },
-                    onCovPassInfoAction = {},
-                    onCertificateSelected = {},
-                )
-            )
-        }
-
-    private fun mockTestCertificate(
-        name: String,
-        isPending: Boolean = false,
-        isUpdating: Boolean = false
-    ): TestCertificate = mockk<TestCertificate>().apply {
-        every { headerExpiresAt } returns Instant.now().plus(20)
-        every { isCertificateRetrievalPending } returns isPending
-        every { isUpdatingData } returns isUpdating
-        every { fullName } returns name
-        every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { personIdentifier } returns CertificatePersonIdentifier(
-            firstNameStandardized = "firstNameStandardized",
-            lastNameStandardized = "lastNameStandardized",
-            dateOfBirthFormatted = "1943-04-18"
-        )
-        every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
-        every { isDisplayValid } returns true
-        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
-        every { isNew } returns false
-    }
-
-    private fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
-        every { isCertificateRetrievalPending } returns true
-        every { isUpdatingData } returns isUpdating
-        every { registeredAt } returns Instant.EPOCH
-        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
-    }
-
-    private fun mockVaccinationCertificate(name: String): VaccinationCertificate =
-        mockk<VaccinationCertificate>().apply {
-            every { headerExpiresAt } returns Instant.now().plus(20)
-            every { containerId } returns VaccinationCertificateContainerId("2")
-            val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
-            every { fullName } returns name
-            every { fullNameFormatted } returns name
-            every { doseNumber } returns 2
-            every { totalSeriesOfDoses } returns 2
-            every { vaccinatedOn } returns localDate.minusDays(15)
-            every { personIdentifier } returns CertificatePersonIdentifier(
-                firstNameStandardized = "firstNameStandardized",
-                lastNameStandardized = "lastNameStandardized",
-                dateOfBirthFormatted = "1943-04-18"
-            )
-            every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
-            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-        }
 }
 
 @Module

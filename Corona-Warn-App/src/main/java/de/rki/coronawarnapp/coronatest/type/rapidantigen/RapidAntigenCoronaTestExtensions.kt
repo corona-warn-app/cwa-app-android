@@ -28,7 +28,7 @@ fun RACoronaTest?.toSubmissionState(
     if (this == null) return NoTest
     val state = getState(nowUTC, coronaTestConfig)
     return when {
-        isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
+        isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = testTakenAt)
         isProcessing && state == PENDING -> FetchingResult
         lastError is BadRequestException -> TestInvalid
         else -> when (state) {

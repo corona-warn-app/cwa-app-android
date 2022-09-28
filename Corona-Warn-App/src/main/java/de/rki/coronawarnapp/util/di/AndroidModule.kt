@@ -12,6 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.work.WorkManager
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.safetynet.SafetyNetClient
@@ -20,6 +21,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
+import kotlinx.coroutines.CoroutineScope
+import java.time.Instant
 import javax.inject.Singleton
 
 @Module
@@ -33,6 +36,13 @@ class AndroidModule {
     @Singleton
     @AppContext
     fun context(app: Application): Context = app.applicationContext
+
+    @Provides
+    @AppInstallTime
+    fun installTime(@AppContext context: Context): Instant =
+        context.packageManager.getPackageInfo(context.packageName, 0).firstInstallTime.run {
+            Instant.ofEpochMilli(this)
+        }
 
     @Suppress("DEPRECATION")
     @Provides
@@ -61,7 +71,12 @@ class AndroidModule {
     @Provides
     @Singleton
     @ProcessLifecycle
-    fun procressLifecycleOwner(): LifecycleOwner = ProcessLifecycleOwner.get()
+    fun processLifecycleOwner(): LifecycleOwner = ProcessLifecycleOwner.get()
+
+    @Provides
+    @Singleton
+    @ProcessLifecycleScope
+    fun processLifecycleScope(): CoroutineScope = processLifecycleOwner().lifecycleScope
 
     @Provides
     @Singleton

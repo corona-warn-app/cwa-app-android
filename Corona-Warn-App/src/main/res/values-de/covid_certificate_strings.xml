@@ -235,9 +235,13 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise.</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one">Es wurde %1$d Regel des Reiselandes erfolgreich überprüft.</item>
+        <item quantity="other">Es wurden %1$d Regeln des Reiselandes erfolgreich überprüft.</item>
+        <item quantity="zero">"Für diesen Zertifikattyp sind derzeit keine Einreiseregeln für das gewählte Land und den gewählten Zeitpunkt vorhanden. Bitte beachten Sie die unten aufgelisteten Hinweise."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
-    <string name="validation_rules_result_valid_result_button">für weiteres Land prüfen</string>
+    <string name="validation_rules_result_valid_result_button">Für weiteres Land prüfen</string>
     <!-- Validation Failed Screen-->
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">Zertifikat nicht gültig</string>
@@ -286,18 +290,6 @@
     <string name="dcc_notification_channel_title">Zertifikate</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">Benachrichtigungen für Zertifikate verwalten</string>
-
-    <!-- PDF Export: Not possible dialog -->
-    <!-- XHED: PDF Export: Not possible dialog title -->
-    <string name="certificate_export_error_dialog_title">Druckversion anzeigen nicht möglich</string>
-    <!-- XHED: PDF Export: Not possible dialog body -->
-    <string name="certificate_export_error_dialog_body">Die Druckversion des Zertifikats kann nicht angezeigt werden, da das Zertifikat nicht in Deutschland ausgestellt wurde.</string>
-    <!-- XBUT: PDF Export: Not possible dialog faq button -->
-    <string name="certificate_export_error_dialog_faq_button">FAQ zur Druckversion</string>
-
-    <!-- XBUT: PDF Export: Not possible dialog ok button -->
-    <string name="certificate_export_error_dialog_ok_button">OK</string>
-
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">Druckversion anzeigen</string>
@@ -348,7 +340,8 @@
 
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Mehr Informationen finden Sie in den FAQ."</string>
-
+    <!-- XTXT: Mask requirements card FAQ link -->
+    <string name="mask_requirements_faq_text">"Mehr Informationen zur Maskenpflicht in den FAQ."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->

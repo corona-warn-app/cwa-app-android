@@ -51,7 +51,6 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
-            if (viewModel.isOnboardingComplete) checkInOnboardingAcknowledge.visibility = View.GONE
             checkInOnboardingPrivacy.setOnClickListener { viewModel.onPrivacy() }
 
             if (!args.showBottomNav) {
@@ -77,7 +76,8 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                     } else {
                         doNavigate(
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                                args.uri
+                                uri = args.uri,
+                                cleanHistory = true
                             )
                         )
                     }

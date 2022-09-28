@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.Manifest
+import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +32,7 @@ import de.rki.coronawarnapp.reyclebin.coronatest.handler.RestoreCoronaTestConfir
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -180,7 +182,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(R.string.camera_permission_rationale_dialog_headline)
             setMessage(R.string.camera_permission_rationale_dialog_body)
             setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
@@ -190,7 +192,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             setNegativeButton(R.string.camera_permission_rationale_dialog_button_negative) { _, _ ->
                 leave()
             }
-        }.show()
+        }
+        dialog.show().apply {
+            getButton(DialogInterface.BUTTON_NEGATIVE)
+                ?.setTextColor(requireContext().getColorCompat(R.color.colorTextDeleteButtonDialog))
+        }
         showsPermissionDialog = true
     }
 
@@ -237,7 +243,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             is CoronaTestResult.TestRegistrationSelection -> {
                 qrcodeSharedViewModel.familyTestPersonName = navArgs.familyTestPersonName
                 QrCodeScannerFragmentDirections.actionUniversalScannerToTestRegistrationSelectionFragment(
-                    scannerResult.coronaTestQrCode
+                    scannerResult.coronaTestQrCode,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             }
 
@@ -247,29 +254,35 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
             is CoronaTestResult.RestoreDuplicateTest ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
-                    scannerResult.restoreRecycledTestRequest
+                    scannerResult.restoreRecycledTestRequest,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             is CoronaTestResult.TestPending ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
                     testIdentifier = scannerResult.test.identifier,
-                    forceTestResultUpdate = true
+                    forceTestResultUpdate = true,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             is CoronaTestResult.TestInvalid ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
-                    testIdentifier = scannerResult.test.identifier
+                    testIdentifier = scannerResult.test.identifier,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             is CoronaTestResult.TestNegative ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
-                    testIdentifier = scannerResult.test.identifier
+                    testIdentifier = scannerResult.test.identifier,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             is CoronaTestResult.TestPositive ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
-                    testIdentifier = scannerResult.test.identifier
+                    testIdentifier = scannerResult.test.identifier,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
             is CoronaTestResult.WarnOthers ->
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                        testIdentifier = scannerResult.test.identifier
+                        testIdentifier = scannerResult.test.identifier,
+                        comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                     )
         }
             ?.let {

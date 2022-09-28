@@ -56,7 +56,7 @@ class DccValidationOpenViewModel @AssistedInject constructor(
                 )
             }
         if (openRules.isNotEmpty()) {
-            items.add(ruleHeaderVHItem(state = DccValidation.State.OPEN, hideTitle = true))
+            items.add(ruleHeaderVHItem(state = DccValidation.State.OPEN))
             items.addAll(openRules)
         }
 

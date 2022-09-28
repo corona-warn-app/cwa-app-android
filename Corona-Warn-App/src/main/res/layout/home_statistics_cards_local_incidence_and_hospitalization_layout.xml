@@ -35,16 +35,16 @@
 
         <TextView
             android:id="@+id/location_label"
-            android:layout_width="0dp"
             style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
+            android:contentDescription="Test"
+            android:importantForAccessibility="yes"
             android:textSize="@dimen/font_small"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="Potsdam"
-            android:contentDescription="Test"
-            android:importantForAccessibility="yes"/>
+            tools:text="Potsdam" />
 
         <ImageView
             android:id="@+id/background_image"
@@ -60,12 +60,13 @@
 
         <TextView
             android:id="@+id/primary_label"
-            android:layout_width="0dp"
             style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:textSize="14sp"
             android:text="@string/statistics_primary_value_until_yesterday"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/location_label"
             app:layout_constraintTop_toTopOf="@id/background_image" />
 
@@ -74,7 +75,13 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
+            android:maxLines="1"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toStartOf="@id/primary_trend_arrow"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/primary_label"
             app:layout_constraintTop_toBottomOf="@id/primary_label"
             tools:text="37.4" />
@@ -85,27 +92,28 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_tiny"
             app:layout_constraintBottom_toBottomOf="@id/primary_value"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toEndOf="@id/primary_value"
             app:layout_constraintTop_toTopOf="@id/primary_value" />
 
         <TextView
             android:id="@+id/primary_subtitle"
-            android:layout_width="0dp"
             style="@style/StatisticsCardValueLabel"
-            android:textSize="14sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_card_local_incidence_value_description"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/background_image"
             app:layout_constraintStart_toStartOf="@id/primary_value"
             app:layout_constraintTop_toBottomOf="@id/primary_value" />
 
         <TextView
             android:id="@+id/secondary_label"
-            android:layout_width="0dp"
             style="@style/StatisticsCardValueLabel"
-            android:textSize="14sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/location_label"
             app:layout_constraintTop_toBottomOf="@id/primary_subtitle"
             tools:text="@string/statistics_primary_value_until_yesterday" />
@@ -115,7 +123,9 @@
             style="@style/StatisticsCardPrimaryValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
+            android:maxLines="1"
             app:layout_constraintStart_toStartOf="@id/secondary_label"
             app:layout_constraintTop_toBottomOf="@id/secondary_label"
             tools:text="1,74" />
@@ -131,11 +141,11 @@
 
         <TextView
             android:id="@+id/secondary_subtitle"
-            android:layout_width="0dp"
-            android:textSize="14sp"
             style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_huge"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/secondary_value"
             app:layout_constraintTop_toBottomOf="@id/secondary_value"

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -41,7 +42,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionDeletionWarningViewModel.Factory
-            factory.create(args.testRegistrationRequest)
+            factory.create(args.testRegistrationRequest, args.comesFromDispatcherFragment)
         }
     )
     private val binding: FragmentSubmissionDeletionWarningBinding by viewBinding()
@@ -82,31 +83,50 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     popBackStack()
                 }
                 is State.TestRegistered -> when {
-                    state.test.isPositive -> {
-                        if (args.testRegistrationRequest is CoronaTestTAN) {
-                            SubmissionDeletionWarningFragmentDirections
-                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    testIdentifier = state.test.identifier
-                                )
-                        } else {
-                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                                testIdentifier = state.test.identifier
-                            )
-                        }
-                    }
-                    else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testIdentifier = state.test.identifier
+                    state.test.isPositive -> sortNavigation(state.test.identifier)
+                    else -> findNavController().navigate(
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                        ),
+                        navOptions
                     )
-                }.also { findNavController().navigate(it, navOptions) }
+                }
             }
 
             viewModel.routeToScreen.observe2(this) { event ->
                 Timber.d("Navigating to %s", event)
                 when (event) {
-                    DuplicateWarningEvent.Back -> popBackStack()
+                    DuplicateWarningEvent.Back -> {
+                        if (args.comesFromDispatcherFragment) {
+                            SubmissionDeletionWarningFragmentDirections.actionGlobalMainFragment()
+                        }
+                        popBackStack()
+                    }
                     is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }
+        }
+    }
+
+    private fun sortNavigation(identifier: TestIdentifier) {
+        if (args.testRegistrationRequest is CoronaTestTAN) {
+            findNavController().navigate(
+                SubmissionDeletionWarningFragmentDirections
+                    .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
+                        testIdentifier = identifier,
+                        comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                    ),
+                navOptions
+            )
+        } else {
+            findNavController().navigate(
+                NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                    testIdentifier = identifier,
+                    comesFromDispatcherFragment = args.comesFromDispatcherFragment
+                ),
+                navOptions
+            )
         }
     }
 

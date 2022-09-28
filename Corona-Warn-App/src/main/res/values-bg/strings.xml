@@ -26,6 +26,8 @@
     <string name="menu_trash">"Кошче"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Социална медия"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"%s запис %d от %d"</string>
 
     <!-- ####################################
                Notification
@@ -69,7 +71,7 @@
     <!-- XTXT: risk card - Days since installation if today -->
     <string name="risk_card_body_installation_today">"Инсталирано днес"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Инсталирано вчера"</string>
+    <string name="risk_card_body_installation_yesterday">"Инсталирано преди %s ден"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Все още не е извършвана проверка на контактите."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -419,11 +421,11 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Как да активирате регистрирането на излагания на риск"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"За да установите дали за Вас съществува риск от заразяване, трябва да активирате функцията за регистриране на излагания на риск."</string>
+    <string name="onboarding_tracing_subtitle">"За да установите дали сте застрашени от заразяване, трябва да активирате функцията за регистриране на излагания на риск."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Регистрирането на излагания на риск се извършва с помощта на Bluetooth връзка, при която Вашият смартфон с Android получава криптираните случайни ИД кодове на други потребители на приложението и изпраща до техните устройства Вашите случайни ИД кодове. Функцията може да бъде дезактивирана по всяко време."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"Криптираните случайни идентификатори предават само информация за дата, продължителност и близост на контакта (изчислена от силата на сигнала). Самоличността Ви не може да бъде установена по случайните ИД."</string>
+    <string name="onboarding_tracing_body_emphasized">"Криптираните случайни ИД кодове предават само информация за дата, продължителност и близост до другите лица (изчислена посредством силата на сигнала). Никога не се записват лични данни от типа на име, адрес и местоположение, т.е. идентифицирането на лицата на база на случайни ИД кодове е невъзможно."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Информация за приложението на опростен и жестомимичен език."</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Ето как работи регистрирането на излагания на риск"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Разрешаване на генерирането и споделянето на случайни ИД кодове за COVID-19"</string>
+    <string name="settings_tracing_body_description">"Разрешаване на записването и споделянето на случайни ИД кодове за COVID-19"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Регистрирането на излагания на риск е активно"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -626,7 +628,7 @@
     <!--XHED : settings(tracing) - headline on card about the current status and what to do -->
     <string name="settings_tracing_status_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
-    <string name="settings_tracing_status_location_body">"Активирайте услугите за споделяне на местоположение. Bluetooth с нисък разход на енергия изисква активирани услуги за споделяне на местоположението, за да може да изчисли физическото разстояние, но в момента няма достъп до Вашето местоположение. Повече информация може да намерите на страницата „Често задавани въпроси“."</string>
+    <string name="settings_tracing_status_location_body">"Активирайте услугите за споделяне на местоположение. Bluetooth с нисък разход на енергия изисква активирани услуги за споделяне на местоположението, за да може да изчисли физическото разстояние, но в момента няма достъп до Вашето местоположение. Повече информация може да намерите на страницата с ЧЗВ."</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Към настройките на устройството"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Приоритетна работа във фонов режим"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Разрешаване на автоматични актуализации за статус на риск"</string>
+    <string name="settings_background_priority_body_description">"Разрешаване на автоматични актуализации за Вашия статус на риск."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Автоматична актуализация на статус на риск"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1034,8 +1036,10 @@
     <string name="submission_test_result_subtitle">"Как работи:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Вашият PCR тест е добавен"</string>
-    <!-- YTXT: Body text for for results next steps  -->
-    <string name="submission_test_result_steps_added_body">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
+    <!-- YTXT: Body text for for results next steps pcr -->
+    <string name="submission_test_result_steps_added_body_pcr">"Вашият тест е запазен в приложението Corona-Warn-App."</string>
+    <!-- YTXT: Body text for for results next steps rat -->
+    <string name="submission_test_result_steps_added_body_rat">"Резултатът от теста ще се показва тук в рамките на 48 часа. Приложението ще направи запис и в дневника Ви на контактите."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"PCR тестът е добавен"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1098,7 +1102,7 @@
     <string name="submission_test_result_delete_steps_invalid_heading">"Изтриване на тест"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест.Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_delete_steps_invalid_body">"Трябва да изтриете последния тест, за да можете да регистрирате нов."</string>
 
@@ -1178,6 +1182,14 @@
     <string name="submission_accept_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфонът предава на системата информация за положителен резултат от тест."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Споделяне на случайно генерирани ИД кодове чрез приложението Corona-Warn-App?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"Вашите случайно генерирани ИД кодове през последните 14 дни се използват за известяване на другите, че сте близо до тях и следователно те може да са били в контакт с лице, диагностицирано с COVID-19. Вашата самоличност никога няма да бъде споделяна с други лица."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Без споделяне на данни"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Споделяне"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1484,10 +1496,12 @@
     <string name="statistics_explanation_title">"Показатели"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Пояснение на статистиката"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">"Нови случаи на заразяване"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Потвърдени нови случаи на заразяване"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“."</string>
+    <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“. Числа под прагова стойност на 1% от 7-дневната заболеваемост не се показват. Вижте обяснението под Легенда&gt;Времеви период."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1497,7 +1511,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1506,9 +1520,18 @@
     <string name="statistics_explanation_legend_title">"Легенда"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Период от време"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">"Вчера/до вчера"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"За \"Вчера/до вчера\" се показва броят за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, се показва последната дата, за която има данни."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Брой за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, защото например само няколко служби за обществено здравеопазване сега изпращат данни към института \"Роберт Кох\" пред уикендите и национални празници, то тогава се показва последната дата, за която има данни."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">"Средно за последните 7 дни"</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">"Средна стойност за последните 7 дни"</string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">"Общо"</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">"Общ брой от началото на годината или от стартирането на приложението (15 юни 2020 г.)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Тенденция"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1587,9 +1610,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили първа доза ваксина."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"На страницата ни за „ЧЗВ“ ще намерите отговори на често задавани въпроси:"</string>
+    <string name="statistics_faq_text">"За повече информация моля разгледайте нашата страница с ЧЗВ:\nЧЗВ за статистика"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"ЧЗВ"</string>
+    <string name="statistics_faq_label">"ЧЗВ за статистика"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
@@ -1959,57 +1982,6 @@
     <string name="generic_action_abort">"Отказ"</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">"Изтриване"</string>
-
-    <!-- ####################################
-       Trace Location
-    ###################################### -->
-    <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">"Регистрация"</string>
-    <!-- XTXT: subtitle for the trace location onboarding -->
-    <string name="trace_location_onboarding_title2">"Бързо и надеждно прекъсване на веригите на заразяване"</string>
-    <!-- YMSG: Onboarding trace location intro section -->
-    <string name="trace_location_onboarding_subheadline">"Сканирайте QR кода, за да регистрирате своето присъствие на дадено място или събитие."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_warning">"Всяка регистрация се взема предвид също и при изчисляване на Вашия статус на риск. При диагностициране на дадено лице с коронавирус Вие ще получите уведомление, ако по същото време или в рамките на 30 минути след това сте се намирали в едно и също помещение с него."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
-    <!-- XACT: Button/Dialog label to consent-->
-    <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
-    <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">"Трима души стоят до висока маса и двама от тях гледат телефоните си."</string>
-    <!-- XMIT: Trace location poster print -->
-    <string name="trace_location_organiser_poster_print">"Печат"</string>
-    <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Споделяне"</string>
-    <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Версия за печат"</string>
-    <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Ще споделите ли своите регистрации?"</string>
-    <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали с вас. Вашите лични данни няма да бъдат споделени."</string>
-    <!-- XBUT: Trace location check-ins consent screen header button -->
-    <string name="trace_location_attendee_consent_header_button">"Избери всички"</string>
-    <!-- XBUT: Trace location check-ins consent screen continue button -->
-    <string name="trace_location_attendee_consent_continue">"Предаване"</string>
-    <!-- XBUT: Trace location check-ins consent screen skip button -->
-    <string name="trace_location_attendee_consent_skip">"Пропускане"</string>
-    <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">"Наистина ли не желаете да споделите своите регистрации?"</string>
-    <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани с вас."</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
-    <string name="trace_location_attendee_consent_dialog_positive_button">"Споделяне"</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
-    <string name="trace_location_attendee_consent_dialog_negative_button">"Да не се споделя"</string>
-
-    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Невалиден QR код"</string>
-    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Сканираният QR код не е валиден за регистрации за събитие или място. \nМоля, сканирайте подходящ QR код. \n\n(%1$s)"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"ОК"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Отказ"</string>
 
     <!-- ####################################
         Incompatibility warning card

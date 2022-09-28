@@ -15,8 +15,8 @@ class LocationTracingStatusCardBodyTextView @JvmOverloads constructor(
     init {
         setTextWithUrl(
             R.string.settings_tracing_status_location_body,
-            "FAQ",
-            context.getString(R.string.settings_tracing_status_location_body_url)
+            R.string.nm_faq_label,
+            R.string.settings_tracing_status_location_body_url
         )
     }
 }

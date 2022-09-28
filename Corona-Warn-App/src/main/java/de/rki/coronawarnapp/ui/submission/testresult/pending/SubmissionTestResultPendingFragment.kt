@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.pending
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -42,7 +43,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(navArgs.testIdentifier, navArgs.forceTestResultUpdate)
+            factory.create(
+                testIdentifier = navArgs.testIdentifier,
+                initialUpdate = navArgs.forceTestResultUpdate,
+                comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
+            )
         }
     )
 
@@ -52,6 +57,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         viewModel.consentGiven.observe2(this) {
             binding.consentStatus.consent = it
         }
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBackToFlowStart()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.testState.observe2(this) { result ->
             val isPcr = result.coronaTest.type == BaseCoronaTest.Type.PCR
@@ -130,7 +140,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonPendingRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            binding.toolbar.setNavigationOnClickListener { navigateToMainScreen() }
+            binding.toolbar.setNavigationOnClickListener { navigateBackToFlowStart() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 
@@ -151,7 +161,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateToMainScreen() }
+        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateBackToFlowStart() }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
     }
 
@@ -182,8 +192,13 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         errorDialog = DialogHelper.showDialog(dialogInstance)
     }
 
-    private fun navigateToMainScreen() {
-        popBackStack()
+    private fun navigateBackToFlowStart() {
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultPendingFragmentDirections
+                    .actionSubmissionTestResultPendingFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     private val networkErrorDialog: DialogHelper.DialogInstance
@@ -194,7 +209,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_error_dialog_web_generic_error_button_positive,
             null,
             true,
-            ::navigateToMainScreen
+            ::navigateBackToFlowStart
         )
 
     private val genericErrorDialog: DialogHelper.DialogInstance
@@ -205,6 +220,6 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             R.string.submission_error_dialog_web_generic_error_button_positive,
             null,
             true,
-            ::navigateToMainScreen
+            ::navigateBackToFlowStart
         )
 }

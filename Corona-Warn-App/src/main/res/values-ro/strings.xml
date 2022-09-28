@@ -26,6 +26,8 @@
     <string name="menu_trash">"Coș de reciclare"</string>
     <!-- XMIT: social media -->
     <string name="menu_social_media">"Social media"</string>
+    <!-- XMIT: Menu item accessibility content description -->
+    <string name="menu_item_accessibility_description">"Intrare %s, %d din %d"</string>
 
     <!-- ####################################
                Notification
@@ -65,11 +67,11 @@
     ###################################### -->
 
     <!-- XTXT: risk card - Days since installation if < 14 days -->
-    <string name="risk_card_body_days_since_installation">"Instalat acum %s zile"</string>
+    <string name="risk_card_body_days_since_installation">"Instalată acum %s zile"</string>
     <!-- XTXT: risk card - Days since installation if today -->
-    <string name="risk_card_body_installation_today">"Instalat astăzi"</string>
+    <string name="risk_card_body_installation_today">"Instalată astăzi"</string>
     <!-- XTXT: risk card - Days since installation if yesterday -->
-    <string name="risk_card_body_installation_yesterday">"Instalat ieri"</string>
+    <string name="risk_card_body_installation_yesterday">"Instalată acum %s zi"</string>
     <!-- XTXT; risk card - no update done yet -->
     <string name="risk_card_body_not_yet_fetched">"Întâlnirile nu au fost încă verificate."</string>
     <!-- XTXT: risk card - last successful update -->
@@ -419,11 +421,11 @@
     <!-- XHED: onboarding(tracing) - how to enable tracing -->
     <string name="onboarding_tracing_headline">"Cum se activează înregistrarea în jurnal a expunerilor"</string>
     <!-- XHED: onboarding(tracing) - two/three line headline under an illustration -->
-    <string name="onboarding_tracing_subtitle">"Pentru a identifica dacă sunteți supus riscului de infectare, trebuie să activați înregistrarea în jurnal a expunerilor."</string>
+    <string name="onboarding_tracing_subtitle">"Pentru a identifica dacă sunteți supus riscului de infectare, trebuie să activați caracteristica de înregistrare în jurnal a expunerilor."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body">"Înregistrarea în jurnal a expunerilor funcționează astfel: smartphone-ul dvs. Android primește prin Bluetooth ID-uri aleatorii criptate ale altor utilizatori ai aplicației și transmite propriile dvs. ID-uri aleatorii către smartphone-urile acestora. Înregistrarea în jurnal a expunerilor poate fi oricând dezactivată."</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
-    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculată prin intensitatea semnalului). Nu se pot identifica persoane individuale pe baza ID-urilor aleatorii."</string>
+    <string name="onboarding_tracing_body_emphasized">"ID-urile aleatorii criptate transmit informații doar despre dată, durată și proximitatea față de alte persoane (calculate utilizând intensitatea semnalului). Datele personale, precum numele, adresa și locația nu sunt înregistrate niciodată. Nu se pot identifica persoane individuale pe baza ID-urilor aleatorii."</string>
     <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
     <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">"Informații despre aplicație în limbaj simplificat și în limbajul semnelor"</a></string>
     <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
@@ -598,7 +600,7 @@
     <!-- XHED: settings(tracing) - headline below illustration -->
     <string name="settings_tracing_headline">"Modul în care funcționează înregistrarea în jurnal a expunerilor"</string>
     <!-- XTXT: settings(tracing) - explain text in settings overview under headline -->
-    <string name="settings_tracing_body_description">"Permiteți crearea și partajarea de ID-uri aleatorii asociate COVID-19."</string>
+    <string name="settings_tracing_body_description">"Permiteți înregistrarea și trimiterea de ID-uri aleatorii de COVID-19."</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, active -->
     <string name="settings_tracing_body_active">"Înregistrarea în jurnal a expunerilor este activă"</string>
     <!-- XTXT: settings(tracing) - shows status under header in home, inactive -->
@@ -677,7 +679,7 @@
     <!-- XHED: settings(background priority) - notification page title -->
     <string name="settings_background_priority_title">"Activitate în fundal cu prioritate"</string>
     <!-- XTXT: settings(background priority) - text in row on settings overview -->
-    <string name="settings_background_priority_body_description">"Permiteți actualizări automate privind starea riscului"</string>
+    <string name="settings_background_priority_body_description">"Permiteți actualizările automate privind starea riscului dvs."</string>
     <!-- XHED: settings(background priority) - multiline headline below illustration -->
     <string name="settings_background_priority_headline">"Actualizare automată a stării de risc"</string>
     <!-- YTXT: settings(background priority) - description text -->
@@ -1034,8 +1036,10 @@
     <string name="submission_test_result_subtitle">"Cum funcționează:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat"</string>
-    <!-- YTXT: Body text for for results next steps  -->
-    <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
+    <!-- YTXT: Body text for for results next steps pcr -->
+    <string name="submission_test_result_steps_added_body_pcr">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
+    <!-- YTXT: Body text for for results next steps rat -->
+    <string name="submission_test_result_steps_added_body_rat">"Rezultatul testului dvs. este afișat aici timp de 48 de ore. De asemenea, aplicația creează o intrare în jurnalul dvs. de contacte."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
     <string name="submission_family_test_result_steps_added_pcr_heading">"Testul PCR a fost adăugat"</string>
     <!-- XHED: Page headline for family results next steps RAT -->
@@ -1178,6 +1182,14 @@
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un smartphone transmite un diagnostic de test pozitiv criptat către sistem."</string>
+    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_title">"Partajați ID-uri aleatorii prin Corona-Warn-App?"</string>
+    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_body">"ID-urile dvs. aleatorii din ultimele 14 zile sunt utilizate pentru a notifica alte persoane că ați fost în apropierea lor și că, astfel, este posibil să fi fost expuse la o persoană diagnosticată cu COVID-19. Identitatea dvs. nu va fi niciodată partajată cu alte persoane."</string>
+    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_negative_button">"Fără partajare"</string>
+    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
+    <string name="submission_positive_other_warning_dialog_positive_button">"Partajare"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1484,10 +1496,12 @@
     <string name="statistics_explanation_title">"Indicatori"</string>
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explicarea statisticii"</string>
+    <!-- XHED: New infections title -->
+    <string name="statistics_explanation_new_infections">"infectări noi"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"infectări noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
-    <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
+    <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI. Numerele sub pragul de 1% a mediei pe 7 zile nu sunt afișate. Vedeți și explicațiile din secțiunea Legendă &gt; Perioadă de timp."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
@@ -1497,7 +1511,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1506,9 +1520,18 @@
     <string name="statistics_explanation_legend_title">"Legendă"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Perioadă de timp"</string>
-    <!-- XHED: Explanation screen period yesterday subtitle -->
+    <!-- XHED: Explanation screen yesterday subtitle -->
+    <string name="statistics_explanation_yesterday_subtitle">"Ieri/Până ieri"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, de exemplu, din cauză că puține autorități de sănătate publică trimit acum datele la RKI în weekend și în zilele de sărbătoare legală, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
+    <!-- XHED: Statistics screen seven day mean title -->
+    <string name="statistics_screen_seven_day_mean_title">"Media pe 7 zile"</string>
+    <!-- XTXT: Statistics screen seven day mean text -->
+    <string name="statistics_screen_seven_day_mean_text">"Valoarea medie din ultimele 7 zile"</string>
+    <!-- XHED: Statistics screen total title -->
+    <string name="statistics_screen_total_title">"Total"</string>
+    <!-- XTXT: Statistics screen total text -->
+    <string name="statistics_screen_total_text">"Numărul total de la începutul anului sau de la lansarea aplicației (15 iunie 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1530,7 +1553,7 @@
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
-    <string name="statistics_explanation_blog_label">"Blog."</string>
+    <string name="statistics_explanation_blog_label">"blogul"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Spitalizare"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
@@ -1587,9 +1610,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Numărul de persoane raportat la RKI care au primit prima doză de vaccin."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:"</string>
+    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\nÎntrebări frecvente pentru statistică"</string>
     <!-- XTXT: Statistics FAQ label -->
-    <string name="statistics_faq_label">"Întrebări frecvente"</string>
+    <string name="statistics_faq_label">"Întrebări frecvente pentru statistică"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
@@ -1959,57 +1982,6 @@
     <string name="generic_action_abort">"Anulare"</string>
     <!-- XACT: Button/Dialog label to remove something-->
     <string name="generic_action_remove">"Ștergere"</string>
-
-    <!-- ####################################
-       Trace Location
-    ###################################### -->
-    <!-- XHED: Title for the trace location onboarding -->
-    <string name="trace_location_onboarding_title">"Check-in"</string>
-    <!-- XTXT: subtitle for the trace location onboarding -->
-    <string name="trace_location_onboarding_title2">"Întrerupeți rapid și cu încredere lanțurile de infectare"</string>
-    <!-- YMSG: Onboarding trace location intro section -->
-    <string name="trace_location_onboarding_subheadline">"Scanați codul QR pentru un eveniment sau loc pentru a face check-in și a vă înregistra prezența la acesta pe smartphone-ul dvs."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_warning">"La calcularea stării riscului dvs. este luat în calcul și fiecare check-in. Dacă o persoană care a făcut check-in la acest eveniment sau în acest loc este diagnosticată ulterior cu coronavirus, puteți fi notificat dacă ați fost în aceeași cameră în același timp sau în decurs de 30 de minute după persoana diagnosticată."</string>
-    <!-- YMSG: Onboarding trace location warning -->
-    <string name="trace_location_onboarding_body_stay">"Specificați durata șederii cât mai precis posibil pentru a permite avertizările exacte."</string>
-    <!-- XACT: Button/Dialog label to consent-->
-    <string name="trace_location_onboarding_body_confirm">"Accept"</string>
-    <!--  YMSG: Trace location onboarding image description-->
-    <string name="trace_location_onboarding_content_description">"Trei persoane stau în picioare la o masă înaltă, iar două dintre ele se uită pe smartphone."</string>
-    <!-- XMIT: Trace location poster print -->
-    <string name="trace_location_organiser_poster_print">"Tipărire"</string>
-    <!-- XMIT: Trace location poster share -->
-    <string name="trace_location_organiser_poster_share">"Partajare"</string>
-    <!-- XHED: Trace location poster title -->
-    <string name="trace_location_organiser_poster_title">"Versiune de tipărire"</string>
-    <!-- XHED: Trace location check-ins consent screen title -->
-    <string name="trace_location_attendee_consent_title">"Partajați check-inurile?"</string>
-    <!-- XTXT: Trace location check-ins consent screen header description -->
-    <string name="trace_location_attendee_consent_header_description">"Avertizați-i pe ceilalți care au făcut check-in cu dvs. Datele dvs. personale nu vor fi partajate."</string>
-    <!-- XBUT: Trace location check-ins consent screen header button -->
-    <string name="trace_location_attendee_consent_header_button">"Selectare tot"</string>
-    <!-- XBUT: Trace location check-ins consent screen continue button -->
-    <string name="trace_location_attendee_consent_continue">"Transmitere"</string>
-    <!-- XBUT: Trace location check-ins consent screen skip button -->
-    <string name="trace_location_attendee_consent_skip">"Omitere"</string>
-    <!-- XHED: Trace location check-ins consent screen dialog title -->
-    <string name="trace_location_attendee_consent_dialog_title">"Sigur nu doriți să partajați check-inurile dvs.?"</string>
-    <!-- XTXT: Trace location check-ins consent screen dialog message -->
-    <string name="trace_location_attendee_consent_dialog_message">"Omiterea nu va avertiza contactele care au făcut check-in cu dvs."</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
-    <string name="trace_location_attendee_consent_dialog_positive_button">"Partajare"</string>
-    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
-    <string name="trace_location_attendee_consent_dialog_negative_button">"Nu partajez"</string>
-
-    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Cod QR nevalabil"</string>
-    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Codul QR scanat nu este valabil pentru check-inurile la un eveniment sau într-un loc. \nScanați un cod QR corespunzător.\n\n(%1$s)"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"OK"</string>
-    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
-    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Anulare"</string>
 
     <!-- ####################################
         Incompatibility warning card

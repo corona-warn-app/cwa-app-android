@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- background with solid color -->
-    <item android:drawable="@color/colorSurface" />
-
-    <!-- logo -->
+<!--background with solid color-->
+    <item android:drawable="@color/colorSurface"/>
+<!--logo-->
     <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_splash_logo_round" />
+        <bitmap android:gravity="center" android:src="@drawable/ic_splash_logo_round"/>
     </item>
-
 </layer-list>

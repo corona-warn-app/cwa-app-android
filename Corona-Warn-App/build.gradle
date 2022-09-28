@@ -413,7 +413,7 @@ dependencies {
             because 'fixing fasterxml vulnerability'
         }
 
-        implementation('org.yaml:snakeyaml:1.30') {
+        implementation('org.yaml:snakeyaml:1.32') {
             because 'fixing high vulnerability'
         }
     }

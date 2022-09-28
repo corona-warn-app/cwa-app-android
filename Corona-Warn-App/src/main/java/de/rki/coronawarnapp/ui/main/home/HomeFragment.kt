@@ -40,6 +40,7 @@ import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setItemContentDescription
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -72,6 +73,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             setupMenuIcons(menu)
             setupDebugMenu(menu)
             setupMenuItemClickListener()
+            menu.setItemContentDescription(requireContext())
         }
 
         binding.recyclerView.apply {
@@ -123,13 +125,12 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.markTestBadgesAsSeen.observe2(this) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
-
         viewModel.markRiskBadgeAsSeen()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshRequiredData()
+        viewModel.refreshTests()
         viewModel.initAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }

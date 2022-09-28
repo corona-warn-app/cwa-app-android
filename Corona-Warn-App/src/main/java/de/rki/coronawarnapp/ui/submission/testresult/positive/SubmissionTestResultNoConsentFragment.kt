@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -57,6 +59,8 @@ class SubmissionTestResultNoConsentFragment :
             if (it.coronaTest is FamilyCoronaTest) {
                 binding.toolbar.title = getText(R.string.submission_test_result_headline)
                 binding.familyMemberName.text = it.coronaTest.personName
+            } else {
+                binding.familyMemberName.isVisible = false
             }
         }
 
@@ -90,16 +94,20 @@ class SubmissionTestResultNoConsentFragment :
     }
 
     private fun navigateToHome() {
-        doNavigate(
-            SubmissionTestResultNoConsentFragmentDirections.actionSubmissionTestResultNoConsentFragmentToHomeFragment()
-        )
+        if (navArgs.comesFromDispatcherFragment) {
+            doNavigate(
+                SubmissionTestResultNoConsentFragmentDirections
+                    .actionSubmissionTestResultNoConsentFragmentToHomeFragment()
+            )
+        } else popBackStack()
     }
 
     private fun navigateToWarnOthers() {
         doNavigate(
             SubmissionTestResultNoConsentFragmentDirections
                 .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    testIdentifier = navArgs.testIdentifier
+                    testIdentifier = navArgs.testIdentifier,
+                    comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
         )
     }

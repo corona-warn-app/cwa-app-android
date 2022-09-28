@@ -19,7 +19,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.Instant
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.After
@@ -43,6 +43,16 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         certIdentifier = "vaccinationCertificateId",
         colorShade = PersonColorShade.COLOR_1
     ).toBundle()
+
+    val vaccinationDateFormatted = "2021-02-18"
+    val vaccinationDate = LocalDate.parse(
+        "18.02.2021",
+        DateTimeFormat.forPattern("dd.MM.yyyy")
+    )
+    val expirationDate = DateTime.parse(
+        "18.02.2022 15:00",
+        DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+    ).toInstant()
 
     @Before
     fun setUp() {
@@ -109,7 +119,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val vaccinationCertificate = vaccinationCertificate().apply {
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
             every { isDisplayValid } returns true
-            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { state } returns CwaCovidCertificate.State.Valid(expirationDate)
         }
         return MutableLiveData(vaccinationCertificate)
     }
@@ -129,19 +139,19 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { doseNumber } returns 2
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { state } returns CwaCovidCertificate.State.Expired(Instant.now())
+            every { state } returns CwaCovidCertificate.State.Expired(expirationDate)
         }
         return MutableLiveData(vaccinationCertificate)
     }
 
     private fun vaccinationCertificate(): VaccinationCertificate {
-        val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
+
         return mockk<VaccinationCertificate>().apply {
             every { fullName } returns "Max Mustermann"
             every { fullNameStandardizedFormatted } returns "MUSTERMANN<<MAX"
             every { dateOfBirthFormatted } returns "1976-02-01"
-            every { vaccinatedOnFormatted } returns "2021-02-18"
-            every { vaccinatedOn } returns LocalDate.parse("18.02.2021", formatter)
+            every { vaccinatedOnFormatted } returns vaccinationDateFormatted
+            every { vaccinatedOn } returns vaccinationDate
             every { targetDisease } returns "COVID-19"
             every { medicalProductName } returns "Comirnaty"
             every { vaccineTypeName } returns "mRNA"
@@ -149,7 +159,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns "Deutschland"
             every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
-            every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
+            every { headerExpiresAt } returns expirationDate
             every { totalSeriesOfDoses } returns 2
             every { hasNotificationBadge } returns false
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)

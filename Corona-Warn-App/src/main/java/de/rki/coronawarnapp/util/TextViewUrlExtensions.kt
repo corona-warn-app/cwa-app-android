@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.urlSpan
 import timber.log.Timber
+import java.util.Locale
 
 fun TextView.setTextWithUrl(@StringRes textRes: Int, @StringRes labelRes: Int, @StringRes urlRes: Int) {
     setTextWithUrls(textRes.toResolvingString(), TextViewUrlSet(labelRes, urlRes))
@@ -36,7 +37,7 @@ fun TextView.setTextWithUrls(
             it.label.get(context) to it.url.get(context)
         }
         .forEach { (label, url) ->
-            val index = contentResolved.lowercase().indexOf(label.lowercase())
+            val index = contentResolved.lowercase(Locale.getDefault()).indexOf(label.lowercase(Locale.getDefault()))
             if (index == -1) {
                 Timber.w("Label $label was not found in $content")
                 return@forEach

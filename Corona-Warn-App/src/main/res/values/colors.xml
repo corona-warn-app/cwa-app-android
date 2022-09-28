@@ -38,10 +38,12 @@
     <color name="colorTextPrimary3">#4D17191A</color>
     <color name="colorTextEmphasizedButton">#FFFFFF</color>
     <color name="colorTextSixteen">#17191A</color>
+    <color name="colorInputText">#99000000</color>
     <color name="colorTextSemanticRed">#C00F2D</color>
     <color name="colorTextSemanticGreen">#2E854B</color>
     <color name="colorTextSemanticNeutral">@color/cwaGrayHighlight</color>
     <color name="colorTextTint">@color/colorPrimary</color>
+    <color name="colorTextDeleteButtonDialog">#C00F2D</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C00F2D</color>
@@ -105,6 +107,7 @@
     <color name="whiteAlpha60">#99FFFFFF</color>
     <color name="dividerColor">#DEDEDE</color>
 
+    <color name="starsGreenColor">#2F894D</color>
     <color name="starsColor1">#0191C6</color>
     <color name="starsColor2">#116A9F</color>
     <color name="starsColor3">#025A8F</color>
@@ -121,4 +124,8 @@
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardGrey</color>
     <color name="contactDiaryOverviewUnClickableColor">#FFFFFF</color>
     <color name="contactDiaryOverviewBorderColor">#E2E2E2</color>
+    <color name="maskGStatusBadgeColor">#1F5932</color>
+    <color name="maskBadgeColor">#505968</color>
+    <color name="maskBadgeTextColorRegular">#505968</color>
+    <color name="maskBadgeTextColorGreenBg">#FFFFFF</color>
 </resources>

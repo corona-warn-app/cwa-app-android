@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.settings
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -8,7 +7,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -62,12 +60,10 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
             R.string.settings_reset_dialog_button_confirm,
             R.string.settings_reset_dialog_button_cancel,
             cancelable = true,
-            positiveButtonFunction = vm::deleteAllAppContent
+            positiveButtonFunction = vm::deleteAllAppContent,
+            isDeleteDialog = true
         )
 
-        DialogHelper.showDialog(resetDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
+        DialogHelper.showDialog(resetDialog)
     }
 }

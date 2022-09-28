@@ -195,7 +195,7 @@
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
 
     <!-- XTXT: Event organiser list item: duration same day-->
-    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s, %2$s - %3$s"</string>
 
     <!-- XBUT: Event organiser list item: checkin button -->
     <string name="trace_location_organizer_list_item_action_checkin">"Регистрация"</string>
@@ -326,5 +326,56 @@
 
     <!-- Trace Location QR export strings -->
     <string name="trace_location_export_qr_code_view_content_description">"Преглед преди печат за QR код на събитие"</string>
+
+    <!-- ####################################
+      Trace Location
+   ###################################### -->
+    <!-- XHED: Title for the trace location onboarding -->
+    <string name="trace_location_onboarding_title">"Регистрация"</string>
+    <!-- XTXT: subtitle for the trace location onboarding -->
+    <string name="trace_location_onboarding_title2">"Бързо и надеждно прекъсване на веригите на заразяване"</string>
+    <!-- YMSG: Onboarding trace location intro section -->
+    <string name="trace_location_onboarding_subheadline">"Сканирайте QR кода, за да регистрирате своето присъствие на дадено място или събитие."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_warning">"Всяка регистрация се взема предвид също и при изчисляване на Вашия статус на риск. При диагностициране на дадено лице с коронавирус Вие ще получите уведомление, ако по същото време или в рамките на 30 минути след това сте се намирали в едно и също помещение с него."</string>
+    <!-- YMSG: Onboarding trace location warning -->
+    <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
+    <!-- XACT: Button/Dialog label to consent-->
+    <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
+    <!--  YMSG: Trace location onboarding image description-->
+    <string name="trace_location_onboarding_content_description">"Трима души стоят до висока маса и двама от тях гледат телефоните си."</string>
+    <!-- XMIT: Trace location poster print -->
+    <string name="trace_location_organiser_poster_print">"Печат"</string>
+    <!-- XMIT: Trace location poster share -->
+    <string name="trace_location_organiser_poster_share">"Споделяне"</string>
+    <!-- XHED: Trace location poster title -->
+    <string name="trace_location_organiser_poster_title">"Версия за печат"</string>
+    <!-- XHED: Trace location check-ins consent screen title -->
+    <string name="trace_location_attendee_consent_title">"Ще споделите ли своите регистрации?"</string>
+    <!-- XTXT: Trace location check-ins consent screen header description -->
+    <string name="trace_location_attendee_consent_header_description">"Предупредете останалите, които също са се регистрирали с вас. Вашите лични данни няма да бъдат споделени."</string>
+    <!-- XBUT: Trace location check-ins consent screen header button -->
+    <string name="trace_location_attendee_consent_header_button">"Избери всички"</string>
+    <!-- XBUT: Trace location check-ins consent screen continue button -->
+    <string name="trace_location_attendee_consent_continue">"Предаване"</string>
+    <!-- XBUT: Trace location check-ins consent screen skip button -->
+    <string name="trace_location_attendee_consent_skip">"Пропускане"</string>
+    <!-- XHED: Trace location check-ins consent screen dialog title -->
+    <string name="trace_location_attendee_consent_dialog_title">"Наистина ли не желаете да споделите своите регистрации?"</string>
+    <!-- XTXT: Trace location check-ins consent screen dialog message -->
+    <string name="trace_location_attendee_consent_dialog_message">"Като пропускате споделянето, вие не изпращате предупреждение на други контактни лица, регистрирани с вас."</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog positive button -->
+    <string name="trace_location_attendee_consent_dialog_positive_button">"Споделяне"</string>
+    <!-- XBUT: Trace location check-ins consent screen dialog negative button -->
+    <string name="trace_location_attendee_consent_dialog_negative_button">"Да не се споделя"</string>
+
+    <!-- XHED: Trace location check-ins invalid qr code dialog title -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_title">"Невалиден QR код"</string>
+    <!-- YTXT: Trace location check-ins invalid qr code dialog message -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_message">"Сканираният QR код не е валиден за регистрации за събитие или място. \nМоля, сканирайте подходящ QR код. \n\n(%1$s)"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog positive button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_positive_button">"ОК"</string>
+    <!-- XBUT: Trace location check-ins invalid qr code dialog negative button -->
+    <string name="trace_location_attendee_invalid_qr_code_dialog_negative_button">"Отказ"</string>
 
 </resources>

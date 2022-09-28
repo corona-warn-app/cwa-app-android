@@ -2,9 +2,13 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -32,7 +36,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
 import testhelpers.setViewVisibility
@@ -44,11 +47,21 @@ class HomeFragmentTest : BaseUITest() {
 
     @MockK lateinit var homeFragmentViewModel: HomeFragmentViewModel
 
+    private val navController = TestNavHostController(
+        context = ApplicationProvider.getApplicationContext()
+    ).apply {
+        UiThreadStatement.runOnUiThread {
+            setViewModelStore(ViewModelStore())
+            setGraph(R.navigation.nav_graph)
+            setCurrentDestination(R.id.mainFragment)
+        }
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         with(homeFragmentViewModel) {
-            every { refreshRequiredData() } just Runs
+            every { refreshTests() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
             every { homeItems } returns homeFragmentItemsLiveData()
             every { events } returns SingleLiveEvent()
@@ -82,7 +95,9 @@ class HomeFragmentTest : BaseUITest() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS
         )
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.fake_fab_tooltip)).perform(setViewVisibility(true))
         takeScreenshot<HomeFragment>("fab_tooltip")
     }
@@ -157,6 +172,9 @@ class HomeFragmentTest : BaseUITest() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_ERROR_ITEM)
         )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         captureHomeFragment("test_error")
     }
 
@@ -165,6 +183,9 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentTestFetching() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_FETCHING_ITEM)
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
         )
         captureHomeFragment("test_fetching")
     }
@@ -175,6 +196,9 @@ class HomeFragmentTest : BaseUITest() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_INVALID_ITEM)
         )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         captureHomeFragment("test_invalid")
     }
 
@@ -183,6 +207,9 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentTestNegative() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_NEGATIVE_ITEM)
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
         )
         captureHomeFragment("test_negative")
     }
@@ -196,7 +223,9 @@ class HomeFragmentTest : BaseUITest() {
                 HomeData.Submission.TEST_NEGATIVE_ITEM_RAT
             )
         )
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -25))
         takeScreenshot<HomeFragment>("tests_negative")
     }
@@ -223,7 +252,9 @@ class HomeFragmentTest : BaseUITest() {
     @Test
     fun captureHomeFragmentStatistics() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS)
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         Statistics.statisticsData.items.forEachIndexed { index, _ ->
             onView(withId(R.id.statistics_recyclerview)).perform(
@@ -241,7 +272,9 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentCompatibilityBleBroadcastNotSupported() {
         every { homeFragmentViewModel.homeItems } returns
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         takeScreenshot<HomeFragment>("compatibility_ble_broadcast_not_supported")
     }
@@ -251,7 +284,9 @@ class HomeFragmentTest : BaseUITest() {
     fun captureHomeFragmentCompatibilityBleScanNotSupported() {
         every { homeFragmentViewModel.homeItems } returns
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
         takeScreenshot<HomeFragment>("compatibility_ble_scan_not_supported")
     }
@@ -259,7 +294,9 @@ class HomeFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun captureVaccinationNoCertificate() {
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = 450))
 
         takeScreenshot<HomeFragment>("vaccination_none")
@@ -272,12 +309,16 @@ class HomeFragmentTest : BaseUITest() {
 
     @Test
     fun onResumeCallsRefresh() {
-        launchFragment2<HomeFragment>()
-        verify(exactly = 1) { homeFragmentViewModel.refreshRequiredData() }
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        verify(exactly = 1) { homeFragmentViewModel.refreshTests() }
     }
 
     private fun captureHomeFragment(nameSuffix: String) {
-        launchInMainActivity<HomeFragment>()
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.fake_fab_tooltip)).perform(setViewVisibility(false))
         takeScreenshot<HomeFragment>(nameSuffix)
     }

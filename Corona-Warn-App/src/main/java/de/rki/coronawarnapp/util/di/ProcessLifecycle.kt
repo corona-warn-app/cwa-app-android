@@ -6,3 +6,8 @@ import javax.inject.Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ProcessLifecycle
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ProcessLifecycleScope

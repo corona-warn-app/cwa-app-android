@@ -234,7 +234,14 @@
     <!-- XTXT: No rules available text for the validation passed screen  -->
     <string name="validation_no_rules_available_valid_text">"În prezent nu există reguli de intrare pentru țara selectată și ora selectată pentru acest tip de certificat. Rețineți informațiile enumerate mai jos."</string>
     <!-- XTXT: Rule validation text for the validation passed screen  -->
-    <string name="validation_rules_result_valid_rule_text">"%1$d reguli ale țării de destinație au fost revizuite cu succes."</string>
+    <plurals name="validation_rules_result_valid_rule_text">
+        <item quantity="one">"%1$d regulă a țării de destinație a fost verificată cu succes."</item>
+        <item quantity="other">"%1$d de reguli ale țării de destinație au fost verificate cu succes."</item>
+        <item quantity="zero">"În prezent nu există reguli de intrare pentru țara selectată și ora selectată pentru acest tip de certificat. Rețineți informațiile enumerate mai jos."</item>
+        <item quantity="two">"%1$d reguli ale țării de destinație au fost verificate cu succes."</item>
+        <item quantity="few">"%1$d reguli ale țării de destinație au fost verificate cu succes."</item>
+        <item quantity="many">"%1$d reguli ale țării de destinație au fost verificate cu succes."</item>
+    </plurals>
     <!-- XTXT: Button text - Check another country -->
     <string name="validation_rules_result_valid_result_button">"Verificare pentru o altă țară"</string>
     <!-- Validation Failed Screen-->
@@ -285,18 +292,6 @@
     <string name="dcc_notification_channel_title">"Certificate"</string>
     <!-- XTXT: certificate notification channel description -->
     <string name="dcc_notification_channel_description">"Gestionare notificări pentru certificate"</string>
-
-    <!-- PDF Export: Not possible dialog -->
-    <!-- XHED: PDF Export: Not possible dialog title -->
-    <string name="certificate_export_error_dialog_title">"Imposibil de afișat versiunea de tipărire"</string>
-    <!-- XHED: PDF Export: Not possible dialog body -->
-    <string name="certificate_export_error_dialog_body">"Versiunea de tipărire a certificatului nu poate fi afișată deoarece certificatul nu a fost emis în Germania"</string>
-    <!-- XBUT: PDF Export: Not possible dialog faq button -->
-    <string name="certificate_export_error_dialog_faq_button">"Întrebări frecvente despre versiunea de tipărire"</string>
-
-    <!-- XBUT: PDF Export: Not possible dialog ok button -->
-    <string name="certificate_export_error_dialog_ok_button">"OK"</string>
-
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">"Afișare versiune de tipărire"</string>
@@ -347,7 +342,8 @@
 
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
-
+    <!-- XTXT: Mask requirements card FAQ link -->
+    <string name="mask_requirements_faq_text">"Pentru mai multe informații despre obligativitatea purtării măștii, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
     <string name="ccl_admission_state_tile_title">"Starea pentru următorul stat federal"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
