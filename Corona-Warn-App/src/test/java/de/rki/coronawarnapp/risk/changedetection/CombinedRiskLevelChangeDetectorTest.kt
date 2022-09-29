@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import de.rki.coronawarnapp.util.toLocalDateUtc
@@ -47,6 +46,7 @@ import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneOffset
 
 @Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
@@ -208,9 +208,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     fun `combined risk state change from HIGH to LOW should trigger one notification`() {
 
         val riskSequence = listOf(
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-01"))
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-01".toInstant())
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -243,9 +243,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(LOW_RISK) } returns false
 
         val riskSequence = listOf(
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-01"))
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-01".toInstant())
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -275,9 +275,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @Test
     fun `combined risk level went from LOW to HIGH but it is has already been processed`() {
         val riskSequence = listOf(
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-01"))
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-01".toInstant())
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -288,7 +288,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
                 .toTypedArray()
         )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns "2022-01-03".toInstant()
 
         runTest {
             createInstance(scope = this).initialize()
@@ -306,10 +306,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @Test
     fun `combined risk state change from LOW to HIGH triggers initial high notification`() {
         val riskSequence = listOf(
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-04")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-01")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-04".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-01".toInstant()),
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -339,15 +339,15 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     fun `multiple high risks should trigger initial notification and additional high risk notifications`() {
 
         val riskSequenceWithLowToHighRiskChange = listOf(
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-04")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-01")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-04".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = "2022-01-01".toInstant()),
         )
 
         val riskSequenceWithAdditionalRisk = riskSequenceWithLowToHighRiskChange + listOf(
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-06")),
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-05")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-06".toInstant()),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-05".toInstant()),
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequenceWithLowToHighRiskChange)
@@ -377,8 +377,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @Test
     fun `lastHighRiskDate should be reset when there is a new low risk after a high risk`() {
         val riskSequence = listOf(
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-05")),
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-06")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-05".toInstant()),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-06".toInstant()),
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -400,9 +400,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @Test
     fun `lastHighRiskDate should NOT be reset when there is a new low risk before a high risk`() {
         val riskSequence = listOf(
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
-            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-03")),
-            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-01")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-02".toInstant()),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = "2022-01-03".toInstant()),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = "2022-01-01".toInstant()),
         )
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
@@ -442,4 +442,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         CALCULATION_FAILED.hasChangedFromHighToLow(INCREASED_RISK) shouldBe false
         INCREASED_RISK.hasChangedFromHighToLow(CALCULATION_FAILED) shouldBe false
     }
+
+    private fun String.toInstant() = LocalDate.parse(this).atStartOfDay().toInstant(ZoneOffset.UTC)
 }

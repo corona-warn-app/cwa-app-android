@@ -39,10 +39,10 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class BaseRiskLevelStorageTest : BaseTest() {
 
@@ -62,7 +62,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns now
+        every { timeStamper.nowJavaUTC } returns now
         riskCombinator = RiskCombinator(
             timeStamper = timeStamper
         )
@@ -275,7 +275,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
 
         riskLevelResults.size shouldBe 2
-        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
         riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
         riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
@@ -298,7 +298,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
         riskLevelResults.size shouldBe 4
-        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
 
         riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
@@ -325,7 +325,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runTest {
             val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
 
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+            riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
             riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.INCREASED_RISK

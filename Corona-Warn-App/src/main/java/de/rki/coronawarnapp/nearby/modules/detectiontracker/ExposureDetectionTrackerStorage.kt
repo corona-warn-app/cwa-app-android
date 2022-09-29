@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.util.serialization.getDefaultGsonTypeAdapter
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 

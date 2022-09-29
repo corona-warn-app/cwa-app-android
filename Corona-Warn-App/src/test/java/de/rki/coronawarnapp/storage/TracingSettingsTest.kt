@@ -8,6 +8,7 @@ import testhelpers.BaseIOTest
 import testhelpers.preferences.FakeDataStore
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.ZoneOffset
 
 class TracingSettingsTest : BaseIOTest() {
 
@@ -76,7 +77,7 @@ class TracingSettingsTest : BaseIOTest() {
 
             lastHighRiskDate.first() shouldBe date
             dataStore[TracingSettings.LAST_HIGH_RISK_LOCALDATE] shouldBe
-                date?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
+                date?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
         }
     }
 }

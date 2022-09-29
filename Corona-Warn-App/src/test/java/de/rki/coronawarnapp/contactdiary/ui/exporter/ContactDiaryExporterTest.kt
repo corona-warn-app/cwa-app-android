@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
@@ -23,6 +22,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
+import java.time.Instant
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class, CoroutinesTestExtension::class)
@@ -38,7 +38,7 @@ internal class ContactDiaryExporterTest {
     fun setUp() {
 
         // In these test, now = January, 15
-        every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
         mockStringsForContactDiaryExporterTests(context)
     }

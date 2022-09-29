@@ -37,6 +37,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toJavaInstant
 import java.io.IOException
 import java.time.Duration
 import java.time.Instant
@@ -57,7 +58,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
-    private val now = Instant.parse("2021-03-05T10:15+01:00")
+    private val now = "2021-03-05T10:15+01:00".toJavaInstant()
 
     @BeforeEach
     fun setup() {

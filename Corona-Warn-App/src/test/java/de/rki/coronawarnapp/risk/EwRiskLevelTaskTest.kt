@@ -38,6 +38,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevels: RiskLevels
@@ -175,7 +176,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     @Test
     fun `risk calculation is skipped if results are outdated while in background mode`() = runTest {
         val cachedKey = mockCachedKey(LocalDate.parse("2020-12-28").atStartOfDay().minusDays(3))
-        val now = Instant.parse("2020-12-28")
+        val now = LocalDate.parse("2020-12-28").atStartOfDay().toInstant(ZoneOffset.UTC)
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
@@ -190,7 +191,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     @Test
     fun `risk calculation is skipped if results are outdated while no background mode`() = runTest {
         val cachedKey = mockCachedKey(LocalDate.parse("2020-12-28").atStartOfDay().minusDays(3))
-        val now = Instant.parse("2020-12-28")
+        val now = LocalDate.parse("2020-12-28").atStartOfDay().toInstant(ZoneOffset.UTC)
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
@@ -227,7 +228,7 @@ class EwRiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `areKeyPkgsOutDated returns true`() = runTest {
-        val now = LocalDateTime.parse("2020-12-28T00:00+00:00")
+        val now = ZonedDateTime.parse("2020-12-28T00:00+00:00").toLocalDateTime()
         val cachedKey = mockCachedKey(now.minusHours(49)) // outdated > 48h
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
@@ -237,7 +238,7 @@ class EwRiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `areKeyPkgsOutDated returns false`() = runTest {
-        val now = LocalDateTime.parse("2020-12-28T00:00+00:00")
+        val now = ZonedDateTime.parse("2020-12-28T00:00+00:00").toLocalDateTime()
         val cachedKey = mockCachedKey(now.minusHours(49))
         val cachedKey2 = mockCachedKey(now.minusHours(47)) // not outdated < 48h
 

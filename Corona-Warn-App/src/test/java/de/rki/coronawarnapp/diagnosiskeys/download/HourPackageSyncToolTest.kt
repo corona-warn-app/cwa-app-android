@@ -63,7 +63,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
-            timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
+            timeStamper.nowJavaUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
@@ -112,7 +112,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
             keyCache.deleteInfoAndFile(listOf(invalidHour.info))
 
             keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
-            timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
+            timeStamper.nowJavaUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
@@ -174,7 +174,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_HOUR)
-            timeStamper.nowUTC
+            timeStamper.nowJavaUTC
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY)

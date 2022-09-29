@@ -45,7 +45,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
         coEvery { storage.save(any()) } just Runs
 
         coEvery { configProvider.currentConfig } returns flowOf(appConfigData)
-        every { appConfigData.overallDetectionTimeout } returns java.time.Duration.ofMinutes(15)
+        every { appConfigData.overallDetectionTimeout } returns Duration.ofMinutes(15)
     }
 
     private fun createInstance(scope: CoroutineScope) = DefaultExposureDetectionTracker(
@@ -97,7 +97,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(emptyMap())
-                timeStamper.nowUTC
+                timeStamper.nowJavaUTC
                 storage.save(calculationData)
             }
             advanceUntilIdle()
@@ -134,7 +134,7 @@ class DefaultExposureDetectionTrackerTest : BaseTest() {
             coVerify(ordering = Ordering.ORDERED) {
                 storage.load()
                 storage.save(any())
-                timeStamper.nowUTC
+                timeStamper.nowJavaUTC
                 storage.save(expectedData)
             }
             advanceUntilIdle()

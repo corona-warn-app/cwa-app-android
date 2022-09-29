@@ -40,13 +40,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.joda.time.DateTimeConstants
 import java.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.io.FileReader
 import java.nio.file.Paths
+import java.time.Instant
+import java.util.concurrent.TimeUnit
 
 class ExposureWindowsCalculationTest : BaseTest() {
 
@@ -73,7 +74,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.now()
+        every { timeStamper.nowJavaUTC } returns Instant.now()
     }
 
     private fun debugLog(s: String, toShow: LogLevel = LogLevel.ALL) {
@@ -147,7 +148,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
     private fun getTestCaseDate(expAge: Long?): Instant? {
         if (expAge == null) return null
-        return timeStamper.nowUTC - expAge * DateTimeConstants.MILLIS_PER_DAY
+        return timeStamper.nowJavaUTC.minusMillis(expAge * TimeUnit.DAYS.toMillis(1))
     }
 
     private fun comparisonDebugTable(ewAggregated: EwAggregatedRiskResult, case: TestCase): String {
@@ -224,7 +225,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
         for (
-            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+        filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
         ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
@@ -325,7 +326,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
     private fun setupTestConfiguration(json: DefaultRiskCalculationConfiguration) {
 
         testConfig = ConfigDataContainer(
-            serverTime = java.time.Instant.now(),
+            serverTime = Instant.now(),
             cacheValidity = Duration.ofMinutes(5),
             localOffset = Duration.ZERO,
             mappedConfig = configData,
@@ -430,7 +431,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         every { exposureWindow.calibrationConfidence } returns json.calibrationConfidence
         every { exposureWindow.dateMillisSinceEpoch } returns
-            timeStamper.nowUTC.millis - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
+            timeStamper.nowJavaUTC.toEpochMilli() - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->

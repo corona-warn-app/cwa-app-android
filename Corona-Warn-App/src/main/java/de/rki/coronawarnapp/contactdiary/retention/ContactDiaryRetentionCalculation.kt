@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.time.Duration
 import java.time.LocalDate
+import java.time.Period
 import java.time.ZoneOffset
 import javax.inject.Inject
 
@@ -27,7 +28,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
 
     fun getDaysDiff(dateSaved: LocalDate): Long {
         val today: LocalDate = timeStamper.nowJavaUTC.atZone(ZoneOffset.UTC).toLocalDate()
-        return Duration.between(dateSaved, today).toDays()
+        return Period.between(dateSaved, today).days.toLong()
     }
 
     fun filterContactDiaryLocationVisits(list: List<ContactDiaryLocationVisit>): List<ContactDiaryLocationVisit> {

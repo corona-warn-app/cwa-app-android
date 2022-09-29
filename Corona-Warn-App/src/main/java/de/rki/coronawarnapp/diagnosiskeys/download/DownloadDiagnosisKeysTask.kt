@@ -59,7 +59,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             throwIfCancelled()
-            val currentDate = Date(timeStamper.nowUTC.millis)
+            val currentDate = Date(timeStamper.nowJavaUTC.toEpochMilli())
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
             throwIfCancelled()
