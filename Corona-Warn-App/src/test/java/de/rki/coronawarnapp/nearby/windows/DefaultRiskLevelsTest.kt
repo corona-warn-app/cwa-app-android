@@ -19,13 +19,13 @@ import de.rki.coronawarnapp.nearby.windows.entities.configuration.JsonTrlFilter
 import de.rki.coronawarnapp.risk.DefaultRiskLevels
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.RiskResult
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.Range
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TrlFilter
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
+import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TrlFilter
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -36,20 +36,22 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTimeConstants
-import java.time.Duration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 import java.io.FileReader
 import java.nio.file.Paths
+import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.TimeUnit
 
-class ExposureWindowsCalculationTest : BaseTest() {
+class DefaultRiskLevelsTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
@@ -88,7 +90,9 @@ class ExposureWindowsCalculationTest : BaseTest() {
         // 1 - Load and parse json file
         val jsonFile = Paths.get("src", "test", "resources", fileName).toFile()
         jsonFile shouldNotBe null
-        val jsonString = FileReader(jsonFile).readText()
+        val jsonString = withContext(Dispatchers.IO) {
+            FileReader(jsonFile).readText()
+        }
         jsonString.length shouldBeGreaterThan 0
         val json = Gson().fromJson<ExposureWindowsJsonInput>(jsonString)
         json shouldNotBe null
