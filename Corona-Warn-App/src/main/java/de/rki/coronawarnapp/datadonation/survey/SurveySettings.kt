@@ -26,23 +26,27 @@ class SurveySettings @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) : Resettable {
 
-    val oneTimePassword = dataStore.dataRecovering.distinctUntilChanged(
-        key = KEY_OTP
-    ).map { json ->
-        if (json != null && json != String()) {
-            val otp = objectMapper.readValue<OneTimePassword>(json)
-            requireNotNull(otp.uuid)
-            requireNotNull(otp.time)
-            otp
-        } else {
+    val oneTimePassword = dataStore.dataRecovering.distinctUntilChanged(key = KEY_OTP).map { json ->
+        try {
+            if (json != null) {
+                val otp = objectMapper.readValue<OneTimePassword>(json)
+                requireNotNull(otp.uuid)
+                requireNotNull(otp.time)
+                otp
+            } else {
+                null
+            }
+        } catch (t: Throwable) {
+            Timber.e(t, "failed to parse OneTimePassword from dataStore")
             null
         }
     }
 
     suspend fun updateOneTimePassword(otp: OneTimePassword?) = dataStore.edit {
-        it[KEY_OTP] = when (otp) {
-            null -> String()
-            else -> objectMapper.writeValueAsString(otp)
+        if (otp == null) {
+            it.remove(KEY_OTP)
+        } else {
+            it[KEY_OTP] = objectMapper.writeValueAsString(otp)
         }
     }
 
@@ -50,7 +54,7 @@ class SurveySettings @Inject constructor(
         key = KEY_OTP_RESULT
     ).map { json ->
         try {
-            if (json != null && json != String()) {
+            if (json != null) {
                 val result = objectMapper.readValue<OTPAuthorizationResult>(json)
                 requireNotNull(result.uuid)
                 requireNotNull(result.authorized)
@@ -61,15 +65,16 @@ class SurveySettings @Inject constructor(
                 null
             }
         } catch (t: Throwable) {
-            Timber.e(t, "failed to parse OTP from preferences")
+            Timber.e(t, "failed to parse OTPAuthorizationResult from dataStore")
             null
         }
     }
 
     suspend fun updateOtpAuthorizationResult(result: OTPAuthorizationResult?) = dataStore.edit {
-        it[KEY_OTP_RESULT] = when (result) {
-            null -> String()
-            else -> objectMapper.writeValueAsString(result)
+        if (result == null) {
+            it.remove(KEY_OTP_RESULT)
+        } else {
+            it[KEY_OTP_RESULT] = objectMapper.writeValueAsString(result)
         }
     }
 
