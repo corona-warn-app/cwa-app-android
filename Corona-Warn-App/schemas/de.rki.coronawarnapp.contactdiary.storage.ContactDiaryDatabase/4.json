@@ -102,7 +102,6 @@
             "columnNames": [
               "fkLocationId"
             ],
-            "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_locationvisits_fkLocationId` ON `${TABLE_NAME}` (`fkLocationId`)"
           }
         ],
@@ -218,7 +217,6 @@
             "columnNames": [
               "fkPersonId"
             ],
-            "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_personencounters_fkPersonId` ON `${TABLE_NAME}` (`fkPersonId`)"
           }
         ],
