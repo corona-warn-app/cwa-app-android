@@ -9,13 +9,13 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseTestInstrumentation
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 
 @RunWith(AndroidJUnit4::class)
 class KeyCacheDatabaseMigrationTest : BaseTestInstrumentation() {

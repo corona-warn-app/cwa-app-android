@@ -27,14 +27,14 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Duration
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseTestInstrumentation
 import java.io.IOException
+import java.time.Duration
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
@@ -191,7 +191,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             id = 2,
             date = LocalDate.parse("2020-12-31"),
             fkLocationId = 1,
-            duration = Duration.standardMinutes(13),
+            duration = Duration.ofMinutes(13),
             circumstances = "That's none of your business",
             checkInID = null
         )
@@ -210,7 +210,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             put("id", locationVisit.id)
             put("date", locationVisit.date.toString())
             put("fkLocationId", locationVisit.fkLocationId)
-            put("duration", locationVisit.duration?.millis)
+            put("duration", locationVisit.duration?.toMillis())
             put("circumstances", locationVisit.circumstances)
         }
 
@@ -264,7 +264,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             id = 2,
             date = LocalDate.parse("2020-12-31"),
             fkLocationId = 1,
-            duration = Duration.standardMinutes(13),
+            duration = Duration.ofMinutes(13),
             circumstances = "N/A",
             checkInID = null
         )
@@ -283,7 +283,7 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
             put("id", locationVisit.id)
             put("date", locationVisit.date.toString())
             put("fkLocationId", locationVisit.fkLocationId)
-            put("duration", locationVisit.duration?.millis)
+            put("duration", locationVisit.duration?.toMillis())
             put("circumstances", locationVisit.circumstances)
         }
 
