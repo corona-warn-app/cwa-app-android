@@ -12,7 +12,7 @@ class CachedKeyFileTest : BaseTest() {
     private val type = CachedKeyInfo.Type.LOCATION_DAY
     private val location = LocationCode("DE")
     private val day = LocalDate.parse("2222-12-31")
-    private val hour = LocalTime.parse("23:59")
+    private val hour = LocalTime.parse("23:59:00.000")
     private val now = Instant.EPOCH
 
     @Test

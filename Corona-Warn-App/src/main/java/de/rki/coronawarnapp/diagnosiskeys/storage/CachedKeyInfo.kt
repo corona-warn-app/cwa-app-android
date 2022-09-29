@@ -11,6 +11,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "keyfiles")
 data class CachedKeyInfo(
@@ -59,7 +60,7 @@ data class CachedKeyInfo(
             type: Type
         ): String {
             var rawId = "${location.identifier}.${type.typeValue}.$day"
-            hour?.let { rawId += ".$hour" }
+            hour?.let { rawId += ".${hour.format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))}" }
             return rawId.toSHA1()
         }
     }
