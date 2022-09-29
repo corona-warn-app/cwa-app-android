@@ -15,8 +15,6 @@ import java.io.File
 class ExposureWindowProviderTest : BaseTest() {
     @MockK lateinit var googleENFClient: ExposureNotificationClient
 
-    private val exampleKeyFiles = listOf(File("file1"), File("file2"))
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
