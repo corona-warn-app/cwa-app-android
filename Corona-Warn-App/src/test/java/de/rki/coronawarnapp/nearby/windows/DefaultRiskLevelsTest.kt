@@ -49,6 +49,7 @@ import java.io.FileReader
 import java.nio.file.Paths
 import java.time.Duration
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 
 class DefaultRiskLevelsTest : BaseTest() {
@@ -152,7 +153,9 @@ class DefaultRiskLevelsTest : BaseTest() {
 
     private fun getTestCaseDate(expAge: Long?): Instant? {
         if (expAge == null) return null
-        return timeStamper.nowJavaUTC.minusMillis(expAge * TimeUnit.DAYS.toMillis(1))
+        return timeStamper.nowJavaUTC.minusMillis(
+            expAge * TimeUnit.DAYS.toMillis(1)
+        ).truncatedTo(ChronoUnit.MILLIS)
     }
 
     private fun comparisonDebugTable(ewAggregated: EwAggregatedRiskResult, case: TestCase): String {
@@ -229,7 +232,7 @@ class DefaultRiskLevelsTest : BaseTest() {
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
         for (
-            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+        filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
         ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))
