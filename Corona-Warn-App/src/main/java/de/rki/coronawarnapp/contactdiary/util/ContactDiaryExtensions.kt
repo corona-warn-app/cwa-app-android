@@ -45,7 +45,7 @@ fun LocalDate.toFormattedDay(locale: Locale): String =
     )
 
 fun LocalDate.toFormattedDayForAccessibility(locale: Locale): String {
-    // Use two different methods to get the final date format (Weekday, Longdate)
+    // Use two different methods to get the final date format (Weekday, Long date)
     // because the custom pattern of toString() does not localize characters like "/" or "."
     // For accessibility DateTimeFormat.longDate() is required since shortDate() may read the date in the wrong format
     return "${format(DateTimeFormatter.ofPattern("EEEE", locale))}, " +
