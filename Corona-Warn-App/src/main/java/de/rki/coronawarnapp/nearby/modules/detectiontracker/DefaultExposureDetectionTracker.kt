@@ -64,7 +64,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                         }
                     }
 
-                    delay(TIMEOUT_CHECK_INTERVAL.toMinutes())
+                    delay(TIMEOUT_CHECK_INTERVAL.toMillis())
                 }
             }.launchIn(scope + dispatcherProvider.Default)
         }
