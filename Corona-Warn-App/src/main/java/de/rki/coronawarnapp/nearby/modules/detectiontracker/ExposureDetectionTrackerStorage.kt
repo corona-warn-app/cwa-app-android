@@ -7,13 +7,11 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.getDefaultGsonTypeAdapter
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
-import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
