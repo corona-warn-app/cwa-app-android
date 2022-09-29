@@ -63,7 +63,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
-            timeStamper.nowJavaUTC // Timestamp for `expectNewHourPackages` and server index
+            timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
@@ -112,7 +112,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
             keyCache.deleteInfoAndFile(listOf(invalidHour.info))
 
             keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
-            timeStamper.nowJavaUTC // Timestamp for `expectNewHourPackages` and server index
+            timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
@@ -131,9 +131,9 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
         val instance = createInstance()
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         instance.determineMissingHours("EUR".loc, false) shouldBe null
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T03:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T03:00:00.000Z")
         instance.determineMissingHours("EUR".loc, false) shouldBe LocationHours(
             location = "EUR".loc,
             hourData = mapOf("2020-01-04".day to listOf("02:00".hour))
@@ -147,7 +147,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
         val instance = createInstance()
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         instance.determineMissingHours("EUR".loc, forceIndexLookup = true) shouldBe LocationHours(
             location = "EUR".loc,
             hourData = mapOf("2020-01-04".day to listOf("02:00".hour))
@@ -174,7 +174,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         coVerifySequence {
             configProvider.getAppConfig()
             keyCache.getEntriesForType(Type.LOCATION_HOUR)
-            timeStamper.nowJavaUTC
+            timeStamper.nowUTC
             keyServer.getHourIndex("EUR".loc, "2020-01-04".day)
 
             keyCache.getEntriesForType(Type.LOCATION_DAY)
@@ -215,7 +215,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if keys were revoked skip the EXPECT packages check`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "02:00".hour).apply {
@@ -236,7 +236,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if force-sync is set we skip the EXPECT packages check`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
         createInstance().syncMissingHourPackages(listOf("EUR".loc), true)
@@ -246,7 +246,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
     @Test
     fun `if neither force-sync is set and keys were revoked we check EXPECT NEW PKGS`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-04T02:00:00.000Z")
         mockCachedHour("EUR".loc, "2020-01-04".day, "00:00".hour)
         mockCachedHour("EUR".loc, "2020-01-04".day, "01:00".hour)
         createInstance().syncMissingHourPackages(listOf("EUR".loc), false)

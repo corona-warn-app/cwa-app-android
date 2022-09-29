@@ -24,7 +24,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
-import org.joda.time.Instant
+import java.time.Instant
 import retrofit2.converter.gson.GsonConverterFactory
 import testhelpers.mockFlowPreference
 import timber.log.Timber

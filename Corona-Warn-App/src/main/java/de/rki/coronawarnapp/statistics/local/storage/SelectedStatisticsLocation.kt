@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.statistics.local.storage
 
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import org.joda.time.Instant
+import java.time.Instant
 
 sealed class SelectedStatisticsLocation {
     abstract val addedAt: Instant

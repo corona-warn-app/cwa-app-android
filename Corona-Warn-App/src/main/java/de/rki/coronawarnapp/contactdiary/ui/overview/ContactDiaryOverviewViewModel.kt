@@ -67,7 +67,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     val routeToScreen: SingleLiveEvent<ContactDiaryOverviewNavigationEvents> = SingleLiveEvent()
     val exportLocationsAndPersons: SingleLiveEvent<String> = SingleLiveEvent()
 
-    private fun TimeStamper.localDate(): LocalDate = nowJavaUTC.toLocalDateTimeUserTz().toLocalDate()
+    private fun TimeStamper.localDate(): LocalDate = nowUTC.toLocalDateTimeUserTz().toLocalDate()
 
     private fun dates() = (0L until DAY_COUNT).map { timeStamper.localDate().minusDays(it) }
     private val datesFlow = MutableStateFlow(dates())

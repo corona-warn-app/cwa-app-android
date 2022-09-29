@@ -531,7 +531,7 @@ class TestCertificateRepository @Inject constructor(
         }
 
         return copy(
-            data = updateRecycledAt(data, timeStamper.nowJavaUTC)
+            data = updateRecycledAt(data, timeStamper.nowUTC)
         )
     }
 
@@ -568,15 +568,15 @@ class TestCertificateRepository @Inject constructor(
         return when (data) {
             is PCRCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
             is RACertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
             is GenericTestCertificateData -> data.copy(
                 lastSeenStateChange = state,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC
+                lastSeenStateChangeAt = timeStamper.nowUTC
             )
         }
     }
@@ -621,7 +621,7 @@ class TestCertificateRepository @Inject constructor(
     }
 
     private fun TestCertificateQRCode.createContainer(
-        nowUtc: Instant = timeStamper.nowJavaUTC
+        nowUtc: Instant = timeStamper.nowUTC
     ): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),

@@ -37,7 +37,7 @@ internal class SurveysTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-01T00:00:00.000Z")
     }
 
     private fun createInstance() = Surveys(
@@ -62,7 +62,7 @@ internal class SurveysTest : BaseTest() {
             OTPAuthorizationResult(
                 UUID.randomUUID(),
                 authorized = false,
-                redeemedAt = timeStamper.nowJavaUTC,
+                redeemedAt = timeStamper.nowUTC,
                 invalidated = false
             )
         )
@@ -76,7 +76,7 @@ internal class SurveysTest : BaseTest() {
                 OTPAuthorizationResult(
                     UUID.randomUUID(),
                     authorized = true,
-                    redeemedAt = timeStamper.nowJavaUTC,
+                    redeemedAt = timeStamper.nowUTC,
                     invalidated = true
                 )
             )
@@ -90,7 +90,7 @@ internal class SurveysTest : BaseTest() {
                 OTPAuthorizationResult(
                     UUID.randomUUID(),
                     authorized = true,
-                    redeemedAt = timeStamper.nowJavaUTC,
+                    redeemedAt = timeStamper.nowUTC,
                     invalidated = false
                 )
             )

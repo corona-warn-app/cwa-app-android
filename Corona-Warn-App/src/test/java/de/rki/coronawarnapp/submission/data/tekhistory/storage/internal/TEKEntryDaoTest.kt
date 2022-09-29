@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.submission.data.tekhistory.internal.TEKEntryDao
 import de.rki.coronawarnapp.submission.data.tekhistory.internal.toPersistedTEK
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.toByteString
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 

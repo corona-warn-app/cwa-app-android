@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,7 +48,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             flow<Unit> {
                 while (true) {
                     hd.updateBlocking {
-                        val timeNow = timeStamper.nowJavaUTC
+                        val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
                         val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
                         mutate {
@@ -56,7 +56,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                                 if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {
                                     Timber.w("Calculation timeout on %s", it)
                                     this[it.identifier] = it.copy(
-                                        finishedAt = timeStamper.nowJavaUTC,
+                                        finishedAt = timeStamper.nowUTC,
                                         result = Result.TIMEOUT
                                     )
                                 }
@@ -64,7 +64,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                         }
                     }
 
-                    delay(TIMEOUT_CHECK_INTERVAL.millis)
+                    delay(TIMEOUT_CHECK_INTERVAL.toMinutes())
                 }
             }.launchIn(scope + dispatcherProvider.Default)
         }
@@ -88,7 +88,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             mutate {
                 this[identifier] = TrackedExposureDetection(
                     identifier = identifier,
-                    startedAt = timeStamper.nowJavaUTC,
+                    startedAt = timeStamper.nowUTC,
                     enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             }
@@ -145,7 +145,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
             }
             this[identifier] = existing.copy(
                 result = result,
-                finishedAt = timeStamper.nowJavaUTC
+                finishedAt = timeStamper.nowUTC
             )
         } else {
             Timber.e(
@@ -156,8 +156,8 @@ class DefaultExposureDetectionTracker @Inject constructor(
             this[identifier] = TrackedExposureDetection(
                 identifier = identifier,
                 result = result,
-                startedAt = timeStamper.nowJavaUTC,
-                finishedAt = timeStamper.nowJavaUTC
+                startedAt = timeStamper.nowUTC,
+                finishedAt = timeStamper.nowUTC
             )
         }
     }
@@ -172,6 +172,6 @@ class DefaultExposureDetectionTracker @Inject constructor(
     companion object {
         private const val TAG = "DefaultExposureDetectionTracker"
         private const val MAX_ENTRY_SIZE = 5
-        private val TIMEOUT_CHECK_INTERVAL = Duration.standardMinutes(3)
+        private val TIMEOUT_CHECK_INTERVAL = Duration.ofMinutes(3)
     }
 }

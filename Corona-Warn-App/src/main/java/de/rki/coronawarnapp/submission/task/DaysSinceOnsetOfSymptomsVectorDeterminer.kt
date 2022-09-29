@@ -32,7 +32,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminer @Inject constructor(
     private fun determinePositiveIndication(symptoms: Symptoms): DaysSinceOnsetOfSymptomsVector {
         return when (symptoms.startOfSymptoms) {
             is Symptoms.StartOf.Date -> createDaysSinceOnsetOfSymptomsVectorWith(
-                symptoms.startOfSymptoms.date.toJavaTime().ageInDays(timeStamper.nowJavaUTC.toLocalDateUserTz())
+                symptoms.startOfSymptoms.date.toJavaTime().ageInDays(timeStamper.nowUTC.toLocalDateUserTz())
             )
             is Symptoms.StartOf.LastSevenDays ->
                 createDaysSinceOnsetOfSymptomsVectorWith(701)

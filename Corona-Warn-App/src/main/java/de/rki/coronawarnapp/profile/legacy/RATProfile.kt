@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.profile.legacy
 
 import com.google.gson.annotations.SerializedName
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 // Deprecated("Legacy data class")
 data class RATProfile(

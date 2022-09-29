@@ -63,7 +63,7 @@ class AnalyticsTest : BaseTest() {
 
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
 
-        every { timeStamper.nowJavaUTC } returns baseTime
+        every { timeStamper.nowUTC } returns baseTime
 
         every { analyticsConfig.analyticsEnabled } returns true
 

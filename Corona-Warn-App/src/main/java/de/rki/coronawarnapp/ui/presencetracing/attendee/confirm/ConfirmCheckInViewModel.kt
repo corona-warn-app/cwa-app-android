@@ -52,8 +52,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             traceLocation = traceLocation,
             createJournalEntry = createEntry,
             checkInEndOffset = checkInLength,
-            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowJavaUTC),
-            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC),
+            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC),
             confirmButtonEnabled = checkInLength.toMinutes() > 0
         )
     }.asLiveData()
@@ -64,7 +64,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     fun onConfirmTraceLocation() {
         launch {
-            val now = timeStamper.nowJavaUTC
+            val now = timeStamper.nowUTC
             checkInRepository.addCheckIn(
                 toCheckIn(
                     checkInStart = now,

@@ -31,7 +31,7 @@ internal class TraceLocationCleanerTest : BaseTest() {
         // Now = Jan 16th 2020, 00:00
         // TraceLocations should be kept for 15 days, so every trace location with and end date before
         // Jan 1st 2020, 00:00 should get deleted
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-01-16T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-01-16T00:00:00.000Z")
     }
 
     private fun createInstance() = TraceLocationCleaner(traceLocationRepository, timeStamper)

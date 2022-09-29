@@ -66,7 +66,7 @@ class ForegroundRiskCalculationService @Inject constructor(
     }
 
     private suspend fun runRiskCalculations() = mutex.withLock {
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
         if (now > latestRunTimeStamp && // for time travellers
             Duration.between(latestRunTimeStamp, now) < minTimeBetweenRuns
         ) {

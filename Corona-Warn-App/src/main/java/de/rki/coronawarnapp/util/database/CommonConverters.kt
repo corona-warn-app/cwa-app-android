@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.util.serialization.fromJson
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import java.io.File
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.UUID
 
 @Suppress("TooManyFunctions")
@@ -49,6 +49,12 @@ class CommonConverters {
     fun fromPath(path: File?): String? = path?.path
 
     @TypeConverter
+    fun toInstant(value: String?): Instant? = value?.let { Instant.parse(it) }
+
+    @TypeConverter
+    fun fromInstant(date: Instant?): String? = date?.toString()
+
+    @TypeConverter
     fun toLocalDate(value: String?): LocalDate? = value?.let { LocalDate.parse(it) }
 
     @TypeConverter
@@ -59,30 +65,6 @@ class CommonConverters {
 
     @TypeConverter
     fun fromLocalTime(date: LocalTime?): String? = date?.toString()
-
-    @TypeConverter
-    fun toInstant(value: String?): Instant? = value?.let { Instant.parse(it) }
-
-    @TypeConverter
-    fun fromInstant(date: Instant?): String? = date?.toString()
-
-    @TypeConverter
-    fun toJavaInstant(value: String?): java.time.Instant? = value?.let { java.time.Instant.parse(it) }
-
-    @TypeConverter
-    fun fromJavaInstant(date: java.time.Instant?): String? = date?.toString()
-
-    @TypeConverter
-    fun toJavaLocalDate(value: String?): java.time.LocalDate? = value?.let { java.time.LocalDate.parse(it) }
-
-    @TypeConverter
-    fun fromJavaLocalDate(date: java.time.LocalDate?): String? = date?.toString()
-
-    @TypeConverter
-    fun toJavaLocalTime(value: String?): java.time.LocalTime? = value?.let { java.time.LocalTime.parse(it) }
-
-    @TypeConverter
-    fun fromJavaLocalTime(date: java.time.LocalTime?): String? = date?.toString()
 
     @TypeConverter
     fun toLocationCode(value: String?): LocationCode? = value?.let { LocationCode(it) }

@@ -115,7 +115,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private suspend fun calculateRiskResult(successful: Boolean): PtRiskLevelResult {
-        val nowUtc = timeStamper.nowJavaUTC
+        val nowUtc = timeStamper.nowUTC
         val deadline = checkInsFilter.calculateDeadline(nowUtc)
 
         val riskState = if (successful) {
@@ -142,7 +142,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private val retentionTime: Instant
-        get() = timeStamper.nowJavaUTC.minus(Duration.ofDays(15))
+        get() = timeStamper.nowUTC.minus(Duration.ofDays(15))
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")

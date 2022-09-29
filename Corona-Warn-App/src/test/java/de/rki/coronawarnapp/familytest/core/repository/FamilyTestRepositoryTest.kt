@@ -63,7 +63,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns instant
+        every { timeStamper.nowUTC } returns instant
         coEvery { processor.register(qrCode) } returns test
         coEvery { processor.pollServer(test) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))

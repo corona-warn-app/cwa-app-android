@@ -56,7 +56,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns currentInstant
+        every { timeStamper.nowUTC } returns currentInstant
 
         mockkObject(AppInjector)
         every { AppInjector.component } returns appComponent

@@ -45,8 +45,8 @@ import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.updateCountBadge
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -279,7 +279,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             nestedGraph.setStartDestination(R.id.contactDiaryOverviewFragment)
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
-                    selectedDay = LocalDate().toString()
+                    selectedDay = LocalDate.now().toString()
                 )
             )
         } else {

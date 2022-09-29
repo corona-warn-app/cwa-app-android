@@ -35,7 +35,7 @@ class DccStateChecker @Inject constructor(
         else -> try {
             val threshold = appConfigProvider.currentConfig.first().covidCertificateParameters.expirationThreshold
             dscSignatureValidator.validateSignature(dccData, dccValidityMeasures.dscSignatureList) // throws if invalid
-            dccExpirationChecker.getExpirationState(dccData, threshold, timeStamper.nowJavaUTC)
+            dccExpirationChecker.getExpirationState(dccData, threshold, timeStamper.nowUTC)
         } catch (e: Exception) {
             Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
             Invalid()

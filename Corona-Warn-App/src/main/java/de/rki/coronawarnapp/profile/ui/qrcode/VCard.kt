@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.profile.ui.qrcode
 import dagger.Reusable
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.format.ISODateTimeFormat
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @Reusable
 class VCard @Inject constructor(
-    private val timeStamper: TimeStamper
+    timeStamper: TimeStamper
 ) {
 
     private val now = timeStamper.nowUTC
@@ -31,8 +32,8 @@ class VCard @Inject constructor(
         val zipCode = zipCode.escapeAll()
         val phone = phone.escapeAll()
         val email = email.escapeAll()
-        val birthDate = birthDate?.toString(birthDateFormatter).orEmpty()
-        val rev = now.toString(revDateFormatter) // Time the vCard was updated
+        val birthDate = birthDate?.format(birthDateFormatter).orEmpty()
+        val rev = now.atZone(ZoneOffset.UTC).format(revDateFormatter) // Time the vCard was updated
         """
             BEGIN:VCARD
             VERSION:4.0
@@ -53,7 +54,7 @@ class VCard @Inject constructor(
         .replace(";", "\\;")
 
     companion object {
-        private val birthDateFormatter = ISODateTimeFormat.basicDate()
-        private val revDateFormatter = ISODateTimeFormat.basicDateTimeNoMillis()
+        private val birthDateFormatter = DateTimeFormatter.BASIC_ISO_DATE
+        private val revDateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmssZ")
     }
 }

@@ -53,7 +53,7 @@ class CoronaTestProcessor @Inject constructor(
         return CoronaTest(
             type = qrCode.type,
             identifier = qrCode.identifier,
-            registeredAt = timeStamper.nowJavaUTC,
+            registeredAt = timeStamper.nowUTC,
             registrationToken = registrationData.registrationToken,
             testResult = testResult,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
@@ -72,7 +72,7 @@ class CoronaTestProcessor @Inject constructor(
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
             } catch (e: BadRequestException) {
-                if (test.isOlderThan21Days(timeStamper.nowJavaUTC)) {
+                if (test.isOlderThan21Days(timeStamper.nowUTC)) {
                     Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
                     CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
                 } else {

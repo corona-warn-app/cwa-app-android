@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.nearby.ENFClientLocalData
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.DateTimeZone
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -64,9 +64,12 @@ class SubmissionQuota @Inject constructor(
         val now = timeStamper.nowUTC
 
         val nextQuotaReset = lastQuotaReset
-            .toDateTime(DateTimeZone.UTC)
-            .withTimeAtStartOfDay()
-            .plus(Duration.standardDays(1))
+            .atZone(ZoneOffset.UTC)
+            .toLocalDate()
+            .atStartOfDay()
+            .atZone(ZoneOffset.UTC)
+            .plus(Duration.ofDays(1))
+            .toInstant()
 
         if (now.isAfter(nextQuotaReset)) {
             currentQuota = DEFAULT_QUOTA

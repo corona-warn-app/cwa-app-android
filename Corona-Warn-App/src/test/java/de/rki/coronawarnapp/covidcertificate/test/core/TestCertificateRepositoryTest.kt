@@ -100,7 +100,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         }
         every { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(12345678)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
             DccValidityMeasures(
                 dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
@@ -184,8 +184,8 @@ class TestCertificateRepositoryTest : BaseTest() {
             this as GenericTestCertificateData
             testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
             identifier.isNotEmpty() shouldBe true
-            registeredAt shouldBe timeStamper.nowJavaUTC
-            certificateReceivedAt shouldBe timeStamper.nowJavaUTC
+            registeredAt shouldBe timeStamper.nowUTC
+            certificateReceivedAt shouldBe timeStamper.nowUTC
         }
 
         shouldThrow<InvalidTestCertificateException> {

@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.profile.ui.list.items.ProfileListItem
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -59,7 +59,7 @@ class ProfileListFragmentTest : BaseUITest() {
                         id = 1,
                         firstName = "Andrea",
                         lastName = "Schneider",
-                        birthDate = LocalDate(1990, 11, 17),
+                        birthDate = LocalDate.of(1990, 11, 17),
                         city = "Potsdam",
                         zipCode = "14471",
                         street = "Lange Straße 5",
@@ -84,7 +84,7 @@ class ProfileListFragmentTest : BaseUITest() {
                         id = 2,
                         firstName = "Max",
                         lastName = "Mustermann",
-                        birthDate = LocalDate(1997, 7, 24),
+                        birthDate = LocalDate.of(1997, 7, 24),
                         city = "Potsdam",
                         zipCode = "14471",
                         street = "Lange Straße 5",

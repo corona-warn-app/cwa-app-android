@@ -27,7 +27,7 @@ class RecycleBinCleanUpService @Inject constructor(
     suspend fun clearRecycledItems() = mutex.withLock {
         Timber.tag(TAG).d("clearRecycledItems() - Started")
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
         Timber.tag(TAG).d("now=%s", now)
 
         deleteRecycledCerts(now)

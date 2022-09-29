@@ -81,7 +81,7 @@ class DayPackageSyncTool @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewDayPackages(cachedDays: List<CachedKey>): Boolean {
-        val yesterday = timeStamper.nowJavaUTC.toLocalDateUtc().minusDays(1)
+        val yesterday = timeStamper.nowUTC.toLocalDateUtc().minusDays(1)
         val newestDay = cachedDays.maxOfOrNull { it.info.pkgDateTime }?.toLocalDate()
 
         return yesterday != newestDay

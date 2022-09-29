@@ -58,7 +58,7 @@ class AutoSubmissionTest : BaseTest() {
 
         every { taskController.tasks } returns emptyFlow()
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(123456789)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
 
         mockkStatic("de.rki.coronawarnapp.task.TaskControllerExtensionsKt")
     }
