@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.main.home
 
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Spannable
@@ -14,26 +13,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
-import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.errors.RecoveryByResetDialogFactory
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
@@ -56,8 +47,6 @@ import kotlin.math.abs
 class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    @Inject lateinit var tracingExplanationDialog: TracingExplanationDialog
-    @Inject lateinit var deviceTimeIncorrectDialog: DeviceTimeIncorrectDialog
 
     private val viewModel by cwaViewModels<HomeFragmentViewModel>(
         ownerProducer = { requireActivity().viewModelStore },
@@ -88,37 +77,43 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
-        binding.mainTracingAppBarLayout.addOnOffsetChangedListener(
-            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                try {
-                    if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
-                        binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
-                    } else {
-                        binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
-                    }
-                } catch (e: Exception) {
-                    Timber.e(e, "Listener has been triggered after onDestroyView()")
+        binding.mainTracingAppBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            try {
+                if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                    binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
+                } else {
+                    binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
                 }
+            } catch (e: Exception) {
+                Timber.e(e, "Listener has been triggered after onDestroyView()")
             }
-        )
+        }
 
         viewModel.showPopUps()
         viewModel.events.observe2(this) { event -> navigate(event) }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
-        viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
+        viewModel.errorEvent.observe2(this) { displayDialog { it.toErrorDialogBuilder(context) } }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
-            if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
+            if (showDialog) displayDialog {
+                setTitle(R.string.device_time_incorrect_dialog_headline)
+                setMessage(R.string.device_time_incorrect_dialog_body)
+                setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
+                    viewModel.userHasAcknowledgedIncorrectDeviceTime()
+                }
+            }
         }
         viewModel.coronaTestErrors.observe2(this) { tests ->
             tests.forEach { test ->
-                test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
-                    val testName = when (test.type) {
-                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                displayDialog {
+                    test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
+                        val testName = when (test.type) {
+                            BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                            BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        }
+                        setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                     }
-                    setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
-                }?.show()
+                }
             }
         }
 
@@ -178,61 +173,49 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showMoveToRecycleBinDialog(identifier: TestIdentifier) {
-        RecycleBinDialogType.RecycleTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage(identifier) }
-        )
-    }
-
-    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) {
-        val riskLevelLoweredDialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.risk_lowered_dialog_headline,
-            message = getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays),
-            positiveButton = R.string.risk_lowered_dialog_button_confirm,
-            negativeButton = null,
-            cancelable = false,
-            positiveButtonFunction = { viewModel.userHasAcknowledgedTheLoweredRiskLevel() }
-        )
-
-        DialogHelper.showDialog(riskLevelLoweredDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+        setTitle(R.string.risk_lowered_dialog_headline)
+        setMessage(getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays))
+        setPositiveButton(R.string.risk_lowered_dialog_button_confirm) { _, _ ->
+            viewModel.userHasAcknowledgedTheLoweredRiskLevel()
         }
     }
 
-    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.additional_high_risk_dialog_headline)
-            setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
-            setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
-                viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
-            }
-            setCancelable(false)
-        }.show()
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+        setTitle(R.string.additional_high_risk_dialog_headline)
+        setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
+        setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
+            viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
+        }
+    }
+
+    private fun showErrorResetDialog() = displayDialog(cancelable = false) {
+        setTitle(R.string.errors_generic_headline)
+        setMessage(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
+        setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> viewModel.errorResetDialogDismissed() }
+        setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
+            openUrl(context.getString(R.string.errors_generic_text_catastrophic_error_encryption_failure))
+        }
+    }
+
+    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+        setTitle(R.string.risk_details_explanation_dialog_title)
+        setMessage(getString(R.string.tracing_explanation_dialog_message, maxEncounterAgeInDays))
+        setPositiveButton(R.string.errors_generic_button_positive) { _, _ ->
+            viewModel.tracingExplanationWasShown()
+        }
     }
 
     private fun navigate(event: HomeFragmentEvents) {
         resetTransitions()
         when (event) {
-            HomeFragmentEvents.ShowErrorResetDialog -> {
-                RecoveryByResetDialogFactory(this).showDialog(
-                    detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
-                    onPositive = { viewModel.errorResetDialogDismissed() }
-                )
-            }
-            is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
-                showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
-            }
-            is HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent -> {
-                showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
-            }
+            HomeFragmentEvents.ShowErrorResetDialog -> showErrorResetDialog()
+            is HomeFragmentEvents.HighRiskLevelDialog -> showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
+            is HomeFragmentEvents.LoweredRiskLevelDialog -> showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
             )
-            is HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show(event.maxEncounterAgeInDays) {
-                viewModel.tracingExplanationWasShown()
-            }
+            is HomeFragmentEvents.ShowTracingExplanation -> showTracingExplanationDialog(event.maxEncounterAgeInDays)
             HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
             )
@@ -246,7 +229,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
-            is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
+            is HomeFragmentEvents.ShowDeleteTestDialog -> recycleCertificateDialog {
+                viewModel.moveTestToRecycleBinStorage(event.identifier)
+            }
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(

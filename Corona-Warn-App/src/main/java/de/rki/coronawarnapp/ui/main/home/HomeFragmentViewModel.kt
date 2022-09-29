@@ -132,7 +132,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .filter { it }
             .onEach {
                 events.postValue(
-                    HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
+                    HomeFragmentEvents.HighRiskLevelDialog(
                         maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
@@ -144,7 +144,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .filter { it }
             .onEach {
                 events.postValue(
-                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                    HomeFragmentEvents.LoweredRiskLevelDialog(
                         maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
