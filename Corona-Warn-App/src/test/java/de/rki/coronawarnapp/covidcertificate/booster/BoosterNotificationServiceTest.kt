@@ -17,10 +17,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 @Suppress("MaxLineLength")
 class BoosterNotificationServiceTest : BaseTest() {
@@ -38,7 +38,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
+        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
 
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs

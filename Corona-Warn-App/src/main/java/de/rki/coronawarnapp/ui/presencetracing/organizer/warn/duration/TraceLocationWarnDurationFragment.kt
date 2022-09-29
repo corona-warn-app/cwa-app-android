@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toJava
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -67,8 +67,8 @@ class TraceLocationWarnDurationFragment :
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime.toUserTimeZone()
-                    val endTime = uiState.endDateTime.toUserTimeZone()
+                    val startTime = uiState.startDateTime.toLocalDateTimeUserTz()
+                    val endTime = uiState.endDateTime.toLocalDateTimeUserTz()
 
                     eventDate.isGone = false
 

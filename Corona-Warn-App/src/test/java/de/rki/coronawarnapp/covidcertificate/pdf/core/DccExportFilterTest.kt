@@ -7,10 +7,10 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDate
 
 class DccExportFilterTest : BaseTest() {
 
@@ -53,7 +53,7 @@ class DccExportFilterTest : BaseTest() {
     @Test
     fun `filter works`() {
         listOf(recovery1, test1, vaccination1, test2, vaccination2, recovery2).filterAndSortForExport(
-            java.time.Instant.parse("2022-05-10T10:00:00Z")
+            Instant.parse("2022-05-10T10:00:00Z")
         ) shouldBe listOf(
             vaccination1, vaccination2, recovery1, test2
         )

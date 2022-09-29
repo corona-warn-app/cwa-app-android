@@ -23,9 +23,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.DateTime
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -37,6 +34,10 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @RunWith(AndroidJUnit4::class)
 class TestCertificateDetailsFragmentTest : BaseUITest() {
@@ -46,10 +47,11 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
     private val args = TestCertificateDetailsFragmentArgs(certIdentifier = "testCertificateIdentifier").toBundle()
 
-    val formatter = DateTimeFormat.forPattern("dd.MM.yyyy HH:mm")
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
     val testDateFormatted = "12.05.2021 19:00"
-    val testDate = DateTime.parse(testDateFormatted, formatter).toInstant()
-    val expirationDate = DateTime.parse("12.05.2022 19:00", formatter).toInstant()
+    val testDate: Instant = LocalDateTime.parse(testDateFormatted, formatter).atZone(ZoneId.systemDefault()).toInstant()
+    val expirationDate: Instant =
+        LocalDateTime.parse("12.05.2022 19:00", formatter).atZone(ZoneId.systemDefault()).toInstant()
 
     @Before
     fun setUp() {
@@ -201,7 +203,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
             override val isNew: Boolean get() = false
 
-            override val recycledAt: java.time.Instant? get() = null
+            override val recycledAt: Instant? get() = null
 
             override val state: CwaCovidCertificate.State get() = state
         }
