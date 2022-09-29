@@ -49,7 +49,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }.also { contactDiaryUiSettings.updateOnboardingStatus(onboardingStatus = it) }
     }
 
-    var isDeltaOnboardingDone = settings.wasInteroperabilityShownAtLeastOnce.asLiveData2()
+    val isDeltaOnboardingDone = settings.wasInteroperabilityShownAtLeastOnce.asLiveData2()
 
     fun setDeltaOnboardingDone(value: Boolean) {
         launch { settings.updateWasInteroperabilityShownAtLeastOnce(value) }
