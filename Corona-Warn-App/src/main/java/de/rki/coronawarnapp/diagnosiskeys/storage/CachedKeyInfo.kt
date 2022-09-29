@@ -32,7 +32,7 @@ data class CachedKeyInfo(
         hour: LocalTime?,
         createdAt: Instant,
     ) : this(
-        id = calcluateId(location, day, hour, type),
+        id = calculateId(location, day, hour, type),
         location = location,
         day = day,
         hour = hour,
@@ -52,7 +52,7 @@ data class CachedKeyInfo(
     )
 
     companion object {
-        fun calcluateId(
+        fun calculateId(
             location: LocationCode,
             day: LocalDate,
             hour: LocalTime?,

@@ -19,15 +19,15 @@ class CachedKeyFileTest : BaseTest() {
     fun `secondary constructor`() {
         val key = CachedKeyInfo(type, location, day, hour, now)
 
-        key.id shouldBe CachedKeyInfo.calcluateId(location, day, hour, type)
+        key.id shouldBe CachedKeyInfo.calculateId(location, day, hour, type)
         key.etag shouldBe null
         key.isDownloadComplete shouldBe false
     }
 
     @Test
     fun `keyfile id calculation`() {
-        val calculatedId1 = CachedKeyInfo.calcluateId(location, day, hour, type)
-        val calculatedId2 = CachedKeyInfo.calcluateId(location, day, hour, type)
+        val calculatedId1 = CachedKeyInfo.calculateId(location, day, hour, type)
+        val calculatedId2 = CachedKeyInfo.calculateId(location, day, hour, type)
         calculatedId1 shouldBe calculatedId2
 
         calculatedId1 shouldBe "550b64773e052b9ddf232998a92846833ed3f907"
