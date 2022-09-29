@@ -20,14 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class ExposureDetectionTrackerStorage @Inject constructor(
     @AppContext private val context: Context,
-    @BaseGson gson: Gson
+    @BaseGson private val gson: Gson
 ) {
-    private val gson by lazy {
-        gson.newBuilder()
-            .registerTypeAdapter(Instant::class.java, Instant::class.getDefaultGsonTypeAdapter())
-            .create()
-    }
-
     private val mutex = Mutex()
     private val storageDir by lazy {
         File(context.filesDir, "calcuation_tracker").apply {
