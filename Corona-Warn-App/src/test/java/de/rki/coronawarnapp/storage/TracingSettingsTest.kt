@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.FakeDataStore
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZoneOffset
 
 class TracingSettingsTest : BaseIOTest() {

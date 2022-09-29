@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
-import java.time.Duration
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneOffset

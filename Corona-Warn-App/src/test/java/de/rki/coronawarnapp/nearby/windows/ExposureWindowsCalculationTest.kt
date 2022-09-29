@@ -225,7 +225,7 @@ class ExposureWindowsCalculationTest : BaseTest() {
 
         result.append("\n").append("◦ Minutes At Attenuation Filters (${config.minutesAtAttenuationFilters.size})")
         for (
-        filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
+            filter: MinutesAtAttenuationFilter in config.minutesAtAttenuationFilters
         ) {
             result.append("\n\t").append("⇥ Filter")
             result.append(logRange(filter.attenuationRange, "Attenuation Range"))

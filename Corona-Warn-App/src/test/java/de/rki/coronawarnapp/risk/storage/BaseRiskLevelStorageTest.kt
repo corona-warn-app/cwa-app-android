@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWin
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJodaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

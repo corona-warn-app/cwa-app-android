@@ -40,7 +40,6 @@ import testhelpers.BaseTest
 import testhelpers.extensions.toJavaInstant
 import java.io.IOException
 import java.time.Duration
-import java.time.Instant
 
 class PresenceTracingWarningTaskTest : BaseTest() {
 
