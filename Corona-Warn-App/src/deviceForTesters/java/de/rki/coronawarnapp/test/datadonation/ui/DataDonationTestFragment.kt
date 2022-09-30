@@ -104,7 +104,9 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
         vm.checkLastAnalytics()
 
-        binding.oneTimePasswordBody.text = vm.otp
+        vm.otp.observe2(this) {
+            binding.oneTimePasswordBody.text = it.toString()
+        }
 
         vm.surveyConfig.observe2(this) {
             binding.surveyConfigBody.text = it

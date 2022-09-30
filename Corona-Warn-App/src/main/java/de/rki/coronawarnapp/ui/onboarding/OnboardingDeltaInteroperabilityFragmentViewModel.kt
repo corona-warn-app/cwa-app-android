@@ -21,7 +21,7 @@ class OnboardingDeltaInteroperabilityFragmentViewModel @AssistedInject construct
         navigateBack.postValue(true)
     }
 
-    fun saveInteroperabilityUsed() {
+    fun saveInteroperabilityUsed() = launch {
         interopRepo.saveInteroperabilityUsed()
     }
 

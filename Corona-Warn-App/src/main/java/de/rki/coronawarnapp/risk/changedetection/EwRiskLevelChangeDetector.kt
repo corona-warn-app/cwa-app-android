@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -44,7 +45,7 @@ class EwRiskLevelChangeDetector @Inject constructor(
             .launchIn(appScope)
     }
 
-    private fun List<EwRiskLevelResult>.checkForRiskLevelChanges() {
+    private suspend fun List<EwRiskLevelResult>.checkForRiskLevelChanges() {
         if (isEmpty()) return
 
         val oldResult = minByOrNull { it.calculatedAt }
@@ -52,12 +53,12 @@ class EwRiskLevelChangeDetector @Inject constructor(
 
         if (oldResult == null || newResult == null) return
 
-        val lastCheckedResult = riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp
+        val lastCheckedResult = riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp.first()
         if (lastCheckedResult == newResult.calculatedAt) {
             Timber.d("We already checked this risk level change, skipping further checks.")
             return
         }
-        riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = newResult.calculatedAt
+        riskLevelSettings.updateEwLastChangeCheckedRiskLevelTimestamp(newResult.calculatedAt)
 
         Timber.d("Last state was ${oldResult.riskState} and current state is ${newResult.riskState}")
 

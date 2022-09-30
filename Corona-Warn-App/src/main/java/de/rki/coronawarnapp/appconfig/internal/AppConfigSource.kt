@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.appconfig.sources.local.LocalAppConfigSource
 import de.rki.coronawarnapp.appconfig.sources.remote.RemoteAppConfigSource
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.first
 import java.time.Duration
 import java.time.Instant
 import timber.log.Timber
@@ -54,30 +55,30 @@ class AppConfigSource @Inject constructor(
         }
     }
 
-    private fun onRemoteConfigAvailable(remoteConfig: ConfigData) {
+    private suspend fun onRemoteConfigAvailable(remoteConfig: ConfigData) {
         if (!remoteConfig.isDeviceTimeCorrect) {
             Timber.tag(TAG).w(
                 "Device time is incorrect, offset=%dmin",
                 remoteConfig.localOffset.toMinutes()
             )
         }
-        if (remoteConfig.isDeviceTimeCorrect && cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
+        if (remoteConfig.isDeviceTimeCorrect && cwaSettings.wasDeviceTimeIncorrectAcknowledged.first()) {
             Timber.tag(TAG).i("Resetting previous incorrect device time acknowledgement.")
-            cwaSettings.wasDeviceTimeIncorrectAcknowledged = false
+            cwaSettings.updateWasDeviceTimeIncorrectAcknowledged(false)
         }
-        if (remoteConfig.deviceTimeState == CORRECT && cwaSettings.firstReliableDeviceTime == Instant.EPOCH) {
+        if (remoteConfig.deviceTimeState == CORRECT && cwaSettings.firstReliableDeviceTime.first() == Instant.EPOCH) {
             Timber.tag(TAG).i("Setting firstReliableDeviceTime to NOW (UTC). ")
-            cwaSettings.firstReliableDeviceTime = timeStamper.nowJavaUTC
+            cwaSettings.updateFirstReliableDeviceTime(timeStamper.nowJavaUTC)
         }
-        if (remoteConfig.deviceTimeState != cwaSettings.lastDeviceTimeStateChangeState) {
+        if (remoteConfig.deviceTimeState != cwaSettings.lastDeviceTimeStateChangeState.first()) {
             Timber.tag(TAG).i(
                 "New device time state, saving timestamp (old=%s(%s), new=%s#)",
                 cwaSettings.lastDeviceTimeStateChangeState,
                 cwaSettings.lastDeviceTimeStateChangeAt,
                 remoteConfig.deviceTimeState
             )
-            cwaSettings.lastDeviceTimeStateChangeState = remoteConfig.deviceTimeState
-            cwaSettings.lastDeviceTimeStateChangeAt = timeStamper.nowUTC
+            cwaSettings.updateLastDeviceTimeStateChangeState(remoteConfig.deviceTimeState)
+            cwaSettings.updateLastDeviceTimeStateChangeAt(timeStamper.nowJavaUTC)
         }
     }
 

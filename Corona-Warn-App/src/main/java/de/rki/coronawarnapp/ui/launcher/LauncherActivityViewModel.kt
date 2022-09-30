@@ -85,7 +85,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private fun copyLastLogVersion() = launch {
         runCatching {
             if (onboardingSettings.fabUqsLogVersion.first() == CWASettings.DEFAULT_APP_VERSION) {
-                onboardingSettings.updateFabUqsVersion(cwaSettings.lastChangelogVersion.value)
+                onboardingSettings.updateFabUqsVersion(cwaSettings.lastChangelogVersion.first())
             }
         }.onFailure {
             Timber.d(it, "copyLastLogVersion() failed")
@@ -163,8 +163,8 @@ class LauncherActivityViewModel @AssistedInject constructor(
     }
 
     private suspend fun isJustInstalledOrUpdated() =
-        !onboardingSettings.isOnboarded() || !cwaSettings.wasInteroperabilityShownAtLeastOnce ||
-            cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE
+        !onboardingSettings.isOnboarded() || !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() ||
+            cwaSettings.lastChangelogVersion.first() < BuildConfigWrap.VERSION_CODE
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<LauncherActivityViewModel>

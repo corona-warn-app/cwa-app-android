@@ -1,26 +1,25 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
 import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
+import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage.Companion.PKEY_RECOVERY_CERT
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 
-@Suppress("MaxLineLength")
 class RecoveryCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+    private val dataStore = FakeDataStore()
     private val testData = setOf(
         StoredRecoveryCertificateData(
             recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode2,
@@ -41,16 +40,10 @@ class RecoveryCertificateStorageTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("recovery_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
     }
 
     private fun createInstance() = RecoveryCertificateStorage(
-        context = context,
+        dataStore = dataStore,
         baseGson = SerializationModule().baseGson()
     )
 
@@ -61,20 +54,19 @@ class RecoveryCertificateStorageTest : BaseTest() {
 
     @Test
     fun `storing empty set deletes data`() = runTest {
-        mockPreferences.edit {
-            putString("dontdeleteme", "test")
-            putString("recovery.certificate", "test")
-        }
+        val key = stringPreferencesKey("notdeleted")
+        dataStore[key] = "willpersist"
+        dataStore[PKEY_RECOVERY_CERT] = "willbedeleted"
         createInstance().save(emptySet())
-
-        mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
+        dataStore[PKEY_RECOVERY_CERT] shouldBe null
+        dataStore[key] shouldBe "willpersist"
     }
 
     @Test
     fun `store two containers, one for each type`() = runTest {
         createInstance().save(testData)
 
-        (mockPreferences.dataMapPeek["recovery.certificate"] as String).toComparableJsonPretty() shouldBe """
+        dataStore[PKEY_RECOVERY_CERT]?.toComparableJsonPretty() shouldBe """
             [
               {
                 "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode2}",

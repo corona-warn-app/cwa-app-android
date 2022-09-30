@@ -69,7 +69,7 @@ class EwRiskLevelTask @Inject constructor(
             Timber.tag(TAG).d("storeTaskResult(...)")
             riskLevelStorage.storeResult(it)
 
-            riskLevelSettings.lastUsedConfigIdentifier = configData.identifier
+            riskLevelSettings.updateLastUsedConfigIdentifier(configData.identifier)
         }
     } catch (error: Exception) {
         Timber.tag(TAG).e(error)
