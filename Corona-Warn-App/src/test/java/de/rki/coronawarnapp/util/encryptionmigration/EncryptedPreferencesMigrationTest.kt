@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import kotlinx.coroutines.test.runTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.preferences.MockSharedPreferences
 import java.io.File
 
@@ -59,7 +60,8 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         submissionSettings = submissionSettings,
         tracingSettings = tracingSettings,
         onboardingSettings = onboardingSettings,
-        errorResetTool = encryptedErrorResetTool
+        errorResetTool = encryptedErrorResetTool,
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     private fun createOldPreferences() = MockSharedPreferences().also {
