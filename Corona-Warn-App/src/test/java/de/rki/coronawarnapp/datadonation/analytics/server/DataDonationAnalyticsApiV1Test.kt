@@ -55,7 +55,7 @@ class DataDonationAnalyticsApiV1Test : BaseTest() {
 
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseTime.millis)
+            .setMostRecentDateAtRiskLevel(baseTime.toEpochMilli())
             .setDateChangedComparedToPreviousSubmission(true)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .build()

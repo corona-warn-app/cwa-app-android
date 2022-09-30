@@ -25,8 +25,8 @@ class FormatterStatisticsHelperTest : BaseTest() {
     @MockK
     private lateinit var context: Context
 
-    private val today = Instant()
-    private val yesterday = today.minus(Duration.standardDays(1))
+    private val today = Instant.now()
+    private val yesterday = today.minus(Duration.ofDays(1))
 
     @BeforeEach
     fun setUp() {
