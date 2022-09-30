@@ -2,15 +2,16 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.main.CWASettings
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MigrationCheck @Inject constructor(private val cwaSettings: CWASettings) {
 
-    fun shouldShowMigrationInfo(persons: Set<PersonCertificates>): Boolean {
-        if (cwaSettings.wasCertificateGroupingMigrationAcknowledged) return false
-        cwaSettings.wasCertificateGroupingMigrationAcknowledged = true
+    suspend fun shouldShowMigrationInfo(persons: Set<PersonCertificates>): Boolean {
+        if (cwaSettings.wasCertificateGroupingMigrationAcknowledged.first()) return false
+        cwaSettings.updateWasCertificateGroupingMigrationAcknowledged(true)
 
         val numberOfPersons = persons.size
 

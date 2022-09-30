@@ -164,7 +164,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 if (isDeviceTimeCorrect) {
                     singleLiveEvent.postValue(false)
                     wasDeviceTimeDialogShown = false
-                } else if (!wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged) {
+                } else if (!wasDeviceTimeDialogShown && !cwaSettings.wasDeviceTimeIncorrectAcknowledged.first()) {
                     singleLiveEvent.postValue(true)
                     wasDeviceTimeDialogShown = true
                 }
@@ -241,7 +241,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun showPopUps() = launch {
         if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
-        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(
+        if (!cwaSettings.wasTracingExplanationDialogShown.first()) events.postValue(
             ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
         )
     }
@@ -258,12 +258,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings.updateUserToBeNotifiedOfAdditionalHighRiskLevel(notify = false)
     }
 
-    fun userHasAcknowledgedIncorrectDeviceTime() {
-        cwaSettings.wasDeviceTimeIncorrectAcknowledged = true
+    fun userHasAcknowledgedIncorrectDeviceTime() = launch {
+        cwaSettings.updateWasDeviceTimeIncorrectAcknowledged(true)
     }
 
-    fun tracingExplanationWasShown() {
-        cwaSettings.wasTracingExplanationDialogShown = true
+    fun tracingExplanationWasShown() = launch {
+        cwaSettings.updateWasTracingExplanationDialogShown(true)
     }
 
     private fun MutableList<HomeItem>.addFaqCard() {

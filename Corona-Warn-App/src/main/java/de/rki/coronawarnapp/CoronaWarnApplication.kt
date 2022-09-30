@@ -55,7 +55,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
                 Timber.v("Calling EncryptedPreferencesMigration.doMigration()")
                 compPreview.encryptedMigration.get().doMigration()
             }
-
             CWADebug.initAfterInjection(compPreview)
 
             Timber.v("Completing application injection")

@@ -1,19 +1,17 @@
 package de.rki.coronawarnapp.datadonation
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant
 import java.util.UUID
 
-@Keep
 data class OTPAuthorizationResult(
-    @SerializedName("uuid")
+    @JsonProperty("uuid")
     val uuid: UUID,
-    @SerializedName("authorized")
+    @JsonProperty("authorized")
     val authorized: Boolean,
-    @SerializedName("redeemedAt")
+    @JsonProperty("redeemedAt")
     val redeemedAt: Instant,
-    @SerializedName("invalidated")
+    @JsonProperty("invalidated")
     val invalidated: Boolean = false
 ) {
 

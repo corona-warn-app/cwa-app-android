@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.storage
 import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,26 +11,22 @@ import javax.inject.Singleton
 class OTPRepository @Inject constructor(
     private val surveySettings: SurveySettings
 ) {
+    fun getOtpAuthorizationResult() = surveySettings.otpAuthorizationResult
 
-    val otp: OneTimePassword?
-        get() = surveySettings.oneTimePassword
-
-    var otpAuthorizationResult: OTPAuthorizationResult?
-        get() = surveySettings.otpAuthorizationResult
-        set(value) {
-            surveySettings.otpAuthorizationResult = value
-            // since we have a result from authorization server we must not use the generated otp again
-            surveySettings.oneTimePassword = null
-        }
-
-    fun generateOTP(): OneTimePassword = OneTimePassword().also {
-        surveySettings.oneTimePassword = it
-        // only one otp can be stored at a time - remove authorization result of older otp
-        surveySettings.otpAuthorizationResult = null
+    suspend fun updateOtpAuthorizationResult(result: OTPAuthorizationResult?) {
+        surveySettings.updateOtpAuthorizationResult(result)
+        surveySettings.updateOneTimePassword(null)
     }
 
-    fun clear() {
-        surveySettings.oneTimePassword = null
-        surveySettings.otpAuthorizationResult = null
+    suspend fun getOtp() = surveySettings.oneTimePassword.first()
+
+    suspend fun generateOTP(): OneTimePassword = OneTimePassword().also {
+        surveySettings.updateOneTimePassword(it)
+        // only one otp can be stored at a time - remove authorization result of older otp
+        surveySettings.updateOtpAuthorizationResult(null)
+    }
+
+    suspend fun clear() {
+        surveySettings.reset()
     }
 }

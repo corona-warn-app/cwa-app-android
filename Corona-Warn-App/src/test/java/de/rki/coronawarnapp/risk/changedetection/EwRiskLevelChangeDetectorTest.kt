@@ -31,20 +31,20 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.FakeDataStore
 
 class EwRiskLevelChangeDetectorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
-    @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var surveys: Surveys
+    lateinit var riskLevelSettings: RiskLevelSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
+        riskLevelSettings = RiskLevelSettings(FakeDataStore())
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 
@@ -174,8 +174,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
-
         runTest {
             val instance = createInstance(scope = this)
             instance.initialize()
@@ -203,8 +201,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
-
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(1)
 
         runTest {
             val instance = createInstance(scope = this)

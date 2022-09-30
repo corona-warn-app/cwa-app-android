@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class NewReleaseInfoViewModel @AssistedInject constructor(
@@ -22,9 +24,9 @@ class NewReleaseInfoViewModel @AssistedInject constructor(
 
     val title = R.string.release_info_version_title.toResolvingString(BuildConfig.VERSION_NAME)
 
-    fun onNextButtonClick(comesFromInfoScreen: Boolean) {
-        appSettings.lastChangelogVersion.update { BuildConfigWrap.VERSION_CODE }
-        if (appSettings.lastNotificationsOnboardingVersionCode.value == 0L && !comesFromInfoScreen) {
+    fun onNextButtonClick(comesFromInfoScreen: Boolean) = launch {
+        appSettings.updateLastChangelogVersion(BuildConfigWrap.VERSION_CODE)
+        if (appSettings.lastNotificationsOnboardingVersionCode.first() == 0L && !comesFromInfoScreen) {
             routeToScreen.postValue(
                 NewReleaseInfoNavigationEvents.NavigateToOnboardingDeltaNotificationsFragment
             )

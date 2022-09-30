@@ -1,56 +1,64 @@
 package de.rki.coronawarnapp.risk
 
-import android.content.Context
-import androidx.core.content.edit
-import de.rki.coronawarnapp.util.di.AppContext
+import androidx.annotation.VisibleForTesting
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.map
+import de.rki.coronawarnapp.util.datastore.trySetValue
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RiskLevelSettings @Inject constructor(
-    @AppContext private val context: Context
+    @RiskLevelSettingsDataStore private val dataStore: DataStore<Preferences>
 ) {
-
-    private val prefs by lazy {
-        context.getSharedPreferences(NAME_SHARED_PREFS, Context.MODE_PRIVATE)
-    }
-
     /**
      * The identifier of the config used during the last risklevel calculation
      */
-    var lastUsedConfigIdentifier: String?
-        get() = prefs.getString(PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID, null)
-        set(value) = prefs.edit(true) {
-            putString(PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID, value)
-        }
 
-    var ewLastChangeCheckedRiskLevelTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW, value?.millis ?: 0L)
-        }
+    val lastUsedConfigIdentifier: Flow<String?> = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID
+    )
 
-    var lastChangeCheckedRiskLevelCombinedTimestamp: Instant?
-        get() = prefs.getLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, 0L).let {
-            if (it != 0L) Instant.ofEpochMilli(it) else null
-        }
-        set(value) = prefs.edit {
-            putLong(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED, value?.millis ?: 0L)
-        }
+    suspend fun updateLastUsedConfigIdentifier(identifier: String) = dataStore.trySetValue(
+        preferencesKey = PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID,
+        value = identifier
+    )
+
+    val ewLastChangeCheckedRiskLevelTimestamp: Flow<Instant?> =
+        dataStore.dataRecovering.map(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW)
+            .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
+
+    suspend fun updateEwLastChangeCheckedRiskLevelTimestamp(value: Instant?) = dataStore.trySetValue(
+        preferencesKey = PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW,
+        value = value?.millis ?: 0L
+    )
+
+    val lastChangeCheckedRiskLevelCombinedTimestamp: Flow<Instant?> =
+        dataStore.dataRecovering.map(PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED)
+            .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else null }.distinctUntilChanged()
+
+    suspend fun updateLastChangeCheckedRiskLevelCombinedTimestamp(value: Instant?) = dataStore.trySetValue(
+        preferencesKey = PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED,
+        value = value?.millis ?: 0L
+    )
 
     companion object {
-        private const val NAME_SHARED_PREFS = "risklevel_localdata"
-        private const val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = "risklevel.config.identifier.last"
-
-        /*
-        * Change was last checked at
-        * */
-        private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW =
-            "PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID" // seems to be a copy/paste mistake that lives on...
-        private const val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED =
-            "PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED"
+        @VisibleForTesting
+        val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = stringPreferencesKey("risklevel.config.identifier.last")
+        @VisibleForTesting
+        val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW =
+            longPreferencesKey("PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID") // A copy/paste mistake that lives on...
+        @VisibleForTesting
+        val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED =
+            longPreferencesKey("PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED")
     }
 }

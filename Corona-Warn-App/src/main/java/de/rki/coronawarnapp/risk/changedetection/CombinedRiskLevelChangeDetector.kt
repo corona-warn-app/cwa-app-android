@@ -79,12 +79,12 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         if (oldResult == null || newResult == null) return
 
-        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp.first()
         if (lastCheckedResult == newResult.calculatedAt) {
             Timber.d("We already checked this risk level change, skipping further checks.")
             return
         }
-        riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = newResult.calculatedAt
+        riskLevelSettings.updateLastChangeCheckedRiskLevelCombinedTimestamp(newResult.calculatedAt)
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
