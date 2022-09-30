@@ -78,7 +78,7 @@ class AppConfigSource @Inject constructor(
                 remoteConfig.deviceTimeState
             )
             cwaSettings.updateLastDeviceTimeStateChangeState(remoteConfig.deviceTimeState)
-            cwaSettings.updateLastDeviceTimeStateChangeAt(timeStamper.nowJavaUTC)
+            cwaSettings.updateLastDeviceTimeStateChangeAt(timeStamper.nowUTC)
         }
     }
 
