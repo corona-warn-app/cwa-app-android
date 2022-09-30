@@ -173,8 +173,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns flowOf(Instant.EPOCH.plusMillis(1))
-
         runTest {
             val instance = createInstance(scope = this)
             instance.initialize()
@@ -202,10 +200,6 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
-
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns flowOf(
-            Instant.EPOCH.plusMillis(1)
-        )
 
         runTest {
             val instance = createInstance(scope = this)
