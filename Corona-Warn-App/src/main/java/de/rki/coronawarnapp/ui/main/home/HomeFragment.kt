@@ -105,13 +105,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
         viewModel.coronaTestErrors.observe2(this) { tests ->
             tests.forEach { test ->
-                displayDialog(dialog = test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
-                    val testName = when (test.type) {
-                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                displayDialog(
+                    dialog = test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
+                        val testName = when (test.type) {
+                            BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                            BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        }
+                        setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                     }
-                    setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
-                })
+                )
             }
         }
 
