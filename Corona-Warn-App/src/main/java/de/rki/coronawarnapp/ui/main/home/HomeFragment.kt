@@ -96,12 +96,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) displayDialog {
-                dialog {
-                    setTitle(R.string.device_time_incorrect_dialog_headline)
-                    setMessage(R.string.device_time_incorrect_dialog_body)
-                    setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
-                        viewModel.userHasAcknowledgedIncorrectDeviceTime()
-                    }
+                setTitle(R.string.device_time_incorrect_dialog_headline)
+                setMessage(R.string.device_time_incorrect_dialog_body)
+                setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
+                    viewModel.userHasAcknowledgedIncorrectDeviceTime()
                 }
             }
         }
