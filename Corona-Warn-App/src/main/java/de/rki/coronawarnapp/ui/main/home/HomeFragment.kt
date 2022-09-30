@@ -96,24 +96,24 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) displayDialog {
-                setTitle(R.string.device_time_incorrect_dialog_headline)
-                setMessage(R.string.device_time_incorrect_dialog_body)
-                setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
-                    viewModel.userHasAcknowledgedIncorrectDeviceTime()
+                dialog {
+                    setTitle(R.string.device_time_incorrect_dialog_headline)
+                    setMessage(R.string.device_time_incorrect_dialog_body)
+                    setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
+                        viewModel.userHasAcknowledgedIncorrectDeviceTime()
+                    }
                 }
             }
         }
         viewModel.coronaTestErrors.observe2(this) { tests ->
             tests.forEach { test ->
-                displayDialog {
-                    test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
-                        val testName = when (test.type) {
-                            BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                            BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
-                        }
-                        setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                displayDialog(dialog = test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
+                    val testName = when (test.type) {
+                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
-                }
+                    setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                })
             }
         }
 

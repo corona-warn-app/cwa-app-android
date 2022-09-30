@@ -166,9 +166,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is MainActivityEvent.Error -> displayDialog {
-                    event.error.toErrorDialogBuilder(context)
-                }
+                is MainActivityEvent.Error -> displayDialog(dialog = event.error.toErrorDialogBuilder(baseContext))
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
         }
