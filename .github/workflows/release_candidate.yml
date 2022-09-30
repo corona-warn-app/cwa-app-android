@@ -78,12 +78,14 @@ jobs:
         run: |
           fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
           file=$(basename $fileName)
+          version=$(echo $filename | sed 's/.*App-//' | sed 's/-device.*//')
           echo "${file}"
+          echo "${version}"
           curl --location --request POST $tsystems_upload_url \
           --header "Authorization: Bearer $tsystems_upload_bearer" \
           --form "file=@${fileName}" \
           --form "camera=true" \
-          --form "uniqueName=${file}"
+          --form "uniqueName=${version}"
 
       - name: Trigger App Automation Testing
         env:
