@@ -57,7 +57,7 @@ class OnboardingTracingFragmentViewModel @AssistedInject constructor(
             }
         )
 
-    fun saveInteroperabilityUsed() {
+    fun saveInteroperabilityUsed() = launch {
         interoperabilityRepository.saveInteroperabilityUsed()
     }
 

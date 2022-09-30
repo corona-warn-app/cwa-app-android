@@ -23,7 +23,7 @@ class InteroperabilityConfigurationFragmentViewModel @AssistedInject constructor
         navigateBack.postValue(true)
     }
 
-    fun saveInteroperabilityUsed() {
+    fun saveInteroperabilityUsed() = launch {
         interoperabilityRepository.saveInteroperabilityUsed()
     }
 

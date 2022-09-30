@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonSettingsDataStore
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateDataStore
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -35,6 +36,7 @@ import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import javax.inject.Singleton
 
 @Module(
     includes = [
@@ -76,6 +78,21 @@ object DigitalCovidCertificateModule {
     ) {
         context.preferencesDataStoreFile(PERSON_SETTINGS_NAME)
     }
+
+    @Singleton
+    @RecoveryCertificateDataStore
+    @Provides
+    fun provideRecoveryCertificateDataStore(
+        @AppContext context: Context
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        produceFile = { context.preferencesDataStoreFile(RECOVERY_CERTIFICATE_STORAGE_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                RECOVERY_CERTIFICATE_STORAGE_NAME
+            )
+        )
+    )
 
     @Module
     internal interface ResetModule {
@@ -122,3 +139,4 @@ object DigitalCovidCertificateModule {
 
 // Legacy shared prefs name
 private const val PERSON_SETTINGS_NAME = "certificate_person_localdata"
+private const val RECOVERY_CERTIFICATE_STORAGE_NAME = "recovery_localdata"

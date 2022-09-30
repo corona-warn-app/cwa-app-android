@@ -30,6 +30,7 @@ import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -38,7 +39,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class LauncherActivityViewModelTest : BaseTest() {
@@ -261,8 +261,8 @@ class LauncherActivityViewModelTest : BaseTest() {
     @Test
     fun `onboarding finished`() {
         coEvery { onboardingSettings.isOnboarded() } returns true
-        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns true
-        every { cwaSettings.lastChangelogVersion } returns mockFlowPreference(10L)
+        coEvery { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns flowOf(true)
+        every { cwaSettings.lastChangelogVersion } returns flowOf(10L)
 
         val vm = createViewModel().apply {
             initialization()

@@ -1,35 +1,35 @@
 package de.rki.coronawarnapp.release
 
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class NewReleaseInfoViewModelTest : BaseTest() {
 
     @MockK lateinit var appSettings: CWASettings
-    private lateinit var lastOnboardingVersionCode: FlowPreference<Long>
     lateinit var viewModel: NewReleaseInfoViewModel
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        lastOnboardingVersionCode = mockFlowPreference(0L)
-        every { appSettings.lastNotificationsOnboardingVersionCode } returns lastOnboardingVersionCode
+        every { appSettings.lastNotificationsOnboardingVersionCode } returns flowOf(0L)
 
-        every { appSettings.lastChangelogVersion.update(any()) } just Runs
+        coEvery { appSettings.updateLastChangelogVersion(any()) } just Runs
         viewModel = NewReleaseInfoViewModel(
             TestDispatcherProvider(),
             appSettings
@@ -37,8 +37,8 @@ class NewReleaseInfoViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `if notifications onboarding has not yet been done, navigate to it`() {
-        lastOnboardingVersionCode.value shouldBe 0L
+    fun `if notifications onboarding has not yet been done, navigate to it`() = runTest {
+        appSettings.lastNotificationsOnboardingVersionCode.first() shouldBe 0L
 
         viewModel.onNextButtonClick(false)
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents
@@ -46,13 +46,13 @@ class NewReleaseInfoViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `if notifications onboarding is done, just close the release screen`() {
-        lastOnboardingVersionCode.update { 1130000L }
+    fun `if notifications onboarding is done, just close the release screen`() = runTest {
+        every { appSettings.lastNotificationsOnboardingVersionCode } returns flowOf(1130000L)
 
         viewModel.onNextButtonClick(false)
         viewModel.routeToScreen.value shouldBe NewReleaseInfoNavigationEvents.CloseScreen
 
-        lastOnboardingVersionCode.value shouldBe 1130000L
+        appSettings.lastNotificationsOnboardingVersionCode.first() shouldBe 1130000L
     }
 
     @Test
