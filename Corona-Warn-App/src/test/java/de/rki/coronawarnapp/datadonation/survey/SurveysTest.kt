@@ -16,6 +16,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -51,17 +52,19 @@ internal class SurveysTest : BaseTest() {
 
     @Test
     fun `isConsentNeeded() should return Needed when no otp was yet authorized`() = runTest {
-        every { oneTimePasswordRepo.otpAuthorizationResult } returns null
+        every { oneTimePasswordRepo.getOtpAuthorizationResult() } returns flowOf(null)
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
     }
 
     @Test
     fun `isConsentNeeded() should return Needed when authentication of stored otp failed `() = runTest {
-        every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
-            UUID.randomUUID(),
-            authorized = false,
-            redeemedAt = timeStamper.nowJavaUTC,
-            invalidated = false
+        every { oneTimePasswordRepo.getOtpAuthorizationResult() } returns flowOf(
+            OTPAuthorizationResult(
+                UUID.randomUUID(),
+                authorized = false,
+                redeemedAt = timeStamper.nowJavaUTC,
+                invalidated = false
+            )
         )
         createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
     }
@@ -69,11 +72,13 @@ internal class SurveysTest : BaseTest() {
     @Test
     fun `isConsentNeeded() returns Needed when an auth-otp was invalidated due to a risk change from high to low`() =
         runTest {
-            every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
-                UUID.randomUUID(),
-                authorized = true,
-                redeemedAt = timeStamper.nowJavaUTC,
-                invalidated = true
+            every { oneTimePasswordRepo.getOtpAuthorizationResult() } returns flowOf(
+                OTPAuthorizationResult(
+                    UUID.randomUUID(),
+                    authorized = true,
+                    redeemedAt = timeStamper.nowJavaUTC,
+                    invalidated = true
+                )
             )
             createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) shouldBe Needed
         }
@@ -81,11 +86,13 @@ internal class SurveysTest : BaseTest() {
     @Test
     fun `isConsentNeeded() should return AlreadyGiven when an authorized otp is stored and not invalidated`() =
         runTest {
-            every { oneTimePasswordRepo.otpAuthorizationResult } returns OTPAuthorizationResult(
-                UUID.randomUUID(),
-                authorized = true,
-                redeemedAt = timeStamper.nowJavaUTC,
-                invalidated = false
+            every { oneTimePasswordRepo.getOtpAuthorizationResult() } returns flowOf(
+                OTPAuthorizationResult(
+                    UUID.randomUUID(),
+                    authorized = true,
+                    redeemedAt = timeStamper.nowJavaUTC,
+                    invalidated = false
+                )
             )
             coEvery { urlProvider.provideUrl(any(), any()) } returns ""
             createInstance().isConsentNeeded(HIGH_RISK_ENCOUNTER) should beInstanceOf<AlreadyGiven>()

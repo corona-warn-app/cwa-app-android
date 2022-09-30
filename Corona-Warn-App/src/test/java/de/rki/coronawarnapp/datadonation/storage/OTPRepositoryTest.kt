@@ -1,26 +1,30 @@
 package de.rki.coronawarnapp.datadonation.storage
 
-import android.content.Context
-import com.google.gson.Gson
 import de.rki.coronawarnapp.datadonation.OTPAuthorizationResult
 import de.rki.coronawarnapp.datadonation.OneTimePassword
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 import java.util.UUID
 
 class OTPRepositoryTest : BaseTest() {
 
-    @MockK lateinit var context: Context
     @MockK lateinit var surveySettings: SurveySettings
+    private val objectMapper = SerializationModule().jacksonObjectMapper()
+    private val dataStore = FakeDataStore()
 
     @BeforeEach
     fun setup() {
@@ -28,11 +32,11 @@ class OTPRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `last otp is read from preferences`() {
+    fun `last otp is read from preferences`() = runTest {
         val uuid = UUID.fromString("e103c755-0975-4588-a639-d0cd1ba421a0")
         val time = Instant.ofEpochMilli(1612381131014)
-        every { surveySettings.oneTimePassword } returns OneTimePassword(uuid, time)
-        val lastOTP = OTPRepository(surveySettings).otp
+        every { surveySettings.oneTimePassword } returns flowOf(OneTimePassword(uuid, time))
+        val lastOTP = OTPRepository(surveySettings).getOtp()
         lastOTP shouldNotBe null
         lastOTP!!.apply {
             uuid shouldBe uuid
@@ -41,47 +45,48 @@ class OTPRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `otp is stored upon creation`() {
-        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns MockSharedPreferences()
-        val settings = SurveySettings(context, Gson())
-        settings.oneTimePassword shouldBe null
+    fun `otp is stored upon creation`() = runTest {
+        val settings = SurveySettings(dataStore, objectMapper)
+        settings.oneTimePassword.first() shouldBe null
         val generated = OTPRepository(settings).generateOTP()
-        generated shouldBe settings.oneTimePassword
+        generated shouldBe settings.oneTimePassword.first()
     }
 
     @Test
-    fun `no last otp`() {
-        every { surveySettings.oneTimePassword } returns null
-        OTPRepository(surveySettings).otp shouldBe null
+    fun `no last otp`() = runTest {
+        coEvery { surveySettings.oneTimePassword } returns flowOf(null)
+        OTPRepository(surveySettings).getOtp() shouldBe null
     }
 
     @Test
-    fun `no otp auth result after generating new otp`() {
-        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns MockSharedPreferences()
-        val settings = SurveySettings(context, Gson())
-        settings.otpAuthorizationResult = OTPAuthorizationResult(
-            UUID.randomUUID(),
-            true,
-            Instant.now()
+    fun `no otp auth result after generating new otp`() = runTest {
+        val settings = SurveySettings(dataStore, objectMapper)
+        settings.updateOtpAuthorizationResult(
+            OTPAuthorizationResult(
+                UUID.randomUUID(),
+                true,
+                Instant.now()
+            )
         )
 
-        settings.otpAuthorizationResult shouldNotBe null
+        settings.otpAuthorizationResult.first() shouldNotBe null
         OTPRepository(settings).generateOTP()
-        settings.otpAuthorizationResult shouldBe null
+        settings.otpAuthorizationResult.first() shouldBe null
     }
 
     @Test
-    fun `no otp after storing otp auth result`() {
-        every { context.getSharedPreferences("survey_localdata", Context.MODE_PRIVATE) } returns MockSharedPreferences()
-        val settings = SurveySettings(context, Gson())
-        settings.oneTimePassword = OneTimePassword(UUID.randomUUID(), Instant.now())
+    fun `no otp after storing otp auth result`() = runTest {
+        val settings = SurveySettings(dataStore, objectMapper)
+        settings.updateOneTimePassword(OneTimePassword(UUID.randomUUID(), Instant.now()))
 
-        settings.oneTimePassword shouldNotBe null
-        OTPRepository(settings).otpAuthorizationResult = OTPAuthorizationResult(
-            UUID.randomUUID(),
-            true,
-            Instant.now()
+        settings.oneTimePassword.first() shouldNotBe null
+        OTPRepository(settings).updateOtpAuthorizationResult(
+            OTPAuthorizationResult(
+                UUID.randomUUID(),
+                true,
+                Instant.now()
+            )
         )
-        settings.oneTimePassword shouldBe null
+        settings.oneTimePassword.first() shouldBe null
     }
 }

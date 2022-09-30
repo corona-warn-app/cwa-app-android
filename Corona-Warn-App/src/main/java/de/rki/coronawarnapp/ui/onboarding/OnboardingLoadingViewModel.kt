@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 
 class OnboardingLoadingViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
@@ -21,10 +22,10 @@ class OnboardingLoadingViewModel @AssistedInject constructor(
             !onboardingSettings.isOnboarded() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowOnboarding)
             }
-            !cwaSettings.wasInteroperabilityShownAtLeastOnce -> {
+            !cwaSettings.wasInteroperabilityShownAtLeastOnce.first() -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowInteropDeltaOnboarding)
             }
-            cwaSettings.lastChangelogVersion.value / 10000 < BuildConfigWrap.VERSION_CODE / 10000 -> {
+            cwaSettings.lastChangelogVersion.first() / 10000 < BuildConfigWrap.VERSION_CODE / 10000 -> {
                 navigationEvents.postValue(OnboardingFragmentEvents.ShowNewReleaseFragment)
             }
             else -> {
