@@ -12,7 +12,7 @@ internal class DurationExtensionKtTest {
     @MethodSource("provideArgumentsForContactDiaryFormat")
     fun `toContactDiaryFormat() should return correct String`(testItem: TestItem) {
         with(testItem) {
-            duration.toContactDiaryFormat() shouldBe expectedReadableDuration
+            duration.format() shouldBe expectedReadableDuration
         }
     }
 

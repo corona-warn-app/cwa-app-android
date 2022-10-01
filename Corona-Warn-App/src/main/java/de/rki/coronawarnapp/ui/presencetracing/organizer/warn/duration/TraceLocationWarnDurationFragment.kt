@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -176,7 +176,7 @@ class TraceLocationWarnDurationFragment :
 
     private fun showDurationPicker() {
         DurationPicker.Builder()
-            .duration(viewModel.selectedDuration.toContactDiaryFormat())
+            .duration(viewModel.selectedDuration.format())
             .title(getString(R.string.contact_diary_location_visit_duration_label))
             .build()
             .apply {

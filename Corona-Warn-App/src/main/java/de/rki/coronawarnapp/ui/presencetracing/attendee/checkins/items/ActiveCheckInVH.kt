@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
@@ -13,7 +14,6 @@ import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.concurrent.TimeUnit
 
 class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
@@ -47,9 +47,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
         highlightDuration.text = run {
             val currentDuration = Duration.between(checkInStartUserTZ, LocalDateTime.now())
             val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
-            "%02d:%02d".format(
-                saneDuration.toSeconds() / SECONDS_IN_HOURS, (saneDuration.toSeconds() % SECONDS_IN_HOURS) / 60
-            )
+            saneDuration.format()
         }
 
         description.text = checkin.description
@@ -113,9 +111,5 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onSwipeItem: (CheckIn, Int) -> Unit,
     ) : CheckInsItem, HasPayloadDiffer {
         override val stableId: Long = checkin.id
-    }
-
-    companion object {
-        private val SECONDS_IN_HOURS = TimeUnit.HOURS.toSeconds(1)
     }
 }
