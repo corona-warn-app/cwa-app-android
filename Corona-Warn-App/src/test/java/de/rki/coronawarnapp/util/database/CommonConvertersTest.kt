@@ -57,7 +57,7 @@ class CommonConvertersTest : BaseTest() {
     fun `local time conversion`() {
         converters.apply {
             val orig = LocalTime.parse("23:59")
-            val raw = "23:59:00.000"
+            val raw = "23:59"
             fromLocalTime(orig) shouldBe raw
             toLocalTime(raw) shouldBe orig
         }
@@ -67,7 +67,7 @@ class CommonConvertersTest : BaseTest() {
     fun `instant conversion`() {
         converters.apply {
             val orig = Instant.EPOCH
-            val raw = "1970-01-01T00:00:00.000Z"
+            val raw = "1970-01-01T00:00:00Z"
             fromInstant(orig) shouldBe raw
             toInstant(raw) shouldBe orig
         }
