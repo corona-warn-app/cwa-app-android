@@ -33,7 +33,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : ProfileQrCodeFragmentViewModel.Factory {
-                override fun create(id: Int): ProfileQrCodeFragmentViewModel = viewModel
+                override fun create(profileId: Int): ProfileQrCodeFragmentViewModel = viewModel
             }
         )
 
