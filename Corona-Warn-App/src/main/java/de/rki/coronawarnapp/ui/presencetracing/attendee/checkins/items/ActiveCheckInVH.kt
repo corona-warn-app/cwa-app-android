@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 
+import android.text.format.DateUtils
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
@@ -9,7 +10,7 @@ import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.Duration
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.concurrent.TimeUnit
@@ -38,27 +39,26 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         latestItem = curItem
 
-        val checkInStartUserTZ = curItem.checkin.checkInStart.toLocalDateTimeUserTz()
+        val checkin = curItem.checkin
+        val checkInStartUserTZ = checkin.checkInStart.toLocalDateTimeUserTz()
 
         highlightDuration.text = run {
-            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now().toLocalDateTimeUserTz())
+            val currentDuration = Duration.between(checkInStartUserTZ, LocalDateTime.now())
             val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
             val seconds = saneDuration.toMinutes() * 60
             "%02d:%02d".format(seconds / SECONDS_IN_HOURS, (seconds % SECONDS_IN_HOURS) / 60)
         }
 
-        description.text = curItem.checkin.description
-        address.text = curItem.checkin.address
+        description.text = checkin.description
+        address.text = checkin.address
 
+        val timeSpanString = DateUtils.getRelativeTimeSpanString(
+            checkin.checkInEnd.toEpochMilli(),
+            checkin.checkInStart.toEpochMilli(),
+            DateUtils.MINUTE_IN_MILLIS
+        )
         checkoutInfo.text = run {
-            val checkoutIn = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
-                when {
-                    it > Duration.ofHours(1) -> "HH:mm"
-                    it > Duration.ofDays(1) -> "dd"
-                    else -> "mm"
-                }
-            }
-
+            val checkoutIn = timeSpanString.run { substring(indexOfFirst { it.isDigit() }) }
             val startDate = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
             val startTime = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             context.getString(
@@ -71,12 +71,12 @@ class ActiveCheckInVH(parent: ViewGroup) :
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
-                R.id.menu_remove_item -> curItem.onRemoveItem(curItem.checkin).let { true }
+                R.id.menu_remove_item -> curItem.onRemoveItem(checkin).let { true }
                 else -> false
             }
         }
 
-        checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
+        checkoutAction.setOnClickListener { curItem.onCheckout(checkin) }
 
         itemView.apply {
             transitionName = item.checkin.id.toString()
