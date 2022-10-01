@@ -15,7 +15,7 @@ class VCard @Inject constructor(
     private val now = timeStamper.nowUTC
 
     /**
-     * Return V-Card format for [RATProfile]
+     * Return V-Card format for [Profile]
      * @return [String]
      */
     fun create(profile: Profile): String = profile.run {
@@ -32,8 +32,8 @@ class VCard @Inject constructor(
         val zipCode = zipCode.escapeAll()
         val phone = phone.escapeAll()
         val email = email.escapeAll()
-        val birthDate = birthDate?.format(birthDateFormatter).orEmpty()
-        val rev = now.atZone(ZoneOffset.UTC).format(revDateFormatter) // Time the vCard was updated
+        val birthDate = birthDate?.format(DateTimeFormatter.BASIC_ISO_DATE).orEmpty()
+        val rev = revDateFormatter.format(now.atZone(ZoneOffset.UTC)) // Time the vCard was updated
         """
             BEGIN:VCARD
             VERSION:4.0
@@ -54,7 +54,6 @@ class VCard @Inject constructor(
         .replace(";", "\\;")
 
     companion object {
-        private val birthDateFormatter = DateTimeFormatter.BASIC_ISO_DATE
-        private val revDateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmssZ")
+        private val revDateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
     }
 }
