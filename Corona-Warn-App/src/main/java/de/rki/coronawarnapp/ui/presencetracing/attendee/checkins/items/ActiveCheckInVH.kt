@@ -40,25 +40,38 @@ class ActiveCheckInVH(parent: ViewGroup) :
         latestItem = curItem
 
         val checkin = curItem.checkin
-        val checkInStartUserTZ = checkin.checkInStart.toLocalDateTimeUserTz()
+        val checkInStart = checkin.checkInStart
+        val checkInEnd = checkin.checkInEnd
+        val checkInStartUserTZ = checkInStart.toLocalDateTimeUserTz()
 
         highlightDuration.text = run {
             val currentDuration = Duration.between(checkInStartUserTZ, LocalDateTime.now())
             val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
-            val seconds = saneDuration.toMinutes() * 60
-            "%02d:%02d".format(seconds / SECONDS_IN_HOURS, (seconds % SECONDS_IN_HOURS) / 60)
+            "%02d:%02d".format(
+                saneDuration.toSeconds() / SECONDS_IN_HOURS, (saneDuration.toSeconds() % SECONDS_IN_HOURS) / 60
+            )
         }
 
         description.text = checkin.description
         address.text = checkin.address
 
-        val timeSpanString = DateUtils.getRelativeTimeSpanString(
-            checkin.checkInEnd.toEpochMilli(),
-            checkin.checkInStart.toEpochMilli(),
-            DateUtils.MINUTE_IN_MILLIS
-        )
+        val checkoutIn = Duration.between(checkInStart, checkInEnd).let { duration ->
+            when {
+                duration > Duration.ofHours(1) -> "%s, %s".format(
+                    relativeTime(
+                        checkInStart.plus(Duration.ofHours(duration.toHoursPart().toLong())).toEpochMilli(),
+                        checkInStart.toEpochMilli()
+                    ),
+                    relativeTime(
+                        checkInStart.plus(Duration.ofMinutes(duration.toMinutesPart().toLong())).toEpochMilli(),
+                        checkInStart.toEpochMilli()
+                    )
+                )
+
+                else -> relativeTime(checkInEnd.toEpochMilli(), checkInStart.toEpochMilli())
+            }
+        }
         checkoutInfo.text = run {
-            val checkoutIn = timeSpanString.run { substring(indexOfFirst { it.isDigit() }) }
             val startDate = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
             val startTime = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             context.getString(
@@ -82,6 +95,15 @@ class ActiveCheckInVH(parent: ViewGroup) :
             transitionName = item.checkin.id.toString()
         }
     }
+
+    private fun relativeTime(time: Long, now: Long): String =
+        DateUtils.getRelativeTimeSpanString(
+            time,
+            now,
+            DateUtils.MINUTE_IN_MILLIS
+        ).run {
+            substring(indexOfFirst { it.isDigit() })
+        }
 
     data class Item(
         val checkin: CheckIn,
