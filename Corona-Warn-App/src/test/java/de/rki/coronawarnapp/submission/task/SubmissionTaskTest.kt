@@ -145,8 +145,8 @@ class SubmissionTaskTest : BaseTest() {
         coEvery { playbook.submit(any()) } just Runs
         coEvery { playbook.retrieveTan(any(), any()) } returns "tan"
 
-        every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
-        every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
 
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
@@ -436,11 +436,11 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -459,10 +459,10 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 }

@@ -25,21 +25,23 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.preferences.FakeDataStore
 
 class ExposureRiskMetadataDonorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
     @MockK lateinit var highEwAggregatedRiskResult: EwAggregatedRiskResult
     @MockK lateinit var highPtDayRisk: PresenceTracingDayRisk
     @MockK lateinit var lowEwAggregatedRiskResult: EwAggregatedRiskResult
     @MockK lateinit var lowPtDayRisk: PresenceTracingDayRisk
+
+    lateinit var analyticsSettings: AnalyticsSettings
 
     private val baseDate: Instant = Instant.ofEpochMilli(101010)
 
@@ -67,6 +69,8 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
         every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(ewResult)
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(ptResult)
+
+        analyticsSettings = AnalyticsSettings(FakeDataStore())
     }
 
     private fun createEwRiskLevelResult(
@@ -110,8 +114,6 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setPtDateChangedComparedToPreviousSubmission(false)
             .build()
 
-        every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
-
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
                 RiskState.INCREASED_RISK,
@@ -144,7 +146,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     }
 
     @Test
-    fun `risk metadata change is properly collected`() {
+    fun `risk metadata change is properly collected`() = runTest2{
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseDate.seconds)
@@ -167,7 +169,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setPtDateChangedComparedToPreviousSubmission(false)
             .build()
 
-        every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
+        analyticsSettings.updatePreviousExposureRiskMetadata(initialMetadata)
 
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
@@ -185,15 +187,13 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
 
-        runTest2 {
-            val contribution = createInstance().beginDonation(
-                object : DonorModule.Request {
-                    override val currentConfig: ConfigData = mockk()
-                }
-            )
-            contribution.injectData(parentBuilder)
-            contribution.finishDonation(true)
-        }
+        val contribution = createInstance().beginDonation(
+            object : DonorModule.Request {
+                override val currentConfig: ConfigData = mockk()
+            }
+        )
+        contribution.injectData(parentBuilder)
+        contribution.finishDonation(true)
 
         val parentProto = parentBuilder.build()
 
@@ -201,8 +201,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     }
 
     @Test
-    fun `previous risk metadata is reset on success`() {
-        every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(null)
+    fun `previous risk metadata is reset on success`() = runTest2 {
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
             LastCombinedRiskResults(
                 lastSuccessfullyCalculatedRiskState = RiskState.INCREASED_RISK,
@@ -222,23 +221,22 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         )
 
         val parentBuilder = PpaData.PPADataAndroid.newBuilder()
-        runTest2 {
-            val contribution = createInstance().beginDonation(
-                object : DonorModule.Request {
-                    override val currentConfig: ConfigData = mockk()
-                }
-            )
-            contribution.injectData(parentBuilder)
-            contribution.finishDonation(true)
-        }
+
+        val contribution = createInstance().beginDonation(
+            object : DonorModule.Request {
+                override val currentConfig: ConfigData = mockk()
+            }
+        )
+        contribution.injectData(parentBuilder)
+        contribution.finishDonation(true)
 
         val parentProto = parentBuilder.build()
 
-        analyticsSettings.previousExposureRiskMetadata.value shouldBe parentProto.exposureRiskMetadataSetList[0]
+        analyticsSettings.previousExposureRiskMetadata.first() shouldBe parentProto.exposureRiskMetadataSetList[0]
     }
 
     @Test
-    fun `previous risk metadata is not reset on failure`() {
+    fun `previous risk metadata is not reset on failure`() = runTest2 {
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseDate.seconds)
@@ -249,7 +247,9 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
-        every { analyticsSettings.previousExposureRiskMetadata } returns mockFlowPreference(initialMetadata)
+
+        analyticsSettings.updatePreviousExposureRiskMetadata(initialMetadata)
+
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
             LastCombinedRiskResults(
                 lastSuccessfullyCalculatedRiskState = RiskState.INCREASED_RISK,
@@ -267,17 +267,16 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
                 )
             )
         )
-        runTest2 {
-            val parentBuilder = PpaData.PPADataAndroid.newBuilder()
-            val contribution = createInstance().beginDonation(
-                object : DonorModule.Request {
-                    override val currentConfig: ConfigData = mockk()
-                }
-            )
-            contribution.injectData(parentBuilder)
-            contribution.finishDonation(false)
-        }
 
-        analyticsSettings.previousExposureRiskMetadata.value shouldBe initialMetadata
+        val parentBuilder = PpaData.PPADataAndroid.newBuilder()
+        val contribution = createInstance().beginDonation(
+            object : DonorModule.Request {
+                override val currentConfig: ConfigData = mockk()
+            }
+        )
+        contribution.injectData(parentBuilder)
+        contribution.finishDonation(false)
+
+        analyticsSettings.previousExposureRiskMetadata.first() shouldBe initialMetadata
     }
 }

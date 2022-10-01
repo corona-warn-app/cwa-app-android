@@ -104,7 +104,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
 
     @Test
     fun `register test collects data`() = runTest {
-        every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+        every { analyticsSettings.analyticsEnabled } returns flowOf(true)
         analyticsTestResultCollector.reportTestRegistered(PCR)
 
         verify(exactly = 1) {
@@ -120,7 +120,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `saveTestResultAnalyticsSettings does not save anything when no user consent`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_POSITIVE, PCR)
 
             verify(exactly = 0) {
@@ -139,7 +139,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `saveTestResult saves data when user gave consent`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(true)
 
             // PCR
             every { pcrTestResultSettings.testResult } returns
@@ -173,7 +173,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is INVALID`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_INVALID, PCR)
             analyticsTestResultCollector.reportTestResultReceived(RAT_INVALID, RAPID_ANTIGEN)
 
@@ -185,7 +185,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `saveTestResultAnalyticsSettings does not save data when TestResult is REDEEMED`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(false)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(false)
             analyticsTestResultCollector.reportTestResultReceived(PCR_OR_RAT_REDEEMED, PCR)
             analyticsTestResultCollector.reportTestResultReceived(RAT_REDEEMED, RAPID_ANTIGEN)
             verify {
@@ -196,7 +196,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `reportTestResultReceived doesn't update when TestResult isn't POS or NEG`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(true)
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(
                 PCR_OR_RAT_PENDING
             )
@@ -225,7 +225,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @Test
     fun `updatePendingTestResultReceivedTime doesn't update when Test is not scanned after consent`() =
         runTest {
-            every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+            every { analyticsSettings.analyticsEnabled } returns flowOf(true)
             every { pcrTestResultSettings.testResult } returns mockFlowPreference(PCR_OR_RAT_PENDING)
             every { pcrTestResultSettings.finalTestResultReceivedAt } returns
                 mockFlowPreference(OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant())
@@ -255,7 +255,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun `updatePendingTestResultReceivedTime update when TestResult is POS or NEG`() =
         runTest {
             for (testResult in listOf(PCR_NEGATIVE, PCR_POSITIVE)) {
-                every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+                every { analyticsSettings.analyticsEnabled } returns flowOf(true)
                 every { pcrTestResultSettings.testResult } returns mockFlowPreference(
                     PCR_OR_RAT_PENDING
                 )
@@ -271,7 +271,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             }
 
             for (testResult in listOf(RAT_NEGATIVE, RAT_POSITIVE)) {
-                every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+                every { analyticsSettings.analyticsEnabled } returns flowOf(true)
                 every { raTestResultSettings.testResult } returns mockFlowPreference(
                     PCR_OR_RAT_PENDING
                 )

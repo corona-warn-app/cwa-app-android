@@ -88,7 +88,9 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
             ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
         }
         performSubmission {
-            analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
+            launch {
+                analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
+            }
         }
         routeToScreen.postValue(
             SubmissionSymptomCalendarFragmentDirections
@@ -99,7 +101,9 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
         performSubmission {
-            analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
+            launch {
+                analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
+            }
         }
         if (comesFromDispatcherFragment) {
             routeToScreen.postValue(
@@ -120,9 +124,11 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     }
 
     fun onNewUserActivity() {
-        Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, testType)
-        autoSubmission.updateLastSubmissionUserActivity()
+        launch {
+            Timber.d("onNewUserActivity()")
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, testType)
+            autoSubmission.updateLastSubmissionUserActivity()
+        }
     }
 
     @AssistedFactory

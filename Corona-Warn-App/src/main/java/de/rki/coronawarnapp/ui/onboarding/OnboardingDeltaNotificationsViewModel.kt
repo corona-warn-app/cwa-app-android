@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 
 class OnboardingDeltaNotificationsViewModel @AssistedInject constructor(
     private val settings: CWASettings,
@@ -20,7 +21,7 @@ class OnboardingDeltaNotificationsViewModel @AssistedInject constructor(
 
     fun onProceed() = launch {
         settings.updateLastNotificationsOnboardingVersionCode(BuildConfigWrap.VERSION_CODE)
-        if (analyticsSettings.lastOnboardingVersionCode.value == 0L) {
+        if (analyticsSettings.lastOnboardingVersionCode.first() == 0L) {
             routeToScreen.postValue(
                 OnboardingDeltaNotificationsNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment
             )

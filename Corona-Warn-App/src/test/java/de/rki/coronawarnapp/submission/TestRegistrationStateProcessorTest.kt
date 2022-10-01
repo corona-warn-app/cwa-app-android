@@ -61,7 +61,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
             every { type } returns BaseCoronaTest.Type.PCR
         }
 
-        every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
     }
 
     private fun createInstance() = TestRegistrationStateProcessor(

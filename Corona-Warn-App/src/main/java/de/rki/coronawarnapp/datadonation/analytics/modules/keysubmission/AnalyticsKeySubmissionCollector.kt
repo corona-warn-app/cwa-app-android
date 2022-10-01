@@ -29,15 +29,15 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         type.storage.clear()
     }
 
-    fun reportPositiveTestResultReceived(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportPositiveTestResultReceived(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         // do not overwrite once set
         if (type.storage.testResultReceivedAt.value > 0) return
         type.storage.testResultReceivedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
-        if (disabled) return
+        if (isDisabled()) return
 
         val testRegisteredAt = timeStamper.nowJavaUTC
         type.storage.testRegisteredAt.update { testRegisteredAt.toEpochMilli() }
@@ -92,54 +92,53 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
     }
 
-    fun reportSubmitted(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportSubmitted(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.submitted.update { true }
         type.storage.submittedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
     }
 
-    fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.submittedInBackground.update { true }
     }
 
-    fun reportSubmittedAfterCancel(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportSubmittedAfterCancel(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.submittedAfterCancel.update { true }
     }
 
-    fun reportSubmittedAfterSymptomFlow(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportSubmittedAfterSymptomFlow(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen, type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportLastSubmissionFlowScreen(screen: Screen, type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.lastSubmissionFlowScreen.update { screen.code }
     }
 
-    fun reportAdvancedConsentGiven(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportAdvancedConsentGiven(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.advancedConsentGiven.update { true }
     }
 
-    fun reportConsentWithdrawn(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportConsentWithdrawn(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.advancedConsentGiven.update { false }
     }
 
-    fun reportRegisteredWithTeleTAN() {
-        if (disabled) return
+    suspend fun reportRegisteredWithTeleTAN() {
+        if (isDisabled()) return
         pcrStorage.registeredWithTeleTAN.update { true }
     }
 
-    fun reportSubmittedWithCheckIns(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportSubmittedWithCheckIns(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         type.storage.submittedWithCheckIns.update { true }
     }
 
-    private val disabled: Boolean
-        get() = !analyticsSettings.analyticsEnabled.value
+    private suspend fun isDisabled() = !analyticsSettings.analyticsEnabled.first()
 
     private val BaseCoronaTest.Type.storage: AnalyticsKeySubmissionStorage
         get() = when (this) {

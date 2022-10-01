@@ -142,9 +142,7 @@ class Analytics @Inject constructor(
         }
 
         if (result.successful) {
-            settings.lastSubmittedTimestamp.update {
-                timeStamper.nowJavaUTC
-            }
+            settings.updateLastSubmittedTimestamp(timeStamper.nowJavaUTC)
 
             logger.storeAnalyticsData(analyticsProto)
         }
@@ -159,8 +157,8 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun stopDueToNoUserConsent(): Boolean {
-        return !settings.analyticsEnabled.value
+    suspend fun stopDueToNoUserConsent(): Boolean {
+        return !settings.analyticsEnabled.first()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -170,8 +168,8 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun stopDueToLastSubmittedTimestamp(): Boolean {
-        val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
+    suspend fun stopDueToLastSubmittedTimestamp(): Boolean {
+        val lastSubmit = settings.lastSubmittedTimestamp.first() ?: return false
         return lastSubmit.plus(Duration.ofHours(LAST_SUBMISSION_MIN_AGE_HOURS))
             .isAfter(timeStamper.nowJavaUTC)
     }
@@ -221,9 +219,7 @@ class Analytics @Inject constructor(
     }
 
     suspend fun setAnalyticsEnabled(enabled: Boolean) {
-        settings.analyticsEnabled.update {
-            enabled
-        }
+        settings.updateAnalyticsEnabled(enabled)
 
         if (!enabled) {
             deleteAllData()
@@ -236,7 +232,7 @@ class Analytics @Inject constructor(
     }
 
     fun isAnalyticsEnabledFlow(): Flow<Boolean> =
-        settings.analyticsEnabled.flow
+        settings.analyticsEnabled
 
     data class Result(
         val successful: Boolean,

@@ -21,11 +21,11 @@ class SettingsPrivacyPreservingAnalyticsViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     val settingsPrivacyPreservingAnalyticsState = combine(
-        analyticsSettings.userInfoAgeGroup.flow,
-        analyticsSettings.userInfoFederalState.flow,
+        analyticsSettings.userInfoAgeGroup,
+        analyticsSettings.userInfoFederalState,
         analytics.isAnalyticsEnabledFlow(),
         flow { emit(districts.loadDistricts()) },
-        analyticsSettings.userInfoDistrict.flow
+        analyticsSettings.userInfoDistrict
     ) { ageGroup, federalState, analyticsEnabled, districtsList, districtId ->
         val selectedDistrict = districtsList.singleOrNull { it.districtId == districtId }
 

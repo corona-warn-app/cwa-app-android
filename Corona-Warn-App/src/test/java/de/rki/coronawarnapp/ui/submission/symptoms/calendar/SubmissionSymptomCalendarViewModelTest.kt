@@ -13,6 +13,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -125,10 +126,10 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             createViewModel(this).onNewUserActivity()
         }
 
-        verify(exactly = 1) {
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
         }
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
         }
     }
@@ -141,10 +142,10 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             createViewModel(this).onNewUserActivity()
         }
 
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
         }
-        verify(exactly = 1) {
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
         }
     }
@@ -160,8 +161,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -176,8 +177,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -193,8 +194,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -210,7 +211,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 }

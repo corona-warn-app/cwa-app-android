@@ -1,5 +1,11 @@
 package de.rki.coronawarnapp.datadonation.analytics
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.SharedPreferencesMigration
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -21,11 +27,18 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.DefaultLastAnalyticsS
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
+import javax.inject.Qualifier
+import javax.inject.Singleton
 
 @Module(includes = [AnalyticsModule.BindsModule::class, AnalyticsModule.ResetModule::class])
 object AnalyticsModule {
@@ -46,6 +59,24 @@ object AnalyticsModule {
             .build()
             .create(DataDonationAnalyticsApiV1::class.java)
     }
+
+    @Singleton
+    @AnalyticsSettingsDataStore
+    @Provides
+    fun provideAnalyticsSettingsDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_ANALYTICS_SETTINGS_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                LEGACY_SHARED_PREFS_ANALYTICS_SETTINGS_NAME
+            )
+        )
+    )
 
     @Module
     internal interface ResetModule {
@@ -102,3 +133,11 @@ object AnalyticsModule {
         fun analyticsLogger(logger: DefaultLastAnalyticsSubmissionLogger): LastAnalyticsSubmissionLogger
     }
 }
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AnalyticsSettingsDataStore
+
+private const val LEGACY_SHARED_PREFS_ANALYTICS_SETTINGS_NAME = "analytics_localdata"
+private const val STORAGE_DATASTORE_ANALYTICS_SETTINGS_NAME = "analytics_settings_storage"

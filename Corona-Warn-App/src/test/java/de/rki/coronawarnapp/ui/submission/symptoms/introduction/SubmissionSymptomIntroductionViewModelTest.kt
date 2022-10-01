@@ -129,8 +129,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         createViewModel(this).onNewUserActivity()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
-        verify(exactly = 0) {
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, RAPID_ANTIGEN)
         }
     }
@@ -141,8 +141,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         createViewModel(this).onNewUserActivity()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
-        verify(exactly = 1) {
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, RAPID_ANTIGEN)
         }
     }

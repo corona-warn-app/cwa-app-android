@@ -37,7 +37,6 @@ import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.time.Duration
 
 class AnalyticsTest : BaseTest() {
@@ -67,11 +66,11 @@ class AnalyticsTest : BaseTest() {
 
         every { analyticsConfig.analyticsEnabled } returns true
 
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
+        every { settings.analyticsEnabled } returns flowOf(true)
         every { analyticsConfig.probabilityToSubmit } returns 1.0
 
         val twoDaysAgo = baseTime.minus(Duration.ofDays(2))
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
+        every { settings.lastSubmittedTimestamp } returns flowOf(twoDaysAgo)
         every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
 
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
@@ -118,7 +117,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to no user consent`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+        every { settings.analyticsEnabled } returns flowOf(false)
 
         val analytics = createInstance()
 
@@ -169,7 +168,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to last submit timestamp`() {
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
+        every { settings.lastSubmittedTimestamp } returns flowOf(Instant.now())
 
         val analytics = createInstance()
 

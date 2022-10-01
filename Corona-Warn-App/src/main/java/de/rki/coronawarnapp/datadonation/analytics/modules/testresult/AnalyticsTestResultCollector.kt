@@ -45,7 +45,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
-        if (analyticsDisabled) return
+        if (isAnalyticsDisabled()) return
 
         val testRegisteredAt = timeStamper.nowJavaUTC
         type.settings.testRegisteredAt.update { testRegisteredAt }
@@ -109,8 +109,8 @@ class AnalyticsTestResultCollector @Inject constructor(
         }
     }
 
-    fun reportTestResultReceived(testResult: CoronaTestResult, type: BaseCoronaTest.Type) {
-        if (analyticsDisabled) return
+    suspend fun reportTestResultReceived(testResult: CoronaTestResult, type: BaseCoronaTest.Type) {
+        if (isAnalyticsDisabled()) return
         val validTestResults = when (type) {
             PCR -> listOf(
                 CoronaTestResult.PCR_POSITIVE,
@@ -149,8 +149,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.clear()
     }
 
-    private val analyticsDisabled: Boolean
-        get() = !analyticsSettings.analyticsEnabled.value
+    suspend fun isAnalyticsDisabled() = !analyticsSettings.analyticsEnabled.first()
 
     private val BaseCoronaTest.Type.settings: AnalyticsTestResultSettings
         get() = when (this) {

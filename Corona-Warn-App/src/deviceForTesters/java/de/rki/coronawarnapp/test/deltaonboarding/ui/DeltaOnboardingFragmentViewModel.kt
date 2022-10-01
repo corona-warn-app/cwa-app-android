@@ -30,6 +30,8 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
 
     val lastNotificationsOnboardingVersionCode: LiveData<Long> = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
 
+    val isAnalyticsOnboardingDone = analyticsSettings.lastOnboardingVersionCode.asLiveData2()
+
     fun updateChangelogVersion(value: Long) {
         launch { settings.updateLastChangelogVersion(value) }
     }
@@ -78,10 +80,10 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun isAnalyticsOnboardingDone() = analyticsSettings.lastOnboardingVersionCode.value != 0L
-
     fun setAnalyticsOnboardingDone(value: Boolean) {
-        analyticsSettings.lastOnboardingVersionCode.update { if (value) BuildConfigWrap.VERSION_CODE else 0L }
+        launch {
+            analyticsSettings.updateLastOnboardingVersionCode(if (value) BuildConfigWrap.VERSION_CODE else 0L)
+        }
     }
 
     @AssistedFactory

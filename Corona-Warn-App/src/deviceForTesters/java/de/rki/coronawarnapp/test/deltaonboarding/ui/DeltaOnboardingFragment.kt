@@ -26,7 +26,10 @@ class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
 
         binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOnboardingDone()
         binding.switchVaccinationOnboarding.isChecked = viewModel.isVaccinationRegistrationOnboardingDone()
-        binding.switchAnalyticsDeltaOnboarding.isChecked = viewModel.isAnalyticsOnboardingDone()
+
+        viewModel.isAnalyticsOnboardingDone.observe(viewLifecycleOwner) {
+            binding.switchAnalyticsDeltaOnboarding.isChecked = it != 0L
+        }
 
         viewModel.isDeltaOnboardingDone.observe(viewLifecycleOwner) {
             binding.switchDeltaOnboarding.isChecked = it

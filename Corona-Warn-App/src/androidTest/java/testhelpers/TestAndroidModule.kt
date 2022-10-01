@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
 import de.rki.coronawarnapp.datadonation.survey.SurveySettingsDataStore
 import de.rki.coronawarnapp.main.CwaSettingsDataStore
 import de.rki.coronawarnapp.risk.RiskLevelSettingsDataStore
@@ -52,4 +53,8 @@ class TestAndroidModule {
     @CwaSettingsDataStore
     @Provides
     fun provideCwaSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @AnalyticsSettingsDataStore
+    @Provides
+    fun provideAnalyticsSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }

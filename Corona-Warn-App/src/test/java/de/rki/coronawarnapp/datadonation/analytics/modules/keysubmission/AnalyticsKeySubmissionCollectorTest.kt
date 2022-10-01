@@ -46,12 +46,12 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowJavaUTC } returns now
+        every { analyticsSettings.analyticsEnabled } returns flowOf(true)
     }
 
     @Test
     fun `save test registered`() {
         val combinedEwPtRiskLevelResult = CombinedEwPtRiskLevelResult(ptRiskLevelResult, ewRiskLevelResult)
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
 
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
@@ -118,7 +118,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save keys submitted`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val submittedFlow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submitted } returns submittedFlow
         val submittedAtFlow = mockFlowPreference(now.toEpochMilli())
@@ -133,7 +132,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save keys submitted after cancel`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedAfterCancel } returns flow
         runTest {
@@ -145,7 +143,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save keys submitted in background`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedInBackground } returns flow
         runTest {
@@ -157,7 +154,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save keys submitted after symptom flow`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
         runTest {
@@ -169,7 +165,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save positive test result received`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(-1L)
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
@@ -182,7 +177,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR positive test result received is not overwritten`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(now.toEpochMilli())
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
@@ -195,7 +189,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save advanced consent given`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
         runTest {
@@ -207,7 +200,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save consent withdrawn`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
         runTest {
@@ -219,7 +211,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `save registered with tele tan`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(false)
         every { analyticsPcrKeySubmissionStorage.registeredWithTeleTAN } returns flow
         runTest {
@@ -231,7 +222,6 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR save last submission flow screen`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
         val flow = mockFlowPreference(0)
         every { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
         runTest {
@@ -243,7 +233,7 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
     @Test
     fun `PCR no data collection if disabled`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns false
+        every { analyticsSettings.analyticsEnabled } returns flowOf(false)
         runTest {
             val collector = createInstance()
             collector.reportTestRegistered(PCR)
