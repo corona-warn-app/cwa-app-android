@@ -66,8 +66,7 @@ class TimeAndDateExtensionsTest : BaseTest() {
         val day = LocalDate.of(2021, 2, 15)
         val startOfDayUtc = day.atStartOfDay(ZoneOffset.UTC)
         val timeStampUtc = startOfDayUtc.toInstant().epochSecond
-        val tsuInstantString = Instant.ofEpochSecond(timeStampUtc).toString()
 
-        tsuInstantString shouldBe "2021-02-15T00:00:00.000Z"
+        Instant.ofEpochSecond(timeStampUtc) shouldBe Instant.parse("2021-02-15T00:00:00.000Z")
     }
 }
