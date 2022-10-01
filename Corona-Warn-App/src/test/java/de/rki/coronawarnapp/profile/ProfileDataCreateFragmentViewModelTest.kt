@@ -124,7 +124,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun birthDateChanged() {
         viewModel().apply {
-            birthDateChanged("1.1.2021")
+            birthDateChanged("01.01.2021")
             profile.getOrAwaitValue().apply {
                 birthDate shouldBe birthDate
                 isValid shouldBe true
