@@ -44,7 +44,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
                     profile = Profile(
                         firstName = "Max",
                         lastName = "Mustermann",
-                        birthDate = LocalDate(1990, 11, 17),
+                        birthDate = LocalDate.of(1990, 11, 17),
                         city = "Potsdam",
                         zipCode = "14471",
                         street = "Lange Straße 5",
