@@ -50,7 +50,10 @@ internal class TimeIntervalDeriverTest : BaseTest() {
     ]
   } */
 
-    private val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm Z")
+    private val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm zzzz")
+        .withZone(ZoneId.of("Europe/Berlin"))
+
+    private val format: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm Z")
         .withZone(ZoneId.of("Europe/Berlin"))
 
     private val presenceTracingConfig = PresenceTracingSubmissionParamContainer(
@@ -268,10 +271,10 @@ internal class TimeIntervalDeriverTest : BaseTest() {
     }
 
     private fun timeInSeconds(dateTime: String): Long {
-        return ZonedDateTime.parse(dateTime).toInstant().epochSecond
+        return ZonedDateTime.parse(dateTime, timeFormat).toInstant().epochSecond
     }
 
     private fun timeToString(timeInSecond: Long): String {
-        return Instant.ofEpochSecond(timeInSecond).atZone(ZoneOffset.UTC).format(timeFormat)
+        return Instant.ofEpochSecond(timeInSecond).atZone(ZoneOffset.UTC).format(format)
     }
 }
