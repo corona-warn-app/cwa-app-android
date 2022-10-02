@@ -118,20 +118,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="e.coronawarn.app"
-                    android:pathPattern=".*"
-                    android:scheme="https" />
-
-                <data
-                    android:host="s.coronawarn.app"
-                    android:pathPattern=".*"
-                    android:scheme="https" />
-
-                <data
-                    android:host="p.coronawarn.app"
-                    android:pathPattern=".*"
-                    android:scheme="https" />
+                <data android:host="e.coronawarn.app" />
+                <data android:host="s.coronawarn.app" />
+                <data android:host="p.coronawarn.app" />
+                <data android:pathPattern=".*" />
+                <data android:scheme="https" />
 
             </intent-filter>
 
