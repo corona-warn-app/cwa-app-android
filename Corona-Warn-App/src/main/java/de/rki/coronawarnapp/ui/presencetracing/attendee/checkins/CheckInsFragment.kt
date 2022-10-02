@@ -188,7 +188,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     viewModel.onRemoveAllCheckIns()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

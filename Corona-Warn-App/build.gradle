@@ -150,14 +150,9 @@ android {
 
         if (flavor.name == "deviceForTesters") {
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
-            variant.outputs.each { output ->
-                output.versionNameOverride = adjustedVersionName
-            }
             println("deviceForTesters adjusted versionName: $adjustedVersionName")
-        }
-        if (flavor.name != "device") {
             variant.outputs.each { output ->
-                def apkName = "Corona-Warn-App-${output.versionNameOverride}-${flavor.name}-${variant.buildType.name}.apk"
+                def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
                 println("Override APK Name: $apkName")
                 output.outputFileName = apkName
             }
@@ -265,9 +260,6 @@ android {
     }
     lint {
         checkAllWarnings true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
     }
 }
 

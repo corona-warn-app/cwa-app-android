@@ -100,7 +100,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
                     viewModel.onRemoveAllTests()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }
