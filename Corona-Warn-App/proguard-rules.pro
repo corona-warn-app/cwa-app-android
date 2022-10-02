@@ -122,3 +122,25 @@
 -keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.** { *; }
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
+
+
+## Missing classes
+-dontwarn com.android.org.conscrypt.SSLParametersImpl
+-dontwarn java.beans.ConstructorProperties
+-dontwarn java.beans.Transient
+-dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.jcodings.Encoding
+-dontwarn org.jcodings.specific.UTF8Encoding
+-dontwarn org.joda.convert.FromString
+-dontwarn org.joda.convert.ToString
+-dontwarn org.joni.Matcher
+-dontwarn org.joni.Regex
+-dontwarn org.joni.Syntax
+-dontwarn org.joni.exception.SyntaxException
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn org.slf4j.impl.StaticLoggerBinder
