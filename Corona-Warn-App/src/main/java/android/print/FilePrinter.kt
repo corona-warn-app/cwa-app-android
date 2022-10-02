@@ -21,7 +21,7 @@ class FilePrinter @Inject constructor(
     val attributes: PrintAttributes
 ) {
     suspend fun print(printAdapter: PrintDocumentAdapter, path: File, fileName: String) =
-        suspendCancellableCoroutine<Unit> { cont ->
+        suspendCancellableCoroutine { cont ->
             printAdapter.onLayout(
                 null,
                 attributes,
