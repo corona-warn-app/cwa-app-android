@@ -20,6 +20,8 @@ jacoco {
 }
 
 android {
+    namespace "de.rki.coronawarnapp"
+
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
     println("Current VERSION_MINOR: ${VERSION_MINOR}")
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
