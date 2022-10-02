@@ -150,7 +150,15 @@ android {
 
         if (flavor.name == "deviceForTesters") {
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
-            println("deviceForTesters adjusted versionName: $adjustedVersionName")
+            println("`deviceForTesters` adjusted versionName: $adjustedVersionName")
+            variant.outputs.each { output ->
+                def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
+                println("Override APK Name: $apkName")
+                output.outputFileName = apkName
+            }
+        } else {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_BUILD}"
+            println("`device` adjusted versionName: $adjustedVersionName")
             variant.outputs.each { output ->
                 def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
                 println("Override APK Name: $apkName")
