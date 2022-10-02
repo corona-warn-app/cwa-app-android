@@ -85,11 +85,11 @@
         <receiver
             android:name=".notification.NotificationReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
         <receiver
             android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
         <receiver
             android:name="de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutBootRestoreReceiver"
             android:enabled="true"
