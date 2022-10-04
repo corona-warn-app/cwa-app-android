@@ -9,7 +9,7 @@ import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.encode
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
@@ -296,13 +296,13 @@ fun createCheckIn(
     type = 2,
     description = "My birthday party",
     address = "Malibu",
-    traceLocationStart = startDateStr.toJavaInstant(),
+    traceLocationStart = startDateStr.toInstant(),
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
     cryptographicSeed = "cryptographicSeed".encode(),
     cnPublicKey = "cnPublicKey",
-    checkInStart = startDateStr.toJavaInstant(),
-    checkInEnd = endDateStr.toJavaInstant(),
+    checkInStart = startDateStr.toInstant(),
+    checkInEnd = endDateStr.toInstant(),
     completed = false,
     createJournalEntry = false,
     isSubmitted = isSubmitted
@@ -317,7 +317,7 @@ fun createWarning(
     .setLocationIdHash(traceLocationId.decodeHex().sha256().toProtoByteString())
     .setPeriod(period)
     .setStartIntervalNumber(
-        (Duration.of(startIntervalDateStr.toJavaInstant().toEpochMilli(), ChronoUnit.MILLIS).toMinutes() / 10).toInt()
+        (Duration.of(startIntervalDateStr.toInstant().toEpochMilli(), ChronoUnit.MILLIS).toMinutes() / 10).toInt()
     )
     .setTransmissionRiskLevel(transmissionRiskLevel)
     .build()

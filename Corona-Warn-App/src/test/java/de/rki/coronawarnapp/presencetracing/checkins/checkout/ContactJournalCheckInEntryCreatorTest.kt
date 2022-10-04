@@ -21,7 +21,7 @@ import okio.ByteString.Companion.encode
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Duration
 
 class ContactJournalCheckInEntryCreatorTest : BaseTest() {
@@ -35,13 +35,13 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        traceLocationEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        traceLocationStart = "2021-03-04T22:00+01:00".toInstant(),
+        traceLocationEnd = "2021-03-04T23:00+01:00".toInstant(),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        checkInEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        checkInStart = "2021-03-04T22:00+01:00".toInstant(),
+        checkInEnd = "2021-03-04T23:00+01:00".toInstant(),
         completed = false,
         createJournalEntry = true
     )
@@ -123,22 +123,22 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     fun `CheckIn to ContactDiaryLocationVisit duration mapping is correct`() {
         createInstance().apply {
             // Rounds duration to closest 15 minutes
-            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:29+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:29+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
                     it.duration shouldBe Duration.ofMinutes(60)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:30+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:30+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
                     it.duration shouldBe Duration.ofMinutes(75)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:30+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:30+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
                     it.duration shouldBe Duration.ofMinutes(60)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:29+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:29+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
                     it.duration shouldBe Duration.ofMinutes(45)
                 }
@@ -177,8 +177,8 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     @Test
     fun `Creates 1 location and 2 visits for split check in`() = runTest {
         val splitCheckIn = testCheckIn.copy(
-            checkInStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-            checkInEnd = "2021-03-05T02:00+01:00".toJavaInstant()
+            checkInStart = "2021-03-04T22:00+01:00".toInstant(),
+            checkInEnd = "2021-03-05T02:00+01:00".toInstant()
         )
         createInstance().apply {
             createEntry(splitCheckIn)

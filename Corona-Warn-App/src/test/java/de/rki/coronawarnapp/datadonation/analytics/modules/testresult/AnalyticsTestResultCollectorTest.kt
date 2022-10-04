@@ -35,7 +35,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -70,8 +70,8 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toJavaInstant()
-        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toJavaInstant()
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toInstant()
+        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toInstant()
             .toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)

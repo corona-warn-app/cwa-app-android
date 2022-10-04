@@ -53,10 +53,10 @@ object StatisticsModule {
     ): StatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
-            connectTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            readTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            writeTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            callTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
+            connectTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
         }.build()
 
         return Retrofit.Builder()
@@ -77,10 +77,10 @@ object StatisticsModule {
     ): LocalStatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
-            connectTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            readTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            writeTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
-            callTimeout(HTTP_TIMEOUT.toMinutes(), TimeUnit.MILLISECONDS)
+            connectTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
         }.build()
 
         return Retrofit.Builder()

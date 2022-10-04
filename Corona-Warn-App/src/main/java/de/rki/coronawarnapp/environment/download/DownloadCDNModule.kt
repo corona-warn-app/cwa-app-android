@@ -29,11 +29,6 @@ class DownloadCDNModule : BaseEnvironmentModule() {
         return requireValidUrl(url)
     }
 
-    @Singleton
-    @DownloadCDNHomeCountry
-    @Provides
-    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("DE")
-
     companion object {
         private val DOWNLOAD_CDN_CONNECTION_SPECS = ConnectionSpec
             .Builder(ConnectionSpec.COMPATIBLE_TLS)
