@@ -172,7 +172,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Creating text file for Exposure Windows")
         launch {
             val exposureWindows = lastRiskResult.firstOrNull()?.exposureWindows?.map { it.toExposureWindowJson() }
-            val fileNameCompatibleTimestamp = timeStamper.nowJavaUTC.atZone(ZoneOffset.UTC).format(
+            val fileNameCompatibleTimestamp = timeStamper.nowUTC.atZone(ZoneOffset.UTC).format(
                 DateTimeFormatter.ofPattern("yyyy-MM-DD-HH-mm-ss")
             )
 

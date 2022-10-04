@@ -31,7 +31,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {
                 Timber.d("TEKs are available: %s", teks)
-                val now = timeStamper.nowJavaUTC
+                val now = timeStamper.nowUTC
                 val tekList = teks.map { key ->
                     TEKHistoryItem(
                         obtainedAt = now,

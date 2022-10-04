@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import org.joda.time.Instant
+import java.time.Instant
 
 @Entity(tableName = "tek_history")
 data class TEKEntryDao(

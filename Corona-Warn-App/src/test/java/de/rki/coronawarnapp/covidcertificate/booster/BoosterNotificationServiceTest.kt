@@ -38,7 +38,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { personNotificationSender.showNotification(any(), any(), any()) } just Runs
 
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs

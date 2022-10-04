@@ -27,7 +27,7 @@ class AppConfigSource @Inject constructor(
         Timber.tag(TAG).d("getConfigData(offlineMode=$offlineMode)")
 
         val localConfig = localAppConfigSource.getConfigData()
-        val nowUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         Timber.tag(TAG).d("nowUTC=%s localConfig.updatedAt=%s", nowUTC, localConfig?.updatedAt)
 
         if (localConfig != null && localConfig.isValid(nowUTC)) {
@@ -68,7 +68,7 @@ class AppConfigSource @Inject constructor(
         }
         if (remoteConfig.deviceTimeState == CORRECT && cwaSettings.firstReliableDeviceTime.first() == Instant.EPOCH) {
             Timber.tag(TAG).i("Setting firstReliableDeviceTime to NOW (UTC). ")
-            cwaSettings.updateFirstReliableDeviceTime(timeStamper.nowJavaUTC)
+            cwaSettings.updateFirstReliableDeviceTime(timeStamper.nowUTC)
         }
         if (remoteConfig.deviceTimeState != cwaSettings.lastDeviceTimeStateChangeState.first()) {
             Timber.tag(TAG).i(
@@ -78,7 +78,7 @@ class AppConfigSource @Inject constructor(
                 remoteConfig.deviceTimeState
             )
             cwaSettings.updateLastDeviceTimeStateChangeState(remoteConfig.deviceTimeState)
-            cwaSettings.updateLastDeviceTimeStateChangeAt(timeStamper.nowJavaUTC)
+            cwaSettings.updateLastDeviceTimeStateChangeAt(timeStamper.nowUTC)
         }
     }
 

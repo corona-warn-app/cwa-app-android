@@ -46,7 +46,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
             }
 
             val dataObject = LastAnalyticsSubmission(
-                timestamp = timeStamper.nowJavaUTC,
+                timestamp = timeStamper.nowUTC,
                 ppaDataAndroid = analyticsProto
             )
 

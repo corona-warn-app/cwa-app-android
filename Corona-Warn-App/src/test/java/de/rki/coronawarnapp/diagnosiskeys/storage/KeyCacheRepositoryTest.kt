@@ -44,7 +44,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         cacheDir.mkdirs()
         cacheDir.exists() shouldBe true
 
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
         every { context.cacheDir } returns cacheDir
 
         every { databaseFactory.create() } returns database

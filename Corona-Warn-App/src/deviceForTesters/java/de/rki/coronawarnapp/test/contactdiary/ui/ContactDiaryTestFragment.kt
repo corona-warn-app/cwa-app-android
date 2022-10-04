@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestContactDiaryBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -72,7 +72,7 @@ class ContactDiaryTestFragment :
                     .build()
                 durationPicker.show(parentFragmentManager, "PresenceTracing")
                 durationPicker.setDurationChangeListener {
-                    durationValue2.text = it.toContactDiaryFormat()
+                    durationValue2.text = it.format()
                 }
             }
 
@@ -82,7 +82,7 @@ class ContactDiaryTestFragment :
 
     override fun onChange(duration: Duration) {
         with(binding.durationValue) {
-            text = duration.toContactDiaryFormat()
+            text = duration.format()
             if (duration.toMillis() == 0L) {
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)
                 TextViewCompat.setTextAppearance(this, R.style.bodyNeutral)

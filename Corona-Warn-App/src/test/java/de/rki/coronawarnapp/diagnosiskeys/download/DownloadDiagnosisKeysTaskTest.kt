@@ -81,7 +81,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(5))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(5))
         every { environmentSetup.useEuropeKeyPackageFiles } returns true
 
         coEvery { keyPackageSyncTool.syncKeyFiles(any()) } returns syncResult.apply {
@@ -158,7 +158,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `execution is skipped if last detection was recent`() = runTest {
         // Last detection was at T+2h
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(2))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(2))
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
@@ -175,7 +175,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `execution is NOT skipped if last detection is in our future`() = runTest {
         // Last detection was at T, i.e. our time is now T-1h, so it was in our future.
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.minus(Duration.ofHours(1).plusMillis(1))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.minus(Duration.ofHours(1).plusMillis(1))
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
@@ -186,7 +186,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `wasLastDetectionPerformedRecently honors paramters from config`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(4))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(4))
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
@@ -199,7 +199,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `hasRecentDetectionAndNoNewFiles checks for new files`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(4))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(4))
 
         every { syncResult.newKeys } returns emptyList()
 
@@ -217,7 +217,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `hasRecentDetectionAndNoNewFiles ignores amount of files if we didn't update for a day`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofHours(25))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(25))
 
         every { syncResult.newKeys } returns emptyList()
 

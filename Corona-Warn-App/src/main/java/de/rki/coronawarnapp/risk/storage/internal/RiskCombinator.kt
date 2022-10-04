@@ -42,7 +42,7 @@ class RiskCombinator @Inject constructor(
 
     private val ewCurrentLowRiskLevelResult
         get() = object : EwRiskLevelResult {
-            override val calculatedAt: Instant = timeStamper.nowJavaUTC
+            override val calculatedAt: Instant = timeStamper.nowUTC
             override val riskState: RiskState = RiskState.LOW_RISK
             override val failureReason: EwRiskLevelResult.FailureReason? = null
             override val ewAggregatedRiskResult: EwAggregatedRiskResult? = null
@@ -52,7 +52,7 @@ class RiskCombinator @Inject constructor(
 
     private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
         get() {
-            val now = timeStamper.nowJavaUTC
+            val now = timeStamper.nowUTC
             return PtRiskLevelResult(
                 calculatedAt = now,
                 riskState = RiskState.LOW_RISK,

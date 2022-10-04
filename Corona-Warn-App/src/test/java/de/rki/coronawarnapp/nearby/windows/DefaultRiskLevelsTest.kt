@@ -40,7 +40,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTimeConstants
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -77,7 +76,7 @@ class DefaultRiskLevelsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.now()
+        every { timeStamper.nowUTC } returns Instant.now()
     }
 
     private fun debugLog(s: String, toShow: LogLevel = LogLevel.ALL) {
@@ -153,7 +152,7 @@ class DefaultRiskLevelsTest : BaseTest() {
 
     private fun getTestCaseDate(expAge: Long?): Instant? {
         if (expAge == null) return null
-        return timeStamper.nowJavaUTC.minusMillis(
+        return timeStamper.nowUTC.minusMillis(
             expAge * TimeUnit.DAYS.toMillis(1)
         ).truncatedTo(ChronoUnit.MILLIS)
     }
@@ -438,7 +437,7 @@ class DefaultRiskLevelsTest : BaseTest() {
 
         every { exposureWindow.calibrationConfidence } returns json.calibrationConfidence
         every { exposureWindow.dateMillisSinceEpoch } returns
-            timeStamper.nowJavaUTC.toEpochMilli() - (DateTimeConstants.MILLIS_PER_DAY * json.ageInDays).toLong()
+            timeStamper.nowUTC.toEpochMilli() - (TimeUnit.DAYS.toMillis(1) * json.ageInDays)
         every { exposureWindow.infectiousness } returns json.infectiousness
         every { exposureWindow.reportType } returns json.reportType
         every { exposureWindow.scanInstances } returns json.scanInstances.map { scanInstance ->

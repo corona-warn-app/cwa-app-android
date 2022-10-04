@@ -37,7 +37,7 @@ class DccValidityStateNotificationService @Inject constructor(
     suspend fun showNotificationIfStateChanged(forceCheck: Boolean = false) = mutex.withLock {
         Timber.tag(TAG).v("showNotificationIfStateChanged(forceCheck=%s)", forceCheck)
         val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
-        val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowJavaUTC.toLocalDateUtc()
+        val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()
 
         if (!forceCheck && timeBasedCheckRequired) {
             Timber.tag(TAG).d("Last check is within the same day -> skipping for now (see you tomorrow).")
@@ -48,11 +48,11 @@ class DccValidityStateNotificationService @Inject constructor(
         allCerts.notifyForState<Invalid> { it.notifiedInvalidAt == null }
         allCerts.notifyForState<Blocked> { it.notifiedBlockedAt == null }
         allCerts.notifyForState<Revoked> { it.notifiedRevokedAt == null }
-        covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
+        covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
     }
 
     private suspend fun CwaCovidCertificate.setStateNotificationShown(
-        time: Instant = timeStamper.nowJavaUTC
+        time: Instant = timeStamper.nowUTC
     ) = when (this) {
         is TestCertificate -> tcRepo.setNotifiedState(containerId, state, time)
         is RecoveryCertificate -> rcRepo.setNotifiedState(containerId, state, time)

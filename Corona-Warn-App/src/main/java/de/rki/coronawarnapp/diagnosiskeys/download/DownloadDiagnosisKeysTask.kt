@@ -59,7 +59,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             throwIfCancelled()
-            val currentDate = Date(timeStamper.nowJavaUTC.toEpochMilli())
+            val currentDate = Date(timeStamper.nowUTC.toEpochMilli())
             Timber.tag(TAG).d("Using $currentDate as current date in task.")
 
             throwIfCancelled()
@@ -79,7 +79,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return Result()
             }
 
-            val now = timeStamper.nowJavaUTC
+            val now = timeStamper.nowUTC
 
             if (exposureConfig.maxExposureDetectionsPerUTCDay == 0) {
                 Timber.tag(TAG).w("Exposure detections are disabled! maxExposureDetectionsPerUTCDay=0")

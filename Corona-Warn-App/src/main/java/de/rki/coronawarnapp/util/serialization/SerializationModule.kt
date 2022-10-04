@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
@@ -17,18 +16,12 @@ import dagger.Reusable
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
-import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JavaDurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JavaLocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import okio.ByteString
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 @Module
 class SerializationModule {
@@ -49,7 +42,7 @@ class SerializationModule {
                 .registerByteStringSerialization()
 
             jsonMapper {
-                addModules(kotlinModule(), JodaModule(), JavaTimeModule(), jacksonSerializationModule)
+                addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
         }
@@ -60,10 +53,6 @@ class SerializationModule {
                 .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
                 .registerTypeAdapter(java.time.LocalDate::class.java, JavaLocalDateAdapter())
                 .registerTypeAdapter(java.time.Duration::class.java, JavaDurationAdapter())
-                // Joda time
-                .registerTypeAdapter(Instant::class.java, InstantAdapter())
-                .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-                .registerTypeAdapter(Duration::class.java, DurationAdapter())
                 // Others
                 .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
                 .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())

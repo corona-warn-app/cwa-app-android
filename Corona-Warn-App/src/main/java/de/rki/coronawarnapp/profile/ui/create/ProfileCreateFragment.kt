@@ -17,22 +17,22 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ProfileCreateFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     private val navArgs by navArgs<ProfileCreateFragmentArgs>()
     private val binding: ProfileCreateFragmentBinding by viewBinding()
     private val viewModel: ProfileCreateFragmentViewModel by cwaViewModelsAssisted(
@@ -120,7 +120,9 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
         firstNameInputEdit.setText(data.firstName)
         lastNameInputEdit.setText(data.lastName)
 
-        data.birthDate?.let { birthDateInputEdit.setText(it.toDayFormat()) }
+        data.birthDate?.let {
+            birthDateInputEdit.setText(it.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)))
+        }
 
         zipCodeInputEdit.setText(data.zipCode)
         streetInputEdit.setText(data.street)
@@ -143,7 +145,7 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    binding.birthDateInputEdit.setText(LocalDate(it).toString(formatter))
+                    binding.birthDateInputEdit.setText(Instant.ofEpochMilli(it).toLocalDateUserTz().format(formatter))
                 }
             }
             .show(childFragmentManager, "ProfileCreateFragment.MaterialDatePicker")

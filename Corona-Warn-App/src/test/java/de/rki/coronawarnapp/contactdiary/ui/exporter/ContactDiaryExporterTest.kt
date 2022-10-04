@@ -38,7 +38,7 @@ internal class ContactDiaryExporterTest {
     fun setUp() {
 
         // In these test, now = January, 15
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-01-15T00:00:00.000Z")
 
         mockStringsForContactDiaryExporterTests(context)
     }

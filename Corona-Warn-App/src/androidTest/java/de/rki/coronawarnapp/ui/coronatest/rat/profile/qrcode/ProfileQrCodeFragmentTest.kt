@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +33,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : ProfileQrCodeFragmentViewModel.Factory {
-                override fun create(id: Int): ProfileQrCodeFragmentViewModel = viewModel
+                override fun create(profileId: Int): ProfileQrCodeFragmentViewModel = viewModel
             }
         )
 
@@ -44,7 +44,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
                     profile = Profile(
                         firstName = "Max",
                         lastName = "Mustermann",
-                        birthDate = LocalDate(1990, 11, 17),
+                        birthDate = LocalDate.of(1990, 11, 17),
                         city = "Potsdam",
                         zipCode = "14471",
                         street = "Lange Straße 5",

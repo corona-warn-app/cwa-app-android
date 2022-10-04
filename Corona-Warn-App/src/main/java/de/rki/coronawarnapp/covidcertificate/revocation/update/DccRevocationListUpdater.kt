@@ -4,7 +4,6 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.launchInLatest
@@ -66,7 +65,7 @@ class DccRevocationListUpdater @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowJavaUTC): Boolean {
+    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowUTC): Boolean {
         val lastExecution = revocationUpdateSettings.getLastUpdateTime() ?: return true
 
         // update is needed if the last update was on a different day

@@ -53,7 +53,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
 
         coEvery { checkInRepository.addCheckIn(any()) } returns 1L
         every { verifiedTraceLocation.traceLocation } returns traceLocation
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-03-04T10:30:00Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
         every { traceLocationAttendeeSettings.createJournalEntryCheckedState } returns flowOf(true)
         every { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
     }

@@ -13,13 +13,11 @@ import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +26,7 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
@@ -61,7 +60,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                    every { registeredAt } returns Instant.now().toJavaInstant()
+                    every { registeredAt } returns Instant.now()
                     every { identifier } returns ""
                     every { type } returns BaseCoronaTest.Type.PCR
                 }

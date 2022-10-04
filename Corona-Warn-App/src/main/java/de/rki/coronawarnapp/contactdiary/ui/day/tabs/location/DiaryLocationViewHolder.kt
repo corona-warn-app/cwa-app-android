@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryLocationListItemBinding
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 
@@ -45,7 +45,7 @@ class DiaryLocationViewHolder(
 
         durationInput.apply {
             val duration = item.visit?.duration
-            text = duration?.toContactDiaryFormat()
+            text = duration?.format()
             if (duration == null || duration.toMillis() == 0L) {
                 text = context.getString(R.string.duration_dialog_default_value)
                 setBackgroundResource(R.drawable.contact_diary_duration_background_default)

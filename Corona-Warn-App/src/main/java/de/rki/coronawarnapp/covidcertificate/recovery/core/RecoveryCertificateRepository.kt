@@ -229,7 +229,7 @@ class RecoveryCertificateRepository @Inject constructor(
                 .d("Acknowledging state change to %s -> %s.", toUpdate.data.lastSeenStateChange, currentState)
             val newData = toUpdate.data.copy(
                 lastSeenStateChange = currentState,
-                lastSeenStateChangeAt = timeStamper.nowJavaUTC,
+                lastSeenStateChangeAt = timeStamper.nowUTC,
             )
 
             Timber.tag(TAG).d("Updated %s", containerId)
@@ -293,7 +293,7 @@ class RecoveryCertificateRepository @Inject constructor(
     }
 
     private fun RecoveryCertificateContainer.setRecycled(value: Boolean): RecoveryCertificateContainer {
-        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowJavaUTC else null)).also {
+        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
             Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
         }
     }

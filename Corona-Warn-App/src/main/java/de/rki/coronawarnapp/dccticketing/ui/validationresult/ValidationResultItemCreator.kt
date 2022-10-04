@@ -10,12 +10,12 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.DescriptionVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 @Reusable
@@ -25,7 +25,7 @@ class ValidationResultItemCreator @Inject constructor() {
         resultToken: DccTicketingResultToken,
         serviceProvider: String
     ): List<ValidationResultItem> = mutableListOf(
-        testingInfoVHItem(resultToken.iat.secondsToInstant()),
+        testingInfoVHItem(Instant.ofEpochSecond(resultToken.iat)),
         descriptionVHItem(
             resultToken.result,
             serviceProvider
@@ -88,7 +88,7 @@ class ValidationResultItemCreator @Inject constructor() {
     private fun testingInfoVHItem(validatedAt: Instant): TestingInfoVH.Item =
         TestingInfoVH.Item(
             info = R.string.dcc_ticketing_result_testing_details.toResolvingString(
-                validatedAt.toUserTimeZone().toShortDateTimeFormat()
+                validatedAt.toLocalDateTimeUserTz().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
             )
         )
 }

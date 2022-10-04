@@ -63,7 +63,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
 
         coEvery { checkInsFilter.filterCheckIns(emptyList()) } returns emptyList()
         coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns

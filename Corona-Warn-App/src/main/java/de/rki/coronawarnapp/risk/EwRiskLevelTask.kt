@@ -80,7 +80,7 @@ class EwRiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
-        val nowUtc = timeStamper.nowJavaUTC.also {
+        val nowUtc = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
         }
 
@@ -163,7 +163,7 @@ class EwRiskLevelTask @Inject constructor(
             }
 
             EwRiskLevelTaskResult(
-                calculatedAt = timeStamper.nowJavaUTC,
+                calculatedAt = timeStamper.nowUTC,
                 ewAggregatedRiskResult = it,
                 exposureWindows = exposureWindows
             )

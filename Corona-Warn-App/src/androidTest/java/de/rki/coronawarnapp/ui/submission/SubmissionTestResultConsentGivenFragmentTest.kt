@@ -26,13 +26,11 @@ import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenViewModel
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -43,6 +41,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
@@ -114,7 +113,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                    every { registeredAt } returns Instant.now().toJavaInstant()
+                    every { registeredAt } returns Instant.now()
                     every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
@@ -131,7 +130,7 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             TestResultUIState(
                 coronaTest = mockk<FamilyCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
-                    every { registeredAt } returns Instant.now().toJavaInstant()
+                    every { registeredAt } returns Instant.now()
                     every { type } returns BaseCoronaTest.Type.PCR
                     every { identifier } returns ""
                     every { personName } returns "Lara"
