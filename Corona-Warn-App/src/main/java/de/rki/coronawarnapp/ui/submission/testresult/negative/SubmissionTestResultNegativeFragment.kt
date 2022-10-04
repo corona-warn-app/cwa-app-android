@@ -181,7 +181,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    //TODO: replace with new recycle bin dialog
+    // TODO: replace with new recycle bin dialog
     private fun showMoveToRecycleBinDialog() {
         RecycleBinDialogType.RecycleTestConfirmation.show(
             fragment = this,

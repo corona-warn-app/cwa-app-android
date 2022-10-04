@@ -172,7 +172,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         super.onPause()
     }
 
-    //TODO: replace with new recycle bin dialog
+    // TODO: replace with new recycle bin dialog
     private fun showMoveToRecycleBinDialog() {
         RecycleBinDialogType.RecycleTestConfirmation.show(
             fragment = this,
