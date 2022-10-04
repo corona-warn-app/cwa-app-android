@@ -146,7 +146,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     }
 
     @Test
-    fun `risk metadata change is properly collected`() = runTest2{
+    fun `risk metadata change is properly collected`() = runTest2 {
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseDate.seconds)
