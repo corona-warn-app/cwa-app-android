@@ -238,6 +238,7 @@ android {
                     'CODEOWNERS',
                     'README.md',
                     'CODE_OF_CONDUCT.md',
+                    'META-INF/LICENSE.md',
                     'META-INF/AL2.0',
                     'META-INF/LGPL2.1',
                     // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
