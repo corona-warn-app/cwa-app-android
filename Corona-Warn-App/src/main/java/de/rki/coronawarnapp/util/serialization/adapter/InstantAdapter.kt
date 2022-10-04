@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import java.time.Instant
 
-class JavaInstantAdapter : TypeAdapter<Instant>() {
+class InstantAdapter : TypeAdapter<Instant>() {
     override fun write(out: JsonWriter, value: Instant?) {
         if (value == null) {
             out.nullValue()

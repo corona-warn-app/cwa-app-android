@@ -16,12 +16,15 @@ import dagger.Reusable
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
-import de.rki.coronawarnapp.util.serialization.adapter.JavaDurationAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.JavaLocalDateAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import okio.ByteString
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 
 @Module
 class SerializationModule {
@@ -50,9 +53,9 @@ class SerializationModule {
         val baseGson: Gson by lazy {
             GsonBuilder()
                 // Java time
-                .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
-                .registerTypeAdapter(java.time.LocalDate::class.java, JavaLocalDateAdapter())
-                .registerTypeAdapter(java.time.Duration::class.java, JavaDurationAdapter())
+                .registerTypeAdapter(Instant::class.java, InstantAdapter())
+                .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+                .registerTypeAdapter(Duration::class.java, DurationAdapter())
                 // Others
                 .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
                 .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())

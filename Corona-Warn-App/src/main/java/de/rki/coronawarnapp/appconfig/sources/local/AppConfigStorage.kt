@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.adapter.JavaDurationAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.JavaInstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
@@ -30,8 +30,8 @@ class AppConfigStorage @Inject constructor(
 
     private val gson by lazy {
         baseGson.newBuilder()
-            .registerTypeAdapter(java.time.Instant::class.java, JavaInstantAdapter())
-            .registerTypeAdapter(java.time.Duration::class.java, JavaDurationAdapter())
+            .registerTypeAdapter(java.time.Instant::class.java, InstantAdapter())
+            .registerTypeAdapter(java.time.Duration::class.java, DurationAdapter())
             .create()
     }
     private val configDir = File(context.filesDir, "appconfig_storage")

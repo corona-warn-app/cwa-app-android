@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import java.time.Duration
 
-class JavaDurationAdapter : TypeAdapter<Duration>() {
+class DurationAdapter : TypeAdapter<Duration>() {
     override fun write(out: JsonWriter, value: Duration?) {
         if (value == null) {
             out.nullValue()
