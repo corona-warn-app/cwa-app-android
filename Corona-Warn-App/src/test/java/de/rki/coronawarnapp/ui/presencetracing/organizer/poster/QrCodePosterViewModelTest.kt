@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.presencetracing.organizer.poster
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import coil.Coil
 import coil.ImageLoader
 import coil.request.ImageResult
@@ -21,6 +20,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
@@ -37,12 +37,12 @@ class QrCodePosterViewModelTest : BaseTest() {
     @MockK lateinit var posterTemplateProvider: PosterTemplateProvider
     @MockK lateinit var traceLocationRepository: TraceLocationRepository
     @MockK lateinit var fileSharing: FileSharing
-    @MockK lateinit var qrCodeDrawable: Drawable
     @MockK lateinit var templateBitmap: Bitmap
     @MockK lateinit var textBox: QRCodeTextBoxAndroid
     @MockK lateinit var traceLocation: TraceLocation
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var context: Context
+    @RelaxedMockK lateinit var imageResult: ImageResult
     @MockK lateinit var imageLoader: ImageLoader
     private lateinit var mockTemplate: Template
 
@@ -52,10 +52,7 @@ class QrCodePosterViewModelTest : BaseTest() {
 
         Coil.setImageLoader(imageLoader)
 
-        coEvery { imageLoader.execute(any()) } returns mockk<ImageResult>().apply {
-            every { drawable } returns qrCodeDrawable
-        }
-
+        coEvery { imageLoader.execute(any()) } returns imageResult
         mockTemplate = Template(
             bitmap = templateBitmap,
             width = 500,
@@ -85,7 +82,7 @@ class QrCodePosterViewModelTest : BaseTest() {
     @Test
     fun `Poster is requested in init`() {
         createInstance().poster.getOrAwaitValue().apply {
-            qrCode shouldBe qrCodeDrawable
+            qrCode shouldBe null
             template shouldBe mockTemplate
             infoText shouldBe "description\naddress"
         }
