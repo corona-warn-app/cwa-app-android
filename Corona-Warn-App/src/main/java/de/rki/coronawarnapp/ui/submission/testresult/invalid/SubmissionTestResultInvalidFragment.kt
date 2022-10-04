@@ -97,6 +97,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         } else popBackStack()
     }
 
+    //TODO: replace with new recycle bin dialog
     private fun showMoveToRecycleBinDialog() {
         RecycleBinDialogType.RecycleTestConfirmation.show(
             fragment = this,

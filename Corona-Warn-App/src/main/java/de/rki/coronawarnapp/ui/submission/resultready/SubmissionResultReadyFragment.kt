@@ -9,7 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionResultReadyBinding
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
+import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -92,9 +92,5 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
         }
     }
 
-    private fun onConfirmSkipSymptomsInput() {
-        SubmissionCancelDialog(requireContext()).show {
-            viewModel.onSkipSymptomsConfirmed()
-        }
-    }
+    private fun onConfirmSkipSymptomsInput() = submissionCancelDialog { viewModel.onSkipSymptomsConfirmed() }
 }

@@ -90,6 +90,7 @@ class SubmissionTestResultKeysSharedFragment :
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
+    //TODO: replace with new recycle bin dialog
     private fun showMoveToRecycleBinDialog() {
         RecycleBinDialogType.RecycleTestConfirmation.show(
             fragment = this,
