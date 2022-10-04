@@ -130,12 +130,16 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             is CwaClientError, is CwaServerError -> displayDialog {
                 setTitle(R.string.submission_error_dialog_web_generic_error_title)
                 setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
-                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ -> goBack() }
+                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+                    goBack()
+                }
             }
             else -> displayDialog {
                 setTitle(R.string.submission_error_dialog_web_generic_error_title)
                 setMessage(R.string.submission_error_dialog_web_generic_error_body)
-                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ -> goBack() }
+                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+                    goBack()
+                }
             }
         }
     }

@@ -199,12 +199,16 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     private fun showNetworkErrorDialog() = displayDialog {
         setTitle(R.string.submission_error_dialog_web_generic_error_title)
         setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
-        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ -> navigateBackToFlowStart() }
+        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+            navigateBackToFlowStart()
+        }
     }
 
     private fun showGenericErrorDialog() = displayDialog {
         setTitle(R.string.submission_error_dialog_web_generic_error_title)
         setMessage(R.string.submission_error_dialog_web_generic_error_body)
-        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ -> navigateBackToFlowStart() }
+        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+            navigateBackToFlowStart()
+        }
     }
 }

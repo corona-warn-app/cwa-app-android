@@ -108,7 +108,9 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         setTitle(R.string.submission_test_result_available_close_dialog_title_consent_given)
         setMessage(R.string.submission_test_result_available_close_dialog_body_consent_given)
         setPositiveButton(R.string.submission_test_result_available_close_dialog_continue_button) { _, _ -> }
-        setNegativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) { _, _ -> returnToScreenWhereUQSWasOpened() }
+        setNegativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) { _, _ ->
+            returnToScreenWhereUQSWasOpened()
+        }
     }
 
     private fun returnToScreenWhereUQSWasOpened() {

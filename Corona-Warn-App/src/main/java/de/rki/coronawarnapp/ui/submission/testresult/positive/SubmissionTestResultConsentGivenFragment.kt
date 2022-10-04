@@ -120,7 +120,9 @@ class SubmissionTestResultConsentGivenFragment :
     private fun showCancelDialog() = displayDialog {
         setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
         setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-        setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ -> viewModel.onCancelConfirmed() }
+        setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
+            viewModel.onCancelConfirmed()
+        }
         setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ -> }
     }
 }
