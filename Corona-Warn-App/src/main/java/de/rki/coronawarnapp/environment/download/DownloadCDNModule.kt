@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.environment.download
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.http.HttpClientDefault
