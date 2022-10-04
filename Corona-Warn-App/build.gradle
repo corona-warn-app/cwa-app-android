@@ -241,6 +241,7 @@ android {
                     'META-INF/LICENSE.md',
                     'META-INF/AL2.0',
                     'META-INF/LGPL2.1',
+                    'META-INF/LICENSE-notice.md',
                     // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
                     'DebugProbesKt.bin'
             ]
