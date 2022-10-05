@@ -903,11 +903,7 @@
     <activity
         android:id="@+id/launcherActivity"
         android:name="de.rki.coronawarnapp.ui.launcher.LauncherActivity"
-        android:label="LauncherActivity">
-        <deepLink
-            android:id="@+id/deepLink"
-            app:uri="coronawarnapp://launch" />
-    </activity>
+        android:label="LauncherActivity" />
 
 
     <!-- New Release -->

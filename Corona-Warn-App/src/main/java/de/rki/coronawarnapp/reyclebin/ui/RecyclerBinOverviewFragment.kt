@@ -84,6 +84,6 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             viewModel.onRemoveAllItemsClicked()
             true
         }
-        else -> onOptionsItemSelected(item)
+        else -> false
     }
 }

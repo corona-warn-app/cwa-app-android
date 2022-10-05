@@ -64,7 +64,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 )
             )
         }
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun updatePerson(person: ContactDiaryPersonEntity, phoneNumber: String, emailAddress: String) =
@@ -78,7 +78,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
 
                 )
             )
-            shouldClose.postValue(null)
+            shouldClose.postValue(Unit)
         }
 
     fun deletePerson(person: ContactDiaryPersonEntity) = launch(scope = appScope) {
@@ -87,11 +87,11 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 contactDiaryRepository.deletePersonEncounter(it)
         }
         contactDiaryRepository.deletePerson(person)
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun closePressed() {
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     companion object {

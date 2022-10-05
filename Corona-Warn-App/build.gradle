@@ -20,6 +20,8 @@ jacoco {
 }
 
 android {
+    namespace "de.rki.coronawarnapp"
+
     println("Current VERSION_MAJOR: ${VERSION_MAJOR}")
     println("Current VERSION_MINOR: ${VERSION_MINOR}")
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
@@ -150,14 +152,17 @@ android {
 
         if (flavor.name == "deviceForTesters") {
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-RC${VERSION_BUILD}"
+            println("`deviceForTesters` adjusted versionName: $adjustedVersionName")
             variant.outputs.each { output ->
-                output.versionNameOverride = adjustedVersionName
+                def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
+                println("Override APK Name: $apkName")
+                output.outputFileName = apkName
             }
-            println("deviceForTesters adjusted versionName: $adjustedVersionName")
-        }
-        if (flavor.name != "device") {
+        } else {
+            def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_BUILD}"
+            println("`device` adjusted versionName: $adjustedVersionName")
             variant.outputs.each { output ->
-                def apkName = "Corona-Warn-App-${output.versionNameOverride}-${flavor.name}-${variant.buildType.name}.apk"
+                def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
                 println("Override APK Name: $apkName")
                 output.outputFileName = apkName
             }
@@ -233,12 +238,15 @@ android {
                     'CODEOWNERS',
                     'README.md',
                     'CODE_OF_CONDUCT.md',
+                    'META-INF/LICENSE.md',
                     'META-INF/AL2.0',
                     'META-INF/LGPL2.1',
+                    'META-INF/LICENSE-notice.md',
                     // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
                     'DebugProbesKt.bin'
             ]
         }
+        jniLibs.useLegacyPackaging = true
     }
 
 
@@ -265,9 +273,6 @@ android {
     }
     lint {
         checkAllWarnings true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
     }
 }
 
@@ -338,7 +343,7 @@ dependencies {
 
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     // KOTLIN
-    def coroutineVersion = '1.6.3'
+    def coroutineVersion = '1.6.4'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutineVersion"
@@ -369,12 +374,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
 
-    implementation 'androidx.annotation:annotation:1.4.0'
+    implementation 'androidx.annotation:annotation:1.5.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // DAGGER
-    def dagger_version = "2.42"
+    def dagger_version = '2.44'
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
@@ -394,10 +399,10 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // JFN
-    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-1de55db.jar")
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-rc.0.jar")
 
     // boofCV
-    def boofCV_version = "0.40.1"
+    def boofCV_version = '0.41'
     implementation("org.boofcv:boofcv-core:$boofCV_version") {
         exclude group: 'com.google.protobuf'
     }
@@ -405,49 +410,36 @@ dependencies {
         exclude group: 'com.google.protobuf'
     }
 
-    constraints {
-        implementation('net.lingala.zip4j:zip4j:2.10.0') {
-            because 'fixing zip4j vulnerability'
-        }
-        implementation('com.fasterxml.jackson.core:jackson-databind:2.13.2.2') {
-            because 'fixing fasterxml vulnerability'
-        }
-
-        implementation('org.yaml:snakeyaml:1.32') {
-            because 'fixing high vulnerability'
-        }
-    }
-
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation('org.robolectric:robolectric:4.8') {
+    testImplementation('org.robolectric:robolectric:4.9') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation 'io.mockk:mockk:1.12.3'
+    testImplementation 'io.mockk:mockk:1.13.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
     // Testing - jUnit4
     def junit_version = "4.13.2"
     testImplementation "junit:junit:$junit_version"
-    testImplementation "org.junit.vintage:junit-vintage-engine:5.8.2"
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.9.1'
     testImplementation "androidx.test:core-ktx:1.4.0"
 
 
     // Testing - jUnit5
-    def jupiter_version = "5.8.2"
+    def jupiter_version = '5.9.1'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = "5.3.1"
+    def kotest_version = '5.4.2'
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-property-jvm:$kotest_version"
 
-    testImplementation 'io.github.classgraph:classgraph:4.8.147'
+    testImplementation 'io.github.classgraph:classgraph:4.8.149'
 
     // Testing - Instrumentation
     androidTestImplementation "junit:junit:$junit_version"
@@ -457,7 +449,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.ext:truth:1.4.0'
     androidTestImplementation 'androidx.work:work-testing:2.7.1'
-    androidTestImplementation 'io.mockk:mockk-android:1.11.0'
+    androidTestImplementation 'io.mockk:mockk-android:1.13.2'
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     debugImplementation 'androidx.test:core-ktx:1.4.0'
 
@@ -490,18 +482,18 @@ dependencies {
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'com.google.guava:guava:31.1-android'
 
     // Jackson
-    def jackson = "2.13.3"
+    def jackson = "2.13.4"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
-    implementation 'com.networknt:json-schema-validator:1.0.72'
+    implementation 'com.networknt:json-schema-validator:1.0.73'
     implementation 'net.swiftzer.semver:semver:1.2.0'
 
     //JWT
-    implementation 'com.nimbusds:nimbus-jose-jwt:9.23'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.4'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0"
@@ -527,6 +519,19 @@ dependencies {
     implementation "androidx.window:window:1.0.0"
     // App process rebirth
     deviceForTestersImplementation "com.jakewharton:process-phoenix:2.1.2"
+
+    constraints {
+        implementation('net.lingala.zip4j:zip4j:2.10.0') {
+            because 'fixing zip4j vulnerability'
+        }
+        implementation("com.fasterxml.jackson.core:jackson-databind:$jackson") {
+            because 'fixing fasterxml vulnerability'
+        }
+
+        implementation('org.yaml:snakeyaml:1.32') {
+            because 'fixing high vulnerability'
+        }
+    }
 }
 
 sonarqube {

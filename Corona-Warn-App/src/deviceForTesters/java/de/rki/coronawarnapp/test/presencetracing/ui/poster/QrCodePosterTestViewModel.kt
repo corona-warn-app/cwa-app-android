@@ -42,7 +42,7 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
     private val posterLiveData = MutableLiveData<Poster>()
     val poster: LiveData<Poster> = posterLiveData
     val sharingIntent = SingleLiveEvent<FileSharing.FileIntentProvider>()
-    val qrCodeImage = SingleLiveEvent<Drawable>()
+    val qrCodeImage = SingleLiveEvent<Drawable?>()
     private var isRunning = false
 
     init {
@@ -53,7 +53,6 @@ class QrCodePosterTestViewModel @AssistedInject constructor(
      * Create a new PDF file and result is delivered by [sharingIntent]
      * as a sharing [FileSharing.ShareIntentProvider]
      */
-    @Suppress("BlockingMethodInNonBlockingContext")
     fun createPDF(view: View) = launch(context = dispatcher.IO) {
         try {
             val weakViewRef = WeakReference(view) // Accessing view in background thread

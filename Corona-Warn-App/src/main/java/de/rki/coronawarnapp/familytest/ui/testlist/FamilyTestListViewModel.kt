@@ -82,7 +82,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRefreshTests() {
         launch(appScope) {
             val result = familyTestRepository.refresh().also {
-                refreshComplete.postValue(null)
+                refreshComplete.postValue(Unit)
             }
             if (result.isNotEmpty()) {
                 error.postValue(result.values.first())
