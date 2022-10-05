@@ -10,10 +10,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Suppress("MaxLineLength")
 internal class ProfileCensorTest : BaseTest() {
@@ -106,14 +107,14 @@ internal class ProfileCensorTest : BaseTest() {
         censored.contains(dateOfBirth) shouldBe false
     }
 
-    private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     private val dateOfBirth = "1950-08-01"
 
     private val profile = Profile(
         firstName = "First name",
         lastName = "Last name",
-        birthDate = formatter.parseLocalDate(dateOfBirth),
+        birthDate = LocalDate.parse(dateOfBirth, formatter),
         street = "Main street",
         zipCode = "12132",
         city = "London",

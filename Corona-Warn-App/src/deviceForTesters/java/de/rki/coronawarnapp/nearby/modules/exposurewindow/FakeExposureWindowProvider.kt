@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import org.joda.time.Duration
+import java.time.Duration
 import javax.inject.Inject
 
 @Reusable
@@ -32,7 +32,7 @@ class FakeExposureWindowProvider @Inject constructor(
         val nowUTC = timeStamper.nowUTC
         return jsonWindows.map { jWindow ->
             ExposureWindow.Builder().apply {
-                setDateMillisSinceEpoch(nowUTC.minus(Duration.standardDays(jWindow.ageInDays.toLong())).millis)
+                setDateMillisSinceEpoch(nowUTC.minus(Duration.ofDays(jWindow.ageInDays.toLong())).toEpochMilli())
                 setCalibrationConfidence(jWindow.calibrationConfidence)
                 setInfectiousness(jWindow.infectiousness)
                 setReportType(jWindow.reportType)

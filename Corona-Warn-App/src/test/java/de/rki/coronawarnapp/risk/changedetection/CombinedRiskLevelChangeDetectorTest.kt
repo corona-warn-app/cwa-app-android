@@ -20,10 +20,9 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
-import de.rki.coronawarnapp.util.toJavaInstant
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.Called
@@ -40,13 +39,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
+import java.time.Instant
+import java.time.LocalDate
 
 @Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
@@ -106,9 +105,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt.toJavaInstant(),
+        calculatedAt = calculatedAt,
         riskState = riskState,
-        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(

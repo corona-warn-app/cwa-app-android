@@ -5,10 +5,10 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
-import de.rki.coronawarnapp.util.toJodaInstant
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 
@@ -224,7 +224,7 @@ class CalculationsTest : BaseTest() {
     @Test
     fun `getLastChangeToHighEwRiskBefore works`() {
         val ewRisk0 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 19).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 19).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate.of(2021, 3, 23).atStartOfDay(ZoneOffset.UTC).toInstant()
@@ -235,27 +235,27 @@ class CalculationsTest : BaseTest() {
     @Test
     fun `getLastChangeToHighEwRiskBefore works 2`() {
         val risk0 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 19).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 19).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.LOW_RISK
         )
         val risk1 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 20).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 20).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.INCREASED_RISK
         )
         val risk2 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 21).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 21).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.LOW_RISK
         )
         val risk3 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 22).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 22).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.INCREASED_RISK
         )
         val risk4 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 23).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 23).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.CALCULATION_FAILED
         )
         val risk5 = TestEwRiskLevelResult(
-            calculatedAt = LocalDate.of(2021, 3, 24).atStartOfDay(ZoneOffset.UTC).toInstant().toJodaInstant(),
+            calculatedAt = LocalDate.of(2021, 3, 24).atStartOfDay(ZoneOffset.UTC).toInstant(),
             riskState = RiskState.INCREASED_RISK
         )
         val registeredAt = LocalDate.of(2021, 3, 24).atStartOfDay(ZoneOffset.UTC).toInstant()
@@ -279,7 +279,7 @@ class CalculationsTest : BaseTest() {
 }
 
 private data class TestEwRiskLevelResult(
-    override val calculatedAt: org.joda.time.Instant,
+    override val calculatedAt: Instant,
     override val riskState: RiskState
 ) : EwRiskLevelResult {
     override val wasSuccessfullyCalculated = true

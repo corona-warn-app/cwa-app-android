@@ -50,7 +50,7 @@ class SubmissionQuota @Inject constructor(
         val oldQuota = enfData.currentQuota.first()
         val oldQuotaReset = enfData.lastQuotaResetAt.first()
 
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         val nextQuotaReset = enfData.lastQuotaResetAt.first()
             .atZone(ZoneOffset.UTC)

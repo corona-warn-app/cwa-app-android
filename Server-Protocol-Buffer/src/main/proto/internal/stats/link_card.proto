@@ -1,0 +1,12 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.stats;
+
+import "internal/stats/card_header.proto";
+
+message LinkCard {
+
+  CardHeader header = 1;
+
+  string url = 2;
+}

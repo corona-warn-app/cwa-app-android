@@ -27,16 +27,15 @@ import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
 import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
-import de.rki.coronawarnapp.reyclebin.coronatest.handler.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
@@ -45,8 +44,8 @@ import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.updateCountBadge
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -167,7 +166,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
+                is MainActivityEvent.Error -> displayDialog(dialog = event.error.toErrorDialogBuilder(baseContext))
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
         }
@@ -192,8 +191,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }?.let { navController.doNavigate(it) }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
-        RestoreCoronaTestConfirmationDialog
-            .showDialog(context = this) { viewModel.restoreCoronaTest(recycledCoronaTest) }
+        displayDialog(cancelable = false) {
+            setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
+            setCancelable(false)
+            setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
+            setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCoronaTest(recycledCoronaTest) }
+        }
 
     private fun handCoronaTestRestoreEvent(event: CoronaTestRestoreEvent) = when (event) {
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
@@ -279,7 +282,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             nestedGraph.setStartDestination(R.id.contactDiaryOverviewFragment)
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
-                    selectedDay = LocalDate().toString()
+                    selectedDay = LocalDate.now().toString()
                 )
             )
         } else {
@@ -320,46 +323,33 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun showEnergyOptimizedEnabledForBackground() {
-        val dialog = DialogHelper.DialogInstance(
-            this,
-            R.string.onboarding_energy_optimized_dialog_headline,
-            R.string.onboarding_energy_optimized_dialog_body,
-            R.string.onboarding_energy_optimized_dialog_button_positive,
-            R.string.onboarding_energy_optimized_dialog_button_negative,
-            false,
-            {
-                // go to battery optimization
-                startActivitySafely(powerManagement.toBatteryOptimizationSettingsIntent)
-            },
-            {
-                // keep battery optimization enabled
+        displayDialog(cancelable = false) {
+            setTitle(R.string.onboarding_energy_optimized_dialog_headline)
+            setMessage(R.string.onboarding_energy_optimized_dialog_body)
+            setPositiveButton(R.string.onboarding_energy_optimized_dialog_button_positive) { _, _ ->
+                startActivitySafely(
+                    powerManagement.toBatteryOptimizationSettingsIntent
+                )
+            }
+            setNegativeButton(R.string.onboarding_energy_optimized_dialog_button_negative) { _, _ ->
                 showManualCheckingRequiredDialog()
             }
-        )
-        DialogHelper.showDialog(dialog)
+        }
     }
 
     private fun showManualCheckingRequiredDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            this,
-            R.string.onboarding_manual_required_dialog_headline,
-            R.string.onboarding_manual_required_dialog_body,
-            R.string.onboarding_manual_required_dialog_button,
-            null,
-            false
-        )
-        DialogHelper.showDialog(dialog)
+        displayDialog(cancelable = false) {
+            setTitle(R.string.onboarding_manual_required_dialog_headline)
+            setMessage(R.string.onboarding_manual_required_dialog_body)
+            setPositiveButton(R.string.onboarding_manual_required_dialog_button) { _, _ -> }
+        }
     }
 
     private fun showBackgroundJobDisabledNotification() {
-        val dialog = DialogHelper.DialogInstance(
-            context = this,
-            title = R.string.onboarding_background_fetch_dialog_headline,
-            message = R.string.onboarding_background_fetch_dialog_body,
-            positiveButton = R.string.onboarding_background_fetch_dialog_button_positive,
-            negativeButton = R.string.onboarding_background_fetch_dialog_button_negative,
-            cancelable = false,
-            positiveButtonFunction = {
+        displayDialog(cancelable = false) {
+            setTitle(R.string.onboarding_background_fetch_dialog_headline)
+            setMessage(R.string.onboarding_background_fetch_dialog_body)
+            setPositiveButton(R.string.onboarding_background_fetch_dialog_button_positive) { _, _ ->
                 val intent = Intent(
                     Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.fromParts("package", packageName, null)
@@ -368,12 +358,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 startActivity(intent)
                 // show battery optimization system dialog after background processing dialog
                 viewModel.onUserOpenedBackgroundPriorityOptions()
-            },
-            negativeButtonFunction = {
-                // declined
             }
-        )
-        DialogHelper.showDialog(dialog)
+            setNegativeButton(R.string.onboarding_background_fetch_dialog_button_negative) { _, _ -> }
+        }
     }
 
     private fun navigateToScanner() {

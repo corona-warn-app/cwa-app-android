@@ -7,11 +7,9 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.getDefaultGsonTypeAdapter
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -20,14 +18,8 @@ import javax.inject.Singleton
 @Singleton
 class ExposureDetectionTrackerStorage @Inject constructor(
     @AppContext private val context: Context,
-    @BaseGson gson: Gson
+    @BaseGson private val gson: Gson
 ) {
-    private val gson by lazy {
-        gson.newBuilder()
-            .registerTypeAdapter(Instant::class.java, Instant::class.getDefaultGsonTypeAdapter())
-            .create()
-    }
-
     private val mutex = Mutex()
     private val storageDir by lazy {
         File(context.filesDir, "calcuation_tracker").apply {

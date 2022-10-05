@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -61,7 +60,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     fun onDateSelected(localDate: LocalDate?) {
         updateSymptomStart(
             localDate?.let {
-                Symptoms.StartOf.Date(it.toJodaTime())
+                Symptoms.StartOf.Date(it)
             }
         )
     }

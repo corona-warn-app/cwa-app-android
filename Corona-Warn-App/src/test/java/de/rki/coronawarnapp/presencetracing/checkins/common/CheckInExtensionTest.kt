@@ -7,7 +7,7 @@ import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -21,13 +21,13 @@ class CheckInExtensionTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        traceLocationEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        traceLocationStart = "2021-03-04T22:00+01:00".toInstant(),
+        traceLocationEnd = "2021-03-04T23:00+01:00".toInstant(),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        checkInEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        checkInStart = "2021-03-04T22:00+01:00".toInstant(),
+        checkInEnd = "2021-03-04T23:00+01:00".toInstant(),
         completed = false,
         createJournalEntry = true
     )

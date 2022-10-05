@@ -1,22 +1,20 @@
 package de.rki.coronawarnapp.diagnosiskeys.server
 
 import dagger.Lazy
-import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
-import org.joda.time.format.DateTimeFormat
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DiagnosisKeyServer @Inject constructor(
     private val diagnosisKeyAPI: Lazy<DiagnosisKeyApiV1>,
-    @DownloadCDNHomeCountry private val homeCountry: LocationCode
 ) {
 
     private val keyApi: DiagnosisKeyApiV1
@@ -40,7 +38,7 @@ class DiagnosisKeyServer @Inject constructor(
     suspend fun getHourIndex(location: LocationCode, day: LocalDate): List<LocalTime> =
         withContext(Dispatchers.IO) {
             keyApi
-                .getHourIndex(location.identifier, day.toString(DAY_FORMATTER))
+                .getHourIndex(location.identifier, day.format(DAY_FORMATTER))
                 .map { hourString -> LocalTime.parse(hourString, HOUR_FORMATTER) }
         }
 
@@ -73,13 +71,13 @@ class DiagnosisKeyServer @Inject constructor(
         val response = if (hour != null) {
             keyApi.downloadKeyFileForHour(
                 locationCode.identifier,
-                day.toString(DAY_FORMATTER),
-                hour.toString(HOUR_FORMATTER)
+                day.format(DAY_FORMATTER),
+                hour.format(HOUR_FORMATTER)
             )
         } else {
             keyApi.downloadKeyFileForDay(
                 locationCode.identifier,
-                day.toString(DAY_FORMATTER)
+                day.format(DAY_FORMATTER)
             )
         }
 
@@ -106,7 +104,7 @@ class DiagnosisKeyServer @Inject constructor(
 
     companion object {
         private val TAG = DiagnosisKeyServer::class.java.simpleName
-        private val DAY_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd")
-        private val HOUR_FORMATTER = DateTimeFormat.forPattern("H")
+        private val DAY_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        private val HOUR_FORMATTER = DateTimeFormatter.ofPattern("H")
     }
 }

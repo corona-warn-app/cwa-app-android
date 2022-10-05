@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -27,10 +26,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 import testhelpers.preferences.FakeDataStore
 
 class EwRiskLevelChangeDetectorTest : BaseTest() {
@@ -65,9 +64,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         riskState: RiskState,
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt.toJavaInstant(),
+        calculatedAt = calculatedAt,
         riskState = riskState,
-        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(
@@ -127,7 +126,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from HIGH to LOW resets survey`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -148,7 +147,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from LOW to HIGH`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -169,7 +168,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     fun `risk level went from LOW to HIGH but it is has already been processed`() {
         every { riskLevelStorage.allEwRiskLevelResults } returns flowOf(
             listOf(
-                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                createEwRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
@@ -197,7 +196,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plusMillis(1)),
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
@@ -220,9 +219,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(
                     INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
+                    calculatedAt = Instant.EPOCH.plusMillis(1),
                     ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plus(10)
+                        every { mostRecentDateWithHighRisk } returns Instant.EPOCH.plusMillis(10)
                         every { isIncreasedRisk() } returns true
                     }
                 ),
@@ -242,9 +241,9 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             listOf(
                 createEwRiskLevel(
                     INCREASED_RISK,
-                    calculatedAt = Instant.EPOCH.plus(1),
+                    calculatedAt = Instant.EPOCH.plusMillis(1),
                     ewAggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plus(20)
+                        every { mostRecentDateWithLowRisk } returns Instant.EPOCH.plusMillis(20)
                         every { isIncreasedRisk() } returns false
                     }
                 ),

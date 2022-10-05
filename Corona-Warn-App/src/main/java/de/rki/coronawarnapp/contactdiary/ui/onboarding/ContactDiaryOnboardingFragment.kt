@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import org.joda.time.LocalDate
+import java.time.LocalDate
 import javax.inject.Inject
 
 class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboarding_fragment), AutoInject {
@@ -75,7 +75,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                     if (arguments?.containsKey(OPEN_CURRENT_DAY) == true) {
                         findNavController().apply {
                             popBackStack(R.id.contactDiaryOnboardingFragment, true)
-                            navigate("coronawarnapp://contact-journal/day/${LocalDate()}".toUri())
+                            navigate("coronawarnapp://contact-journal/day/${LocalDate.now()}".toUri())
                         }
                     } else {
                         doNavigate(

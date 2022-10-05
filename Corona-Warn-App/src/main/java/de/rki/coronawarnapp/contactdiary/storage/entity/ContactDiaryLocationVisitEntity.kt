@@ -7,8 +7,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.util.trimToLength
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 @Entity(
     tableName = "locationvisits",

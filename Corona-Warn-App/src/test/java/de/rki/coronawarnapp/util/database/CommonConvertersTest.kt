@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.util.database
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
+import java.time.LocalTime
 import java.util.UUID
 
 class CommonConvertersTest : BaseTest() {
@@ -57,7 +57,7 @@ class CommonConvertersTest : BaseTest() {
     fun `local time conversion`() {
         converters.apply {
             val orig = LocalTime.parse("23:59")
-            val raw = "23:59:00.000"
+            val raw = "23:59"
             fromLocalTime(orig) shouldBe raw
             toLocalTime(raw) shouldBe orig
         }
@@ -67,7 +67,7 @@ class CommonConvertersTest : BaseTest() {
     fun `instant conversion`() {
         converters.apply {
             val orig = Instant.EPOCH
-            val raw = "1970-01-01T00:00:00.000Z"
+            val raw = "1970-01-01T00:00:00Z"
             fromInstant(orig) shouldBe raw
             toInstant(raw) shouldBe orig
         }

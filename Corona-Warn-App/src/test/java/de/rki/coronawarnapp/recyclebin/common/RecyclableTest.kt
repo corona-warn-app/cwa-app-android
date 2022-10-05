@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.recyclebin.common
 
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class RecyclableTest : BaseTest() {
 
@@ -14,8 +13,8 @@ class RecyclableTest : BaseTest() {
     @Test
     fun `is recycled`() {
         val recycledObject = object : Recyclable {
-            override val recycledAt: java.time.Instant
-                get() = recycledAtInstant.toJavaInstant()
+            override val recycledAt: Instant
+                get() = recycledAtInstant
         }
 
         with(recycledObject) {

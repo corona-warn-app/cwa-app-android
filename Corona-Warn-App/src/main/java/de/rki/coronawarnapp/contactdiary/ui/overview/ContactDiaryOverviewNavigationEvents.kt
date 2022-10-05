@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 sealed class ContactDiaryOverviewNavigationEvents {
     object NavigateToMainActivity : ContactDiaryOverviewNavigationEvents()

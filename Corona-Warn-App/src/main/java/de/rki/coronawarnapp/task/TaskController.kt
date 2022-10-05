@@ -93,7 +93,7 @@ class TaskController @Inject constructor(
         val task = taskFactory.taskProvider()
 
         val deferred = taskScope.async(start = CoroutineStart.LAZY) {
-            withTimeout(timeMillis = taskConfig.executionTimeout.millis) {
+            withTimeout(timeMillis = taskConfig.executionTimeout.toMillis()) {
                 task.run(newRequest.arguments)
             }
         }

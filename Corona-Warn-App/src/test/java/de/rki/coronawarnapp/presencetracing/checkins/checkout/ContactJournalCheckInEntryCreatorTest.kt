@@ -5,9 +5,6 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName
-import de.rki.coronawarnapp.util.toJavaTime
-import de.rki.coronawarnapp.util.toJoda
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -21,11 +18,10 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.encode
-import org.joda.time.Minutes
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Duration
 
 class ContactJournalCheckInEntryCreatorTest : BaseTest() {
@@ -39,13 +35,13 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         type = 1,
         description = "Restaurant",
         address = "Around the corner",
-        traceLocationStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        traceLocationEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        traceLocationStart = "2021-03-04T22:00+01:00".toInstant(),
+        traceLocationEnd = "2021-03-04T23:00+01:00".toInstant(),
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = "cryptographicSeed".encode(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-        checkInEnd = "2021-03-04T23:00+01:00".toJavaInstant(),
+        checkInStart = "2021-03-04T22:00+01:00".toInstant(),
+        checkInEnd = "2021-03-04T23:00+01:00".toInstant(),
         completed = false,
         createJournalEntry = true
     )
@@ -58,10 +54,10 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
 
     private val testLocationVisit = DefaultContactDiaryLocationVisit(
         id = 0,
-        date = testCheckIn.checkInStart.toLocalDateUtc().toJodaTime(),
+        date = testCheckIn.checkInStart.toLocalDateUtc(),
         contactDiaryLocation = testLocation,
         checkInID = testCheckIn.id,
-        duration = Duration.ofMinutes(60).toJoda()
+        duration = Duration.ofMinutes(60)
     )
 
     @BeforeEach
@@ -116,8 +112,8 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
         createInstance().apply {
             testCheckIn.toLocationVisit(testLocation).also {
                 it.checkInID shouldBe testCheckIn.id
-                it.date.toJavaTime() shouldBe testCheckIn.checkInStart.toLocalDateUtc()
-                it.duration!!.toStandardMinutes().minutes shouldBe 60
+                it.date shouldBe testCheckIn.checkInStart.toLocalDateUtc()
+                it.duration shouldBe Duration.ofMinutes(60)
                 it.contactDiaryLocation shouldBe testLocation
             }
         }
@@ -127,24 +123,24 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     fun `CheckIn to ContactDiaryLocationVisit duration mapping is correct`() {
         createInstance().apply {
             // Rounds duration to closest 15 minutes
-            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:29+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:29+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
+                    it.duration shouldBe Duration.ofMinutes(60)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:30+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T23:07:30+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(75)
+                    it.duration shouldBe Duration.ofMinutes(75)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:30+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:30+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(60)
+                    it.duration shouldBe Duration.ofMinutes(60)
                 }
 
-            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:29+01:00".toJavaInstant()).toLocationVisit(testLocation)
+            testCheckIn.copy(checkInEnd = "2021-03-04T22:52:29+01:00".toInstant()).toLocationVisit(testLocation)
                 .also {
-                    it.duration!!.toStandardMinutes() shouldBe Minutes.minutes(45)
+                    it.duration shouldBe Duration.ofMinutes(45)
                 }
         }
     }
@@ -181,8 +177,8 @@ class ContactJournalCheckInEntryCreatorTest : BaseTest() {
     @Test
     fun `Creates 1 location and 2 visits for split check in`() = runTest {
         val splitCheckIn = testCheckIn.copy(
-            checkInStart = "2021-03-04T22:00+01:00".toJavaInstant(),
-            checkInEnd = "2021-03-05T02:00+01:00".toJavaInstant()
+            checkInStart = "2021-03-04T22:00+01:00".toInstant(),
+            checkInEnd = "2021-03-05T02:00+01:00".toInstant()
         )
         createInstance().apply {
             createEntry(splitCheckIn)

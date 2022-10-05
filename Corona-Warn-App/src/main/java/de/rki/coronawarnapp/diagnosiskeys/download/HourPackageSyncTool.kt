@@ -14,20 +14,20 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import timber.log.Timber
 import java.io.IOException
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @Reusable
@@ -126,10 +126,10 @@ class HourPackageSyncTool @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewHourPackages(cachedHours: List<CachedKey>, now: Instant): Boolean {
-        val today = now.toDateTime(DateTimeZone.UTC)
-        val newestHour = cachedHours.map { it.info.pkgDateTime }.maxOrNull()
+        val today = now.atZone(ZoneOffset.UTC)
+        val newestHour = cachedHours.maxOfOrNull { it.info.pkgDateTime }
 
-        return today.minusHours(1).hourOfDay != newestHour?.hourOfDay || today.toLocalDate() != newestHour.toLocalDate()
+        return today.minusHours(1).hour != newestHour?.hour || today.toLocalDate() != newestHour.toLocalDate()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

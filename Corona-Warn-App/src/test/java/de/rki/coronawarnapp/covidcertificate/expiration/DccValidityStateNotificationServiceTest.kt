@@ -58,7 +58,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowUtc
+        every { timeStamper.nowUTC } returns nowUtc
 
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns flowOf(Instant.EPOCH)
         coEvery { covidCertificateSettings.updateLastDccStateBackgroundCheck(any()) } just Runs

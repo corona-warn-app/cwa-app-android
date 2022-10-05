@@ -73,7 +73,7 @@ class Surveys @Inject constructor(
     suspend fun requestDetails(type: Type): Survey {
         val config = appConfigProvider.getAppConfig().survey
         Timber.v("Requested survey: %s", config)
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         oneTimePasswordRepo.getOtpAuthorizationResult().first()?.apply {
             if (authorized &&

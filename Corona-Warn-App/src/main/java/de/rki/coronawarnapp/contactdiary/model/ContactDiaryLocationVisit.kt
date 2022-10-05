@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.LocalDate
 
 interface ContactDiaryLocationVisit {
     val id: Long

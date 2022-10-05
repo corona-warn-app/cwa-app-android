@@ -63,7 +63,7 @@ class AppConfigServer @Inject constructor(
             exportBinary
         }
 
-        val localTime = timeStamper.nowJavaUTC
+        val localTime = timeStamper.nowUTC
 
         val headers = response.headers()
 

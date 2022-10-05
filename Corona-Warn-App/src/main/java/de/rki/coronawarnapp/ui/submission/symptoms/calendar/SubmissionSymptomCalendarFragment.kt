@@ -10,11 +10,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
+import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.toJavaTime
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -47,20 +46,14 @@ class SubmissionSymptomCalendarFragment :
             viewModel.onDateSelected(it)
         }
 
-        viewModel.showCancelDialog.observe2(this) {
-            SubmissionCancelDialog(requireContext()).show {
-                viewModel.onCancelConfirmed()
-            }
-        }
+        viewModel.showCancelDialog.observe2(this) { submissionCancelDialog { viewModel.onCancelConfirmed() } }
 
         viewModel.navigateBack.observe2(this) {
             popBackStack()
         }
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = SubmissionCancelDialog(requireContext()).show {
-                viewModel.onCancelConfirmed()
-            }
+            override fun handleOnBackPressed() = submissionCancelDialog { viewModel.onCancelConfirmed() }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
@@ -70,7 +63,7 @@ class SubmissionSymptomCalendarFragment :
 
         viewModel.symptomStart.observe2(this) {
             when (it) {
-                is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date.toJavaTime())
+                is Symptoms.StartOf.Date -> binding.symptomCalendarContainer.setSelectedDate(it.date)
                 else -> binding.symptomCalendarContainer.setSelectedDate(null)
             }
 

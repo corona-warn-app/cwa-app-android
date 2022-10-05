@@ -9,13 +9,13 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
-import java.time.Duration
-import java.time.Instant
 
 class SubmissionQuotaTest : BaseTest() {
     lateinit var enfData: ENFClientLocalData
@@ -28,7 +28,7 @@ class SubmissionQuotaTest : BaseTest() {
         MockKAnnotations.init(this)
         enfData = ENFClientLocalData(FakeDataStore())
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
     }
 
     private fun createQuota() = SubmissionQuota(
@@ -54,7 +54,7 @@ class SubmissionQuotaTest : BaseTest() {
         quota.consumeQuota(3) shouldBe true
         quota.consumeQuota(1) shouldBe false
 
-        verify(exactly = 3) { timeStamper.nowJavaUTC }
+        verify(exactly = 3) { timeStamper.nowUTC }
     }
 
     @Test
@@ -90,14 +90,14 @@ class SubmissionQuotaTest : BaseTest() {
         quota.consumeQuota(6) shouldBe true
         quota.consumeQuota(6) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns timeTravelTarget
+        every { timeStamper.nowUTC } returns timeTravelTarget
 
         quota.consumeQuota(6) shouldBe true
         quota.consumeQuota(1) shouldBe false
 
         // TODO
         // coVerify(exactly = 1) { enfData.currentQuota = 6 }
-        verify(exactly = 4) { timeStamper.nowJavaUTC }
+        verify(exactly = 4) { timeStamper.nowUTC }
 
         enfData.lastQuotaResetAt.first() shouldBe timeTravelTarget
     }
@@ -106,26 +106,26 @@ class SubmissionQuotaTest : BaseTest() {
     fun `quota fill up is at midnight`() = runTest2 {
         enfData.updateCurrentQuota(6)
         val startTime = Instant.parse("2020-12-24T23:59:59.998Z")
-        every { timeStamper.nowJavaUTC } returns startTime
+        every { timeStamper.nowUTC } returns startTime
 
         val quota = createQuota()
 
         quota.consumeQuota(6) shouldBe true
         quota.consumeQuota(1) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns startTime.plusMillis(1)
+        every { timeStamper.nowUTC } returns startTime.plusMillis(1)
         quota.consumeQuota(1) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns startTime.plusMillis(2)
+        every { timeStamper.nowUTC } returns startTime.plusMillis(2)
         quota.consumeQuota(1) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns startTime.plusMillis(3)
+        every { timeStamper.nowUTC } returns startTime.plusMillis(3)
         quota.consumeQuota(1) shouldBe true
 
-        every { timeStamper.nowJavaUTC } returns startTime.plusMillis(4)
+        every { timeStamper.nowUTC } returns startTime.plusMillis(4)
         quota.consumeQuota(6) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns startTime.plusMillis(3).plus(Duration.ofDays(1))
+        every { timeStamper.nowUTC } returns startTime.plusMillis(3).plus(Duration.ofDays(1))
         quota.consumeQuota(6) shouldBe true
     }
 
@@ -135,19 +135,19 @@ class SubmissionQuotaTest : BaseTest() {
 
         var quota = createQuota()
 
-        every { timeStamper.nowJavaUTC } returns startTime
+        every { timeStamper.nowUTC } returns startTime
         quota.consumeQuota(3) shouldBe true
 
-        every { timeStamper.nowJavaUTC } returns startTime.plus(Duration.ofDays(365))
+        every { timeStamper.nowUTC } returns startTime.plus(Duration.ofDays(365))
         quota = createQuota()
         quota.consumeQuota(6) shouldBe true
         quota.consumeQuota(1) shouldBe false
 
-        every { timeStamper.nowJavaUTC } returns startTime.plus(Duration.ofDays(365 * 2))
+        every { timeStamper.nowUTC } returns startTime.plus(Duration.ofDays(365 * 2))
         quota = createQuota()
         quota.consumeQuota(3) shouldBe true
 
-        every { timeStamper.nowJavaUTC } returns startTime.plus(Duration.ofDays(365 * 3))
+        every { timeStamper.nowUTC } returns startTime.plus(Duration.ofDays(365 * 3))
         quota = createQuota()
         quota.consumeQuota(3) shouldBe true
         quota.consumeQuota(3) shouldBe true
@@ -157,7 +157,7 @@ class SubmissionQuotaTest : BaseTest() {
     @Test
     fun `reverse timetravel is handled `() = runTest2 {
         val startTime = Instant.parse("2020-12-24T23:59:59.999Z")
-        every { timeStamper.nowJavaUTC } returns startTime
+        every { timeStamper.nowUTC } returns startTime
 
         val quota = createQuota()
 
@@ -165,16 +165,16 @@ class SubmissionQuotaTest : BaseTest() {
         quota.consumeQuota(1) shouldBe false
 
         // Go forward and get a reset
-        every { timeStamper.nowJavaUTC } returns startTime.plus(Duration.ofHours(1))
+        every { timeStamper.nowUTC } returns startTime.plus(Duration.ofHours(1))
         quota.consumeQuota(6) shouldBe true
         quota.consumeQuota(1) shouldBe false
 
         // Go backwards and don't gain a reset
-        every { timeStamper.nowJavaUTC } returns startTime.minus(Duration.ofHours(1))
+        every { timeStamper.nowUTC } returns startTime.minus(Duration.ofHours(1))
         quota.consumeQuota(1) shouldBe false
 
         // Go forward again, but no new reset happens
-        every { timeStamper.nowJavaUTC } returns startTime.plus(Duration.ofHours(1))
+        every { timeStamper.nowUTC } returns startTime.plus(Duration.ofHours(1))
         quota.consumeQuota(1) shouldBe false
     }
 }

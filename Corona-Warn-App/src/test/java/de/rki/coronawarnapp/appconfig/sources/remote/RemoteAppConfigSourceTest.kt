@@ -62,7 +62,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
     }
 
     @AfterEach

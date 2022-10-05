@@ -41,13 +41,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 import java.io.IOException
+import java.time.Duration
+import java.time.Instant
 import java.time.temporal.ChronoUnit
 
 class SubmissionTaskTest : BaseTest() {
@@ -76,7 +76,7 @@ class SubmissionTaskTest : BaseTest() {
     private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
     private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
 
-    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plus(1))
+    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plusMillis(1))
 
     private val coronaTestsFlow = MutableStateFlow(
         setOf(
@@ -99,13 +99,13 @@ class SubmissionTaskTest : BaseTest() {
         type = 2,
         description = "brothers birthday",
         address = "Malibu",
-        traceLocationStart = java.time.Instant.EPOCH,
+        traceLocationStart = Instant.EPOCH,
         traceLocationEnd = null,
         defaultCheckInLengthInMinutes = null,
         cryptographicSeed = mockk(),
         cnPublicKey = "cnPublicKey",
-        checkInStart = java.time.Instant.EPOCH,
-        checkInEnd = java.time.Instant.EPOCH.plus(9000, ChronoUnit.MILLIS),
+        checkInStart = Instant.EPOCH,
+        checkInEnd = Instant.EPOCH.plus(9000, ChronoUnit.MILLIS),
         completed = true,
         createJournalEntry = false,
         isSubmitted = false,
@@ -152,7 +152,7 @@ class SubmissionTaskTest : BaseTest() {
 
         every { autoSubmission.updateMode(any()) } just Runs
 
-        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.standardHours(1))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
         checkInRepository.apply {
             every { checkInsWithinRetention } returns flowOf(
@@ -366,7 +366,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `submission is skipped if user was recently active in submission`() = runTest {
-        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.standardHours(1)) }
+        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.ofHours(1)) }
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = State.SKIPPED

@@ -24,8 +24,8 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
 
     val registrationState = registrationStateProcessor.state.asLiveData2()
 
-    private val birthDateData = MutableLiveData<LocalDate>(null)
-    val birthDate: LiveData<LocalDate> = birthDateData
+    private val birthDateData = MutableLiveData<LocalDate?>(null)
+    val birthDate: LiveData<LocalDate?> = birthDateData
     val events = SingleLiveEvent<RequestDccNavEvent>()
 
     fun birthDateChanged(localDate: LocalDate?) {
@@ -44,6 +44,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
                 dateOfBirth = birthDateData.value,
                 isDccConsentGiven = dccConsent
             )
+
             is CoronaTestQRCode.RapidPCR -> testRequest.copy(isDccConsentGiven = dccConsent)
             is CoronaTestQRCode.RapidAntigen -> testRequest.copy(isDccConsentGiven = dccConsent)
             else -> testRequest

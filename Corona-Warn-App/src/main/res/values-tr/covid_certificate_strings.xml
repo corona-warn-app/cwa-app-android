@@ -345,9 +345,9 @@
     <!-- XTXT: Mask requirements card FAQ link -->
     <string name="mask_requirements_faq_text">"Maske zorunlulukları hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">"Şu eyalete ilişkin durum"</string>
+    <string name="ccl_admission_state_tile_title">"Şuna ilişkin kurallar:"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
-    <string name="ccl_admission_state_tile_subtitle">"Federal hükûmet düzenlemeleri"</string>
+    <string name="ccl_admission_state_tile_subtitle">"Seçim yok"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Durum belirleniyor..."</string>
 

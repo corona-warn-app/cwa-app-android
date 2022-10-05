@@ -9,20 +9,21 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 internal class ProfileSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
     private val fakeDataStore = FakeDataStore()
-    private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val profile = RATProfile(
         firstName = "First name",
         lastName = "Last name",
-        birthDate = formatter.parseLocalDate("1950-08-01"),
+        birthDate = LocalDate.parse("1950-08-01", formatter),
         street = "Main street",
         zipCode = "12132",
         city = "London",

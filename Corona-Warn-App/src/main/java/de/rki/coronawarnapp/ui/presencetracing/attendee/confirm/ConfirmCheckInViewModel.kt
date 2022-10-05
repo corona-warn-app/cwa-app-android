@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.getDefaultAutoCheckoutLengthInMinutes
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
@@ -52,8 +52,8 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
             traceLocation = traceLocation,
             createJournalEntry = createEntry,
             checkInEndOffset = checkInLength,
-            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowJavaUTC),
-            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowJavaUTC),
+            eventInPastVisible = traceLocation.isAfterEndTime(timeStamper.nowUTC),
+            eventInFutureVisible = traceLocation.isBeforeStartTime(timeStamper.nowUTC),
             confirmButtonEnabled = checkInLength.toMinutes() > 0
         )
     }.asLiveData()
@@ -64,7 +64,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     fun onConfirmTraceLocation() {
         launch {
-            val now = timeStamper.nowJavaUTC
+            val now = timeStamper.nowUTC
             checkInRepository.addCheckIn(
                 toCheckIn(
                     checkInStart = now,
@@ -81,7 +81,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
     }
 
     fun dateSelectorClicked() {
-        openDatePickerEvent.value = autoCheckOutLength.value.toContactDiaryFormat()
+        openDatePickerEvent.value = autoCheckOutLength.value.format()
     }
 
     fun durationUpdated(duration: Duration) {

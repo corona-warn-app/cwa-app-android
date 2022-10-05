@@ -40,7 +40,7 @@ class CheckInsTransformer @Inject constructor(
         val submissionParams = appConfig.presenceTracing.submissionParameters
         val trvMappings = appConfig.presenceTracing.riskCalculationParameters.transmissionRiskValueMapping
         val transmissionVector = transmissionDeterminator.determine(symptoms)
-        val now = timeStamper.nowJavaUTC
+        val now = timeStamper.nowUTC
 
         val unencryptedCheckIns = mutableListOf<CheckInOuterClass.CheckIn>()
         val encryptedCheckIns = mutableListOf<CheckInOuterClass.CheckInProtectedReport>()

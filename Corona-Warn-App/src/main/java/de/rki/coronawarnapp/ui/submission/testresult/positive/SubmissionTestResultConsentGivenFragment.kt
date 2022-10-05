@@ -7,10 +7,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -117,16 +117,12 @@ class SubmissionTestResultConsentGivenFragment :
         binding.toolbar.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
     }
 
-    private fun showCancelDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
-            setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-            setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
-                viewModel.onCancelConfirmed()
-            }
-            setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ ->
-                // NOOP
-            }
-        }.show()
+    private fun showCancelDialog() = displayDialog {
+        setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
+        setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
+        setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
+            viewModel.onCancelConfirmed()
+        }
+        setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ -> }
     }
 }

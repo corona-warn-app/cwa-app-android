@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.ui.submission.SubmissionCancelDialog
+import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
@@ -57,17 +57,11 @@ class SubmissionSymptomIntroductionFragment :
         }
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = SubmissionCancelDialog(requireContext()).show {
-                viewModel.onCancelConfirmed()
-            }
+            override fun handleOnBackPressed() = submissionCancelDialog { viewModel.onCancelConfirmed() }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.showCancelDialog.observe2(this) {
-            SubmissionCancelDialog(requireContext()).show {
-                viewModel.onCancelConfirmed()
-            }
-        }
+        viewModel.showCancelDialog.observe2(this) { submissionCancelDialog { viewModel.onCancelConfirmed() } }
 
         viewModel.symptomIndication.observe2(this) {
             updateButtons(it)

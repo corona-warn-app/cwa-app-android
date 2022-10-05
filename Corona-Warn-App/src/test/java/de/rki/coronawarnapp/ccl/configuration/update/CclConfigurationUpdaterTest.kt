@@ -43,7 +43,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     fun `updateIfRequired() should update booster rules, invalidation rules and ccl configuration if required`() =
         runTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-            coEvery { timeStamper.nowJavaUTC } returns Instant.parse("2000-01-02T00:00:00Z")
+            coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
             coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
@@ -71,7 +71,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     fun `updateIfRequired() should NOT update if NOT required but should trigger DccWalletInfo recalculation`() =
         runTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-            coEvery { timeStamper.nowJavaUTC } returns Instant.parse("2000-01-01T00:00:00Z")
+            coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
             coEvery { dccValidityStateChangeObserver.acknowledgeStateOfCertificate() } just Runs
 
             getInstance().updateIfRequired()

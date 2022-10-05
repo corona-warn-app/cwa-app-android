@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
+import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -63,9 +63,9 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             permissionRequest.invoke(requireActivity())
         }
         vm.showTracingConsentDialog.observe2(this) { consentResult ->
-            TracingConsentDialog(requireContext()).show(
-                onConsentGiven = { consentResult(true) },
-                onConsentDeclined = { consentResult(false) }
+            tracingConsentDialog(
+                positiveButton = { consentResult(true) },
+                negativeButton = { consentResult(false) }
             )
         }
     }

@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.submission.ui.homecards
 
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 interface TestResultItem : HomeItem {
     override val stableId: Long
@@ -26,5 +27,6 @@ interface TestResultItem : HomeItem {
         }
     }
 
-    fun Instant.formatAsUserTestRegisteredAt(): String = toUserTimeZone().toLocalDate().toString("dd.MM.yy")
+    fun Instant.formatAsUserTestRegisteredAt(): String =
+        toLocalDateTimeUserTz().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yy"))
 }
