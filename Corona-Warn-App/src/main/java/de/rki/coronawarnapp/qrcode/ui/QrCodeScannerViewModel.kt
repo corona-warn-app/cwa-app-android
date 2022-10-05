@@ -178,11 +178,11 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(event)
     }
 
-    private fun onCheckInQrCode(qrCode: CheckInQrCode) {
+    private suspend fun onCheckInQrCode(qrCode: CheckInQrCode) {
         Timber.tag(TAG).d("onCheckInQrCode()")
         val checkInResult = checkInHandler.handleQrCode(qrCode)
         Timber.tag(TAG).d("checkInResult=${checkInResult::class.simpleName}")
-        result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone))
+        result.postValue(checkInResult.toCheckInResult(!traceLocationSettings.isOnboardingDone()))
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {

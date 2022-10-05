@@ -12,10 +12,10 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
     val events = SingleLiveEvent<CheckInOnboardingNavigation>()
 
-    fun onAcknowledged() {
-        settings.onboardingStatus.update {
-            TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
-        }
+    val isOnboardingComplete = settings.onboardingStatus.asLiveData2()
+
+    fun onAcknowledged() = launch {
+        settings.updateOnboardingStatus(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
 
@@ -26,8 +26,6 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
     fun onBackButtonPress() {
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
-
-    val isOnboardingComplete = settings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CheckInOnboardingViewModel>

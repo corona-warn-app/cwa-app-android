@@ -44,7 +44,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -80,9 +79,9 @@ class MainActivityViewModelTest : BaseTest() {
         every { onboardingSettings.fabUqsLogVersion } returns flowOf(0)
         every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.WRU
         every { environmentSetup.launchEnvironment } returns null
-        every { traceLocationSettings.onboardingStatus } returns mockFlowPreference(
-            TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
-        )
+        every { traceLocationSettings.onboardingStatus } returns
+            flowOf(TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED)
+        coEvery { traceLocationSettings.isOnboardingDone() } returns false
         every { onboardingSettings.isBackgroundCheckDone } returns flowOf(true)
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { coronTestRepository.coronaTests } returns flowOf()

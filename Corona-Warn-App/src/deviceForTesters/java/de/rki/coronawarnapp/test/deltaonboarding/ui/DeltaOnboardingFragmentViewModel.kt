@@ -27,6 +27,7 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     val lastNotificationsOnboardingVersionCode = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
     val isAnalyticsOnboardingDone = analyticsSettings.lastOnboardingVersionCode.asLiveData2()
     val isVaccinationRegistrationOnboardingDone = covidCertificateSettings.isOnboarded.asLiveData2()
+    val isAttendeeOnboardingDone = traceLocationSettings.onboardingStatus.asLiveData2()
 
     fun updateChangelogVersion(value: Long) {
         launch { settings.updateLastChangelogVersion(value) }
@@ -53,33 +54,24 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         launch { settings.updateWasInteroperabilityShownAtLeastOnce(value) }
     }
 
-    fun isAttendeeOnboardingDone() =
-        traceLocationSettings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
-
-    fun setAttendeeOnboardingDone(value: Boolean) {
-        traceLocationSettings.onboardingStatus.update {
+    fun setAttendeeOnboardingDone(value: Boolean) = launch {
+        traceLocationSettings.updateOnboardingStatus(
             if (value) TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
             else TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
-        }
+        )
     }
 
-    fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
-        launch {
-            covidCertificateSettings.updateIsOnboarded(value)
-        }
+    fun setVaccinationRegistrationOnboardingDone(value: Boolean) = launch {
+        covidCertificateSettings.updateIsOnboarded(value)
     }
 
-    fun setNotificationsOnboardingDone(value: Boolean) {
-        launch {
-            val version = if (value) BuildConfigWrap.VERSION_CODE else 0L
-            settings.updateLastNotificationsOnboardingVersionCode(version)
-        }
+    fun setNotificationsOnboardingDone(value: Boolean) = launch {
+        val version = if (value) BuildConfigWrap.VERSION_CODE else 0L
+        settings.updateLastNotificationsOnboardingVersionCode(version)
     }
 
-    fun setAnalyticsOnboardingDone(value: Boolean) {
-        launch {
-            analyticsSettings.updateLastOnboardingVersionCode(if (value) BuildConfigWrap.VERSION_CODE else 0L)
-        }
+    fun setAnalyticsOnboardingDone(value: Boolean) = launch {
+        analyticsSettings.updateLastOnboardingVersionCode(if (value) BuildConfigWrap.VERSION_CODE else 0L)
     }
 
     @AssistedFactory

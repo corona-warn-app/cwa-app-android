@@ -133,7 +133,7 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun onBottomNavSelected() = launch {
-        mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
+        mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone()
         mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.first()
     }
 
