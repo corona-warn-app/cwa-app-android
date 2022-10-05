@@ -11,11 +11,11 @@ sealed class HomeFragmentEvents {
 
     object ShowErrorResetDialog : HomeFragmentEvents()
 
-    data class ShowAdditionalHighRiskLevelDialogEvent(
+    data class HighRiskLevelDialog(
         val maxEncounterAgeInDays: Int
     ) : HomeFragmentEvents()
 
-    data class ShowLoweredRiskLevelDialogEvent(
+    data class LoweredRiskLevelDialog(
         val maxEncounterAgeInDays: Int
     ) : HomeFragmentEvents()
 
