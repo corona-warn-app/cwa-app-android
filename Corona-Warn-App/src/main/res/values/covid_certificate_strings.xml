@@ -29,9 +29,9 @@
     <!-- XTXT: Person card subtitle-->
     <string name="person_card_subtitle">"Digital COVID Certificate"</string>
     <!-- XTXT: Certificate QR code expiration text-->
-    <string name="certificate_qr_expiration">"Certificate expires on %1$s at %2$s"</string>
+    <string name="certificate_qr_expiration">"Certificate expires on %s at %s"</string>
     <!-- XTXT: Certificate person details card expiration text -->
-    <string name="certificate_person_details_card_expiration">"expires on %1$s at %2$s"</string>
+    <string name="certificate_person_details_card_expiration">"expires on %s at %s"</string>
     <!-- XTXT: Certificate QR code expired text-->
     <string name="certificate_qr_expired">"Certificate Expired"</string>
     <!-- XTXT: Certificate QR code invalid signature-->
@@ -270,7 +270,7 @@
     <!-- XHED: Vaccination Detail expiration Date title -->
     <string name="expiration_date_title">"Technical Expiration Date"</string>
     <!-- XHED: Vaccination Detail expiration Date -->
-    <string name="expiration_date">"Valid until %1$s, %2$s"</string>
+    <string name="expiration_date">"Valid until %s, %s"</string>
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"If this is one of the certificates you currently use, please be sure to renew it on time. You can renew such certificates directly in the app if they will expire within the next 28 days or expired within the last 90 days, provided they were issued in Germany. In this case, the “Renew Certificates” option appears in your certificate overview, below the “Proof of Status” tile. If this is not one of the certificates you currently use, it does not have to be extended and no action is required on your part."</string>
     <!-- XTXT: Expired certificate info -->
@@ -345,9 +345,9 @@
     <!-- XTXT: Mask requirements card FAQ link -->
     <string name="mask_requirements_faq_text">"For further information about mask mandates, please see our FAQ page."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">"Status for the following federal state"</string>
+    <string name="ccl_admission_state_tile_title">"Rules for:"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
-    <string name="ccl_admission_state_tile_subtitle">"Federal government regulations"</string>
+    <string name="ccl_admission_state_tile_subtitle">"No selection"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Determining status..."</string>
 

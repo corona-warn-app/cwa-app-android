@@ -345,9 +345,9 @@
     <!-- XTXT: Mask requirements card FAQ link -->
     <string name="mask_requirements_faq_text">"Pentru mai multe informații despre obligativitatea purtării măștii, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">"Starea pentru următorul stat federal"</string>
+    <string name="ccl_admission_state_tile_title">"Reguli pentru:"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
-    <string name="ccl_admission_state_tile_subtitle">"Reglementările guvernului federal"</string>
+    <string name="ccl_admission_state_tile_subtitle">"Nicio selecție"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Se determină starea..."</string>
 
