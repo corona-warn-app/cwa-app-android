@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.google.common.collect.Ordering
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -30,6 +31,7 @@ import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsSequenceItem
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -192,13 +194,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
         localStatisticsProvider.current,
         networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
     ) { statsData, localStatsData, isInternetAvailable ->
+
+        val ordering = Ordering.explicit(statsData.cardIdSequence.toList())
+        val stats = localStatsData.items.plus(statsData.items)
+            .filterIsInstance<StatsSequenceItem>()
+            .filter { it.cardType.id in statsData.cardIdSequence }
+            .sortedWith { a, b ->
+                ordering.compare(a.cardType.id, b.cardType.id)
+            }
+
         statsData.copy(
             items = mutableSetOf(
                 AddStatsItem(
                     canAddItem = localStatsData.items.size < 5,
                     isInternetAvailable = isInternetAvailable
                 )
-            ) + localStatsData.items + statsData.items
+            ) + stats
         )
     }
 
