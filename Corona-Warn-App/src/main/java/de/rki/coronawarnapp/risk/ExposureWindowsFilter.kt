@@ -6,10 +6,10 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @Reusable
@@ -43,13 +43,13 @@ class ExposureWindowsFilter @Inject constructor(
 
 @VisibleForTesting
 internal fun List<ExposureWindow>.filterByAge(
-    maxAgeInDays: Int,
+    maxAgeInDays: Long,
     nowUtc: Instant
 ): List<ExposureWindow> {
-    val deadline = nowUtc.minusDays(maxAgeInDays).millis
+    val deadline = nowUtc.minusDays(maxAgeInDays).toInstant().toEpochMilli()
     return filter {
         it.dateMillisSinceEpoch >= deadline
     }
 }
 
-private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(DateTimeZone.UTC)
+private fun Instant.minusDays(days: Long) = toLocalDateUtc().minusDays(days).atStartOfDay(ZoneOffset.UTC)

@@ -13,8 +13,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertifica
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJodaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -88,8 +86,7 @@ class TestCertificateProcessorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567).toJodaInstant()
-        every { timeStamper.nowJavaUTC } returns java.time.Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
@@ -97,7 +94,7 @@ class TestCertificateProcessorTest : BaseTest() {
         }
 
         covidTestCertificateConfig.apply {
-            every { waitForRetry } returns java.time.Duration.ofSeconds(10)
+            every { waitForRetry } returns Duration.ofSeconds(10)
             every { waitAfterPublicKeyRegistration } returns Duration.ofSeconds(10)
         }
 
@@ -192,7 +189,7 @@ class TestCertificateProcessorTest : BaseTest() {
 
         raCertificateData.publicKeyRegisteredAt shouldBe null
 
-        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC.toJavaInstant()
+        instance.registerPublicKey(raCertificateData).publicKeyRegisteredAt shouldBe timeStamper.nowUTC
 
         coVerify(exactly = 1) {
             certificateServer.registerPublicKeyForTest(

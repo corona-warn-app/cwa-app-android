@@ -30,7 +30,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Instant
 
 class TestCertificateQRCodeExtractorTest : BaseTest() {
@@ -83,7 +83,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
-                sampleCollectedAt shouldBe "2021-02-20T12:34:56+00:00".toJavaInstant()
+                sampleCollectedAt shouldBe "2021-02-20T12:34:56+00:00".toInstant()
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
                 testNameAndManufacturer shouldBe "1232"

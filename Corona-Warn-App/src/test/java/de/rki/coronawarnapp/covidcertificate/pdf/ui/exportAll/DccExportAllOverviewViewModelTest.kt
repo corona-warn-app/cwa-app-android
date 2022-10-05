@@ -132,7 +132,7 @@ internal class DccExportAllOverviewViewModelTest : BaseTest() {
                 every { allCwaCertificates } returns setOf(vc, rc, tc)
             }
         )
-        every { timeStamper.nowJavaUTC } returns Instant.now()
+        every { timeStamper.nowUTC } returns Instant.now()
     }
 
     @Test

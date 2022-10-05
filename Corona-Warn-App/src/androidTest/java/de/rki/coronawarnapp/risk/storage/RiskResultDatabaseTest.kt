@@ -11,10 +11,11 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.UUID
 
 @RunWith(AndroidJUnit4::class)
@@ -27,13 +28,13 @@ class RiskResultDatabaseTest {
     private val oldestSuccessfulEntry = PersistedRiskLevelResultDao(
         monotonicId = 1,
         id = UUID.randomUUID().toString(),
-        calculatedAt = Instant.now().minus(9000),
+        calculatedAt = Instant.now().minusMillis(9000),
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 2,
             totalMinimumDistinctEncountersWithHighRisk = 23,
-            mostRecentDateWithLowRisk = Instant.now().plus(123),
-            mostRecentDateWithHighRisk = Instant.now().plus(456),
+            mostRecentDateWithLowRisk = Instant.now().plusMillis(123),
+            mostRecentDateWithHighRisk = Instant.now().plusMillis(456),
             numberOfDaysWithLowRisk = 4,
             numberOfDaysWithHighRisk = 5
         ),
@@ -43,13 +44,13 @@ class RiskResultDatabaseTest {
     private val olderEntryFailedEntry = PersistedRiskLevelResultDao(
         monotonicId = 2,
         id = UUID.randomUUID().toString(),
-        calculatedAt = Instant.now().minus(4500),
+        calculatedAt = Instant.now().minusMillis(4500),
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 2,
             totalMinimumDistinctEncountersWithHighRisk = 23,
-            mostRecentDateWithLowRisk = Instant.now().plus(123),
-            mostRecentDateWithHighRisk = Instant.now().plus(456),
+            mostRecentDateWithLowRisk = Instant.now().plusMillis(123),
+            mostRecentDateWithHighRisk = Instant.now().plusMillis(456),
             numberOfDaysWithLowRisk = 4,
             numberOfDaysWithHighRisk = 5
         ),
@@ -64,8 +65,8 @@ class RiskResultDatabaseTest {
             totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
             totalMinimumDistinctEncountersWithLowRisk = 2,
             totalMinimumDistinctEncountersWithHighRisk = 23,
-            mostRecentDateWithLowRisk = Instant.now().plus(123),
-            mostRecentDateWithHighRisk = Instant.now().plus(456),
+            mostRecentDateWithLowRisk = Instant.now().plusMillis(123),
+            mostRecentDateWithHighRisk = Instant.now().plusMillis(456),
             numberOfDaysWithLowRisk = 4,
             numberOfDaysWithHighRisk = 5
         ),
@@ -154,14 +155,15 @@ class RiskResultDatabaseTest {
         val date = LocalDate.parse("2021-01-21")
 
         val firstResult = PersistedAggregatedRiskPerDateResult(
-            dateMillisSinceEpoch = date.toDateTimeAtStartOfDay().millis,
+            dateMillisSinceEpoch = date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
             minimumDistinctEncountersWithLowRisk = 10,
             minimumDistinctEncountersWithHighRisk = 0
         )
 
         val secondResult = PersistedAggregatedRiskPerDateResult(
-            dateMillisSinceEpoch = date.minusDays(5).toDateTimeAtStartOfDay().millis,
+            dateMillisSinceEpoch = date.minusDays(5)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
             riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
             minimumDistinctEncountersWithLowRisk = 10,
             minimumDistinctEncountersWithHighRisk = 0

@@ -18,7 +18,7 @@ class CheckOutHandler @Inject constructor(
      * Throw **[IllegalArgumentException]** if the check-in does not exist.
      * Could happen on raceconditions, you should catch this, should be rare though.
      */
-    suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowJavaUTC) {
+    suspend fun checkOut(checkInId: Long, checkOutAt: Instant = timeStamper.nowUTC) {
         Timber.d("checkOut(checkInId=$checkInId, checkOutAt=%s)", checkOutAt)
 
         var checkIn: CheckIn? = null

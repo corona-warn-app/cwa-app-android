@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.util.preferences.createFlowPreference
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,11 +46,11 @@ class SubmissionSettings @Inject constructor(
 
     var initialTestResultReceivedAtMigration: Instant?
         get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).toInstantOrNull()
-        set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.millis ?: 0L) }
+        set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.toEpochMilli() ?: 0L) }
 
     var devicePairingSuccessfulAtMigration: Instant?
         get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).toInstantOrNull()
-        set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.millis ?: 0L) }
+        set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.toEpochMilli() ?: 0L) }
 
     var isSubmissionSuccessfulMigration: Boolean
         get() = prefs.getBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, false)
@@ -81,7 +81,7 @@ class SubmissionSettings @Inject constructor(
             Instant.ofEpochMilli(getLong(key, 0L))
         },
         writer = { key, value ->
-            putLong(key, value.millis)
+            putLong(key, value.toEpochMilli())
         }
     )
 
@@ -101,7 +101,7 @@ class SubmissionSettings @Inject constructor(
             Instant.ofEpochMilli(getLong(key, 0L))
         },
         writer = { key, value ->
-            putLong(key, value.millis)
+            putLong(key, value.toEpochMilli())
         }
     )
 

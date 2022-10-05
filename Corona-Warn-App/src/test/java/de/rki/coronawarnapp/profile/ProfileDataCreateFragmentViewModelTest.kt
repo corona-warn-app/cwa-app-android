@@ -12,22 +12,22 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
+import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
+import java.time.format.DateTimeFormatter
 
 @ExtendWith(InstantExecutorExtension::class)
 internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var profileRepository: ProfileRepository
 
-    private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
-    private val birthDate: LocalDate = formatter.parseDateTime("01.01.1980").toLocalDate()
+    private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    private val birthDate: LocalDate = LocalDate.parse("01.01.1980", formatter)
 
     @BeforeEach
     fun setup() {
@@ -67,7 +67,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
-            birthDateChanged(savedProfile.birthDate?.toString(formatter))
+            birthDateChanged(savedProfile.birthDate?.format(formatter))
             streetChanged(savedProfile.street)
             zipCodeChanged(savedProfile.zipCode)
             cityChanged(savedProfile.city)
@@ -124,7 +124,7 @@ internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun birthDateChanged() {
         viewModel().apply {
-            birthDateChanged("1.1.2021")
+            birthDateChanged("01.01.2021")
             profile.getOrAwaitValue().apply {
                 birthDate shouldBe birthDate
                 isValid shouldBe true

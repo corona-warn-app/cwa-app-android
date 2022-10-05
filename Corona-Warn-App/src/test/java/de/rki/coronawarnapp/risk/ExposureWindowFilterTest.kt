@@ -5,10 +5,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class ExposureWindowFilterTest : BaseTest() {
 
@@ -23,8 +23,8 @@ class ExposureWindowFilterTest : BaseTest() {
     @Test
     fun `filter works`() {
         val now = Instant.parse("2020-12-28T00:00:00Z")
-        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").millis
-        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").millis
+        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").toEpochMilli()
+        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").toEpochMilli()
         listOf(exposureWindow1, exposureWindow2).filterByAge(
             14,
             now
@@ -34,8 +34,8 @@ class ExposureWindowFilterTest : BaseTest() {
     @Test
     fun `filter works 2`() {
         val now = Instant.parse("2020-12-28T23:59:59Z")
-        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").millis
-        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").millis
+        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").toEpochMilli()
+        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").toEpochMilli()
         listOf(exposureWindow1, exposureWindow2).filterByAge(
             14,
             now
@@ -45,8 +45,8 @@ class ExposureWindowFilterTest : BaseTest() {
     @Test
     fun `filter works 3`() {
         val now = Instant.parse("2020-12-28T12:00:00Z")
-        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T23:59:59Z").millis
-        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T17:00:00Z").millis
+        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T23:59:59Z").toEpochMilli()
+        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T17:00:00Z").toEpochMilli()
         listOf(exposureWindow1, exposureWindow2).filterByAge(
             14,
             now

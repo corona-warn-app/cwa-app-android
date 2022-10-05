@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import org.joda.time.Instant
+import java.time.Instant
 
 @Keep
 data class TrackedExposureDetection(

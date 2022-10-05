@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.environment.download
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.http.HttpClientDefault
@@ -28,11 +27,6 @@ class DownloadCDNModule : BaseEnvironmentModule() {
         val url = environment.downloadCdnUrl
         return requireValidUrl(url)
     }
-
-    @Singleton
-    @DownloadCDNHomeCountry
-    @Provides
-    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("DE")
 
     companion object {
         private val DOWNLOAD_CDN_CONNECTION_SPECS = ConnectionSpec

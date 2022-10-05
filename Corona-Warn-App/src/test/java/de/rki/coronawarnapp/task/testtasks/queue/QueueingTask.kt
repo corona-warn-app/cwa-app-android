@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.task.common.DefaultProgress
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.Duration
 import timber.log.Timber
 import java.io.File
+import java.time.Duration
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
@@ -63,7 +63,7 @@ open class QueueingTask @Inject constructor() : Task<DefaultProgress, QueueingTa
     data class Result(val writtenBytes: Long) : Task.Result
 
     class Config : TaskFactory.Config {
-        override val executionTimeout: Duration = Duration.standardSeconds(10)
+        override val executionTimeout: Duration = Duration.ofSeconds(10)
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.datastore.trySetValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +39,7 @@ class RiskLevelSettings @Inject constructor(
 
     suspend fun updateEwLastChangeCheckedRiskLevelTimestamp(value: Instant?) = dataStore.trySetValue(
         preferencesKey = PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW,
-        value = value?.millis ?: 0L
+        value = value?.toEpochMilli() ?: 0L
     )
 
     val lastChangeCheckedRiskLevelCombinedTimestamp: Flow<Instant?> =
@@ -48,15 +48,17 @@ class RiskLevelSettings @Inject constructor(
 
     suspend fun updateLastChangeCheckedRiskLevelCombinedTimestamp(value: Instant?) = dataStore.trySetValue(
         preferencesKey = PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED,
-        value = value?.millis ?: 0L
+        value = value?.toEpochMilli() ?: 0L
     )
 
     companion object {
         @VisibleForTesting
         val PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID = stringPreferencesKey("risklevel.config.identifier.last")
+
         @VisibleForTesting
         val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW =
             longPreferencesKey("PKEY_RISKLEVEL_CALC_LAST_CONFIG_ID") // A copy/paste mistake that lives on...
+
         @VisibleForTesting
         val PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED =
             longPreferencesKey("PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED")

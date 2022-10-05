@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import java.time.Duration
@@ -47,7 +46,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (analyticsDisabled) return
 
-        val testRegisteredAt = timeStamper.nowJavaUTC
+        val testRegisteredAt = timeStamper.nowUTC
         type.settings.testRegisteredAt.update { testRegisteredAt }
 
         val lastResult = riskLevelStorage
@@ -57,7 +56,7 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
@@ -129,7 +128,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.testResult.update { testResult }
 
         if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.value == null) {
-            type.settings.finalTestResultReceivedAt.update { timeStamper.nowJavaUTC }
+            type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
 
             val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
                 type.settings.exposureWindowsAtTestRegistration.value

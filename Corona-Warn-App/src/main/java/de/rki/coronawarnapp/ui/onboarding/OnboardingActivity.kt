@@ -71,7 +71,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
     }
 
     fun completeOnboarding() = lifecycleScope.launch {
-        onboardingSettings.updateOnboardingCompletedTimestamp(timeStamp = timeStamper.nowJavaUTC)
+        onboardingSettings.updateOnboardingCompletedTimestamp(timeStamp = timeStamper.nowUTC)
         settings.updateLastChangelogVersion(BuildConfigWrap.VERSION_CODE)
         MainActivity.start(this@OnboardingActivity, intent)
         finish()

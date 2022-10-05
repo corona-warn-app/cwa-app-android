@@ -7,14 +7,14 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUserTz
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.withContext
-import org.joda.time.LocalDate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
@@ -50,7 +50,7 @@ class ContactDiaryExporter @Inject constructor(
         personEncounters: List<ContactDiaryPersonEncounter>,
         locationVisits: List<ContactDiaryLocationVisit>,
         testResults: List<ContactDiaryCoronaTestEntity>,
-        numberOfLastDaysToExport: Int
+        numberOfLastDaysToExport: Long
     ): String = withContext(dispatcherProvider.Default) {
 
         val datesToExport = generateDatesToExport(numberOfLastDaysToExport)
@@ -61,7 +61,7 @@ class ContactDiaryExporter @Inject constructor(
             .toString()
     }
 
-    private fun generateDatesToExport(numberOfLastDaysToExport: Int) =
+    private fun generateDatesToExport(numberOfLastDaysToExport: Long) =
         (0 until numberOfLastDaysToExport).map { timeStamper.nowUTC.toLocalDateUtc().minusDays(it) }
 
     private fun StringBuilder.appendIntro(datesToExport: List<LocalDate>) = apply {
@@ -90,7 +90,7 @@ class ContactDiaryExporter @Inject constructor(
 
         val groupedPersonEncounters = personEncounters.groupBy { it.date }
         val groupedLocationVisits = locationVisits.groupBy { it.date }
-        val groupedTestResults = testResults.groupBy { it.time.toLocalDateUserTz().toJodaTime() }
+        val groupedTestResults = testResults.groupBy { it.time.toLocalDateUserTz() }
 
         for (date in datesToExport) {
 
@@ -168,5 +168,5 @@ class ContactDiaryExporter @Inject constructor(
         }
 
     // According to tech spec german locale only
-    private fun LocalDate.toFormattedString(): String = toString("dd.MM.yyyy", Locale.GERMAN)
+    private fun LocalDate.toFormattedString(): String = format(DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMAN))
 }

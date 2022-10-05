@@ -47,7 +47,7 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
         MockKAnnotations.init(this)
         every { foregroundState.isInForeground } returns foregroundFlow
         every { onboardingSettings.isOnboardedFlow } returns onboardedFlow
-        every { timeStamper.nowJavaUTC } returnsMany listOf(
+        every { timeStamper.nowUTC } returnsMany listOf(
             Instant.ofEpochMilli(10000000000),
             Instant.ofEpochMilli(20000000000),
             Instant.ofEpochMilli(30000000000),
@@ -99,7 +99,7 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
 
     @Test
     fun `runs at most once an hour`() = runTest2 {
-        every { timeStamper.nowJavaUTC } returnsMany listOf(
+        every { timeStamper.nowUTC } returnsMany listOf(
             Instant.ofEpochMilli(10000000000),
             Instant.ofEpochMilli(10000000001),
             Instant.ofEpochMilli(10000000002),
@@ -120,7 +120,7 @@ class ForegroundRiskCalculationServiceTest : BaseTest() {
 
     @Test
     fun `wait until user is onboarded`() = runTest2 {
-        every { timeStamper.nowJavaUTC } returnsMany listOf(
+        every { timeStamper.nowUTC } returnsMany listOf(
             Instant.ofEpochMilli(10000000000),
             Instant.ofEpochMilli(10000000001),
             Instant.ofEpochMilli(10000000002),

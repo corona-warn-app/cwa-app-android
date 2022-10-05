@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.storage
 
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.preferences.FakeDataStore
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 class TracingSettingsTest : BaseIOTest() {
 
@@ -75,7 +75,8 @@ class TracingSettingsTest : BaseIOTest() {
             updateLastHighRiskDate(date)
 
             lastHighRiskDate.first() shouldBe date
-            dataStore[TracingSettings.LAST_HIGH_RISK_LOCALDATE] shouldBe date?.toInstantMidnightUtc()?.millis
+            dataStore[TracingSettings.LAST_HIGH_RISK_LOCALDATE] shouldBe
+                date?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
         }
     }
 }

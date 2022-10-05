@@ -60,7 +60,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowUtc
+        every { timeStamper.nowUTC } returns nowUtc
 
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
 
@@ -119,7 +119,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().apply {
             showNotificationIfStateChanged()
 
@@ -133,7 +133,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `check can be enforced`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
+        lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
         createInstance().run {
             showNotificationIfStateChanged(forceCheck = true)
 

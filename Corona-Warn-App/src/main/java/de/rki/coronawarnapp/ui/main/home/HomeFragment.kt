@@ -151,7 +151,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             menu.findItem(id).apply {
                 title = menuIconWithText(
                     drawable = icon,
-                    title = title
+                    title = title.toString()
                 )
             }
         }
@@ -170,12 +170,13 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     openUrl(R.string.home_menu_social_media_url)
                     true
                 }
+
                 else -> menuItem.onNavDestinationSelected(findNavController())
             }
         }
     }
 
-    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
         setTitle(R.string.risk_lowered_dialog_headline)
         setMessage(getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays))
         setPositiveButton(R.string.risk_lowered_dialog_button_confirm) { _, _ ->
@@ -183,7 +184,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
         setTitle(R.string.additional_high_risk_dialog_headline)
         setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
         setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
@@ -200,7 +201,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Int) = displayDialog(cancelable = false) {
+    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
         setTitle(R.string.risk_details_explanation_dialog_title)
         setMessage(getString(R.string.tracing_explanation_dialog_message, maxEncounterAgeInDays))
         setPositiveButton(R.string.errors_generic_button_positive) { _, _ ->
@@ -217,50 +218,62 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
             )
+
             is HomeFragmentEvents.ShowTracingExplanation -> showTracingExplanationDialog(event.maxEncounterAgeInDays)
             HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
             )
+
             HomeFragmentEvents.GoToSettingsTracingFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment()
             )
+
             HomeFragmentEvents.GoToSubmissionDispatcher -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
             )
+
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
             is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
+
             is HomeFragmentEvents.ShowDeleteTestDialog -> recycleCertificateDialog {
                 viewModel.moveTestToRecycleBinStorage(event.identifier)
             }
+
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
             )
+
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
+
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = event.identifier
                 )
             )
+
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionResultPositiveOtherWarningNoConsentFragment(
                     testIdentifier = event.identifier
                 )
             )
+
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultPendingFragment(
                     event.identifier,
                     event.forceUpdate,
                 )
             )
+
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
+
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
             is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()

@@ -141,12 +141,12 @@ class FamilyTestRepository @Inject constructor(
         identifier: TestIdentifier
     ) {
         storage.update(identifier) { test ->
-            test.moveToRecycleBin(timeStamper.nowJavaUTC)
+            test.moveToRecycleBin(timeStamper.nowUTC)
         }
     }
 
     suspend fun moveAllTestsToRecycleBin(identifiers: List<TestIdentifier>) {
-        storage.moveAllToRecycleBin(identifiers, timeStamper.nowJavaUTC)
+        storage.moveAllToRecycleBin(identifiers, timeStamper.nowUTC)
     }
 
     suspend fun deleteTest(

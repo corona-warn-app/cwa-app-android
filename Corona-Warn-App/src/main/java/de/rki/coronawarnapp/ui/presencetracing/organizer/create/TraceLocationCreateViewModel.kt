@@ -9,7 +9,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
-import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
@@ -24,6 +23,8 @@ import timber.log.Timber
 import java.time.Duration
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
 import java.util.Locale
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -134,7 +135,15 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         }
 
         private fun getFormattedTime(value: ZonedDateTime?, locale: Locale) =
-            value?.format(DateTimeFormatter.ofPattern("E, ${locale.shortDatePattern()}   HH:mm"))
+            value?.format(
+                DateTimeFormatterBuilder()
+                    .append(DateTimeFormatter.ofPattern("E"))
+                    .appendLiteral(", ")
+                    .append(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                    .appendLiteral("   ")
+                    .append(DateTimeFormatter.ofPattern("HH:mm"))
+                    .toFormatter(locale)
+            )
     }
 
     sealed class Result {

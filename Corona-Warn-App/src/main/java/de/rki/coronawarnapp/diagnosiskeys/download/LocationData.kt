@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 sealed class LocationData {
 
@@ -24,7 +24,7 @@ internal data class LocationDays(
     /**
      * Return a filtered list that contains all dates which are part of this wrapper, but not in the parameter.
      */
-    fun getMissingDays(cachedKeys: List<CachedKey>): Collection<LocalDate>? {
+    fun getMissingDays(cachedKeys: List<CachedKey>): Collection<LocalDate> {
         val cachedLocationDates = cachedKeys
             .filter { it.info.location == location }
             .map { it.info.day }
@@ -40,7 +40,7 @@ internal data class LocationDays(
      */
     fun toMissingDays(cachedKeys: List<CachedKey>): LocationDays? {
         val missingDays = this.getMissingDays(cachedKeys)
-        if (missingDays == null || missingDays.isEmpty()) return null
+        if (missingDays.isEmpty()) return null
 
         return LocationDays(this.location, missingDays)
     }
@@ -62,7 +62,7 @@ internal data class LocationHours(
         }
     }
 
-    fun getMissingHours(cachedKeys: List<CachedKey>): Map<LocalDate, List<LocalTime>>? {
+    fun getMissingHours(cachedKeys: List<CachedKey>): Map<LocalDate, List<LocalTime>> {
         val cachedHours = cachedKeys
             .filter { it.info.location == location }
 
@@ -76,7 +76,7 @@ internal data class LocationHours(
 
     fun toMissingHours(cachedKeys: List<CachedKey>): LocationHours? {
         val missingHours = this.getMissingHours(cachedKeys)
-        if (missingHours == null || missingHours.isEmpty()) return null
+        if (missingHours.isEmpty()) return null
 
         return LocationHours(this.location, missingHours)
     }

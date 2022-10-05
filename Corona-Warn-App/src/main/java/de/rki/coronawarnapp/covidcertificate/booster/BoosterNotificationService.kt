@@ -52,7 +52,7 @@ class BoosterNotificationService @Inject constructor(
             )
             // Clears booster rule last seen badge, to be shown in conjunction with notification
             personCertificatesSettings.clearBoosterRuleInfo(personIdentifier)
-            personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowJavaUTC)
+            personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)

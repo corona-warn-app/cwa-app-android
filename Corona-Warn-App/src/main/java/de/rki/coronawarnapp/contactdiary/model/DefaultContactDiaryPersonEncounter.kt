@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.contactdiary.model
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 data class DefaultContactDiaryPersonEncounter(
     override val id: Long = 0L,

@@ -6,9 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantMidnightUtc
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
@@ -16,10 +14,12 @@ import de.rki.coronawarnapp.util.datastore.getValueOrDefault
 import de.rki.coronawarnapp.util.datastore.map
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -74,7 +74,7 @@ class TracingSettings @Inject constructor(
 
     suspend fun updateLastHighRiskDate(date: LocalDate?) = dataStore.trySetValue(
         preferencesKey = LAST_HIGH_RISK_LOCALDATE,
-        value = date?.toInstantMidnightUtc()?.millis ?: 0L
+        value = date?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli() ?: 0L
     )
 
     /**

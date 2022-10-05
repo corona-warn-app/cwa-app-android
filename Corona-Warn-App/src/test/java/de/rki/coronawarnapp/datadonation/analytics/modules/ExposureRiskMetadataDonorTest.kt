@@ -15,23 +15,20 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDateTimeAtStartOfDayUtc
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.preferences.mockFlowPreference
+import java.time.Instant
+import java.time.ZoneId
 
 class ExposureRiskMetadataDonorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
@@ -45,7 +42,7 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
 
     private val ewResult = LastSuccessfulRiskResult(
         RiskState.LOW_RISK,
-        baseDate.toJavaInstant()
+        baseDate
     )
 
     private val ptResult = LastSuccessfulRiskResult(
@@ -62,9 +59,9 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { lowEwAggregatedRiskResult.isIncreasedRisk() } returns false
         every { lowEwAggregatedRiskResult.mostRecentDateWithHighRisk } returns baseDate
         every { highPtDayRisk.riskState } returns RiskState.INCREASED_RISK
-        every { highPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
+        every { highPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc()
         every { lowPtDayRisk.riskState } returns RiskState.LOW_RISK
-        every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc().toJavaTime()
+        every { lowPtDayRisk.localDateUtc } returns baseDate.toLocalDateUtc()
         every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(ewResult)
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(ptResult)
     }
@@ -86,10 +83,10 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         presenceTracingDayRisk: PresenceTracingDayRisk,
         calculatedAt: Instant = Instant.EPOCH,
     ): PtRiskLevelResult = PtRiskLevelResult(
-        calculatedAt = calculatedAt.toJavaInstant(),
+        calculatedAt = calculatedAt,
         riskState = riskState,
         presenceTracingDayRisk = listOf(presenceTracingDayRisk),
-        calculatedFrom = calculatedAt.toJavaInstant().minusDaysAtStartOfDayUtc(10).toInstant()
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createInstance() = ExposureRiskMetadataDonor(
@@ -102,8 +99,10 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         val expectedMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseDate.seconds)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
+            .setMostRecentDateAtRiskLevel(baseDate.epochSecond)
+            .setPtMostRecentDateAtRiskLevel(
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
+            )
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setPtRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
@@ -115,14 +114,14 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
                 RiskState.INCREASED_RISK,
-                baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().toJavaInstant()
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant()
             )
         )
 
         every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
                 RiskState.INCREASED_RISK,
-                baseDate.toJavaInstant()
+                baseDate
             )
         )
 
@@ -147,22 +146,26 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     fun `risk metadata change is properly collected`() {
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseDate.seconds)
+            .setMostRecentDateAtRiskLevel(baseDate.epochSecond)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
+            )
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()
 
         val expectedMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseDate.seconds)
+            .setMostRecentDateAtRiskLevel(baseDate.epochSecond)
             .setRiskLevelChangedComparedToPreviousSubmission(false)
             .setDateChangedComparedToPreviousSubmission(false)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
+            )
             .setPtRiskLevelChangedComparedToPreviousSubmission(false)
             .setPtDateChangedComparedToPreviousSubmission(false)
             .build()
@@ -172,14 +175,14 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
         every { riskLevelStorage.lastSuccessfulPtRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
                 RiskState.INCREASED_RISK,
-                baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().toJavaInstant()
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant()
             )
         )
 
         every { riskLevelStorage.lastSuccessfulEwRiskResult } returns flowOf(
             LastSuccessfulRiskResult(
                 RiskState.INCREASED_RISK,
-                baseDate.toJavaInstant()
+                baseDate
             )
         )
 
@@ -241,11 +244,13 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     fun `previous risk metadata is not reset on failure`() {
         val initialMetadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setMostRecentDateAtRiskLevel(baseDate.seconds)
+            .setMostRecentDateAtRiskLevel(baseDate.epochSecond)
             .setRiskLevelChangedComparedToPreviousSubmission(true)
             .setDateChangedComparedToPreviousSubmission(true)
             .setPtRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
-            .setPtMostRecentDateAtRiskLevel(baseDate.toLocalDateUtc().toDateTimeAtStartOfDayUtc().toInstant().seconds)
+            .setPtMostRecentDateAtRiskLevel(
+                baseDate.toLocalDateUtc().atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
+            )
             .setPtRiskLevelChangedComparedToPreviousSubmission(true)
             .setPtDateChangedComparedToPreviousSubmission(true)
             .build()

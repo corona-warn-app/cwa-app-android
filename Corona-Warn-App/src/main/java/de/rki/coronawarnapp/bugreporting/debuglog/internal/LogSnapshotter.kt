@@ -33,7 +33,7 @@ class LogSnapshotter @Inject constructor(
             if (it.delete()) Timber.tag(TAG).w("Deleted stale snapshot: %s", it)
         }
 
-        val now = timeStamper.nowJavaUTC.toLocalDateTimeUserTz()
+        val now = timeStamper.nowUTC.toLocalDateTimeUserTz()
         // Avoid ":" in filename since it is a reserved character in Microsoft Windows
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH_mm_ss.SSS")
         val formattedFileName = "CWA Log ${now.format(formatter)}"

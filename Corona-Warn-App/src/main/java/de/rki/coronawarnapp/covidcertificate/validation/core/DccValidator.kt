@@ -47,7 +47,7 @@ class DccValidator @Inject constructor(
 
         return DccValidation(
             userInput = userInput,
-            validatedAt = timeStamper.nowJavaUTC,
+            validatedAt = timeStamper.nowUTC,
             signatureCheckPassed = signatureCheckPassed,
             expirationCheckPassed = expirationCheckPassed,
             jsonSchemaCheckPassed = jsonSchemaCheckPassed,

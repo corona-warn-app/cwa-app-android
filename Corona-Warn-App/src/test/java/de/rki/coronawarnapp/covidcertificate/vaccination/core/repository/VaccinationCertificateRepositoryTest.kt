@@ -74,7 +74,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
             )
         } returns CwaCovidCertificate.State.Invalid()
 
-        every { timeStamper.nowJavaUTC } returns nowUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
@@ -185,7 +185,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         val instance = createInstance(this)
 
-        every { timeStamper.nowJavaUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
+        every { timeStamper.nowUTC } returns VaccinationTestData.personBData1Vac.vaccinations.single().scannedAt
 
         instance.registerCertificate(VaccinationTestData.personBVac1QRCode)
 

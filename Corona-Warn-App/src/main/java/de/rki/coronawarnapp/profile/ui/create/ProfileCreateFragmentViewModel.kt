@@ -13,14 +13,14 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class ProfileCreateFragmentViewModel @AssistedInject constructor(
     private val profileRepository: ProfileRepository,
-    @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate(),
+    @Assisted private val format: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),
     @Assisted private val profileId: ProfileId?,
 ) : CWAViewModel() {
 

@@ -46,7 +46,7 @@ class DccStateCheckerTest : BaseTest() {
 
         every { configData.covidCertificateParameters } returns covidCertificateConfig
         every { covidCertificateConfig.expirationThreshold } returns Duration.ofDays(10)
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1234567890)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567890)
 
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
