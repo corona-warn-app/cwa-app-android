@@ -4,11 +4,9 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.toJodaInstant
-import de.rki.coronawarnapp.util.toJodaTime
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
+import java.time.LocalDate
 
 data class CombinedEwPtDayRisk(
     val localDate: LocalDate,
@@ -30,20 +28,20 @@ data class CombinedEwPtRiskLevelResult(
     }
 
     val calculatedAt: Instant by lazy {
-        max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt.toJodaInstant())
+        max(ewRiskLevelResult.calculatedAt, ptRiskLevelResult.calculatedAt)
     }
 
     val daysWithEncounters: Int by lazy {
         when (riskState) {
             RiskState.INCREASED_RISK ->
                 ewDaysWithHighRisk
-                    .plus(ptRiskLevelResult.daysWithHighRisk.map { it.toJodaTime() })
+                    .plus(ptRiskLevelResult.daysWithHighRisk)
                     .distinct()
                     .count()
 
             RiskState.LOW_RISK ->
                 ewDaysWithLowRisk
-                    .plus(ptRiskLevelResult.daysWithLowRisk.map { it.toJodaTime() })
+                    .plus(ptRiskLevelResult.daysWithLowRisk)
                     .distinct()
                     .count()
 
@@ -55,11 +53,11 @@ data class CombinedEwPtRiskLevelResult(
         when (riskState) {
             RiskState.INCREASED_RISK -> max(
                 ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithHighRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithHighRisk?.toJodaTime()
+                ptRiskLevelResult.mostRecentDateWithHighRisk
             )
             RiskState.LOW_RISK -> max(
                 ewRiskLevelResult.ewAggregatedRiskResult?.mostRecentDateWithLowRisk?.toLocalDateUtc(),
-                ptRiskLevelResult.mostRecentDateWithLowRisk?.toJodaTime()
+                ptRiskLevelResult.mostRecentDateWithLowRisk
             )
             else -> null
         }
@@ -94,11 +92,11 @@ data class LastCombinedRiskResults(
 
 data class LastSuccessfulRiskResult(
     val riskState: RiskState,
-    val mostRecentDateAtRiskState: java.time.Instant?
+    val mostRecentDateAtRiskState: Instant?
 )
 
 internal fun max(left: Instant, right: Instant): Instant {
-    return Instant.ofEpochMilli(kotlin.math.max(left.millis, right.millis))
+    return Instant.ofEpochMilli(kotlin.math.max(left.toEpochMilli(), right.toEpochMilli()))
 }
 
 internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {

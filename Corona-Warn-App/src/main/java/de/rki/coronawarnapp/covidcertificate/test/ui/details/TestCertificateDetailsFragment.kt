@@ -235,7 +235,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     viewModel.onExport()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

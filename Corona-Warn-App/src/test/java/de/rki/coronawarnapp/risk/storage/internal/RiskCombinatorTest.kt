@@ -13,16 +13,14 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 import java.time.LocalDate
 
 class RiskCombinatorTest : BaseTest() {
@@ -33,7 +31,6 @@ class RiskCombinatorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(1234567890).toJavaInstant()
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234567890)
     }
 
@@ -83,37 +80,37 @@ class RiskCombinatorTest : BaseTest() {
         )
 
         val ewRisk0 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-24T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-24T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk1 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-23T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-23T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk2 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-22T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.HIGH,
             0,
             0
         )
         val ewRisk3 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-19T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.LOW,
             0,
             0
         )
         val ewRisk4 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-20T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
         )
         val ewRisk5 = ExposureWindowDayRisk(
-            dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").millis,
+            dateMillisSinceEpoch = Instant.parse("2021-03-15T14:00:00.000Z").toEpochMilli(),
             riskLevel = RiskLevel.UNSPECIFIED,
             0,
             0
@@ -125,28 +122,28 @@ class RiskCombinatorTest : BaseTest() {
         result.size shouldBe 7
 
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 15)
+            it.localDate == LocalDate.of(2021, 3, 15)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 19)
+            it.localDate == LocalDate.of(2021, 3, 19)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 20)
+            it.localDate == LocalDate.of(2021, 3, 20)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 21)
+            it.localDate == LocalDate.of(2021, 3, 21)
         }.riskState shouldBe LOW_RISK
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 22)
+            it.localDate == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 22)
+            it.localDate == LocalDate.of(2021, 3, 22)
         }.riskState shouldBe CALCULATION_FAILED
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 23)
+            it.localDate == LocalDate.of(2021, 3, 23)
         }.riskState shouldBe INCREASED_RISK
         result.single {
-            it.localDate.toJavaTime() == LocalDate.of(2021, 3, 24)
+            it.localDate == LocalDate.of(2021, 3, 24)
         }.riskState shouldBe INCREASED_RISK
     }
 
@@ -156,45 +153,45 @@ class RiskCombinatorTest : BaseTest() {
         val startInstant = Instant.ofEpochMilli(10000)
 
         val ptResult = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(1000L).toJavaInstant(),
+            calculatedAt = startInstant.plusMillis(1000L),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(1000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+            calculatedFrom = startInstant.plusMillis(1000L).minusDaysAtStartOfDayUtc(maxCheckInAge)
                 .toInstant()
         )
         val ptResult2 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(3000L).toJavaInstant(),
+            calculatedAt = startInstant.plusMillis(3000L),
             riskState = LOW_RISK,
-            calculatedFrom = startInstant.plus(3000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+            calculatedFrom = startInstant.plusMillis(3000L).minusDaysAtStartOfDayUtc(maxCheckInAge)
                 .toInstant()
         )
         val ptResult3 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(6000L).toJavaInstant(),
+            calculatedAt = startInstant.plusMillis(6000L),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(6000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+            calculatedFrom = startInstant.plusMillis(6000L).minusDaysAtStartOfDayUtc(maxCheckInAge)
                 .toInstant()
         )
         val ptResult4 = PtRiskLevelResult(
-            calculatedAt = startInstant.plus(7000L).toJavaInstant(),
+            calculatedAt = startInstant.plusMillis(7000L),
             riskState = CALCULATION_FAILED,
-            calculatedFrom = startInstant.plus(7000L).toJavaInstant().minusDaysAtStartOfDayUtc(maxCheckInAge)
+            calculatedFrom = startInstant.plusMillis(7000L).minusDaysAtStartOfDayUtc(maxCheckInAge)
                 .toInstant()
         )
 
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)
         val ewResult = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(2000L),
+            calculatedAt = startInstant.plusMillis(2000L),
             riskState = LOW_RISK
         )
         val ewResult2 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(4000L),
+            calculatedAt = startInstant.plusMillis(4000L),
             riskState = INCREASED_RISK
         )
         val ewResult3 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(5000L),
+            calculatedAt = startInstant.plusMillis(5000L),
             riskState = CALCULATION_FAILED
         )
         val ewResult4 = createEwRiskLevelResult(
-            calculatedAt = startInstant.plus(8000L),
+            calculatedAt = startInstant.plusMillis(8000L),
             riskState = CALCULATION_FAILED
         )
         val ewResults = listOf(ewResult, ewResult4, ewResult2, ewResult3)
@@ -206,42 +203,42 @@ class RiskCombinatorTest : BaseTest() {
         result.size shouldBe 8
         result[0].apply {
             riskState shouldBe CALCULATION_FAILED
-            calculatedAt shouldBe startInstant.plus(8000L)
+            calculatedAt shouldBe startInstant.plusMillis(8000L)
         }
 
         result[1].apply {
             riskState shouldBe CALCULATION_FAILED
-            calculatedAt shouldBe startInstant.plus(5000L)
+            calculatedAt shouldBe startInstant.plusMillis(5000L)
         }
 
         result[2].apply {
             riskState shouldBe CALCULATION_FAILED
-            calculatedAt shouldBe startInstant.plus(5000L)
+            calculatedAt shouldBe startInstant.plusMillis(5000L)
         }
 
         result[3].apply {
             riskState shouldBe CALCULATION_FAILED
-            calculatedAt shouldBe startInstant.plus(5000L)
+            calculatedAt shouldBe startInstant.plusMillis(5000L)
         }
 
         result[4].apply {
             riskState shouldBe INCREASED_RISK
-            calculatedAt shouldBe startInstant.plus(4000L)
+            calculatedAt shouldBe startInstant.plusMillis(4000L)
         }
 
         result[5].apply {
             riskState shouldBe LOW_RISK
-            calculatedAt shouldBe startInstant.plus(3000L)
+            calculatedAt shouldBe startInstant.plusMillis(3000L)
         }
 
         result[6].apply {
             riskState shouldBe LOW_RISK
-            calculatedAt shouldBe startInstant.plus(2000L)
+            calculatedAt shouldBe startInstant.plusMillis(2000L)
         }
 
         result[7].apply {
             riskState shouldBe LOW_RISK
-            calculatedAt shouldBe startInstant.plus(1000L)
+            calculatedAt shouldBe startInstant.plusMillis(1000L)
         }
     }
 

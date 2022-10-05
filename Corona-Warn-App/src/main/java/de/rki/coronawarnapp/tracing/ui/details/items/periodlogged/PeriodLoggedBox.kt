@@ -34,7 +34,7 @@ class PeriodLoggedBox(
 
     data class Item(
         val daysSinceInstallation: Int,
-        val maxEncounterAgeInDays: Int,
+        val maxEncounterAgeInDays: Long,
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
 

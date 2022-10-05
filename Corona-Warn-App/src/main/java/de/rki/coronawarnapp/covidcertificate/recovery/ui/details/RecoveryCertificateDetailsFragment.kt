@@ -201,7 +201,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     viewModel.onExport()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 import java.time.Duration
 import java.time.Instant
 import javax.inject.Inject
@@ -40,13 +40,13 @@ class DccExpirationCheckerTest : BaseTest() {
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = "2021-06-03T10:12:48.000+02:00".toJavaInstant(),
+            now = "2021-06-03T10:12:48.000+02:00".toInstant(),
         ) shouldBe CwaCovidCertificate.State.ExpiringSoon(exp)
 
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = "2021-06-04T00:12:48.000+02:00".toJavaInstant(),
+            now = "2021-06-04T00:12:48.000+02:00".toInstant(),
         ) shouldBe CwaCovidCertificate.State.Expired(exp)
 
         instance.getExpirationState(
@@ -58,7 +58,7 @@ class DccExpirationCheckerTest : BaseTest() {
         instance.getExpirationState(
             dccData = dccData,
             expirationThreshold = Duration.ofDays(10),
-            now = "2021-05-23T23:59:59.000+02:00".toJavaInstant(),
+            now = "2021-05-23T23:59:59.000+02:00".toInstant(),
         ) shouldBe CwaCovidCertificate.State.Valid(exp)
 
         instance.getExpirationState(

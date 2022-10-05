@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -32,7 +31,7 @@ class TransmissionRiskVectorDeterminerTest {
         MockKAnnotations.init(this)
         mockkStatic(ZoneId::class)
         every { ZoneId.systemDefault() } returns zoneId
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
     }
 
     @Test
@@ -106,5 +105,5 @@ class TransmissionRiskVectorDeterminerTest {
     }
 
     private fun LocalDate.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.minusDays(days.toLong()).toJodaTime())
+        Symptoms.StartOf.Date(this.minusDays(days.toLong()))
 }

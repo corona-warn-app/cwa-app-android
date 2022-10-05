@@ -123,7 +123,7 @@ class TestCertificateProcessor @Inject constructor(
             }
         }
 
-        val nowUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
 
         return when (dataToSave) {
             is PCRCertificateData -> dataToSave.copy(publicKeyRegisteredAt = nowUTC)
@@ -159,7 +159,7 @@ class TestCertificateProcessor @Inject constructor(
 
         val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
 
-        val nowUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         val certAvailableAt = data.publicKeyRegisteredAt
             ?.plus(certConfig.waitAfterPublicKeyRegistration)
         val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
@@ -202,7 +202,7 @@ class TestCertificateProcessor @Inject constructor(
             rawCoseObjectEncrypted = components.encryptedCoseTestCertificateBase64.decodeBase64()!!.toByteArray()
         )
 
-        val nowUtc = timeStamper.nowJavaUTC
+        val nowUtc = timeStamper.nowUTC
 
         return when (data) {
             is PCRCertificateData -> data.copy(

@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPh
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidZipCode
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
-import de.rki.coronawarnapp.util.toJavaTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -51,7 +50,7 @@ class ProfileCensor @Inject constructor(
                         withValidName(profile.lastName) {
                             names.add(it)
                         }
-                        profile.birthDate?.let { dates.add(it.toJavaTime().format(dateFormatter)) }
+                        profile.birthDate?.let { dates.add(it.format(dateFormatter)) }
                         withValidEmail(profile.email) {
                             emails.add(it)
                         }

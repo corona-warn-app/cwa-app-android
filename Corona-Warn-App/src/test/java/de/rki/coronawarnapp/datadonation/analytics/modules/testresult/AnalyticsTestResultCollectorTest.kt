@@ -20,9 +20,8 @@ import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -36,6 +35,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toInstant
 import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -61,7 +61,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant()
+        every { timeStamper.nowUTC } returns OffsetDateTime.parse("2021-03-02T09:57:11+01:00").toInstant()
         every { pcrTestResultSettings.clear() } just Runs
         every { raTestResultSettings.clear() } just Runs
 
@@ -70,14 +70,13 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00")
-        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            org.joda.time.Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc().toJavaTime()
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toInstant()
+        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns "2021-03-02T09:57:11+01:00".toInstant()
+            .toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
         every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)
-        every { pcrTestResultSettings.testRegisteredAt } returns mockFlowPreference(timeStamper.nowJavaUTC)
+        every { pcrTestResultSettings.testRegisteredAt } returns mockFlowPreference(timeStamper.nowUTC)
         every { pcrTestResultSettings.exposureWindowsAtTestRegistration } returns mockFlowPreference(emptyList())
         every { pcrTestResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
             mockFlowPreference(1)

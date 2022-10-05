@@ -34,12 +34,12 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toInstant
 import java.io.IOException
+import java.time.Duration
 
 class PresenceTracingWarningTaskTest : BaseTest() {
 
@@ -57,7 +57,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
-    private val now = Instant.parse("2021-03-05T10:15+01:00")
+    private val now = "2021-03-05T10:15+01:00".toInstant()
 
     @BeforeEach
     fun setup() {
@@ -284,7 +284,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @Test
     fun `task timeout is constrained to less than 9min`() {
         // Worker execution time
-        val maxDuration = Duration.standardMinutes(9).plus(1)
+        val maxDuration = Duration.ofMinutes(9).plusMillis(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
     }
 

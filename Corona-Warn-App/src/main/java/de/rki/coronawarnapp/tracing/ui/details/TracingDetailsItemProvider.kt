@@ -18,14 +18,14 @@ import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCa
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.survey.UserSurveyBox
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable

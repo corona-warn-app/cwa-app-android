@@ -132,7 +132,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .filter { it }
             .onEach {
                 events.postValue(
-                    HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
+                    HomeFragmentEvents.HighRiskLevelDialog(
                         maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
@@ -144,7 +144,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .filter { it }
             .onEach {
                 events.postValue(
-                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                    HomeFragmentEvents.LoweredRiskLevelDialog(
                         maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
@@ -421,7 +421,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig, testIdentifier: TestIdentifier) =
-        when (val state = this.toSubmissionState(timeStamper.nowJavaUTC, coronaTestConfig)) {
+        when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }

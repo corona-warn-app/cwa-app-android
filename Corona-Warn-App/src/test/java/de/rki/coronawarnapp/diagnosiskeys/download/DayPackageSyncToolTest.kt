@@ -2,19 +2,18 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 
 import de.rki.coronawarnapp.appconfig.mapping.RevokedKeyPackage
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo.Type
-import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.TestDispatcherProvider
 import java.io.IOException
+import java.time.Instant
 
 class DayPackageSyncToolTest : CommonSyncToolTest() {
 
@@ -144,7 +143,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
 
         every { downloadConfig.revokedDayPackages } returns listOf(
             RevokedKeyPackage.Day(
-                day = invalidDay.info.day.toJavaTime(),
+                day = invalidDay.info.day,
                 region = invalidDay.info.location,
                 etag = invalidDay.info.etag!!
             )
@@ -178,7 +177,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
         mockCachedDay("EUR".loc, "2020-01-03".day).apply {
             every { downloadConfig.revokedDayPackages } returns listOf(
                 RevokedKeyPackage.Day(
-                    day = info.day.toJavaTime(),
+                    day = info.day,
                     region = info.location,
                     etag = info.etag!!
                 )

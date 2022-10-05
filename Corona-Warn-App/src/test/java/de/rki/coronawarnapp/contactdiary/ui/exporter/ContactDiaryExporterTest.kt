@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
@@ -23,6 +22,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
+import java.time.Instant
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockKExtension::class, CoroutinesTestExtension::class)
@@ -32,7 +32,7 @@ internal class ContactDiaryExporterTest {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var context: Context
 
-    private val numberOfLastDaysToExport = 15
+    private val numberOfLastDaysToExport = 15L
 
     @BeforeEach
     fun setUp() {

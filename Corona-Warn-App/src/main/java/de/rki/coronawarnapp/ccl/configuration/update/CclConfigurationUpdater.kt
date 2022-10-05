@@ -62,7 +62,7 @@ class CclConfigurationUpdater @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowJavaUTC): Boolean {
+    internal suspend fun isUpdateRequired(now: Instant = timeStamper.nowUTC): Boolean {
         val lastExecution = cclSettings.getLastExecutionTime() ?: return true
 
         // update is needed if the last update was on a different day

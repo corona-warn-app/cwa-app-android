@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 
 class RiskLevelSettingsTest : BaseTest() {
 
@@ -31,7 +31,8 @@ class RiskLevelSettingsTest : BaseTest() {
             dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW] shouldBe null
             updateEwLastChangeCheckedRiskLevelTimestamp(instant)
             ewLastChangeCheckedRiskLevelTimestamp.first() shouldBe instant
-            dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW] shouldBe instant.millis
+            dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW] shouldBe
+                instant.toEpochMilli()
             updateEwLastChangeCheckedRiskLevelTimestamp(null)
             dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_EW] shouldBe 0L
         }
@@ -44,7 +45,8 @@ class RiskLevelSettingsTest : BaseTest() {
             dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED] shouldBe null
             updateLastChangeCheckedRiskLevelCombinedTimestamp(instant)
             lastChangeCheckedRiskLevelCombinedTimestamp.first() shouldBe instant
-            dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED] shouldBe instant.millis
+            dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED] shouldBe
+                instant.toEpochMilli()
             updateLastChangeCheckedRiskLevelCombinedTimestamp(null)
             dataStore[RiskLevelSettings.PKEY_LAST_CHANGE_CHECKED_RISKLEVEL_TIMESTAMP_COMBINED] shouldBe 0L
         }

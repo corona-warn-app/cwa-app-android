@@ -17,8 +17,8 @@ import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton

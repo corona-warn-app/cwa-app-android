@@ -47,7 +47,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
         }
 
         every { mockDscData.updatedAt } returns Instant.EPOCH
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochSecond(1234567)
+        every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
     }
 
     fun createInstance(scope: CoroutineScope) = DccStateCheckScheduler(

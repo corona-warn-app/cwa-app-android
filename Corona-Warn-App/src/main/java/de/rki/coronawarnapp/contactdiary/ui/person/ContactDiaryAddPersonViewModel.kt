@@ -20,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class ContactDiaryAddPersonViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
@@ -64,7 +64,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 )
             )
         }
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun updatePerson(person: ContactDiaryPersonEntity, phoneNumber: String, emailAddress: String) =
@@ -78,7 +78,7 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
 
                 )
             )
-            shouldClose.postValue(null)
+            shouldClose.postValue(Unit)
         }
 
     fun deletePerson(person: ContactDiaryPersonEntity) = launch(scope = appScope) {
@@ -87,11 +87,11 @@ class ContactDiaryAddPersonViewModel @AssistedInject constructor(
                 contactDiaryRepository.deletePersonEncounter(it)
         }
         contactDiaryRepository.deletePerson(person)
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun closePressed() {
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     companion object {

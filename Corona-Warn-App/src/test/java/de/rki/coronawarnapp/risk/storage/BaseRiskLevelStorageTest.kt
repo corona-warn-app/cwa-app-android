@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWin
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJodaInstant
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -39,10 +38,10 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class BaseRiskLevelStorageTest : BaseTest() {
 
@@ -275,7 +274,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
 
         riskLevelResults.size shouldBe 2
-        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
         riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
         riskLevelResults[1].riskState shouldBe RiskState.INCREASED_RISK
@@ -298,7 +297,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
         riskLevelResults.size shouldBe 4
-        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
 
         riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
@@ -325,7 +324,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runTest {
             val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
 
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt.toJodaInstant()
+            riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
             riskLevelResult.lastSuccessfullyCalculatedRiskState shouldBe RiskState.INCREASED_RISK

@@ -157,7 +157,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     true
                 }
 
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

@@ -19,10 +19,9 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.toJava
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -214,15 +213,15 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
     private fun showDurationPicker() {
         DurationPicker.Builder()
-            .duration(viewModel.checkInLength.toContactDiaryFormat())
+            .duration(viewModel.checkInLength.format())
             .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay))
             .build()
             .apply {
                 setDurationChangeListener {
-                    viewModel.checkInLength = it.toJava()
+                    viewModel.checkInLength = it
                 }
                 setDurationValueChangeListener { duration ->
-                    if (duration.toJava() == Duration.ZERO) setDuration(arrayOf("00", "15"))
+                    if (duration == Duration.ZERO) setDuration(arrayOf("00", "15"))
                 }
             }
             .show(parentFragmentManager, DURATION_PICKER_TAG)

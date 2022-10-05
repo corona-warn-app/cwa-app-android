@@ -7,16 +7,16 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 
 sealed class HomeFragmentEvents {
 
-    data class ShowTracingExplanation(val maxEncounterAgeInDays: Int) : HomeFragmentEvents()
+    data class ShowTracingExplanation(val maxEncounterAgeInDays: Long) : HomeFragmentEvents()
 
     object ShowErrorResetDialog : HomeFragmentEvents()
 
-    data class ShowAdditionalHighRiskLevelDialogEvent(
-        val maxEncounterAgeInDays: Int
+    data class HighRiskLevelDialog(
+        val maxEncounterAgeInDays: Long
     ) : HomeFragmentEvents()
 
-    data class ShowLoweredRiskLevelDialogEvent(
-        val maxEncounterAgeInDays: Int
+    data class LoweredRiskLevelDialog(
+        val maxEncounterAgeInDays: Long
     ) : HomeFragmentEvents()
 
     object GoToStatisticsExplanation : HomeFragmentEvents()

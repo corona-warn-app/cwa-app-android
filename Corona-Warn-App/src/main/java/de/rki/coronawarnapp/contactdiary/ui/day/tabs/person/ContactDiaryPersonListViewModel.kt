@@ -23,9 +23,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
 import timber.log.Timber
 import java.text.Collator
+import java.time.LocalDate
 
 class ContactDiaryPersonListViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,

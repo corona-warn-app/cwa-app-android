@@ -9,10 +9,8 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -22,11 +20,11 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Duration
 import java.time.Instant
 
 class AnalyticsKeySubmissionCollectorTest : BaseTest() {
@@ -40,12 +38,11 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
 
     private val now = Instant.now()
-    private val nowJoda = org.joda.time.Instant.now()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
     }
 
     @Test
@@ -55,8 +52,8 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
 
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
-        every { ewRiskLevelResult.calculatedAt } returns nowJoda
-        every { ptRiskLevelResult.calculatedAt } returns nowJoda.toJavaInstant()
+        every { ewRiskLevelResult.calculatedAt } returns now
+        every { ptRiskLevelResult.calculatedAt } returns now
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
         every { ptRiskLevelResult.wasSuccessfullyCalculated } returns true
 
@@ -95,9 +92,9 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         every { analyticsPcrKeySubmissionStorage.clear() } just Runs
         every { analyticsRaKeySubmissionStorage.clear() } just Runs
 
-        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns nowJoda.minus(Days.days(2).toStandardDuration())
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns now.minus(Duration.ofDays(2))
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
-            nowJoda.minus(Days.days(2).toStandardDuration()).toLocalDateUtc().toJavaTime()
+            now.minus(Duration.ofDays(2)).toLocalDateUtc()
 
         runTest {
             val collector = createInstance()

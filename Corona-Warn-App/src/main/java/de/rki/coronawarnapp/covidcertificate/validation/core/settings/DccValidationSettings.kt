@@ -26,7 +26,7 @@ class DccValidationSettings @Inject constructor(
     val settings = dataStore.dataRecovering.map { prefs ->
         Pair(
             prefs[DCC_VALIDATION_ARRIVAL_COUNTRY] ?: DccCountry.DE,
-            prefs[DCC_VALIDATION_ARRIVAL_TIME] ?: timeStamper.nowJavaUTC.toEpochMilli()
+            prefs[DCC_VALIDATION_ARRIVAL_TIME] ?: timeStamper.nowUTC.toEpochMilli()
         )
     }
 

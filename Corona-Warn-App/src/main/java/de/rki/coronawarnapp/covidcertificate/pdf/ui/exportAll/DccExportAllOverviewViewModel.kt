@@ -45,7 +45,7 @@ class DccExportAllOverviewViewModel @AssistedInject constructor(
     private var pdfResult = PDFResult(pdfFinished = false, timerFinished = false)
 
     val pdfString = personCertificatesProvider.certificateContainer.map { container ->
-        val certificates = container.allCwaCertificates.filterAndSortForExport(timeStamper.nowJavaUTC)
+        val certificates = container.allCwaCertificates.filterAndSortForExport(timeStamper.nowUTC)
         certificates.ifEmpty { exportResult.postValue(EmptyResult) }
         buildHtml {
             certificates.forEach { cert ->

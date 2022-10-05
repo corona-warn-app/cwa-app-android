@@ -76,7 +76,7 @@ class AutoCheckOutTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { repository.allCheckIns } returns flowOf(listOf(testCheckIn2, testCheckIn1, testCheckIn3, testCheckIn4))
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(1000, ChronoUnit.MILLIS)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(1000, ChronoUnit.MILLIS)
         coEvery { repository.getCheckInById(42L) } returns testCheckIn1
         coEvery { repository.getCheckInById(43L) } returns testCheckIn2
         coEvery { repository.getCheckInById(44L) } returns testCheckIn3
@@ -192,7 +192,7 @@ class AutoCheckOutTest : BaseTest() {
 
     @Test
     fun `if there is no upcoming check-out, we cancel any alarms`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(2000, ChronoUnit.MILLIS)
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(2000, ChronoUnit.MILLIS)
 
         val mockIntent = mockk<PendingIntent>()
         every { intentFactory.createIntent(any()) } returns mockIntent

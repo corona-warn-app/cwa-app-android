@@ -27,7 +27,7 @@ class CheckInsFilter @Inject constructor(
         list: List<CheckIn>,
     ): List<CheckIn> = list.filterByAge(
         getMaxAgeInDays(),
-        timeStamper.nowJavaUTC
+        timeStamper.nowUTC
     )
 
     private suspend fun getMaxAgeInDays() = appConfigProvider.currentConfig.first().maxCheckInAgeInDays

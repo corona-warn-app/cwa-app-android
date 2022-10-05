@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.mutate
-import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +16,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,12 +48,12 @@ class DefaultExposureDetectionTracker @Inject constructor(
             flow<Unit> {
                 while (true) {
                     hd.updateBlocking {
-                        val timeNow = timeStamper.nowJavaUTC
+                        val timeNow = timeStamper.nowUTC
                         Timber.v("Running timeout check (now=%s): %s", timeNow, values)
                         val timeoutLimit = appConfigProvider.currentConfig.first().overallDetectionTimeout
                         mutate {
                             values.filter { it.isCalculating }.toList().forEach {
-                                if (timeNow.isAfter(it.startedAt.toJavaInstant().plus(timeoutLimit))) {
+                                if (timeNow.isAfter(it.startedAt.plus(timeoutLimit))) {
                                     Timber.w("Calculation timeout on %s", it)
                                     this[it.identifier] = it.copy(
                                         finishedAt = timeStamper.nowUTC,
@@ -65,7 +64,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
                         }
                     }
 
-                    delay(TIMEOUT_CHECK_INTERVAL.millis)
+                    delay(TIMEOUT_CHECK_INTERVAL.toMillis())
                 }
             }.launchIn(scope + dispatcherProvider.Default)
         }
@@ -124,7 +123,7 @@ class DefaultExposureDetectionTracker @Inject constructor(
         val newestUnfinishedDetection = this
             .map { it.value }
             .filter { it.finishedAt == null }
-            .maxByOrNull { it.startedAt.millis }
+            .maxByOrNull { it.startedAt.toEpochMilli() }
 
         return if (newestUnfinishedDetection != null) {
             Timber.d("findUnfinishedOrCreateIdentifier(): Found unfinished detection, return identifier")
@@ -173,6 +172,6 @@ class DefaultExposureDetectionTracker @Inject constructor(
     companion object {
         private const val TAG = "DefaultExposureDetectionTracker"
         private const val MAX_ENTRY_SIZE = 5
-        private val TIMEOUT_CHECK_INTERVAL = Duration.standardMinutes(3)
+        private val TIMEOUT_CHECK_INTERVAL = Duration.ofMinutes(3)
     }
 }

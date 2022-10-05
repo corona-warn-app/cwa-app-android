@@ -4,12 +4,12 @@ import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.ageInDays
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import de.rki.coronawarnapp.util.ageInDays
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -69,7 +69,7 @@ class ExposureKeyHistoryCalculations @Inject constructor(
             .toLocalDateUtc().ageInDays(now)
 
     companion object {
-        const val MAX_AGE_IN_DAYS = 14
-        val TEN_MINUTES_IN_MILLIS = Duration.standardMinutes(10).millis
+        const val MAX_AGE_IN_DAYS = 14L
+        val TEN_MINUTES_IN_MILLIS = Duration.ofMinutes(10).toMillis()
     }
 }

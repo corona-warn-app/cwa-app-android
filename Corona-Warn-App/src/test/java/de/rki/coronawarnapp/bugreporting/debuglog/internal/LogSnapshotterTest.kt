@@ -42,7 +42,7 @@ class LogSnapshotterTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { debugLogger.runningLog } returns runningLogFake
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         runningLogFake.parentFile!!.mkdirs()
         runningLogFake.writeText("1 Doge = 1 Doge")

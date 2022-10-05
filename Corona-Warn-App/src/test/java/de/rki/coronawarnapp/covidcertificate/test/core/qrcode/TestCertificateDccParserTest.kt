@@ -15,7 +15,7 @@ import io.mockk.every
 import io.mockk.mockk
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.Test
-import testhelpers.extensions.toJavaInstant
+import testhelpers.extensions.toInstant
 
 class TestCertificateDccParserTest {
 
@@ -51,7 +51,7 @@ class TestCertificateDccParserTest {
                 certificateCountry shouldBe "AT"
                 certificateIssuer shouldBe "Ministry of Health, Austria"
                 targetId shouldBe "840539006"
-                sampleCollectedAt shouldBe "2021-02-20T12:34:56+00:00".toJavaInstant()
+                sampleCollectedAt shouldBe "2021-02-20T12:34:56+00:00".toInstant()
                 testType shouldBe "LP217198-3"
                 testCenter shouldBe "Testing center Vienna 1"
                 testNameAndManufacturer shouldBe "1232"

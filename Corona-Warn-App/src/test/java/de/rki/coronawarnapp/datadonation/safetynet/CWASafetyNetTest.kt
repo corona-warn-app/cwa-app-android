@@ -84,7 +84,7 @@ class CWASafetyNetTest : BaseTest() {
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.CORRECT
 
         every { cwaSettings.firstReliableDeviceTime } returns flowOf(Instant.EPOCH.plus(Duration.ofDays(7)))
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH.plus(Duration.ofDays(8))
+        every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofDays(8))
 
         every { testSettings.skipSafetyNetTimeCheck } returns flowOf(false)
     }
@@ -222,7 +222,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `first reliable devicetime timestamp needs to be more than 24 hours ago`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
         val exception = shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
         }
@@ -231,7 +231,7 @@ class CWASafetyNetTest : BaseTest() {
 
     @Test
     fun `24h since onboarding can be skipped on deviceForTester builds`() = runTest {
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         shouldThrow<SafetyNetException> {
             createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
@@ -262,7 +262,7 @@ class CWASafetyNetTest : BaseTest() {
     @Test
     fun `device time checks can be disabled via request`() = runTest {
         every { appConfigData.deviceTimeState } returns ConfigData.DeviceTimeState.ASSUMED_CORRECT
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         val request = TestAttestationRequest(
             "Computer says no.".toByteArray(),

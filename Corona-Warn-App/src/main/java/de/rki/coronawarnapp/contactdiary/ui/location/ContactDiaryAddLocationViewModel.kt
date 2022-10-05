@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEnti
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class ContactDiaryAddLocationViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
@@ -31,7 +32,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
 
     init {
         launchErrorHandler = CoroutineExceptionHandler { _, ex ->
-            shouldClose.postValue(null)
+            shouldClose.postValue(Unit)
             ex.report(ExceptionCategory.INTERNAL, TAG)
         }
     }
@@ -65,7 +66,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
                 )
             )
         }
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun updateLocation(location: ContactDiaryLocationEntity, phoneNumber: String, emailAddress: String) =
@@ -78,7 +79,7 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
                     emailAddress = emailAddress
                 )
             )
-            shouldClose.postValue(null)
+            shouldClose.postValue(Unit)
         }
 
     fun deleteLocation(location: ContactDiaryLocationEntity) = launch(scope = appScope) {
@@ -87,15 +88,15 @@ class ContactDiaryAddLocationViewModel @AssistedInject constructor(
                 contactDiaryRepository.deleteLocationVisit(it)
         }
         contactDiaryRepository.deleteLocation(location)
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     fun closePressed() {
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
 
     companion object {
-        private val TAG = ContactDiaryAddLocationViewModel::class.java.simpleName
+        private val TAG = tag<ContactDiaryAddLocationViewModel>()
     }
 
     @AssistedFactory

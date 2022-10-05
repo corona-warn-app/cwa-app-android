@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 
 @Entity(tableName = "riskresults")
 data class PersistedRiskLevelResultDao(

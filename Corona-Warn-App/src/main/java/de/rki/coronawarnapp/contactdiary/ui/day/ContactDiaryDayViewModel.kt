@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class ContactDiaryDayViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
