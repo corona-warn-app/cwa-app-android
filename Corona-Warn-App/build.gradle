@@ -157,6 +157,7 @@ android {
                 def apkName = "Corona-Warn-App-${adjustedVersionName}-${flavor.name}-${variant.buildType.name}.apk"
                 println("Override APK Name: $apkName")
                 output.outputFileName = apkName
+                output.versionNameOverride = adjustedVersionName
             }
         } else {
             def adjustedVersionName = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_BUILD}"
