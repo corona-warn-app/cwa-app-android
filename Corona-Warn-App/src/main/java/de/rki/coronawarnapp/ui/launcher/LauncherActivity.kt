@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.ui.showRootDetectionDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.CWADebug
@@ -62,12 +62,12 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun showUpdateNeededDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.update_dialog_title)
-            .setMessage(R.string.update_dialog_message)
-            .setCancelable(false)
-            .setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
-            .show()
+        displayDialog(cancelable = false) {
+            setTitle(R.string.update_dialog_title)
+            setMessage(R.string.update_dialog_message)
+            setCancelable(false)
+            setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
+        }
     }
 
     private fun checkEnvSetup() {
