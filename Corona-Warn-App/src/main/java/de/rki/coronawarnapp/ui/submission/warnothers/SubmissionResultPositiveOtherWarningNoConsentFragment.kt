@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
-import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
+import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -78,13 +78,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showEnableTracingEvent.observe2(this) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
-            )
-            DialogHelper.showDialog(tracingRequiredDialog)
+            displayDialog {
+                setTitle(R.string.submission_test_result_dialog_tracing_required_title)
+                setMessage(R.string.submission_test_result_dialog_tracing_required_message)
+                setPositiveButton(R.string.submission_test_result_dialog_tracing_required_button) { _, _ -> }
+            }
         }
 
         binding.submissionConsentMainBottomBody.setOnClickListener {
@@ -96,9 +94,9 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
-            TracingConsentDialog(requireContext()).show(
-                onConsentGiven = { onConsentResult(true) },
-                onConsentDeclined = { onConsentResult(false) }
+            tracingConsentDialog(
+                positiveButton = { onConsentResult(true) },
+                negativeButton = { onConsentResult(false) }
             )
         }
     }
@@ -107,18 +105,13 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         popBackStack()
     }
 
-    private fun showCloseDialog() {
-        val closeDialogInstance = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_positive_other_warning_dialog_title,
-            message = R.string.submission_positive_other_warning_dialog_body,
-            positiveButton = R.string.submission_positive_other_warning_dialog_positive_button,
-            negativeButton = R.string.submission_positive_other_warning_dialog_negative_button,
-            cancelable = true,
-            positiveButtonFunction = {},
-            negativeButtonFunction = { viewModel.onBackPressed() }
-        )
-        DialogHelper.showDialog(closeDialogInstance)
+    private fun showCloseDialog() = displayDialog {
+        setTitle(R.string.submission_positive_other_warning_dialog_title)
+        setMessage(R.string.submission_positive_other_warning_dialog_body)
+        setPositiveButton(R.string.submission_positive_other_warning_dialog_positive_button) { _, _ -> }
+        setNegativeButton(R.string.submission_positive_other_warning_dialog_negative_button) { _, _ ->
+            viewModel.onBackPressed()
+        }
     }
 
     override fun onResume() {

@@ -10,8 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -97,12 +96,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         } else popBackStack()
     }
 
-    private fun showMoveToRecycleBinDialog() {
-        RecycleBinDialogType.RecycleTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
-        )
-    }
+    private fun showMoveToRecycleBinDialog() = recycleTestDialog { viewModel.moveTestToRecycleBinStorage() }
 
     override fun onResume() {
         super.onResume()

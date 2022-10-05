@@ -1,22 +1,14 @@
 package de.rki.coronawarnapp.ui.submission
 
-import android.content.Context
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 
-class SubmissionCancelDialog(
-    val context: Context
-) {
-    fun show(onUserDidCancel: () -> Unit) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
-            .setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-            .setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
-                onUserDidCancel()
-            }
-            .setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ ->
-                /* NOOP */
-            }
-            .show()
+fun Fragment.submissionCancelDialog(cancelFunction: () -> Unit) = displayDialog {
+    setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
+    setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
+    setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
+        cancelFunction()
     }
+    setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ -> }
 }

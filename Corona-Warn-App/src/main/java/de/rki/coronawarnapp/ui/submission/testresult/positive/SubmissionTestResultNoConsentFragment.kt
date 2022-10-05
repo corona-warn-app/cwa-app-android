@@ -7,10 +7,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -81,16 +81,13 @@ class SubmissionTestResultNoConsentFragment :
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun showCancelDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
-            setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
-            setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ ->
-            }
-            setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
-                navigateToHome()
-            }
-        }.show()
+    private fun showCancelDialog() = displayDialog {
+        setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
+        setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
+        setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
+            navigateToHome()
+        }
+        setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ -> }
     }
 
     private fun navigateToHome() {

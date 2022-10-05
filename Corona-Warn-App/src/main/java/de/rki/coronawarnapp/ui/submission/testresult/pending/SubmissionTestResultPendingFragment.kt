@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,9 +16,8 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBindi
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -33,8 +31,6 @@ import javax.inject.Inject
 class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submission_test_result_pending), AutoInject {
 
     private val binding: FragmentSubmissionTestResultPendingBinding by viewBinding()
-
-    private var errorDialog: AlertDialog? = null
 
     private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
@@ -145,14 +141,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.showRedeemedTokenWarning.observe2(this) {
-            val dialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_tan_redeemed_title,
-                R.string.submission_error_dialog_web_tan_redeemed_body,
-                R.string.submission_error_dialog_web_tan_redeemed_button_positive
-            )
-
-            DialogHelper.showDialog(dialog)
+            displayDialog {
+                setTitle(R.string.submission_error_dialog_web_tan_redeemed_title)
+                setMessage(R.string.submission_error_dialog_web_tan_redeemed_body)
+                setPositiveButton(R.string.submission_error_dialog_web_tan_redeemed_button_positive) { _, _ -> }
+            }
         }
 
         viewModel.testCertResultInfo.observe2(this) {
@@ -162,7 +155,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateBackToFlowStart() }
-        viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
+        viewModel.errorEvent.observe2(this) {
+            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
+        }
     }
 
     override fun onResume() {
@@ -173,23 +168,16 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     override fun onPause() {
         viewModel.cwaWebExceptionLiveData.removeObservers(viewLifecycleOwner)
-        errorDialog?.dismiss()
         super.onPause()
     }
 
-    private fun showMoveToRecycleBinDialog() {
-        RecycleBinDialogType.RecycleTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
-        )
-    }
+    private fun showMoveToRecycleBinDialog() = recycleTestDialog { viewModel.moveTestToRecycleBinStorage() }
 
     private fun handleError(exception: Throwable) {
-        val dialogInstance = when (exception) {
-            is CwaClientError, is CwaServerError -> networkErrorDialog
-            else -> genericErrorDialog
+        when (exception) {
+            is CwaClientError, is CwaServerError -> showNetworkErrorDialog()
+            else -> showGenericErrorDialog()
         }
-        errorDialog = DialogHelper.showDialog(dialogInstance)
     }
 
     private fun navigateBackToFlowStart() {
@@ -201,25 +189,19 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         } else popBackStack()
     }
 
-    private val networkErrorDialog: DialogHelper.DialogInstance
-        get() = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_error_dialog_web_generic_error_title,
-            R.string.submission_error_dialog_web_generic_network_error_body,
-            R.string.submission_error_dialog_web_generic_error_button_positive,
-            null,
-            true,
-            ::navigateBackToFlowStart
-        )
+    private fun showNetworkErrorDialog() = displayDialog {
+        setTitle(R.string.submission_error_dialog_web_generic_error_title)
+        setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
+        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+            navigateBackToFlowStart()
+        }
+    }
 
-    private val genericErrorDialog: DialogHelper.DialogInstance
-        get() = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_error_dialog_web_generic_error_title,
-            R.string.submission_error_dialog_web_generic_error_body,
-            R.string.submission_error_dialog_web_generic_error_button_positive,
-            null,
-            true,
-            ::navigateBackToFlowStart
-        )
+    private fun showGenericErrorDialog() = displayDialog {
+        setTitle(R.string.submission_error_dialog_web_generic_error_title)
+        setMessage(R.string.submission_error_dialog_web_generic_error_body)
+        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+            navigateBackToFlowStart()
+        }
+    }
 }
