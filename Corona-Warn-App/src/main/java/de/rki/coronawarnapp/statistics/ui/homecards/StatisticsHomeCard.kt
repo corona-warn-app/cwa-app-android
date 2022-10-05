@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddLocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LinkCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -78,12 +79,12 @@ class StatisticsHomeCard(
 
         savedStateKey = "stats:${curItem.stableId}"
 
-        curItem.data.items.mapNotNull {
+        curItem.data.items.map {
             when (it) {
                 is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
                 is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
                 is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
-                is LinkStatsItem -> null // TODO
+                is LinkStatsItem -> LinkCardItem(it.url, curItem.onClickListener)
             }
         }.let {
             statisticsCardAdapter.update(it)

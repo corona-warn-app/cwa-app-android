@@ -23,6 +23,13 @@ data class AddLocalStatisticsCardItem(
     override val stableId: Long = AddStatsItem::class.hashCode().toLong()
 }
 
+data class LinkCardItem(
+    val url: String,
+    val onClickListener: (GlobalStatsItem) -> Unit,
+) : StatisticsCardItem() {
+    override val stableId: Long = url.hashCode().toLong()
+}
+
 data class LocalStatisticsCardItem(
     val stats: LocalStatsItem,
     val onClickListener: (LocalIncidenceAndHospitalizationStats) -> Unit,

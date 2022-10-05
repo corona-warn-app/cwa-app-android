@@ -57,7 +57,7 @@ sealed class KeyFiguresStatsItem(cardType: StatsType) : StatsSequenceItem(cardTy
     abstract fun requireValidity()
 }
 
-sealed class LinkStatsItem(val cardType: StatsType) : StatsItem {
+sealed class LinkStatsItem(cardType: StatsType) : StatsSequenceItem(cardType) {
     abstract val updatedAt: Instant
     abstract val url: String
 
