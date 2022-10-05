@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
-import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
 import de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragmentViewModel.Event
+import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -59,9 +59,9 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
             when (it) {
                 is Event.RequestPermissions -> it.permissionRequest.invoke(requireActivity())
                 is Event.ManualCheckingDialog -> showManualCheckingRequiredDialog()
-                is Event.TracingConsentDialog -> TracingConsentDialog(requireContext()).show(
-                    onConsentGiven = { it.onConsentResult(true) },
-                    onConsentDeclined = { it.onConsentResult(false) }
+                is Event.TracingConsentDialog -> tracingConsentDialog(
+                    positiveButton = { it.onConsentResult(true) },
+                    negativeButton = { it.onConsentResult(false) }
                 )
             }
         }
