@@ -301,6 +301,8 @@
     <string name="risk_details_headline_period_logged">"Period Logged"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
+    <!-- XTXT: Tracing explanation dialog message -->
+    <string name="tracing_explanation_dialog_message">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten %d Tage betrachtet.\nÄltere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind.\nWeitere Informationen finden Sie in den FAQ."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
