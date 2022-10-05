@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.google.common.collect.Ordering
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -28,14 +27,10 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
+import de.rki.coronawarnapp.statistics.CombinedStatisticsProvider
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.StatisticsData
-import de.rki.coronawarnapp.statistics.StatsItem
-import de.rki.coronawarnapp.statistics.StatsSequenceItem
-import de.rki.coronawarnapp.statistics.StatsType
-import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
-import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -85,7 +80,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -105,9 +99,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
     coronaTestRepository: CoronaTestRepository,
-    statisticsProvider: StatisticsProvider,
-    localStatisticsProvider: LocalStatisticsProvider,
-    networkStateProvider: NetworkStateProvider,
+    combinedStatisticsProvider: CombinedStatisticsProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -190,40 +182,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings.updateShowRiskLevelBadge(show = false)
     }
 
-    private val combinedStatistics = combine(
-        statisticsProvider.current,
-        localStatisticsProvider.current,
-        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
-    ) { statsData, localStatsData, isInternetAvailable ->
-
-        val cardIdSequence = statsData.cardIdSequence
-        val ordering = Ordering.explicit(cardIdSequence.toList())
-        val stats = localStatsData.items.plus(statsData.items)
-            .filterIsInstance<StatsSequenceItem>()
-            .filter { it.cardType.id in cardIdSequence }
-            .sortedWith { a, b ->
-                ordering.compare(a.cardType.id, b.cardType.id)
-            }
-
-        val addStatsItems = when {
-            !cardIdSequence.contains(StatsType.LOCAL_INCIDENCE.id) -> emptySet<StatsItem>()
-            else -> setOf(
-                AddStatsItem(
-                    canAddItem = localStatsData.items.size < 5,
-                    isInternetAvailable = isInternetAvailable
-                )
-            )
-        }
-
-        statsData.copy(
-            items = addStatsItems + stats
-        )
-    }
-
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
         coronaTestRepository.coronaTests,
-        combinedStatistics,
+        combinedStatisticsProvider.statistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         familyTestRepository.familyTests
     ) { tracingItem, coronaTests, statsData, coronaTestParameters, familyTests ->
