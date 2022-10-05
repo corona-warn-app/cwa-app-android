@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
@@ -69,7 +69,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var statisticsProvider: StatisticsProvider
     @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
-    @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
@@ -131,7 +131,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         localStatisticsProvider = localStatisticsProvider,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        traceLocationPreferences = traceLocationPreferences,
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         localStatisticsConfigStorage = localStatisticsConfigStorage,

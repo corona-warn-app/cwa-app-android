@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.ui.presencetracing
 
-import android.content.Context
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import de.rki.coronawarnapp.presencetracing.LocationPreferencesDataStore
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import timber.log.Timber
 import javax.inject.Inject
@@ -11,24 +15,31 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceLocationPreferences @Inject constructor(
-    @AppContext val context: Context
+    @LocationPreferencesDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
-    private val prefs by lazy {
-        context.getSharedPreferences("trace_location_localdata", Context.MODE_PRIVATE)
-    }
 
-    val qrInfoAcknowledged = prefs.createFlowPreference(
-        key = "trace_location_qr_info_acknowledged",
-        defaultValue = false
+    val qrInfoAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_ACKNOWLEDGED, defaultValue = false
     )
 
-    val createJournalEntryCheckedState = prefs.createFlowPreference(
-        key = "trace_location_create_journal_entry_checked_state",
-        defaultValue = true
+    suspend fun updateQrInfoAcknowledged(value: Boolean) =
+        dataStore.trySetValue(preferencesKey = PKEY_ACKNOWLEDGED, value = value)
+
+    val createJournalEntryCheckedState = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_CREATE_JOURNAL_ENTRY, defaultValue = true
     )
+
+    suspend fun updateCreateJournalEntryCheckedState(value: Boolean) =
+        dataStore.trySetValue(preferencesKey = PKEY_CREATE_JOURNAL_ENTRY, value = value)
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
+    }
+
+    companion object {
+        private val PKEY_ACKNOWLEDGED = booleanPreferencesKey("trace_location_qr_info_acknowledged")
+        private val PKEY_CREATE_JOURNAL_ENTRY =
+            booleanPreferencesKey("trace_location_create_journal_entry_checked_state")
     }
 }

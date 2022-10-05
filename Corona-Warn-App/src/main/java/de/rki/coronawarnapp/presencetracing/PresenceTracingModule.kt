@@ -61,6 +61,24 @@ interface PresenceTracingModule {
                 )
             )
         )
+
+        @Singleton
+        @LocationPreferencesDataStore
+        @Provides
+        fun provideLocationPreferencesDataStore(
+            @AppContext context: Context,
+            @AppScope appScope: CoroutineScope,
+            dispatcherProvider: DispatcherProvider
+        ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+            scope = appScope + dispatcherProvider.IO,
+            produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_LOCATION_PREFERENCES_SETTINGS_NAME) },
+            migrations = listOf(
+                SharedPreferencesMigration(
+                    context,
+                    LEGACY_SHARED_PREFS_LOCATION_PREFERENCES_SETTINGS_NAME
+                )
+            )
+        )
     }
 
     @Module
@@ -88,6 +106,14 @@ interface PresenceTracingModule {
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class LocationSettingsDataStore
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class LocationPreferencesDataStore
+
+private const val LEGACY_SHARED_PREFS_LOCATION_PREFERENCES_SETTINGS_NAME = "trace_location_localdata"
+private const val STORAGE_DATASTORE_LOCATION_PREFERENCES_SETTINGS_NAME = "location_preferences_storage"
 
 private const val LEGACY_SHARED_PREFS_LOCATION_SETTINGS_NAME = "trace_location_localdata"
 private const val STORAGE_DATASTORE_LOCATION_SETTINGS_NAME = "location_settings_storage"

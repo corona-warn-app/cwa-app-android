@@ -76,7 +76,7 @@ import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -111,7 +111,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
-    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
+    private val traceLocationPreferences: TraceLocationPreferences,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
@@ -274,11 +274,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         add(
             CreateTraceLocationCard.Item(
                 onClickAction = {
-                    events.postValue(
-                        HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
-                            traceLocationOrganizerSettings.qrInfoAcknowledged
+                    launch {
+                        events.postValue(
+                            HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
+                                traceLocationPreferences.qrInfoAcknowledged.first()
+                            )
                         )
-                    )
+                    }
                 }
             )
         )

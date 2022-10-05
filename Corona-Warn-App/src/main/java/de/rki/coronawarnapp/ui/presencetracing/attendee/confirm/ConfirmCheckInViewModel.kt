@@ -76,7 +76,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         }
     }
 
-    fun createJournalEntryToggled(state: Boolean) {
+    fun createJournalEntryToggled(state: Boolean) = launch {
         traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(state)
     }
 

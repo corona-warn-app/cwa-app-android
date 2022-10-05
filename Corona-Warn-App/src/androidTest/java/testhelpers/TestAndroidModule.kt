@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
 import de.rki.coronawarnapp.datadonation.survey.SurveySettingsDataStore
 import de.rki.coronawarnapp.main.CwaSettingsDataStore
+import de.rki.coronawarnapp.presencetracing.LocationPreferencesDataStore
 import de.rki.coronawarnapp.presencetracing.LocationSettingsDataStore
 import de.rki.coronawarnapp.risk.RiskLevelSettingsDataStore
 import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
@@ -67,4 +68,8 @@ class TestAndroidModule {
     @LocationSettingsDataStore
     @Provides
     fun provideLocationSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @LocationPreferencesDataStore
+    @Provides
+    fun provideLocationPreferencesDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }
