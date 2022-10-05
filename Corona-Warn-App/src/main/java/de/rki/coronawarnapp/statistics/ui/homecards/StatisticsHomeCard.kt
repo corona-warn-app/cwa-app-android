@@ -84,7 +84,7 @@ class StatisticsHomeCard(
                 is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
                 is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
                 is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
-                is LinkStatsItem -> LinkCardItem(it.url, curItem.onClickListener)
+                is LinkStatsItem -> LinkCardItem(it, curItem.onClickListener, curItem.openLink)
             }
         }.let {
             statisticsCardAdapter.update(it)
@@ -116,6 +116,7 @@ class StatisticsHomeCard(
         val data: StatisticsData,
         val onClickListener: (StatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
+        val openLink: (String) -> Unit = {},
     ) : HomeItem, HasPayloadDiffer {
 
         override val stableId: Long = Item::class.java.name.hashCode().toLong()

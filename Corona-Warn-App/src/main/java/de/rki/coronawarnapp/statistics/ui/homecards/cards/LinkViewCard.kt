@@ -24,7 +24,9 @@ class LinkViewCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<LinkCardItem>().lastOrNull() ?: item
-        link.text = curItem.url
+        link.text = curItem.linkStats.url
+        link.setOnClickListener { curItem.openLink(curItem.linkStats.url) }
+        infoStatistics.setOnClickListener { curItem.onClickListener(curItem.linkStats) }
         // TODO
     }
 }

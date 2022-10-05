@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
-import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatsSequenceItem
@@ -304,7 +303,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     onClickListener = {
                         when (it) {
                             is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
-                            is LinkStatsItem -> events.postValue(HomeFragmentEvents.OpenExternalLink(it.url))
                             else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                         }
                     },
@@ -318,6 +316,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 }
                             }
                         }
+                    },
+                    openLink = { url ->
+                        events.postValue(HomeFragmentEvents.OpenExternalLink(url))
                     }
                 )
             )
