@@ -345,9 +345,9 @@
     <!-- XTXT: Mask requirements card FAQ link -->
     <string name="mask_requirements_faq_text">"Щоб отримати додаткову інформацію щодо обов’язкового носіння маски, перегляньте нашу сторінку запитань і відповідей."</string>
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">"Статус для наступної федеральної землі"</string>
+    <string name="ccl_admission_state_tile_title">"Правила для:"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
-    <string name="ccl_admission_state_tile_subtitle">"Постанови федерального уряду"</string>
+    <string name="ccl_admission_state_tile_subtitle">"Нічого не вибрано"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Визначення статусу..."</string>
 
