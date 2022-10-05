@@ -32,12 +32,6 @@ class StatisticsParser @Inject constructor() {
         val statsItems = parsed.keyFigureCardsList.mapNotNull { rawCard -> rawCard.toLinkCardItem() }.toSet()
         val linkItems = parsed.linkCardsList.mapNotNull { linkCard -> linkCard.toLinkCardItem() }.toSet()
         val mappedItems: Set<StatsItem> = statsItems + linkItems
-
-//        val orderedItems = parsed.cardIdSequenceList.mapNotNull { cardId ->
-//            mappedItems.singleOrNull { it.cardType.id == cardId }.also {
-//                if (it == null) Timber.tag(TAG).w("There was no card data for ID=%d", cardId)
-//            }
-//        }
         return StatisticsData(
             items = mappedItems,
             cardIdSequence = parsed.cardIdSequenceList.toSet()

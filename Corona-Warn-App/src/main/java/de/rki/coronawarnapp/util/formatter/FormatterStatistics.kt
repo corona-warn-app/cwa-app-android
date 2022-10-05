@@ -6,14 +6,12 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
-import de.rki.coronawarnapp.statistics.KeyFiguresStatsItem
 import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
-import de.rki.coronawarnapp.statistics.PandemicRadarStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats

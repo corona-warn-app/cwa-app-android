@@ -13,14 +13,14 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                when (it) {
-                    is AddStatsItem -> "AddCard(${it.isEnabled})"
-                    is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
-                    is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
-                    is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
-                }
+        items.map {
+            when (it) {
+                is AddStatsItem -> "AddCard(${it.isEnabled})"
+                is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
+                is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+                is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
             }
+        }
         })"
     }
 }
@@ -30,14 +30,15 @@ data class LocalStatisticsData(
 ) {
     override fun toString(): String {
         return "StatisticsData(cards=${
-            items.map {
-                it.cardType.name + " " + it.updatedAt
-            }
+        items.map {
+            it.cardType.name + " " + it.updatedAt
+        }
         })"
     }
 }
 
-sealed class StatsItem
+sealed interface StatsItem
+sealed class StatsSequenceItem(val cardType: StatsType) : StatsItem
 
 sealed class LocalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
 sealed class GlobalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
@@ -45,18 +46,18 @@ sealed class GlobalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType
 data class AddStatsItem(
     val canAddItem: Boolean,
     val isInternetAvailable: Boolean
-) : StatsItem() {
+) : StatsItem {
     val isEnabled: Boolean get() = canAddItem && isInternetAvailable
 }
 
-sealed class KeyFiguresStatsItem(val cardType: StatsType) : StatsItem() {
+sealed class KeyFiguresStatsItem(cardType: StatsType) : StatsSequenceItem(cardType) {
     abstract val updatedAt: Instant
     abstract val keyFigures: List<KeyFigure>
 
     abstract fun requireValidity()
 }
 
-sealed class LinkStatsItem(val cardType: StatsType) : StatsItem() {
+sealed class LinkStatsItem(val cardType: StatsType) : StatsItem {
     abstract val updatedAt: Instant
     abstract val url: String
 
@@ -313,4 +314,3 @@ enum class StatsType(val id: Int) {
     PANDEMIC_RADAR(12),
     LOCAL_INCIDENCE(999),
 }
-
