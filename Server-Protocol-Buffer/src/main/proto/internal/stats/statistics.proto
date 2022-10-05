@@ -3,6 +3,7 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.stats;
 
 import "internal/stats/key_figure_card.proto";
+import "internal/stats/link_card.proto";
 
 message Statistics {
 
@@ -11,4 +12,6 @@ message Statistics {
   repeated int32 cardIdSequence = 1;
 
   repeated KeyFigureCard keyFigureCards = 2;
+
+  repeated LinkCard linkCards = 3;
 }
