@@ -28,7 +28,7 @@ class StatisticsDataTest {
             )
         )
         stats.apply {
-            cardType shouldBe GlobalStatsItem.Type.INFECTION
+            cardType shouldBe StatsType.INFECTION
             cardType.id shouldBe 1
             newInfections.value shouldBe 1.0
             sevenDayAverage.value shouldBe 2.0
@@ -58,7 +58,7 @@ class StatisticsDataTest {
             )
         )
         stats.apply {
-            cardType shouldBe GlobalStatsItem.Type.INCIDENCE_AND_HOSPITALIZATION
+            cardType shouldBe StatsType.INCIDENCE_AND_HOSPITALIZATION
             cardType.id shouldBe 10
             sevenDayIncidence.value shouldBe 1.0
             sevenDayIncidenceSecondary.value shouldBe 1.0
@@ -92,7 +92,7 @@ class StatisticsDataTest {
         )
 
         stats.apply {
-            cardType shouldBe GlobalStatsItem.Type.KEYSUBMISSION
+            cardType shouldBe StatsType.KEY_SUBMISSION
             cardType.id shouldBe 3
             keySubmissions.value shouldBe 1.0
             sevenDayAverage.value shouldBe 2.0
@@ -119,7 +119,7 @@ class StatisticsDataTest {
         )
 
         stats.apply {
-            cardType shouldBe GlobalStatsItem.Type.SEVEN_DAY_RVALUE
+            cardType shouldBe StatsType.SEVEN_DAY_RVALUE
             cardType.id shouldBe 4
             reproductionNumber.value shouldBe 1.0
         }
