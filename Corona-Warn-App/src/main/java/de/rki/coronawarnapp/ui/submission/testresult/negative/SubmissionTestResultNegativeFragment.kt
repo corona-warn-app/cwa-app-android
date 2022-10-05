@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.Back
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails
@@ -181,13 +182,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    // TODO: replace with new recycle bin dialog
-    private fun showMoveToRecycleBinDialog() {
-        RecycleBinDialogType.RecycleTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
-        )
-    }
+    private fun showMoveToRecycleBinDialog() = recycleTestDialog { viewModel.moveTestToRecycleBinStorage() }
 
     private fun showTestResult(test: BaseCoronaTest) {
         with(binding) {

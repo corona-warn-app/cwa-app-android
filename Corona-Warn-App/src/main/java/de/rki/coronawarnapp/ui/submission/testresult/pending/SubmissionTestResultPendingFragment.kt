@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -172,13 +173,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         super.onPause()
     }
 
-    // TODO: replace with new recycle bin dialog
-    private fun showMoveToRecycleBinDialog() {
-        RecycleBinDialogType.RecycleTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
-        )
-    }
+    private fun showMoveToRecycleBinDialog() = recycleTestDialog { viewModel.moveTestToRecycleBinStorage() }
 
     private fun handleError(exception: Throwable) {
         when (exception) {
