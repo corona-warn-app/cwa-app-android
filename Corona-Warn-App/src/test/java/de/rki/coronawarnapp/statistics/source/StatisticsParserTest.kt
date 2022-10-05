@@ -58,7 +58,7 @@ class StatisticsParserTest : BaseTest() {
             addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            items = setOf(KEY_SUBMISSION_STATS),
+            items = setOf(INFECTION_STATS, KEY_SUBMISSION_STATS),
             cardIdSequence = setOf(3)
         )
     }
@@ -125,7 +125,7 @@ class StatisticsParserTest : BaseTest() {
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
             items = setOf(KEY_SUBMISSION_STATS),
-            cardIdSequence = setOf(3, 1, 3)
+            cardIdSequence = setOf(3)
         )
     }
 
@@ -133,13 +133,13 @@ class StatisticsParserTest : BaseTest() {
     fun `handle unknown id in card sequence`() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
             addCardIdSequence(3)
-            addCardIdSequence(999)
+            addCardIdSequence(99)
             addKeyFigureCards(INFECTION_PROTO)
             addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            items = setOf(KEY_SUBMISSION_STATS),
-            cardIdSequence = setOf(3, 999)
+            items = setOf(INFECTION_STATS, KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 99)
         )
     }
 
