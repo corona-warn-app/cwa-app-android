@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
+import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -192,7 +193,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
     ) { statsData, localStatsData, isInternetAvailable ->
         statsData.copy(
-            items = mutableListOf(
+            items = mutableSetOf(
                 AddStatsItem(
                     canAddItem = localStatsData.items.size < 5,
                     isInternetAvailable = isInternetAvailable
@@ -292,6 +293,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     onClickListener = {
                         when (it) {
                             is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
+                            is LinkStatsItem -> events.postValue(HomeFragmentEvents.OpenExternalLink(it.url))
                             else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
                         }
                     },
@@ -379,10 +381,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
+
             is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(PCR, testIdentifier))
             }
+
             is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(
                 state = state,
                 onClickAction = {
@@ -403,18 +407,23 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 }
             )
+
             is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToPcrTestResultNegativeFragment(PCR, testIdentifier))
             }
+
             is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
                 events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(PCR, identifier = testIdentifier))
             }
+
             is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR, identifier = testIdentifier))
             }
+
             is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR, true, testIdentifier))
             }
+
             is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(PCR, testIdentifier))
             }
@@ -425,10 +434,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
+
             is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(RAPID_ANTIGEN, testIdentifier))
             }
+
             is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(
                 state = state,
                 onClickAction = {
@@ -449,12 +460,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 }
             )
+
             is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToRapidTestResultNegativeFragment(testIdentifier))
             }
+
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
                 events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(RAPID_ANTIGEN, identifier = testIdentifier))
             }
+
             is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
                 events.postValue(
                     HomeFragmentEvents.GoToTestResultPendingFragment(
@@ -463,6 +477,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
+
             is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
                 events.postValue(
                     HomeFragmentEvents.GoToTestResultPendingFragment(
@@ -470,9 +485,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
+
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 events.postValue(HomeFragmentEvents.DeleteOutdatedRAT(testIdentifier))
             }
+
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN, testIdentifier))
             }
@@ -487,21 +504,25 @@ class HomeFragmentViewModel @AssistedInject constructor(
             state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) }
         )
+
         is TracingDisabled -> TracingDisabledCard.Item(
             state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onEnableTracingClick = { events.postValue(HomeFragmentEvents.GoToSettingsTracingFragment) }
         )
+
         is LowRisk -> LowRiskCard.Item(
             state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onUpdateClick = { runRiskCalculations() }
         )
+
         is IncreasedRisk -> IncreasedRiskCard.Item(
             state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onUpdateClick = { runRiskCalculations() }
         )
+
         is RiskCalculationFailed -> TracingFailedCard.Item(
             state = riskCalculationCardState,
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },

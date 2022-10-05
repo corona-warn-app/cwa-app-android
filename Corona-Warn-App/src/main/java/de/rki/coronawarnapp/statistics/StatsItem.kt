@@ -6,7 +6,8 @@ import timber.log.Timber
 import java.time.Instant
 
 data class StatisticsData(
-    val items: Set<GenericStatsItem> = emptySet()
+    val items: Set<StatsItem> = emptySet(),
+    val cardIdSequence: Set<Int> = emptySet()
 ) {
     val isDataAvailable: Boolean = items.isNotEmpty()
 
@@ -17,6 +18,7 @@ data class StatisticsData(
                     is AddStatsItem -> "AddCard(${it.isEnabled})"
                     is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
                     is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+                    is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
                 }
             }
         })"
@@ -26,8 +28,6 @@ data class StatisticsData(
 data class LocalStatisticsData(
     val items: List<LocalIncidenceAndHospitalizationStats> = emptyList()
 ) {
-    val isDataAvailable: Boolean = items.isNotEmpty()
-
     override fun toString(): String {
         return "StatisticsData(cards=${
             items.map {
@@ -37,25 +37,28 @@ data class LocalStatisticsData(
     }
 }
 
-sealed class GenericStatsItem
+sealed class StatsItem
+
+sealed class LocalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
+sealed class GlobalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
 
 data class AddStatsItem(
     val canAddItem: Boolean,
     val isInternetAvailable: Boolean
-) : GenericStatsItem() {
+) : StatsItem() {
     val isEnabled: Boolean get() = canAddItem && isInternetAvailable
 }
 
-sealed class GlobalStatsItem(val cardType: StatsType) : GenericStatsItem() {
+sealed class KeyFiguresStatsItem(val cardType: StatsType) : StatsItem() {
     abstract val updatedAt: Instant
     abstract val keyFigures: List<KeyFigure>
 
     abstract fun requireValidity()
 }
 
-sealed class LocalStatsItem(val cardType: StatsType) : GenericStatsItem() {
+sealed class LinkStatsItem(val cardType: StatsType) : StatsItem() {
     abstract val updatedAt: Instant
-    abstract val keyFigures: List<KeyFigure>
+    abstract val url: String
 
     abstract fun requireValidity()
 }
@@ -287,6 +290,16 @@ data class OccupiedIntensiveCareStats(
     }
 }
 
+data class PandemicRadarStats(
+    override val updatedAt: Instant,
+    override val url: String
+) : LinkStatsItem(cardType = StatsType.PANDEMIC_RADAR) {
+
+    override fun requireValidity() {
+        require(url.isNotBlank())
+    }
+}
+
 enum class StatsType(val id: Int) {
     INFECTION(1),
     KEY_SUBMISSION(3),
@@ -297,6 +310,7 @@ enum class StatsType(val id: Int) {
     OCCUPIED_INTENSIVE_CARE_BEDS(9),
     INCIDENCE_AND_HOSPITALIZATION(10),
     PERSONS_VACCINATED_WITH_BOOSTER(11),
+    PANDEMIC_RADAR(12),
     LOCAL_INCIDENCE(999),
 }
 

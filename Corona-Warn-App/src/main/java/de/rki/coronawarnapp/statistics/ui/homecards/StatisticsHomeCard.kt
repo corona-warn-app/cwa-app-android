@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.AddStatsItem
-import de.rki.coronawarnapp.statistics.GenericStatsItem
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
+import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddLocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
@@ -77,11 +78,12 @@ class StatisticsHomeCard(
 
         savedStateKey = "stats:${curItem.stableId}"
 
-        curItem.data.items.map {
+        curItem.data.items.mapNotNull {
             when (it) {
                 is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
                 is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
                 is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
+                is LinkStatsItem -> null // TODO
             }
         }.let {
             statisticsCardAdapter.update(it)
@@ -111,7 +113,7 @@ class StatisticsHomeCard(
 
     data class Item(
         val data: StatisticsData,
-        val onClickListener: (GenericStatsItem) -> Unit,
+        val onClickListener: (StatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
     ) : HomeItem, HasPayloadDiffer {
 

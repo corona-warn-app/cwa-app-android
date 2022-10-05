@@ -2,18 +2,22 @@ package de.rki.coronawarnapp.statistics.source
 
 import dagger.Reusable
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.stats.LinkCardOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
 import de.rki.coronawarnapp.statistics.AppliedVaccinationRatesStats
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
+import de.rki.coronawarnapp.statistics.PandemicRadarStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.StatsType
 import timber.log.Timber
 import java.time.Instant
@@ -25,21 +29,24 @@ class StatisticsParser @Inject constructor() {
     fun parse(rawData: ByteArray): StatisticsData {
         val parsed = StatisticsOuterClass.Statistics.parseFrom(rawData)
 
-        val mappedItems: Set<GlobalStatsItem> = parsed.keyFigureCardsList.mapNotNull { rawCard ->
-            rawCard.toGlobalStatsItem()
-        }.toSet()
+        val statsItems = parsed.keyFigureCardsList.mapNotNull { rawCard -> rawCard.toLinkCardItem() }.toSet()
+        val linkItems = parsed.linkCardsList.mapNotNull { linkCard -> linkCard.toLinkCardItem() }.toSet()
+        val mappedItems: Set<StatsItem> = statsItems + linkItems
 
 //        val orderedItems = parsed.cardIdSequenceList.mapNotNull { cardId ->
 //            mappedItems.singleOrNull { it.cardType.id == cardId }.also {
 //                if (it == null) Timber.tag(TAG).w("There was no card data for ID=%d", cardId)
 //            }
 //        }
-        return StatisticsData(items = mappedItems).also {
+        return StatisticsData(
+            items = mappedItems,
+            cardIdSequence = parsed.cardIdSequenceList.toSet()
+        ).also {
             Timber.tag(TAG).d("Parsed statistics data, %d cards.", it.items.size)
         }
     }
 
-    private fun KeyFigureCardOuterClass.KeyFigureCard.toGlobalStatsItem(): GlobalStatsItem? =
+    private fun KeyFigureCardOuterClass.KeyFigureCard.toLinkCardItem(): GlobalStatsItem? =
         try {
             val updatedAt = Instant.ofEpochSecond(header.updatedAt)
             val keyFigures = keyFiguresList
@@ -86,14 +93,34 @@ class StatisticsParser @Inject constructor() {
                     keyFigures = keyFigures
                 )
 
-                // Unknown Global statistics and Local are ignored here
+                // Unknown global statistics or local are ignored here
                 else -> null.also { Timber.tag(TAG).e("Unknown general statistics type: %s", this) }
             }.also {
                 Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
                 it?.requireValidity()
             }
         } catch (e: Exception) {
-            Timber.tag(TAG).e("Failed to parse raw card: %s", this)
+            Timber.tag(TAG).e("Failed to map raw global card: %s", this)
+            null
+        }
+
+    private fun LinkCardOuterClass.LinkCard.toLinkCardItem(): LinkStatsItem? =
+        try {
+            val updatedAt = Instant.ofEpochSecond(header.updatedAt)
+            val type = StatsType.values().singleOrNull { it.id == header.cardId }
+            when (type) {
+                StatsType.PANDEMIC_RADAR -> PandemicRadarStats(
+                    updatedAt = updatedAt,
+                    url = url
+                )
+                // Unknown Link card statistics or Local are ignored here
+                else -> null.also { Timber.tag(TAG).e("Unknown link card type: %s", this) }
+            }.also {
+                Timber.tag(TAG).v("Parsed %s", it.toString().replace("\n", ", "))
+                it?.requireValidity()
+            }
+        } catch (e: Exception) {
+            Timber.tag(TAG).e("Failed to map raw link card: %s", this)
             null
         }
 
