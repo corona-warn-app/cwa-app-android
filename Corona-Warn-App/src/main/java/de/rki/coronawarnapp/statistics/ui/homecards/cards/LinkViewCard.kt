@@ -25,5 +25,6 @@ class LinkViewCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<LinkCardItem>().lastOrNull() ?: item
         link.text = curItem.url
+        // TODO
     }
 }
