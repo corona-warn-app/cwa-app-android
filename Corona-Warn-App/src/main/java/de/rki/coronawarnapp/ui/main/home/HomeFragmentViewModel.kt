@@ -30,7 +30,9 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.StatsSequenceItem
+import de.rki.coronawarnapp.statistics.StatsType
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -194,21 +196,27 @@ class HomeFragmentViewModel @AssistedInject constructor(
         networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
     ) { statsData, localStatsData, isInternetAvailable ->
 
-        val ordering = Ordering.explicit(statsData.cardIdSequence.toList())
+        val cardIdSequence = statsData.cardIdSequence
+        val ordering = Ordering.explicit(cardIdSequence.toList())
         val stats = localStatsData.items.plus(statsData.items)
             .filterIsInstance<StatsSequenceItem>()
-            .filter { it.cardType.id in statsData.cardIdSequence }
+            .filter { it.cardType.id in cardIdSequence }
             .sortedWith { a, b ->
                 ordering.compare(a.cardType.id, b.cardType.id)
             }
 
-        statsData.copy(
-            items = mutableSetOf(
+        val addStatsItems = when {
+            !cardIdSequence.contains(StatsType.LOCAL_INCIDENCE.id) -> emptySet<StatsItem>()
+            else -> setOf(
                 AddStatsItem(
                     canAddItem = localStatsData.items.size < 5,
                     isInternetAvailable = isInternetAvailable
                 )
-            ) + stats
+            )
+        }
+
+        statsData.copy(
+            items = addStatsItems + stats
         )
     }
 

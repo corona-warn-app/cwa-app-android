@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.statistics
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import timber.log.Timber
+import java.net.URL
 import java.time.Instant
 
 data class StatisticsData(
@@ -13,14 +14,14 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map {
-            when (it) {
-                is AddStatsItem -> "AddCard(${it.isEnabled})"
-                is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
-                is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
-                is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
+            items.map {
+                when (it) {
+                    is AddStatsItem -> "AddCard(${it.isEnabled})"
+                    is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
+                    is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+                    is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
+                }
             }
-        }
         })"
     }
 }
@@ -30,9 +31,9 @@ data class LocalStatisticsData(
 ) {
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map {
-            it.cardType.name + " " + it.updatedAt
-        }
+            items.map {
+                it.cardType.name + " " + it.updatedAt
+            }
         })"
     }
 }
@@ -298,6 +299,7 @@ data class PandemicRadarStats(
 
     override fun requireValidity() {
         require(url.isNotBlank())
+        require(URL(url).protocol.startsWith("https", true))
     }
 }
 

@@ -29,7 +29,7 @@ class StatisticsParser @Inject constructor() {
     fun parse(rawData: ByteArray): StatisticsData {
         val parsed = StatisticsOuterClass.Statistics.parseFrom(rawData)
 
-        val statsItems = parsed.keyFigureCardsList.mapNotNull { rawCard -> rawCard.toLinkCardItem() }.toSet()
+        val statsItems = parsed.keyFigureCardsList.mapNotNull { rawCard -> rawCard.toGlobalStatsItem() }.toSet()
         val linkItems = parsed.linkCardsList.mapNotNull { linkCard -> linkCard.toLinkCardItem() }.toSet()
         val mappedItems: Set<StatsItem> = statsItems + linkItems
         return StatisticsData(
@@ -40,7 +40,7 @@ class StatisticsParser @Inject constructor() {
         }
     }
 
-    private fun KeyFigureCardOuterClass.KeyFigureCard.toLinkCardItem(): GlobalStatsItem? =
+    private fun KeyFigureCardOuterClass.KeyFigureCard.toGlobalStatsItem(): GlobalStatsItem? =
         try {
             val updatedAt = Instant.ofEpochSecond(header.updatedAt)
             val keyFigures = keyFiguresList
