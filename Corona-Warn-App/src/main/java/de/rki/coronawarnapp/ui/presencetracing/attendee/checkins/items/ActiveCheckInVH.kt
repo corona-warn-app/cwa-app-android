@@ -1,23 +1,19 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items
 
+import android.text.format.DateUtils
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsItemActiveBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.toJoda
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import org.joda.time.DurationFieldType
-import org.joda.time.PeriodType
-import org.joda.time.format.PeriodFormat
 import java.time.Duration
-import java.time.Instant
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.concurrent.TimeUnit
 
 class ActiveCheckInVH(parent: ViewGroup) :
     BaseCheckInVH<ActiveCheckInVH.Item, TraceLocationAttendeeCheckinsItemActiveBinding>(
@@ -36,10 +32,6 @@ class ActiveCheckInVH(parent: ViewGroup) :
         TraceLocationAttendeeCheckinsItemActiveBinding.bind(itemView)
     }
 
-    private val hourPeriodFormatter by lazy {
-        PeriodFormat.wordBased(context.getLocale())
-    }
-
     override val onBindData: TraceLocationAttendeeCheckinsItemActiveBinding.(
         item: Item,
         payloads: List<Any>
@@ -47,53 +39,69 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         latestItem = curItem
 
-        val checkInStartUserTZ = curItem.checkin.checkInStart.toLocalDateTimeUserTz()
+        val checkin = curItem.checkin
+        val checkInStart = checkin.checkInStart
+        val checkInEnd = checkin.checkInEnd
+        val checkInStartUserTZ = checkInStart.toLocalDateTimeUserTz()
 
         highlightDuration.text = run {
-            val currentDuration = Duration.between(checkInStartUserTZ, Instant.now().toLocalDateTimeUserTz())
+            val currentDuration = Duration.between(checkInStartUserTZ, LocalDateTime.now())
             val saneDuration = if (currentDuration < Duration.ZERO) Duration.ZERO else currentDuration
-            val seconds = saneDuration.toMinutes() * 60
-            "%02d:%02d".format(seconds / SECONDS_IN_HOURS, (seconds % SECONDS_IN_HOURS) / 60)
+            saneDuration.format()
         }
 
-        description.text = curItem.checkin.description
-        address.text = curItem.checkin.address
+        description.text = checkin.description
+        address.text = checkin.address
 
-        checkoutInfo.text = run {
-            val checkoutIn = Duration.between(curItem.checkin.checkInStart, curItem.checkin.checkInEnd).let {
-                val periodType = when {
-                    it > Duration.ofHours(1) -> PeriodType.forFields(
-                        arrayOf(DurationFieldType.hours(), DurationFieldType.minutes())
+        val checkoutIn = Duration.between(checkInStart, checkInEnd).let { duration ->
+            when {
+                duration > Duration.ofHours(1) -> "%s, %s".format(
+                    relativeTime(
+                        checkInStart.plus(Duration.ofHours(duration.toHoursPart().toLong())).toEpochMilli(),
+                        checkInStart.toEpochMilli()
+                    ),
+                    relativeTime(
+                        checkInStart.plus(Duration.ofMinutes(duration.toMinutesPart().toLong())).toEpochMilli(),
+                        checkInStart.toEpochMilli()
                     )
-                    it > Duration.ofDays(1) -> PeriodType.days()
-                    else -> PeriodType.minutes()
-                }
-                it.toJoda().toPeriod(periodType)
-            }
+                )
 
+                else -> relativeTime(checkInEnd.toEpochMilli(), checkInStart.toEpochMilli())
+            }
+        }
+        checkoutInfo.text = run {
             val startDate = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
             val startTime = checkInStartUserTZ.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             context.getString(
                 R.string.trace_location_checkins_card_automatic_checkout_info_format,
                 startDate,
                 startTime,
-                hourPeriodFormatter.print(checkoutIn)
+                checkoutIn
             )
         }
 
         menuAction.setupMenu(R.menu.menu_trace_location_attendee_checkin_item) {
             when (it.itemId) {
-                R.id.menu_remove_item -> curItem.onRemoveItem(curItem.checkin).let { true }
+                R.id.menu_remove_item -> curItem.onRemoveItem(checkin).let { true }
                 else -> false
             }
         }
 
-        checkoutAction.setOnClickListener { curItem.onCheckout(curItem.checkin) }
+        checkoutAction.setOnClickListener { curItem.onCheckout(checkin) }
 
         itemView.apply {
             transitionName = item.checkin.id.toString()
         }
     }
+
+    private fun relativeTime(time: Long, now: Long): String =
+        DateUtils.getRelativeTimeSpanString(
+            time,
+            now,
+            DateUtils.MINUTE_IN_MILLIS
+        ).run {
+            substring(indexOfFirst { it.isDigit() })
+        }
 
     data class Item(
         val checkin: CheckIn,
@@ -103,9 +111,5 @@ class ActiveCheckInVH(parent: ViewGroup) :
         val onSwipeItem: (CheckIn, Int) -> Unit,
     ) : CheckInsItem, HasPayloadDiffer {
         override val stableId: Long = checkin.id
-    }
-
-    companion object {
-        private val SECONDS_IN_HOURS = TimeUnit.HOURS.toSeconds(1)
     }
 }

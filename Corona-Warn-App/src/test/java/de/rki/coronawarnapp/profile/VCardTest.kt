@@ -7,11 +7,12 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Instant
-import org.joda.time.format.ISODateTimeFormat
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class VCardTest : BaseTest() {
 
@@ -30,7 +31,7 @@ class VCardTest : BaseTest() {
             id = 1,
             firstName = "Max",
             lastName = "Mustermann",
-            birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
+            birthDate = LocalDate.parse("19800625", DateTimeFormatter.BASIC_ISO_DATE),
             street = "Musterstrasse 14",
             zipCode = "51466",
             city = "Musterstadt",
@@ -86,7 +87,7 @@ class VCardTest : BaseTest() {
             id = 1,
             firstName = "Max",
             lastName = "Mustermann",
-            birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
+            birthDate = LocalDate.parse("19800625", DateTimeFormatter.BASIC_ISO_DATE),
             street = "Mu\\ster;stra,sse 14",
             zipCode = "51466",
             city = "Musterstadt",
@@ -114,7 +115,7 @@ class VCardTest : BaseTest() {
             id = 1,
             firstName = "Max,",
             lastName = "Mustermann;",
-            birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
+            birthDate = LocalDate.parse("19800625", DateTimeFormatter.BASIC_ISO_DATE),
             street = "Mu\\\\ster;stra,sse 14\nA",
             zipCode = "51466",
             city = "Muster city \n Upper \\county, DC ; US",

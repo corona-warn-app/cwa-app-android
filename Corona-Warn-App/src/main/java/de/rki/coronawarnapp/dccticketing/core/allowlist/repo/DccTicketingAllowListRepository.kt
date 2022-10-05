@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.plus
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +37,7 @@ class DccTicketingAllowListRepository @Inject constructor(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.WhileSubscribed(
-            stopTimeoutMillis = Duration.standardMinutes(5).millis
+            stopTimeoutMillis = Duration.ofMinutes(5).toMillis()
         ),
         startValueProvider = { loadInitialData() }
     )

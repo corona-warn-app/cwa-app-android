@@ -18,10 +18,10 @@ import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import org.joda.time.Duration
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -53,10 +53,10 @@ object StatisticsModule {
     ): StatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
-            connectTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            readTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            writeTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            callTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+            connectTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
         }.build()
 
         return Retrofit.Builder()
@@ -77,10 +77,10 @@ object StatisticsModule {
     ): LocalStatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
             cache(cache)
-            connectTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            readTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            writeTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
-            callTimeout(HTTP_TIMEOUT.millis, TimeUnit.MILLISECONDS)
+            connectTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            readTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            writeTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
+            callTimeout(HTTP_TIMEOUT.toMillis(), TimeUnit.MILLISECONDS)
         }.build()
 
         return Retrofit.Builder()
@@ -117,7 +117,7 @@ object StatisticsModule {
 }
 
 private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
-private val HTTP_TIMEOUT = Duration.standardSeconds(10)
+private val HTTP_TIMEOUT = Duration.ofSeconds(10)
 
 @Qualifier
 @MustBeDocumented

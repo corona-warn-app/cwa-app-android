@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "keyfiles")
 data class CachedKeyInfo(
@@ -32,7 +33,7 @@ data class CachedKeyInfo(
         hour: LocalTime?,
         createdAt: Instant,
     ) : this(
-        id = calcluateId(location, day, hour, type),
+        id = calculateId(location, day, hour, type),
         location = location,
         day = day,
         hour = hour,
@@ -52,14 +53,14 @@ data class CachedKeyInfo(
     )
 
     companion object {
-        fun calcluateId(
+        fun calculateId(
             location: LocationCode,
             day: LocalDate,
             hour: LocalTime?,
             type: Type
         ): String {
             var rawId = "${location.identifier}.${type.typeValue}.$day"
-            hour?.let { rawId += ".$hour" }
+            hour?.let { rawId += ".${hour.format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS"))}" }
             return rawId.toSHA1()
         }
     }
@@ -86,18 +87,18 @@ data class CachedKeyInfo(
     )
 }
 
-val CachedKeyInfo.pkgDateTime: DateTime
+val CachedKeyInfo.pkgDateTime: ZonedDateTime
     get() = when (type) {
-        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTimeAtStartOfDay(DateTimeZone.UTC)
-        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_DAY -> day.atStartOfDay(ZoneOffset.UTC)
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.atTime(hour).atZone(ZoneOffset.UTC)
     }
 
-val CachedKeyInfo.sortDateTime: DateTime
+val CachedKeyInfo.sortDateTime: ZonedDateTime
     get() = when (type) {
-        CachedKeyInfo.Type.LOCATION_DAY -> day.toDateTime(endOfDay, DateTimeZone.UTC)
-        CachedKeyInfo.Type.LOCATION_HOUR -> day.toDateTime(hour, DateTimeZone.UTC)
+        CachedKeyInfo.Type.LOCATION_DAY -> day.atTime(endOfDay).atZone(ZoneOffset.UTC)
+        CachedKeyInfo.Type.LOCATION_HOUR -> day.atTime(hour).atZone(ZoneOffset.UTC)
     }
 
 // use end of day to ensure correct order of packages when day and hour packages are mixed
 private val endOfDay: LocalTime
-    get() = LocalTime(23, 59, 59)
+    get() = LocalTime.of(23, 59, 59)

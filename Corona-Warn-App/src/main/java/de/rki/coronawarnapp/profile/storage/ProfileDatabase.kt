@@ -25,8 +25,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
 import javax.inject.Inject
 
 @Database(
@@ -47,7 +47,7 @@ abstract class ProfileDatabase : RoomDatabase() {
     ) {
         fun create(): ProfileDatabase = Room
             .databaseBuilder(context, ProfileDatabase::class.java, PROFILE_DATABASE_NAME)
-            .addCallback(object : RoomDatabase.Callback() {
+            .addCallback(object : Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     scope.launch {

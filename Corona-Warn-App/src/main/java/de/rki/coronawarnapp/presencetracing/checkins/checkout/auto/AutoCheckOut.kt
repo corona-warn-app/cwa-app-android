@@ -57,7 +57,7 @@ class AutoCheckOut @Inject constructor(
     suspend fun refreshAlarm(): Boolean = mutex.withLock {
         Timber.tag(TAG).d("refreshAlarm()")
 
-        val nowUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         // We only create alarms that are in the future
         val nextCheckout = findNextAutoCheckOut(nowUTC)
 
@@ -85,7 +85,7 @@ class AutoCheckOut @Inject constructor(
         Timber.tag(TAG).d("processOverDueCheckouts()")
 
         val overDueCheckouts = run {
-            val nowUTC = timeStamper.nowJavaUTC
+            val nowUTC = timeStamper.nowUTC
             val snapshot = repository.allCheckIns.firstOrNull() ?: emptyList()
             snapshot
                 .filter { !it.completed && (nowUTC.isAfter(it.checkInEnd) || nowUTC == it.checkInEnd) }

@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 import de.rki.coronawarnapp.util.formatter.getSecondaryLabel
-import org.joda.time.Instant
+import java.time.Instant
 
 class IncidenceAndHospitalizationCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsIncidenceLayoutBinding>(

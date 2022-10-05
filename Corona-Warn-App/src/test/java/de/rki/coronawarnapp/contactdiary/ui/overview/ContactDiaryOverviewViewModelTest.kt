@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaTime
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -38,9 +37,6 @@ import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -48,6 +44,9 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 @ExtendWith(InstantExecutorExtension::class)
 open class ContactDiaryOverviewViewModelTest {
@@ -61,7 +60,7 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val testDispatcherProvider = TestDispatcherProvider()
     private val date = LocalDate.parse("2021-04-07")
-    private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
+    private val dateMillis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
 
     @BeforeEach
     fun refresh() {
@@ -132,13 +131,13 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val traceLocationCheckInRiskLow = object : TraceLocationCheckInRisk {
         override val checkInId: Long = checkInLow.id
-        override val localDateUtc: java.time.LocalDate = date.toJavaTime()
+        override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.LOW_RISK
     }
 
     private val traceLocationCheckInRiskHigh = object : TraceLocationCheckInRisk {
         override val checkInId: Long = checkInHigh.id
-        override val localDateUtc: java.time.LocalDate = date.toJavaTime()
+        override val localDateUtc: LocalDate = date
         override val riskState: RiskState = RiskState.INCREASED_RISK
     }
 
@@ -194,7 +193,7 @@ open class ContactDiaryOverviewViewModelTest {
         with(createInstance().listItems.getOrAwaitValue().filterIsInstance<DayOverviewItem>()) {
             size shouldBe ContactDiaryOverviewViewModel.DAY_COUNT
 
-            var days = 0
+            var days = 0L
             forEach { it.date shouldBe date.minusDays(days++) }
         }
     }

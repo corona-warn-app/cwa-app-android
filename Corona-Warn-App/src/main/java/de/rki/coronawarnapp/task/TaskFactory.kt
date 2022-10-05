@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.task
 
-import org.joda.time.Duration
+import java.time.Duration
 
 interface TaskFactory<
     ProgressType : Task.Progress,

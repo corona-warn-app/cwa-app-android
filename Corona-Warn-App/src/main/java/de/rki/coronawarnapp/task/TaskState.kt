@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.task
 
-import org.joda.time.Instant
+import java.time.Instant
 import kotlin.reflect.KClass
 
 interface TaskState {

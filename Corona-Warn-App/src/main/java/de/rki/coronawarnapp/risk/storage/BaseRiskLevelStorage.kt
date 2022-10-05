@@ -18,14 +18,13 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
-import de.rki.coronawarnapp.util.toJavaInstant
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 import kotlinx.coroutines.flow.combine as flowCombine
 
 abstract class BaseRiskLevelStorage constructor(
@@ -225,7 +224,7 @@ abstract class BaseRiskLevelStorage constructor(
             it?.let {
                 LastSuccessfulRiskResult(
                     riskState = it.riskState,
-                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState?.toJavaInstant()
+                    mostRecentDateAtRiskState = it.mostRecentDateAtRiskState
                 )
             }
         }

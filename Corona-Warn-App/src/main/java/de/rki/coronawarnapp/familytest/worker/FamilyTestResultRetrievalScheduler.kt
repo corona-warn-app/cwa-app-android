@@ -64,7 +64,7 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
 
     private fun adjustPollingSchedule(tests: Set<FamilyCoronaTest>) = when {
         tests.isEmpty() -> cancelPeriodicWorker()
-        tests.any { it.requiresFrequentPolling(timeStamper.nowJavaUTC) } ->
+        tests.any { it.requiresFrequentPolling(timeStamper.nowUTC) } ->
             enqueuePeriodicWorker(FREQUENT_INTERVAL_MINUTES)
         else -> enqueuePeriodicWorker(INTERVAL_MINUTES)
     }

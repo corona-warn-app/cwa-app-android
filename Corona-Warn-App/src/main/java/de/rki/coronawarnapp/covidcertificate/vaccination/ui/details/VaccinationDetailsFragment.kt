@@ -180,7 +180,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     viewModel.onExport()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

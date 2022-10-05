@@ -25,11 +25,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.io.File
+import java.time.Instant
 
 class ENFClientTest : BaseTest() {
 
@@ -133,7 +133,7 @@ class ENFClientTest : BaseTest() {
                     "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
-                        finishedAt = Instant.EPOCH.plus(1)
+                        finishedAt = Instant.EPOCH.plusMillis(1)
                     )
                 )
             )
@@ -146,12 +146,12 @@ class ENFClientTest : BaseTest() {
                 mapOf(
                     "1" to TrackedExposureDetection(
                         identifier = "1",
-                        startedAt = Instant.EPOCH.plus(5)
+                        startedAt = Instant.EPOCH.plusMillis(5)
                     ),
                     "2" to TrackedExposureDetection(
                         identifier = "2",
-                        startedAt = Instant.EPOCH.plus(4),
-                        finishedAt = Instant.EPOCH.plus(1)
+                        startedAt = Instant.EPOCH.plusMillis(4),
+                        finishedAt = Instant.EPOCH.plusMillis(1)
                     )
                 )
             )
@@ -169,11 +169,11 @@ class ENFClientTest : BaseTest() {
                     "2" to TrackedExposureDetection(
                         identifier = "2",
                         startedAt = Instant.EPOCH,
-                        finishedAt = Instant.EPOCH.plus(2)
+                        finishedAt = Instant.EPOCH.plusMillis(2)
                     ),
                     "3" to TrackedExposureDetection(
                         identifier = "3",
-                        startedAt = Instant.EPOCH.plus(1)
+                        startedAt = Instant.EPOCH.plusMillis(1)
                     )
                 )
             )
@@ -197,18 +197,18 @@ class ENFClientTest : BaseTest() {
                         identifier = "2",
                         startedAt = Instant.EPOCH,
                         result = TrackedExposureDetection.Result.UPDATED_STATE,
-                        finishedAt = Instant.EPOCH.plus(1)
+                        finishedAt = Instant.EPOCH.plusMillis(1)
                     ),
                     "2-timeout" to TrackedExposureDetection(
                         identifier = "2-timeout",
                         startedAt = Instant.EPOCH,
                         result = TrackedExposureDetection.Result.TIMEOUT,
-                        finishedAt = Instant.EPOCH.plus(2)
+                        finishedAt = Instant.EPOCH.plusMillis(2)
                     ),
                     "3" to TrackedExposureDetection(
                         identifier = "3",
                         result = TrackedExposureDetection.Result.UPDATED_STATE,
-                        startedAt = Instant.EPOCH.plus(2)
+                        startedAt = Instant.EPOCH.plusMillis(2)
                     )
                 )
             )
@@ -222,19 +222,19 @@ class ENFClientTest : BaseTest() {
                     "0" to TrackedExposureDetection(
                         identifier = "1",
                         result = TrackedExposureDetection.Result.UPDATED_STATE,
-                        startedAt = Instant.EPOCH.plus(3)
+                        startedAt = Instant.EPOCH.plusMillis(3)
                     ),
                     "1-timeout" to TrackedExposureDetection(
                         identifier = "1-timeout",
                         startedAt = Instant.EPOCH,
                         result = TrackedExposureDetection.Result.TIMEOUT,
-                        finishedAt = Instant.EPOCH.plus(3)
+                        finishedAt = Instant.EPOCH.plusMillis(3)
                     ),
                     "1" to TrackedExposureDetection(
                         identifier = "1",
                         startedAt = Instant.EPOCH,
                         result = TrackedExposureDetection.Result.UPDATED_STATE,
-                        finishedAt = Instant.EPOCH.plus(2)
+                        finishedAt = Instant.EPOCH.plusMillis(2)
                     ),
                     "2" to TrackedExposureDetection(
                         identifier = "2",

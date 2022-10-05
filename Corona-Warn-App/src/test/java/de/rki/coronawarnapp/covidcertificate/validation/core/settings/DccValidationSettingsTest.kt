@@ -20,7 +20,7 @@ internal class DccValidationSettingsTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(2000L)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(2000L)
     }
 
     @Test

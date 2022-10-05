@@ -34,7 +34,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     suspend fun moveToReported(
         wrapperEntities: List<AnalyticsExposureWindowEntityWrapper>
     ): List<AnalyticsReportedExposureWindowEntity> {
-        return dao.moveToReported(wrapperEntities, timeStamper.nowUTC.millis)
+        return dao.moveToReported(wrapperEntities, timeStamper.nowUTC.toEpochMilli())
     }
 
     suspend fun rollback(
@@ -45,7 +45,7 @@ class AnalyticsExposureWindowRepository @Inject constructor(
     }
 
     suspend fun deleteStaleData() {
-        val timestamp = timeStamper.nowJavaUTC.minus(Duration.ofDays(15)).toEpochMilli()
+        val timestamp = timeStamper.nowUTC.minus(Duration.ofDays(15)).toEpochMilli()
         dao.deleteReportedOlderThan(timestamp)
     }
 

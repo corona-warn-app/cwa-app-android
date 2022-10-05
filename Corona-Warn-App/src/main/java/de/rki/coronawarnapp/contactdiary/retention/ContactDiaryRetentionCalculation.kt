@@ -5,14 +5,13 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJodaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
-import org.joda.time.Days
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @Reusable
@@ -26,9 +25,9 @@ class ContactDiaryRetentionCalculation @Inject constructor(
         Timber.d("Days diff: $it")
     }
 
-    fun getDaysDiff(dateSaved: LocalDate): Int {
-        val today = LocalDate(timeStamper.nowUTC)
-        return Days.daysBetween(dateSaved, today).days
+    fun getDaysDiff(dateSaved: LocalDate): Long {
+        val today: LocalDate = timeStamper.nowUTC.atZone(ZoneOffset.UTC).toLocalDate()
+        return Period.between(dateSaved, today).days.toLong()
     }
 
     fun filterContactDiaryLocationVisits(list: List<ContactDiaryLocationVisit>): List<ContactDiaryLocationVisit> {
@@ -66,7 +65,7 @@ class ContactDiaryRetentionCalculation @Inject constructor(
     suspend fun clearObsoleteCoronaTests() {
         repository.testResults.first()
             .also { Timber.d("Contact Diary Corona Tests total count: %d", it.size) }
-            .filter { isOutOfRetention(it.time.toLocalDateUtc().toJodaTime()) }
+            .filter { isOutOfRetention(it.time.toLocalDateUtc()) }
             .also {
                 Timber.d("Contact Diary Corona Tests to be deleted: %d", it.size)
                 repository.deleteTests(it)

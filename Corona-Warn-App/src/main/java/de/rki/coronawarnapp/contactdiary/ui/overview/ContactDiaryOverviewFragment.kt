@@ -139,7 +139,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     )
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

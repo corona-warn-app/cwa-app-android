@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.format.DateTimeFormatter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,6 +17,7 @@ import testhelpers.Screenshot
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.format.DateTimeFormatter
 
 class ProfileCreateFragmentTest : BaseUITest() {
 

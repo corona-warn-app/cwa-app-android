@@ -7,10 +7,10 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 import java.util.UUID
 
 class ExposureDetectionTrackerExtensionsTest : BaseTest() {
@@ -31,15 +31,15 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
     ) = TrackedExposureDetection(
         identifier = UUID.randomUUID().toString(),
         startedAt = startedAt,
-        finishedAt = if (result != null) startedAt.plus(100) else null,
+        finishedAt = if (result != null) startedAt.plusMillis(100) else null,
         result = result
     )
 
     @Test
     fun `last submission`() {
         val tr1 = createFakeCalculation(startedAt = Instant.EPOCH)
-        val tr2 = createFakeCalculation(startedAt = Instant.EPOCH.plus(1))
-        val tr3 = createFakeCalculation(startedAt = Instant.EPOCH.plus(2), result = null)
+        val tr2 = createFakeCalculation(startedAt = Instant.EPOCH.plusMillis(1))
+        val tr3 = createFakeCalculation(startedAt = Instant.EPOCH.plusMillis(2), result = null)
         fakeCalculations.value = mapOf(
             tr1.identifier to tr1,
             tr2.identifier to tr2,
@@ -62,8 +62,8 @@ class ExposureDetectionTrackerExtensionsTest : BaseTest() {
     @Test
     fun `latest submission`() {
         val tr1 = createFakeCalculation(startedAt = Instant.EPOCH)
-        val tr2 = createFakeCalculation(startedAt = Instant.EPOCH.plus(1))
-        val tr3 = createFakeCalculation(startedAt = Instant.EPOCH.plus(2), result = null)
+        val tr2 = createFakeCalculation(startedAt = Instant.EPOCH.plusMillis(1))
+        val tr3 = createFakeCalculation(startedAt = Instant.EPOCH.plusMillis(2), result = null)
         fakeCalculations.value = mapOf(
             tr1.identifier to tr1,
             tr2.identifier to tr2,

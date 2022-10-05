@@ -13,11 +13,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.ConscryptMode
 import testhelpers.BaseTest
 import testhelpers.EmptyApplication
 
 @Config(sdk = [Build.VERSION_CODES.P], application = EmptyApplication::class)
 @RunWith(RobolectricTestRunner::class)
+@ConscryptMode(ConscryptMode.Mode.OFF)
 class DistrictsTest : BaseTest() {
 
     @Before

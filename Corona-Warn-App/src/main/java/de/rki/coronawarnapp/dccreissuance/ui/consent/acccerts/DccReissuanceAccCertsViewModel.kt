@@ -46,7 +46,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
         }.sort().map {
             DccReissuanceCertificateCard.Item(
                 it.data.certificate,
-                it.data.isExpired(timeStamper.nowJavaUTC)
+                it.data.isExpired(timeStamper.nowUTC)
             )
         }
     }

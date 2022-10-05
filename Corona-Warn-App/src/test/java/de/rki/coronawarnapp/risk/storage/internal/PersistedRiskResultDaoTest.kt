@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class PersistedRiskResultDaoTest : BaseTest() {
 
@@ -31,7 +31,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             )
         ).toRiskResult(listOf(ewDaoWrapper)).apply {
             riskState shouldBe RiskState.LOW_RISK
-            calculatedAt.millis shouldBe 931161601L
+            calculatedAt.toEpochMilli() shouldBe 931161601L
             exposureWindows shouldBe listOf(testExposureWindow)
             failureReason shouldBe null
             ewAggregatedRiskResult shouldNotBe null
@@ -41,9 +41,9 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
                 mostRecentDateWithLowRisk shouldNotBe null
-                mostRecentDateWithLowRisk?.millis shouldBe 852191241L
+                mostRecentDateWithLowRisk?.toEpochMilli() shouldBe 852191241L
                 mostRecentDateWithHighRisk shouldNotBe null
-                mostRecentDateWithHighRisk?.millis shouldBe 790335113L
+                mostRecentDateWithHighRisk?.toEpochMilli() shouldBe 790335113L
                 numberOfDaysWithLowRisk shouldBe 52
                 numberOfDaysWithHighRisk shouldBe 81
             }
@@ -67,7 +67,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             )
         ).toRiskResult().apply {
             riskState shouldBe RiskState.LOW_RISK
-            calculatedAt.millis shouldBe 931161601L
+            calculatedAt.toEpochMilli() shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe null
             ewAggregatedRiskResult shouldNotBe null
@@ -77,9 +77,9 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 totalMinimumDistinctEncountersWithLowRisk shouldBe 89
                 totalMinimumDistinctEncountersWithHighRisk shouldBe 59
                 mostRecentDateWithLowRisk shouldNotBe null
-                mostRecentDateWithLowRisk?.millis shouldBe 852191241L
+                mostRecentDateWithLowRisk?.toEpochMilli() shouldBe 852191241L
                 mostRecentDateWithHighRisk shouldNotBe null
-                mostRecentDateWithHighRisk?.millis shouldBe 790335113L
+                mostRecentDateWithHighRisk?.toEpochMilli() shouldBe 790335113L
                 numberOfDaysWithLowRisk shouldBe 52
                 numberOfDaysWithHighRisk shouldBe 81
             }
@@ -95,7 +95,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
             aggregatedRiskResult = null
         ).toRiskResult().apply {
             riskState shouldBe RiskState.CALCULATION_FAILED
-            calculatedAt.millis shouldBe 931161601L
+            calculatedAt.toEpochMilli() shouldBe 931161601L
             exposureWindows shouldBe null
             failureReason shouldBe EwRiskLevelResult.FailureReason.TRACING_OFF
             ewAggregatedRiskResult shouldBe null

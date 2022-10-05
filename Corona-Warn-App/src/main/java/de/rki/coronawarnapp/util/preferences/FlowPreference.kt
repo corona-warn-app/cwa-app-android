@@ -7,8 +7,8 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 
 class FlowPreference<T> constructor(
     private val preferences: SharedPreferences,
@@ -80,8 +80,6 @@ class FlowPreference<T> constructor(
         inline fun <reified T> basicReader(defaultValue: T): SharedPreferences.(key: String) -> T = { key ->
             when (T::class) {
                 Instant::class -> all[key]?.let { Instant.ofEpochMilli(it as Long) as T } ?: defaultValue
-                java.time.Instant::class -> all[key]?.let { java.time.Instant.ofEpochMilli(it as Long) as T }
-                    ?: defaultValue
                 else -> (this.all[key] ?: defaultValue) as T
             }
         }
@@ -93,7 +91,7 @@ class FlowPreference<T> constructor(
                 is Int -> putInt(key, value)
                 is Long -> putLong(key, value)
                 is Float -> putFloat(key, value)
-                is Instant -> putLong(key, value.millis)
+                is Instant -> putLong(key, value.toEpochMilli())
                 null -> remove(key)
                 else -> throw NotImplementedError()
             }

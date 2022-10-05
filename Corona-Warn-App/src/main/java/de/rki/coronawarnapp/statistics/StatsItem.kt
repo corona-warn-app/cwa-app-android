@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.statistics
 
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 
 data class StatisticsData(
     val items: List<GenericStatsItem> = emptyList()

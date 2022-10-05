@@ -62,7 +62,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        every { timeStamper.nowJavaUTC } returns nowUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
-import com.google.gson.GsonBuilder
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
@@ -9,12 +8,13 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import testhelpers.extensions.toComparableJsonPretty
 import java.io.File
+import java.time.Instant
 
 class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
@@ -25,27 +25,21 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     private val storageDir = File(privateFiles, "calcuation_tracker")
     private val storageFile = File(storageDir, "calculations.json")
 
-    private val gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson = SerializationModule.baseGson
 
     private val demoJsonString =
         """
             {
               "b2b98400-058d-43e6-b952-529a5255248b": {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
-                "startedAt": {
-                  "iMillis": 1234
-                },
+                "startedAt": 1234,
                 "enfVersion": "V2_WINDOW_MODE"
               },
               "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
                 "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
-                "startedAt": {
-                  "iMillis": 5678
-                },
+                "startedAt": 5678,
                 "result": "UPDATED_STATE",
-                "finishedAt": {
-                  "iMillis": 1603473968125
-                },
+                "finishedAt": 1603473968125,
                 "enfVersion": "V1_LEGACY_MODE"
               }
             }
@@ -83,7 +77,7 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     private fun createStorage() = ExposureDetectionTrackerStorage(
         context = context,
-        gson = SerializationModule().baseGson()
+        gson = SerializationModule.baseGson
     )
 
     @Test
@@ -122,7 +116,7 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         val storedData: Map<String, TrackedExposureDetection> = gson.fromJson(storageFile)!!
 
         storedData shouldBe demoData
-        gson.toJson(storedData) shouldBe demoJsonString
+        gson.toJson(storedData).toComparableJsonPretty() shouldBe demoJsonString
     }
 
     @Test

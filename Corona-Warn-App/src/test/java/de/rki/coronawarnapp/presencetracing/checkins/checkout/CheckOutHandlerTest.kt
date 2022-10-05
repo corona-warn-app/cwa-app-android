@@ -55,7 +55,7 @@ class CheckOutHandlerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowJavaUTC } returns nowUTC
+        every { timeStamper.nowUTC } returns nowUTC
 
         coEvery { repository.updateCheckIn(42, any()) } coAnswers {
             val callback: (CheckIn) -> CheckIn = arg(1)

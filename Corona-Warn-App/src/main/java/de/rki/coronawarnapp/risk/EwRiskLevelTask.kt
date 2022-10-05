@@ -26,13 +26,12 @@ import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.toJoda
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -87,7 +86,7 @@ class EwRiskLevelTask @Inject constructor(
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowUtc.minus(configData.localOffset.toJoda())
+            val currentServerTime = nowUtc.minus(configData.localOffset)
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,
@@ -130,11 +129,11 @@ class EwRiskLevelTask @Inject constructor(
             return true
         }
 
-        val downloadAge = Duration(latestDownload.info.sortDateTime, nowUTC).also {
-            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
+        val downloadAge = Duration.between(latestDownload.info.sortDateTime.toInstant(), nowUTC).also {
+            Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.toHours(), latestDownload)
         }
 
-        return (downloadAge.isLongerThan(STALE_DOWNLOAD_LIMIT)).also {
+        return (downloadAge > STALE_DOWNLOAD_LIMIT).also {
             if (it) {
                 Timber.tag(TAG).i("areKeyPkgsOutDated(): Calculation was not possible because results are outdated.")
             } else {
@@ -208,7 +207,7 @@ class EwRiskLevelTask @Inject constructor(
 
     data class Config(
         private val exposureDetectionTracker: ExposureDetectionTracker,
-        override val executionTimeout: Duration = Duration.standardMinutes(8),
+        override val executionTimeout: Duration = Duration.ofMinutes(8),
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.SKIP_IF_SIBLING_RUNNING
     ) : TaskFactory.Config {
@@ -235,6 +234,6 @@ class EwRiskLevelTask @Inject constructor(
 
     companion object {
         private val TAG = tag<EwRiskLevelTask>()
-        private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
+        private val STALE_DOWNLOAD_LIMIT = Duration.ofHours(48)
     }
 }

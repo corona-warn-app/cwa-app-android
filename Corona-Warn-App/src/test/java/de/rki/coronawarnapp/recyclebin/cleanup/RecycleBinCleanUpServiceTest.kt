@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -20,11 +19,11 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Days
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
+import java.time.Instant
 
 class RecycleBinCleanUpServiceTest : BaseTest() {
 
@@ -39,7 +38,6 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2021-10-13T12:00:00.000Z").toJavaInstant()
 
         coEvery { recycledCoronaTestsProvider.deleteCoronaTest(any()) } just Runs
     }
@@ -50,26 +48,26 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         timeStamper = timeStamper
     )
 
-    private fun createCert(days: Int) = createCert(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+    private fun createCert(days: Long) = createCert(recycleTime = now.minus(Duration.ofDays(days)))
 
     private fun createCert(recycleTime: Instant): CwaCovidCertificate {
         val mockContainerId = mockk<CertificateContainerId>()
         return mockk {
-            every { recycledAt } returns recycleTime.toJavaInstant()
+            every { recycledAt } returns recycleTime
             every { containerId } returns mockContainerId
         }
     }
 
-    private fun createTest(days: Int) = createTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
-    private fun familyTest(days: Int) = createFamilyTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+    private fun createTest(days: Long) = createTest(recycleTime = now.minus(Duration.ofDays(days)))
+    private fun familyTest(days: Long) = createFamilyTest(recycleTime = now.minus(Duration.ofDays(days)))
 
     private fun createTest(recycleTime: Instant): PersonalCoronaTest = mockk {
-        every { recycledAt } returns recycleTime.toJavaInstant()
+        every { recycledAt } returns recycleTime
         every { identifier } returns recycleTime.toString()
     }
 
     private fun createFamilyTest(recycleTime: Instant): FamilyCoronaTest = mockk {
-        every { recycledAt } returns recycleTime.toJavaInstant()
+        every { recycledAt } returns recycleTime
         every { identifier } returns recycleTime.toString()
     }
 
@@ -118,8 +116,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     @Test
     fun `Time difference between recycledAt and now is greater than 30 days with ms precision`() = runTest {
-        val nowMinus30Days = now.minus(Days.days(30).toStandardDuration())
-        val nowMinus30DaysAnd1Ms = nowMinus30Days.minus(1)
+        val nowMinus30Days = now.minus(Duration.ofDays(30))
+        val nowMinus30DaysAnd1Ms = nowMinus30Days.minusMillis(1)
 
         val certExact30Days = createCert(nowMinus30Days)
         val cert30DaysAnd1Ms = createCert(nowMinus30DaysAnd1Ms)

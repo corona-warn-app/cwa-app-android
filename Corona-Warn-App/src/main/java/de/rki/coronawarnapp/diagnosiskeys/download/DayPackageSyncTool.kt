@@ -12,16 +12,16 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.storage.DeviceStorage
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import org.joda.time.LocalDate
 import timber.log.Timber
+import java.time.LocalDate
 import javax.inject.Inject
 
 @Reusable
@@ -82,7 +82,7 @@ class DayPackageSyncTool @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun expectNewDayPackages(cachedDays: List<CachedKey>): Boolean {
         val yesterday = timeStamper.nowUTC.toLocalDateUtc().minusDays(1)
-        val newestDay = cachedDays.map { it.info.pkgDateTime }.maxOrNull()?.toLocalDate()
+        val newestDay = cachedDays.maxOfOrNull { it.info.pkgDateTime }?.toLocalDate()
 
         return yesterday != newestDay
     }

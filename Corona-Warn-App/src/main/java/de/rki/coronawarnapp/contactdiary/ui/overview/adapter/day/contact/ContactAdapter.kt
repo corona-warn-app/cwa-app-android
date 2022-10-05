@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBindin
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import org.joda.time.Duration
+import java.time.Duration
 
 class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
 
@@ -28,7 +28,7 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
     override fun getItemCount(): Int = dataList.size
 
     inner class ContactItemViewHolder(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.contact_diary_overview_nested_list_item, parent),
+        VH(R.layout.contact_diary_overview_nested_list_item, parent),
         BindableVH<ContactItem.Data, ContactDiaryOverviewNestedListItemBinding> {
         override val viewBinding: Lazy<ContactDiaryOverviewNestedListItemBinding> =
             lazy { ContactDiaryOverviewNestedListItemBinding.bind(itemView) }

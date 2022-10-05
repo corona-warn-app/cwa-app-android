@@ -30,14 +30,14 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.toJavaInstant
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
+import java.time.ZoneOffset
 
 object HomeData {
 
-    private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9, 55, 0, 0).toInstant()
+    private val todayAtNineFiftyFive = Instant.now()
+        .atZone(ZoneOffset.UTC).withHour(9).withMinute(55).toInstant()
 
     object Tracing {
 
@@ -138,7 +138,7 @@ object HomeData {
 
         val TEST_POSITIVE_ITEM = PcrTestPositiveCard.Item(
             state = TestPositive(
-                testRegisteredAt = Instant.now().toJavaInstant()
+                testRegisteredAt = Instant.now()
             ),
             onClickAction = {},
             onRemoveAction = {}
@@ -146,14 +146,14 @@ object HomeData {
 
         val TEST_NEGATIVE_ITEM = PcrTestNegativeCard.Item(
             state = TestNegative(
-                testRegisteredAt = Instant.now().toJavaInstant()
+                testRegisteredAt = Instant.now()
             ),
             onClickAction = {}
         )
 
         val TEST_NEGATIVE_ITEM_RAT = RapidTestNegativeCard.Item(
             state = SubmissionStateRAT.TestNegative(
-                testRegisteredAt = Instant.now().toJavaInstant()
+                testRegisteredAt = Instant.now()
             ),
             onClickAction = {}
         )
@@ -175,7 +175,7 @@ object HomeData {
 
         val TEST_SUBMISSION_DONE_ITEM = PcrTestSubmissionDoneCard.Item(
             state = SubmissionDone(
-                testRegisteredAt = Instant.now().toJavaInstant()
+                testRegisteredAt = Instant.now()
             ),
             onClickAction = {}
         )

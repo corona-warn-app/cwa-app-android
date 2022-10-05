@@ -13,8 +13,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.slot
-import org.joda.time.Duration
-import org.joda.time.Instant
+import java.time.Duration
+import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -25,8 +25,8 @@ class FormatterStatisticsHelperTest : BaseTest() {
     @MockK
     private lateinit var context: Context
 
-    private val today = Instant()
-    private val yesterday = today.minus(Duration.standardDays(1))
+    private val today = Instant.now()
+    private val yesterday = today.minus(Duration.ofDays(1))
 
     @BeforeEach
     fun setUp() {

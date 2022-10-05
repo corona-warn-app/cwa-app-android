@@ -70,7 +70,7 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
                 every { header.expiresAt } returns Instant.EPOCH
             }
         }
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
     }
 
     @Test

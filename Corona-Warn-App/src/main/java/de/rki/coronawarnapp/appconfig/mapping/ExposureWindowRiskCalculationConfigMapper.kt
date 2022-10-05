@@ -80,11 +80,11 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val transmissionRiskValueMapping:
             List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
         override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping,
-        override val maxEncounterAgeInDays: Int
+        override val maxEncounterAgeInDays: Long
     ) : ExposureWindowRiskCalculationConfig
 }
 
-private fun RiskCalculationParametersOuterClass.RiskCalculationParameters.getMaxEwAgeInDaysWithDefault() =
-    if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
+private fun RiskCalculationParametersOuterClass.RiskCalculationParameters.getMaxEwAgeInDaysWithDefault(): Long =
+    if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays.toLong() else DEFAULT_EW_AGE_IN_DAYS
 
-private const val DEFAULT_EW_AGE_IN_DAYS = 14
+private const val DEFAULT_EW_AGE_IN_DAYS = 14L
