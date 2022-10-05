@@ -29,7 +29,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.time.Duration
 import java.time.Instant
 
@@ -53,7 +52,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     @MockK lateinit var testCertificate: TestCertificate
     private val testContainerId = TestCertificateContainerId("test")
 
-    private val lastDccStateBackgroundCheck = mockFlowPreference(Instant.EPOCH)
     private val nowUtc = Instant.EPOCH.plus(Duration.ofDays(7))
 
     @BeforeEach
@@ -62,7 +60,8 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
         every { timeStamper.nowJavaUTC } returns nowUtc
 
-        every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
+        every { covidCertificateSettings.lastDccStateBackgroundCheck } returns flowOf(Instant.EPOCH)
+        coEvery { covidCertificateSettings.updateLastDccStateBackgroundCheck(any()) } just Runs
 
         dccValidityStateNotification.apply {
             coEvery { showNotification(any()) } returns true
@@ -119,7 +118,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
         createInstance().apply {
             showNotificationIfStateChanged()
 
@@ -133,7 +131,6 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `check can be enforced`() = runTest {
-        lastDccStateBackgroundCheck.update { timeStamper.nowJavaUTC }
         createInstance().run {
             showNotificationIfStateChanged(forceCheck = true)
 

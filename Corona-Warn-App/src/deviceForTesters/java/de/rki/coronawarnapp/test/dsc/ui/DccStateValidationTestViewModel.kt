@@ -63,12 +63,12 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
         }
     }
 
-    fun resetLastCheckTime() {
-        covidCertificateSettings.lastDccStateBackgroundCheck.update { Instant.EPOCH }
+    fun resetLastCheckTime() = launch {
+        covidCertificateSettings.updateLastDccStateBackgroundCheck(Instant.EPOCH)
     }
 
     fun checkValidityNotifications() = launch {
-        covidCertificateSettings.lastDccStateBackgroundCheck.update { Instant.EPOCH }
+        covidCertificateSettings.updateLastDccStateBackgroundCheck(Instant.EPOCH)
         dccValidityStateNotificationService.showNotificationIfStateChanged()
     }
 

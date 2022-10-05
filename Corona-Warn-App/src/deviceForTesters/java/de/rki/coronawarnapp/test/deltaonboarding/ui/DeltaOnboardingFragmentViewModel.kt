@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.deltaonboarding.ui
 
-import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
@@ -23,14 +22,11 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val changelogVersion: LiveData<Long> = settings.lastChangelogVersion.asLiveData2()
-
-    val isContactJournalOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
-        .asLiveData2()
-
-    val lastNotificationsOnboardingVersionCode: LiveData<Long> = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
-
+    val changelogVersion = settings.lastChangelogVersion.asLiveData2()
+    val isContactJournalOnboardingDone = contactDiaryUiSettings.isOnboardingDone.asLiveData2()
+    val lastNotificationsOnboardingVersionCode = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
     val isAnalyticsOnboardingDone = analyticsSettings.lastOnboardingVersionCode.asLiveData2()
+    val isVaccinationRegistrationOnboardingDone = covidCertificateSettings.isOnboarded.asLiveData2()
 
     fun updateChangelogVersion(value: Long) {
         launch { settings.updateLastChangelogVersion(value) }
@@ -67,10 +63,10 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun isVaccinationRegistrationOnboardingDone() = covidCertificateSettings.isOnboarded.value
-
     fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
-        covidCertificateSettings.isOnboarded.update { value }
+        launch {
+            covidCertificateSettings.updateIsOnboarded(value)
+        }
     }
 
     fun setNotificationsOnboardingDone(value: Boolean) {

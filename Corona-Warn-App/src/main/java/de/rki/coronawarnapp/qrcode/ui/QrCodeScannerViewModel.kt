@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -154,7 +155,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
                 DccResult.InRecycleBin(recycledContainerId)
             }
-            dccSettings.isOnboarded.value -> {
+            dccSettings.isOnboarded.first() -> {
                 when (val checkerResult = dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
                     DccMaxPersonChecker.Result.Passed -> {
                         val containerId = dccHandler.validateAndRegister(dccQrCode = dccQrCode)

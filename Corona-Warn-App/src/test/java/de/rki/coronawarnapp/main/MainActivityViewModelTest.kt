@@ -158,7 +158,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
+        every { covidCertificateSettings.isOnboarded } returns flowOf(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.getOrAwaitValue() shouldBe false
@@ -169,7 +169,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { contactDiarySettingsStorage.contactDiarySettings } returns createContactDiarySettingsFlow(
             onboardingStatus = ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
         )
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
+        every { covidCertificateSettings.isOnboarded } returns flowOf(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isContactDiaryOnboardingDone.getOrAwaitValue() shouldBe true
@@ -177,7 +177,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `Vaccination is not acknowledged when settings returns false `() {
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
+        every { covidCertificateSettings.isOnboarded } returns flowOf(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isCertificatesConsentGiven.value shouldBe false
@@ -185,7 +185,7 @@ class MainActivityViewModelTest : BaseTest() {
 
     @Test
     fun `Vaccination is acknowledged  when settings returns true `() {
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
+        every { covidCertificateSettings.isOnboarded } returns flowOf(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
         vm.isCertificatesConsentGiven.value shouldBe true
