@@ -29,12 +29,18 @@ class StatisticsParserTest : BaseTest() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
             addAllCardIdSequence(listOf(1, 3, 10, 4))
             addKeyFigureCards(INFECTION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
             addKeyFigureCards(INCIDENCE_AND_HOSPITALISATION_PROTO)
-            addKeyFigureCards(SEVENDAYRVALUE_PROTO)
+            addKeyFigureCards(SEVEN_DAY_R_VALUE_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(INFECTION_STATS, KEYSUBMISSION_STATS, INCIDENCE_AND_HOSPITALISATION_STATS, SEVENDAYRVALUE_STATS)
+            items = setOf(
+                INFECTION_STATS,
+                KEY_SUBMISSION_STATS,
+                INCIDENCE_AND_HOSPITALISATION_STATS,
+                SEVEN_DAY_R_VALUE_STATS
+            ),
+            cardIdSequence = setOf(1, 3, 10, 4)
         )
     }
 
@@ -49,10 +55,11 @@ class StatisticsParserTest : BaseTest() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
             addCardIdSequence(3)
             addKeyFigureCards(INFECTION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3)
         )
     }
 
@@ -64,10 +71,11 @@ class StatisticsParserTest : BaseTest() {
             INFECTION_PROTO.toBuilder().apply {
                 removeKeyFigures(2)
             }.build().let { addKeyFigureCards(it) }
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 1)
         )
     }
 
@@ -78,11 +86,12 @@ class StatisticsParserTest : BaseTest() {
             addCardIdSequence(1)
             addCardIdSequence(3)
             addKeyFigureCards(INFECTION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS, INFECTION_STATS, KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS, INFECTION_STATS, KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 1, 3)
         )
     }
 
@@ -93,10 +102,11 @@ class StatisticsParserTest : BaseTest() {
             addCardIdSequence(1)
             addCardIdSequence(3)
             addKeyFigureCards(INFECTION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS, INFECTION_STATS, KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS, INFECTION_STATS, KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 1, 3)
         )
     }
 
@@ -111,10 +121,11 @@ class StatisticsParserTest : BaseTest() {
                 }.build()
             }.build().let { addKeyFigureCards(it) }
 
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 1, 3)
         )
     }
 
@@ -122,47 +133,49 @@ class StatisticsParserTest : BaseTest() {
     fun `handle unknown id in card sequence`() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
             addCardIdSequence(3)
-            addCardIdSequence(99)
+            addCardIdSequence(999)
             addKeyFigureCards(INFECTION_PROTO)
-            addKeyFigureCards(KEYSUBMISSION_PROTO)
+            addKeyFigureCards(KEY_SUBMISSION_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(KEYSUBMISSION_STATS)
+            items = setOf(KEY_SUBMISSION_STATS),
+            cardIdSequence = setOf(3, 999)
         )
     }
 
     companion object {
-        val INFECTION_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
-            CardHeaderOuterClass.CardHeader.newBuilder().apply {
-                cardId = 1
-                updatedAt = 123456778890
-            }.build().let { header = it }
-            listOf(
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                    value = 14714.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build(),
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
-                    value = 11981.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
-                    trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(),
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
-                    value = 429181.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build()
-            ).let { addAllKeyFigures(it) }
-        }.build()
+        val INFECTION_PROTO: KeyFigureCardOuterClass.KeyFigureCard =
+            KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
+                CardHeaderOuterClass.CardHeader.newBuilder().apply {
+                    cardId = 1
+                    updatedAt = 123456778890
+                }.build().let { header = it }
+                listOf(
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
+                        value = 14714.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build(),
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                        value = 11981.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
+                        trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
+                    }.build(),
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
+                        value = 429181.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build()
+                ).let { addAllKeyFigures(it) }
+            }.build()
 
         val INFECTION_STATS = InfectionStats(
             updatedAt = Instant.ofEpochSecond(123456778890),
@@ -193,30 +206,31 @@ class StatisticsParserTest : BaseTest() {
             )
         )
 
-        val INCIDENCE_AND_HOSPITALISATION_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
-            CardHeaderOuterClass.CardHeader.newBuilder().apply {
-                cardId = 10
-                updatedAt = 1604839761
-            }.build().let { header = it }
-            listOf(
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                    value = 98.9
-                    decimals = 1
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build(),
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
-                    value = 1.74
-                    decimals = 2
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build()
-            ).let { addAllKeyFigures(it) }
-        }.build()
+        val INCIDENCE_AND_HOSPITALISATION_PROTO: KeyFigureCardOuterClass.KeyFigureCard =
+            KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
+                CardHeaderOuterClass.CardHeader.newBuilder().apply {
+                    cardId = 10
+                    updatedAt = 1604839761
+                }.build().let { header = it }
+                listOf(
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
+                        value = 98.9
+                        decimals = 1
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build(),
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                        value = 1.74
+                        decimals = 2
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build()
+                ).let { addAllKeyFigures(it) }
+            }.build()
 
         val INCIDENCE_AND_HOSPITALISATION_STATS = IncidenceAndHospitalizationStats(
             updatedAt = Instant.ofEpochSecond(1604839761),
@@ -240,39 +254,40 @@ class StatisticsParserTest : BaseTest() {
             )
         )
 
-        val KEYSUBMISSION_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
-            CardHeaderOuterClass.CardHeader.newBuilder().apply {
-                cardId = 3
-                updatedAt = 0
-            }.build().let { header = it }
-            listOf(
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                    value = 1514.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build(),
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
-                    value = 1812.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.DECREASING
-                    trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build(),
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
-                    value = 20922.0
-                    decimals = 0
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
-                }.build()
-            ).let { addAllKeyFigures(it) }
-        }.build()
+        val KEY_SUBMISSION_PROTO: KeyFigureCardOuterClass.KeyFigureCard =
+            KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
+                CardHeaderOuterClass.CardHeader.newBuilder().apply {
+                    cardId = 3
+                    updatedAt = 0
+                }.build().let { header = it }
+                listOf(
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
+                        value = 1514.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build(),
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                        value = 1812.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.DECREASING
+                        trendSemantic = KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
+                    }.build(),
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.TERTIARY
+                        value = 20922.0
+                        decimals = 0
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                    }.build()
+                ).let { addAllKeyFigures(it) }
+            }.build()
 
-        val KEYSUBMISSION_STATS = KeySubmissionsStats(
+        val KEY_SUBMISSION_STATS = KeySubmissionsStats(
             updatedAt = Instant.ofEpochSecond(0),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
@@ -301,24 +316,25 @@ class StatisticsParserTest : BaseTest() {
             )
         )
 
-        val SEVENDAYRVALUE_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
-            CardHeaderOuterClass.CardHeader.newBuilder().apply {
-                cardId = 4
-                updatedAt = 1604839761
-            }.build().let { header = it }
-            listOf(
-                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
-                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
-                    value = 1.04
-                    decimals = 2
-                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
-                    trendSemantic =
-                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
-                }.build()
-            ).let { addAllKeyFigures(it) }
-        }.build()
+        val SEVEN_DAY_R_VALUE_PROTO: KeyFigureCardOuterClass.KeyFigureCard =
+            KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
+                CardHeaderOuterClass.CardHeader.newBuilder().apply {
+                    cardId = 4
+                    updatedAt = 1604839761
+                }.build().let { header = it }
+                listOf(
+                    KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                        rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
+                        value = 1.04
+                        decimals = 2
+                        trend = KeyFigureCardOuterClass.KeyFigure.Trend.INCREASING
+                        trendSemantic =
+                            KeyFigureCardOuterClass.KeyFigure.TrendSemantic.NEGATIVE
+                    }.build()
+                ).let { addAllKeyFigures(it) }
+            }.build()
 
-        val SEVENDAYRVALUE_STATS = SevenDayRValue(
+        val SEVEN_DAY_R_VALUE_STATS = SevenDayRValue(
             updatedAt = Instant.ofEpochSecond(1604839761),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
