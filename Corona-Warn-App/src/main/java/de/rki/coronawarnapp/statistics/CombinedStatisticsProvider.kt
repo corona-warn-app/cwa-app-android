@@ -31,7 +31,7 @@ class CombinedStatisticsProvider @Inject constructor(
             }
 
         val addStatsItems = when {
-            !cardIdSequence.contains(StatsType.LOCAL_INCIDENCE.id) -> emptySet<StatsItem>()
+            !cardIdSequence.contains(StatsType.LOCAL_INCIDENCE.id) && isInternetAvailable -> emptySet<StatsItem>()
             else -> setOf(
                 AddStatsItem(
                     canAddItem = localStatsData.items.size < 5,
