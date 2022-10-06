@@ -30,16 +30,12 @@ class CombinedStatisticsProvider @Inject constructor(
                 ordering.compare(a.cardType.id, b.cardType.id)
             }
 
-        val addStatsItems = when {
-            !cardIdSequence.contains(StatsType.LOCAL_INCIDENCE.id) -> emptySet<StatsItem>()
-            else -> setOf(
-                AddStatsItem(
-                    canAddItem = localStatsData.items.size < 5,
-                    isInternetAvailable = isInternetAvailable
-                )
+        val addStatsItems = setOf(
+            AddStatsItem(
+                canAddItem = localStatsData.items.size < 5,
+                isInternetAvailable = isInternetAvailable
             )
-        }
-
+        )
         statsData.copy(items = addStatsItems + stats)
     }
 }
