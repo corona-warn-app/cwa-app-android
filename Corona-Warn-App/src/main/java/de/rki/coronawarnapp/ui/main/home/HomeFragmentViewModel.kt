@@ -288,7 +288,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         }
                     },
                     openLink = { url ->
-                        events.postValue(HomeFragmentEvents.OpenExternalLink(url))
+                        events.postValue(HomeFragmentEvents.OpenLinkCardUrl(url))
                     }
                 )
             )

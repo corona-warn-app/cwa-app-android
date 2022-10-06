@@ -279,7 +279,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
             )
 
-            is HomeFragmentEvents.OpenExternalLink -> openUrl(event.url)
+            is HomeFragmentEvents.OpenLinkCardUrl -> openUrl(event.url)
         }
     }
 
