@@ -20,7 +20,7 @@ sealed class HomeFragmentEvents {
     ) : HomeFragmentEvents()
 
     object GoToStatisticsExplanation : HomeFragmentEvents()
-    data class OpenExternalLink(val url: String) : HomeFragmentEvents()
+    data class OpenLinkCardUrl(val url: String) : HomeFragmentEvents()
 
     object GoToFederalStateSelection : HomeFragmentEvents()
 
