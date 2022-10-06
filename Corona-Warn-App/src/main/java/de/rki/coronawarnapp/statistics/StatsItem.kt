@@ -24,10 +24,6 @@ data class StatisticsData(
         }
         })"
     }
-
-    companion object {
-        val DEFAULT = StatisticsData(cardIdSequence = setOf(StatsType.LOCAL_INCIDENCE.id))
-    }
 }
 
 data class LocalStatisticsData(
