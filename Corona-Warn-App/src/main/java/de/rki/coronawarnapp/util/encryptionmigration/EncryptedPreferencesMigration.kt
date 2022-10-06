@@ -38,7 +38,7 @@ class EncryptedPreferencesMigration @Inject constructor(
                 encryptedPreferences.instance?.let { copyData(it) }
             } catch (e: Exception) {
                 e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
-                errorResetTool.isResetNoticeToBeShown = true
+                errorResetTool.updateIsResetNoticeToBeShown(true)
             } finally {
                 try {
                     encryptedPreferences.clean()

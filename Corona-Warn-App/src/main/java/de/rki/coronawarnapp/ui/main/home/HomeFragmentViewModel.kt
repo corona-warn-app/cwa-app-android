@@ -223,24 +223,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }.distinctUntilChanged().asLiveData2()
 
-    fun errorResetDialogDismissed() {
-        errorResetTool.isResetNoticeToBeShown = false
+    fun errorResetDialogDismissed() = launch {
+        errorResetTool.updateIsResetNoticeToBeShown(false)
     }
 
-    fun refreshTests() {
-        launch {
-            try {
-                submissionRepository.refreshTest()
-                familyTestRepository.refresh()
-            } catch (e: CoronaTestNotFoundException) {
-                Timber.e(e, "refreshTest failed")
-                errorEvent.postValue(e)
-            }
+    fun refreshTests() = launch {
+        try {
+            submissionRepository.refreshTest()
+            familyTestRepository.refresh()
+        } catch (e: CoronaTestNotFoundException) {
+            Timber.e(e, "refreshTest failed")
+            errorEvent.postValue(e)
         }
     }
 
     fun showPopUps() = launch {
-        if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
+        if (errorResetTool.isResetNoticeToBeShown.first()) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown.first()) events.postValue(
             ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
         )

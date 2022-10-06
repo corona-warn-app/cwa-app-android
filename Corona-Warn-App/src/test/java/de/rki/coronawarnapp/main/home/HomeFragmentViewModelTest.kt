@@ -105,7 +105,7 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
 
-        every { errorResetTool.isResetNoticeToBeShown } returns false
+        every { errorResetTool.isResetNoticeToBeShown } returns flowOf(false)
         coEvery { cwaSettings.wasTracingExplanationDialogShown } returns flowOf(true)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
@@ -195,7 +195,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
         coEvery { cwaSettings.lastChangelogVersion } returns flowOf(1L) andThen flowOf(1120004)
 
-        every { errorResetTool.isResetNoticeToBeShown } returns true
+        every { errorResetTool.isResetNoticeToBeShown } returns flowOf(true)
 
         with(createInstance()) {
             showPopUps()

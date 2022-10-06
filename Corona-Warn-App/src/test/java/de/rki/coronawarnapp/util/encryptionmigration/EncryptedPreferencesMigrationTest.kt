@@ -155,7 +155,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { encryptedPreferencesHelper.instance } returns mockPrefs
         every { encryptedPreferencesHelper.clean() } just Runs
 
-        every { encryptedErrorResetTool.isResetNoticeToBeShown = true } just Runs
+        coEvery { encryptedErrorResetTool.updateIsResetNoticeToBeShown(any()) } just Runs
 
         shouldNotThrowAny {
             val instance = createInstance()

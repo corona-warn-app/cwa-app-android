@@ -54,6 +54,7 @@ import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesMigration
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesModule
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -70,6 +71,7 @@ import javax.inject.Singleton
         ServiceBinder::class,
         ActivityBinder::class,
         CoilModule::class,
+        EncryptedPreferencesModule::class,
         RiskModule::class,
         DeviceModule::class,
         ENFModule::class,
