@@ -9,7 +9,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
@@ -89,21 +88,22 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
             }
 
-            is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
+            is ShowRefreshErrorDialog -> displayDialog(
+                cancelable = false,
+                dialog = event.error.toErrorDialogBuilder(requireContext())
+            ) {
                 setTitle(R.string.test_certificate_refresh_dialog_title)
-                setCancelable(false)
                 if (event.showTestCertificateFaq)
                     setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
                         openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
                     }
-            }.show()
+            }
 
-            is ShowMigrationInfoDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.certificate_migration_dialog_title)
-                .setMessage(R.string.certificate_migration_dialog_message)
-                .setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
-                .setCancelable(true)
-                .show()
+            is ShowMigrationInfoDialog -> displayDialog {
+                setTitle(R.string.certificate_migration_dialog_title)
+                setMessage(R.string.certificate_migration_dialog_message)
+                setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+            }
 
             OpenCovPassInfo -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
@@ -122,7 +122,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowAdmissionScenarioError -> event.error.toErrorDialogBuilder(requireContext()).show()
+            is ShowAdmissionScenarioError -> displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
         }
     }
 
