@@ -1,13 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.EmptyResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ExportResult
@@ -16,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOvervi
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ShareResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -93,24 +93,19 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         }
     }
 
-    private fun showErrorDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.export_all_error_title)
-            .setMessage(R.string.export_all_error_message)
-            .setNeutralButton(R.string.export_all_error_faq) { _, _ ->
-                openUrl(R.string.certificate_export_all_error_dialog_faq_link)
-            }.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-            .setOnDismissListener { navigateToPersonOverview() }
-            .show()
+    private fun showErrorDialog() = displayDialog(onDismissAction = { navigateToPersonOverview() }) {
+        setTitle(R.string.export_all_error_title)
+        setMessage(R.string.export_all_error_message)
+        setNeutralButton(R.string.export_all_error_faq) { _, _ ->
+            openUrl(R.string.certificate_export_all_error_dialog_faq_link)
+        }
+        setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
     }
 
-    private fun showEmptyDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.export_all_no_pages_title)
-            .setMessage(R.string.export_all_no_pages_message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> }
-            .setOnDismissListener { navigateToPersonOverview() }
-            .show()
+    private fun showEmptyDialog() = displayDialog(onDismissAction = { navigateToPersonOverview() }) {
+        setTitle(R.string.export_all_no_pages_title)
+        setMessage(R.string.export_all_no_pages_message)
+        setPositiveButton(android.R.string.ok) { _, _ -> }
     }
 
     private fun navigateToPersonOverview() = runCatching {
