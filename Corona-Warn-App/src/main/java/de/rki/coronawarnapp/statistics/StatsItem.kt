@@ -22,7 +22,7 @@ data class StatisticsData(
                 is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
             }
         }
-        })"
+        },cardIdSequence=$cardIdSequence)"
     }
 
     companion object {
