@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.statistics
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.common.collect.Ordering
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.environment.download.DownloadCDNModule
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
 import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.StatisticsModule
+import de.rki.coronawarnapp.statistics.StatsSequenceItem
 import de.rki.coronawarnapp.statistics.local.FederalStateToPackageId
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsParser
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsServer
@@ -32,9 +34,20 @@ import timber.log.Timber
 object Statistics {
 
     private fun loadRealStatisticsData(): StatisticsData {
-        val globalStats = loadGlobalStatisticsData()?.items ?: emptyList()
+        val globalStatisticsData = loadGlobalStatisticsData()
+        val globalStats = globalStatisticsData?.items ?: emptyList()
         val localStats = loadLocalStatisticsData()?.items ?: emptyList()
-        return StatisticsData(items = listOf(AddStatsItem(true, true)) + localStats + globalStats)
+
+        val cardIdSequence = globalStatisticsData?.cardIdSequence.orEmpty()
+        val ordering = Ordering.explicit(cardIdSequence.toList())
+        val stats = globalStats.plus(localStats)
+            .filterIsInstance<StatsSequenceItem>()
+            .filter { it.cardType.id in cardIdSequence }
+            .sortedWith { a, b -> ordering.compare(a.cardType.id, b.cardType.id) }
+
+        return StatisticsData(
+            items = setOf(AddStatsItem(canAddItem = true, isInternetAvailable = true)) + stats
+        )
     }
 
     private fun loadLocalStatisticsData(): LocalStatisticsData? {

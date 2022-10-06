@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_link_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/pandemic_radar_card_title"
+        tools:layout_height="wrap_content"
+        tools:layout_width="@dimen/statistics_card_width"
+        tools:showIn="@layout/home_statistics_cards_basecard_layout">
+
+        <ImageButton
+            android:id="@+id/info_statistics"
+            style="@style/StatisticsCardInfoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/statistics_info_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:maxLines="2"
+            android:text="@string/pandemic_radar_card_title"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="@string/pandemic_radar_card_subtitle"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/info_statistics"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@null"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subtitle"
+            app:srcCompat="@drawable/pandemic_radar" />
+
+        <TextView
+            android:id="@+id/primary_label"
+            style="@style/StatisticsCardValueLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/pandemic_radar_card_message"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/subtitle"
+            app:layout_constraintTop_toTopOf="@id/background_image" />
+        <Button
+            android:id="@+id/link_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_padding"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/card_padding"
+            android:layout_marginBottom="@dimen/card_padding"
+            android:paddingStart="45dp"
+            android:paddingEnd="40dp"
+            android:text="@string/pandemic_Radar_card_button_text"
+            app:icon="@drawable/ic_link"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/background_image"
+            app:strokeColor="@color/colorSecondary" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

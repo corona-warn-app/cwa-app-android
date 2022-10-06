@@ -3,13 +3,14 @@ package de.rki.coronawarnapp.statistics
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass.KeyFigure
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import timber.log.Timber
+import java.net.URL
 import java.time.Instant
 
 data class StatisticsData(
-    val items: List<GenericStatsItem> = emptyList()
+    val items: Set<StatsItem> = emptySet(),
+    val cardIdSequence: Set<Int> = emptySet()
 ) {
-    val isDataAvailable: Boolean = items
-        .isNotEmpty()
+    val isDataAvailable: Boolean = items.isNotEmpty()
 
     override fun toString(): String {
         return "StatisticsData(cards=${
@@ -18,17 +19,20 @@ data class StatisticsData(
                 is AddStatsItem -> "AddCard(${it.isEnabled})"
                 is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
                 is LocalStatsItem -> it.cardType.name + " " + it.updatedAt
+                is LinkStatsItem -> it.cardType.name + " " + it.updatedAt
             }
         }
-        })"
+        },cardIdSequence=$cardIdSequence)"
+    }
+
+    companion object {
+        val DEFAULT = StatisticsData(cardIdSequence = setOf(StatsType.LOCAL_INCIDENCE.id))
     }
 }
 
 data class LocalStatisticsData(
     val items: List<LocalIncidenceAndHospitalizationStats> = emptyList()
 ) {
-    val isDataAvailable: Boolean = items.isNotEmpty()
-
     override fun toString(): String {
         return "StatisticsData(cards=${
         items.map {
@@ -38,41 +42,29 @@ data class LocalStatisticsData(
     }
 }
 
-sealed class GenericStatsItem
+sealed interface StatsItem
+sealed class StatsSequenceItem(val cardType: StatsType) : StatsItem
+
+sealed class LocalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
+sealed class GlobalStatsItem(cardType: StatsType) : KeyFiguresStatsItem(cardType)
 
 data class AddStatsItem(
     val canAddItem: Boolean,
     val isInternetAvailable: Boolean
-) : GenericStatsItem() {
+) : StatsItem {
     val isEnabled: Boolean get() = canAddItem && isInternetAvailable
 }
 
-sealed class GlobalStatsItem(val cardType: Type) : GenericStatsItem() {
+sealed class KeyFiguresStatsItem(cardType: StatsType) : StatsSequenceItem(cardType) {
     abstract val updatedAt: Instant
     abstract val keyFigures: List<KeyFigure>
-
-    enum class Type(val id: Int) {
-        INFECTION(1),
-        KEYSUBMISSION(3),
-        SEVEN_DAY_RVALUE(4),
-        PERSONS_VACCINATED_ONCE(5),
-        PERSONS_VACCINATED_COMPLETELY(6),
-        APPLIED_VACCINATION_RATES(7),
-        OCCUPIED_INTENSIVE_CARE_BEDS(9),
-        INCIDENCE_AND_HOSPITALIZATION(10),
-        PERSONS_VACCINATED_WITH_BOOSTER(11)
-    }
 
     abstract fun requireValidity()
 }
 
-sealed class LocalStatsItem(val cardType: Type) : GenericStatsItem() {
+sealed class LinkStatsItem(cardType: StatsType) : StatsSequenceItem(cardType) {
     abstract val updatedAt: Instant
-    abstract val keyFigures: List<KeyFigure>
-
-    enum class Type(val id: Int) {
-        LOCAL_INCIDENCE(8)
-    }
+    abstract val url: String
 
     abstract fun requireValidity()
 }
@@ -80,7 +72,7 @@ sealed class LocalStatsItem(val cardType: Type) : GenericStatsItem() {
 data class InfectionStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.INFECTION) {
+) : GlobalStatsItem(cardType = StatsType.INFECTION) {
 
     val newInfections: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -108,7 +100,7 @@ data class InfectionStats(
 data class IncidenceAndHospitalizationStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.INCIDENCE_AND_HOSPITALIZATION) {
+) : GlobalStatsItem(cardType = StatsType.INCIDENCE_AND_HOSPITALIZATION) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -132,7 +124,7 @@ data class LocalIncidenceAndHospitalizationStats(
     override val keyFigures: List<KeyFigure>,
     val hospitalizationUpdatedAt: Instant,
     val selectedLocation: SelectedStatisticsLocation,
-) : LocalStatsItem(cardType = Type.LOCAL_INCIDENCE) {
+) : LocalStatsItem(cardType = StatsType.LOCAL_INCIDENCE) {
 
     val sevenDayIncidence: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -154,7 +146,7 @@ data class LocalIncidenceAndHospitalizationStats(
 data class KeySubmissionsStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.KEYSUBMISSION) {
+) : GlobalStatsItem(cardType = StatsType.KEY_SUBMISSION) {
 
     val keySubmissions: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -182,7 +174,7 @@ data class KeySubmissionsStats(
 data class SevenDayRValue(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.SEVEN_DAY_RVALUE) {
+) : GlobalStatsItem(cardType = StatsType.SEVEN_DAY_RVALUE) {
 
     val reproductionNumber: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -198,7 +190,7 @@ data class SevenDayRValue(
 data class PersonsVaccinatedOnceStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.PERSONS_VACCINATED_ONCE) {
+) : GlobalStatsItem(cardType = StatsType.PERSONS_VACCINATED_ONCE) {
 
     val firstDose: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -220,7 +212,7 @@ data class PersonsVaccinatedOnceStats(
 data class PersonsVaccinatedCompletelyStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.PERSONS_VACCINATED_COMPLETELY) {
+) : GlobalStatsItem(cardType = StatsType.PERSONS_VACCINATED_COMPLETELY) {
 
     val allDoses: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -242,7 +234,7 @@ data class PersonsVaccinatedCompletelyStats(
 data class PersonsVaccinatedWithBoosterStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.PERSONS_VACCINATED_WITH_BOOSTER) {
+) : GlobalStatsItem(cardType = StatsType.PERSONS_VACCINATED_WITH_BOOSTER) {
 
     val boosterDoses: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -264,7 +256,7 @@ data class PersonsVaccinatedWithBoosterStats(
 data class AppliedVaccinationRatesStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.APPLIED_VACCINATION_RATES) {
+) : GlobalStatsItem(cardType = StatsType.APPLIED_VACCINATION_RATES) {
 
     val administeredDoses: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
@@ -292,7 +284,7 @@ data class AppliedVaccinationRatesStats(
 data class OccupiedIntensiveCareStats(
     override val updatedAt: Instant,
     override val keyFigures: List<KeyFigure>
-) : GlobalStatsItem(cardType = Type.OCCUPIED_INTENSIVE_CARE_BEDS) {
+) : GlobalStatsItem(cardType = StatsType.OCCUPIED_INTENSIVE_CARE_BEDS) {
     val occupationRatio: KeyFigure
         get() = keyFigures.single { it.rank == KeyFigure.Rank.PRIMARY }
 
@@ -302,4 +294,29 @@ data class OccupiedIntensiveCareStats(
             Timber.w("OccupiedIntensiveCareStats is missing primary value")
         }
     }
+}
+
+data class PandemicRadarStats(
+    override val updatedAt: Instant,
+    override val url: String
+) : LinkStatsItem(cardType = StatsType.PANDEMIC_RADAR) {
+
+    override fun requireValidity() {
+        require(url.isNotBlank())
+        require(URL(url).protocol.startsWith("https", true))
+    }
+}
+
+enum class StatsType(val id: Int) {
+    INFECTION(1),
+    KEY_SUBMISSION(3),
+    SEVEN_DAY_RVALUE(4),
+    PERSONS_VACCINATED_ONCE(5),
+    PERSONS_VACCINATED_COMPLETELY(6),
+    APPLIED_VACCINATION_RATES(7),
+    OCCUPIED_INTENSIVE_CARE_BEDS(9),
+    INCIDENCE_AND_HOSPITALIZATION(10),
+    PERSONS_VACCINATED_WITH_BOOSTER(11),
+    PANDEMIC_RADAR(12),
+    LOCAL_INCIDENCE(999),
 }
