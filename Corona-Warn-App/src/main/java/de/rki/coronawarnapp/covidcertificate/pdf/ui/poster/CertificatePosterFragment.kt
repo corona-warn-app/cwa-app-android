@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterView
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.PrintResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.CertificatePosterFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -72,7 +73,7 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
 
         viewModel.error.observe2(this) {
             binding.progressLayout.isVisible = false
-            it.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
         }
 
         viewModel.uiState.observe2(this) { state ->
