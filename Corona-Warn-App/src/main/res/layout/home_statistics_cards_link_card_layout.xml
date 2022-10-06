@@ -65,12 +65,13 @@
             style="@style/StatisticsCardValueLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/pandemic_radar_card_message"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/subtitle"
             app:layout_constraintTop_toTopOf="@id/background_image" />
-
         <Button
             android:id="@+id/link_button"
             style="@style/Widget.Material3.Button.OutlinedButton"
@@ -87,7 +88,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/background_image"
-            app:strokeColor="@color/colorPrimary" />
+            app:strokeColor="@color/colorSecondary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
