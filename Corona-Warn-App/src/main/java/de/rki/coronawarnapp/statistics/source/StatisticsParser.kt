@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
-import de.rki.coronawarnapp.statistics.StatsItem
+import de.rki.coronawarnapp.statistics.StatsSequenceItem
 import de.rki.coronawarnapp.statistics.StatsType
 import timber.log.Timber
 import java.time.Instant
@@ -31,9 +31,10 @@ class StatisticsParser @Inject constructor() {
 
         val statsItems = parsed.keyFigureCardsList.mapNotNull { rawCard -> rawCard.toGlobalStatsItem() }.toSet()
         val linkItems = parsed.linkCardsList.mapNotNull { linkCard -> linkCard.toLinkCardItem() }.toSet()
-        val mappedItems: Set<StatsItem> = statsItems + linkItems
+        val mappedItems: Set<StatsSequenceItem> = statsItems + linkItems
+
         return StatisticsData(
-            items = mappedItems,
+            items = mappedItems.distinctBy { it.cardType }.toSet(),
             cardIdSequence = parsed.cardIdSequenceList.toSet()
         ).also {
             Timber.tag(TAG).d("Parsed statistics data, %d cards.", it.items.size)

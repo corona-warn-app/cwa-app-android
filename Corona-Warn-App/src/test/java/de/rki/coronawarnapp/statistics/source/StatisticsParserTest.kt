@@ -2,12 +2,15 @@ package de.rki.coronawarnapp.statistics.source
 
 import de.rki.coronawarnapp.server.protocols.internal.stats.CardHeaderOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.stats.LinkCardOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
 import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
+import de.rki.coronawarnapp.statistics.PandemicRadarStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsType
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import java.time.Instant
@@ -85,13 +88,19 @@ class StatisticsParserTest : BaseTest() {
             addCardIdSequence(3)
             addCardIdSequence(1)
             addCardIdSequence(3)
+            addCardIdSequence(12)
             addKeyFigureCards(INFECTION_PROTO)
             addKeyFigureCards(KEY_SUBMISSION_PROTO)
             addKeyFigureCards(KEY_SUBMISSION_PROTO)
+            addLinkCards(LINK_CARD_VALID)
+            addLinkCards(LINK_CARD_DUPLICATE)
+            addLinkCards(LINK_CARD_INVALID_ID)
+            addLinkCards(LINK_CARD_INVALID_URL)
+            addLinkCards(LINK_CARD_INVALID_URL_2)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            items = setOf(KEY_SUBMISSION_STATS, INFECTION_STATS, KEY_SUBMISSION_STATS),
-            cardIdSequence = setOf(3, 1, 3)
+            items = setOf(KEY_SUBMISSION_STATS, INFECTION_STATS, KEY_SUBMISSION_STATS, LINK_CARD),
+            cardIdSequence = setOf(3, 1, 3, 12)
         )
     }
 
@@ -347,5 +356,55 @@ class StatisticsParserTest : BaseTest() {
                 }.build()
             )
         )
+
+        val LINK_CARD = PandemicRadarStats(
+            updatedAt = Instant.EPOCH,
+            url = "https://www.rki.de"
+        )
+
+        val LINK_CARD_VALID: LinkCardOuterClass.LinkCard = LinkCardOuterClass.LinkCard.newBuilder()
+            .setHeader(
+                CardHeaderOuterClass.CardHeader.newBuilder()
+                    .setCardId(StatsType.PANDEMIC_RADAR.id)
+                    .build()
+            )
+            .setUrl("https://www.rki.de")
+            .build()
+
+        val LINK_CARD_DUPLICATE: LinkCardOuterClass.LinkCard = LinkCardOuterClass.LinkCard.newBuilder()
+            .setHeader(
+                CardHeaderOuterClass.CardHeader.newBuilder()
+                    .setCardId(StatsType.PANDEMIC_RADAR.id)
+                    .build()
+            )
+            .setUrl("https://www.cwa.de")
+            .build()
+
+        val LINK_CARD_INVALID_URL: LinkCardOuterClass.LinkCard = LinkCardOuterClass.LinkCard.newBuilder()
+            .setHeader(
+                CardHeaderOuterClass.CardHeader.newBuilder()
+                    .setCardId(StatsType.PANDEMIC_RADAR.id)
+                    .build()
+            )
+            .setUrl("www.rki.de")
+            .build()
+
+        val LINK_CARD_INVALID_URL_2: LinkCardOuterClass.LinkCard = LinkCardOuterClass.LinkCard.newBuilder()
+            .setHeader(
+                CardHeaderOuterClass.CardHeader.newBuilder()
+                    .setCardId(StatsType.PANDEMIC_RADAR.id)
+                    .build()
+            )
+            .setUrl("http://www.rki.de")
+            .build()
+
+        val LINK_CARD_INVALID_ID: LinkCardOuterClass.LinkCard = LinkCardOuterClass.LinkCard.newBuilder()
+            .setHeader(
+                CardHeaderOuterClass.CardHeader.newBuilder()
+                    .setCardId(17)
+                    .build()
+            )
+            .setUrl("https://www.rki.de")
+            .build()
     }
 }
