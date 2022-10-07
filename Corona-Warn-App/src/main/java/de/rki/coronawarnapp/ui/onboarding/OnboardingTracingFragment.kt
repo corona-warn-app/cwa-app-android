@@ -43,16 +43,17 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
-                is OnboardingNavigationEvents.ShowCancelDialog -> displayDialog { dialog ->
-                    setTitle(R.string.onboarding_tracing_dialog_headline)
-                    setMessage(R.string.onboarding_tracing_dialog_body)
-                    setPositiveButton(R.string.onboarding_tracing_dialog_button_positive) { _, _ ->
-                        vm.disableTracingIfEnabled()
-                        navigateToOnboardingTestFragment()
-                        dialog.dismiss()
+                is OnboardingNavigationEvents.ShowCancelDialog ->
+                    displayDialog { dialog ->
+                        setTitle(R.string.onboarding_tracing_dialog_headline)
+                        setMessage(R.string.onboarding_tracing_dialog_body)
+                        setPositiveButton(R.string.onboarding_tracing_dialog_button_positive) { _, _ ->
+                            vm.disableTracingIfEnabled()
+                            navigateToOnboardingTestFragment()
+                            dialog.dismiss()
+                        }
+                        setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
                     }
-                    setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
-                }
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
 
                 else -> Unit
