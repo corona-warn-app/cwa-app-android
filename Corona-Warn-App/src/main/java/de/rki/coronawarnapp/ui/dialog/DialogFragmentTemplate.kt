@@ -19,8 +19,10 @@ class DialogFragmentTemplate : DialogFragment() {
         val dialogParams = requireArguments().getParcelable<DialogTemplateParams>(DIALOG_TEMPLATE_PARAMS)
         requireNotNull(dialogParams) { "DialogTemplateParams is null" }
         isCancelable = dialogParams.cancelable == true
-        return dialogParams.materialDialog?.apply(dialogParams.config)?.create()
-            ?: MaterialAlertDialogBuilder(requireContext()).apply(dialogParams.config).create()
+        val builder = dialogParams.materialDialog ?: MaterialAlertDialogBuilder(requireContext())
+        return builder.apply {
+            dialogParams.config(builder, this@DialogFragmentTemplate)
+        }.create()
     }
 
     override fun onStart() {
@@ -44,7 +46,7 @@ class DialogFragmentTemplate : DialogFragment() {
         val isDeleteDialog: Boolean = false,
         val dismissAction: () -> Unit = { },
         val materialDialog: @RawValue MaterialAlertDialogBuilder? = null,
-        val config: MaterialAlertDialogBuilder.() -> Unit
+        val config: MaterialAlertDialogBuilder.(DialogFragment) -> Unit
     ) : Parcelable
 
     companion object {
