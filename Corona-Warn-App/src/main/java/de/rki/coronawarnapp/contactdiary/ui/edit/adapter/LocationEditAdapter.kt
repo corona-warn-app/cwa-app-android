@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.util.AbstractAdapter
 import de.rki.coronawarnapp.contactdiary.util.setClickLabel
 import de.rki.coronawarnapp.databinding.ContactDiaryEditListItemBinding
-import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
 
 internal class LocationEditAdapter(
@@ -21,7 +20,7 @@ internal class LocationEditAdapter(
         holder.bind(data[position], payloads)
 
     inner class ViewHolder(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
+        VH(R.layout.contact_diary_edit_list_item, parent),
         BindableVH<ContactDiaryLocation, ContactDiaryEditListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryEditListItemBinding> =

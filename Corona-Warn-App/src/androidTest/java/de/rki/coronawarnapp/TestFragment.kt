@@ -18,7 +18,7 @@ class TestFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return TextView(this.context)
     }
 }

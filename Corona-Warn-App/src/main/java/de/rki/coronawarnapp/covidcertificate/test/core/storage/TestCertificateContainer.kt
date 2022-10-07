@@ -43,7 +43,7 @@ data class TestCertificateContainer(
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(qrCodeHash)
 
-    override val recycledAt: java.time.Instant?
+    override val recycledAt: Instant?
         get() = data.recycledAt
 
     val registrationToken: String?

@@ -18,7 +18,7 @@ class CoronaTestAdapter(val items: List<CoronaTestItem.Data>) : BaseAdapter<View
     override fun getItemCount(): Int = items.size
 
     class ViewHolder(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.contact_diary_overview_day_list_item_test_result, parent),
+        VH(R.layout.contact_diary_overview_day_list_item_test_result, parent),
         BindableVH<CoronaTestItem.Data, ContactDiaryOverviewDayListItemTestResultBinding> {
 
         override val viewBinding: Lazy<ContactDiaryOverviewDayListItemTestResultBinding> =
