@@ -165,7 +165,7 @@ data class VaccinationCertificateContainer(
 
         override val isNew: Boolean get() = !data.certificateSeenByUser
 
-        override val recycledAt: java.time.Instant?
+        override val recycledAt: Instant?
             get() = this@VaccinationCertificateContainer.recycledAt
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
