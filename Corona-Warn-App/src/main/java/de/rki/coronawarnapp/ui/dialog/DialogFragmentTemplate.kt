@@ -49,7 +49,7 @@ class DialogFragmentTemplate : DialogFragment() {
 
     companion object {
         val TAG: String = DialogFragmentTemplate::class.java.simpleName
-        private val DIALOG_TEMPLATE_PARAMS = "${DialogFragmentTemplate.TAG}_DIALOG_TEMPLATE_PARAMS"
+        private val DIALOG_TEMPLATE_PARAMS = "${TAG}_DIALOG_TEMPLATE_PARAMS"
 
         fun newInstance(dialogParams: DialogTemplateParams) = DialogFragmentTemplate().apply {
             arguments = bundleOf(DIALOG_TEMPLATE_PARAMS to dialogParams)

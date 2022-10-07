@@ -57,7 +57,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     val selectedDate: LocalDate get() = state.value?.localDate ?: LocalDate.now()
     val selectedTime: LocalTime get() = state.value?.localTime ?: LocalTime.now()
-    val selectedCountryCode: String get() = state.value?.dccCountry?.countryCode ?: DccCountry.DE
+    val selectedCountryCode: String get() = state.value?.dccCountry?.countryCode ?: DE
 
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->

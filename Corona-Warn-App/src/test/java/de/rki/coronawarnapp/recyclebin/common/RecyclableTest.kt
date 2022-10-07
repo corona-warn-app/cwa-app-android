@@ -27,7 +27,7 @@ class RecyclableTest : BaseTest() {
     @Test
     fun `is not recycled`() {
         val recycledObject = object : Recyclable {
-            override val recycledAt: java.time.Instant?
+            override val recycledAt: Instant?
                 get() = null
         }
 
