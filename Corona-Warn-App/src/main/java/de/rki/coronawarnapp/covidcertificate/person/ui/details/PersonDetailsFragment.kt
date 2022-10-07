@@ -17,11 +17,11 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -138,9 +138,9 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             ).also { viewModel.dismissAdmissionStateBadge() }
             is ShowErrorDialog -> with(event) {
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
-                    DccValidationNoInternetErrorDialog(requireContext()).show()
+                    dccValidationNoInternetDialog()
                 } else {
-                    error.toErrorDialogBuilder(requireContext()).show()
+                    displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
                 }
             }
             is OpenBoosterInfoDetails -> doNavigate(
@@ -163,19 +163,19 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.recycle_bin_recycle_certificate_dialog_title,
-                R.string.recycle_bin_recycle_certificate_dialog_message,
-                R.string.recycle_bin_recycle_certificate_dialog_positive_button,
-                R.string.family_tests_list_deletion_alert_cancel_button,
-                positiveButtonFunction = { viewModel.recycleCertificate(certificate) },
-                negativeButtonFunction = { position.let { personDetailsAdapter.notifyItemChanged(position) } },
-                cancelFunction = { position.let { personDetailsAdapter.notifyItemChanged(position) } },
-                isDeleteDialog = true
-            )
-        )
+        displayDialog(
+            isDeleteDialog = true,
+            onDismissAction = { position.let { personDetailsAdapter.notifyItemChanged(position) } }
+        ) {
+            setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
+            setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
+            setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
+                viewModel.recycleCertificate(certificate)
+            }
+            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ ->
+                position.let { personDetailsAdapter.notifyItemChanged(position) }
+            }
+        }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
         try {

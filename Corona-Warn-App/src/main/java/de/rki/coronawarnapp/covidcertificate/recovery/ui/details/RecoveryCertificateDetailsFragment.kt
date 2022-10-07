@@ -19,11 +19,11 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -143,9 +143,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
-            DccValidationNoInternetErrorDialog(requireContext()).show()
+            dccValidationNoInternetDialog()
         } else {
-            error.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
         }
     }
 
@@ -218,12 +218,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         behavior.overlayTop = (width / 3) + 170
     }
 
-    private fun showCertificateDeletionRequest() {
-        RecycleBinDialogType.RecycleCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.recycleRecoveryCertificateConfirmed() }
-        )
-    }
+    private fun showCertificateDeletionRequest() =
+        recycleCertificateDialog { viewModel.recycleRecoveryCertificateConfirmed() }
 
     companion object {
         private val TAG = tag<RecoveryCertificateDetailsFragment>()

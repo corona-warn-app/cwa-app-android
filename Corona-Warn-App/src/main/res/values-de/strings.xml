@@ -1448,6 +1448,16 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
          Statistics
     ###################################### -->
 
+    <!-- Pandemic radar link card -->
+    <!-- XHED: Pandemic radar title -->
+    <string name="pandemic_radar_card_title">"Pandemieradar"</string>
+    <!-- XTXT: Pandemic radar subtitle -->
+    <string name="pandemic_radar_card_subtitle">"des Robert Koch-Instituts"</string>
+    <!-- XTXT: Pandemic radar message -->
+    <string name="pandemic_radar_card_message">"Entdecken Sie weitere Statistiken zur Pandemie."</string>
+    <!-- XTXT: Pandemic radar button text -->
+    <string name="pandemic_Radar_card_button_text">"Externen Link öffnen "</string>
+
     <!-- Incidence statistics card -->
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
@@ -1519,7 +1529,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legende"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1527,7 +1537,11 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen yesterday subtitle -->
     <string name="statistics_explanation_yesterday_subtitle">Gestern / Bis gestern</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XTXT: Explanation screen pandemic radar title -->
+    <string name="statistics_explanation_pandemic_radar_title">Pandemieradar</string>
+    <!-- XTXT: Explanation screen pandemic radar susbtile -->
+    <string name="statistics_explanation_pandemic_radar_subtitle">Diverse Statistiken zur Corona-Pandemie, die auf einer Webseite des Robert Koch-Instituts bereitgestellt werden. Bitte beachten Sie, dass die anfallenden Daten auf Ihr Datenvolumen angerechnet werden und die Webseite nicht barrierefrei ist.</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
     <!-- XTXT: Statistics screen seven day mean text -->

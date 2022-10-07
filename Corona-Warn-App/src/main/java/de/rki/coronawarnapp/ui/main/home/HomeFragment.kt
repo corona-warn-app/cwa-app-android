@@ -278,6 +278,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
             )
+
+            is HomeFragmentEvents.OpenLinkCardUrl -> openUrl(event.url)
         }
     }
 
