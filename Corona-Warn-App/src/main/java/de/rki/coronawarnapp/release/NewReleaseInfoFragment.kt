@@ -100,7 +100,7 @@ private class ItemAdapter(
 ) : BaseAdapter<ItemAdapter.ViewHolder>() {
 
     inner class ViewHolder(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.new_release_info_item, parent),
+        VH(R.layout.new_release_info_item, parent),
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =

@@ -15,7 +15,7 @@ class StableIdMod<ItemT : HasStableId> constructor(
         adapter.setHasStableIds(true)
     }
 
-    override fun getItemId(adapter: ModularAdapter<*>, position: Int): Long? {
+    override fun getItemId(adapter: ModularAdapter<*>, position: Int): Long {
         return customResolver.invoke(position)
     }
 }

@@ -78,9 +78,9 @@ internal class DccWalletInfoCleanerTest : BaseTest() {
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(
             setOf(
-                PersonWalletInfo(person1.personIdentifier!!.groupingKey, null),
-                PersonWalletInfo(person2.personIdentifier!!.groupingKey, null),
-                PersonWalletInfo(person4.personIdentifier!!.groupingKey, null),
+                PersonWalletInfo(person1.personIdentifier.groupingKey, null),
+                PersonWalletInfo(person2.personIdentifier.groupingKey, null),
+                PersonWalletInfo(person4.personIdentifier.groupingKey, null),
             )
         )
         coEvery { dccWalletInfoRepository.delete(setOf("04.01.2020#DD#D")) } just Runs

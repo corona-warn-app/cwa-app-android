@@ -37,5 +37,5 @@ class TraceLocationSelectionAdapter :
     abstract class ItemVH<Item : TraceLocationItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 }
