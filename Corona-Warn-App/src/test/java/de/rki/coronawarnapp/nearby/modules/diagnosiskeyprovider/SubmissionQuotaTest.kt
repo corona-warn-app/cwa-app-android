@@ -31,7 +31,6 @@ class SubmissionQuotaTest : BaseTest() {
 
         every { enfData.currentQuota = any() } answers {
             testStorageCurrentQuota = arg(0)
-            Unit
         }
         every { enfData.currentQuota } answers {
             testStorageCurrentQuota

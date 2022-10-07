@@ -30,7 +30,7 @@ public class Log {
 
     public static int e(String tag, String msg, Throwable error) {
         if (error != null) {
-            System.out.println("E/: " + tag + ": " + msg + "Error: " + error.toString());
+            System.out.println("E/: " + tag + ": " + msg + "Error: " + error);
         } else {
             System.out.println("E/: " + tag + ": " + msg);
         }

@@ -36,7 +36,7 @@ class AdmissionScenariosAdapter :
     abstract class AdmissionItemVH<Item : AdmissionScenarioItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 
     companion object {
         private const val TAG = "AdmissionScenariosAdapter"

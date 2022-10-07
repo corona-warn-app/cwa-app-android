@@ -50,5 +50,5 @@ class PersonDetailsAdapter :
     abstract class PersonDetailsItemVH<Item : CertificateItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 }

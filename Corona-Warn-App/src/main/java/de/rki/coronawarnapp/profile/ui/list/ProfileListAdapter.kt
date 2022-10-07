@@ -33,5 +33,5 @@ class ProfileListAdapter :
     abstract class ItemVH<Item : ProfileListItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 }
