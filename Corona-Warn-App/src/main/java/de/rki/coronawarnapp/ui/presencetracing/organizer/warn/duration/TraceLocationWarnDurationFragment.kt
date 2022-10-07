@@ -72,7 +72,7 @@ class TraceLocationWarnDurationFragment :
                     eventDate.isGone = false
 
                     val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    val timeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
 
                     val startDay = startTime.format(dateFormat)
                     val startHour = startTime.format(timeFormat)
