@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
     android:contentDescription="@string/trace_location_organiser_warn_duration_header"
-    tools:context=".ui.presencetracing.organizer.warn.TraceLocationWarnInfoFragment">
+    tools:context=".ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
