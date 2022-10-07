@@ -29,7 +29,7 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
 
     class CachedKeyViewHolder(
         val parent: ViewGroup
-    ) : BaseAdapter.VH(R.layout.bugreporting_upload_history_item, parent),
+    ) : VH(R.layout.bugreporting_upload_history_item, parent),
         BindableVH<LogUpload, BugreportingUploadHistoryItemBinding> {
 
         override val viewBinding = lazy { BugreportingUploadHistoryItemBinding.bind(itemView) }

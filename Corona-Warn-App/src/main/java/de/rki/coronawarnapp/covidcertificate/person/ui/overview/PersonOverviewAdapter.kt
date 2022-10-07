@@ -41,7 +41,7 @@ class PersonOverviewAdapter :
     abstract class PersonOverviewItemVH<Item : PersonCertificatesItem, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 
     companion object {
         private const val TAG = "PersonOverviewAdapter"

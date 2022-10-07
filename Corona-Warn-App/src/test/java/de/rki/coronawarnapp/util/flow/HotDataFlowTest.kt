@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.util.flow
 import de.rki.coronawarnapp.util.mutate
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.instanceOf
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,11 +13,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.test.TestCoroutineScope
+
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.uncaughtExceptions
 import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -302,27 +300,6 @@ class HotDataFlowTest : BaseTest() {
         hotData.updateBlocking { 3 } shouldBe 3
         hotData.data.first() shouldBe 3
         testCollector.cancel()
-    }
-
-    @Test
-    fun `async updates error handler`() {
-        val testScope = TestCoroutineScope()
-
-        val hotData = HotDataFlow(
-            loggingTag = "tag",
-            scope = testScope,
-            startValueProvider = { 1 },
-            sharingBehavior = SharingStarted.Lazily
-        )
-
-        hotData.data.test(startOnScope = testScope)
-        testScope.advanceUntilIdle()
-
-        hotData.updateAsync { throw IOException("Surprise") }
-
-        testScope.advanceUntilIdle()
-
-        testScope.uncaughtExceptions.single() shouldBe instanceOf(IOException::class)
     }
 
     @Test

@@ -69,7 +69,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         appConfig.apply {
             every { maxExposureDetectionsPerUTCDay } returns 5
-            every { minTimeBetweenDetections } returns java.time.Duration.ofHours(24 / 6)
+            every { minTimeBetweenDetections } returns Duration.ofHours(24 / 6)
             every { diagnosisKeysDataMapping } returns diagnosisKeyDataMapping
             every { isDeviceTimeCorrect } returns true
         }

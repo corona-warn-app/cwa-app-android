@@ -21,7 +21,7 @@ internal class PersonEditAdapter(
         holder.bind(data[position], payloads)
 
     inner class ViewHolder(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.contact_diary_edit_list_item, parent),
+        VH(R.layout.contact_diary_edit_list_item, parent),
         BindableVH<ContactDiaryPerson, ContactDiaryEditListItemBinding> {
         override val viewBinding:
             Lazy<ContactDiaryEditListItemBinding> =

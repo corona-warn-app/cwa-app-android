@@ -104,5 +104,5 @@ class StatisticsCardAdapter :
     abstract class ItemVH<Item, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 }
