@@ -109,27 +109,19 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Ausgestellt"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
-    <string name="coronatest_negative_antigen_result_second_info_title">"Befund negativ"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
     <string name="coronatest_negative_antigen_result_second_info_body">"Der Schnelltest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Test löschen"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
-    <string name="coronatest_negative_antigen_restul_third_info_body">"Bitte löschen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
-    <string name="coronatest_negative_result_certificate_info_title">"Testzertifikat"</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile
      ###################################### -->
     <!-- XHED: Create RAT profile card title -->
-    <string name="rat_profile_create_card_title">Schnelltest-Profil anlegen</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">Schnelltest-Profile</string>
     <!-- XTXT: Open RAT profile card subtitle -->
