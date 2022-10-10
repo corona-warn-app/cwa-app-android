@@ -315,7 +315,6 @@
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten, in denen Sie andere Personen getroffen haben, aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged_assessment">"Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -766,11 +765,9 @@
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Ein Mann nutzt ein Headset zum Telefonieren."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
-    <string name="information_help_title">"Häufige Fragen"</string>
     <!-- XHED: Page title for accessibility statement information page -->
     <string name="information_accessibility_statement">"Barrierefreiheitserklärung"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Häufige Fragen. Sie werden auf eine externe Website weitergeleitet."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Rechtliche Hinweise"</string>
     <!-- XACT: describes illustration -->
@@ -1059,7 +1056,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1074,7 +1070,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID-Testzertifikat"</string>
     <!-- XTXT: Family test result certificate info text for negative result -->
-    <string name="submission_family_test_result_negative_steps_certificate_text">"Das digitale  COVID-Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Ein offizielles digitales COVID-Testzertifikat kann nicht ausgestellt werden, da diese Teststelle die Ausstellung der Testzertifikate nicht unterstützt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
@@ -1215,17 +1210,11 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
-    <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>
     <!-- XHED: Page headline for the submission country selection page -->
-    <string name="submission_positive_country_selection_headline">"In welchen Ländern haben Sie sich in den letzten 14 Tagen aufgehalten?"</string>
     <!-- XHED: Country selector headline for the submission country selection page -->
-    <string name="submission_country_selector_headline">"Ich war in den folgenden Ländern"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Keine Angabe"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
-    <string name="submission_country_selection_data_faq_body">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens.\n\nDie Auflistung enthält alle aktuell teilnehmenden Länder und wird stetig erweitert."</string>
     <!-- XBUT: submission country selection continue button -->
-    <string name="submission_country_selection_button">"Weiter"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->

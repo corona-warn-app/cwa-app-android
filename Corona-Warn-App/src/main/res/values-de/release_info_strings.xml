@@ -19,12 +19,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Anzeige der Maskenpflicht</item>
+        <item>Pandemieradar</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>In der App kann angezeigt werden, ob Sie in Ihrem Bundesland verpflichtet sind, an bestimmten Orten eine Maske zu tragen oder davon befreit sind. Diese Anzeige erscheint erst, wenn Ihr Bundesland erweiterte Regeln zur Maskenpflicht beschließt.\n\nSofern das Bundesland, in dem Sie sich aufhalten, eine Maskenpflicht angeordnet hat, befreit Sie ein negativer Schnell- oder PCR-Test bei Freizeit-, Kultur- und Sportveranstaltungen sowie in gastronomischen Einrichtungen für 24 Stunden von dieser Maskenpflicht. Ein unbeaufsichtigt durchgeführter Selbsttest genügt nicht. Ihr Bundesland kann regeln, dass Sie auch durch Impfungen oder Genesung (wenn diese höchstens drei Monate zurückliegen) von der Maskenpflicht befreit sind. Eine Befreiung von der Maskenpflicht gilt nicht im öffentlichen Personenfernverkehr, in Krankenhäusern, Pflegeeinrichtungen und für Patientinnen und Patienten in Arztpraxen.\n\nSollten Ihre in der App hinterlegten COVID-Zertifikate ausreichen, um Sie in Ihrem Bundesland von der Maskenpflicht zu befreien, färbt sich Ihr Zertifikat grün. Ihre Befreiung von der Maskenpflicht in Ihrem Bundesland kann durch einen Scan Ihres QR-Codes mithilfe der CovPassCheck-App nachgewiesen werden.</item>
+        <item>Der Corona-Warn-App wurde die Kachel „Pandemieradar“ hinzugefügt, von der Sie direkt auf eine Webseite des Robert Koch-Instituts abspringen können. Der Pandemieradar enthält diverse Statistiken zur Corona-Pandemie, die arbeitstäglich aktualisiert werden. Bitte beachten Sie, dass die beim Öffnen der Webseite anfallenden Daten auf Ihr Datenvolumen angerechnet werden und die Webseite nicht barrierefrei ist.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

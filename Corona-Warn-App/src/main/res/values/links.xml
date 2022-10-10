@@ -13,7 +13,6 @@
     <!-- XTXT: validation result FAQ link -->
     <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
     <!-- XTXT: risk details - health department info link url -->
-    <string name="risk_details_behavior_body_health_department_link">"https://www.coronawarn.app/en/faq/#quarantine_measures"</string>
     <!-- XTXT: risk details - home rules faq link url -->
     <string name="risk_details_minimize_risk_faq_link">"https://www.coronawarn.app/en/faq/#voluntary_self_quarantine"</string>
     <!-- XTXT: notification management: delta onboarding: faq link -->
