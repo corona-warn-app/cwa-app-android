@@ -232,10 +232,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
 
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> findNavController().navigate(
-                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
-            )
-
             is HomeFragmentEvents.ShowDeleteTestDialog -> recycleCertificateDialog {
                 viewModel.moveTestToRecycleBinStorage(event.identifier)
             }
@@ -246,7 +242,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
             )
 
-            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> findNavController().navigate(
+            is HomeFragmentEvents.GoToTestResultNegativeFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
 
