@@ -35,6 +35,7 @@ import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -67,11 +68,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             bindToolbar()
             setToolbarOverlay()
 
-            viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
+            viewModel.vaccinationCertificate.observeOnce(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
                     popBackStack()
-                    return@observe
+                    return@observeOnce
                 }
 
                 bindCertificateViews(it)

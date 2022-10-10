@@ -38,6 +38,7 @@ import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -82,7 +83,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.covidCertificate.observe(viewLifecycleOwner) {
+        viewModel.covidCertificate.observeOnce(viewLifecycleOwner) {
             when (it != null) {
                 true -> onCertificateReady(it)
                 false -> {

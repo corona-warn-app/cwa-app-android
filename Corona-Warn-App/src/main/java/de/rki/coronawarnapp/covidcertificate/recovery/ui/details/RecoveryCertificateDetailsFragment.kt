@@ -36,6 +36,7 @@ import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -80,7 +81,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
+        viewModel.recoveryCertificate.observeOnce(viewLifecycleOwner) {
             when (it != null) {
                 true -> onCertificateReady(it)
                 false -> {
