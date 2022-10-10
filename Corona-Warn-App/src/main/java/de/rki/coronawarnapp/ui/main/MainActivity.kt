@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
                 coronaTestQrCode = coronaTestResult.coronaTestQrCode
             )
-    }?.let { navController.findNavController().navigate(it) }
+    }?.let { navController.navigate(it) }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
         displayDialog(cancelable = false) {
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             event.restoreRecycledTestRequest
         )
         is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
-    }.let { navController.findNavController().navigate(it) }
+    }.let { navController.navigate(it) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean

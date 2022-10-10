@@ -53,6 +53,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                         }
                         setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
                     }
+
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
 
                 else -> Unit
@@ -76,7 +77,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     }
 
     private fun navigateToOnboardingTestFragment() {
-        findNavController().findNavController().navigate(
+        findNavController().navigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
     }
