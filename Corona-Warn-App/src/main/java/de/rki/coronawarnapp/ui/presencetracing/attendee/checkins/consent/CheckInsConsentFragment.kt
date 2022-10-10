@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -65,15 +64,15 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
             when (it) {
                 CheckInsConsentNavigation.OpenCloseDialog -> showCloseDialog()
                 CheckInsConsentNavigation.OpenSkipDialog -> showSkipDialog()
-                CheckInsConsentNavigation.ToHomeFragment -> doNavigate(
+                CheckInsConsentNavigation.ToHomeFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToMainFragment()
                 )
-                CheckInsConsentNavigation.ToSubmissionResultReadyFragment -> doNavigate(
+                CheckInsConsentNavigation.ToSubmissionResultReadyFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections.actionCheckInsConsentFragmentToSubmissionResultReadyFragment(
                         navArgs.testType
                     )
                 )
-                CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> doNavigate(
+                CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment -> findNavController().navigate(
                     CheckInsConsentFragmentDirections
                         .actionCheckInsConsentFragmentToSubmissionTestResultConsentGivenFragment(navArgs.testType)
                 )

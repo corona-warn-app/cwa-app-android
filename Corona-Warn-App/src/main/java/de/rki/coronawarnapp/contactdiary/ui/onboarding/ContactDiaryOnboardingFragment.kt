@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -64,7 +63,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                 }
 
                 ContactDiaryOnboardingNavigationEvents.NavigateToPrivacyFragment -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryOnboardingFragmentDirections
                             .actionContactDiaryOnboardingFragmentToContactDiaryInformationPrivacyFragment()
                     )
@@ -78,7 +77,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                             navigate("coronawarnapp://contact-journal/day/${LocalDate.now()}".toUri())
                         }
                     } else {
-                        doNavigate(
+                        findNavController().navigate(
                             ContactDiaryOnboardingFragmentDirections
                                 .actionContactDiaryOnboardingFragmentToContactDiaryOverviewFragment()
                         )

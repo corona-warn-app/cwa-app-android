@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -92,7 +91,7 @@ class SubmissionTestResultNoConsentFragment :
 
     private fun navigateToHome() {
         if (navArgs.comesFromDispatcherFragment) {
-            doNavigate(
+            findNavController().navigate(
                 SubmissionTestResultNoConsentFragmentDirections
                     .actionSubmissionTestResultNoConsentFragmentToHomeFragment()
             )
@@ -100,7 +99,7 @@ class SubmissionTestResultNoConsentFragment :
     }
 
     private fun navigateToWarnOthers() {
-        doNavigate(
+        findNavController().navigate(
             SubmissionTestResultNoConsentFragmentDirections
                 .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
                     testIdentifier = navArgs.testIdentifier,

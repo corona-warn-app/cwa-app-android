@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsPrivacyPreservingAnalyticsBinding
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -38,7 +37,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             }
 
             federalStateRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
@@ -47,7 +46,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             }
 
             districtRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.DISTRICT
@@ -55,7 +54,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
                 )
             }
             ageGroupRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.AGE_GROUP
@@ -64,7 +63,7 @@ class SettingsPrivacyPreservingAnalyticsFragment :
             }
 
             moreInfoRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     SettingsPrivacyPreservingAnalyticsFragmentDirections
                         .actionSettingsPrivacyPreservingAnalyticsFragmentToPpaMoreInfoFragment()
                 )

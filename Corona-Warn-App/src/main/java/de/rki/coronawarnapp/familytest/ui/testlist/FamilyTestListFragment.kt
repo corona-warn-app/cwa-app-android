@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -63,22 +62,22 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
     private fun openDetailsScreen(familyCoronaTest: FamilyCoronaTest) {
         val coronaTest = familyCoronaTest.coronaTest
         when (coronaTest.state) {
-            CoronaTest.State.PENDING -> doNavigate(
+            CoronaTest.State.PENDING -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionFamilyTestListFragmentToPendingTestResult(
                     testIdentifier = coronaTest.identifier
                 )
             )
-            CoronaTest.State.INVALID -> doNavigate(
+            CoronaTest.State.INVALID -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultInvalidFragment(
                     testIdentifier = coronaTest.identifier
                 )
             )
-            CoronaTest.State.POSITIVE -> doNavigate(
+            CoronaTest.State.POSITIVE -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = coronaTest.identifier
                 )
             )
-            CoronaTest.State.NEGATIVE -> doNavigate(
+            CoronaTest.State.NEGATIVE -> findNavController().navigate(
                 FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultNegativeFragment(
                     testIdentifier = coronaTest.identifier
                 )

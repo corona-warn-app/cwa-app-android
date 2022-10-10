@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -39,7 +38,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
             toolbar.setNavigationOnClickListener { popBackStack() }
 
             federalStateRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
@@ -47,7 +46,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                 )
             }
             districtRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.DISTRICT
@@ -55,7 +54,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                 )
             }
             ageGroupRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToAnalyticsUserInputFragment(
                             type = AnalyticsUserInputFragment.InputType.AGE_GROUP
@@ -63,7 +62,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                 )
             }
             privacyInformation.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingDeltaAnalyticsFragmentDirections
                         .actionOnboardingDeltaAnalyticsFragmentToPpaMoreInfoFragment()
                 )

@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -68,7 +67,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         viewModel.registrationState.observe2(this) {
             binding.tanButtonEnter.isLoading = it == ApiRequestState.STARTED
             if (ApiRequestState.SUCCESS == it) {
-                doNavigate(
+                findNavController().navigate(
                     TraceLocationWarnTanFragmentDirections
                         .actionTraceLocationTanDurationFragmentToTraceLocationOrganizerThanksFragment()
                 )

@@ -16,7 +16,6 @@ import android.os.Build
 import android.provider.Settings
 import de.rki.coronawarnapp.databinding.NotificationsDeltaOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import setTextWithUrls
 
@@ -55,7 +54,7 @@ class OnboardingDeltaNotificationsFragment :
                 is OnboardingDeltaNotificationsNavigationEvents.CloseScreen ->
                     (requireActivity() as OnboardingActivity).completeOnboarding()
                 is OnboardingDeltaNotificationsNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment ->
-                    doNavigate(
+                    findNavController().navigate(
                         OnboardingDeltaNotificationsFragmentDirections
                             .actionOnboardingDeltaNotificationsFragmentToOnboardingDeltaAnalyticsFragment()
                     )

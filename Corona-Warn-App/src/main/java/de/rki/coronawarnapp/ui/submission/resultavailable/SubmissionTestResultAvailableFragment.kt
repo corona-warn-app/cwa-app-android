@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -84,7 +83,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         }
 
         viewModel.routeToScreen.observe2(this) {
-            doNavigate(it)
+            findNavController().navigate(it)
         }
 
         viewModel.showPermissionRequest.observe2(this) { permissionRequest ->
@@ -115,7 +114,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
 
     private fun returnToScreenWhereUQSWasOpened() {
         if (navArgs.comesFromDispatcherFragment) {
-            doNavigate(
+            findNavController().navigate(
                 SubmissionTestResultAvailableFragmentDirections
                     .actionSubmissionTestResultAvailableFragmentToHomeFragment()
             )

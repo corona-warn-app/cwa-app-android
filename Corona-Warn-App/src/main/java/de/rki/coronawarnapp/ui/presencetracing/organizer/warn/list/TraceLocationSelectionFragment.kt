@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -66,7 +65,7 @@ class TraceLocationSelectionFragment :
         viewModel.events.observe2(this) {
             when (it) {
                 is TraceLocationSelectionEvent.ContinueWithTraceLocation -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationSelectionFragmentDirections
                             .actionTraceLocationSelectionFragmentToTraceLocationWarnDurationFragment(
                                 traceLocation = it.traceLocation
@@ -74,7 +73,7 @@ class TraceLocationSelectionFragment :
                     )
                 }
                 TraceLocationSelectionEvent.ScanQrCode -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationSelectionFragmentDirections
                             .actionTraceLocationSelectionFragmentToTraceLocationQrScannerFragment()
                     )

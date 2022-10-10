@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -110,17 +109,17 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                     showLogDeletionRequest()
                 }
                 DebugLogViewModel.Event.NavigateToPrivacyFragment -> {
-                    doNavigate(
+                    findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
                     )
                 }
                 DebugLogViewModel.Event.NavigateToUploadFragment -> {
-                    doNavigate(
+                    findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
                     )
                 }
                 DebugLogViewModel.Event.NavigateToUploadHistory -> {
-                    doNavigate(
+                    findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
                     )
                 }

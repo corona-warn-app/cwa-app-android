@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -72,12 +71,12 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.profile_edit -> doNavigate(
+                    R.id.profile_edit -> findNavController().navigate(
                         ProfileQrCodeFragmentDirections
                             .actionProfileQrCodeFragmentToProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.profile_delete -> confirmDeletionDialog()
-                    R.id.profile_information -> doNavigate(
+                    R.id.profile_information -> findNavController().navigate(
                         ProfileQrCodeFragmentDirections.actionProfileQrCodeFragmentToProfileOnboardingFragment(
                             showButton = false
                         )

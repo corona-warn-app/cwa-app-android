@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -106,7 +105,7 @@ class TraceLocationWarnDurationFragment :
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationWarnDurationFragmentDirections
                             .actionTraceLocationWarnDurationFragmentToTraceLocationTanDurationFragment(
                                 traceLocationWarnDuration = it.traceLocationWarnDuration

@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeys
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -76,7 +75,7 @@ class SubmissionTestResultKeysSharedFragment :
 
         viewModel.routeToScreen.observe2(this) {
             if (navArgs.comesFromDispatcherFragment) {
-                doNavigate(
+                findNavController().navigate(
                     SubmissionTestResultKeysSharedFragmentDirections
                         .actionSubmissionTestResultKeysSharedFragmentToMainFragment()
                 )

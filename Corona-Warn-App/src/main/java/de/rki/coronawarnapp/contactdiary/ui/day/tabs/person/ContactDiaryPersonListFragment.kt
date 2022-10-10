@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -57,7 +56,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         }
 
         viewModel.openCommentInfo.observe2(this) {
-            doNavigate(
+            findNavController().navigate(
                 ContactDiaryDayFragmentDirections
                     .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()
             )

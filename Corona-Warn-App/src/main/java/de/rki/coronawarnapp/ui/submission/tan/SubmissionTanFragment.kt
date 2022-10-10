@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -56,7 +55,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
                             testRegistrationRequest = it.coronaTestTan,
                             comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
@@ -89,7 +88,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
             when (it) {
                 is TanApiRequestState.SuccessPositiveResult ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
                                 testIdentifier = it.identifier,
@@ -97,7 +96,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                             )
                     )
                 is TanApiRequestState.SuccessPendingResult ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
                                 testIdentifier = it.identifier,

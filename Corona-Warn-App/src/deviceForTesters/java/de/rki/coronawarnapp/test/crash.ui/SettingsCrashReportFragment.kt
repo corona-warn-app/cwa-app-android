@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -53,7 +52,7 @@ class SettingsCrashReportFragment : Fragment(R.layout.fragment_crashreporter_ove
     private fun crashReportClicked(crashReport: BugEvent) {
         Timber.d("Clicked on crash report ${crashReport.id}")
         vm.selectCrashReport(crashReport)
-        doNavigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
+        findNavController().navigate(SettingsCrashReportFragmentDirections.actionCrashReportFragmentToSettingsCrashReportDetailsFragment())
     }
 
     companion object {

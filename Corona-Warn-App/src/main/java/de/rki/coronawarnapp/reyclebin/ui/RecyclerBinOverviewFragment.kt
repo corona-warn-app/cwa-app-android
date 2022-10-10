@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -72,7 +71,7 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
         )
 
         is RecyclerBinEvent.RemoveTest -> viewModel.onRemoveTest(event.test)
-        is RecyclerBinEvent.RestoreDuplicateTest -> doNavigate(
+        is RecyclerBinEvent.RestoreDuplicateTest -> findNavController().navigate(
             RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToSubmissionDeletionWarningFragment(
                 event.restoreRecycledTestRequest
             )

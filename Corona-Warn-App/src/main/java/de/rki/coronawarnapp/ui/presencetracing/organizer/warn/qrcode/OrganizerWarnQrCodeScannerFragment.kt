@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -73,7 +72,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
                 is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
                 is OrganizerWarnQrCodeNavigation.DurationSelectionScreen -> {
-                    doNavigate(
+                    findNavController().navigate(
                         OrganizerWarnQrCodeScannerFragmentDirections
                             .actionTraceLocationQrScannerFragmentToTraceLocationWarnDurationFragment(
                                 navEvent.traceLocation

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -65,17 +64,17 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
 
     private fun setButtonOnClickListener() {
         binding.informationAbout.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationAboutFragment()
             )
         }
         binding.informationPrivacy.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationPrivacyFragment()
             )
         }
         binding.informationTerms.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
@@ -83,22 +82,22 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             openUrl(getString(R.string.accessibility_statement_link))
         }
         binding.informationContact.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
         }
         binding.informationLegal.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationLegalFragment()
             )
         }
         binding.informationTechnical.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
         binding.informationDebuglog.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
         }
@@ -106,7 +105,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             popBackStack()
         }
         binding.informationRelease.mainRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment(true)
             )
         }

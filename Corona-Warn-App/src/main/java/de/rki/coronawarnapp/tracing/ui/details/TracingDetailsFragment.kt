@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -57,14 +56,14 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
 
         vm.routeToScreen.observe2(this) {
             when (it) {
-                is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> doNavigate(
+                is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
                 is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
-                TracingDetailsNavigationEvents.NavigateToHomeRules -> doNavigate(
+                TracingDetailsNavigationEvents.NavigateToHomeRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHomeRules()
                 )
-                TracingDetailsNavigationEvents.NavigateToHygieneRules -> doNavigate(
+                TracingDetailsNavigationEvents.NavigateToHygieneRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHygieneRules()
                 )
             }
@@ -77,7 +76,7 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
             vm.updateRiskDetails()
         }
         binding.riskDetailsButtonEnableTracing.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSettingsTracingFragment()
             )
         }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -77,7 +76,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     }
 
     private fun navigateToOnboardingTestFragment() {
-        findNavController().doNavigate(
+        findNavController().findNavController().navigate(
             OnboardingTracingFragmentDirections.actionOnboardingTracingFragmentToOnboardingTestFragment()
         )
     }

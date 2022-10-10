@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -58,7 +57,7 @@ class SubmissionSymptomCalendarFragment :
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.routeToScreen.observe2(this) {
-            doNavigate(it)
+            findNavController().navigate(it)
         }
 
         viewModel.symptomStart.observe2(this) {

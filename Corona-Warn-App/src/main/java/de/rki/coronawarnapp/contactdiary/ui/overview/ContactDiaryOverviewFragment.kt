@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -76,7 +75,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                 }
 
                 is ContactDiaryOverviewNavigationEvents.NavigateToContactDiaryDayFragment -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
                             .actionContactDiaryOverviewFragmentToContactDiaryDayFragment(it.localDateString)
                     )
@@ -115,7 +114,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_contact_diary_information -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
                             .actionContactDiaryOverviewFragmentToContactDiaryOnboardingFragment(showBottomNav = false)
                     )
@@ -126,14 +125,14 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     true
                 }
                 R.id.menu_contact_diary_edit_persons -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
                             .actionContactDiaryOverviewFragmentToContactDiaryEditPersonsFragment()
                     )
                     true
                 }
                 R.id.menu_contact_diary_edit_locations -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
                             .actionContactDiaryOverviewFragmentToContactDiaryEditLocationsFragment()
                     )

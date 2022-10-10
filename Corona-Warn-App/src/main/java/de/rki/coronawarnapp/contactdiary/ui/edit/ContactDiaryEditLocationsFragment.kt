@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -60,7 +59,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
             when (it) {
                 ShowDeletionConfirmationDialog -> DialogHelper.showDialog(deleteAllLocationsConfirmationDialog)
                 is ShowLocationDetailFragment -> {
-                    doNavigate(
+                    findNavController().navigate(
                         ContactDiaryEditLocationsFragmentDirections
                             .actionContactDiaryEditLocationsFragmentToContactDiaryAddLocationFragment(
                                 it.location

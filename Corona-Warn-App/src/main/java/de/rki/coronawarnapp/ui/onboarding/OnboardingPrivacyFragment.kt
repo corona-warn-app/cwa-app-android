@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -33,7 +32,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
         vm.routeToScreen.observe2(this) {
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
-                    doNavigate(
+                    findNavController().navigate(
                         OnboardingPrivacyFragmentDirections
                             .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
                     )
