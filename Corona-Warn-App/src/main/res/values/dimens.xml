@@ -23,7 +23,6 @@
 
     <!-- header height -->
     <dimen name="header">56dp</dimen>
-    <dimen name="header_main">40dp</dimen>
 
     <!-- elevation -->
     <dimen name="elevation_strong">10dp</dimen>
@@ -32,7 +31,6 @@
 
     <!-- default spacing for guidelines -->
     <dimen name="guideline_card">12dp</dimen>
-    <dimen name="guideline_statistics_card_content">96dp</dimen>
     <dimen name="guideline_start">@dimen/spacing_normal</dimen>
     <dimen name="guideline_end">@dimen/spacing_normal</dimen>
     <dimen name="guideline_top">@dimen/spacing_normal</dimen>
@@ -110,7 +108,6 @@
     <dimen name="scan_qr_code_text_length">250dp</dimen>
 
     <!-- Submission Country Select -->
-    <dimen name="submission_country_selection_country_icon_size">40dp</dimen>
 
     <!-- Bullet Points -->
     <dimen name="bullet_point_size">4dp</dimen>
