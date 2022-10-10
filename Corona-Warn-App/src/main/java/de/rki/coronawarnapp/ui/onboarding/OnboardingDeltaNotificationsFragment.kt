@@ -14,6 +14,7 @@ import javax.inject.Inject
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.NotificationsDeltaOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.toResolvingString

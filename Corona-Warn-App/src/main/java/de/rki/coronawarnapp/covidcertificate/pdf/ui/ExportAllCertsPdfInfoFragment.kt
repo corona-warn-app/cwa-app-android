@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.pdf.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ExportAllCertsPdfInfoFragmentBinding

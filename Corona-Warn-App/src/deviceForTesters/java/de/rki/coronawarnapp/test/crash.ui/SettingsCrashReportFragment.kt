@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.crash.ui
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.event.BugEvent
 import de.rki.coronawarnapp.databinding.FragmentCrashreporterOverviewBinding

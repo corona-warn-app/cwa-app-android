@@ -58,28 +58,28 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         val privacyPreservingAnalyticsRow = binding.settingsPrivacyPreservingAnalytics.settingsRow
         val resetRow = binding.settingsReset
         resetRow.setOnClickListener {
-            findNavController().findNavController().navigate(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()
             )
         }
         tracingRow.setOnClickListener {
-            findNavController().findNavController().navigate(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsTracingFragment()
             )
         }
         notificationRow.setOnClickListener {
-            findNavController().findNavController().navigate(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsNotificationFragment()
             )
         }
         backgroundPriorityRow.setOnClickListener {
-            findNavController().findNavController().navigate(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsBackgroundPriorityFragment()
             )
         }
 
         privacyPreservingAnalyticsRow.setOnClickListener {
-            findNavController().findNavController().navigate(
+            findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsPrivacyPreservingAnalyticsFragment()
             )
         }
