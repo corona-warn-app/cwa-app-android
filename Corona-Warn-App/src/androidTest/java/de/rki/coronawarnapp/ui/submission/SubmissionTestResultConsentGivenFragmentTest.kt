@@ -59,7 +59,10 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
     ).apply {
-        runOnUiThread { setGraph(R.navigation.nav_graph) }
+        runOnUiThread {
+            setGraph(R.navigation.nav_graph)
+            setCurrentDestination(R.id.submissionTestResultConsentGivenFragment)
+        }
     }
 
     @Before

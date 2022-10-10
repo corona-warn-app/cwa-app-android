@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ui.eventregistration.organizer
 
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -10,7 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -30,6 +28,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.TestDispatcherProvider
+import testhelpers.launchFragmentInContainer2
 import java.util.TimeZone
 
 @RunWith(AndroidJUnit4::class)
@@ -43,7 +42,10 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
     ).apply {
-        UiThreadStatement.runOnUiThread { setGraph(R.navigation.trace_location_organizer_nav_graph) }
+        runOnUiThread {
+            setGraph(R.navigation.trace_location_organizer_nav_graph)
+            setCurrentDestination(R.id.traceLocationCreateFragment)
+        }
     }
 
     @Before
@@ -69,13 +71,14 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
     @Test
     fun duplicateEventWithSameDatesTest() {
-        launchFragmentInContainer<TraceLocationCreateFragment>(
+        launchFragmentInContainer2<TraceLocationCreateFragment>(
             themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
-                originalItem = TraceLocationData.traceLocationSameDate
-            ).toBundle()
-        ).onFragment { fragment -> Navigation.setViewNavController(fragment.requireView(), navController) }
+                originalItem = TraceLocationData.traceLocationSameDate,
+            ).toBundle(),
+            testNavHostController = navController
+        )
 
         onView(withId(R.id.description_input_edit)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
         onView(withId(R.id.place_input_edit)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
@@ -84,18 +87,19 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         onView(withId(R.id.button_submit)).perform(click())
 
-        navController.currentDestination?.id shouldBe R.id.traceLocationInfoFragment
+        navController.currentDestination?.id shouldBe R.id.traceLocationsFragment
     }
 
     @Test
     fun duplicateEventWithDifferentDatesTest() {
-        launchFragmentInContainer<TraceLocationCreateFragment>(
+        launchFragmentInContainer2<TraceLocationCreateFragment>(
             themeResId = R.style.AppTheme_Main,
             fragmentArgs = TraceLocationCreateFragmentArgs(
                 category = TraceLocationData.categoryEvent,
                 originalItem = TraceLocationData.traceLocationDifferentDate
-            ).toBundle()
-        ).onFragment { fragment -> Navigation.setViewNavController(fragment.requireView(), navController) }
+            ).toBundle(),
+            testNavHostController = navController
+        )
 
         onView(withId(R.id.description_input_edit)).check(matches(withText("Event XYZ")))
         onView(withId(R.id.place_input_edit)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
@@ -104,7 +108,7 @@ class TraceLocationCreateFragmentTest : BaseUITest() {
 
         onView(withId(R.id.button_submit)).perform(click())
 
-        navController.currentDestination?.id shouldBe R.id.traceLocationInfoFragment
+        navController.currentDestination?.id shouldBe R.id.traceLocationsFragment
     }
 
     private fun createViewModel(category: TraceLocationCategory) =
