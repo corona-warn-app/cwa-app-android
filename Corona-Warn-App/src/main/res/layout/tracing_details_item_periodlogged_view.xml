@@ -53,7 +53,7 @@
 
         <TextView
             style="@style/subtitle"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
