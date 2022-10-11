@@ -48,14 +48,14 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     private fun loadTrackingData() = runCatching {
         baseGson.parseTracking()
     }.onFailure {
-        Timber.e(it, "Failed to load tracked detections.")
+        Timber.e(it, "loadTrackingData() failed to load tracked detections.")
     }
 
     private fun loadLegacyTrackingData() = runCatching {
         gson.parseTracking()
     }.onFailure {
         if (storageFile.delete()) Timber.w("Storage file was deleted.")
-        Timber.e(it, "Failed to load tracked detections.")
+        Timber.e(it, "loadLegacyTrackingData() failed to load tracked detections.")
     }
 
     private fun Gson.parseTracking() =
