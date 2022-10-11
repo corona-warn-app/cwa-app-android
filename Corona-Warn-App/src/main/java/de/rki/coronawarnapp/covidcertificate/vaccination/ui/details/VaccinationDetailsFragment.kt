@@ -48,8 +48,6 @@ import javax.inject.Inject
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
-    private var firstTimeGettingCert = true
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
@@ -70,12 +68,10 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
-                    if (firstTimeGettingCert) {
-                        Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                        popBackStack()
-                    }
+                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
+                    viewModel.onClose()
                     return@observe
-                } else firstTimeGettingCert = false
+                }
 
                 bindCertificateViews(it)
                 val stateInValid = !it.isDisplayValid

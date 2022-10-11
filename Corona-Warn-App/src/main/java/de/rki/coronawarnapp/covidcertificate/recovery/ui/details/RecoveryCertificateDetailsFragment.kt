@@ -49,7 +49,6 @@ import javax.inject.Inject
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private var firstTimeGettingCert = true
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
     private val args by navArgs<RecoveryCertificateDetailsFragmentArgs>()
     private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModelsAssisted(
@@ -83,13 +82,10 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
             when (it != null) {
-                true -> {
-                    onCertificateReady(it)
-                    firstTimeGettingCert = false
-                }
-                false -> if (firstTimeGettingCert) {
+                true -> onCertificateReady(it)
+                false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.onClose()
                 }
             }
         }

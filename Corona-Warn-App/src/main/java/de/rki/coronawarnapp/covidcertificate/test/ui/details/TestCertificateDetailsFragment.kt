@@ -51,7 +51,6 @@ import javax.inject.Inject
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private var firstTimeGettingCert = true
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
     private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
@@ -85,13 +84,10 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) {
             when (it != null) {
-                true -> {
-                    onCertificateReady(it)
-                    firstTimeGettingCert = false
-                }
-                false -> if (firstTimeGettingCert) {
+                true -> onCertificateReady(it)
+                false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                 }
             }
         }
@@ -228,7 +224,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         addNavigationIconButtonId(R.id.test_certificate_detail_fragment_navigation_icon_buttonId)
         navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
