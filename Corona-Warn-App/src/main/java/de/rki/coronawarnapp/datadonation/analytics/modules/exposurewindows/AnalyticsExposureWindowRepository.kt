@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.util.TimeStamper
 import java.time.Duration
 import javax.inject.Inject

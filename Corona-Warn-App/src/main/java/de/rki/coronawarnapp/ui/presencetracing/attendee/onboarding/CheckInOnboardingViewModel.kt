@@ -16,7 +16,7 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
 
     fun onAcknowledged() = launch {
         settings.updateOnboardingStatus(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
-        events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
+        events.postValue(CheckInOnboardingNavigation.AcknowledgedNavigation)
     }
 
     fun onPrivacy() {

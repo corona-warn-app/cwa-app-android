@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.kotest.matchers.shouldBe

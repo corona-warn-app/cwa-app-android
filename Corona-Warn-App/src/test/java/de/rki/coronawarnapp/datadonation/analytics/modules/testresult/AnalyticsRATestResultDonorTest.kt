@@ -4,8 +4,8 @@ import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe

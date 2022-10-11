@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.util.debug.measureTime

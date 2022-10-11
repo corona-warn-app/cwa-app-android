@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMost
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.RiskResult

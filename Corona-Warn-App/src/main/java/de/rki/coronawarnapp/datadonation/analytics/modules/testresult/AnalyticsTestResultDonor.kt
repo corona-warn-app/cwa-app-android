@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.coronatest.server.isFinalResult
 import de.rki.coronawarnapp.coronatest.server.isPending
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import java.time.Duration
