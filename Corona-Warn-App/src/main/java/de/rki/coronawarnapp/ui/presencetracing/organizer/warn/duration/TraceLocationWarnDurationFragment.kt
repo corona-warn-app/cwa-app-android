@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -106,7 +106,7 @@ class TraceLocationWarnDurationFragment :
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationWarnDurationFragmentDirections
                             .actionTraceLocationWarnDurationFragmentToTraceLocationTanDurationFragment(
                                 traceLocationWarnDuration = it.traceLocationWarnDuration

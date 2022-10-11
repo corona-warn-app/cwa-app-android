@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -108,7 +108,7 @@ class ProfileCreateFragment : Fragment(R.layout.profile_create_fragment), AutoIn
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateProfileNavigation.Back -> popBackStack()
-                    is CreateProfileNavigation.ProfileScreen -> doNavigate(
+                    is CreateProfileNavigation.ProfileScreen -> findNavController().navigate(
                         ProfileCreateFragmentDirections
                             .actionProfileCreateFragmentToProfileQrCodeFragment(it.profileId)
                     )

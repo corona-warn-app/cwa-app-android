@@ -366,17 +366,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(PCR, testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(testIdentifier))
             }
 
             is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(
                 state = state,
                 onClickAction = {
                     events.postValue(
-                        HomeFragmentEvents.GoToTestResultPositiveFragment(
-                            PCR,
-                            testIdentifier
-                        )
+                        HomeFragmentEvents.GoToTestResultPositiveFragment(testIdentifier)
                     )
                 },
                 onRemoveAction = {
@@ -391,7 +388,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
 
             is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToPcrTestResultNegativeFragment(PCR, testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultNegativeFragment(testIdentifier))
             }
 
             is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
@@ -407,7 +404,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(PCR, testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(testIdentifier))
             }
         }
 
@@ -419,17 +416,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
             is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(RAPID_ANTIGEN, testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(testIdentifier))
             }
 
             is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(
                 state = state,
                 onClickAction = {
                     events.postValue(
-                        HomeFragmentEvents.GoToTestResultPositiveFragment(
-                            RAPID_ANTIGEN,
-                            testIdentifier
-                        )
+                        HomeFragmentEvents.GoToTestResultPositiveFragment(testIdentifier)
                     )
                 },
                 onRemoveAction = {
@@ -444,7 +438,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             )
 
             is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToRapidTestResultNegativeFragment(testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultNegativeFragment(testIdentifier))
             }
 
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
@@ -473,7 +467,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN, testIdentifier))
+                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(testIdentifier))
             }
         }
 

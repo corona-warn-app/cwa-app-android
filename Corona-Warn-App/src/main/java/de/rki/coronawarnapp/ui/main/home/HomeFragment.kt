@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
@@ -74,7 +73,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         binding.mainTracing.setOnClickListener {
             resetTransitions()
-            doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
+            findNavController().navigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
         binding.mainTracingAppBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -215,67 +214,63 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.ShowErrorResetDialog -> showErrorResetDialog()
             is HomeFragmentEvents.HighRiskLevelDialog -> showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
             is HomeFragmentEvents.LoweredRiskLevelDialog -> showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
-            HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
+            HomeFragmentEvents.GoToStatisticsExplanation -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
             )
 
             is HomeFragmentEvents.ShowTracingExplanation -> showTracingExplanationDialog(event.maxEncounterAgeInDays)
-            HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(
+            HomeFragmentEvents.GoToRiskDetailsFragment -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToRiskDetailsFragment()
             )
 
-            HomeFragmentEvents.GoToSettingsTracingFragment -> doNavigate(
+            HomeFragmentEvents.GoToSettingsTracingFragment -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment()
             )
 
-            HomeFragmentEvents.GoToSubmissionDispatcher -> doNavigate(
+            HomeFragmentEvents.GoToSubmissionDispatcher -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
             )
 
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
-            )
-
             is HomeFragmentEvents.ShowDeleteTestDialog -> recycleCertificateDialog {
                 viewModel.moveTestToRecycleBinStorage(event.identifier)
             }
 
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
-            is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
+            is HomeFragmentEvents.GoToTestResultAvailableFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultAvailableFragment(event.identifier)
             )
 
-            is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
+            is HomeFragmentEvents.GoToTestResultNegativeFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultNegativeFragment(event.identifier)
             )
 
-            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
+            is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = event.identifier
                 )
             )
 
-            is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
+            is HomeFragmentEvents.GoToTestResultPositiveFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionResultPositiveOtherWarningNoConsentFragment(
                     testIdentifier = event.identifier
                 )
             )
 
-            is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
+            is HomeFragmentEvents.GoToTestResultPendingFragment -> findNavController().navigate(
                 NavGraphDirections.actionGlobalToSubmissionTestResultPendingFragment(
                     event.identifier,
                     event.forceUpdate,
                 )
             )
 
-            HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
+            HomeFragmentEvents.GoToFederalStateSelection -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
 
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
-            is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
+            is HomeFragmentEvents.GoToFamilyTests -> findNavController().navigate(
                 HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
             )
 
@@ -287,7 +282,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         if (event.qrInfoAcknowledged) {
             findNestedGraph(R.id.trace_location_organizer_nav_graph).setStartDestination(R.id.traceLocationsFragment)
         }
-        doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
+        findNavController().navigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
     }
 
     /**

@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
@@ -14,7 +15,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -75,7 +75,7 @@ class SubmissionTestResultConsentGivenFragment :
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTestResultConsentGivenFragmentDirections
                             .actionSubmissionTestResultConsentGivenFragmentToSubmissionSymptomIntroductionFragment(
                                 testType = navArgs.testType,
@@ -84,7 +84,7 @@ class SubmissionTestResultConsentGivenFragment :
                     )
                 is SubmissionNavigationEvents.NavigateToMainActivity -> {
                     if (navArgs.comesFromDispatcherFragment) {
-                        doNavigate(
+                        findNavController().navigate(
                             SubmissionTestResultConsentGivenFragmentDirections
                                 .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
                         )
