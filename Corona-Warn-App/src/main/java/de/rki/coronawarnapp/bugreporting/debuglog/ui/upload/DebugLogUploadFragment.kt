@@ -5,11 +5,11 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -43,7 +43,7 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
         vm.routeToScreen.observe2(this) {
             when (it) {
                 null -> popBackStack()
-                else -> doNavigate(it)
+                else -> findNavController().navigate(it)
             }
         }
 

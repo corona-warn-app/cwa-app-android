@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel.CertificateState
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -168,7 +167,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
     private fun navigateBackToFlowStart() {
         if (navArgs.comesFromDispatcherFragment) {
-            doNavigate(
+            findNavController().navigate(
                 SubmissionTestResultNegativeFragmentDirections
                     .actionSubmissionTestResultNegativeFragmentToHomeFragment()
             )

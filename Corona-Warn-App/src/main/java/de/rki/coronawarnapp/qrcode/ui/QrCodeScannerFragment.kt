@@ -37,7 +37,6 @@ import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -111,7 +110,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     )
                     else -> showScannerResultErrorDialog(scannerResult.error)
                 }
-                InfoScreen -> doNavigate(
+                InfoScreen -> findNavController().navigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
                 InProgress -> Unit
@@ -278,7 +277,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     )
         }
             ?.let {
-                doNavigate(it)
+                findNavController().navigate(it)
             }
     }
 

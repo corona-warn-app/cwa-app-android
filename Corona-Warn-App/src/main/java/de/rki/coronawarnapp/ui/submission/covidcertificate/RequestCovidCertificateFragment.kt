@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -121,7 +120,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         setMessage(R.string.request_gc_dialog_message)
         setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
             if (args.comesFromDispatcherFragment) {
-                doNavigate(
+                findNavController().navigate(
                     RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
                 )
             } else popBackStack()

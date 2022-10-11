@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -41,7 +40,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
         super.onViewCreated(view, savedInstanceState)
 
         if (viewModel.isOnboardingComplete && args.uri != null) {
-            doNavigate(
+            findNavController().navigate(
                 CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
                     args.uri,
                     args.cleanHistory
@@ -74,7 +73,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                             .build()
                         findNavController().navigate(ConfirmCheckInFragment.uri(locationId), navOption)
                     } else {
-                        doNavigate(
+                        findNavController().navigate(
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
                                 uri = args.uri,
                                 cleanHistory = true
@@ -82,7 +81,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                         )
                     }
                 }
-                CheckInOnboardingNavigation.DataProtectionNavigation -> doNavigate(
+                CheckInOnboardingNavigation.DataProtectionNavigation -> findNavController().navigate(
                     CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToPrivacyFragment()
                 )
             }

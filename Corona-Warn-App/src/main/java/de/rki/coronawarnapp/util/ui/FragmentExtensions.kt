@@ -6,15 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.doNavigate
 import timber.log.Timber
-
-fun Fragment.doNavigate(direction: NavDirections) = findNavController().doNavigate(direction)
 
 fun Fragment.popBackStack(): Boolean {
     if (!isAdded) {

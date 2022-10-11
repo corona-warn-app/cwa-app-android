@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -58,7 +58,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         vm.clickEvent.observe2(this) {
             when (it) {
                 is SubmissionYourConsentEvents.GoBack -> popBackStack()
-                is SubmissionYourConsentEvents.GoLegal -> doNavigate(
+                is SubmissionYourConsentEvents.GoLegal -> findNavController().navigate(
                     SubmissionYourConsentFragmentDirections
                         .actionSubmissionYourConsentFragmentToInformationPrivacyFragment()
                 )

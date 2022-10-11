@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -79,7 +78,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ConfirmCheckIn -> {
                 locationViewModel.putVerifiedTraceLocation(event.verifiedLocation)
                 setupAxisTransition()
-                doNavigate(
+                findNavController().navigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
                         event.verifiedLocation.locationIdHex
                     )
@@ -88,7 +87,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             is CheckInEvent.ConfirmCheckInWithoutHistory -> {
                 locationViewModel.putVerifiedTraceLocation(event.verifiedTraceLocation)
-                doNavigate(
+                findNavController().navigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
                         event.verifiedTraceLocation.locationIdHex
                     )
@@ -117,8 +116,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             is CheckInEvent.ShowInformation -> {
                 setupAxisTransition()
-                doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
+                findNavController().navigate(
+                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false)
+                )
             }
+
             is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
         }
     }
@@ -184,10 +186,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     viewModel.onInformationClicked()
                     true
                 }
+
                 R.id.menu_remove_all -> {
                     viewModel.onRemoveAllCheckIns()
                     true
                 }
+
                 else -> false
             }
         }

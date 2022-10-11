@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingPpaBinding
 import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -32,28 +32,28 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
             toolbar.setNavigationOnClickListener { popBackStack() }
 
             federalStateRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.FEDERAL_STATE
                     )
                 )
             }
             districtRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.DISTRICT
                     )
                 )
             }
             ageGroupRow.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToAnalyticsUserInputFragment(
                         type = AnalyticsUserInputFragment.InputType.AGE_GROUP
                     )
                 )
             }
             privacyInformation.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     OnboardingAnalyticsFragmentDirections.actionOnboardingAnalyticsFragmentToPpaMoreInfoFragment()
                 )
             }

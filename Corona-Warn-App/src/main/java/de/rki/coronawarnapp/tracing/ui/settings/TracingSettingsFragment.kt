@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -100,7 +100,7 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
         }
 
         settingsInteroperabilityRow.setOnClickListener {
-            doNavigate(
+            findNavController().navigate(
                 TracingSettingsFragmentDirections.actionSettingsTracingFragmentToInteropCountryConfigurationFragment()
             )
         }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeInfoFragmentBinding
 import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -53,7 +52,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
                         popBackStack()
                     } else {
                         settings.qrInfoAcknowledged = true
-                        doNavigate(
+                        findNavController().navigate(
                             TraceLocationQRInfoFragmentDirections
                                 .actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment()
                         )
