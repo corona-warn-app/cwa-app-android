@@ -38,7 +38,6 @@ import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
