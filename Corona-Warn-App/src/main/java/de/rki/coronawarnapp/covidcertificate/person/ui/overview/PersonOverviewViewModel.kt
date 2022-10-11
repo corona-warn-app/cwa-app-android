@@ -222,7 +222,10 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     sealed class UiState {
         object Loading : UiState()
-        data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()
+        data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState() {
+            val isExportAllPossible: Boolean
+                get() = personCertificates.filterIsInstance<PersonCertificateCard.Item>().isNotEmpty()
+        }
     }
 
     @AssistedFactory
