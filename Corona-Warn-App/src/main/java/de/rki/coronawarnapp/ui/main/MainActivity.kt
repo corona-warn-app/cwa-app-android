@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -188,7 +187,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
                 coronaTestQrCode = coronaTestResult.coronaTestQrCode
             )
-    }?.let { navController.doNavigate(it) }
+    }?.let { navController.navigate(it) }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
         displayDialog(cancelable = false) {
@@ -203,7 +202,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             event.restoreRecycledTestRequest
         )
         is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
-    }.let { navController.doNavigate(it) }
+    }.let { navController.navigate(it) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean

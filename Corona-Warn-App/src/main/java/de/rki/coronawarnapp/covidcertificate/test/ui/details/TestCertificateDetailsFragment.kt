@@ -37,7 +37,6 @@ import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -187,7 +186,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
-                    doNavigate(
+                    findNavController().navigate(
                         TestCertificateDetailsFragmentDirections
                             .actionTestCertificateDetailsFragmentToPersonOverviewFragment()
                     )
@@ -201,19 +200,19 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             )
             is TestCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
             is TestCertificateDetailsNavigation.Export -> {
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
             TestCertificateDetailsNavigation.OpenCovPassInfo ->
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToCovPassInfoFragment()
                 )

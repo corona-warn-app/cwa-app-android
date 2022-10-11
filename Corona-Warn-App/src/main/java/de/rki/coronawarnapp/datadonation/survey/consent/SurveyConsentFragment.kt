@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -52,7 +52,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
                     popBackStack()
                 }
                 is SurveyConsentNavigationEvents.NavigateToMoreInformationScreen -> {
-                    doNavigate(
+                    findNavController().navigate(
                         SurveyConsentFragmentDirections.actionSurveyConsentFragmentToSurveyConsentDetailFragment()
                     )
                 }
