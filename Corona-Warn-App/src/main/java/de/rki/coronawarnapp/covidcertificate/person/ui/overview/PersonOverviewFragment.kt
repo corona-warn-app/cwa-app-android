@@ -166,7 +166,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         when (uiState) {
             is PersonOverviewViewModel.UiState.Done -> {
                 emptyLayout.isVisible = uiState.personCertificates.isEmpty()
-                toolbar.menu.findItem(R.id.menu_export_all).isVisible = uiState.personCertificates.isNotEmpty()
+                toolbar.menu.findItem(R.id.menu_export_all).isVisible = uiState.isExportAllPossible
                 recyclerView.isGone = uiState.personCertificates.isEmpty()
                 personOverviewAdapter.update(uiState.personCertificates)
                 loadingLayoutGroup.isVisible = false
