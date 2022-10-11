@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -105,7 +104,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
             }
 
-            OpenCovPassInfo -> doNavigate(
+            OpenCovPassInfo -> findNavController().navigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )
 
@@ -141,7 +140,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             when (it.itemId) {
                 R.id.menu_information -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
                         PersonOverviewFragmentDirections
                             .actionPersonOverviewFragmentToCovidCertificateOnboardingFragment(false)
                     )
@@ -150,7 +149,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
                 R.id.menu_export_all -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
                         PersonOverviewFragmentDirections
                             .actionPersonOverviewFragmentToExportAllCertsPdfInfoFragment()
                     )

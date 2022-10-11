@@ -5,6 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionResultReadyBinding
@@ -12,7 +13,6 @@ import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -54,13 +54,13 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity -> {
                     if (navArgs.comesFromDispatcherFragment) {
-                        doNavigate(
+                        findNavController().navigate(
                             SubmissionResultReadyFragmentDirections.actionSubmissionResultReadyFragmentToMainFragment()
                         )
                     } else popBackStack()
                 }
 
-                is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> doNavigate(
+                is SubmissionNavigationEvents.NavigateToSymptomIntroduction -> findNavController().navigate(
                     SubmissionResultReadyFragmentDirections
                         .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment(
                             testType = navArgs.testType,

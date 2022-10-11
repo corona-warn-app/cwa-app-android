@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -96,14 +95,14 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
-                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> doNavigate(
+                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> findNavController().navigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToTraceLocationCreateFragment(
                         it.category,
                         it.traceLocation
                     )
                 )
 
-                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
+                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> findNavController().navigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
                 is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(

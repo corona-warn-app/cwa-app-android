@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -154,7 +153,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
             RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
-                    doNavigate(
+                    findNavController().navigate(
                         RecoveryCertificateDetailsFragmentDirections
                             .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
                     )
@@ -168,19 +167,19 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             )
             is RecoveryCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
             is RecoveryCertificateDetailsNavigation.Export -> {
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
             RecoveryCertificateDetailsNavigation.OpenCovPassInfo ->
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToCovPassInfoFragment()
                 )

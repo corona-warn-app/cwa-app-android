@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -56,7 +55,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             when (it) {
                 is FamilyTestConsentNavigationEvents.NavigateBack -> {
                     binding.root.hideKeyboard()
-                    doNavigate(
+                    findNavController().navigate(
                         FamilyTestConsentFragmentDirections
                             .actionFamilyTestConsentFragmentToTestRegistrationSelectionFragment(
                                 navArgs.coronaTestQrCode
@@ -67,7 +66,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     binding.root.hideKeyboard()
                     goBack()
                 }
-                is FamilyTestConsentNavigationEvents.NavigateToDataPrivacy -> doNavigate(
+                is FamilyTestConsentNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     FamilyTestConsentFragmentDirections.actionFamilyTestConsentFragmentToInformationPrivacyFragment()
                 )
                 is FamilyTestConsentNavigationEvents.NavigateToCertificateRequest -> findNavController().navigate(
@@ -140,7 +139,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
 
     private fun goBack() {
         if (navArgs.comesFromDispatcherFragment) {
-            doNavigate(FamilyTestConsentFragmentDirections.actionGlobalMainFragment())
+            findNavController().navigate(FamilyTestConsentFragmentDirections.actionGlobalMainFragment())
         } else popBackStack()
     }
 }

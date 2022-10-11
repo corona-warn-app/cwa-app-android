@@ -34,7 +34,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -127,7 +126,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                         if (args.numberOfCertificates == 1) {
-                            doNavigate(
+                            findNavController().navigate(
                                 VaccinationDetailsFragmentDirections
                                     .actionVaccinationDetailsFragmentToPersonOverviewFragment()
                             )
@@ -141,19 +140,19 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     )
                     is VaccinationDetailsNavigation.ValidationStart -> {
                         startValidationCheck.isLoading = false
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
                         )
                     }
                     is VaccinationDetailsNavigation.Export -> {
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
                     VaccinationDetailsNavigation.OpenCovPassInfo ->
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections.actionVaccinationDetailsFragmentToCovPassInfoFragment()
                         )
                 }

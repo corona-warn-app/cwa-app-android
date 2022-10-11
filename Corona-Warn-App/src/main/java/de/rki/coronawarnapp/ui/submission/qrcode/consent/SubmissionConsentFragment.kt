@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -59,7 +58,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
+                is SubmissionNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
                 is SubmissionNavigationEvents.ResolvePlayServicesException ->
@@ -79,12 +78,12 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 )
                 is SubmissionNavigationEvents.NavigateClose -> {
                     if (navArgs.comesFromDispatcherFragment) {
-                        doNavigate(
+                        findNavController().navigate(
                             SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
                         )
                     } else popBackStack()
                 }
-                is SubmissionNavigationEvents.NavigateBackToTestRegistration -> doNavigate(
+                is SubmissionNavigationEvents.NavigateBackToTestRegistration -> findNavController().navigate(
                     SubmissionConsentFragmentDirections
                         .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
                             navArgs.coronaTestQrCode

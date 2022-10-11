@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -22,7 +23,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -65,7 +65,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     DialogHelper.showDialog(getErrorDialogInstance(result.exception))
                 }
                 is TraceLocationCreateViewModel.Result.Success -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationCreateFragmentDirections
                             .actionTraceLocationCreateFragmentToTraceLocationOrganizerListFragment()
                     )

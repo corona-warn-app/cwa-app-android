@@ -5,7 +5,6 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDirections
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,17 +13,6 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmen
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.ui.main.home.HomeFragment
 import java.lang.ref.WeakReference
-
-/**
- * Extends NavController to prevent navigation error when the user clicks on two buttons at almost
- * the exact time.
- *
- * @see [NavController]
- */
-fun NavController.doNavigate(direction: NavDirections) {
-    currentDestination?.getAction(direction.actionId)
-        ?.let { navigate(direction) }
-}
 
 /**
  * Similar to [setupWithNavController],but it executes the passed action on item selection

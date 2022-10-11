@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -102,7 +101,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 }
                 is TraceLocationEvent.StartQrCodePosterFragment -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
 
                         TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
                             it.traceLocation.id

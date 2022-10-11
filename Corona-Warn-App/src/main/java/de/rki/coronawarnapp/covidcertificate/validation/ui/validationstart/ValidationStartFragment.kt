@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -98,7 +97,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     binding.dateInfoIcon to binding.dateInfoIcon.transitionName
                 )
             )
-            NavigateToPrivacyFragment -> doNavigate(
+            NavigateToPrivacyFragment -> findNavController().navigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
             )
             is ShowTimeMessage -> showTimeMessage(event)
@@ -152,7 +151,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     event.validationResult,
                     event.containerId
                 )
-        }.also { doNavigate(it) }
+        }.also { findNavController().navigate(it) }
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {
