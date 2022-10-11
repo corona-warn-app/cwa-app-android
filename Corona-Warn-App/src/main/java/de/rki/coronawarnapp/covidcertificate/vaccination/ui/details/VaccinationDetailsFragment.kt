@@ -224,7 +224,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */

@@ -246,7 +246,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 3) + 170
