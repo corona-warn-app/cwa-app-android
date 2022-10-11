@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -50,6 +49,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
+    private var firstTimeGettingCert = true
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
@@ -68,12 +68,14 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             bindToolbar()
             setToolbarOverlay()
 
-            viewModel.vaccinationCertificate.observeOnce(viewLifecycleOwner) {
+            viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
-                    Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
-                    return@observeOnce
-                }
+                    if (firstTimeGettingCert) {
+                        Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
+                        popBackStack()
+                    }
+                    return@observe
+                } else firstTimeGettingCert = false
 
                 bindCertificateViews(it)
                 val stateInValid = !it.isDisplayValid
@@ -223,7 +225,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         val width = requireContext().resources.displayMetrics.widthPixels
 
         val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
-            as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */

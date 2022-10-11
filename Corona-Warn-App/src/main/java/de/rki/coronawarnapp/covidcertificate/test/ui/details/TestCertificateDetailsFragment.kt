@@ -52,6 +52,7 @@ import javax.inject.Inject
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private var firstTimeGettingCert = true
     private val binding by viewBinding<FragmentTestCertificateDetailsBinding>()
     private val args by navArgs<TestCertificateDetailsFragmentArgs>()
     private val viewModel: TestCertificateDetailsViewModel by cwaViewModelsAssisted(
@@ -85,8 +86,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observeOnce(viewLifecycleOwner) {
             when (it != null) {
-                true -> onCertificateReady(it)
-                false -> {
+                true -> {
+                    onCertificateReady(it)
+                    firstTimeGettingCert = false
+                }
+                false -> if (firstTimeGettingCert) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
                     popBackStack()
                 }
@@ -243,7 +247,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 3) + 170

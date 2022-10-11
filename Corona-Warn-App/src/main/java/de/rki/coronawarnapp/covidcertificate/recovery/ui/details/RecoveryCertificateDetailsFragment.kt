@@ -36,7 +36,6 @@ import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -50,6 +49,7 @@ import javax.inject.Inject
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private var firstTimeGettingCert = true
     private val binding by viewBinding<FragmentRecoveryCertificateDetailsBinding>()
     private val args by navArgs<RecoveryCertificateDetailsFragmentArgs>()
     private val viewModel: RecoveryCertificateDetailsViewModel by cwaViewModelsAssisted(
@@ -81,10 +81,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.recoveryCertificate.observeOnce(viewLifecycleOwner) {
+        viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
             when (it != null) {
-                true -> onCertificateReady(it)
-                false -> {
+                true -> {
+                    onCertificateReady(it)
+                    firstTimeGettingCert = false
+                }
+                false -> if (firstTimeGettingCert) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
                     popBackStack()
                 }
@@ -209,7 +212,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 3) + 170
