@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.adapter.LegacyInstantDeserializer
 import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.getDefaultGsonTypeAdapter
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -24,7 +24,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
 ) {
     private val gson by lazy {
         baseGson.newBuilder()
-            .registerTypeAdapter(Instant::class.java, Instant::class.getDefaultGsonTypeAdapter())
+            .registerTypeAdapter(Instant::class.java, LegacyInstantDeserializer())
             .create()
     }
 
@@ -46,23 +46,24 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadTrackingData() = runCatching {
-        baseGson.parseTracking()
+        baseGson.parseTracking()?.also {
+            lastCalculationData = it
+        }
     }.onFailure {
-        Timber.e(it, "loadTrackingData() failed to load tracked detections.")
+        Timber.d(it, "loadTrackingData() failed to load tracked detections.")
     }
 
     private fun loadLegacyTrackingData() = runCatching {
         gson.parseTracking()
     }.onFailure {
         if (storageFile.delete()) Timber.w("Storage file was deleted.")
-        Timber.e(it, "loadLegacyTrackingData() failed to load tracked detections.")
+        Timber.d(it, "loadLegacyTrackingData() failed to load tracked detections.")
     }
 
     private fun Gson.parseTracking() =
         fromJson<Map<String, TrackedExposureDetection>>(storageFile)?.also {
             require(it.size >= 0)
             Timber.v("Loaded detection data: %s", it)
-            lastCalculationData = it
         }
 
     suspend fun save(data: Map<String, TrackedExposureDetection>) = mutex.withLock {

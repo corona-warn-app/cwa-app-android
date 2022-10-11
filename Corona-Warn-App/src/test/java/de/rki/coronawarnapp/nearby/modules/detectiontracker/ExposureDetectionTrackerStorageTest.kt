@@ -31,14 +31,14 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
               "b2b98400-058d-43e6-b952-529a5255248b": {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
                 "startedAt": {
-                  "iMillis": 1234
+                  "iMillis": 1603473968125
                 },
                 "enfVersion": "V2_WINDOW_MODE"
               },
               "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
                 "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
                 "startedAt": {
-                  "iMillis": 5678
+                  "iMillis": 1603473968125
                 },
                 "result": "UPDATED_STATE",
                 "finishedAt": {
@@ -53,12 +53,12 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
             {
               "b2b98400-058d-43e6-b952-529a5255248b": {
                 "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
-                "startedAt": 1234,
+                "startedAt": 1603473968125,
                 "enfVersion": "V2_WINDOW_MODE"
               },
               "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
                 "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
-                "startedAt": 5678,
+                "startedAt": 1603473968125,
                 "result": "UPDATED_STATE",
                 "finishedAt": 1603473968125,
                 "enfVersion": "V1_LEGACY_MODE"
@@ -69,12 +69,12 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     private val demoData = run {
         val calculation1 = TrackedExposureDetection(
             identifier = "b2b98400-058d-43e6-b952-529a5255248b",
-            startedAt = Instant.ofEpochMilli(1234),
+            startedAt = Instant.ofEpochMilli(1603473968125),
             enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
         )
         val calculation2 = TrackedExposureDetection(
             identifier = "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
-            startedAt = Instant.ofEpochMilli(5678),
+            startedAt = Instant.ofEpochMilli(1603473968125),
             finishedAt = Instant.ofEpochMilli(1603473968125),
             result = TrackedExposureDetection.Result.UPDATED_STATE,
             enfVersion = TrackedExposureDetection.EnfVersion.V1_LEGACY_MODE
@@ -120,10 +120,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         storageFile.writeText(demoJsonStringAfterMigration)
 
         createStorage().apply {
-            load()
-
+            load() shouldBe demoData
             storageFile.delete()
-
             save(demoData)
             storageFile.exists() shouldBe false
         }
@@ -135,12 +133,13 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         storageFile.writeText(demoJsonString)
 
         createStorage().apply {
-            load()
+            load() shouldBe demoData
 
             storageFile.delete()
 
             save(demoData)
             storageFile.exists() shouldBe true
+            storageFile.readText().toComparableJsonPretty() shouldBe demoJsonStringAfterMigration
         }
     }
 
@@ -158,8 +157,16 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         every { context.filesDir } returns Paths.get("src/test/resources", "detectionLegacy").toFile()
         // This makes sure we are using val-getters, otherwise gson inits our @Ŧransient properties to false
         val storedData: Map<String, TrackedExposureDetection> = createStorage().load()
-        storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
-        storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
+        storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").apply {
+            isCalculating shouldBe true
+            startedAt shouldBe Instant.ofEpochMilli(1603473968125)
+            finishedAt shouldBe null
+        }
+        storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").apply {
+            isCalculating shouldBe false
+            startedAt shouldBe Instant.ofEpochMilli(1603473968125)
+            finishedAt shouldBe Instant.ofEpochMilli(1603473968125)
+        }
     }
 
     @Test
@@ -167,8 +174,17 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
         every { context.filesDir } returns Paths.get("src/test/resources", "detectionJavaTime").toFile()
         // This makes sure we are using val-getters, otherwise gson inits our @Ŧransient properties to false
         val storedData: Map<String, TrackedExposureDetection> = createStorage().load()
-        storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").isCalculating shouldBe true
-        storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").isCalculating shouldBe false
+        storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").apply {
+            isCalculating shouldBe true
+            startedAt shouldBe Instant.ofEpochMilli(1603473968125)
+            finishedAt shouldBe null
+        }
+
+        storedData.getValue("aeb15509-fb34-42ce-8795-7a9ae0c2f389").apply {
+            isCalculating shouldBe false
+            startedAt shouldBe Instant.ofEpochMilli(1603473968125)
+            finishedAt shouldBe Instant.ofEpochMilli(1603473968125)
+        }
     }
 
     @Test

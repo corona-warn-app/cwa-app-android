@@ -137,7 +137,7 @@ android {
             applicationIdSuffix '.test'
 
             ext {
-                envTypeDefault = [debug: "INT", release: "WRU"]
+                envTypeDefault = [debug: "WRU", release: "WRU"]
             }
 
             if (signingPropFile.canRead()) {
