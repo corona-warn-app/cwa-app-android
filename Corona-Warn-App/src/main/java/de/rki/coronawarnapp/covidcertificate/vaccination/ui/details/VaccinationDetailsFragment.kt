@@ -68,7 +68,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    viewModel.onClose()
+                    viewModel.goBack()
                     return@observe
                 }
 
@@ -167,7 +167,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
