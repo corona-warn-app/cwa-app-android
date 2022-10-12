@@ -301,8 +301,9 @@
     <string name="risk_details_headline_period_logged">"Dönem Günlüğe Kaydedildi"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
+    <!-- XTXT: Tracing explanation dialog message -->
+    <string name="tracing_explanation_dialog_message">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir.\nMaruz kalma günlüğünüz son %d günü kapsar.\nUygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler.\n\nDaha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son %d günü kapsar."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Corona-Warn-App bugün yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
@@ -312,8 +313,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Corona-Warn-App %d gün önce yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Maruz kalma günlüğü başka insanlarla karşılaştığınız anlarda etkindiyse bu dönem için enfeksiyon riskiniz hesaplanabilir."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"Uygulama, enfeksiyondan korunma için artık ilgili olmadığından daha eski kayıtları otomatik olarak siler."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Riskiniz bu şekilde hesaplanır."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -764,11 +764,9 @@
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Bir erkek kulaklıkla telefon görüşmesi yapıyor."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
-    <string name="information_help_title">"SSS"</string>
     <!-- XHED: Page title for accessibility statement information page -->
     <string name="information_accessibility_statement">"Erişilebilirlik Beyanı"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Sık sorulan sorular. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Yasal Bildirimler"</string>
     <!-- XACT: describes illustration -->
@@ -1055,7 +1053,6 @@
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Test sonucunuz henüz çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1070,7 +1067,6 @@
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID Test Sertifikası"</string>
     <!-- XTXT: Family test result certificate info text for negative result -->
-    <string name="submission_family_test_result_negative_steps_certificate_text">"Dijital COVID test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden resmi bir dijital COVID test sertifikası talep edemezsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
@@ -1211,17 +1207,11 @@
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
-    <string name="submission_positive_country_selection_title">"Avrupa geneli uyarılar"</string>
     <!-- XHED: Page headline for the submission country selection page -->
-    <string name="submission_positive_country_selection_headline">"Son 14 günde hangi ülkelere gittiniz?"</string>
     <!-- XHED: Country selector headline for the submission country selection page -->
-    <string name="submission_country_selector_headline">"Şu ülkelere gittim:"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Bilgi yok"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
-    <string name="submission_country_selection_data_faq_body">"Girişiniz yalnızca veri hacmini optimize etmek için kullanılır.\n\nListe tüm güncel katılımcı ülkeleri içerir ve sürekli olarak güncellenir."</string>
     <!-- XBUT: submission country selection continue button -->
-    <string name="submission_country_selection_button">"Sonraki"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1444,6 +1434,16 @@
          Statistics
     ###################################### -->
 
+    <!-- Pandemic radar link card -->
+    <!-- XHED: Pandemic radar title -->
+    <string name="pandemic_radar_card_title">"Pandemi Radarı"</string>
+    <!-- XTXT: Pandemic radar subtitle -->
+    <string name="pandemic_radar_card_subtitle">"Robert Koch Institute tarafından sunulur"</string>
+    <!-- XTXT: Pandemic radar message -->
+    <string name="pandemic_radar_card_message">"Pandemi ile ilgili ilave istatistikleri keşfedin."</string>
+    <!-- XTXT: Pandemic radar button text -->
+    <string name="pandemic_Radar_card_button_text">"Harici bağlantıyı aç "</string>
+
     <!-- Incidence statistics card -->
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"her 100.000 vatandaşta onaylanan yeni enfeksiyon sayısı"</string>
@@ -1515,7 +1515,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Açıklama"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1523,7 +1523,11 @@
     <!-- XHED: Explanation screen yesterday subtitle -->
     <string name="statistics_explanation_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Önceki güne ait/önceki güne kadar olan sayı. Örneğin hafta sonlarında ve resmi tatillerde yalnızca birkaç kamu sağlığı görevlisinin RKI\'ye veri göndermesi gibi bir nedenle, önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Örneğin hafta sonlarında ve resmi tatillerde yalnızca birkaç kamu sağlığı görevlisinin RKI\'ye veri göndermesi gibi bir nedenle, önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <!-- XTXT: Explanation screen pandemic radar title -->
+    <string name="statistics_explanation_pandemic_radar_title">"Pandemi Radarı"</string>
+    <!-- XTXT: Explanation screen pandemic radar susbtile -->
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Robert Koch Institute web sitesinde sunulan çeşitli koronavirüs pandemisi istatistikleri. Web sitesini açarken kullanılan tüm verilerin, veri planınızdan düşüleceğini ve web sitesinin engellilere uygun şekilde tasarlanmadığını unutmayın."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7 Günlük Ortalama"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

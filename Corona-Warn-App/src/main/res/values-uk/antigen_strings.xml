@@ -108,27 +108,19 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Дата видачі"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Ваш експрес-тест додано"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Результат тесту відображається тут протягом 48 годин."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
-    <string name="coronatest_negative_antigen_result_second_info_title">"Негативний діагноз"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
     <string name="coronatest_negative_antigen_result_second_info_body">"Експрес-тест не підтвердив наявність у вас коронавірусу SARS-CoV-2."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Видалити тест"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
-    <string name="coronatest_negative_antigen_restul_third_info_body">"Видаліть тест із застосунку Corona-Warn-App, щоб у разі потреби ви могли зберегти тут новий код тесту."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
-    <string name="coronatest_negative_result_certificate_info_title">"Сертифікат тесту"</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile
      ###################################### -->
     <!-- XHED: Create RAT profile card title -->
-    <string name="rat_profile_create_card_title">"Створити профіль експрес-тесту"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
