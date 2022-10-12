@@ -100,7 +100,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Numune alma tarihi: %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Numune alma tarihi: %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Sertifikası"</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -274,7 +273,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"Bu, şu anda kullandığınız sertifikalardan biriyse lütfen zamanında yenilediğinizden emin olun. Önümüzdeki 28 gün içinde süreleri sona ererse veya son 90 gün içinde süreleri sona ermişse Almanya\'da düzenlenmiş olmaları koşuluyla bu sertifikaları doğrudan uygulama içinde yenileyebilirsiniz. Böyle bir durumda, \"Durum Kanıtı\" kutucuğunun altında, sertifikaya genel bakış kısmında \"Sertifikaları Yenile\" seçeneği görüntülenir. Bu, şu anda kullandığınız sertifikalardan biri değilse uzatılmasına gerek yoktur ve herhangi bir işlem yapmanız gerekmez."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Sona erme tarihi geçti. Lütfen sertifikayı yenileyin. Bir sertifikanın süresi sona erdikten sonraki 90 güne kadar sertifikaya genel bakış kısmında nota tıklayarak yenileme talebinde bulunabilirsiniz."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Sertifika onaylanmamış bir kuruluş tarafından veya yanlış düzenlenmiş. Lütfen onaylanmış bir kuruluşa yeni bir sertifika düzenletin. "</string>
 

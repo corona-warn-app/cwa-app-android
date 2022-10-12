@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Wyświetl obowiązek noszenia maseczki"</item>
+        <item>"Radar pandemiczny"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"W aplikacji może wyświetlać się informacja, czy masz obowiązek noszenia maseczki w pewnych miejscach w Twoim niemieckim kraju związkowym, czy jesteś zwolniony(-a) z tego obowiązku. Ta informacja wyświetlana jest tylko wtedy, gdy Twój kraj związkowy wdrożył reguły przedłużonego obowiązku noszenia maseczki.\n\nJeśli kraj związkowy, w którym obecnie przebywasz, nałożył obowiązek noszenia maseczki, negatywny wynik szybkiego testu lub testu PCR zwolni Cię z tego obowiązku w przypadku aktywności rekreacyjnych, wydarzeń kulturalnych i sportowych oraz wizyt w restauracjach i barach przez 24 godziny. Jednak nie wystarczy samodzielne wykonanie testu bez nadzoru. Twój kraj związkowy może także wdrożyć zwolnienie z obowiązku noszenia maseczki po zaszczepieniu lub przebyciu infekcji (w ciągu ostatnich trzech miesięcy). Zwolnienie z obowiązku noszenia maseczki nie dotyczy transportu publicznego, szpitali i ośrodków zdrowia lub pacjentów w gabinetach lekarskich.\n\nJeśli zapisane przez Ciebie w aplikacji certyfikaty COVID wystarczają do zwolnienia z obowiązku noszenia maseczki w Twoim kraju związkowym, certyfikat wyświetla się na zielono. Możesz potwierdzić swoje zwolnienie z obowiązku noszenia maseczki poprzez zeskanowanie kodu QR w aplikacji CovPassCheck."</item>
+        <item>"Aplikacja Corona-Warn-App zawiera teraz kafelek „Radar pandemiczny”, który po dotknięciu prowadzi bezpośrednio do strony internetowej Instytutu Roberta Kocha (w języku niemieckim). Radar pandemiczny zawiera różnorodne statystyki dotyczące pandemii koronawirusa, które są aktualizowane w każdym dniu roboczym. Zwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako pozbawiona barier."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

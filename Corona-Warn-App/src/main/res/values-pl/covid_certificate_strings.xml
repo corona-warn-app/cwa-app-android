@@ -100,7 +100,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Próbka pobrana %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Próbka pobrana %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Certyfikat testu"</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -274,7 +273,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"Jeśli jest to jeden z aktualnie używanych przez Ciebie certyfikatów, pamiętaj o odnowieniu go na czas. Możesz odnowić takie certyfikaty bezpośrednio w aplikacji, jeśli termin ich wygaśnięcia przypada w ciągu najbliższych 28 dni lub jeżeli wygasły w ciągu ostatnich 90 dni, pod warunkiem, że zostały wydane w Niemczech. W takim przypadku opcja „Odnów certyfikaty” pojawia się w przeglądzie certyfikatów, pod kafelkiem „Dowód statusu”. Jeśli nie jest to jeden z aktualnie używanych przez Ciebie certyfikatów, nie musisz go przedłużać ani podejmować żadnych działań."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Minęła data ważności. Odnów certyfikat. Możesz poprosić o odnowienie do 90 dni po wygaśnięciu certyfikatu, klikając notatkę w przeglądzie certyfikatu."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Certyfikat został wydany przez nieuprawniony organ lub wydanie przebiegło nieprawidłowo. Zwróć się do uprawnionego organu o wydanie nowego certyfikatu. "</string>
 

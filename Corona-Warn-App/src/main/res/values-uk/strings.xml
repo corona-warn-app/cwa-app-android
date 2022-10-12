@@ -301,8 +301,9 @@
     <string name="risk_details_headline_period_logged">"Період зареєстровано"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"Цей період включається в обчислення."</string>
+    <!-- XTXT: Tracing explanation dialog message -->
+    <string name="tracing_explanation_dialog_message">"Ваш ризик зараження можна обчислити лише для періодів, протягом яких було активне ведення реєстрацій ризиків зараження. Тож функція реєстрації ризиків зараження повинна залишатись активною постійно. Ваша реєстрація ризиків зараження охоплює останні %d днів.\nЗастосунок автоматично видаляє старі журнали, оскільки вони більше не використовуються для запобігання зараженню.\n\nДля отримання додаткової інформації, перегляньте нашу сторінку ЗіВ."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Ваш ризик зараження можна обчислити лише для періодів, протягом яких була активна реєстрація ризиків зараження. Таким чином, функція реєстрації повинна залишатися активною постійно. Реєстрація ризиків зараження охоплює останні %d днів."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Застосунок Corona-Warn-App було встановлено сьогодні. Ризик зараження обчислюється за періоди, протягом яких була активна реєстрація ризиків зараження. Якщо ви зустрілися з іншими людьми і реєстрація ризиків зараження була активна, обчислюється ваш ризик зараження."</string>
@@ -312,8 +313,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"Застосунок Corona-Warn-App було встановлено %d днів тому. Ризик зараження обчислюється за періоди, протягом яких була активна реєстрація ризиків зараження. Якщо ви зустрілися з іншими людьми і реєстрація ризиків зараження була активна, обчислюється ваш ризик зараження."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Якщо реєстрація ризиків зараження була активна в той час, коли ви зустрічалися з іншими людьми, ризик вашого зараження можна обчислити за цей період."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"Застосунок автоматично видаляє старі журнали, оскільки вони більше не використовуються для запобігання зараженню."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"Так обчислюється ваш ризик."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -764,11 +764,9 @@
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Під час телефонного дзвінка чоловік одягає гарнітуру."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
-    <string name="information_help_title">"ЗіВ"</string>
     <!-- XHED: Page title for accessibility statement information page -->
     <string name="information_accessibility_statement">"Декларація доступності"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Запитання та відповіді. Ви будете перенаправлені на зовнішній веб-сайт."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Юридичні сповіщення"</string>
     <!-- XACT: describes illustration -->
@@ -1055,7 +1053,6 @@
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ваш швидкий тест додано"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Результат вашого тесту ще недоступний"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1070,7 +1067,6 @@
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"Сертифікат тесту на COVID"</string>
     <!-- XTXT: Family test result certificate info text for negative result -->
-    <string name="submission_family_test_result_negative_steps_certificate_text">"Цифровий сертифікат тесту на COVID доступний на вкладці «Сертифікати»."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Офіційний цифровий сертифікат тесту на COVID не може бути виданий, оскільки цей пункт тестування не підтримує видачу сертифікатів тестування."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
@@ -1211,17 +1207,11 @@
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
-    <string name="submission_positive_country_selection_title">"Попередження по всій Європі"</string>
     <!-- XHED: Page headline for the submission country selection page -->
-    <string name="submission_positive_country_selection_headline">"Які країни ви відвідали за останні 14 днів?"</string>
     <!-- XHED: Country selector headline for the submission country selection page -->
-    <string name="submission_country_selector_headline">"Я відвідав наступні країни"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Нема відповіді"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
-    <string name="submission_country_selection_data_faq_body">"Ваш запис використовується виключно для оптимізації обсягу даних.\n\nСписок містить усі країни-учасниці та він постійно оновлюється."</string>
     <!-- XBUT: submission country selection continue button -->
-    <string name="submission_country_selection_button">"Далі"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1444,6 +1434,16 @@
          Statistics
     ###################################### -->
 
+    <!-- Pandemic radar link card -->
+    <!-- XHED: Pandemic radar title -->
+    <string name="pandemic_radar_card_title">"Пандемічний радар"</string>
+    <!-- XTXT: Pandemic radar subtitle -->
+    <string name="pandemic_radar_card_subtitle">"з Інституту Роберта Коха"</string>
+    <!-- XTXT: Pandemic radar message -->
+    <string name="pandemic_radar_card_message">"Перегляньте додаткову статистику щодо пандемії."</string>
+    <!-- XTXT: Pandemic radar button text -->
+    <string name="pandemic_Radar_card_button_text">"Відкрити зовнішнє посилання "</string>
+
     <!-- Incidence statistics card -->
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"підтверджених нових випадків зараження на 100 000 жителів"</string>
@@ -1515,7 +1515,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-денне значення R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Цифра відтворення, R, вказує, скільки людей пересічна інфікована людина заразила далі."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Цифра відтворення, R, вказує, скільки людей пересічна інфікована людина заразила далі. Поточне значення враховує дані за останні 5 днів."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Легенда"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1523,7 +1523,11 @@
     <!-- XHED: Explanation screen yesterday subtitle -->
     <string name="statistics_explanation_yesterday_subtitle">"Вчора/до вчора"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, оскільки лише кілька державних установ охорони здоров’я наразі надсилають дані до RKI у вихідні та святкові дні, то відображається остання дата, на яку доступні цифри."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Для «Вчора/До вчора» відображається кількість за попередній/до попереднього дня. Якщо за попередній день ще немає доступних цифр, оскільки лише кілька державних установ охорони здоров’я наразі надсилають дані до RKI у вихідні та святкові дні, то відображається остання дата, на яку доступні цифри."</string>
+    <!-- XTXT: Explanation screen pandemic radar title -->
+    <string name="statistics_explanation_pandemic_radar_title">"Пандемічний радар"</string>
+    <!-- XTXT: Explanation screen pandemic radar susbtile -->
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Різноманітні статистичні дані щодо пандемії коронавірусу, яка представлена на сайті Інституту Роберта Коха. Зауважте, що будь-які дані, використовувані під час відкриття веб-сайту, буде вираховано з вашого тарифного плану та що веб-сайт не є безбар’єрним."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Середня статистика за 7 днів"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
