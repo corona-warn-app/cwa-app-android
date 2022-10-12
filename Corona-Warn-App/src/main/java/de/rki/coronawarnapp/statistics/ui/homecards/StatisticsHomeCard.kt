@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.AddStatsItem
@@ -68,6 +69,12 @@ class StatisticsHomeCard(
             if (resources.isPhone()) {
                 PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
             }
+            statisticsCardAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    super.onItemRangeInserted(positionStart, itemCount)
+                    scrollToCard(2)
+                }
+            })
         }
     }
 
@@ -99,16 +106,16 @@ class StatisticsHomeCard(
 
     override fun onInitialPostBind(): Boolean {
         return if (statisticsCardAdapter.itemCount > 1) {
-            scrollToSecondCard()
+            scrollToCard()
             true
         } else false // still initial
     }
 
-    private fun scrollToSecondCard() {
+    private fun scrollToCard(position: Int = 1) {
         with(viewBinding.value.root.context.resources) {
             val screenWidth = displayMetrics.widthPixels
             val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
-            statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
+            statisticsLayoutManager.scrollToPositionWithOffset(position, (screenWidth - cardWidth) / 2)
         }
     }
 
