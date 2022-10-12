@@ -86,7 +86,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                 }
             }
         }
@@ -223,7 +223,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         addNavigationIconButtonId(R.id.test_certificate_detail_fragment_navigation_icon_buttonId)
         navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {

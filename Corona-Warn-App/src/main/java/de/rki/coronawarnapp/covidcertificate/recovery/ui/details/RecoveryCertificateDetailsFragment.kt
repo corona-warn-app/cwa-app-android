@@ -84,7 +84,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                 }
             }
         }
@@ -189,7 +189,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_recovery_certificate_delete -> {

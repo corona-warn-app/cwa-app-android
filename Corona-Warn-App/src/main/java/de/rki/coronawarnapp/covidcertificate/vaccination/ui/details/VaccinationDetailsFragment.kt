@@ -47,7 +47,6 @@ import javax.inject.Inject
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
@@ -69,7 +68,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                     return@observe
                 }
 
@@ -168,7 +167,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -220,8 +219,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
-            as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
