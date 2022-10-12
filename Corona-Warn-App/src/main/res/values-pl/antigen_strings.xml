@@ -108,27 +108,19 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Data wydania"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Twój szybki test został dodany"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
-    <string name="coronatest_negative_antigen_result_first_info_body">"Wynik testu jest wyświetlany tutaj przez 48 godzin."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
-    <string name="coronatest_negative_antigen_result_second_info_title">"Diagnoza: brak zakażenia"</string>
     <!-- XTXT: coronatest negative antigen result second info body -->
     <string name="coronatest_negative_antigen_result_second_info_body">"Szybki test nie dostarczył dowodów na to, że masz koronawirusa SARS-CoV-2."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Usuń test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
-    <string name="coronatest_negative_antigen_restul_third_info_body">"Usuń test z aplikacji Corona-Warn-App, aby w razie potrzeby można było zapisać w niej kod nowego testu."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
-    <string name="coronatest_negative_result_certificate_info_title">"Certyfikat testu"</string>
 
     <!-- ####################################
      Rapid Antigen Test Profile
      ###################################### -->
     <!-- XHED: Create RAT profile card title -->
-    <string name="rat_profile_create_card_title">"Utwórz profil szybkiego testu"</string>
     <!-- XTXT: Create RAT profile card subtitle -->
-    <string name="rat_profile_create_card_subtitle">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profile szybkich testów"</string>
     <!-- XTXT: Open RAT profile card subtitle -->

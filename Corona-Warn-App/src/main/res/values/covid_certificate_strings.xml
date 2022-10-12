@@ -100,7 +100,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Sample taken %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Test Certificate"</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -274,7 +273,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"If this is one of the certificates you currently use, please be sure to renew it on time. You can renew such certificates directly in the app if they will expire within the next 28 days or expired within the last 90 days, provided they were issued in Germany. In this case, the “Renew Certificates” option appears in your certificate overview, below the “Proof of Status” tile. If this is not one of the certificates you currently use, it does not have to be extended and no action is required on your part."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"The expiration date has passed. Please renew the certificate. You can request a renewal up to 90 days after a certificate expires, by clicking the note in your certificate overview."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"The certificate was issued by an unauthorized body or was issued incorrectly. Please have an authorized body issue you a new certificate. "</string>
 
