@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
