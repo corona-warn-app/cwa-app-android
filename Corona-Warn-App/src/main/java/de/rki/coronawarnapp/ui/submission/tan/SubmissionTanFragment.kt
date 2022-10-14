@@ -117,6 +117,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     }
 
     private fun goBack() {
+        binding.root.hideKeyboard()
         popBackStack()
     }
 
