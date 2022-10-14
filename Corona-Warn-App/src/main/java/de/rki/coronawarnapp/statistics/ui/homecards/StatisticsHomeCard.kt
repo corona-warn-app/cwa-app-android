@@ -69,12 +69,6 @@ class StatisticsHomeCard(
             if (resources.isPhone()) {
                 PagerSnapHelper().attachToRecyclerView(statisticsRecyclerview)
             }
-            statisticsCardAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    super.onItemRangeInserted(positionStart, itemCount)
-                    scrollToCard(2)
-                }
-            })
         }
     }
 
@@ -95,6 +89,11 @@ class StatisticsHomeCard(
             }
         }.let {
             statisticsCardAdapter.update(it)
+            statisticsCardAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    scrollToCard(2)
+                }
+            })
         }
     }
 
