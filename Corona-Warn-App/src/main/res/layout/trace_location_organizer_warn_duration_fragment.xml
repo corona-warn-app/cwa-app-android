@@ -60,7 +60,7 @@
                     tools:text="21.01.2021" />
 
                 <TextView
-                    android:id="@+id/description"
+                    android:id="@+id/eventDescription"
                     style="@style/subtitleBoldSixteen"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                     android:textColor="@color/colorTextPrimary2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/traceLocationCardHighlightView"
-                    app:layout_constraintTop_toBottomOf="@id/description"
+                    app:layout_constraintTop_toBottomOf="@id/eventDescription"
                     tools:text="Hauptstr. 3, 69115 Heidelberg" />
 
                 <TextView
