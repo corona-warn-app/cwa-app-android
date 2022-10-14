@@ -32,7 +32,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
         certificate?.also { qrCode = it.qrCodeToDisplay }
     }.asLiveData2()
 
-    fun onClose() = events.postValue(TestCertificateDetailsNavigation.Back)
+    fun goBack() = events.postValue(TestCertificateDetailsNavigation.Back)
 
     fun openFullScreen() = qrCode?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 

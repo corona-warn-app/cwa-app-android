@@ -1,0 +1,14 @@
+{
+  "b2b98400-058d-43e6-b952-529a5255248b": {
+    "identifier": "b2b98400-058d-43e6-b952-529a5255248b",
+    "startedAt": 1603473968125,
+    "enfVersion": "V2_WINDOW_MODE"
+  },
+  "aeb15509-fb34-42ce-8795-7a9ae0c2f389": {
+    "identifier": "aeb15509-fb34-42ce-8795-7a9ae0c2f389",
+    "startedAt": 1603473968125,
+    "result": "UPDATED_STATE",
+    "finishedAt": 1603473968125,
+    "enfVersion": "V1_LEGACY_MODE"
+  }
+}

@@ -100,7 +100,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Взято зразок %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Взято зразок %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Сертифікат тесту"</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -274,7 +273,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"Якщо це один із сертифікатів, які ви зараз використовуєте, не забудьте вчасно поновити його. Ви можете поновити такі сертифікати безпосередньо в застосунку, якщо строк їх дії закінчиться протягом наступних 28 днів або закінчився протягом останніх 90 днів, за умови, що вони були видані в Німеччині. У цьому випадку опція «Поновити сертифікати» з’явиться в огляді вашого сертифіката під плиткою «Підтвердження статусу». Якщо це не один із сертифікатів, які ви зараз використовуєте, його не потрібно продовжувати, і з вашого боку не потрібно нічого робити."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Строк придатності минув. Поновіть сертифікат. Ви можете подати запит на поновлення протягом 90 днів після закінчення строку дії сертифіката, натиснувши нотатку в огляді сертифіката."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Довідка видана неуповноваженим органом або була видана неправильно. Попросіть уповноважений орган видати вам новий сертифікат. "</string>
 

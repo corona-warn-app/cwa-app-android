@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Maske Zorunluluğunu Görüntüle"</item>
+        <item>"Pandemi Radarı"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Bu uygulama, Almanya eyaletinizdeki belirli yerlerde maske takmanız gerekip gerekmediğini veya bu gereksinimden muaf olup olmadığınızı görüntüleyebilir. Bu ekran yalnızca eyaletinizde uzatılmış maske zorunluluğu kuralları uygulandıysa görüntülenir.\n\nGüncel olarak bulunduğunuz eyalet maske zorunluluğu uyguluyorsa negatif hızlı test veya PCR testi sizi eğlence amaçlı etkinlikler, kültürel etkinlikler ve spor etkinlikleri, restoranlar ve barlar için 24 saatliğine bu maske zorunluluğundan muaf tutar. Ancak gözetimsiz olarak kendi kendine yapılan testler yeterli değildir. Ayrıca eyaletiniz, aşı olduktan veya enfeksiyon geçirdikten (en az üç ay içinde) sonra maske zorunluluğundan muafiyetler uygulayabilir. Maske zorunluluğundan muafiyetler toplu taşımada, hastanelerde ve bakım tesislerinde veya doktor muayenehanesindeki hastalar için geçerli değildir.\n\nUygulamada kaydettiğiniz COVID sertifikaları sizi eyaletinizdeki maske zorunluluğundan muaf tutmak için yeterliyse sertifikalar yeşil renkte görüntülenir. Maske zorunluluğu muafiyetiniz, CovPassCheck uygulamasıyla QR kodunuz taranarak doğrulanabilir."</item>
+        <item>"Corona-Warn-App artık bir “Pandemi Radarı” kutucuğu içermektedir. Bu kutucuğa dokunulduğunda, doğrudan bir Robert Koch Institute web sitesine (Almanca) yönlendirilirsiniz. Pandemi Radarı, her iş günü güncellenen çeşitli koronavirüs pandemisi istatiklerini içermektedir. Web sitesini açarken kullanılan tüm verilerin, veri planınızdan düşüleceğini ve web sitesinin engellilere uygun şekilde tasarlanmadığını unutmayın."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
