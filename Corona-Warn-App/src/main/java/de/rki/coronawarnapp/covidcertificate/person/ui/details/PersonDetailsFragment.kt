@@ -175,16 +175,14 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
         displayDialog(
             isDeleteDialog = true,
-            onDismissAction = { position.let { personDetailsAdapter.notifyItemChanged(position) } }
+            onDismissAction = { personDetailsAdapter.notifyItemChanged(position) }
         ) {
             setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
             setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
             setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
                 viewModel.recycleCertificate(certificate)
             }
-            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ ->
-                position.let { personDetailsAdapter.notifyItemChanged(position) }
-            }
+            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
         }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
