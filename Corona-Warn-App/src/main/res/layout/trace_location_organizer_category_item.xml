@@ -11,7 +11,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/category_item_title"
         style="@style/body1"
         android:textSize="17sp"
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
         tools:text="Einzelhandel" />
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/category_item_subtitle"
         style="@style/subtitleMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

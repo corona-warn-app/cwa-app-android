@@ -18,9 +18,9 @@ class TraceLocationCategoryVH(parent: ViewGroup, onItemClickListener: (category:
     override val onBindData:
         TraceLocationOrganizerCategoryItemBinding.(item: TraceLocationCategory, payloads: List<Any>) -> Unit =
             { item, _ ->
-                title.text = context.getString(item.title)
+                categoryItemTitle.text = context.getString(item.title)
                 if (item.subtitle != null) {
-                    subtitle.text = context.getString(item.subtitle)
+                    categoryItemSubtitle.text = context.getString(item.subtitle)
                 }
                 root.setOnClickListener { onItemClickListener.invoke(item) }
             }

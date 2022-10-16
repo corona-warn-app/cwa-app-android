@@ -23,3 +23,8 @@ fun MaterialToolbar.addNavigationIconButtonId(id: Int) {
 fun MaterialToolbar.addTitleId(id: Int) {
     ToolbarUtils.getTitleTextView(this)?.id = id
 }
+
+@SuppressLint("RestrictedApi")
+fun MaterialToolbar.addSubtitleId(id: Int) {
+    ToolbarUtils.getSubtitleTextView(this)?.id = id
+}
