@@ -66,8 +66,8 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
 
-        onView(withId(R.id.description)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
-        onView(withId(R.id.address)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
+        onView(withId(R.id.trace_locations_item_description)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
+        onView(withId(R.id.trace_locations_item_address)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
         onView(withId(R.id.duration)).check(matches(withText("21.06.21, 18:00 - 21:00 Uhr")))
     }
 
@@ -78,8 +78,8 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<TraceLocationsFragment>()
 
-        onView(withId(R.id.description)).check(matches(withText("Event XYZ")))
-        onView(withId(R.id.address)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
+        onView(withId(R.id.trace_locations_item_description)).check(matches(withText("Event XYZ")))
+        onView(withId(R.id.trace_locations_item_address)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
         onView(withId(R.id.duration)).check(matches(withText("18.04.21, 12:00 - 19.04.21, 22:52 Uhr")))
     }
 
