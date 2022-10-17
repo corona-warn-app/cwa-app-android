@@ -88,6 +88,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
     }
 
     private fun goBack() {
+        binding.root.hideKeyboard()
         popBackStack()
     }
 }

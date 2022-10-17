@@ -178,7 +178,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.truncatedTo(ChronoUnit.MILLIS).toInstant().toEpochMilli())
+                                    .from(
+                                        minConstraint.minusDays(1).truncatedTo(ChronoUnit.MILLIS).toInstant()
+                                            .toEpochMilli()
+                                    )
                             )
                             .build()
                     )
