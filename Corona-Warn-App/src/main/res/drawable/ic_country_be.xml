@@ -3,6 +3,6 @@
         <clip-path android:pathData="M0 0h24v16H0z"/>
         <path android:pathData="M8.182 0h7.636v16H8.182z" android:strokeWidth="1" android:fillColor="#FFC107"/>
         <path android:pathData="M15.818 0H24v16h-8.182z" android:strokeWidth="1" android:fillColor="#FF3D00"/>
-        <path android:pathData="M0 0h8.182v16H0z" android:strokeWidth="1" android:fillColor="#424242" android:strokeColor="#424242"/>
+        <path android:pathData="M0 0h8.182v16H0z" android:strokeWidth="1" android:fillColor="#363636" />
     </group>
 </vector>
