@@ -121,4 +121,5 @@
 -keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
 -keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.revocation.model.** { *; }
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
