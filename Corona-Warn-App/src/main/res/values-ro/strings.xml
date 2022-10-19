@@ -1527,7 +1527,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Radar pandemic"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"O varietate de statistici referitoare la pandemia de coronavirus, furnizate pe un site web al Institutului Robert Koch. Rețineți că orice date utilizate la deschiderea site-ului web vor fi deduse din planul tarifar al datelor dvs. mobile și acest site web nu este conceput să fie fără bariere."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"O varietate de statistici referitoare la pandemia de coronavirus, furnizate pe un site web al Institutului Robert Koch.\nRețineți că orice date utilizate la deschiderea site-ului web vor fi deduse din planul tarifar al datelor dvs. mobile și acest site web nu este conceput să fie fără bariere. De asemenea, este disponibil doar în germană."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Media pe 7 zile"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
