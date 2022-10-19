@@ -48,7 +48,7 @@
                     app:layout_collapseMode="parallax">
 
                     <TextView
-                        android:id="@+id/tl_organizer_title"
+                        android:id="@+id/trace_location_organizer_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
@@ -62,7 +62,7 @@
                         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                     <TextView
-                        android:id="@+id/tl_organizer_subtitle"
+                        android:id="@+id/trace_location_organizer_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
