@@ -10,7 +10,7 @@
     android:focusable="true">
 
     <de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView
-        android:id="@+id/icon"
+        android:id="@+id/trace_locations_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,7 +32,7 @@
     </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/trace_locations_item_description"
         style="@style/subtitleBoldSixteen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,12 +41,12 @@
         android:layout_marginEnd="16dp"
         android:hyphenationFrequency="full"
         app:layout_constraintEnd_toStartOf="@id/menu_action"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintStart_toEndOf="@id/trace_locations_item_icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/trace_locations_item_address"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -55,8 +55,8 @@
         android:layout_marginEnd="16dp"
         android:textColor="@color/colorTextPrimary2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintStart_toEndOf="@id/trace_locations_item_icon"
+        app:layout_constraintTop_toBottomOf="@id/trace_locations_item_description"
         tools:text="Hauptstr. 3, 69115 Heidelberg Hauptstr. 3, 69115 Heidelberg Hauptstr. 3, 69115 Heidelberg" />
 
     <TextView
@@ -68,8 +68,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toBottomOf="@id/address"
+        app:layout_constraintStart_toEndOf="@id/trace_locations_item_icon"
+        app:layout_constraintTop_toBottomOf="@id/trace_locations_item_address"
         tools:text="21.01.21 18:00 - 22.02.21 21:00 Uhr 21.01.21 18:00 - 22.02.21 21:00 Uhr" />
 
     <ImageButton
@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="address,duration,icon" />
+        app:constraint_referenced_ids="trace_locations_item_address,duration,trace_locations_item_icon" />
 
     <Space
         android:layout_width="match_parent"

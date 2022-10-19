@@ -24,7 +24,7 @@
         tools:srcCompat="@drawable/ic_selected" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/warn_item_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,15 +37,15 @@
         tools:text="Jahrestreffen XYZ" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/warn_item_address"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_mega_tiny"
         android:textColor="@color/colorTextPrimary2"
-        app:layout_constraintEnd_toEndOf="@id/title"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintEnd_toEndOf="@id/warn_item_title"
+        app:layout_constraintStart_toStartOf="@id/warn_item_title"
+        app:layout_constraintTop_toBottomOf="@id/warn_item_title"
         tools:text="Berlin" />
 
     <TextView
@@ -55,9 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_mega_tiny"
         android:paddingBottom="@dimen/spacing_normal"
-        app:layout_constraintEnd_toEndOf="@id/title"
-        app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/address"
+        app:layout_constraintEnd_toEndOf="@id/warn_item_title"
+        app:layout_constraintStart_toStartOf="@id/warn_item_title"
+        app:layout_constraintTop_toBottomOf="@id/warn_item_address"
         tools:text="21.01.21, 18:01 - 21:00 Uhr" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

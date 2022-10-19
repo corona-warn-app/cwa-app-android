@@ -66,6 +66,14 @@
     <item name="home_fragment_menu_id" type="id" />
     <item name="certificate_detail_fragment_menu_id" type="id" />
     <item name="test_certificate_detail_fragment_navigation_icon_buttonId" type="id" />
+    <item name="trace_location_organizer_warn_info_fragment_title_id" type="id" />
+    <item name="trace_location_organizer_warn_duration_fragment_title_id" type="id" />
+    <item name="trace_location_organizer_warn_tan_fragment_title_id" type="id" />
+    <item name="trace_location_organizer_trace_locations_warn_list_fragment_title_id" type="id" />
+    <item name="trace_location_organizer_category_fragment_title_id" type="id" />
+    <item name="trace_location_create_fragment_title_id" type="id" />
+    <item name="trace_location_create_fragment_subtitle_id" type="id" />
+    <item name="trace_location_organizer_trace_locations_list_fragment_title_id" type="id" />
 
     <declare-styleable name="ProgressLoadingButton">
         <attr name="buttonText" format="string" />

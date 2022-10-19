@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsWarnListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -44,6 +45,7 @@ class TraceLocationSelectionFragment :
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
+            toolbar.addTitleId(R.id.trace_location_organizer_trace_locations_warn_list_fragment_title_id)
 
             nextButton.setOnClickListener {
                 viewModel.goNext()
