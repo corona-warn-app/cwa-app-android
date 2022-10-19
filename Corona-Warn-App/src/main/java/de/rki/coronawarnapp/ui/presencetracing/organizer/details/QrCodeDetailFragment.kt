@@ -61,8 +61,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         binding.apply {
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
-                title.alpha = titleAlpha
-                subtitle.alpha = subtitleAlpha
+                traceLocationOrganizerTitle.alpha = titleAlpha
+                traceLocationOrganizerSubtitle.alpha = subtitleAlpha
                 checkShadowVisibility()
             }
             root.viewTreeObserver.addOnGlobalLayoutListener { checkShadowVisibility() }
@@ -116,8 +116,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         viewModel.uiState.observe2(this) { uiState ->
             with(binding) {
-                title.text = uiState.description
-                subtitle.text = uiState.address
+                traceLocationOrganizerTitle.text = uiState.description
+                traceLocationOrganizerSubtitle.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
@@ -168,9 +168,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
-        val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
+        val textParams = binding.traceLocationOrganizerSubtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = ((width) / 2) - 24 /* 24 is space between screen border and QrCode */
-        binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
+        binding.traceLocationOrganizerSubtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24

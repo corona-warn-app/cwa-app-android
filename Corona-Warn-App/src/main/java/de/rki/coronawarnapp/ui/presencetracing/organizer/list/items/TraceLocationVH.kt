@@ -37,8 +37,8 @@ class TraceLocationVH(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
         latestItem = item
 
-        description.text = item.traceLocation.description
-        address.text = item.traceLocation.address
+        traceLocationsItemDescription.text = item.traceLocation.description
+        traceLocationsItemAddress.text = item.traceLocation.address
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
@@ -57,7 +57,7 @@ class TraceLocationVH(parent: ViewGroup) :
                     endTime.format(timeFormat)
                 )
             } else {
-                icon.setCaption(null)
+                traceLocationsItemIcon.setCaption(null)
                 val startDateTime =
                     "${startTime.toLocalDate().format(dateFormat)}, ${startTime.toLocalTime().format(timeFormat)}"
                 val endDateTime =
@@ -69,7 +69,7 @@ class TraceLocationVH(parent: ViewGroup) :
                 )
             }
         } else {
-            icon.setCaption(null)
+            traceLocationsItemIcon.setCaption(null)
             duration.isGone = true
         }
 

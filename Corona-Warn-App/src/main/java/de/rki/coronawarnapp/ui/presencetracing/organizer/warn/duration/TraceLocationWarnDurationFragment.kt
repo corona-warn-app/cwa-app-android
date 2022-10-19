@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -61,7 +62,7 @@ class TraceLocationWarnDurationFragment :
 
         viewModel.state.observe2(this) { uiState ->
             with(binding) {
-                description.text = uiState.description
+                eventDescription.text = uiState.description
                 eventAddress.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
@@ -127,6 +128,7 @@ class TraceLocationWarnDurationFragment :
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
+            toolbar.addTitleId(R.id.trace_location_organizer_warn_duration_fragment_title_id)
             nextButton.setOnClickListener {
                 viewModel.goNext()
             }

@@ -23,6 +23,8 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.addSubtitleId
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,9 +56,13 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener {
-            it.hideKeyboard()
-            popBackStack()
+        binding.toolbar.apply {
+            setNavigationOnClickListener {
+                it.hideKeyboard()
+                popBackStack()
+            }
+            addTitleId(R.id.trace_location_create_fragment_title_id)
+            addSubtitleId(R.id.trace_location_create_fragment_subtitle_id)
         }
 
         viewModel.result.observe(viewLifecycleOwner) { result ->

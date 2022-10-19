@@ -1527,7 +1527,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Radar pandemiczny"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Różnorodne statystyki dotyczące pandemii koronawirusa, które znajdują się na stronie Instytutu Roberta Kocha. Zwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako pozbawiona barier."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Różnorodne statystyki dotyczące pandemii koronawirusa, które znajdują się na stronie Instytutu Roberta Kocha.\nZwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako pozbawiona barier i jest dostępna tylko w języku niemieckim."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7-dniowa średnia"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
