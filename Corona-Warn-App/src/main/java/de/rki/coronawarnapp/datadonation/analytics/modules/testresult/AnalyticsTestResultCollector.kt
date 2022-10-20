@@ -47,26 +47,26 @@ class AnalyticsTestResultCollector @Inject constructor(
         if (isAnalyticsDisabled()) return
 
         val testRegisteredAt = timeStamper.nowUTC
-        type.settings.testRegisteredAt.update { testRegisteredAt }
+        type.settings.updateTestRegisteredAt(testRegisteredAt)
 
         val lastResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .first()
             .lastCalculated
 
-        type.settings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.settings.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
-        }
+        )
 
-        type.settings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.settings.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
-        }
+        )
 
         if (lastResult.ewRiskLevelResult.riskState == RiskState.INCREASED_RISK) {
             riskLevelStorage.allEwRiskLevelResults
@@ -76,9 +76,7 @@ class AnalyticsTestResultCollector @Inject constructor(
                         it,
                         testRegisteredAt
                     ).toHours().toInt()
-                    type.settings.ewHoursSinceHighRiskWarningAtTestRegistration.update {
-                        hours
-                    }
+                    type.settings.updateEwHoursSinceHighRiskWarningAtTestRegistration(hours)
                 }
         }
 
@@ -90,21 +88,17 @@ class AnalyticsTestResultCollector @Inject constructor(
                         it,
                         testRegisteredAt
                     ).toHours().toInt()
-                    type.settings.ptHoursSinceHighRiskWarningAtTestRegistration.update {
-                        hours
-                    }
+                    type.settings.updatePtHoursSinceHighRiskWarningAtTestRegistration(hours)
                 }
         }
 
-        type.settings.ewRiskLevelAtTestRegistration.update {
-            lastResult.ewRiskLevelResult.riskState.toMetadataRiskLevel()
-        }
-        type.settings.ptRiskLevelAtTestRegistration.update {
-            lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
-        }
+        type.settings.updateEwRiskLevelAtTestRegistration(lastResult.ewRiskLevelResult.riskState.toMetadataRiskLevel())
+        type.settings.updatePtRiskLevelAtTestRegistration(lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel())
 
-        type.settings.exposureWindowsAtTestRegistration.update {
-            exposureWindowsSettings.currentExposureWindows.value
+        exposureWindowsSettings.currentExposureWindows.value?.let {
+            type.settings.updateExposureWindowsAtTestRegistration(
+                it
+            )
         }
     }
 
@@ -125,30 +119,28 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         if (testResult !in validTestResults) return // Not interested in other values
 
-        type.settings.testResult.update { testResult }
+        type.settings.updateTestResult(testResult)
 
-        if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.value == null) {
-            type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+        if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.first() == null) {
+            type.settings.updateFinalTestResultReceivedAt(timeStamper.nowUTC)
 
             val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
-                type.settings.exposureWindowsAtTestRegistration.value
+                type.settings.exposureWindowsAtTestRegistration.first()
             ) ?: emptyList()
 
-            type.settings.exposureWindowsUntilTestResult.update {
-                newExposureWindows
-            }
+            type.settings.updateExposureWindowsUntilTestResult(newExposureWindows)
         }
     }
 
     /**
      * Clear saved test donor saved metadata
      */
-    fun clear(type: BaseCoronaTest.Type) {
+    suspend fun clear(type: BaseCoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
         type.settings.clear()
     }
 
-    suspend fun isAnalyticsDisabled() = !analyticsSettings.analyticsEnabled.first()
+    private suspend fun isAnalyticsDisabled() = !analyticsSettings.analyticsEnabled.first()
 
     private val BaseCoronaTest.Type.settings: AnalyticsTestResultSettings
         get() = when (this) {

@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionModule
+import de.rki.coronawarnapp.datadonation.analytics.AnalyticsModule
 import de.rki.coronawarnapp.dccreissuance.DccReissuanceModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
@@ -91,7 +91,7 @@ import javax.inject.Singleton
         SerializationModule::class,
         WorkerBinder::class,
         StatisticsModule::class,
-        AnalyticsKeySubmissionModule::class,
+        AnalyticsModule::class,
         DataDonationModule::class,
         SecurityModule::class,
         PresenceTracingModule::class,

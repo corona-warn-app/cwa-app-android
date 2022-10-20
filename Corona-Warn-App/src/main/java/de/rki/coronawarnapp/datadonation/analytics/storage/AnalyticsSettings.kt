@@ -50,7 +50,7 @@ class AnalyticsSettings @Inject constructor(
 
     val userInfoAgeGroup =
         dataStore.dataRecovering.distinctUntilChanged(key = PKEY_USERINFO_AGEGROUP, defaultValue = 0).map { value ->
-            PpaData.PPAAgeGroup.forNumber(value) ?: PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            PpaData.PPAAgeGroup.forNumber(value)
         }
 
     suspend fun updateUserInfoAgeGroup(value: PpaData.PPAAgeGroup) = dataStore.edit {
@@ -61,11 +61,10 @@ class AnalyticsSettings @Inject constructor(
         it[PKEY_USERINFO_AGEGROUP] = numberToWrite
     }
 
-    val userInfoFederalState =
-        dataStore.dataRecovering.distinctUntilChanged(key = PKEY_USERINFO_FEDERALSTATE, defaultValue = -1)
-            .map { value ->
-                PpaData.PPAFederalState.forNumber(value) ?: PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-            }
+    val userInfoFederalState = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_USERINFO_FEDERALSTATE,
+        defaultValue = 0
+    ).map { value -> PpaData.PPAFederalState.forNumber(value) }
 
     suspend fun updateUserInfoFederalState(value: PpaData.PPAFederalState) = dataStore.edit {
         val numberToWrite = when (value) {

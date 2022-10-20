@@ -15,11 +15,13 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.clientmetadata.ClientMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.server.DataDonationAnalyticsApiV1
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
@@ -40,7 +42,14 @@ import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module(includes = [AnalyticsModule.BindsModule::class, AnalyticsModule.ResetModule::class])
+@Module(
+    includes = [
+        AnalyticsModule.BindsModule::class,
+        AnalyticsModule.ResetModule::class,
+        AnalyticsKeySubmissionModule::class,
+        AnalyticsTestResultModule::class
+    ]
+)
 object AnalyticsModule {
 
     @Reusable
