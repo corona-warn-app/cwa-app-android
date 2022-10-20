@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnInfoFragmentBinding
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
@@ -25,6 +26,7 @@ class TraceLocationWarnInfoFragment : Fragment(R.layout.trace_location_organizer
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.addTitleId(R.id.trace_location_organizer_warn_info_fragment_title_id)
             nextButton.setOnClickListener {
                 findNavController().navigate(
                     TraceLocationWarnInfoFragmentDirections

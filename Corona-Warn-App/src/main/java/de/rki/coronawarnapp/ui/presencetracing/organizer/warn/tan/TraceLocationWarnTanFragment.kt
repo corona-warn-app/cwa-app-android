@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -63,6 +64,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
                 viewModel.startTanSubmission()
             }
             toolbar.setNavigationOnClickListener { goBack() }
+            toolbar.addTitleId(R.id.trace_location_organizer_warn_tan_fragment_title_id)
         }
 
         viewModel.registrationState.observe2(this) {

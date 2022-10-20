@@ -119,10 +119,9 @@
         android:layout_marginBottom="@dimen/spacing_small"
         android:backgroundTint="@color/button_main_tracing"
         android:text="@string/test_certificate_error_delete_button"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorTextDeleteButtonDialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/retry_button"
-        app:strokeColor="@color/colorPrimary" />
+        app:layout_constraintTop_toBottomOf="@id/retry_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

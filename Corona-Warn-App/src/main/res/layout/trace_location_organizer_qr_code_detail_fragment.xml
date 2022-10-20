@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/trace_location_gradient_background"
-    android:contentDescription="@string/trace_location_event_detail_title_accessibility">
+    android:contentDescription="@string/trace_location_event_detail_title_accessibility"
+    tools:context=".ui.presencetracing.organizer.details.QrCodeDetailFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -47,7 +48,7 @@
                     app:layout_collapseMode="parallax">
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/trace_location_organizer_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
@@ -61,7 +62,7 @@
                         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                     <TextView
-                        android:id="@+id/subtitle"
+                        android:id="@+id/trace_location_organizer_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -94,9 +95,11 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/cwa_logo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="72dp"
+                            android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
 
                     </LinearLayout>

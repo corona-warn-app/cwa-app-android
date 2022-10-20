@@ -25,8 +25,8 @@ class TraceLocationVH(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, _ ->
 
-        address.text = item.traceLocation.address
-        title.text = item.traceLocation.description
+        warnItemAddress.text = item.traceLocation.address
+        warnItemTitle.text = item.traceLocation.description
         headerCheckbox.setImageResource(if (item.selected) R.drawable.ic_selected else R.drawable.ic_unselected)
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
