@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddPersonFragmentBinding
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
@@ -56,9 +56,7 @@ class ContactDiaryAddPersonFragment :
                 personPhoneNumberInput.setTextOnTextInput(person.phoneNumber, endIconVisible = false)
                 personEmailInput.setTextOnTextInput(person.emailAddress, endIconVisible = false)
                 personDeleteButton.visibility = View.VISIBLE
-                personDeleteButton.setOnClickListener {
-                    DialogHelper.showDialog(deletePersonConfirmationDialog)
-                }
+                personDeleteButton.setOnClickListener { deletePersonConfirmationDialog() }
                 personSaveButton.setOnClickListener {
                     viewModel.updatePerson(
                         person,
@@ -111,19 +109,14 @@ class ContactDiaryAddPersonFragment :
         }
     }
 
-    private val deletePersonConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.contact_diary_delete_person_title,
-            R.string.contact_diary_delete_person_message,
-            R.string.contact_diary_delete_button_positive,
-            R.string.contact_diary_delete_button_negative,
-            positiveButtonFunction = {
-                navArgs.selectedPerson?.let {
-                    viewModel.deletePerson(it)
-                }
-            },
-            isDeleteDialog = true
-        )
+    private fun deletePersonConfirmationDialog() = displayDialog(isDeleteDialog = true) {
+        setTitle(R.string.contact_diary_delete_person_title)
+        setMessage(R.string.contact_diary_delete_person_message)
+        setPositiveButton(R.string.contact_diary_delete_button_positive) { _, _ ->
+            navArgs.selectedPerson?.let {
+                viewModel.deletePerson(it)
+            }
+        }
+        setNegativeButton(R.string.contact_diary_delete_button_negative) { _, _ -> }
     }
 }

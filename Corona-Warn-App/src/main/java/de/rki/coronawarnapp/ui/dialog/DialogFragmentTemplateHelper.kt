@@ -12,6 +12,7 @@ fun Fragment.displayDialog(
     dialog: MaterialAlertDialogBuilder? = null,
     config: MaterialAlertDialogBuilder.(DialogFragment) -> Unit = { }
 ) {
+    val tag = this::class.java.simpleName + DialogFragmentTemplate.TAG
     DialogFragmentTemplate.newInstance(
         DialogFragmentTemplate.DialogTemplateParams(
             cancelable,
@@ -20,7 +21,7 @@ fun Fragment.displayDialog(
             dialog,
             config
         )
-    ).show(childFragmentManager, DialogFragmentTemplate.TAG)
+    ).show(childFragmentManager, tag)
 }
 
 fun AppCompatActivity.displayDialog(
@@ -30,6 +31,7 @@ fun AppCompatActivity.displayDialog(
     dialog: MaterialAlertDialogBuilder? = null,
     config: MaterialAlertDialogBuilder.(DialogFragment) -> Unit = { }
 ) {
+    val tag = this::class.java.simpleName + DialogFragmentTemplate.TAG
     DialogFragmentTemplate.newInstance(
         DialogFragmentTemplate.DialogTemplateParams(
             cancelable,
@@ -38,5 +40,5 @@ fun AppCompatActivity.displayDialog(
             dialog,
             config
         )
-    ).show(supportFragmentManager, DialogFragmentTemplate.TAG)
+    ).show(supportFragmentManager, tag)
 }

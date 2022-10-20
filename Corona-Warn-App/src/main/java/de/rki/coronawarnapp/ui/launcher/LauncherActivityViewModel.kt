@@ -56,6 +56,11 @@ class LauncherActivityViewModel @AssistedInject constructor(
         checkForUpdate()
     }
 
+    fun onSuppressCheckedChanged(isChecked: Boolean) {
+        Timber.tag(TAG).d("onSuppressCheckedChanged(isChecked=%s)", isChecked)
+        rootDetectionCheck.suppressRootInfoForCurrentVersion(suppress = isChecked)
+    }
+
     fun onResume() = launch {
         Timber.tag(TAG).d("onResume()")
         val appUpdateInfo = appUpdateManager.getUpdateInfo()

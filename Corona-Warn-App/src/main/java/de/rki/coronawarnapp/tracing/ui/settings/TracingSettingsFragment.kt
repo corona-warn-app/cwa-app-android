@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
 import de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragmentViewModel.Event
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -71,7 +71,7 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
         }
 
         viewModel.ensErrorEvents.observe2(this) { error ->
-            error.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
         }
 
         setButtonOnClickListener()
@@ -110,19 +110,10 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
         if (isChecked) turnTracingOn() else turnTracingOff()
     }
 
-    private fun showManualCheckingRequiredDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_manual_required_dialog_headline,
-            R.string.onboarding_manual_required_dialog_body,
-            R.string.onboarding_manual_required_dialog_button,
-            null,
-            false,
-            {
-                // close dialog
-            }
-        )
-        DialogHelper.showDialog(dialog)
+    private fun showManualCheckingRequiredDialog() = displayDialog {
+        setTitle(R.string.onboarding_manual_required_dialog_headline)
+        setMessage(R.string.onboarding_manual_required_dialog_body)
+        setPositiveButton(R.string.onboarding_manual_required_dialog_button) { _, _ -> }
     }
 
     companion object {

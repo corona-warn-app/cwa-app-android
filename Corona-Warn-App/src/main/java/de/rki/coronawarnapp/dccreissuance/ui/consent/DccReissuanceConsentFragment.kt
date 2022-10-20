@@ -10,6 +10,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -86,7 +87,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     when (event) {
                         is DccReissuanceConsentViewModel.ReissuanceError -> {
                             agreeButton.isLoading = false
-                            event.error.toErrorDialogBuilder(requireContext()).show()
+                            displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
                         }
                         DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {

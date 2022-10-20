@@ -8,8 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingCertificateSelectionBinding
-import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
-import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -56,16 +55,9 @@ class DccTicketingCertificateSelectionFragment :
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) { viewModel.onUserCancel() }
     }
 
-    private fun showCloseDialog() {
-        DccTicketingDialogType.ConfirmCancellation.show(
-            fragment = this,
-            negativeButtonAction = { viewModel.closeScreen() }
-        )
-    }
-
     private fun navigate(event: DccTicketingCertificateSelectionEvents) {
         when (event) {
-            ShowCancelConfirmationDialog -> showCloseDialog()
+            ShowCancelConfirmationDialog -> dccTicketingConfirmCancellationDialog { viewModel.closeScreen() }
             CloseSelectionScreen -> popBackStack()
             is NavigateToConsentTwoFragment -> findNavController().navigate(
                 DccTicketingCertificateSelectionFragmentDirections

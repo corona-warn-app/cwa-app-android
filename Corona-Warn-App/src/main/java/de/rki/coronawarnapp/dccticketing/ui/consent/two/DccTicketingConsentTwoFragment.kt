@@ -1,22 +1,21 @@
 package de.rki.coronawarnapp.dccticketing.ui.consent.two
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.addCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentTwoBinding
-import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
-import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
+import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -101,22 +100,8 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
             )
 
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
-            ShowCancelConfirmationDialog -> showCloseDialog()
-            is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
+            ShowCancelConfirmationDialog -> dccTicketingConfirmCancellationDialog { viewModel.cancel() }
+            is ShowErrorDialog -> dccTicketingErrorDialog(event.lazyErrorMessage.get(requireContext()))
         }
-    }
-
-    private fun showCloseDialog() {
-        DccTicketingDialogType.ConfirmCancellation.show(
-            fragment = this,
-            negativeButtonAction = { viewModel.cancel() }
-        )
-    }
-
-    private fun showErrorDialog(lazyErrorMessage: LazyString) {
-        val msg = lazyErrorMessage.get(requireContext())
-        DccTicketingDialogType.ErrorDialog(msg = msg).show(
-            fragment = this
-        )
     }
 }

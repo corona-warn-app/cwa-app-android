@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -95,7 +96,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            it.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
         }
 
         viewModel.submissionResult.observe(viewLifecycleOwner) {

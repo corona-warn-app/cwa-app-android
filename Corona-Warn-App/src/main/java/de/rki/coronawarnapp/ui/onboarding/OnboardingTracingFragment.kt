@@ -63,7 +63,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             permissionRequest.invoke(requireActivity())
         }
         vm.ensErrorEvents.observe2(this) { error ->
-            error.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
         }
     }
 

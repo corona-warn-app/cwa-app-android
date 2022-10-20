@@ -46,7 +46,7 @@ class DialogFragmentTemplate : DialogFragment() {
         val isDeleteDialog: Boolean = false,
         val dismissAction: () -> Unit = { },
         val materialDialog: @RawValue MaterialAlertDialogBuilder? = null,
-        val config: MaterialAlertDialogBuilder.(DialogFragment) -> Unit
+        val config: MaterialAlertDialogBuilder.(DialogFragment) -> Unit = { }
     ) : Parcelable
 
     companion object {

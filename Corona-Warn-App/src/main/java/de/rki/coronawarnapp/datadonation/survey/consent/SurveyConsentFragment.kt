@@ -2,13 +2,13 @@ package de.rki.coronawarnapp.datadonation.survey.consent
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.DialogFragmentTemplate
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -60,14 +60,11 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
 
         vm.showLoadingIndicator.observe2(this) { loading ->
-            if (loading) {
-                SurveyConsentBlockingProgressDialogFragment().show(
-                    childFragmentManager,
-                    SurveyConsentBlockingProgressDialogFragment.TAG
-                )
-            } else {
-                childFragmentManager.findFragmentByTag(SurveyConsentBlockingProgressDialogFragment.TAG)
-                    ?.let { (it as DialogFragment).dismiss() }
+            if (loading) showSurveyProgressDialog()
+            else {
+                val tag = SurveyConsentFragment::class.java.simpleName + DialogFragmentTemplate.TAG
+                childFragmentManager.findFragmentByTag(tag)
+                    ?.let { (it as DialogFragmentTemplate).dismiss() }
             }
         }
 
@@ -76,16 +73,13 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
     }
 
-    private fun showErrorDialog(message: String) {
-        context?.let {
-            val dialog = DialogHelper.DialogInstance(
-                context = it,
-                title = R.string.datadonation_details_survey_consent_error_dialog_title,
-                message = message,
-                positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
-                cancelable = false
-            )
-            DialogHelper.showDialog(dialog)
-        }
+    private fun showSurveyProgressDialog() = displayDialog(cancelable = false) {
+        setView(R.layout.survey_consent_blocking_progress_dialog)
+    }
+
+    private fun showErrorDialog(message: String) = displayDialog(cancelable = false) {
+        setTitle(R.string.datadonation_details_survey_consent_error_dialog_title)
+        setMessage(message)
+        setPositiveButton(R.string.datadonation_details_survey_consent_error_dialog_pos_button) { _, _ -> }
     }
 }

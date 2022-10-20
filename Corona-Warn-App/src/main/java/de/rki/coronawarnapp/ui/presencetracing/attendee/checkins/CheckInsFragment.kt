@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
@@ -127,13 +126,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
     private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
         val errorText = lazyErrorText.get(requireContext())
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
-            .setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
-            .setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
-                // NO-OP
-            }
-            .show()
+        displayDialog {
+            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ -> }
+        }
     }
 
     private fun updateViews(items: List<CheckInsItem>) {

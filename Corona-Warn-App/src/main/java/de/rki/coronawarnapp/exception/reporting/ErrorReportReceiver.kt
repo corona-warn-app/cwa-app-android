@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.DialogFragmentTemplate
 import timber.log.Timber
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
@@ -62,26 +63,23 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             Timber.v("Not displaying error dialog, not in foreground.")
             return
         }
+        val stackTraceDialog = MaterialAlertDialogBuilder(activity).apply {
+            setTitle(title)
+            setMessage("$detailsTitle:\n$stack")
+            setPositiveButton(confirm) { _, _ -> }
+        }
 
-        val dialogInstance = DialogHelper.DialogInstance(
-            context = activity,
-            title = dialogTitle,
-            message = message,
-            positiveButton = confirm,
-            negativeButton = details,
-            cancelable = null,
-            positiveButtonFunction = {},
-            negativeButtonFunction = {
-                val stackTraceDialog = DialogHelper.DialogInstance(
-                    activity,
-                    title,
-                    "$detailsTitle:\n$stack",
-                    confirm
-                )
-                DialogHelper.showDialog(stackTraceDialog.copy(isTextSelectable = true))
-                Unit
-            }
-        )
-        DialogHelper.showDialog(dialogInstance)
+        val dialogInstance = MaterialAlertDialogBuilder(activity).apply {
+            setTitle(dialogTitle)
+            setMessage(message)
+            setPositiveButton(confirm) { _, _ -> }
+            setNegativeButton(details) { _, _ -> showStackTraceDialog(stackTraceDialog) }
+        }
+
+        DialogFragmentTemplate.newInstance(DialogFragmentTemplate.DialogTemplateParams(materialDialog = dialogInstance))
     }
+
+    private fun showStackTraceDialog(stackTraceDialog: MaterialAlertDialogBuilder) = DialogFragmentTemplate.newInstance(
+        DialogFragmentTemplate.DialogTemplateParams(materialDialog = stackTraceDialog)
+    )
 }

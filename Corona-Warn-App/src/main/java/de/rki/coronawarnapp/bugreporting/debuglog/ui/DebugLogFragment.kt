@@ -10,12 +10,11 @@ import androidx.core.view.isGone
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.observe2
@@ -24,9 +23,9 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import setTextWithUrl
 import java.time.Duration
 import java.time.Instant
-import setTextWithUrl
 import javax.inject.Inject
 
 class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), AutoInject {
@@ -160,31 +159,26 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }
 
-    private fun showLogDeletionRequest() = DialogHelper.showDialog(
-        DialogHelper.DialogInstance(
-            context = requireContext(),
-            title = R.string.debugging_debuglog_stop_confirmation_title,
-            message = R.string.debugging_debuglog_stop_confirmation_message,
-            positiveButton = R.string.debugging_debuglog_stop_confirmation_confirmation_button,
-            negativeButton = R.string.debugging_debuglog_stop_confirmation_discard_button,
-            positiveButtonFunction = { vm.stopAndDeleteDebugLog() },
-            isDeleteDialog = true
-        )
-    )
+    private fun showLogDeletionRequest() = displayDialog(isDeleteDialog = true) {
+        setTitle(R.string.debugging_debuglog_stop_confirmation_title)
+        setMessage(R.string.debugging_debuglog_stop_confirmation_message)
+        setPositiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { _, _ ->
+            vm.stopAndDeleteDebugLog()
+        }
+        setNegativeButton(R.string.debugging_debuglog_stop_confirmation_discard_button) { _, _ -> }
+    }
 
-    private fun showLowStorageError() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.errors_generic_headline_short)
-            setMessage(R.string.debugging_debuglog_start_low_storage_error)
-            setPositiveButton(android.R.string.ok) { _, _ -> /* dismiss */ }
-            setNeutralButton(R.string.menu_settings) { _, _ ->
-                try {
-                    startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
-                }
+    private fun showLowStorageError() = displayDialog {
+        setTitle(R.string.errors_generic_headline_short)
+        setMessage(R.string.debugging_debuglog_start_low_storage_error)
+        setPositiveButton(android.R.string.ok) { _, _ -> /* dismiss */ }
+        setNeutralButton(R.string.menu_settings) { _, _ ->
+            try {
+                startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_LONG).show()
             }
-        }.show()
+        }
     }
 
     private fun exportLog(snapshot: LogSnapshotter.Snapshot) {
