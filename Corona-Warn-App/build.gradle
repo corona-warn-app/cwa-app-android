@@ -27,12 +27,12 @@ android {
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "32.0.0"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
 
         ndkVersion "21.2.6472646"
 
@@ -347,7 +347,7 @@ dependencies {
     // ANDROID STANDARD
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"

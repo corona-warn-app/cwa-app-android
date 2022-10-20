@@ -191,7 +191,7 @@
                     android:layout_marginBottom="24dp"
                     android:orientation="vertical">
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/confirm_checkin_settings_card_checkout_toggle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

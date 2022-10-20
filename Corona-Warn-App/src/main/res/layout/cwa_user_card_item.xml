@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/user_name"
         tools:text="geboren 18.04.1943" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/cwa_user_switch"
         app:thumbTint="@color/colorCertificateUserSwitch"
         android:layout_width="wrap_content"
