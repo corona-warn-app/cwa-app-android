@@ -101,7 +101,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Probenahme am %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Probenahme am %s Uhr"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">Testzertifikat</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -272,7 +271,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">Wenn dies eines Ihrer aktuell verwendeten Zertifikate ist, bemühen Sie sich bitte rechtzeitig darum, es zu erneuern. Im Zeitraum von 28 Tagen vor und bis zu 90 Tagen nach Ablauf können Sie es direkt über die App erneuern lassen, sofern es in Deutschland ausgestellt wurde. Sie finden die Option \"Zertifikate erneuern\" dann in Ihrer Zertifikatsübersicht unter der Kachel \"Status-Nachweis\". Sollte dies nicht eines Ihrer aktuell verwendeten Zertifikate sein, muss es nicht verlängert werden und Sie müssen nichts weiter tun.</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Das Ablaufdatum wurde überschritten. Bitte erneuern Sie das Zertifikat. Sie können die Erneuerung bis maximal 90 Tage nach Ablauf über den Hinweis in Ihrer Zertifikatsübersicht anfordern. "</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Das Zertifikat wurde von einer nicht autorisierten Stelle oder fehlerhaft ausgestellt. Bitte lassen Sie das Zertifikat von einer autorisierten Stelle erneut ausstellen. "</string>
 

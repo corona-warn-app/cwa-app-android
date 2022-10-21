@@ -20,9 +20,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -79,7 +78,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ConfirmCheckIn -> {
                 locationViewModel.putVerifiedTraceLocation(event.verifiedLocation)
                 setupAxisTransition()
-                doNavigate(
+                findNavController().navigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragment(
                         event.verifiedLocation.locationIdHex
                     )
@@ -88,7 +87,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             is CheckInEvent.ConfirmCheckInWithoutHistory -> {
                 locationViewModel.putVerifiedTraceLocation(event.verifiedTraceLocation)
-                doNavigate(
+                findNavController().navigate(
                     CheckInsFragmentDirections.actionCheckInsFragmentToConfirmCheckInFragmentCleanHistory(
                         event.verifiedTraceLocation.locationIdHex
                     )
@@ -117,8 +116,11 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
             is CheckInEvent.ShowInformation -> {
                 setupAxisTransition()
-                doNavigate(CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false))
+                findNavController().navigate(
+                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false)
+                )
             }
+
             is CheckInEvent.InvalidQrCode -> showInvalidQrCodeInformation(event.errorText)
         }
     }
@@ -162,19 +164,20 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) =
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                context = requireContext(),
-                title = if (checkIn == null) R.string.trace_location_checkins_remove_all_title
-                else R.string.trace_location_checkins_remove_single_title,
-                message = R.string.trace_location_checkins_remove_message,
-                positiveButton = R.string.generic_action_remove,
-                negativeButton = R.string.generic_action_abort,
-                positiveButtonFunction = { viewModel.onRemoveCheckInConfirmed(checkIn) },
-                cancelFunction = { position?.let { checkInsAdapter.notifyItemChanged(position) } },
-                isDeleteDialog = true
+        displayDialog(
+            isDeleteDialog = true,
+            onDismissAction = { position?.let { checkInsAdapter.notifyItemChanged(position) } }
+        ) {
+            setTitle(
+                if (checkIn == null)
+                    R.string.trace_location_checkins_remove_all_title
+                else
+                    R.string.trace_location_checkins_remove_single_title
             )
-        )
+            setMessage(R.string.trace_location_checkins_remove_message)
+            setPositiveButton(R.string.generic_action_remove) { _, _ -> viewModel.onRemoveCheckInConfirmed(checkIn) }
+            setNegativeButton(R.string.generic_action_abort) { _, _ -> }
+        }
 
     private fun setupMenu(toolbar: MaterialToolbar) = toolbar.apply {
         toolbar.addMenuId(R.id.checkins_fragment_menu_id)
@@ -184,10 +187,12 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
                     viewModel.onInformationClicked()
                     true
                 }
+
                 R.id.menu_remove_all -> {
                     viewModel.onRemoveAllCheckIns()
                     true
                 }
+
                 else -> false
             }
         }

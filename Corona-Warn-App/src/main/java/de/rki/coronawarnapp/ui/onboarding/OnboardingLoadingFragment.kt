@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -26,17 +26,17 @@ class OnboardingLoadingFragment : Fragment(R.layout.onboaring_loading_layout), A
         viewModel.navigationEvents.observe2(this) { event ->
             when (event) {
                 OnboardingFragmentEvents.ShowInteropDeltaOnboarding ->
-                    doNavigate(
+                    findNavController().navigate(
                         OnboardingLoadingFragmentDirections
                             .actionLoadingFragmentToOnboardingDeltaInteroperabilityFragment()
                     )
                 OnboardingFragmentEvents.ShowNewReleaseFragment ->
-                    doNavigate(
+                    findNavController().navigate(
                         OnboardingLoadingFragmentDirections
                             .actionLoadingFragmentToNewReleaseInfoFragment()
                     )
                 OnboardingFragmentEvents.ShowOnboarding ->
-                    doNavigate(
+                    findNavController().navigate(
                         OnboardingLoadingFragmentDirections
                             .actionLoadingFragmentToOnboardingFragment()
                     )

@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -19,7 +20,7 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -61,7 +62,7 @@ class TraceLocationWarnDurationFragment :
 
         viewModel.state.observe2(this) { uiState ->
             with(binding) {
-                description.text = uiState.description
+                eventDescription.text = uiState.description
                 eventAddress.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
@@ -72,7 +73,7 @@ class TraceLocationWarnDurationFragment :
                     eventDate.isGone = false
 
                     val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                    val timeFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
 
                     val startDay = startTime.format(dateFormat)
                     val startHour = startTime.format(timeFormat)
@@ -106,7 +107,7 @@ class TraceLocationWarnDurationFragment :
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationWarnDurationFragmentDirections
                             .actionTraceLocationWarnDurationFragmentToTraceLocationTanDurationFragment(
                                 traceLocationWarnDuration = it.traceLocationWarnDuration
@@ -127,6 +128,7 @@ class TraceLocationWarnDurationFragment :
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
+            toolbar.addTitleId(R.id.trace_location_organizer_warn_duration_fragment_title_id)
             nextButton.setOnClickListener {
                 viewModel.goNext()
             }

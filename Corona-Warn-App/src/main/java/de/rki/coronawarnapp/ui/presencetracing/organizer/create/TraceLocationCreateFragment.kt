@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -22,7 +23,8 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.addSubtitleId
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,9 +56,13 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener {
-            it.hideKeyboard()
-            popBackStack()
+        binding.toolbar.apply {
+            setNavigationOnClickListener {
+                it.hideKeyboard()
+                popBackStack()
+            }
+            addTitleId(R.id.trace_location_create_fragment_title_id)
+            addSubtitleId(R.id.trace_location_create_fragment_subtitle_id)
         }
 
         viewModel.result.observe(viewLifecycleOwner) { result ->
@@ -65,7 +71,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     DialogHelper.showDialog(getErrorDialogInstance(result.exception))
                 }
                 is TraceLocationCreateViewModel.Result.Success -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationCreateFragmentDirections
                             .actionTraceLocationCreateFragmentToTraceLocationOrganizerListFragment()
                     )
@@ -172,7 +178,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.truncatedTo(ChronoUnit.MILLIS).toInstant().toEpochMilli())
+                                    .from(
+                                        minConstraint.minusDays(1).truncatedTo(ChronoUnit.MILLIS).toInstant()
+                                            .toEpochMilli()
+                                    )
                             )
                             .build()
                     )

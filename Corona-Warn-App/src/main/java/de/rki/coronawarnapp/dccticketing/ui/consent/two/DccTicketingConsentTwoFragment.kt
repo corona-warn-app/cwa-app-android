@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -97,7 +96,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
         when (event) {
             NavigateToHome -> findNavController().navigate(R.id.action_dcc_ticketing_nav_graph_pop)
             NavigateBack -> popBackStack()
-            NavigateToValidationResult -> doNavigate(
+            NavigateToValidationResult -> findNavController().navigate(
                 DccTicketingConsentTwoFragmentDirections.actionConsentTwoFragmentToValidationResultFragment()
             )
 

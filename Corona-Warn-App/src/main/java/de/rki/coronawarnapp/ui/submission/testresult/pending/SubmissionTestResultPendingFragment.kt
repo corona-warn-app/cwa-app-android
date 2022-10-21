@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -154,7 +154,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.routeToScreen.observe2(this) { it?.let { doNavigate(it) } ?: navigateBackToFlowStart() }
+        viewModel.routeToScreen.observe2(this) {
+            it?.let {
+                findNavController().navigate(it)
+            } ?: navigateBackToFlowStart()
+        }
         viewModel.errorEvent.observe2(this) {
             displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
         }
@@ -182,7 +186,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
     private fun navigateBackToFlowStart() {
         if (navArgs.comesFromDispatcherFragment) {
-            doNavigate(
+            findNavController().navigate(
                 SubmissionTestResultPendingFragmentDirections
                     .actionSubmissionTestResultPendingFragmentToHomeFragment()
             )

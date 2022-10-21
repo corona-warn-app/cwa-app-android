@@ -302,9 +302,8 @@
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XTXT: Tracing explanation dialog message -->
-    <string name="tracing_explanation_dialog_message">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko-Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten %d Tage betrachtet.\nÄltere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind.\nWeitere Informationen finden Sie in den FAQ."</string>
+    <string name="tracing_explanation_dialog_message">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Your exposure logging covers the past %d days.\nThe app automatically deletes older logs, as these are no longer relevant for infection prevention.\n\nFor further information, please see our FAQ page."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <!--    Dialog part 1-->
     <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
@@ -314,8 +313,7 @@
     <string name="risk_details_information_body_period_logged_assessment_under_14_days">"The Corona-Warn-App was installed %d days ago. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"If exposure logging was active at times during which you encountered other people, your risk of infection can be calculated for this period."</string>
-    <!-- XHED: risk details - infection period logged information body, below behaviors -->        <!-- XTXT: risk details - infection period logged information body, under 14 days -->
-    <string name="risk_details_information_body_period_logged_assessment">"The app automatically deletes older logs, as these are no longer relevant for infection prevention."</string>
+    <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"This is how your risk is calculated."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -766,11 +764,9 @@
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"A man wears a headset while making a phone call."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
-    <string name="information_help_title">"FAQ"</string>
     <!-- XHED: Page title for accessibility statement information page -->
     <string name="information_accessibility_statement">"Accessibility Declaration"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Frequently asked questions. You will be forwarded to an external web site."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Legal Notices"</string>
     <!-- XACT: describes illustration -->
@@ -1057,7 +1053,6 @@
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Your test result is not available yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1072,7 +1067,6 @@
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID Test Certificate"</string>
     <!-- XTXT: Family test result certificate info text for negative result -->
-    <string name="submission_family_test_result_negative_steps_certificate_text">"The digital COVID test certificate is available on the “Certificates” tab."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"An official digital COVID test certificate cannot be issued because this testing point does not support the issuing of test certificates."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
@@ -1213,17 +1207,11 @@
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
-    <string name="submission_positive_country_selection_title">"Europe-wide warnings"</string>
     <!-- XHED: Page headline for the submission country selection page -->
-    <string name="submission_positive_country_selection_headline">"Which countries have you visited in the last 14 days?"</string>
     <!-- XHED: Country selector headline for the submission country selection page -->
-    <string name="submission_country_selector_headline">"I have visited the following countries"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"No answer"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
-    <string name="submission_country_selection_data_faq_body">"Your entry is used solely for optimizing the data volume.\n\nThe list contains all currently participating countries and is continuously updated."</string>
     <!-- XBUT: submission country selection continue button -->
-    <string name="submission_country_selection_button">"Next"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1446,6 +1434,16 @@
          Statistics
     ###################################### -->
 
+    <!-- Pandemic radar link card -->
+    <!-- XHED: Pandemic radar title -->
+    <string name="pandemic_radar_card_title">"Pandemic Radar"</string>
+    <!-- XTXT: Pandemic radar subtitle -->
+    <string name="pandemic_radar_card_subtitle">"from the Robert Koch Institute"</string>
+    <!-- XTXT: Pandemic radar message -->
+    <string name="pandemic_radar_card_message">"Explore additional pandemic-related statistics."</string>
+    <!-- XTXT: Pandemic radar button text -->
+    <string name="pandemic_Radar_card_button_text">"Open external link "</string>
+
     <!-- Incidence statistics card -->
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"confirmed new infections per 100,000 residents"</string>
@@ -1517,7 +1515,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legend"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1525,7 +1523,11 @@
     <!-- XHED: Explanation screen yesterday subtitle -->
     <string name="statistics_explanation_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Number for the previous day/up to the previous day. If no figures are available yet for the previous day, for example, because only few public health offices now send data to the RKI on weekends and public holidays, then the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, for example, because only few public health offices now send data to the RKI on weekends and public holidays, then the last date for which figures are available is displayed."</string>
+    <!-- XTXT: Explanation screen pandemic radar title -->
+    <string name="statistics_explanation_pandemic_radar_title">"Pandemic Radar"</string>
+    <!-- XTXT: Explanation screen pandemic radar susbtile -->
+    <string name="statistics_explanation_pandemic_radar_subtitle">"A variety of statistics on the coronavirus pandemic, which is provided on a Robert Koch Institute website. Please note that any data used when opening the website will be deducted from your data plan and that the website is not designed to be barrier-free and is only available in German."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7-Day Average"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

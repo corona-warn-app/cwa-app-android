@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewMode
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -36,7 +35,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()
                 is SubmissionNavigationEvents.NavigateToTAN ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionTanFragment(
                                 comesFromDispatcherFragment = true
@@ -45,7 +44,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 is SubmissionNavigationEvents.OpenTestCenterUrl ->
                     openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
                 is SubmissionNavigationEvents.NavigateToContact ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
@@ -57,7 +56,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                         if (it.onboarded) R.id.profileListFragment else R.id.profileOnboardingFragment
                     profileGraph.setStartDestination(startDestination)
 
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )

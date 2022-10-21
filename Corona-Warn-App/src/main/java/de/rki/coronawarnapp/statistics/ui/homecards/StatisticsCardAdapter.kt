@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardIt
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.IncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.InfectionsCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.KeySubmissionsCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LinkCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LinkViewCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalIncidenceAndHospitalizationCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.OccupiedIntensiveCareCard
@@ -90,6 +92,10 @@ class StatisticsCardAdapter :
                 val item = data[it]
                 item is AddLocalStatisticsCardItem
             }) { AddCard(it) },
+            TypedVHCreatorMod({
+                val item = data[it]
+                item is LinkCardItem
+            }) { LinkViewCard(it) },
         ).let { modules.addAll(it) }
     }
 
@@ -98,5 +104,5 @@ class StatisticsCardAdapter :
     abstract class ItemVH<Item, VB : ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, VB>
+    ) : VH(layoutRes, parent), BindableVH<Item, VB>
 }

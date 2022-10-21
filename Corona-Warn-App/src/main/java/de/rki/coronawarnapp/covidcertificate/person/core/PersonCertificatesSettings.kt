@@ -162,7 +162,6 @@ class PersonCertificatesSettings @Inject constructor(
         dataStore.edit { prefs -> prefs.remove(CURRENT_PERSON_KEY) }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.tag(TAG).d("setCurrentCwaUser()")
         dataStore.edit { prefs ->
@@ -172,7 +171,6 @@ class PersonCertificatesSettings @Inject constructor(
 
     private suspend fun settings() = personsSettings.first()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun saveSettings(
         map: Map<CertificatePersonIdentifier, PersonSettings>
     ) {

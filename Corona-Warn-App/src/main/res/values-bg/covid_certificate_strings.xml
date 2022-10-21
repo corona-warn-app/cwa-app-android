@@ -100,7 +100,6 @@
     <!-- XTXT: Test certificate sampled on -->
     <string name="test_certificate_sampled_on">"Взета проба %s"</string>
     <!-- XTXT: Test certificate sampled on date and time -->
-    <string name="test_certificate_qrcode_card_sampled_on">"Взета проба %s"</string>
     <!-- XTXT: Test certificate card name  -->
     <string name="test_certificate_name">"Сертификат за тест"</string>
     <!-- XTXT: Test certificate PCR test type  -->
@@ -274,7 +273,6 @@
     <!-- XHED: Vaccination Detail expiration info -->
     <string name="expiration_info">"Ако това е един от сертификатите, които използвате в момента, погрижете се да бъде подновен навреме. Можете да подновявате подобни сертификати директно в приложението, ако изтичат в следващите 28 дни или са изтекли в последните 90 дни, стига да са издадени в Германия. В такъв случай в прегледа на сертификата ви се показва опцията “Подновяване на сертификата”, под плочка “Доказателство за статус”. Ако това не е един от сертификатите, които използвате, то той не трябва да бъде подновяван и няма нужда да правите нищо."</string>
     <!-- XTXT: Expired certificate info -->
-    <string name="expired_certificate_info">"Срокът на валидност е изтекъл. Моля, подновете сертификата. Можете да заявите подновяване до 90 дни след изтичането на сертификата, като кликнете върху бележката в прегледа на вашия сертификат."</string>
     <!-- XTXT: Invalid certificate signature info -->
     <string name="invalid_certificate_signature_info">"Сертификатът е издаден от неоторизиран орган или неправилно. Моля, заявете нов сертификат от оторизиран орган. "</string>
 

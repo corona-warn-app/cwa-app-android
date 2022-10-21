@@ -315,7 +315,6 @@
     <!-- XTXT: risk details - infection period logged information body, over 14 days -->
     <string name="risk_details_information_body_period_logged_assessment_over_14_days">"Wenn die Risiko-Ermittlung zu Zeiten, in denen Sie andere Personen getroffen haben, aktiv war, kann die Berechnung des Infektionsrisikos für diesen Zeitraum erfolgen."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
-    <string name="risk_details_information_body_period_logged_assessment">"Ältere Tage werden automatisch gelöscht, da sie aus Sicht des Infektionsschutzes nicht mehr relevant sind."</string>
     <!-- XHED: risk details - how your risk level will be calculated, below behaviors -->
     <string name="risk_details_subtitle_infection_risk">"So wird Ihr Risiko ermittelt."</string>
     <!-- YTXT: risk details - low risk explanation text -->
@@ -766,11 +765,9 @@
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Ein Mann nutzt ein Headset zum Telefonieren."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
-    <string name="information_help_title">"Häufige Fragen"</string>
     <!-- XHED: Page title for accessibility statement information page -->
     <string name="information_accessibility_statement">"Barrierefreiheitserklärung"</string>
     <!-- XACT: accessibility hint -->
-    <string name="information_help_title_accessibility">"Häufige Fragen. Sie werden auf eine externe Website weitergeleitet."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
     <string name="information_technical_title">"Rechtliche Hinweise"</string>
     <!-- XACT: describes illustration -->
@@ -1059,7 +1056,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
-    <string name="submission_test_result_pending_steps_waiting_rat_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1074,7 +1070,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID-Testzertifikat"</string>
     <!-- XTXT: Family test result certificate info text for negative result -->
-    <string name="submission_family_test_result_negative_steps_certificate_text">"Das digitale  COVID-Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Ein offizielles digitales COVID-Testzertifikat kann nicht ausgestellt werden, da diese Teststelle die Ausstellung der Testzertifikate nicht unterstützt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
@@ -1215,17 +1210,11 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
-    <string name="submission_positive_country_selection_title">"Europaweit warnen"</string>
     <!-- XHED: Page headline for the submission country selection page -->
-    <string name="submission_positive_country_selection_headline">"In welchen Ländern haben Sie sich in den letzten 14 Tagen aufgehalten?"</string>
     <!-- XHED: Country selector headline for the submission country selection page -->
-    <string name="submission_country_selector_headline">"Ich war in den folgenden Ländern"</string>
     <!-- XHED: Country no selection headline for the submission country selection page -->
-    <string name="submission_country_no_selection_headline">"Keine Angabe"</string>
     <!-- YTXT: Data FAQ for the submission country selection page -->
-    <string name="submission_country_selection_data_faq_body">"Ihre Angabe dient lediglich der Optimierung des Datenvolumens.\n\nDie Auflistung enthält alle aktuell teilnehmenden Länder und wird stetig erweitert."</string>
     <!-- XBUT: submission country selection continue button -->
-    <string name="submission_country_selection_button">"Weiter"</string>
 
     <!-- Submission Done -->
     <!-- XHED: Page title for completed submission page -->
@@ -1246,7 +1235,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
-        <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
+        <item>"Sie werden eventuell von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
     </string-array>
@@ -1448,6 +1437,16 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
          Statistics
     ###################################### -->
 
+    <!-- Pandemic radar link card -->
+    <!-- XHED: Pandemic radar title -->
+    <string name="pandemic_radar_card_title">"Pandemieradar"</string>
+    <!-- XTXT: Pandemic radar subtitle -->
+    <string name="pandemic_radar_card_subtitle">"des Robert Koch-Instituts"</string>
+    <!-- XTXT: Pandemic radar message -->
+    <string name="pandemic_radar_card_message">"Entdecken Sie weitere Statistiken zur Pandemie."</string>
+    <!-- XTXT: Pandemic radar button text -->
+    <string name="pandemic_Radar_card_button_text">"Externen Link öffnen "</string>
+
     <!-- Incidence statistics card -->
     <!-- XTXT: Description in statistics card that is displayed below the incidence value-->
     <string name="statistics_card_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
@@ -1519,7 +1518,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legende"</string>
     <!-- XHED: Explanation screen period title -->
@@ -1527,7 +1526,11 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen yesterday subtitle -->
     <string name="statistics_explanation_yesterday_subtitle">Gestern / Bis gestern</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Für Gestern / Bis gestern wird die Zahl für den Vortag / bis zum Vortag angezeigt. Wenn für den Vortag noch keine Zahl vorliegt oder die für den Vortag vorliegende Zahl keine Aussage zulässt, z.B. weil am Wochenende oder an Feiertagen nur noch wenige Gesundheitsämter und Landesbehörden Daten an das RKI übermitteln, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <!-- XTXT: Explanation screen pandemic radar title -->
+    <string name="statistics_explanation_pandemic_radar_title">Pandemieradar</string>
+    <!-- XTXT: Explanation screen pandemic radar susbtile -->
+    <string name="statistics_explanation_pandemic_radar_subtitle">Diverse Statistiken zur Corona-Pandemie, die auf einer Webseite des Robert Koch-Instituts bereitgestellt werden. Bitte beachten Sie, dass die anfallenden Daten auf Ihr Datenvolumen angerechnet werden, die Webseite nicht barrierefrei und nur in deutscher Sprache verfügbar ist.</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
     <!-- XTXT: Statistics screen seven day mean text -->

@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.callPhone
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.linkifyPhoneNumbers
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -40,7 +39,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     findNavController().popBackStack()
                 is SubmissionNavigationEvents.NavigateToTAN ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
                     )
                 else -> Unit

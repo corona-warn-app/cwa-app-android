@@ -27,7 +27,6 @@ class SubmissionQuotaTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         enfData = ENFClientLocalData(FakeDataStore())
-
         every { timeStamper.nowUTC } returns Instant.parse("2020-08-01T23:00:00.000Z")
     }
 

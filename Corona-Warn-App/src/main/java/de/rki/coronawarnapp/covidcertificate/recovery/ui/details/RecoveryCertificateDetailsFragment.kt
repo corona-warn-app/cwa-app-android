@@ -19,11 +19,11 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.FragmentRecoveryCertificateDetailsBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -85,7 +84,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                 }
             }
         }
@@ -143,9 +142,9 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
-            DccValidationNoInternetErrorDialog(requireContext()).show()
+            dccValidationNoInternetDialog()
         } else {
-            error.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
         }
     }
 
@@ -154,7 +153,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
             RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
-                    doNavigate(
+                    findNavController().navigate(
                         RecoveryCertificateDetailsFragmentDirections
                             .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
                     )
@@ -168,19 +167,19 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
             )
             is RecoveryCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
             is RecoveryCertificateDetailsNavigation.Export -> {
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
             RecoveryCertificateDetailsNavigation.OpenCovPassInfo ->
-                doNavigate(
+                findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToCovPassInfoFragment()
                 )
@@ -190,7 +189,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.bindToolbar() = toolbar.apply {
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_recovery_certificate_delete -> {
@@ -218,12 +217,8 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         behavior.overlayTop = (width / 3) + 170
     }
 
-    private fun showCertificateDeletionRequest() {
-        RecycleBinDialogType.RecycleCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.recycleRecoveryCertificateConfirmed() }
-        )
-    }
+    private fun showCertificateDeletionRequest() =
+        recycleCertificateDialog { viewModel.recycleRecoveryCertificateConfirmed() }
 
     companion object {
         private val TAG = tag<RecoveryCertificateDetailsFragment>()

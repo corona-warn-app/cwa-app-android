@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.ContactDiaryDayFragment
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.databinding.ContactDiaryPersonListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -57,7 +57,7 @@ class ContactDiaryPersonListFragment : Fragment(R.layout.contact_diary_person_li
         }
 
         viewModel.openCommentInfo.observe2(this) {
-            doNavigate(
+            findNavController().navigate(
                 ContactDiaryDayFragmentDirections
                     .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()
             )

@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -30,7 +30,7 @@ class ProfileOnboardingFragment : Fragment(R.layout.profile_onboarding_fragment)
             nextButton.apply {
                 setOnClickListener {
                     viewModel.onNext()
-                    doNavigate(
+                    findNavController().navigate(
                         ProfileOnboardingFragmentDirections
                             .actionProfileOnboardingFragmentToProfileListFragment()
                     )
@@ -40,7 +40,7 @@ class ProfileOnboardingFragment : Fragment(R.layout.profile_onboarding_fragment)
             }
 
             ratProfileOnboardingPrivacy.setOnClickListener {
-                doNavigate(
+                findNavController().navigate(
                     ProfileOnboardingFragmentDirections
                         .actionProfileOnboardingFragmentToPrivacyFragment()
                 )

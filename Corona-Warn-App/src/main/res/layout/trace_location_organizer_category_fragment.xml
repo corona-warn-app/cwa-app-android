@@ -8,7 +8,8 @@
     android:background="@color/colorSurface"
     android:contentDescription="@string/tracelocation_organizer_category_title"
     android:orientation="vertical"
-    android:transitionName="trace_location_organizer_category">
+    android:transitionName="trace_location_organizer_category"
+    tools:context=".ui.presencetracing.organizer.category.TraceLocationCategoryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
