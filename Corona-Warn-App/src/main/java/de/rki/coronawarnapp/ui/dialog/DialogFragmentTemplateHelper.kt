@@ -15,7 +15,7 @@ fun Fragment.displayDialog(
     config: MaterialAlertDialogBuilder.() -> Unit = { }
 ) {
     /*
-        TODO fix serialization
+        TODO fix serialization by https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-14210
     DialogFragmentTemplate.newInstance(
         DialogFragmentTemplate.DialogTemplateParams(
             cancelable,
@@ -51,7 +51,7 @@ fun AppCompatActivity.displayDialog(
     config: MaterialAlertDialogBuilder.() -> Unit = { }
 ) {
     /*
-    TODO fix serialization
+    TODO fix serialization by https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-14210
     DialogFragmentTemplate.newInstance(
          DialogFragmentTemplate.DialogTemplateParams(
              cancelable,
