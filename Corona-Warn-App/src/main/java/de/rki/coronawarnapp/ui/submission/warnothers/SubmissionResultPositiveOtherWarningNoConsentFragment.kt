@@ -52,7 +52,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onConsentButtonClicked()
         }
         binding.toolbar.setNavigationOnClickListener {
-            showCloseDialog()
+            viewModel.onBackPressed()
         }
 
         viewModel.navigateBack.observe2(this) {
@@ -60,7 +60,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = showCloseDialog()
+            override fun handleOnBackPressed() = viewModel.onBackPressed()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
@@ -103,15 +103,6 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
     private fun goBack() {
         popBackStack()
-    }
-
-    private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.submission_positive_other_warning_dialog_title)
-        setMessage(R.string.submission_positive_other_warning_dialog_body)
-        setPositiveButton(R.string.submission_positive_other_warning_dialog_positive_button) { _, _ -> }
-        setNegativeButton(R.string.submission_positive_other_warning_dialog_negative_button) { _, _ ->
-            viewModel.onBackPressed()
-        }
     }
 
     override fun onResume() {
