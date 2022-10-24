@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.valueset.valuesets
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Locale
 
-@Keep
 data class VaccinationValueSets(
-    @SerializedName("languageCode") override val languageCode: Locale,
-    @SerializedName("tg") override val tg: DefaultValueSet,
-    @SerializedName("vp") val vp: DefaultValueSet, // Vaccine or prophylaxis
-    @SerializedName("mp") val mp: DefaultValueSet, // Vaccine medicinal product
-    @SerializedName("ma") val ma: DefaultValueSet, // Marketing Authorization Holder
+    @JsonProperty("languageCode") override val languageCode: Locale,
+    @JsonProperty("tg") override val tg: DefaultValueSet,
+    @JsonProperty("vp") val vp: DefaultValueSet, // Vaccine or prophylaxis
+    @JsonProperty("mp") val mp: DefaultValueSet, // Vaccine medicinal product
+    @JsonProperty("ma") val ma: DefaultValueSet, // Marketing Authorization Holder
 ) : ValueSets {
 
+    @get:JsonIgnore
     override val isEmpty: Boolean
         get() = tg.items.isEmpty() && vp.items.isEmpty() && mp.items.isEmpty() && ma.items.isEmpty()
 

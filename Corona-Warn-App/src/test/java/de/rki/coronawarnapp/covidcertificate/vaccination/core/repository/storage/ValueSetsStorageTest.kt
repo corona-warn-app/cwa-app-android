@@ -15,12 +15,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
-import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
 class ValueSetsStorageTest : BaseTest() {
 
     private val dataStore = FakeDataStore()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
     fun setup() {
@@ -55,7 +55,8 @@ class ValueSetsStorageTest : BaseTest() {
     @Test
     fun `storage format`() = runTest2 {
         createInstance(this).save(valueSetsContainerDe)
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
+        mapper.readTree(dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String) shouldBe mapper.readTree(
+            """
             {
               "vaccinationValueSets": {
                 "languageCode": "de",
@@ -128,13 +129,20 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """.toComparableJsonPretty()
+        """
+        )
+    }
 
+    @Test
+    fun `storage format empty container`() = runTest2 {
+        createInstance(this).save(valueSetsContainerDe)
         createInstance(this).apply {
             load() shouldBe valueSetsContainerDe
             save(emptyValueSetsContainer)
         }
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
+
+        mapper.readTree(dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String) shouldBe mapper.readTree(
+            """
             {
               "vaccinationValueSets": {
                 "languageCode": "en",
@@ -167,7 +175,8 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """.toComparableJsonPretty()
+        """
+        )
 
         createInstance(this).load() shouldBe emptyValueSetsContainer
     }
