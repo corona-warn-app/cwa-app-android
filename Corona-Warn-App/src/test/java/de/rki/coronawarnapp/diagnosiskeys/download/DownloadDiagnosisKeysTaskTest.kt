@@ -76,8 +76,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns appConfig
 
         downloadSettings.apply {
-            every { lastVersionCode } returns 1080000
-            every { lastVersionCode = any() } just Runs
+            every { lastVersionCode } returns flowOf(1080000)
+            coEvery { updateLastVersionCode(any()) } just Runs
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
@@ -113,7 +113,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `enf v1 to v2 change flag is checked and set`() = runTest {
-        every { downloadSettings.lastVersionCode } returns -1L
+        every { downloadSettings.lastVersionCode } returns flowOf(-1L)
 
         val task = createInstance()
 

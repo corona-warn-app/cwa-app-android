@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -22,7 +21,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.preferences.mockFlowPreference
 import java.io.File
 import java.time.Duration
 import java.time.Instant
@@ -38,20 +36,18 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var networkState: NetworkStateProvider.State
-    private val lastDownloadDays: FlowPreference<DownloadDiagnosisKeysSettings.LastDownload?> = mockFlowPreference(
+    private val lastDownloadDays = DownloadDiagnosisKeysSettings.LastDownload(
+        startedAt = Instant.EPOCH,
+        finishedAt = Instant.EPOCH,
+        successful = true
+    )
+
+    private val lastDownloadHours =
         DownloadDiagnosisKeysSettings.LastDownload(
             startedAt = Instant.EPOCH,
             finishedAt = Instant.EPOCH,
             successful = true
         )
-    )
-    private val lastDownloadHours: FlowPreference<DownloadDiagnosisKeysSettings.LastDownload?> = mockFlowPreference(
-        DownloadDiagnosisKeysSettings.LastDownload(
-            startedAt = Instant.EPOCH,
-            finishedAt = Instant.EPOCH,
-            successful = true
-        )
-    )
 
     private val cachedDayKey = CachedKey(
         info = mockk(),
@@ -70,8 +66,11 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
         coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
-        coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
-        coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
+        coEvery { syncSettings.lastDownloadDays } returns flowOf(lastDownloadDays)
+        coEvery { syncSettings.lastDownloadHours } returns flowOf(lastDownloadHours)
+        coEvery { syncSettings.updateLastVersionCode(any()) } just Runs
+        coEvery { syncSettings.updateLastDownloadDays(any()) } just Runs
+        coEvery { syncSettings.updateLastDownloadHours(any()) } just Runs
 
         coEvery { dayPackageSyncTool.syncMissingDayPackages(any(), any()) } returns BaseKeyPackageSyncTool.SyncResult(
             successful = true,
@@ -115,16 +114,18 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         coVerifySequence {
             keyCache.getAllCachedKeys() // To clean up stale locations
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
             hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys()
         }
@@ -147,16 +148,18 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         coVerifySequence {
             keyCache.getAllCachedKeys() // To clean up stale locations
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
             hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys()
         }
@@ -164,8 +167,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     @Test
     fun `missing last download causes force sync`() = runTest {
-        lastDownloadDays.update { null }
-        lastDownloadHours.update { null }
+        syncSettings.updateLastDownloadDays(null)
+        syncSettings.updateLastDownloadHours(null)
 
         val instance = createInstance()
 
@@ -177,21 +180,23 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             // Initial reset
-            lastDownloadDays.update(any())
-            lastDownloadHours.update(any())
+            syncSettings.updateLastDownloadDays(any())
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys() // To clean up stale locations
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), true)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
             hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), true)
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys()
         }
@@ -199,20 +204,22 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     @Test
     fun `failed last download causes force sync`() = runTest {
-        lastDownloadDays.update {
+
+        syncSettings.updateLastDownloadDays(
             DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
                 successful = false
             )
-        }
-        lastDownloadHours.update {
+        )
+        syncSettings.updateLastDownloadHours(
             DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
                 successful = false
             )
-        }
+        )
+
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
@@ -223,21 +230,23 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             // Initial reset
-            lastDownloadDays.update(any())
-            lastDownloadHours.update(any())
+            syncSettings.updateLastDownloadDays(any())
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys() // To clean up stale locations
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), true)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
             hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), true)
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys()
         }
@@ -257,10 +266,11 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         coVerifySequence {
             keyCache.getAllCachedKeys() // To clean up stale locations
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
 
@@ -299,16 +309,18 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             keyCache.getAllCachedKeys() // To clean up stale locations
             keyCache.deleteInfoAndFile(listOf(badLocation.info))
 
-            lastDownloadDays.value
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
             dayPackageSyncTool.syncMissingDayPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadDays.update(any())
+            syncSettings.lastDownloadDays
+            syncSettings.updateLastDownloadDays(any())
 
             networkStateProvider.networkState // Check metered
-            lastDownloadHours.value
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
             hourPackageSyncTool.syncMissingHourPackages(listOf(LocationCode("EUR")), false)
-            lastDownloadHours.update(any())
+            syncSettings.lastDownloadHours
+            syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys()
         }
