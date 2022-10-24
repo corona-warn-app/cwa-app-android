@@ -41,7 +41,33 @@ class AnalyticsTestResultModule {
             )
         )
     )
+
+    @Singleton
+    @AnalyticsExposureWindowsDataStore
+    @Provides
+    fun provideAnalyticsExposureWindowsDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_ANALYTICS_EXPOSURE_WINDOWS_SETTINGS_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                LEGACY_SHARED_PREFS_ANALYTICS_EXPOSURE_WINDOWS_SETTINGS_NAME
+            )
+        )
+    )
 }
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AnalyticsExposureWindowsDataStore
+
+private const val LEGACY_SHARED_PREFS_ANALYTICS_EXPOSURE_WINDOWS_SETTINGS_NAME = "analytics_exposureWindows"
+private const val STORAGE_DATASTORE_ANALYTICS_EXPOSURE_WINDOWS_SETTINGS_NAME = "analytics_exposure_windows_storage"
 
 @Qualifier
 @MustBeDocumented

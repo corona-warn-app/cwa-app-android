@@ -9,6 +9,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
 import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDataStore
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsDataStore
 import de.rki.coronawarnapp.datadonation.survey.SurveySettingsDataStore
 import de.rki.coronawarnapp.main.CwaSettingsDataStore
 import de.rki.coronawarnapp.presencetracing.LocationPreferencesDataStore
@@ -77,4 +78,8 @@ class TestAndroidModule {
     @AnalyticsKeySubmissionDataStore
     @Provides
     fun provideAnalyticsKeySubmissionDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @AnalyticsExposureWindowsDataStore
+    @Provides
+    fun provideAnalyticsExposureWindowsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }

@@ -39,7 +39,6 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toInstant
-import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 import java.time.OffsetDateTime
 
@@ -78,7 +77,7 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             .toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
-        every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)
+        every { exposureWindowsSettings.currentExposureWindows } returns flowOf(null)
         every { pcrTestResultSettings.testRegisteredAt } returns flowOf(timeStamper.nowUTC)
         every { pcrTestResultSettings.exposureWindowsAtTestRegistration } returns flowOf(emptyList())
         every { pcrTestResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns flowOf(1)

@@ -34,13 +34,11 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val exposureWindowsSettings: AnalyticsExposureWindowsSettings
 ) {
 
-    fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
+    suspend fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
         val exposureWindows = riskResultsPerWindow.map {
             it.key.toModel(it.value)
         }
-        exposureWindowsSettings.currentExposureWindows.update {
-            exposureWindows
-        }
+        exposureWindowsSettings.updateCurrentExposureWindows(exposureWindows)
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
@@ -95,7 +93,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.updateEwRiskLevelAtTestRegistration(lastResult.ewRiskLevelResult.riskState.toMetadataRiskLevel())
         type.settings.updatePtRiskLevelAtTestRegistration(lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel())
 
-        exposureWindowsSettings.currentExposureWindows.value?.let {
+        exposureWindowsSettings.currentExposureWindows.first()?.let {
             type.settings.updateExposureWindowsAtTestRegistration(
                 it
             )
@@ -124,7 +122,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.first() == null) {
             type.settings.updateFinalTestResultReceivedAt(timeStamper.nowUTC)
 
-            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
+            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.first()?.filterExposureWindows(
                 type.settings.exposureWindowsAtTestRegistration.first()
             ) ?: emptyList()
 
