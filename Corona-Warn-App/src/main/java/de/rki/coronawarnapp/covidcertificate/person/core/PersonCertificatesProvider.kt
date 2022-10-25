@@ -3,11 +3,9 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PersonWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -51,7 +49,7 @@ class PersonCertificatesProvider @Inject constructor(
             val sortedCertificates = certs.toCertificateSortOrder()
             val personIdentifier = certs.identifier
             val dccWalletInfo = findWalletInfoBestGuess(sortedCertificates, personWalletsGroup)
-            val settings = sortedCertificates.firstNotNullOfOrNull { personsSettings[it.personIdentifier] }
+            val settings = findSettingsBestGuess(personsSettings, personIdentifier, sortedCertificates)
 
             Timber.tag(TAG).v(
                 "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
@@ -82,17 +80,6 @@ class PersonCertificatesProvider @Inject constructor(
             )
         }.toSet()
     }.shareLatest(scope = appScope)
-
-    private fun findWalletInfoBestGuess(
-        sortedCertificates: List<CwaCovidCertificate>,
-        personWalletsGroup: Map<String, PersonWalletInfo>
-    ) = sortedCertificates.firstNotNullOfOrNull {
-        personWalletsGroup[it.personIdentifier.groupingKey]?.dccWalletInfo
-    } ?: sortedCertificates.firstNotNullOfOrNull { cert ->
-        personWalletsGroup.entries.firstOrNull { entry ->
-            cert.personIdentifier.belongsToSamePerson(entry.key.toIdentifier())
-        }?.value?.dccWalletInfo
-    }
 
     /**
      * Set the current cwa user with regards to listed persons in the certificates tab.
@@ -135,14 +122,6 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
-
-    private fun String.toIdentifier(): CertificatePersonIdentifier = split("#").run {
-        CertificatePersonIdentifier(
-            dateOfBirthFormatted = get(0),
-            lastNameStandardized = getOrNull(1),
-            firstNameStandardized = getOrNull(2),
-        )
-    }
 
     companion object {
         private val TAG = tag<PersonCertificatesProvider>()
