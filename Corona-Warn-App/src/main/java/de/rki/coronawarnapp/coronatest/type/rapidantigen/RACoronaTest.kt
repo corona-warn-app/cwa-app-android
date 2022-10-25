@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
@@ -18,80 +19,81 @@ import java.time.Instant
 import java.time.LocalDate
 
 data class RACoronaTest(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     override val identifier: TestIdentifier,
 
-    @SerializedName("registeredAt")
+    @JsonProperty("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("registrationToken")
+    @JsonProperty("registrationToken")
     override val registrationToken: RegistrationToken,
 
-    @SerializedName("authCode")
+    @JsonProperty("authCode")
     override val authCode: String? = null,
 
-    @SerializedName("isSubmitted")
+    @JsonProperty("isSubmitted")
     override val isSubmitted: Boolean = false,
 
-    @SerializedName("isViewed")
+    @JsonProperty("isViewed")
     override val isViewed: Boolean = false,
 
-    @SerializedName("didShowBadge")
+    @JsonProperty("didShowBadge")
     override val didShowBadge: Boolean = false,
 
-    @SerializedName("hasResultChangeBadge")
+    @JsonProperty("hasResultChangeBadge")
     override val hasResultChangeBadge: Boolean = false,
 
-    @SerializedName("isAdvancedConsentGiven")
+    @JsonProperty("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
-    @SerializedName("isResultAvailableNotificationSent")
+    @JsonProperty("isResultAvailableNotificationSent")
     override val isResultAvailableNotificationSent: Boolean = false,
 
-    @SerializedName("testResultReceivedAt")
+    @JsonProperty("testResultReceivedAt")
     override val testResultReceivedAt: Instant? = null,
 
-    @SerializedName("lastUpdatedAt")
+    @JsonProperty("lastUpdatedAt")
     override val lastUpdatedAt: Instant,
 
-    @SerializedName("testResult")
+    @JsonProperty("testResult")
     override val testResult: CoronaTestResult,
 
-    @SerializedName("testedAt")
+    @JsonProperty("testedAt")
     val testedAt: Instant,
 
-    @SerializedName("firstName")
+    @JsonProperty("firstName")
     val firstName: String? = null,
 
-    @SerializedName("lastName")
+    @JsonProperty("lastName")
     val lastName: String? = null,
 
-    @SerializedName("dateOfBirth")
+    @JsonProperty("dateOfBirth")
     val dateOfBirth: LocalDate? = null,
 
-    @SerializedName("sampleCollectedAt")
+    @JsonProperty("sampleCollectedAt")
     val sampleCollectedAt: Instant? = null,
 
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 
-    @SerializedName("isDccSupportedByPoc")
+    @JsonProperty("isDccSupportedByPoc")
     override val isDccSupportedByPoc: Boolean = false,
-    @SerializedName("isDccConsentGiven")
+    @JsonProperty("isDccConsentGiven")
     override val isDccConsentGiven: Boolean = false,
-    @SerializedName("isDccDataSetCreated")
+    @JsonProperty("isDccDataSetCreated")
     override val isDccDataSetCreated: Boolean = false,
 
-    @SerializedName("labId")
+    @JsonProperty("labId")
     override val labId: String? = null,
 
-    @SerializedName("qrCodeHash")
+    @JsonProperty("qrCodeHash")
     override val qrCodeHash: String? = null,
 
-    @SerializedName("recycledAt")
+    @JsonProperty("recycledAt")
     override var recycledAt: Instant? = null,
 ) : PersonalCoronaTest {
 
+    @get:JsonIgnore
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
@@ -113,24 +115,31 @@ data class RACoronaTest(
         }
     }
 
+    @get:JsonIgnore
     val testTakenAt: Instant
         get() = sampleCollectedAt ?: testedAt
 
+    @get:JsonIgnore
     override val isRedeemed: Boolean
         get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
 
+    @get:JsonIgnore
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE
 
+    @get:JsonIgnore
     override val isNegative: Boolean
         get() = testResult == RAT_NEGATIVE
 
+    @get:JsonIgnore
     override val isPending: Boolean
         get() = setOf(PCR_OR_RAT_PENDING, RAT_PENDING).contains(testResult)
 
+    @get:JsonIgnore
     override val isInvalid: Boolean
         get() = testResult == RAT_INVALID
 
+    @get:JsonIgnore
     override val isSubmissionAllowed: Boolean
         get() = isPositive && !isSubmitted
 

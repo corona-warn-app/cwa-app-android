@@ -76,11 +76,11 @@ class CoronaTestRepositoryTest : BaseTest() {
         }
 
         storage.apply {
-            every { coronaTests = any() } answers {
+            coEvery { updateCoronaTests(any()) } answers {
                 coronaTestsInStorage.clear()
                 coronaTestsInStorage.addAll(arg(0))
             }
-            every { coronaTests } answers { coronaTestsInStorage }
+            coEvery { getCoronaTests() } answers { coronaTestsInStorage }
         }
 
         contactDiaryRepository.apply {

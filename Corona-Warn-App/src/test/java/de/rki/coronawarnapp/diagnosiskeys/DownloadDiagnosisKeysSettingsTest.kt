@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.diagnosiskeys
 
-import android.content.Context
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings.Companion.KEY_LAST_VERSION_CODE
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -8,7 +7,6 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
@@ -18,7 +16,6 @@ import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
 
 class DownloadDiagnosisKeysSettingsTest : BaseTest() {
-    @MockK lateinit var context: Context
     lateinit var dataStore: FakeDataStore
     private val objectMapper = SerializationModule().jacksonObjectMapper()
 
