@@ -94,7 +94,7 @@ class PersonCertificatesProvider @Inject constructor(
     val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
     /**
-     * Find specific person by [CertificatePersonIdentifier.codeSHA256]
+     * Find specific person by [CertificatePersonIdentifier.groupingKey]
      * @param groupKey [String]
      */
     fun findPersonByIdentifierCode(groupKey: String): Flow<PersonCertificates?> =
