@@ -8,9 +8,11 @@ import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 internal fun findSettingsBestGuess(
     personsSettings: Map<CertificatePersonIdentifier, PersonSettings>,
     personIdentifier: CertificatePersonIdentifier,
-    sortedCertificates: List<CwaCovidCertificate>
+    certificates: List<CwaCovidCertificate>
 ) = personsSettings[personIdentifier]
-    ?: sortedCertificates.firstNotNullOfOrNull { personsSettings[it.personIdentifier] }
+    ?: certificates.firstNotNullOfOrNull { cert ->
+        personsSettings.entries.firstOrNull { entry -> cert.personIdentifier.belongsToSamePerson(entry.key) }?.value
+    }
 
 internal fun findWalletInfoBestGuess(
     certificates: List<CwaCovidCertificate>,
