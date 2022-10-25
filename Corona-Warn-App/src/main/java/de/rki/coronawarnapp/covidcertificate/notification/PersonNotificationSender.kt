@@ -41,7 +41,7 @@ class PersonNotificationSender @Inject constructor(
     }
 
     private fun buildPendingIntent(personIdentifier: CertificatePersonIdentifier): PendingIntent {
-        val args = PersonDetailsFragmentArgs(personCode = personIdentifier.codeSHA256).toBundle()
+        val args = PersonDetailsFragmentArgs(groupKey = personIdentifier.groupingKey).toBundle()
         return deepLinkBuilderFactory.create(context)
             .setGraph(R.navigation.nav_graph)
             .setComponentName(LauncherActivity::class.java)

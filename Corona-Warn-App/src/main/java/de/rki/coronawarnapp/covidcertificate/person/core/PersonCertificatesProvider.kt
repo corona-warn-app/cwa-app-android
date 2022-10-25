@@ -95,11 +95,11 @@ class PersonCertificatesProvider @Inject constructor(
 
     /**
      * Find specific person by [CertificatePersonIdentifier.codeSHA256]
-     * @param personIdentifierCode [String]
+     * @param groupKey [String]
      */
-    fun findPersonByIdentifierCode(personIdentifierCode: String): Flow<PersonCertificates?> =
+    fun findPersonByIdentifierCode(groupKey: String): Flow<PersonCertificates?> =
         personCertificates.map { persons ->
-            persons.find { it.personIdentifier.codeSHA256 == personIdentifierCode }
+            persons.find { it.personIdentifier.belongsToSamePerson(groupKey.toIdentifier()) }
         }
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {

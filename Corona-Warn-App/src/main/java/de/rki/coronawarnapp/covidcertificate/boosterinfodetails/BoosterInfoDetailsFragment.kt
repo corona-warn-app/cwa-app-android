@@ -29,7 +29,7 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
         constructorCall = { factory, _ ->
             factory as BoosterInfoDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode,
+                groupKey = args.groupKey,
             )
         }
     )

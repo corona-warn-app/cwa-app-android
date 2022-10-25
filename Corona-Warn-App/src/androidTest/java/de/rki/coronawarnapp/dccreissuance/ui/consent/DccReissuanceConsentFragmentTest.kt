@@ -102,7 +102,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             factory = object : DccReissuanceConsentViewModel.Factory {
-                override fun create(personIdentifierCode: String): DccReissuanceConsentViewModel = viewModel
+                override fun create(groupKey: String): DccReissuanceConsentViewModel = viewModel
             }
         )
     }

@@ -40,7 +40,7 @@ class BoosterInfoDetailsFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : BoosterInfoDetailsViewModel.Factory {
                 override fun create(
-                    personIdentifierCode: String
+                    groupKey: String
                 ): BoosterInfoDetailsViewModel = viewModel
             }
         )

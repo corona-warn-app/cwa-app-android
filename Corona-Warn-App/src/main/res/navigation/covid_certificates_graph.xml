@@ -109,7 +109,7 @@
         android:label="person_details_fragment"
         tools:layout="@layout/person_details_fragment">
         <argument
-            android:name="personCode"
+            android:name="groupKey"
             app:argType="string" />
 
         <argument
@@ -324,7 +324,7 @@
         android:label="BoosterInfoDetailsFragment"
         tools:layout="@layout/fragment_booster_information_details">
         <argument
-            android:name="personIdentifierCode"
+            android:name="groupKey"
             app:argType="string" />
     </fragment>
     <fragment
@@ -346,7 +346,7 @@
             app:popUpToInclusive="false" />
 
         <argument
-            android:name="personIdentifierCode"
+            android:name="groupKey"
             app:argType="string" />
 
         <action
@@ -365,7 +365,7 @@
         android:label="fragment_dcc_reissuance_acc_certs"
         tools:layout="@layout/fragment_dcc_reissuance_acc_certs">
         <argument
-            android:name="personIdentifierCode"
+            android:name="groupKey"
             app:argType="string" />
 
     </fragment>

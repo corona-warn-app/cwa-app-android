@@ -27,10 +27,12 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
         constructorCall = { factory, _ ->
             factory as DccReissuanceAccCertsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode,
+                groupKey = args.groupKey,
             )
         }
     )
+
+    private val dccReissuanceAdapter = DccReissuanceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,19 +44,11 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dccReissuanceAdapter = DccReissuanceAdapter()
-
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
-
-            certificateRecycler.apply {
-                adapter = dccReissuanceAdapter
-            }
-
-            viewModel.apply {
-                certificatesLiveData.observe2(this@DccReissuanceAccCertsFragment) {
-                    dccReissuanceAdapter.update(it)
-                }
+            certificateRecycler.adapter = dccReissuanceAdapter
+            viewModel.certificatesLiveData.observe(viewLifecycleOwner) {
+                dccReissuanceAdapter.update(it)
             }
         }
     }
