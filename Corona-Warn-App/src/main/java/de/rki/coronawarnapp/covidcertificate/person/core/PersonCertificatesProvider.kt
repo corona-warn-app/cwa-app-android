@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PersonWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -42,45 +44,55 @@ class PersonCertificatesProvider @Inject constructor(
             personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        groupedCerts
-            .filterNot { certs ->
-                certs.isEmpty() // Any person should have at least one certificate to show up in the list
-            }.map { certs ->
-                val (personIdentifier: CertificatePersonIdentifier, dccWalletInfo: DccWalletInfo?) =
-                    certs.toCertificateSortOrder().firstNotNullOfOrNull {
-                        personWalletsGroup[it.personIdentifier.groupingKey]?.let { walletGroup ->
-                            it.personIdentifier to walletGroup.dccWalletInfo
-                        }
-                    } ?: (certs.identifier to null)
+        groupedCerts.filterNot { certs ->
+            // Any person should have at least one certificate to show up in the list
+            certs.isEmpty()
+        }.map { certs ->
+            val sortedCertificates = certs.toCertificateSortOrder()
+            val personIdentifier = certs.identifier
+            val dccWalletInfo = findWalletInfoBestGuess(sortedCertificates, personWalletsGroup)
+            val settings = sortedCertificates.firstNotNullOfOrNull { personsSettings[it.personIdentifier] }
 
-                val settings = personsSettings[personIdentifier]
+            Timber.tag(TAG).v(
+                "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                personIdentifier.codeSHA256,
+                certs.size,
+                dccWalletInfo != null,
+                settings
+            )
 
-                Timber.tag(TAG).v(
-                    "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
-                    personIdentifier.codeSHA256,
-                    certs.size,
-                    dccWalletInfo != null,
-                    settings
-                )
+            val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
+            val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
+            val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
+            val badgeCount = certs.count { it.hasNotificationBadge } +
+                hasBoosterBadge.toInt() +
+                hasDccReissuanceBadge.toInt() +
+                hasNewAdmissionStateBadge.toInt()
 
-                val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
-                val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
-                val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
-                val badgeCount = certs.count { it.hasNotificationBadge } +
-                    hasBoosterBadge.toInt() + hasDccReissuanceBadge.toInt() + hasNewAdmissionStateBadge.toInt()
-                Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
+            Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
 
-                PersonCertificates(
-                    certificates = certs.toCertificateSortOrder(),
-                    isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
-                    badgeCount = badgeCount,
-                    dccWalletInfo = dccWalletInfo,
-                    hasBoosterBadge = hasBoosterBadge,
-                    hasDccReissuanceBadge = hasDccReissuanceBadge,
-                    hasNewAdmissionState = hasNewAdmissionStateBadge
-                )
-            }.toSet()
+            PersonCertificates(
+                certificates = sortedCertificates,
+                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
+                badgeCount = badgeCount,
+                dccWalletInfo = dccWalletInfo,
+                hasBoosterBadge = hasBoosterBadge,
+                hasDccReissuanceBadge = hasDccReissuanceBadge,
+                hasNewAdmissionState = hasNewAdmissionStateBadge
+            )
+        }.toSet()
     }.shareLatest(scope = appScope)
+
+    private fun findWalletInfoBestGuess(
+        sortedCertificates: List<CwaCovidCertificate>,
+        personWalletsGroup: Map<String, PersonWalletInfo>
+    ) = sortedCertificates.firstNotNullOfOrNull {
+        personWalletsGroup[it.personIdentifier.groupingKey]?.dccWalletInfo
+    } ?: sortedCertificates.firstNotNullOfOrNull { cert ->
+        personWalletsGroup.entries.firstOrNull { entry ->
+            cert.personIdentifier.belongsToSamePerson(entry.key.toIdentifier())
+        }?.value?.dccWalletInfo
+    }
 
     /**
      * Set the current cwa user with regards to listed persons in the certificates tab.
@@ -108,7 +120,7 @@ class PersonCertificatesProvider @Inject constructor(
         return hasNotSeenBoosterRuleYet(this, boosterNotification)
     }
 
-    fun hasNotSeenBoosterRuleYet(
+    private fun hasNotSeenBoosterRuleYet(
         personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
@@ -123,6 +135,14 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
+
+    private fun String.toIdentifier(): CertificatePersonIdentifier = split("#").run {
+        CertificatePersonIdentifier(
+            dateOfBirthFormatted = get(0),
+            lastNameStandardized = getOrNull(1),
+            firstNameStandardized = getOrNull(2),
+        )
+    }
 
     companion object {
         private val TAG = tag<PersonCertificatesProvider>()
