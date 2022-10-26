@@ -33,11 +33,11 @@ class CoronaTestStorage @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
-    private val typeTokenPCR by lazy {
+    val typeTokenPCR by lazy {
         object : TypeReference<Set<PCRCoronaTest>>() {}
     }
 
-    private val typeTokenRA by lazy {
+    val typeTokenRA by lazy {
         object : TypeReference<Set<RACoronaTest>>() {}
     }
 

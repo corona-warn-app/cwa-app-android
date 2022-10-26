@@ -111,7 +111,9 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        objectMapper.readTree((dataStore[PKEY_DATA_PCR] as String)) shouldBe objectMapper.readTree(
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+
+        test shouldBe objectMapper.readValue(
             """
             [
                 {
@@ -132,7 +134,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "isDccDataSetCreated": true
                 }
             ]
-        """
+        """,
+            instance.typeTokenPCR
         )
 
         instance.getCoronaTests().single().apply {
@@ -149,7 +152,8 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(pcrTest1))
 
-        objectMapper.readTree((dataStore[PKEY_DATA_PCR] as String)) shouldBe objectMapper.readTree(
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+        test shouldBe objectMapper.readValue(
             """
             [
                 {
@@ -171,7 +175,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "pcrQrCodeHash"
                 }
             ]
-        """
+        """,
+            instance.typeTokenPCR
         )
 
         instance.getCoronaTests().single().apply {
@@ -186,10 +191,12 @@ class CoronaTestStorageTest : BaseTest() {
     @Test
     fun `Store PCRT with isDccSupportedByPoc = false`() = runTest2 {
         val instance = createInstance(this)
-        val test = pcrTest1.copy(_isDccSupportedByPoc = false)
-        instance.updateCoronaTests(setOf(test))
+        val pcrTest = pcrTest1.copy(_isDccSupportedByPoc = false)
+        instance.updateCoronaTests(setOf(pcrTest))
 
-        objectMapper.readTree((dataStore[PKEY_DATA_PCR] as String)) shouldBe objectMapper.readTree(
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+
+        test shouldBe objectMapper.readValue(
             """
             [
                 {
@@ -211,11 +218,12 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "pcrQrCodeHash"
                 }
             ]
-        """
+        """,
+            instance.typeTokenPCR
         )
 
         instance.getCoronaTests().single().apply {
-            this shouldBe test.copy(
+            this shouldBe pcrTest.copy(
                 lastError = null,
                 isProcessing = false
             )
@@ -235,7 +243,9 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        objectMapper.readTree((dataStore[PKEY_DATA_RA] as String)) shouldBe objectMapper.readTree(
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), instance.typeTokenRA)
+
+        test shouldBe objectMapper.readValue(
             """
             [
                 {
@@ -260,7 +270,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "isDccDataSetCreated": true
                 }
             ]
-        """
+        """,
+            instance.typeTokenRA
         )
 
         instance.getCoronaTests().single().apply {
@@ -277,7 +288,8 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(raTest1))
 
-        objectMapper.readTree((dataStore[PKEY_DATA_RA] as String)) shouldBe objectMapper.readTree(
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), instance.typeTokenRA)
+        test shouldBe objectMapper.readValue(
             """
             [
                 {
@@ -303,7 +315,8 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "raQrCodeHash"
                 }
             ]
-        """
+        """,
+            instance.typeTokenRA
         )
 
         instance.getCoronaTests().single().apply {
@@ -331,7 +344,7 @@ class CoronaTestStorageTest : BaseTest() {
         dataStore[PKEY_DATA_RA] shouldNotBe null
         dataStore[PKEY_DATA_PCR] shouldBe null
 
-        instance.updateCoronaTests(setOf(raTest))
+        instance.updateCoronaTests(setOf(pcrTest))
         dataStore[PKEY_DATA_RA] shouldBe null
         dataStore[PKEY_DATA_PCR] shouldNotBe null
         instance.getCoronaTests() shouldBe setOf(pcrTest)
