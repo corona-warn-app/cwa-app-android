@@ -1178,14 +1178,6 @@
     <string name="submission_accept_button">"Прийняти"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфон передає в систему зашифрований позитивний результат тесту."</string>
-    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Поділитися випадковими ідентифікаторами через застосунок Corona-Warn-App?"</string>
-    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Ваші випадкові ідентифікатори за останні 14 днів використовуються для сповіщення інших про те, що ви були поруч із ними, і, отже, вони могли контактувати з людиною з діагнозом COVID-19. Дані про вашу особу ніколи не передаватимуться іншим людям."</string>
-    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Не ділитися"</string>
-    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Поділитися"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
