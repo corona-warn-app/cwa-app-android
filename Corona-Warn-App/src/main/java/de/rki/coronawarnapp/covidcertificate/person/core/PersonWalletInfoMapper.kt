@@ -5,25 +5,18 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 
-internal fun findSettingsBestGuess(
+internal fun List<CwaCovidCertificate>.findSettings(
     personsSettings: Map<CertificatePersonIdentifier, PersonSettings>,
-    personIdentifier: CertificatePersonIdentifier,
-    certificates: List<CwaCovidCertificate>
-) = personsSettings[personIdentifier]
-    ?: certificates.firstNotNullOfOrNull { cert ->
-        personsSettings.entries.firstOrNull { entry -> cert.personIdentifier.belongsToSamePerson(entry.key) }?.value
-    }
+    identifier: CertificatePersonIdentifier,
+) = personsSettings[identifier] ?: firstNotNullOfOrNull { cert ->
+    personsSettings.entries.firstOrNull { entry -> cert.personIdentifier.belongsToSamePerson(entry.key) }?.value
+}
 
-internal fun findWalletInfoBestGuess(
-    certificates: List<CwaCovidCertificate>,
-    personWallets: Map<String, PersonWalletInfo>
-) = certificates.firstNotNullOfOrNull {
-    personWallets[it.personIdentifier.groupingKey]?.dccWalletInfo
-} ?: certificates.firstNotNullOfOrNull { cert ->
-    personWallets.entries.firstOrNull { entry ->
-        cert.personIdentifier.belongsToSamePerson(
-            entry.key.toIdentifier()
-        )
+internal fun List<CwaCovidCertificate>.findWalletInfo(
+    wallets: Map<String, PersonWalletInfo>
+) = firstNotNullOfOrNull { wallets[it.personIdentifier.groupingKey]?.dccWalletInfo } ?: firstNotNullOfOrNull { cert ->
+    wallets.entries.firstOrNull { entry ->
+        cert.personIdentifier.belongsToSamePerson(entry.key.toIdentifier())
     }?.value?.dccWalletInfo
 }
 

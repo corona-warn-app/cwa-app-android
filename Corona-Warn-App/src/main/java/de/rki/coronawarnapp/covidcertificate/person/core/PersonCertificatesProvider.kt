@@ -34,26 +34,23 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.personsSettings
     ) { certificateContainer, cwaUser, personWallets, personsSettings ->
 
-        val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
+        val wallets = personWallets.associateBy { it.personGroupKey }
+        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson().filterNot { it.isEmpty() }
 
         if (cwaUser != null && groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        groupedCerts.filterNot { certs ->
-            // Any person should have at least one certificate to show up in the list
-            certs.isEmpty()
-        }.map { certs ->
-            val sortedCertificates = certs.toCertificateSortOrder()
-            val personIdentifier = certs.identifier
-            val dccWalletInfo = findWalletInfoBestGuess(sortedCertificates, personWalletsGroup)
-            val settings = findSettingsBestGuess(personsSettings, personIdentifier, sortedCertificates)
+        groupedCerts.map { certs ->
+            val sortedCerts = certs.toCertificateSortOrder()
+            val identifier = certs.identifier
+            val dccWalletInfo = sortedCerts.findWalletInfo(wallets)
+            val settings = sortedCerts.findSettings(personsSettings, identifier)
 
             Timber.tag(TAG).v(
                 "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
-                personIdentifier.codeSHA256,
+                identifier.codeSHA256,
                 certs.size,
                 dccWalletInfo != null,
                 settings
@@ -67,10 +64,10 @@ class PersonCertificatesProvider @Inject constructor(
                 hasDccReissuanceBadge.toInt() +
                 hasNewAdmissionStateBadge.toInt()
 
-            Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
+            Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", identifier.codeSHA256, badgeCount)
 
             PersonCertificates(
-                certificates = sortedCertificates,
+                certificates = sortedCerts,
                 isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                 badgeCount = badgeCount,
                 dccWalletInfo = dccWalletInfo,
