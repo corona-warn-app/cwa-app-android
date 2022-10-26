@@ -4,6 +4,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.PKEY_DATA_PCR
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.PKEY_DATA_RA
+import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.TYPE_TOKEN_PCR
+import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.TYPE_TOKEN_RA
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -89,7 +91,6 @@ class CoronaTestStorageTest : BaseTest() {
 
     @Test
     fun `storing empty set deletes data`() = runTest2 {
-
         dataStore[stringPreferencesKey("dontdeleteme")] = "test"
         dataStore[PKEY_DATA_RA] = "test"
         dataStore[PKEY_DATA_PCR] = "test"
@@ -111,14 +112,14 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), TYPE_TOKEN_PCR)
 
         test shouldBe objectMapper.readValue(
             """
             [
                 {
                     "identifier": "identifier-pcr",
-                    "registeredAt": 1000,
+                    "registeredAt": "${Instant.ofEpochMilli(1000)}",
                     "registrationToken": "regtoken-pcr",
                     "isSubmitted": true,
                     "isViewed": true,
@@ -126,16 +127,16 @@ class CoronaTestStorageTest : BaseTest() {
                     "hasResultChangeBadge":false,
                     "isAdvancedConsentGiven": true,
                     "isResultAvailableNotificationSent": false,
-                    "testResultReceivedAt": 2000,
+                    "testResultReceivedAt": "${Instant.ofEpochMilli(2000)}",
                     "testResult": 2,
-                    "lastUpdatedAt": 2001,
+                    "lastUpdatedAt": "${Instant.ofEpochMilli(2001)}",
                     "isDccSupportedByPoc": true,
                     "isDccConsentGiven": true,
                     "isDccDataSetCreated": true
                 }
             ]
         """,
-            instance.typeTokenPCR
+            TYPE_TOKEN_PCR
         )
 
         instance.getCoronaTests().single().apply {
@@ -152,13 +153,13 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(pcrTest1))
 
-        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), TYPE_TOKEN_PCR)
         test shouldBe objectMapper.readValue(
             """
             [
                 {
                     "identifier": "identifier-pcr1",
-                    "registeredAt": 1000,
+                    "registeredAt": "${Instant.ofEpochMilli(1000)}",
                     "registrationToken": "regtoken-pcr",
                     "isSubmitted": true,
                     "isViewed": true,
@@ -166,9 +167,9 @@ class CoronaTestStorageTest : BaseTest() {
                     "hasResultChangeBadge":false,
                     "isAdvancedConsentGiven": true,
                     "isResultAvailableNotificationSent": false,
-                    "testResultReceivedAt": 2000,
+                    "testResultReceivedAt": "${Instant.ofEpochMilli(2000)}",
                     "testResult": 2,
-                    "lastUpdatedAt": 2001,
+                    "lastUpdatedAt": "${Instant.ofEpochMilli(2001)}",
                     "isDccSupportedByPoc": true,
                     "isDccConsentGiven": true,
                     "isDccDataSetCreated": true,
@@ -176,7 +177,7 @@ class CoronaTestStorageTest : BaseTest() {
                 }
             ]
         """,
-            instance.typeTokenPCR
+            TYPE_TOKEN_PCR
         )
 
         instance.getCoronaTests().single().apply {
@@ -194,14 +195,14 @@ class CoronaTestStorageTest : BaseTest() {
         val pcrTest = pcrTest1.copy(_isDccSupportedByPoc = false)
         instance.updateCoronaTests(setOf(pcrTest))
 
-        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), instance.typeTokenPCR)
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_PCR] as String), TYPE_TOKEN_PCR)
 
         test shouldBe objectMapper.readValue(
             """
             [
                 {
                     "identifier": "identifier-pcr1",
-                    "registeredAt": 1000,
+                    "registeredAt": "${Instant.ofEpochMilli(1000)}",
                     "registrationToken": "regtoken-pcr",
                     "isSubmitted": true,
                     "isViewed": true,
@@ -209,9 +210,9 @@ class CoronaTestStorageTest : BaseTest() {
                     "hasResultChangeBadge":false,
                     "isAdvancedConsentGiven": true,
                     "isResultAvailableNotificationSent": false,
-                    "testResultReceivedAt": 2000,
+                    "testResultReceivedAt": "${Instant.ofEpochMilli(2000)}",
                     "testResult": 2,
-                    "lastUpdatedAt": 2001,
+                    "lastUpdatedAt": "${Instant.ofEpochMilli(2001)}",
                     "isDccSupportedByPoc": false,
                     "isDccConsentGiven": true,
                     "isDccDataSetCreated": true,
@@ -219,7 +220,7 @@ class CoronaTestStorageTest : BaseTest() {
                 }
             ]
         """,
-            instance.typeTokenPCR
+            TYPE_TOKEN_PCR
         )
 
         instance.getCoronaTests().single().apply {
@@ -243,14 +244,14 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), instance.typeTokenRA)
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), TYPE_TOKEN_RA)
 
         test shouldBe objectMapper.readValue(
             """
             [
                 {
                     "identifier": "identifier-ra",
-                    "registeredAt": 1000,
+                    "registeredAt": "${Instant.ofEpochMilli(1000)}",
                     "registrationToken": "regtoken-ra",
                     "isSubmitted": true,
                     "isViewed": true,
@@ -258,10 +259,10 @@ class CoronaTestStorageTest : BaseTest() {
                     "hasResultChangeBadge":false,
                     "isAdvancedConsentGiven": true,
                     "isResultAvailableNotificationSent": false,
-                    "testResultReceivedAt": 2000,
-                    "lastUpdatedAt": 2001,
+                    "testResultReceivedAt": "${Instant.ofEpochMilli(2000)}",
+                    "lastUpdatedAt": "${Instant.ofEpochMilli(2001)}",
                     "testResult": 7,
-                    "testedAt": 3000,
+                    "testedAt": "${Instant.ofEpochMilli(3000)}",
                     "firstName": "firstname",
                     "lastName": "lastname",
                     "dateOfBirth": "2021-12-24",
@@ -271,7 +272,7 @@ class CoronaTestStorageTest : BaseTest() {
                 }
             ]
         """,
-            instance.typeTokenRA
+            TYPE_TOKEN_RA
         )
 
         instance.getCoronaTests().single().apply {
@@ -288,13 +289,13 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(raTest1))
 
-        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), instance.typeTokenRA)
+        val test = objectMapper.readValue((dataStore[PKEY_DATA_RA] as String), TYPE_TOKEN_RA)
         test shouldBe objectMapper.readValue(
             """
             [
                 {
                     "identifier": "identifier-ra1",
-                    "registeredAt": 1000,
+                    "registeredAt": "${Instant.ofEpochMilli(1000)}",
                     "registrationToken": "regtoken-ra",
                     "isSubmitted": true,
                     "isViewed": true,
@@ -302,10 +303,10 @@ class CoronaTestStorageTest : BaseTest() {
                     "hasResultChangeBadge":false,
                     "isAdvancedConsentGiven": true,
                     "isResultAvailableNotificationSent": false,
-                    "testResultReceivedAt": 2000,
-                    "lastUpdatedAt": 2001,
+                    "testResultReceivedAt": "${Instant.ofEpochMilli(2000)}",
+                    "lastUpdatedAt": "${Instant.ofEpochMilli(2001)}",
                     "testResult": 7,
-                    "testedAt": 3000,
+                    "testedAt": "${Instant.ofEpochMilli(3000)}",
                     "firstName": "firstname",
                     "lastName": "lastname",
                     "dateOfBirth": "2021-12-24",
@@ -316,7 +317,7 @@ class CoronaTestStorageTest : BaseTest() {
                 }
             ]
         """,
-            instance.typeTokenRA
+            TYPE_TOKEN_RA
         )
 
         instance.getCoronaTests().single().apply {

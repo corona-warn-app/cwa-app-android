@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.storage
 
-import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -33,14 +32,6 @@ class CoronaTestStorage @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
-    val typeTokenPCR by lazy {
-        object : TypeReference<Set<PCRCoronaTest>>() {}
-    }
-
-    val typeTokenRA by lazy {
-        object : TypeReference<Set<RACoronaTest>>() {}
-    }
-
     suspend fun getCoronaTests(): Collection<PersonalCoronaTest> {
         Timber.tag(TAG).d("load()")
         val pcrTestFlow = dataStore.dataRecovering.distinctUntilChanged(
@@ -49,7 +40,7 @@ class CoronaTestStorage @Inject constructor(
             if (value.isEmpty()) {
                 emptySet()
             } else {
-                objectMapper.readValue(value, typeTokenPCR).onEach {
+                objectMapper.readValue(value, TYPE_TOKEN_PCR).onEach {
                     Timber.tag(TAG).v("PCR loaded: %s", it)
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "PCR type should not be null, Jackson footgun." }
@@ -63,7 +54,7 @@ class CoronaTestStorage @Inject constructor(
             if (value.isEmpty()) {
                 emptySet()
             } else {
-                objectMapper.readValue(value, typeTokenRA).onEach {
+                objectMapper.readValue(value, TYPE_TOKEN_RA).onEach {
                     Timber.tag(TAG).v("RA loaded: %s", it)
                     requireNotNull(it.identifier)
                     requireNotNull(it.type) { "RA type should not be null, Jackson footgun." }
@@ -71,13 +62,11 @@ class CoronaTestStorage @Inject constructor(
             }
         }
 
-        val tests = combine(pcrTestFlow, raTestFlow) { pcrTests, raTests ->
+        return combine(pcrTestFlow, raTestFlow) { pcrTests, raTests ->
             val tests = pcrTests + raTests
             Timber.tag(TAG).v("Loaded %d tests.", tests.size)
             tests
-        }.shareLatest(scope = appScope)
-
-        return tests.first()
+        }.shareLatest(scope = appScope).first()
     }
 
     suspend fun updateCoronaTests(tests: Collection<PersonalCoronaTest>) {
@@ -106,9 +95,10 @@ class CoronaTestStorage @Inject constructor(
 
     companion object {
         private const val TAG = "CoronaTestStorage"
-        @VisibleForTesting
+
         val PKEY_DATA_RA = stringPreferencesKey("coronatest.data.ra")
-        @VisibleForTesting
         val PKEY_DATA_PCR = stringPreferencesKey("coronatest.data.pcr")
+        val TYPE_TOKEN_PCR = object : TypeReference<Set<PCRCoronaTest>>() {}
+        val TYPE_TOKEN_RA = object : TypeReference<Set<RACoronaTest>>() {}
     }
 }

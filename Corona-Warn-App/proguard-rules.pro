@@ -126,3 +126,4 @@
 -keep class de.rki.coronawarnapp.covidcertificate.valueset.valuesets.** { *; }
 -keep class de.rki.coronawarnapp.coronatest.type.rapidantigen.** { *; }
 -keep class de.rki.coronawarnapp.coronatest.type.pcr.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.** { *; }
