@@ -143,7 +143,7 @@ class TraceLocationWarnDurationFragment :
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli())
+            .setSelection(dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
