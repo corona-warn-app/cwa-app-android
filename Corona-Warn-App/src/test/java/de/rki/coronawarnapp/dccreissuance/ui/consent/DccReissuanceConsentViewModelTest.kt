@@ -160,11 +160,11 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     private fun viewModel() = DccReissuanceConsentViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         personCertificatesProvider = personCertificatesProvider,
-        personIdentifierCode = "code",
+        groupKey = "code",
         dccReissuer = dccReissuer,
         format = CclTextFormatter(cclJsonFunctions = mockk(), SerializationModule.jacksonBaseMapper),
         dccQrCodeExtractor = dccQrCodeExtractor,
         personCertificatesSettings = personCertificatesSettings,
-        timeStamper
+        timeStamper = timeStamper
     )
 }

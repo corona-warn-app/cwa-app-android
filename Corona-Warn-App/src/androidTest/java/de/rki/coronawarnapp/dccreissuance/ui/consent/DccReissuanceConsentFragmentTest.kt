@@ -45,7 +45,7 @@ class DccReissuanceConsentFragmentTest : BaseUITest() {
         }
     }
 
-    private val args = DccReissuanceConsentFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
+    private val args = DccReissuanceConsentFragmentArgs(groupKey = "personIdentifierCode").toBundle()
 
     private val state = DccReissuanceConsentViewModel.State(
         certificateList = mutableListOf<DccReissuanceItem>(

@@ -166,7 +166,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personCertificatesSettings = personCertificatesSettings,
         recycledCertificatesProvider = recycledCertificatesProvider,
-        personIdentifierCode = personCode,
+        groupKey = personCode,
         colorShade = PersonColorShade.COLOR_1,
         format = CclTextFormatter(cclJsonFunctions, mapper)
     )
