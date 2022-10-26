@@ -124,7 +124,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             title { "New implementation" }
             message { "Putting the app in background won't cause a crash with the dialog open" }
             positiveButton {
-                text { "Ok"}
+                text { "Ok" }
                 action { dummyDialog1() }
             }
             negativeButton {
