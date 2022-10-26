@@ -16,14 +16,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 
 class BaseKeyPackageSyncToolTest : BaseIOTest() {
 
@@ -157,7 +157,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
                 type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
-                hour = "01".hour,
+                hour = "01:00".hour,
                 createdAt = Instant.EPOCH
             ),
             path = File("")
@@ -167,14 +167,14 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
                 type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
-                hour = "02".hour,
+                hour = "02:00".hour,
                 createdAt = Instant.EPOCH
             ),
             path = File("")
         )
         val availableCountryDay = LocationHours(
             LocationCode("EUR"),
-            mapOf("2020-09-02".day to listOf("02".hour))
+            mapOf("2020-09-02".day to listOf("02:00".hour))
         )
 
         val toFilter = listOf(freshHour, staleHour)
@@ -191,7 +191,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
                 type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
-                hour = "01".hour,
+                hour = "01:00".hour,
                 createdAt = Instant.EPOCH
             ),
             path = File("")
@@ -201,7 +201,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
                 type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-02".day,
-                hour = "01".hour,
+                hour = "01:00".hour,
                 createdAt = Instant.EPOCH
             ),
             path = File("")
@@ -211,7 +211,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
                 type = CachedKeyInfo.Type.LOCATION_HOUR,
                 location = "EUR".loc,
                 day = "2020-09-01".day,
-                hour = "02".hour,
+                hour = "02:00".hour,
                 createdAt = Instant.EPOCH
             ),
             path = File("")
@@ -219,8 +219,8 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         val availableHour = LocationHours(
             LocationCode("EUR"),
             mapOf(
-                "2020-09-01".day to listOf("02".hour),
-                "2020-09-02".day to listOf("01".hour)
+                "2020-09-01".day to listOf("02:00".hour),
+                "2020-09-02".day to listOf("01:00".hour)
             )
         )
 

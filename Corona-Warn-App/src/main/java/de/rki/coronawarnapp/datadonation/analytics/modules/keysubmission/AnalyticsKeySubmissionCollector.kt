@@ -11,8 +11,6 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toJavaTime
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import kotlinx.coroutines.flow.first
 import java.time.Duration
@@ -34,13 +32,13 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         if (disabled) return
         // do not overwrite once set
         if (type.storage.testResultReceivedAt.value > 0) return
-        type.storage.testResultReceivedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
+        type.storage.testResultReceivedAt.update { timeStamper.nowUTC.toEpochMilli() }
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (disabled) return
 
-        val testRegisteredAt = timeStamper.nowJavaUTC
+        val testRegisteredAt = timeStamper.nowUTC
         type.storage.testRegisteredAt.update { testRegisteredAt.toEpochMilli() }
 
         val lastResult = riskLevelStorage
@@ -80,14 +78,14 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
         type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toJavaInstant()?.toLocalDateUtc(),
+                lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
         }
 
         type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState?.toJavaTime(),
+                lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
         }
@@ -96,7 +94,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     fun reportSubmitted(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submitted.update { true }
-        type.storage.submittedAt.update { timeStamper.nowJavaUTC.toEpochMilli() }
+        type.storage.submittedAt.update { timeStamper.nowUTC.toEpochMilli() }
     }
 
     fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {

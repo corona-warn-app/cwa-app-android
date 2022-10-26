@@ -7,8 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.BusinessValidator
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJavaInstant
-import de.rki.coronawarnapp.util.toLocaleDateTimeUtc
+import de.rki.coronawarnapp.util.toLocalDateTimeUtc
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -48,7 +47,7 @@ class DccValidator @Inject constructor(
 
         return DccValidation(
             userInput = userInput,
-            validatedAt = timeStamper.nowJavaUTC,
+            validatedAt = timeStamper.nowUTC,
             signatureCheckPassed = signatureCheckPassed,
             expirationCheckPassed = expirationCheckPassed,
             jsonSchemaCheckPassed = jsonSchemaCheckPassed,
@@ -72,5 +71,5 @@ class DccValidator @Inject constructor(
 
 @VisibleForTesting
 internal fun DccData<*>.expiresAfter(referenceDate: LocalDateTime): Boolean {
-    return header.expiresAt.toJavaInstant().toLocaleDateTimeUtc() > referenceDate
+    return header.expiresAt.toLocalDateTimeUtc() > referenceDate
 }

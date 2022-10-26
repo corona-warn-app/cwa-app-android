@@ -15,12 +15,11 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoInput
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
@@ -42,7 +41,7 @@ class DccWalletInfoCalculation @Inject constructor(
     suspend fun getDccWalletInfo(
         dccList: List<CwaCovidCertificate>,
         admissionScenarioId: String = "",
-        dateTime: DateTime = DateTime.now()
+        dateTime: ZonedDateTime = ZonedDateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
         val input = getDccWalletInfoInput(
             dccList = dccList,
@@ -92,8 +91,8 @@ class DccWalletInfoCalculation @Inject constructor(
                 cose = Cose(it.dccData.kid),
                 cwt = Cwt(
                     iss = it.headerIssuer,
-                    iat = it.headerIssuedAt.seconds,
-                    exp = it.headerExpiresAt.seconds
+                    iat = it.headerIssuedAt.epochSecond,
+                    exp = it.headerExpiresAt.epochSecond
                 ),
                 hcert = it.dccData.certificateJson.toJsonNode(),
                 validityState = it.state.toCclState()

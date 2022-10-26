@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
-import org.joda.time.Instant
+import java.time.Instant
 
 data class StoredVaccinationCertificateData(
     @SerializedName("vaccinationQrCode") val vaccinationQrCode: QrCodeString,

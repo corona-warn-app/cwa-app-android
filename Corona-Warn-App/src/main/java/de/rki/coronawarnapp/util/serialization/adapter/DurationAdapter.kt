@@ -4,14 +4,14 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
-import org.joda.time.Duration
+import java.time.Duration
 
 class DurationAdapter : TypeAdapter<Duration>() {
     override fun write(out: JsonWriter, value: Duration?) {
         if (value == null) {
             out.nullValue()
         } else {
-            out.value(value.millis)
+            out.value(value.toMillis())
         }
     }
 
@@ -21,7 +21,7 @@ class DurationAdapter : TypeAdapter<Duration>() {
             null
         }
         else -> {
-            Duration.millis(reader.nextLong())
+            Duration.ofMillis(reader.nextLong())
         }
     }
 }

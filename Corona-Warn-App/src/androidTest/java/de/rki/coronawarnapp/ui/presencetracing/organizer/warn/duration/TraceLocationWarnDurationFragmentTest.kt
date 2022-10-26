@@ -5,13 +5,11 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationData
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,6 +18,8 @@ import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Duration
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class TraceLocationWarnDurationFragmentTest : BaseUITest() {
@@ -52,7 +52,7 @@ class TraceLocationWarnDurationFragmentTest : BaseUITest() {
         timeStamper = timeStamper,
         dispatcherProvider = TestDispatcherProvider()
     ).apply {
-        durationChanged(Duration.standardHours(3))
+        durationChanged(Duration.ofHours(3))
         dateChanged(TraceLocationData.traceLocationSameDate.startDate!!.toLocalDateTimeUserTz())
     }
 }

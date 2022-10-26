@@ -46,7 +46,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -620,7 +620,9 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowUTC): TestCertificateContainer {
+    private fun TestCertificateQRCode.createContainer(
+        nowUtc: Instant = timeStamper.nowUTC
+    ): TestCertificateContainer {
         val data = GenericTestCertificateData(
             identifier = UUID.randomUUID().toString(),
             registeredAt = nowUtc,

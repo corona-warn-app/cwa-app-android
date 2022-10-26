@@ -22,7 +22,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,6 +29,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseTestInstrumentation
 import timber.log.Timber
 import java.io.IOException
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
@@ -267,7 +267,7 @@ class RiskResultDatabaseMigrationTest : BaseTestInstrumentation() {
         }
 
         val values = ContentValues().apply {
-            put("dateMillisSinceEpoch", Instant.parse("2020-12-31T16:28:25.400Z").millis)
+            put("dateMillisSinceEpoch", Instant.parse("2020-12-31T16:28:25.400Z").toEpochMilli())
             put("riskLevel", 1)
             put("minimumDistinctEncountersWithLowRisk", 0)
             put("minimumDistinctEncountersWithHighRisk", 0)

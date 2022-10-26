@@ -37,9 +37,6 @@ import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -47,6 +44,9 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 @ExtendWith(InstantExecutorExtension::class)
 open class ContactDiaryOverviewViewModelTest {
@@ -60,7 +60,7 @@ open class ContactDiaryOverviewViewModelTest {
 
     private val testDispatcherProvider = TestDispatcherProvider()
     private val date = LocalDate.parse("2021-04-07")
-    private val dateMillis = date.toDateTimeAtStartOfDay(DateTimeZone.UTC).millis
+    private val dateMillis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
 
     @BeforeEach
     fun refresh() {
@@ -193,7 +193,7 @@ open class ContactDiaryOverviewViewModelTest {
         with(createInstance().listItems.getOrAwaitValue().filterIsInstance<DayOverviewItem>()) {
             size shouldBe ContactDiaryOverviewViewModel.DAY_COUNT
 
-            var days = 0
+            var days = 0L
             forEach { it.date shouldBe date.minusDays(days++) }
         }
     }

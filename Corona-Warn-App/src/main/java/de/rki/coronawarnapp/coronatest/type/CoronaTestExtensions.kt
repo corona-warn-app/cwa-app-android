@@ -1,7 +1,12 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import org.joda.time.Instant
+import java.time.Instant
+import java.time.ZoneId
 
 fun BaseCoronaTest.isOlderThan21Days(nowUTC: Instant): Boolean {
-    return registeredAt.toDateTime().plusDays(21).isBefore(nowUTC)
+    return registeredAt
+        .atZone(ZoneId.systemDefault())
+        .plusDays(21)
+        .toInstant()
+        .isBefore(nowUTC)
 }

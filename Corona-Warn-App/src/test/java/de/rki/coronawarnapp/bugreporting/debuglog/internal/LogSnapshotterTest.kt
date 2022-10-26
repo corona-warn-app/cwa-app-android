@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.bugreporting.debuglog.internal
 import android.content.Context
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -29,7 +29,7 @@ class LogSnapshotterTest : BaseIOTest() {
 
     private val snapshotDir = File(cacheDir, "debuglog_snapshots")
     private val fileNameDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH_mm_ss.SSS")
-    private val userTime = Instant.EPOCH.toUserTimeZone()
+    private val userTime = Instant.EPOCH.toLocalDateTimeUserTz()
     private val expectedSnapshot = File(snapshotDir, "CWA Log ${userTime.format(fileNameDateFormatter)}.zip")
 
     @BeforeEach
@@ -42,7 +42,7 @@ class LogSnapshotterTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         every { debugLogger.runningLog } returns runningLogFake
-        every { timeStamper.nowJavaUTC } returns Instant.EPOCH
+        every { timeStamper.nowUTC } returns Instant.EPOCH
 
         runningLogFake.parentFile!!.mkdirs()
         runningLogFake.writeText("1 Doge = 1 Doge")

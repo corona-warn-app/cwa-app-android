@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.risk.mapToRiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Instant
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -70,7 +70,8 @@ class RiskCombinator @Inject constructor(
         ptRiskResults: List<PtRiskLevelResult>,
         ewRiskResults: List<EwRiskLevelResult>
     ): List<CombinedEwPtRiskLevelResult> {
-        val allDates = ptRiskResults.map { it.calculatedAt }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
+        val allDates =
+            ptRiskResults.map { it.calculatedAt }.plus(ewRiskResults.map { it.calculatedAt }).distinct()
         val sortedPtResults = ptRiskResults.sortedByDescending { it.calculatedAt }
         val sortedEwResults = ewRiskResults.sortedByDescending { it.calculatedAt }
         return allDates.map { date ->
@@ -94,7 +95,11 @@ class RiskCombinator @Inject constructor(
         exposureWindowDayRiskList: List<ExposureWindowDayRisk>
     ): List<CombinedEwPtDayRisk> {
         val allDates =
-            ptRiskList.map { it.localDateUtc }.plus(exposureWindowDayRiskList.map { it.localDateUtc }).distinct()
+            ptRiskList.map {
+                it.localDateUtc
+            }.plus(
+                exposureWindowDayRiskList.map { it.localDateUtc }
+            ).distinct()
         return allDates.map { date ->
             val ptRisk = ptRiskList.find { it.localDateUtc == date }
             val ewRisk = exposureWindowDayRiskList.find { it.localDateUtc == date }

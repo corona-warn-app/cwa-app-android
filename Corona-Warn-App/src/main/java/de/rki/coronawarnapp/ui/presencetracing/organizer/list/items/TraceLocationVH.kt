@@ -10,7 +10,9 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsAdapter
 import de.rki.coronawarnapp.util.list.Swipeable
-import org.joda.time.format.DateTimeFormat
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class TraceLocationVH(parent: ViewGroup) :
     TraceLocationsAdapter.ItemVH<TraceLocationVH.Item, TraceLocationOrganizerTraceLocationsItemBinding>(
@@ -35,32 +37,31 @@ class TraceLocationVH(parent: ViewGroup) :
     ) -> Unit = { item, _ ->
         latestItem = item
 
-        description.text = item.traceLocation.description
-        address.text = item.traceLocation.address
+        traceLocationsItemDescription.text = item.traceLocation.description
+        traceLocationsItemAddress.text = item.traceLocation.address
 
         if (item.traceLocation.startDate != null && item.traceLocation.endDate != null) {
 
-            val startTime = item.traceLocation.startDate.toDateTime()
-            val endTime = item.traceLocation.endDate.toDateTime()
+            val startTime = item.traceLocation.startDate.atZone(ZoneId.systemDefault())
+            val endTime = item.traceLocation.endDate.atZone(ZoneId.systemDefault())
+
+            val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+            val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
             duration.isGone = false
             duration.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
-                val dateFormat = DateTimeFormat.shortDate()
-                val timeFormat = DateTimeFormat.shortTime()
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration_same_day,
-                    startTime.toString(dateFormat),
-                    startTime.toString(timeFormat),
-                    endTime.toString(timeFormat)
+                    startTime.format(dateFormat),
+                    startTime.format(timeFormat),
+                    endTime.format(timeFormat)
                 )
             } else {
-                icon.setCaption(null)
-                val dateFormat = DateTimeFormat.shortDate()
-                val timeFormat = DateTimeFormat.shortTime()
+                traceLocationsItemIcon.setCaption(null)
                 val startDateTime =
-                    "${startTime.toLocalDate().toString(dateFormat)}, ${startTime.toLocalTime().toString(timeFormat)}"
+                    "${startTime.toLocalDate().format(dateFormat)}, ${startTime.toLocalTime().format(timeFormat)}"
                 val endDateTime =
-                    "${endTime.toLocalDate().toString(dateFormat)}, ${endTime.toLocalTime().toString(timeFormat)}"
+                    "${endTime.toLocalDate().format(dateFormat)}, ${endTime.toLocalTime().format(timeFormat)}"
                 context.getString(
                     R.string.trace_location_organizer_list_item_duration,
                     startDateTime,
@@ -68,7 +69,7 @@ class TraceLocationVH(parent: ViewGroup) :
                 )
             }
         } else {
-            icon.setCaption(null)
+            traceLocationsItemIcon.setCaption(null)
             duration.isGone = true
         }
 

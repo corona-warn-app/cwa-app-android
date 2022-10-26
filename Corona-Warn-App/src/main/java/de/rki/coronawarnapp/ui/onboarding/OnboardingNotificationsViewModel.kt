@@ -14,8 +14,8 @@ class OnboardingNotificationsViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<OnboardingNavigationEvents> = SingleLiveEvent()
 
-    fun onNextButtonClick() {
-        settings.lastNotificationsOnboardingVersionCode.update { BuildConfigWrap.VERSION_CODE }
+    fun onNextButtonClick() = launch {
+        settings.updateLastNotificationsOnboardingVersionCode(BuildConfigWrap.VERSION_CODE)
         routeToScreen.postValue(OnboardingNavigationEvents.NavigateToOnboardingAnalytics)
     }
 

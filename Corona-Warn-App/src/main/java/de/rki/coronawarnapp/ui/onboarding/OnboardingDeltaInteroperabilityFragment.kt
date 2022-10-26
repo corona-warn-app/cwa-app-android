@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingDeltaInteroperabilityBinding
-import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -38,7 +37,7 @@ class OnboardingDeltaInteroperabilityFragment :
             .movementMethod = LinkMovementMethod.getInstance()
 
         binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
-            findNavController().doNavigate(
+            findNavController().navigate(
                 OnboardingDeltaInteroperabilityFragmentDirections
                     .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment()
             )

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
@@ -19,11 +18,11 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -79,33 +78,33 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowDeleteDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.test_certificate_delete_dialog_title)
-                .setMessage(R.string.test_certificate_delete_dialog_body)
-                .setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
-                .setCancelable(false)
-                .setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
+            is ShowDeleteDialog -> displayDialog(cancelable = false, isDeleteDialog = true) {
+                setTitle(R.string.test_certificate_delete_dialog_title)
+                setMessage(R.string.test_certificate_delete_dialog_body)
+                setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
                     viewModel.deleteTestCertificate(event.containerId)
                 }
-                .show()
+                setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
+            }
 
-            is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
+            is ShowRefreshErrorDialog -> displayDialog(
+                cancelable = false,
+                dialog = event.error.toErrorDialogBuilder(requireContext())
+            ) {
                 setTitle(R.string.test_certificate_refresh_dialog_title)
-                setCancelable(false)
                 if (event.showTestCertificateFaq)
                     setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
                         openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
                     }
-            }.show()
+            }
 
-            is ShowMigrationInfoDialog -> MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.certificate_migration_dialog_title)
-                .setMessage(R.string.certificate_migration_dialog_message)
-                .setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
-                .setCancelable(true)
-                .show()
+            is ShowMigrationInfoDialog -> displayDialog {
+                setTitle(R.string.certificate_migration_dialog_title)
+                setMessage(R.string.certificate_migration_dialog_message)
+                setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+            }
 
-            OpenCovPassInfo -> doNavigate(
+            OpenCovPassInfo -> findNavController().navigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )
 
@@ -122,7 +121,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowAdmissionScenarioError -> event.error.toErrorDialogBuilder(requireContext()).show()
+            is ShowAdmissionScenarioError -> displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
         }
     }
 
@@ -141,7 +140,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             when (it.itemId) {
                 R.id.menu_information -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
                         PersonOverviewFragmentDirections
                             .actionPersonOverviewFragmentToCovidCertificateOnboardingFragment(false)
                     )
@@ -150,14 +149,14 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
                 R.id.menu_export_all -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
                         PersonOverviewFragmentDirections
                             .actionPersonOverviewFragmentToExportAllCertsPdfInfoFragment()
                     )
                     true
                 }
 
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }
@@ -166,7 +165,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         when (uiState) {
             is PersonOverviewViewModel.UiState.Done -> {
                 emptyLayout.isVisible = uiState.personCertificates.isEmpty()
-                toolbar.menu.findItem(R.id.menu_export_all).isVisible = uiState.personCertificates.isNotEmpty()
+                toolbar.menu.findItem(R.id.menu_export_all).isVisible = uiState.isExportAllPossible
                 recyclerView.isGone = uiState.personCertificates.isEmpty()
                 personOverviewAdapter.update(uiState.personCertificates)
                 loadingLayoutGroup.isVisible = false

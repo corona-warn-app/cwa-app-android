@@ -28,8 +28,8 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -94,15 +94,15 @@ class SubmissionTask @Inject constructor(
     private fun hasRecentUserActivity(): Boolean {
         val nowUTC = timeStamper.nowUTC
         val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.value
-        val userInactivity = Duration(lastUserActivity, nowUTC)
+        val userInactivity = Duration.between(lastUserActivity, nowUTC)
         Timber.tag(TAG).d(
             "now=%s, lastUserActivity=%s, userInactivity=%dmin",
             nowUTC,
             lastUserActivity,
-            userInactivity.standardMinutes
+            userInactivity.toMinutes()
         )
 
-        return userInactivity.millis >= 0 && userInactivity < USER_INACTIVITY_TIMEOUT
+        return userInactivity.toMillis() >= 0 && userInactivity < USER_INACTIVITY_TIMEOUT
     }
 
     private fun hasExceededRetryAttempts(): Boolean {
@@ -264,7 +264,7 @@ class SubmissionTask @Inject constructor(
     }
 
     data class Config(
-        override val executionTimeout: Duration = Duration.standardMinutes(8),
+        override val executionTimeout: Duration = Duration.ofMinutes(8),
 
         override val collisionBehavior: TaskFactory.Config.CollisionBehavior =
             TaskFactory.Config.CollisionBehavior.ENQUEUE
@@ -284,7 +284,7 @@ class SubmissionTask @Inject constructor(
     companion object {
         private const val FALLBACK_COUNTRY = "DE"
         private const val RETRY_ATTEMPTS = Int.MAX_VALUE
-        private val USER_INACTIVITY_TIMEOUT = Duration.standardMinutes(30)
+        private val USER_INACTIVITY_TIMEOUT = Duration.ofMinutes(30)
         private const val TAG: String = "SubmissionTask"
     }
 }

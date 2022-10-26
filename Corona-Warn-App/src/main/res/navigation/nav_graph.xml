@@ -903,11 +903,7 @@
     <activity
         android:id="@+id/launcherActivity"
         android:name="de.rki.coronawarnapp.ui.launcher.LauncherActivity"
-        android:label="LauncherActivity">
-        <deepLink
-            android:id="@+id/deepLink"
-            app:uri="coronawarnapp://launch" />
-    </activity>
+        android:label="LauncherActivity" />
 
 
     <!-- New Release -->
@@ -1066,13 +1062,13 @@
         <action
             android:id="@+id/action_checkInsConsentFragment_to_submissionResultReadyFragment"
             app:destination="@id/submissionResultReadyFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_checkInsConsentFragment_to_submissionTestResultConsentGivenFragment"
             app:destination="@id/submissionTestResultConsentGivenFragment"
-            app:popUpTo="@id/status_nav_graph"
+            app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <argument
             android:name="testType"

@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -79,12 +78,12 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         if (oldResult == null || newResult == null) return
 
-        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp
+        val lastCheckedResult = riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp.first()
         if (lastCheckedResult == newResult.calculatedAt) {
             Timber.d("We already checked this risk level change, skipping further checks.")
             return
         }
-        riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = newResult.calculatedAt
+        riskLevelSettings.updateLastChangeCheckedRiskLevelCombinedTimestamp(newResult.calculatedAt)
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
@@ -118,7 +117,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 "with lastRiskEncounterAt: $lastRiskEncounterAt"
         )
         val lastHighRiskDate = tracingSettings.lastHighRiskDate.first()
-        Timber.d("Last high risk date: ${lastHighRiskDate?.toDayFormat()}")
+        Timber.d("Last high risk date: $lastHighRiskDate")
         when (riskState) {
             RiskState.INCREASED_RISK -> {
                 when (lastHighRiskDate) {

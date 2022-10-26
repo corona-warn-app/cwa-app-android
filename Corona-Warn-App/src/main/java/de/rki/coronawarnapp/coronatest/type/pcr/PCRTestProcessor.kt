@@ -34,9 +34,9 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -347,8 +347,8 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
-    val testAge = Duration(test.registeredAt, now)
-    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+    val testAge = Duration.between(test.registeredAt, now)
+    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.toDays(), newResult)
 
     return if (newResult == PCR_OR_RAT_PENDING && testAge > VerificationServer.TestAvailabilityDuration) {
         Timber.tag(PCRTestProcessor.TAG).d("%s is exceeding the test availability.", testAge)

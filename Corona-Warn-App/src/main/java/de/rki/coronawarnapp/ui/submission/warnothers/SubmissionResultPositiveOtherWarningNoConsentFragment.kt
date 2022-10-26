@@ -6,15 +6,15 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
-import de.rki.coronawarnapp.tracing.ui.TracingConsentDialog
+import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -52,7 +52,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             viewModel.onConsentButtonClicked()
         }
         binding.toolbar.setNavigationOnClickListener {
-            showCloseDialog()
+            viewModel.onBackPressed()
         }
 
         viewModel.navigateBack.observe2(this) {
@@ -60,12 +60,12 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = showCloseDialog()
+            override fun handleOnBackPressed() = viewModel.onBackPressed()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         viewModel.routeToScreen.observe2(this) {
-            doNavigate(it)
+            findNavController().navigate(it)
         }
 
         viewModel.showKeysRetrievalProgress.observe2(this) { show ->
@@ -78,13 +78,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showEnableTracingEvent.observe2(this) {
-            val tracingRequiredDialog = DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_test_result_dialog_tracing_required_title,
-                R.string.submission_test_result_dialog_tracing_required_message,
-                R.string.submission_test_result_dialog_tracing_required_button
-            )
-            DialogHelper.showDialog(tracingRequiredDialog)
+            displayDialog {
+                setTitle(R.string.submission_test_result_dialog_tracing_required_title)
+                setMessage(R.string.submission_test_result_dialog_tracing_required_message)
+                setPositiveButton(R.string.submission_test_result_dialog_tracing_required_button) { _, _ -> }
+            }
         }
 
         binding.submissionConsentMainBottomBody.setOnClickListener {
@@ -96,29 +94,15 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
-            TracingConsentDialog(requireContext()).show(
-                onConsentGiven = { onConsentResult(true) },
-                onConsentDeclined = { onConsentResult(false) }
+            tracingConsentDialog(
+                positiveButton = { onConsentResult(true) },
+                negativeButton = { onConsentResult(false) }
             )
         }
     }
 
     private fun goBack() {
         popBackStack()
-    }
-
-    private fun showCloseDialog() {
-        val closeDialogInstance = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_positive_other_warning_dialog_title,
-            message = R.string.submission_positive_other_warning_dialog_body,
-            positiveButton = R.string.submission_positive_other_warning_dialog_positive_button,
-            negativeButton = R.string.submission_positive_other_warning_dialog_negative_button,
-            cancelable = true,
-            positiveButtonFunction = {},
-            negativeButtonFunction = { viewModel.onBackPressed() }
-        )
-        DialogHelper.showDialog(closeDialogInstance)
     }
 
     override fun onResume() {

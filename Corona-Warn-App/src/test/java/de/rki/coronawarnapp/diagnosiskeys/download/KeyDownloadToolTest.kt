@@ -23,15 +23,15 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
 import java.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 import java.io.IOException
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
 
 class KeyDownloadToolTest : BaseIOTest() {
 

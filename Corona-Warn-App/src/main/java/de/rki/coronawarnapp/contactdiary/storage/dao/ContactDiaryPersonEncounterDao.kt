@@ -6,7 +6,7 @@ import androidx.room.Transaction
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterWrapper
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Dao
 abstract class ContactDiaryPersonEncounterDao :

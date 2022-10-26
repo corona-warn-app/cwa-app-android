@@ -18,8 +18,8 @@ class OnboardingDeltaNotificationsViewModel @AssistedInject constructor(
 
     val routeToScreen: SingleLiveEvent<OnboardingDeltaNotificationsNavigationEvents> = SingleLiveEvent()
 
-    fun onProceed() {
-        settings.lastNotificationsOnboardingVersionCode.update { BuildConfigWrap.VERSION_CODE }
+    fun onProceed() = launch {
+        settings.updateLastNotificationsOnboardingVersionCode(BuildConfigWrap.VERSION_CODE)
         if (analyticsSettings.lastOnboardingVersionCode.value == 0L) {
             routeToScreen.postValue(
                 OnboardingDeltaNotificationsNavigationEvents.NavigateToOnboardingDeltaAnalyticsFragment

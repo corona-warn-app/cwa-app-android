@@ -26,12 +26,12 @@ import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
+import java.time.Duration
+import java.time.Instant
 
 class DccValidityStateNotificationServiceTest : BaseTest() {
     @MockK lateinit var dccValidityStateNotification: DccValidityStateNotification
@@ -54,7 +54,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     private val testContainerId = TestCertificateContainerId("test")
 
     private val lastDccStateBackgroundCheck = mockFlowPreference(Instant.EPOCH)
-    private val nowUtc = Instant.EPOCH.plus(Duration.standardDays(7))
+    private val nowUtc = Instant.EPOCH.plus(Duration.ofDays(7))
 
     @BeforeEach
     fun setup() {

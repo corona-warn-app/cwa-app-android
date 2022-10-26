@@ -29,7 +29,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -39,6 +38,7 @@ import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
+import java.time.Instant
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
@@ -153,7 +153,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         )
         every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+        every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plusMillis(20))
     }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

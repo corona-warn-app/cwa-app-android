@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +31,7 @@ class LocalStatisticsProvider @Inject constructor(
         scope = scope,
         coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.WhileSubscribed(
-            stopTimeoutMillis = Duration.standardSeconds(5).millis,
+            stopTimeoutMillis = Duration.ofSeconds(5).toMillis(),
             replayExpirationMillis = 0
         )
     ) {

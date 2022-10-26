@@ -51,7 +51,7 @@ class InteroperabilityRepository @Inject constructor(
     }
         .onEach { Timber.d("Country list: %s", it.joinToString(",")) }
 
-    fun saveInteroperabilityUsed() {
-        settings.wasInteroperabilityShownAtLeastOnce = true
+    suspend fun saveInteroperabilityUsed() {
+        settings.updateWasInteroperabilityShownAtLeastOnce(true)
     }
 }

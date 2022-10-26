@@ -23,6 +23,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
+import kotlinx.coroutines.test.runTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.preferences.MockSharedPreferences
 import java.io.File
 
@@ -58,7 +60,8 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         submissionSettings = submissionSettings,
         tracingSettings = tracingSettings,
         onboardingSettings = onboardingSettings,
-        errorResetTool = encryptedErrorResetTool
+        errorResetTool = encryptedErrorResetTool,
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     private fun createOldPreferences() = MockSharedPreferences().also {
@@ -92,7 +95,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
     }
 
     @Test
-    fun `is migration successful`() {
+    fun `is migration successful`() = runTest {
         every { context.getDatabasePath("coronawarnapp-db") } returns dbFile
         every { encryptedPreferencesHelper.clean() } just Runs
 
@@ -100,9 +103,9 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { encryptedPreferencesHelper.instance } returns oldPreferences
 
         // SettingsLocalData
-        every { cwaSettings.wasInteroperabilityShownAtLeastOnce = true } just Runs
-        every { cwaSettings.wasTracingExplanationDialogShown = true } just Runs
-        every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MAX_VALUE } just Runs
+        coEvery { cwaSettings.updateWasInteroperabilityShownAtLeastOnce(true) } just Runs
+        coEvery { cwaSettings.updateWasTracingExplanationDialogShown(true) } just Runs
+        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MAX_VALUE) } just Runs
 
         // OnboardingLocalData
         val mockOnboardingCompletedTimestamp = flowOf(Instant.ofEpochMilli(10101010L))
@@ -119,12 +122,10 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         // SubmissionLocalData
         every { submissionSettings.registrationTokenMigration = any() } just Runs
         every {
-            submissionSettings.initialTestResultReceivedAtMigration =
-                org.joda.time.Instant.ofEpochMilli(10101010L)
+            submissionSettings.initialTestResultReceivedAtMigration = Instant.ofEpochMilli(10101010L)
         } just Runs
         every {
-            submissionSettings.devicePairingSuccessfulAtMigration =
-                org.joda.time.Instant.ofEpochMilli(10101010L)
+            submissionSettings.devicePairingSuccessfulAtMigration = Instant.ofEpochMilli(10101010L)
         } just Runs
         every { submissionSettings.isSubmissionSuccessfulMigration = true } just Runs
         every { submissionSettings.isAllowedToSubmitKeysMigration = true } just Runs
@@ -140,7 +141,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
     }
 
     @Test
-    fun `error during migration will be caught`() {
+    fun `error during migration will be caught`() = runTest {
         every { context.getDatabasePath("coronawarnapp-db") } returns dbFile
 
         val mockPrefs = mockk<SharedPreferences>()

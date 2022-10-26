@@ -12,10 +12,9 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.task.TransmissionRiskVectorDeterminer
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
+import de.rki.coronawarnapp.util.toLocalDateUtc
 import de.rki.coronawarnapp.util.toOkioByteString
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,11 +24,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.SecureRandom
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import kotlin.random.asKotlinRandom
 
@@ -169,7 +168,6 @@ class CheckInsTransformerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-11T10:00:00Z")
-        every { timeStamper.nowJavaUTC } returns java.time.Instant.parse("2021-03-11T10:00:00Z")
         every { symptoms.symptomIndication } returns Symptoms.Indication.POSITIVE
         every { symptoms.startOfSymptoms } returns Symptoms.StartOf.Date(timeStamper.nowUTC.toLocalDateUtc())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
@@ -244,9 +242,9 @@ class CheckInsTransformerTest : BaseTest() {
             get(0).apply {
                 locationId.toOkioByteString() shouldBe checkIn2.traceLocationId
                 // New derived start time
-                startIntervalNumber shouldBe Instant.parse("2021-03-04T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T10:20:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // New derived end time
-                endIntervalNumber shouldBe Instant.parse("2021-03-04T10:40:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-04T10:40:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
 
             // Check-In 3 mappings and transformation
@@ -254,9 +252,9 @@ class CheckInsTransformerTest : BaseTest() {
             get(1).apply {
                 locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
                 // Start time from original check-in
-                startIntervalNumber shouldBe Instant.parse("2021-03-04T09:30:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-04T09:30:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 1
-                endIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
 
             // Splitted CheckIn 2
@@ -264,36 +262,36 @@ class CheckInsTransformerTest : BaseTest() {
                 locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
 
                 // Start time for splitted check-in 2
-                startIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-05T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 2
-                endIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
 
             // Splitted CheckIn 3
             get(3).apply {
                 locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
                 // Start time from splitted check-in 3
-                startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-06T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 3
-                endIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
 
             // Splitted CheckIn 4
             get(4).apply {
                 locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
                 // Start time from splitted check-in 4
-                startIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-07T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 4
-                endIntervalNumber shouldBe Instant.parse("2021-03-08T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-08T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
 
             // Splitted CheckIn 5
             get(5).apply {
                 locationId.toOkioByteString() shouldBe checkIn3.traceLocationId
                 // Start time from splitted check-in 5
-                startIntervalNumber shouldBe Instant.parse("2021-03-10T00:00:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                startIntervalNumber shouldBe Instant.parse("2021-03-10T00:00:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
                 // End time for splitted check-in 5
-                endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").seconds / TEN_MINUTES_IN_SECONDS
+                endIntervalNumber shouldBe Instant.parse("2021-03-10T10:20:00Z").epochSecond / TEN_MINUTES_IN_SECONDS
             }
         }
 

@@ -18,12 +18,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Afișarea obligativității purtării măștii"</item>
+        <item>"Radar pandemic"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Aplicația poate afișa dacă sunteți obligat(ă) să purtați masca facială în anumite locuri din statul german în care vă aflați sau dacă sunteți scutit(ă) de această obligativitate. Acest anunț apare doar dacă statul în care vă aflați a aplicat regulile extinse de obligativitate a purtării măștii.\n\nDacă statul în care vă aflați momentan a impus obligativitatea purtării măștii, un test rapid negativ sau un test PCR negativ vă va scuti de obligativitatea purtării măștii timp de 24 de ore pentru activitățile recreative, culturale și evenimentele sportive, precum și pentru accesul în baruri sau restaurante. O testare acasă nesupravegheată nu este totuși suficientă. De asemenea, statul în care vă aflați poate aplica scutiri de la obligativitatea purtării măștii în urma vaccinării sau a recuperării după boală (în ultimele trei luni). Scutirea de la obligativitatea purtării măștii nu se aplică în transportul public, în spitale și în instituțiile de asistență și nici pacienților aflați în cabinetele medicilor.\n\nDacă certificatele COVID pe care le-ați salvat în aplicație sunt suficiente pentru a vă scuti de obligativitatea purtării măștii în statul dvs., acestea apar cu verde în aplicație. Scutirea de la obligativitatea purtării măștii în statul dvs. poate fi confirmată prin scanarea codului QR cu aplicația CovPassCheck."</item>
+        <item>"Aplicația Corona-Warn conține acum un mozaic denumit „Radar pandemic”, ce vă conduce direct la un site web al Institutului Robert Koch (în germană), atunci când îl apăsați. Radarul pandemic conține o varietate de statistici referitoare la pandemia de coronavirus, care sunt actualizate în fiecare zi lucrătoare. Rețineți că orice date utilizate la deschiderea site-ului web vor fi deduse din planul tarifar al datelor dvs. mobile și acest site web nu este conceput să fie fără bariere."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

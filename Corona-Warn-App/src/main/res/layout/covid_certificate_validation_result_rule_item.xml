@@ -78,6 +78,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/rule_icon"
         app:layout_constraintTop_toBottomOf="@id/rule_id_title"
-        tools:text="AR-001 (1.33.70)" /> />
+        tools:text="AR-001 (1.33.70)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

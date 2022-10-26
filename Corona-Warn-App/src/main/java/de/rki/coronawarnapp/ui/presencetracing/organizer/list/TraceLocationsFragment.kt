@@ -24,7 +24,7 @@ import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -60,9 +60,12 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
             setupSwipe(context = requireContext())
         }
 
-        binding.toolbar.addMenuId(R.id.trace_locations_fragment_menu_id)
-        binding.toolbar.setNavigationOnClickListener {
-            popBackStack()
+        binding.toolbar.apply {
+            setNavigationOnClickListener {
+                popBackStack()
+            }
+            addMenuId(R.id.trace_locations_fragment_menu_id)
+            addTitleId(R.id.trace_location_organizer_trace_locations_list_fragment_title_id)
         }
 
         viewModel.traceLocations.observe2(this) {
@@ -102,7 +105,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 }
                 is TraceLocationEvent.StartQrCodePosterFragment -> {
                     setupAxisTransition()
-                    doNavigate(
+                    findNavController().navigate(
 
                         TraceLocationsFragmentDirections.actionTraceLocationsFragmentToQrCodePosterFragment(
                             it.traceLocation.id
@@ -171,7 +174,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     showDeleteAllDialog()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }

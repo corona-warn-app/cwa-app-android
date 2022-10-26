@@ -18,3 +18,13 @@ fun MaterialToolbar.addMenuId(id: Int) {
 fun MaterialToolbar.addNavigationIconButtonId(id: Int) {
     ToolbarUtils.getNavigationIconButton(this)?.id = id
 }
+
+@SuppressLint("RestrictedApi")
+fun MaterialToolbar.addTitleId(id: Int) {
+    ToolbarUtils.getTitleTextView(this)?.id = id
+}
+
+@SuppressLint("RestrictedApi")
+fun MaterialToolbar.addSubtitleId(id: Int) {
+    ToolbarUtils.getSubtitleTextView(this)?.id = id
+}

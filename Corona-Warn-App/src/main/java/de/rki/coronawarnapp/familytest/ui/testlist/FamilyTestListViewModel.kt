@@ -82,7 +82,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRefreshTests() {
         launch(appScope) {
             val result = familyTestRepository.refresh().also {
-                refreshComplete.postValue(null)
+                refreshComplete.postValue(Unit)
             }
             if (result.isNotEmpty()) {
                 error.postValue(result.values.first())
@@ -111,7 +111,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,
@@ -141,7 +141,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
         }
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getUiState(timeStamper.nowJavaUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING,
             State.NEGATIVE,
             State.POSITIVE,

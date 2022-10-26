@@ -47,7 +47,7 @@ class OnboardingTracingFragmentTest : BaseUITest() {
             )
         )
 
-        every { viewModelSpy.resetTracing() } just Runs
+        every { viewModelSpy.disableTracingIfEnabled() } just Runs
         every { interopRepo.countryList } returns flowOf()
 
         setupMockViewModel(

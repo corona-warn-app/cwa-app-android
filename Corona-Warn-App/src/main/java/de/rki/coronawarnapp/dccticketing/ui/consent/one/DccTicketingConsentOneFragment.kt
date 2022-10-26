@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -97,7 +96,7 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         when (event) {
             NavigateBack -> popBackStack()
             NavigateToCertificateSelection ->
-                doNavigate(
+                findNavController().navigate(
                     DccTicketingConsentOneFragmentDirections
                         .actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment()
                 )

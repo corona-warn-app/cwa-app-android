@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
-import de.rki.coronawarnapp.util.toJoda
+import de.rki.coronawarnapp.util.toLocalDateTimeUtc
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -26,16 +26,18 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.DateTime
 import java.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevels: RiskLevels
@@ -54,11 +56,11 @@ class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var ewFilter: ExposureWindowsFilter
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
-    private val testTimeNow = Instant.parse("2020-12-28")
+    private val testTimeNow = LocalDate.parse("2020-12-28").atStartOfDay(ZoneOffset.UTC).toInstant()
     private val testAggregatedResult = mockk<EwAggregatedRiskResult>().apply {
         every { isIncreasedRisk() } returns true
     }
-    private val testCachedKey = mockCachedKey(testTimeNow.toDateTime().minusDays(1))
+    private val testCachedKey = mockCachedKey(testTimeNow.toLocalDateTimeUtc().minusDays(1))
 
     @BeforeEach
     fun setup() {
@@ -76,7 +78,7 @@ class EwRiskLevelTaskTest : BaseTest() {
             every { maxEncounterAgeInDays } returns 14
         }
 
-        every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
+        coEvery { riskLevelSettings.updateLastUsedConfigIdentifier(any()) } just Runs
 
         coEvery { riskLevelStorage.storeResult(any()) } just Runs
 
@@ -111,7 +113,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     )
 
     private fun mockCachedKey(
-        dateTime: DateTime,
+        dateTime: LocalDateTime,
         isComplete: Boolean = true,
     ): CachedKey = mockk<CachedKey>().apply {
         every { info } returns createMockCachedKeyInfo(dateTime.toLocalDate(), dateTime.toLocalTime(), isComplete)
@@ -124,7 +126,7 @@ class EwRiskLevelTaskTest : BaseTest() {
         val task = createTask()
         task.run(arguments)
 
-        verify { riskLevelSettings.lastUsedConfigIdentifier = "config-identifier" }
+        coVerify { riskLevelSettings.updateLastUsedConfigIdentifier("config-identifier") }
     }
 
     @Test
@@ -132,7 +134,7 @@ class EwRiskLevelTaskTest : BaseTest() {
         every { configData.isDeviceTimeCorrect } returns false
         every { configData.localOffset } returns Duration.ofHours(5)
 
-        val serverTime = testTimeNow.minus(configData.localOffset.toJoda())
+        val serverTime = testTimeNow.minus(configData.localOffset)
 
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = serverTime,
@@ -172,8 +174,8 @@ class EwRiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is skipped if results are outdated while in background mode`() = runTest {
-        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
-        val now = Instant.parse("2020-12-28")
+        val cachedKey = mockCachedKey(LocalDate.parse("2020-12-28").atStartOfDay().minusDays(3))
+        val now = LocalDate.parse("2020-12-28").atStartOfDay().toInstant(ZoneOffset.UTC)
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
@@ -187,8 +189,8 @@ class EwRiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `risk calculation is skipped if results are outdated while no background mode`() = runTest {
-        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(3))
-        val now = Instant.parse("2020-12-28")
+        val cachedKey = mockCachedKey(LocalDate.parse("2020-12-28").atStartOfDay().minusDays(3))
+        val now = LocalDate.parse("2020-12-28").atStartOfDay().toInstant(ZoneOffset.UTC)
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
@@ -225,28 +227,28 @@ class EwRiskLevelTaskTest : BaseTest() {
 
     @Test
     fun `areKeyPkgsOutDated returns true`() = runTest {
-        val now = DateTime.parse("2020-12-28T00:00+00:00")
+        val now = ZonedDateTime.parse("2020-12-28T00:00+00:00").toLocalDateTime()
         val cachedKey = mockCachedKey(now.minusHours(49)) // outdated > 48h
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
 
-        createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe true
+        createTask().areKeyPkgsOutDated(now.toInstant(ZoneOffset.UTC)) shouldBe true
     }
 
     @Test
     fun `areKeyPkgsOutDated returns false`() = runTest {
-        val now = DateTime.parse("2020-12-28T00:00+00:00")
+        val now = ZonedDateTime.parse("2020-12-28T00:00+00:00").toLocalDateTime()
         val cachedKey = mockCachedKey(now.minusHours(49))
         val cachedKey2 = mockCachedKey(now.minusHours(47)) // not outdated < 48h
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey, cachedKey2)
 
-        createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe false
+        createTask().areKeyPkgsOutDated(now.toInstant(ZoneOffset.UTC)) shouldBe false
     }
 
     @Test
     fun `risk calculation applies filter`() = runTest {
-        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
+        val cachedKey = mockCachedKey(LocalDate.parse("2020-12-28").atStartOfDay().minusDays(1))
         val now = Instant.parse("2020-12-28T00:00:00Z")
         val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true

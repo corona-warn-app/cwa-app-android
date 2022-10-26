@@ -8,15 +8,18 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsScrollcontainerBinding
 import de.rki.coronawarnapp.statistics.AddStatsItem
-import de.rki.coronawarnapp.statistics.GenericStatsItem
 import de.rki.coronawarnapp.statistics.GlobalStatsItem
+import de.rki.coronawarnapp.statistics.LinkStatsItem
 import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.statistics.StatsItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddLocalStatisticsCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.GlobalStatisticsCardItem
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.LinkCardItem
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardItem
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -82,9 +85,15 @@ class StatisticsHomeCard(
                 is GlobalStatsItem -> GlobalStatisticsCardItem(it, curItem.onClickListener)
                 is AddStatsItem -> AddLocalStatisticsCardItem(it, curItem.onClickListener)
                 is LocalStatsItem -> LocalStatisticsCardItem(it, curItem.onClickListener, curItem.onRemoveListener)
+                is LinkStatsItem -> LinkCardItem(it, curItem.onClickListener, curItem.openLink)
             }
         }.let {
             statisticsCardAdapter.update(it)
+            statisticsCardAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    scrollToCard(2)
+                }
+            })
         }
     }
 
@@ -96,23 +105,24 @@ class StatisticsHomeCard(
 
     override fun onInitialPostBind(): Boolean {
         return if (statisticsCardAdapter.itemCount > 1) {
-            scrollToSecondCard()
+            scrollToCard()
             true
         } else false // still initial
     }
 
-    private fun scrollToSecondCard() {
+    private fun scrollToCard(position: Int = 1) {
         with(viewBinding.value.root.context.resources) {
             val screenWidth = displayMetrics.widthPixels
             val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
-            statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
+            statisticsLayoutManager.scrollToPositionWithOffset(position, (screenWidth - cardWidth) / 2)
         }
     }
 
     data class Item(
         val data: StatisticsData,
-        val onClickListener: (GenericStatsItem) -> Unit,
+        val onClickListener: (StatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
+        val openLink: (String) -> Unit = {},
     ) : HomeItem, HasPayloadDiffer {
 
         override val stableId: Long = Item::class.java.name.hashCode().toLong()

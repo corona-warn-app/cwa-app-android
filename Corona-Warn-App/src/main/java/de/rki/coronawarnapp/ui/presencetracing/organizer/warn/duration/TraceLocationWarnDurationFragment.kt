@@ -5,6 +5,7 @@ import android.text.format.DateFormat
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
@@ -16,18 +17,22 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnDurationFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class TraceLocationWarnDurationFragment :
@@ -57,20 +62,23 @@ class TraceLocationWarnDurationFragment :
 
         viewModel.state.observe2(this) { uiState ->
             with(binding) {
-                description.text = uiState.description
+                eventDescription.text = uiState.description
                 eventAddress.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime.toDateTime()
-                    val endTime = uiState.endDateTime.toDateTime()
+                    val startTime = uiState.startDateTime.toLocalDateTimeUserTz()
+                    val endTime = uiState.endDateTime.toLocalDateTimeUserTz()
 
                     eventDate.isGone = false
 
-                    val startDay = startTime.toDayFormat()
-                    val startHour = startTime.toShortTimeFormat()
-                    val endDay = endTime.toDayFormat()
-                    val endHour = endTime.toShortTimeFormat()
+                    val dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                    val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
+
+                    val startDay = startTime.format(dateFormat)
+                    val startHour = startTime.format(timeFormat)
+                    val endDay = endTime.format(dateFormat)
+                    val endHour = endTime.format(timeFormat)
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
@@ -99,7 +107,7 @@ class TraceLocationWarnDurationFragment :
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationWarnDurationFragmentDirections
                             .actionTraceLocationWarnDurationFragmentToTraceLocationTanDurationFragment(
                                 traceLocationWarnDuration = it.traceLocationWarnDuration
@@ -120,6 +128,7 @@ class TraceLocationWarnDurationFragment :
             toolbar.setNavigationOnClickListener {
                 popBackStack()
             }
+            toolbar.addTitleId(R.id.trace_location_organizer_warn_duration_fragment_title_id)
             nextButton.setOnClickListener {
                 viewModel.goNext()
             }
@@ -134,12 +143,15 @@ class TraceLocationWarnDurationFragment :
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.toDateTime().millis)
+            .setSelection(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli())
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), dateTime.toLocalTime())
+                    showTimePicker(
+                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        dateTime.toLocalTime()
+                    )
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
@@ -153,12 +165,12 @@ class TraceLocationWarnDurationFragment :
         MaterialTimePicker
             .Builder()
             .setTimeFormat(timeFormat)
-            .setHour(time.hourOfDay)
-            .setMinute(time.minuteOfHour)
+            .setHour(time.hour)
+            .setMinute(time.minute)
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    viewModel.dateChanged(date.toDateTime(LocalTime(hour, minute)).toLocalDateTime())
+                    viewModel.dateChanged(date.atTime(hour, minute))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
@@ -166,7 +178,7 @@ class TraceLocationWarnDurationFragment :
 
     private fun showDurationPicker() {
         DurationPicker.Builder()
-            .duration(viewModel.selectedDuration.toContactDiaryFormat())
+            .duration(viewModel.selectedDuration.format())
             .title(getString(R.string.contact_diary_location_visit_duration_label))
             .build()
             .apply {

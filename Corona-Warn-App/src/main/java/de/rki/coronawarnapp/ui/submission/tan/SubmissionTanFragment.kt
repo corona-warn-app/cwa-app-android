@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
@@ -12,11 +13,10 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.setGone
@@ -56,7 +56,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDeletionWarningFragmentFromTan ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionDeletionWarningFragment(
                             testRegistrationRequest = it.coronaTestTan,
                             comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
@@ -89,7 +89,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
             when (it) {
                 is TanApiRequestState.SuccessPositiveResult ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
                                 testIdentifier = it.identifier,
@@ -97,7 +97,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                             )
                     )
                 is TanApiRequestState.SuccessPendingResult ->
-                    doNavigate(
+                    findNavController().navigate(
                         SubmissionTanFragmentDirections
                             .actionSubmissionTanFragmentToSubmissionTestResultPendingFragment(
                                 testIdentifier = it.identifier,
@@ -108,9 +108,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             }
         }
 
-        viewModel.registrationError.observe2(this) {
-            DialogHelper.showDialog(buildErrorDialog(it))
-        }
+        viewModel.registrationError.observe2(this) { buildErrorDialog(it) }
     }
 
     override fun onResume() {
@@ -119,38 +117,31 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     }
 
     private fun goBack() {
+        binding.root.hideKeyboard()
         popBackStack()
     }
 
-    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-        return when (exception) {
-            is BadRequestException -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_test_paired_title_tan,
-                R.string.submission_error_dialog_web_test_paired_body_tan,
-                R.string.submission_error_dialog_web_test_paired_button_positive,
-                null,
-                true,
-                ::goBack
-            )
-            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_network_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::goBack
-            )
-            else -> DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.submission_error_dialog_web_generic_error_title,
-                R.string.submission_error_dialog_web_generic_error_body,
-                R.string.submission_error_dialog_web_generic_error_button_positive,
-                null,
-                true,
-                ::goBack
-            )
+    private fun buildErrorDialog(exception: CwaWebException) {
+        when (exception) {
+            is BadRequestException -> displayDialog {
+                setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
+                setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
+                setNegativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { _, _ -> goBack() }
+            }
+            is CwaClientError, is CwaServerError -> displayDialog {
+                setTitle(R.string.submission_error_dialog_web_generic_error_title)
+                setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
+                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+                    goBack()
+                }
+            }
+            else -> displayDialog {
+                setTitle(R.string.submission_error_dialog_web_generic_error_title)
+                setMessage(R.string.submission_error_dialog_web_generic_error_body)
+                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
+                    goBack()
+                }
+            }
         }
     }
 }

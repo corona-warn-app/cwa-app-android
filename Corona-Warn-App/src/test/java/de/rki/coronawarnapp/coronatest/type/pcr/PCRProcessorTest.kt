@@ -35,14 +35,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
 
 class PCRProcessorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
@@ -121,7 +121,7 @@ class PCRProcessorTest : BaseTest() {
         instance.pollServer(pcrTest).testResult shouldBe PCR_OR_RAT_PENDING
 
         val past60DaysTest = pcrTest.copy(
-            registeredAt = nowUTC.minus(Duration.standardDays(61))
+            registeredAt = nowUTC.minus(Duration.ofDays(61))
         )
 
         instance.pollServer(past60DaysTest).testResult shouldBe PCR_OR_RAT_REDEEMED
@@ -242,7 +242,7 @@ class PCRProcessorTest : BaseTest() {
         val instance = createInstance()
 
         val pcrTest = defaultTest.copy(
-            registeredAt = nowUTC.minus(Duration.standardDays(22)),
+            registeredAt = nowUTC.minus(Duration.ofDays(22)),
             testResult = PCR_OR_RAT_REDEEMED,
         )
 
@@ -273,7 +273,7 @@ class PCRProcessorTest : BaseTest() {
         }
 
         // Test IS older than 21 days, we expected the error, and map it to REDEEMED (expired)
-        instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.standardDays(22)))).apply {
+        instance.pollServer(pcrTest.copy(registeredAt = nowUTC.minus(Duration.ofDays(22)))).apply {
             testResult shouldBe PCR_OR_RAT_REDEEMED
             lastError shouldBe null
         }

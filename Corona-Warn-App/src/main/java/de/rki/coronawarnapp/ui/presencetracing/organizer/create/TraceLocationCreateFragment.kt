@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -19,18 +20,21 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
-import de.rki.coronawarnapp.ui.durationpicker.toContactDiaryFormat
+import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.addSubtitleId
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.DateTime
-import org.joda.time.Duration
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_fragment), AutoInject {
@@ -52,9 +56,13 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener {
-            it.hideKeyboard()
-            popBackStack()
+        binding.toolbar.apply {
+            setNavigationOnClickListener {
+                it.hideKeyboard()
+                popBackStack()
+            }
+            addTitleId(R.id.trace_location_create_fragment_title_id)
+            addSubtitleId(R.id.trace_location_create_fragment_subtitle_id)
         }
 
         viewModel.result.observe(viewLifecycleOwner) { result ->
@@ -63,7 +71,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     DialogHelper.showDialog(getErrorDialogInstance(result.exception))
                 }
                 is TraceLocationCreateViewModel.Result.Success -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TraceLocationCreateFragmentDirections
                             .actionTraceLocationCreateFragmentToTraceLocationOrganizerListFragment()
                     )
@@ -125,9 +133,9 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
                     placeInputEdit.setText(it.address)
                 }
                 viewModel.apply {
-                    begin = it.startDate?.toDateTime()
-                    end = it.endDate?.toDateTime()
-                    checkInLength = Duration.standardMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
+                    begin = it.startDate?.atZone(ZoneId.systemDefault())
+                    end = it.endDate?.atZone(ZoneId.systemDefault())
+                    checkInLength = Duration.ofMinutes(it.defaultCheckInLengthInMinutes?.toLong() ?: 0L)
                 }
             }
         }
@@ -156,21 +164,24 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     }
 
     private fun showDatePicker(
-        defaultValue: DateTime?,
-        minConstraint: DateTime? = null,
-        callback: (DateTime) -> Unit
+        defaultValue: ZonedDateTime?,
+        minConstraint: ZonedDateTime? = null,
+        callback: (ZonedDateTime) -> Unit
     ) {
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.toDateTime()?.millis)
+            .setSelection(defaultValue?.toInstant()?.toEpochMilli())
             .apply {
                 if (minConstraint != null) {
                     setCalendarConstraints(
                         CalendarConstraints.Builder()
                             .setValidator(
                                 DateValidatorPointForward
-                                    .from(minConstraint.withMillisOfDay(0).toDateTime().millis)
+                                    .from(
+                                        minConstraint.minusDays(1).truncatedTo(ChronoUnit.MILLIS).toInstant()
+                                            .toEpochMilli()
+                                    )
                             )
                             .build()
                     )
@@ -179,13 +190,18 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    showTimePicker(LocalDate(it), defaultValue?.hourOfDay, defaultValue?.minuteOfHour, callback)
+                    showTimePicker(
+                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate(),
+                        defaultValue?.hour,
+                        defaultValue?.minute,
+                        callback
+                    )
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)
     }
 
-    private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (DateTime) -> Unit) {
+    private fun showTimePicker(date: LocalDate, hours: Int?, minutes: Int?, callback: (ZonedDateTime) -> Unit) {
         MaterialTimePicker
             .Builder()
             .setTimeFormat(if (is24HourFormat(requireContext())) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H)
@@ -198,7 +214,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(date.toDateTime(LocalTime(this.hour, this.minute)))
+                    callback(date.atTime(this.hour, this.minute).atZone(ZoneId.systemDefault()))
                 }
             }
             .show(childFragmentManager, TIME_PICKER_TAG)
@@ -206,7 +222,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
 
     private fun showDurationPicker() {
         DurationPicker.Builder()
-            .duration(viewModel.checkInLength.toContactDiaryFormat())
+            .duration(viewModel.checkInLength.format())
             .title(getString(R.string.tracelocation_organizer_add_event_length_of_stay))
             .build()
             .apply {
@@ -223,7 +239,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(
             outState.apply {
-                putLong(LENGTH_OF_STAY, viewModel.checkInLength.standardMinutes)
+                putLong(LENGTH_OF_STAY, viewModel.checkInLength.toMinutes())
                 putSerializable(BEGIN, viewModel.begin)
                 putSerializable(END, viewModel.end)
             }
@@ -233,10 +249,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.getLong(LENGTH_OF_STAY)?.let {
-            viewModel.checkInLength = Duration.standardMinutes(it)
+            viewModel.checkInLength = Duration.ofMinutes(it)
         }
-        viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as DateTime?
-        viewModel.end = savedInstanceState?.getSerializable(END) as DateTime?
+        viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as ZonedDateTime?
+        viewModel.end = savedInstanceState?.getSerializable(END) as ZonedDateTime?
     }
 
     private fun TextInputEditText.setMaxLength(max: Int) {

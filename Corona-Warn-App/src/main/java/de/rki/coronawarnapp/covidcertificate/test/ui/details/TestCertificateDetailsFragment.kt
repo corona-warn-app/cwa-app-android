@@ -20,32 +20,31 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.FragmentTestCertificateDetailsBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
@@ -87,7 +86,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                 }
             }
         }
@@ -116,10 +115,11 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
+        val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         )
 
         expandedImage.setImageResource(certificate.expendedImageResource(args.colorShade))
@@ -175,9 +175,9 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         startValidationCheck.isLoading = false
         qrCodeCard.progressBar.hide()
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
-            DccValidationNoInternetErrorDialog(requireContext()).show()
+            dccValidationNoInternetDialog()
         } else {
-            error.toErrorDialogBuilder(requireContext()).show()
+            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
         }
     }
 
@@ -186,7 +186,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             TestCertificateDetailsNavigation.Back -> popBackStack()
             TestCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                 if (args.numberOfCertificates == 1) {
-                    doNavigate(
+                    findNavController().navigate(
                         TestCertificateDetailsFragmentDirections
                             .actionTestCertificateDetailsFragmentToPersonOverviewFragment()
                     )
@@ -200,19 +200,19 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             )
             is TestCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
             is TestCertificateDetailsNavigation.Export -> {
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
             TestCertificateDetailsNavigation.OpenCovPassInfo ->
-                doNavigate(
+                findNavController().navigate(
                     TestCertificateDetailsFragmentDirections
                         .actionTestCertificateDetailsFragmentToCovPassInfoFragment()
                 )
@@ -223,7 +223,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         addNavigationIconButtonId(R.id.test_certificate_detail_fragment_navigation_icon_buttonId)
         navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -234,7 +234,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
                     viewModel.onExport()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }
@@ -251,12 +251,8 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         behavior.overlayTop = (width / 3) + 170
     }
 
-    private fun showCertificateDeletionRequest() {
-        RecycleBinDialogType.RecycleCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.recycleTestCertificateConfirmed() }
-        )
-    }
+    private fun showCertificateDeletionRequest() =
+        recycleCertificateDialog { viewModel.recycleTestCertificateConfirmed() }
 
     companion object {
         private val TAG = tag<TestCertificateDetailsFragment>()

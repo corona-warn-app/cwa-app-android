@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewS
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.joda.time.LocalDate
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -29,6 +28,7 @@ import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.takeScreenshot
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class ContactDiaryOverviewFragmentTest : BaseUITest() {

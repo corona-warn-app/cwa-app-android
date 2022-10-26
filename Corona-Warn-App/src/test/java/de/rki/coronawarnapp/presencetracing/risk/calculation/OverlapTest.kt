@@ -7,10 +7,11 @@ import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.encode
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toInstant
+import java.time.Duration
+import java.time.temporal.ChronoUnit
 
 class OverlapTest : BaseTest() {
 
@@ -295,13 +296,13 @@ fun createCheckIn(
     type = 2,
     description = "My birthday party",
     address = "Malibu",
-    traceLocationStart = Instant.parse(startDateStr),
+    traceLocationStart = startDateStr.toInstant(),
     traceLocationEnd = null,
     defaultCheckInLengthInMinutes = null,
     cryptographicSeed = "cryptographicSeed".encode(),
     cnPublicKey = "cnPublicKey",
-    checkInStart = Instant.parse(startDateStr),
-    checkInEnd = Instant.parse(endDateStr),
+    checkInStart = startDateStr.toInstant(),
+    checkInEnd = endDateStr.toInstant(),
     completed = false,
     createJournalEntry = false,
     isSubmitted = isSubmitted
@@ -315,6 +316,8 @@ fun createWarning(
 ): TraceWarning.TraceTimeIntervalWarning = TraceWarning.TraceTimeIntervalWarning.newBuilder()
     .setLocationIdHash(traceLocationId.decodeHex().sha256().toProtoByteString())
     .setPeriod(period)
-    .setStartIntervalNumber((Duration(Instant.parse(startIntervalDateStr).millis).standardMinutes / 10).toInt())
+    .setStartIntervalNumber(
+        (Duration.of(startIntervalDateStr.toInstant().toEpochMilli(), ChronoUnit.MILLIS).toMinutes() / 10).toInt()
+    )
     .setTransmissionRiskLevel(transmissionRiskLevel)
     .build()

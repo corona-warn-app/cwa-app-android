@@ -33,7 +33,7 @@ class LogUploadServer @Inject constructor(
         )
         Timber.tag(TAG).d("Upload response: %s", response)
 
-        return LogUpload(id = response.id, uploadedAt = timeStamper.nowJavaUTC)
+        return LogUpload(id = response.id, uploadedAt = timeStamper.nowUTC)
     }
 
     companion object {

@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry.
 import de.rki.coronawarnapp.covidcertificate.validation.core.settings.DccValidationSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.network.NetworkStateProvider
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -47,7 +47,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     private val collator = Collator.getInstance()
     val state = dccValidationSettings.settings.map { (country, timestamp) ->
-        val localDateTime = Instant.ofEpochMilli(timestamp).toUserTimeZone()
+        val localDateTime = Instant.ofEpochMilli(timestamp).toLocalDateTimeUserTz()
         UIState(
             DccCountry(country),
             localDateTime.toLocalDate(),
@@ -57,7 +57,7 @@ class ValidationStartViewModel @AssistedInject constructor(
 
     val selectedDate: LocalDate get() = state.value?.localDate ?: LocalDate.now()
     val selectedTime: LocalTime get() = state.value?.localTime ?: LocalTime.now()
-    val selectedCountryCode: String get() = state.value?.dccCountry?.countryCode ?: DccCountry.DE
+    val selectedCountryCode: String get() = state.value?.dccCountry?.countryCode ?: DE
 
     val events = SingleLiveEvent<StartValidationNavEvent>()
     val countryList = dccValidationRepository.dccCountries.map { countryList ->

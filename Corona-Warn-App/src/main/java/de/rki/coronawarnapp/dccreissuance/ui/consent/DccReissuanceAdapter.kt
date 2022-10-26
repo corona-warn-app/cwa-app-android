@@ -37,7 +37,7 @@ class DccReissuanceAdapter :
     abstract class ItemVH<Item : DccReissuanceItem, ViewBinding : androidx.viewbinding.ViewBinding>(
         @LayoutRes layoutRes: Int,
         parent: ViewGroup
-    ) : ModularAdapter.VH(layoutRes, parent), BindableVH<Item, ViewBinding>
+    ) : VH(layoutRes, parent), BindableVH<Item, ViewBinding>
 
     companion object {
         private const val TAG = "DccReissuanceItem"

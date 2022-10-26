@@ -8,11 +8,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
+import java.time.Instant
 
 class EwRiskLevelTaskConfigTest : BaseTest() {
 
@@ -25,9 +25,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level task max execution time is not above 9 minutes`() {
-        EwRiskLevelTask.Config(exposureDetectionTracker)
-            .executionTimeout
-            .isShorterThan(Duration.standardMinutes(9)) shouldBe true
+        (EwRiskLevelTask.Config(exposureDetectionTracker).executionTimeout < Duration.ofMinutes(9)) shouldBe true
     }
 
     @Test
@@ -36,7 +34,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
             mapOf(
                 "" to TrackedExposureDetection(
                     identifier = "",
-                    startedAt = Instant(),
+                    startedAt = Instant.now(),
                     result = TrackedExposureDetection.Result.NO_MATCHES,
                     enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
@@ -67,7 +65,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
             mapOf(
                 "" to TrackedExposureDetection(
                     identifier = "",
-                    startedAt = Instant(),
+                    startedAt = Instant.now(),
                     result = TrackedExposureDetection.Result.NO_MATCHES,
                     enfVersion = TrackedExposureDetection.EnfVersion.V1_LEGACY_MODE
                 )
@@ -87,7 +85,7 @@ class EwRiskLevelTaskConfigTest : BaseTest() {
             mapOf(
                 "" to TrackedExposureDetection(
                     identifier = "",
-                    startedAt = Instant(),
+                    startedAt = Instant.now(),
                     enfVersion = TrackedExposureDetection.EnfVersion.V2_WINDOW_MODE
                 )
             )

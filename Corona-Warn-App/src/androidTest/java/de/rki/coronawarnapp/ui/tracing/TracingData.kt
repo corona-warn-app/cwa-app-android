@@ -19,13 +19,14 @@ import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsFailedCalculationBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.riskdetails.DetailsLowRiskBox
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
+import java.time.ZoneOffset
 
 object TracingData {
 
-    private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9, 55, 0, 0).toInstant()
+    private val todayAtNineFiftyFive = Instant.now()
+        .atZone(ZoneOffset.UTC).withHour(9).withMinute(55).toInstant()
 
     val TRACING_DISABLED = Pair(
         TracingDetailsState(

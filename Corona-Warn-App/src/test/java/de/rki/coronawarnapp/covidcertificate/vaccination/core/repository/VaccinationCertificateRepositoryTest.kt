@@ -32,13 +32,13 @@ import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 class VaccinationCertificateRepositoryTest : BaseTest() {

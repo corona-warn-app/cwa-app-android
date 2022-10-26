@@ -15,15 +15,15 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import org.joda.time.DateTimeZone
-import org.joda.time.Instant
-import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseIOTest
 import timber.log.Timber
 import java.io.File
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneOffset
 
 abstract class CommonSyncToolTest : BaseIOTest() {
 
@@ -85,7 +85,6 @@ abstract class CommonSyncToolTest : BaseIOTest() {
             toDelete.forEach {
                 keyRepoData.remove(it.id)
             }
-            Unit
         }
 
         coEvery { downloadTool.downloadKeyFile(any(), any()) } answers {
@@ -161,8 +160,8 @@ fun createMockCachedKeyInfo(
         day = dayIdentifier,
         hour = hourIdentifier,
         createdAt = when (hourIdentifier) {
-            null -> dayIdentifier.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
-            else -> dayIdentifier.toLocalDateTime(hourIdentifier).toDateTime(DateTimeZone.UTC).toInstant()
+            null -> dayIdentifier.atStartOfDay(ZoneOffset.UTC).toInstant()
+            else -> dayIdentifier.atTime(hourIdentifier).atZone(ZoneOffset.UTC).toInstant()
         }
     )
     if (isComplete) {

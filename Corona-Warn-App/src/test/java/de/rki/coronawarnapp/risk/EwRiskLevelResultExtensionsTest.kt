@@ -4,10 +4,10 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Duration
+import java.time.Instant
 
 class EwRiskLevelResultExtensionsTest : BaseTest() {
 
@@ -32,7 +32,7 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
                 riskState shouldBe RiskState.LOW_RISK
 
                 calculatedAt.isAfter(Instant.EPOCH) shouldBe true
-                calculatedAt.isBefore(Instant.now().plus(Duration.standardHours(1))) shouldBe true
+                calculatedAt.isBefore(Instant.now().plus(Duration.ofHours(1))) shouldBe true
                 lastSuccessfullyCalculated.apply {
                     riskState shouldBe RiskState.CALCULATION_FAILED
                 }
@@ -44,12 +44,12 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
     fun `getLatestAndLastSuccessful last calculation was successful`() {
         val results = listOf(
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
-            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1))
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plusMillis(1))
         )
 
         results.tryLatestEwResultsWithDefaults().apply {
-            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
-            lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
+            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plusMillis(1)
+            lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plusMillis(1)
         }
     }
 
@@ -57,27 +57,27 @@ class EwRiskLevelResultExtensionsTest : BaseTest() {
     fun `getLatestAndLastSuccessful last calculation was not successful`() {
         val results = listOf(
             createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH),
-            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plus(1)),
-            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(2))
+            createRiskLevelResult(hasResult = true, calculatedAt = Instant.EPOCH.plusMillis(1)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plusMillis(2))
         )
 
         results.tryLatestEwResultsWithDefaults().apply {
-            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(2)
-            lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plus(1)
+            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plusMillis(2)
+            lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH.plusMillis(1)
         }
     }
 
     @Test
     fun `getLatestAndLastSuccessful no successful calculations yet`() {
         val results = listOf(
-            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(10)),
-            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(11)),
-            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(12)),
-            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plus(13))
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plusMillis(10)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plusMillis(11)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plusMillis(12)),
+            createRiskLevelResult(hasResult = false, calculatedAt = Instant.EPOCH.plusMillis(13))
         )
 
         results.tryLatestEwResultsWithDefaults().apply {
-            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plus(13)
+            lastCalculated.calculatedAt shouldBe Instant.EPOCH.plusMillis(13)
             lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH
         }
     }

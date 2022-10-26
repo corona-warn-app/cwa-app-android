@@ -21,8 +21,8 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable

@@ -4,10 +4,10 @@ import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import timber.log.Timber
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 fun RecyclerBinCertificateItemBinding.addDeletionInfoIfExists(item: Recyclable) {
     Timber.tag(TAG).v("addDeletionInfo(item=%s)", item)
@@ -18,8 +18,8 @@ fun RecyclerBinCertificateItemBinding.addDeletionInfoIfExists(item: Recyclable) 
         certificateDeletionDateInfo.text = with(deletionDate) {
             root.context.getString(
                 R.string.recycle_bin_item_deletion_date_info,
-                toShortDayFormat(),
-                toShortTimeFormat()
+                format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
             ).also { Timber.tag(TAG).v("Deletion date info: %s", it) }
         }
     }

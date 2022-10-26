@@ -3,9 +3,9 @@ package de.rki.coronawarnapp.presencetracing.checkins.split
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.encode
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 /**
  * Test examples reference [https://github.com/corona-warn-app/cwa-app-tech-spec/blob/proposal/event-registration-mvp/

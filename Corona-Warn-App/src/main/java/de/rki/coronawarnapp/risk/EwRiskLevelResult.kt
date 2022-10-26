@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
-import org.joda.time.Instant
+import java.time.Instant
 
 interface EwRiskLevelResult {
     val calculatedAt: Instant
@@ -34,6 +34,12 @@ interface EwRiskLevelResult {
         } else {
             ewAggregatedRiskResult?.totalMinimumDistinctEncountersWithLowRisk ?: 0
         }
+
+    val mostRecentDateAtHighRisk
+        get() = ewAggregatedRiskResult?.mostRecentDateWithHighRisk
+
+    val mostRecentDateAtLowRisk
+        get() = ewAggregatedRiskResult?.mostRecentDateWithLowRisk
 
     val mostRecentDateAtRiskState: Instant?
         get() = if (isIncreasedRisk) {

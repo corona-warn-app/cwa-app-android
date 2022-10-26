@@ -46,7 +46,7 @@ class RiskEventAdapter : BaseAdapter<RiskEventAdapter.RiskEventListItemVH>() {
     }
 
     inner class RiskEventListItemVH(parent: ViewGroup) :
-        BaseAdapter.VH(R.layout.contact_diary_overview_day_list_item_risk_event_list_item, parent),
+        VH(R.layout.contact_diary_overview_day_list_item_risk_event_list_item, parent),
         BindableVH<RiskEventItem.Event, ContactDiaryOverviewDayListItemRiskEventListItemBinding> {
 
         override val viewBinding:

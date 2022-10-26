@@ -3,27 +3,27 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 
 class ExposureKeyHistoryCalculationsTest {
 
     private lateinit var instance: ExposureKeyHistoryCalculations
     private lateinit var converter: KeyConverter
-    private lateinit var todayMidnight: DateTime
-    private lateinit var thisMorning: DateTime
-    private lateinit var thisEvening: DateTime
+    private lateinit var todayMidnight: ZonedDateTime
+    private lateinit var thisMorning: ZonedDateTime
+    private lateinit var thisEvening: ZonedDateTime
 
     private var timeStamper = TimeStamper()
 
     @Before
     fun setUp() {
-        todayMidnight = DateTime(2012, 10, 15, 0, 0, DateTimeZone.UTC)
-        thisMorning = DateTime(2012, 10, 15, 10, 0, DateTimeZone.UTC)
-        thisEvening = DateTime(2012, 10, 15, 20, 0, DateTimeZone.UTC)
+        todayMidnight = ZonedDateTime.of(2012, 10, 15, 0, 0, 0, 0, ZoneOffset.UTC)
+        thisMorning = ZonedDateTime.of(2012, 10, 15, 10, 0, 0, 0, ZoneOffset.UTC)
+        thisEvening = ZonedDateTime.of(2012, 10, 15, 20, 0, 0, 0, ZoneOffset.UTC)
 
         converter = object : KeyConverter {
             override fun toExternalFormat(
@@ -192,6 +192,7 @@ class ExposureKeyHistoryCalculationsTest {
         TemporaryExposureKey.TemporaryExposureKeyBuilder()
             .setRollingStartIntervalNumber(rollingStartIntervalNumber).build()
 
-    private fun createKey(dateTime: DateTime) =
-        createKey((dateTime.millis / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt())
+    private fun createKey(dateTime: ZonedDateTime) = createKey(
+        (dateTime.toInstant().toEpochMilli() / ExposureKeyHistoryCalculations.TEN_MINUTES_IN_MILLIS).toInt()
+    )
 }

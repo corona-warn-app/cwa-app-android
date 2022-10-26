@@ -4,9 +4,9 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
+import java.time.LocalDate
 
 data class CombinedEwPtDayRisk(
     val localDate: LocalDate,
@@ -33,16 +33,18 @@ data class CombinedEwPtRiskLevelResult(
 
     val daysWithEncounters: Int by lazy {
         when (riskState) {
-            RiskState.INCREASED_RISK -> {
+            RiskState.INCREASED_RISK ->
                 ewDaysWithHighRisk
                     .plus(ptRiskLevelResult.daysWithHighRisk)
-                    .distinct().count()
-            }
-            RiskState.LOW_RISK -> {
+                    .distinct()
+                    .count()
+
+            RiskState.LOW_RISK ->
                 ewDaysWithLowRisk
                     .plus(ptRiskLevelResult.daysWithLowRisk)
-                    .distinct().count()
-            }
+                    .distinct()
+                    .count()
+
             else -> 0
         }
     }
@@ -85,11 +87,16 @@ data class CombinedEwPtRiskLevelResult(
 
 data class LastCombinedRiskResults(
     val lastCalculated: CombinedEwPtRiskLevelResult,
-    val lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult
+    val lastSuccessfullyCalculatedRiskState: RiskState
+)
+
+data class LastSuccessfulRiskResult(
+    val riskState: RiskState,
+    val mostRecentDateAtRiskState: Instant?
 )
 
 internal fun max(left: Instant, right: Instant): Instant {
-    return Instant.ofEpochMilli(kotlin.math.max(left.millis, right.millis))
+    return Instant.ofEpochMilli(kotlin.math.max(left.toEpochMilli(), right.toEpochMilli()))
 }
 
 internal fun max(left: LocalDate?, right: LocalDate?): LocalDate? {

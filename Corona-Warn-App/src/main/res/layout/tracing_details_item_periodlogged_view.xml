@@ -46,10 +46,21 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="true"
             android:text="@{loggedPeriod.getPeriodLoggedText(context)}"
-            tools:text="@string/risk_details_information_body_period_logged"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_subtitle" />
+            app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_subtitle"
+            tools:text="@string/risk_details_information_body_period_logged" />
+
+        <TextView
+            style="@style/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_body_notice"
+            tools:text="@string/risk_details_information_body_period_logged_assessment_under_14_days" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

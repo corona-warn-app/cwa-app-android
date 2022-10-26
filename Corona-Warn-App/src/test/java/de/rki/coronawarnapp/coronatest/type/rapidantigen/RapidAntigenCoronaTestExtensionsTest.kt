@@ -10,12 +10,11 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.net.SocketException
+import java.time.Instant
 
 class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
     @MockK lateinit var coronaTestConfig: CoronaTestConfig

@@ -14,11 +14,10 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -59,7 +58,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                is SubmissionNavigationEvents.NavigateToDataPrivacy -> doNavigate(
+                is SubmissionNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
                 is SubmissionNavigationEvents.ResolvePlayServicesException ->
@@ -79,12 +78,12 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 )
                 is SubmissionNavigationEvents.NavigateClose -> {
                     if (navArgs.comesFromDispatcherFragment) {
-                        doNavigate(
+                        findNavController().navigate(
                             SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToHomeFragment()
                         )
                     } else popBackStack()
                 }
-                is SubmissionNavigationEvents.NavigateBackToTestRegistration -> doNavigate(
+                is SubmissionNavigationEvents.NavigateBackToTestRegistration -> findNavController().navigate(
                     SubmissionConsentFragmentDirections
                         .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
                             navArgs.coronaTestQrCode
@@ -111,10 +110,8 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 State.Working -> {
                     // Handled above
                 }
-                is State.Error -> {
-                    val dialog = state.getDialogBuilder(requireContext())
-                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                    dialog.show()
+                is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
+                    setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
@@ -146,22 +143,11 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
     }
 
-    private fun showInvalidQrCodeDialog() {
-        val invalidScanDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_qr_code_scan_invalid_dialog_headline,
-            R.string.submission_qr_code_scan_invalid_dialog_body,
-            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-            true,
-            positiveButtonFunction = {},
-            negativeButtonFunction = {
-                popBackStack()
-                Unit
-            }
-        )
-
-        DialogHelper.showDialog(invalidScanDialogInstance)
+    private fun showInvalidQrCodeDialog() = displayDialog {
+        setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
+        setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
+        setPositiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive) { _, _ -> }
+        setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ -> popBackStack() }
     }
 
     companion object {

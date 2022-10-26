@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: Vaccination Details subtitle-->
-    <string name="vaccination_details_subtitle">"Сертификат за ваксинация"</string>
 
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR код"</string>

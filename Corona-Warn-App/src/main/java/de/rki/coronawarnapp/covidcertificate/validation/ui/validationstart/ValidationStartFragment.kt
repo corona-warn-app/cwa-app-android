@@ -17,11 +17,11 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -97,7 +97,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     binding.dateInfoIcon to binding.dateInfoIcon.transitionName
                 )
             )
-            NavigateToPrivacyFragment -> doNavigate(
+            NavigateToPrivacyFragment -> findNavController().navigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()
             )
             is ShowTimeMessage -> showTimeMessage(event)
@@ -107,11 +107,11 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             }
             is ShowErrorDialog -> {
                 startValidationCheck.isLoading = false
-                event.error.toErrorDialogBuilder(requireContext()).show()
+                displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
             }
             is ShowNoInternetDialog -> {
                 startValidationCheck.isLoading = false
-                DccValidationNoInternetErrorDialog(requireContext()).show()
+                dccValidationNoInternetDialog()
             }
             else -> Unit
         }
@@ -151,7 +151,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                     event.validationResult,
                     event.containerId
                 )
-        }.also { doNavigate(it) }
+        }.also { findNavController().navigate(it) }
     }
 
     private fun ValidationStartFragmentBinding.onCountiesAvailable(countries: List<DccCountry>) {

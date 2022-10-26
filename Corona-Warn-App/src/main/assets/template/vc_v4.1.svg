@@ -485,4 +485,8 @@
     <rect x="145.8" y="22.2" class="st4_vcin" width="137.7" height="27.9" />
     <text id="ZA" transform="matrix(-1 0 0 -1 283.4647 44.0028)"><tspan x="0" y="0" class="st18_vcin st19_vcin st22_vcin">Zertifikataussteller:</tspan>
         <tspan x="0" y="10" class="st21_vcin st22_vcin">Certificate issuer: </tspan></text>
+    <text class="st21_vcin st22_vcin" transform="matrix(1 0 0 1 332.85 767.05)">
+	<tspan x="0" y="0">Zertifikatsnachdruck - erzeugt mit der Corona-Warn-App</tspan>
+        <tspan x="0" y="9.6">Certificate reprint - generated with the Corona-Warn-App</tspan>
+</text>
 </svg>

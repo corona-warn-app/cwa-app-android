@@ -31,9 +31,9 @@ import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 
 @Reusable
@@ -82,7 +82,6 @@ class RATestProcessor @Inject constructor(
         val sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt
 
         val now = timeStamper.nowUTC
-
         return RACoronaTest(
             identifier = request.identifier,
             registeredAt = now,
@@ -266,8 +265,8 @@ fun CoronaTestResult.toValidatedRaResult(): CoronaTestResult {
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysRAT(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
-    val testAge = Duration(test.registeredAt, now)
-    Timber.tag(RATestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+    val testAge = Duration.between(test.registeredAt, now)
+    Timber.tag(RATestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.toDays(), newResult)
 
     return if ((newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&
         testAge > VerificationServer.TestAvailabilityDuration

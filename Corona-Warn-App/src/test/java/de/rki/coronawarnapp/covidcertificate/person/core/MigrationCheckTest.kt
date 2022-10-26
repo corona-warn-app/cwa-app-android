@@ -6,11 +6,14 @@ import de.rki.coronawarnapp.main.CWASettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
@@ -24,20 +27,20 @@ class MigrationCheckTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { cwaSettings.wasCertificateGroupingMigrationAcknowledged } returns false
-        every { cwaSettings.wasCertificateGroupingMigrationAcknowledged = any() } just Runs
+        coEvery { cwaSettings.wasCertificateGroupingMigrationAcknowledged } returns flowOf(false)
+        coEvery { cwaSettings.updateWasCertificateGroupingMigrationAcknowledged(any()) } just Runs
     }
 
     @Test
-    fun `don't show migration info when no certificate is available`() {
+    fun `don't show migration info when no certificate is available`() = runTest {
         val persons = emptySet<PersonCertificates>()
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe false
-        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
+        coVerify { cwaSettings.updateWasCertificateGroupingMigrationAcknowledged(true) }
     }
 
     @Test
-    fun `don't show migration info when no change happens`() {
+    fun `don't show migration info when no change happens`() = runTest {
         val certificate1 = mockk<CwaCovidCertificate>().apply {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
@@ -61,11 +64,11 @@ class MigrationCheckTest : BaseTest() {
         val persons = setOf(person1, person2)
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe false
-        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
+        coVerify { cwaSettings.updateWasCertificateGroupingMigrationAcknowledged(true) }
     }
 
     @Test
-    fun `show migration info when change happens`() {
+    fun `show migration info when change happens`() = runTest {
         val certificate1 = mockk<CwaCovidCertificate>().apply {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
@@ -87,7 +90,7 @@ class MigrationCheckTest : BaseTest() {
         val persons = setOf(person1)
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe true
-        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
+        coVerify { cwaSettings.updateWasCertificateGroupingMigrationAcknowledged(true) }
     }
 
     private fun getInstance() = MigrationCheck(cwaSettings)

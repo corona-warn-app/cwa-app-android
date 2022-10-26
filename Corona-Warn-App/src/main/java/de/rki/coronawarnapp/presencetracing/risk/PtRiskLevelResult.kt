@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.presencetracing.risk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.risk.RiskState
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.LocalDate
 
 /**
  * @param presenceTracingDayRisk Only available for the latest calculation, otherwise null
@@ -35,6 +35,10 @@ data class PtRiskLevelResult(
         }?.map { it.localDateUtc } ?: emptyList()
     }
 
+    val checkInOverlapCount: Int by lazy {
+        checkInWarningOverlaps?.size ?: 0
+    }
+
     val mostRecentDateWithHighRisk: LocalDate? by lazy {
         presenceTracingDayRisk
             ?.filter { it.riskState == RiskState.INCREASED_RISK }
@@ -55,9 +59,5 @@ data class PtRiskLevelResult(
             RiskState.LOW_RISK -> mostRecentDateWithLowRisk
             else -> null
         }
-    }
-
-    val checkInOverlapCount: Int by lazy {
-        checkInWarningOverlaps?.size ?: 0
     }
 }

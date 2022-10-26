@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RAT_RESU
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -18,6 +20,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -34,36 +37,32 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     )
     private var numberOfRemainingSharePositiveTestResultRemindersPcr: Int = Int.MIN_VALUE
     private var numberOfRemainingSharePositiveTestResultRemindersRat: Int = Int.MIN_VALUE
-    private var idOfPositiveTestResultRemindersPcr: TestIdentifier? = null
-    private var idOfPositiveTestResultRemindersRat: TestIdentifier? = null
+    private var idOfPositiveTestResultRemindersPcr: TestIdentifier = String()
+    private var idOfPositiveTestResultRemindersRat: TestIdentifier = String()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { coronaTestRepository.coronaTests } returns coronaTestFlow
-        every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = any() } answers {
+        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(any()) } answers {
             numberOfRemainingSharePositiveTestResultRemindersPcr = arg(0)
         }
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr } answers {
-            numberOfRemainingSharePositiveTestResultRemindersPcr
+            flowOf(numberOfRemainingSharePositiveTestResultRemindersPcr)
         }
-        every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = any() } answers {
+        coEvery { cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(any()) } answers {
             numberOfRemainingSharePositiveTestResultRemindersRat = arg(0)
         }
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat } answers {
-            numberOfRemainingSharePositiveTestResultRemindersRat
+            flowOf(numberOfRemainingSharePositiveTestResultRemindersRat)
         }
-        every { cwaSettings.idOfPositiveTestResultRemindersPcr = any() } answers {
-            idOfPositiveTestResultRemindersPcr = arg(0)
-        }
-        every { cwaSettings.idOfPositiveTestResultRemindersRat = any() } answers {
-            idOfPositiveTestResultRemindersRat = arg(0)
-        }
+        coEvery { cwaSettings.updateIdOfPositiveTestResultRemindersPcr(any()) } just Runs
+        coEvery { cwaSettings.updateIdOfPositiveTestResultRemindersRat(any()) } just Runs
         every { cwaSettings.idOfPositiveTestResultRemindersPcr } answers {
-            idOfPositiveTestResultRemindersPcr
+            flowOf(idOfPositiveTestResultRemindersPcr)
         }
         every { cwaSettings.idOfPositiveTestResultRemindersRat } answers {
-            idOfPositiveTestResultRemindersRat
+            flowOf(idOfPositiveTestResultRemindersRat)
         }
 
         every { shareTestResultNotification.showSharePositiveTestResultNotification(any(), any()) } just Runs
@@ -107,8 +106,6 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 PCR_ID,
                 POSITIVE_PCR_RESULT_NOTIFICATION_ID
             )
-        }
-        verify(exactly = 1) {
             shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                 RAPID_ANTIGEN,
                 RAT_ID,
@@ -116,10 +113,12 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             )
         }
 
-        verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = 2 }
-        verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = 2 }
-        verify { cwaSettings.idOfPositiveTestResultRemindersPcr = "PCR-ID" }
-        verify { cwaSettings.idOfPositiveTestResultRemindersRat = "RAT-ID" }
+        coVerify {
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(2)
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(2)
+            cwaSettings.updateIdOfPositiveTestResultRemindersPcr("PCR-ID")
+            cwaSettings.updateIdOfPositiveTestResultRemindersRat("RAT-ID")
+        }
     }
 
     @Test
@@ -151,8 +150,6 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                     PCR_ID,
                     POSITIVE_PCR_RESULT_NOTIFICATION_ID
                 )
-            }
-            verify(exactly = 0) {
                 shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                     RAPID_ANTIGEN,
                     RAT_ID,
@@ -160,8 +157,10 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 )
             }
 
-            verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MIN_VALUE }
-            verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE }
+            coVerify {
+                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE)
+                cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE)
+            }
         }
 
     @Test
@@ -176,46 +175,44 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 1
         numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 1
 
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR_ID) }
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, RAT_ID) }
+        verify {
+            shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR_ID)
+            shareTestResultNotification.showSharePositiveTestResultNotification(1, RAT_ID)
+        }
     }
 
     @Test
-    fun `if there are no tokens left to show a notification, cancel the current one`() =
-        runTest2 {
-            val instance = createInstance(this)
+    fun `if there are no tokens left to show a notification, cancel the current one`() = runTest2 {
+        val instance = createInstance(this)
 
-            // PCR
-            numberOfRemainingSharePositiveTestResultRemindersPcr = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
-            numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
-            verify {
-                shareTestResultNotification.cancelSharePositiveTestResultNotification(
-                    PCR,
-                    POSITIVE_PCR_RESULT_NOTIFICATION_ID
-                )
-            }
-
-            // RAT
-            numberOfRemainingSharePositiveTestResultRemindersRat = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
-            numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
-            verify {
-                shareTestResultNotification.cancelSharePositiveTestResultNotification(
-                    RAPID_ANTIGEN,
-                    POSITIVE_RAT_RESULT_NOTIFICATION_ID
-                )
-            }
+        // PCR
+        numberOfRemainingSharePositiveTestResultRemindersPcr = 0
+        instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
+        numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                PCR,
+                POSITIVE_PCR_RESULT_NOTIFICATION_ID
+            )
         }
+
+        // RAT
+        numberOfRemainingSharePositiveTestResultRemindersRat = 0
+        instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
+        numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
+        verify {
+            shareTestResultNotification.cancelSharePositiveTestResultNotification(
+                RAPID_ANTIGEN,
+                POSITIVE_RAT_RESULT_NOTIFICATION_ID
+            )
+        }
+    }
 
     @Test
     fun `reset notification if no test is stored or test was deleted`() = runTest2 {
         val instance = createInstance(this)
-
         coronaTestFlow.value = emptySet()
-
         instance.initialize()
-
         advanceUntilIdle()
 
         verify {
@@ -223,15 +220,16 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 PCR,
                 POSITIVE_PCR_RESULT_NOTIFICATION_ID
             )
-        }
-        verify {
             shareTestResultNotification.cancelSharePositiveTestResultNotification(
                 RAPID_ANTIGEN,
                 POSITIVE_RAT_RESULT_NOTIFICATION_ID
             )
         }
-        verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MIN_VALUE }
-        verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE }
+
+        coVerify {
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(Int.MIN_VALUE)
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersRat(Int.MIN_VALUE)
+        }
     }
 
     companion object {

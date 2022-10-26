@@ -22,10 +22,10 @@ import io.mockk.just
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import java.time.Instant
 
 class DefaultRiskLevelStorageTest : BaseTest() {
 
@@ -80,7 +80,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
 
         every { riskResultTables.allEntries() } returns flowOf(listOf(testRiskLevelResultDao))
         every { riskResultTables.latestEntries(2) } returns emptyFlow()
-        every { riskResultTables.latestAndLastSuccessful() } returns emptyFlow()
+        every { riskResultTables.lastSuccessful() } returns emptyFlow()
         coEvery { riskResultTables.insertEntry(any()) } just Runs
         coEvery { riskResultTables.deleteOldest(any()) } returns 7
 

@@ -1,15 +1,25 @@
 package de.rki.coronawarnapp.main
 
-import android.content.Context
-import androidx.core.content.edit
-import de.rki.coronawarnapp.appconfig.ConfigData
+import androidx.annotation.VisibleForTesting
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import de.rki.coronawarnapp.appconfig.ConfigData.DeviceTimeState
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.map
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
-import org.joda.time.Instant
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 /**
@@ -17,100 +27,150 @@ import javax.inject.Inject
  * e.g. "Has dialog been shown", as "OnBoarding been shown?"
  */
 class CWASettings @Inject constructor(
-    @AppContext val context: Context
+    @CwaSettingsDataStore val dataStore: DataStore<Preferences>
 ) : Resettable {
 
-    private val prefs by lazy {
-        context.getSharedPreferences("cwa_main_localdata", Context.MODE_PRIVATE)
-    }
-
-    var wasDeviceTimeIncorrectAcknowledged: Boolean
-        get() = prefs.getBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, false)
-        set(value) = prefs.edit { putBoolean(PKEY_DEVICE_TIME_INCORRECT_ACK, value) }
-
-    var wasTracingExplanationDialogShown: Boolean
-        get() = prefs.getBoolean(PKEY_TRACING_DIALOG_SHOWN, false)
-        set(value) = prefs.edit { putBoolean(PKEY_TRACING_DIALOG_SHOWN, value) }
-
-    var wasInteroperabilityShownAtLeastOnce: Boolean
-        get() = prefs.getBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, false)
-        set(value) = prefs.edit { putBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value) }
-
-    var wasCertificateGroupingMigrationAcknowledged: Boolean
-        get() = prefs.getBoolean(PKEY_CERT_GROUPING_MIGRATION, false)
-        set(value) = prefs.edit { putBoolean(PKEY_CERT_GROUPING_MIGRATION, value) }
-
-    var firstReliableDeviceTime: java.time.Instant
-        get() = java.time.Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
-        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, value.toEpochMilli()) }
-
-    var lastDeviceTimeStateChangeAt: Instant
-        get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, 0L))
-        set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value.millis) }
-
-    var lastDeviceTimeStateChangeState: ConfigData.DeviceTimeState
-        get() = prefs.getString(
-            PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE,
-            ConfigData.DeviceTimeState.INCORRECT.key
-        ).let { raw -> ConfigData.DeviceTimeState.values().single { it.key == raw } }
-        set(value) = prefs.edit { putString(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value.key) }
-
-    var numberOfRemainingSharePositiveTestResultRemindersPcr: Int
-        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, Int.MIN_VALUE)
-        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, value) }
-
-    var idOfPositiveTestResultRemindersPcr: TestIdentifier?
-        get() = prefs.getString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, null)
-        set(value) = prefs.edit { putString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, value) }
-
-    var numberOfRemainingSharePositiveTestResultRemindersRat: Int
-        get() = prefs.getInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, Int.MIN_VALUE)
-        set(value) = prefs.edit { putInt(PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, value) }
-
-    var idOfPositiveTestResultRemindersRat: TestIdentifier?
-        get() = prefs.getString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, null)
-        set(value) = prefs.edit { putString(PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, value) }
-
-    val lastChangelogVersion = prefs.createFlowPreference(
-        key = LAST_CHANGELOG_VERSION,
-        defaultValue = DEFAULT_APP_VERSION
+    val wasDeviceTimeIncorrectAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_DEVICE_TIME_INCORRECT_ACK, defaultValue = false
     )
 
-    val lastNotificationsOnboardingVersionCode = prefs.createFlowPreference(
-        key = PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE,
-        defaultValue = 0L
+    suspend fun updateWasDeviceTimeIncorrectAcknowledged(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_DEVICE_TIME_INCORRECT_ACK, value = value
     )
 
-    val lastSuppressRootInfoVersionCode = prefs.createFlowPreference(
-        key = PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE,
-        defaultValue = 0L
+    val wasTracingExplanationDialogShown = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_TRACING_DIALOG_SHOWN, defaultValue = false
+    )
+
+    suspend fun updateWasTracingExplanationDialogShown(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_TRACING_DIALOG_SHOWN, value = value
+    )
+
+    val wasInteroperabilityShownAtLeastOnce = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, defaultValue = false
+    )
+
+    suspend fun updateWasInteroperabilityShownAtLeastOnce(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value = value
+    )
+
+    val wasCertificateGroupingMigrationAcknowledged = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_CERT_GROUPING_MIGRATION, defaultValue = false
+    )
+
+    suspend fun updateWasCertificateGroupingMigrationAcknowledged(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_CERT_GROUPING_MIGRATION, value = value
+    )
+
+    val firstReliableDeviceTime: Flow<Instant> = dataStore.dataRecovering.map(PKEY_DEVICE_TIME_FIRST_RELIABLE)
+        .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
+
+    suspend fun updateFirstReliableDeviceTime(value: Instant) = dataStore.trySetValue(
+        preferencesKey = PKEY_DEVICE_TIME_FIRST_RELIABLE, value = value.toEpochMilli()
+    )
+
+    val lastDeviceTimeStateChangeAt: Flow<Instant> =
+        dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME)
+            .map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
+
+    suspend fun updateLastDeviceTimeStateChangeAt(value: Instant) = dataStore.trySetValue(
+        preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME, value = value.toEpochMilli()
+    )
+
+    val lastDeviceTimeStateChangeState: Flow<DeviceTimeState> =
+        dataStore.dataRecovering.map(PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE)
+            .map { value -> DeviceTimeState.values().singleOrNull { it.key == value } ?: DeviceTimeState.INCORRECT }
+            .distinctUntilChanged()
+
+    suspend fun updateLastDeviceTimeStateChangeState(value: DeviceTimeState) = dataStore.trySetValue(
+        preferencesKey = PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE, value = value.key
+    )
+
+    val numberOfRemainingSharePositiveTestResultRemindersPcr: Flow<Int> = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, defaultValue = Int.MIN_VALUE
+    )
+
+    suspend fun updateNumberOfRemainingSharePositiveTestResultRemindersPcr(value: Int) = dataStore.trySetValue(
+        preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR, value = value
+    )
+
+    val idOfPositiveTestResultRemindersPcr: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, defaultValue = String()
+    )
+
+    suspend fun updateIdOfPositiveTestResultRemindersPcr(value: TestIdentifier) = dataStore.trySetValue(
+        preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR, value = value
+    )
+
+    val numberOfRemainingSharePositiveTestResultRemindersRat = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, defaultValue = Int.MIN_VALUE
+    )
+
+    suspend fun updateNumberOfRemainingSharePositiveTestResultRemindersRat(value: Int) = dataStore.trySetValue(
+        preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT, value = value
+    )
+
+    val idOfPositiveTestResultRemindersRat: Flow<TestIdentifier> = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, defaultValue = String()
+    )
+
+    suspend fun updateIdOfPositiveTestResultRemindersRat(value: TestIdentifier) = dataStore.trySetValue(
+        preferencesKey = PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT, value = value
+    )
+
+    val lastChangelogVersion = dataStore.dataRecovering.distinctUntilChanged(
+        key = LAST_CHANGELOG_VERSION, defaultValue = DEFAULT_APP_VERSION
+    )
+
+    suspend fun updateLastChangelogVersion(value: Long) = dataStore.trySetValue(
+        preferencesKey = LAST_CHANGELOG_VERSION, value = value
+    )
+
+    val lastNotificationsOnboardingVersionCode = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE, defaultValue = 0L
+    )
+
+    suspend fun updateLastNotificationsOnboardingVersionCode(value: Long) = dataStore.trySetValue(
+        preferencesKey = PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE, value = value
+    )
+
+    val lastSuppressRootInfoVersionCode = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE, defaultValue = 0L
+    )
+
+    suspend fun updateLastSuppressRootInfoVersionCode(value: Long) = dataStore.trySetValue(
+        preferencesKey = PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE, value = value
     )
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 
     companion object {
-        private const val PKEY_DEVICE_TIME_INCORRECT_ACK = "devicetime.incorrect.acknowledged"
-        private const val PKEY_TRACING_DIALOG_SHOWN = "tracing.dialog.shown"
-        private const val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = "interoperability.showed"
-        private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
-        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
-        private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
-        private const val PKEY_CERT_GROUPING_MIGRATION = "device.grouping.migration"
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_INCORRECT_ACK = booleanPreferencesKey("devicetime.incorrect.acknowledged")
+        private val PKEY_TRACING_DIALOG_SHOWN = booleanPreferencesKey("tracing.dialog.shown")
+        private val PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE = booleanPreferencesKey("interoperability.showed")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_FIRST_RELIABLE = longPreferencesKey("devicetime.correct.first")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = longPreferencesKey("devicetime.laststatechange.timestamp")
+        @VisibleForTesting
+        val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = stringPreferencesKey("devicetime.laststatechange.state")
+        private val PKEY_CERT_GROUPING_MIGRATION = booleanPreferencesKey("device.grouping.migration")
 
-        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = "testresults.count"
-        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = "testresults.count.rat"
+        private val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = intPreferencesKey("testresults.count")
+        private val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = intPreferencesKey("testresults.count.rat")
 
-        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR = "testresults.id"
-        private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT = "testresults.id.rat"
+        private val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_PCR = stringPreferencesKey("testresults.id")
+        private val PKEY_POSITIVE_TEST_RESULT_REMINDER_ID_RAT = stringPreferencesKey("testresults.id.rat")
 
-        private const val LAST_CHANGELOG_VERSION = "update.changelog.lastversion"
+        private val LAST_CHANGELOG_VERSION = longPreferencesKey("update.changelog.lastversion")
         const val DEFAULT_APP_VERSION = 1L
 
-        private const val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE = "notifications.onboarding.versionCode"
-
-        private const val PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE = "suppress.root.info.versionCode"
+        private val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE =
+            longPreferencesKey("notifications.onboarding.versionCode")
+        private val PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE = longPreferencesKey("suppress.root.info.versionCode")
     }
 }

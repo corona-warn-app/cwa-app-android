@@ -77,10 +77,15 @@ jobs:
           tsystems_upload_bearer: '${{ secrets.TSYSTEM_UPLOAD_BEARER }}'
         run: |
           fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+          file=$(basename $fileName)
+          version=$(echo $fileName | sed 's/.*App-//' | sed 's/-device.*//')
+          echo "${file}"
+          echo "${version}"
           curl --location --request POST $tsystems_upload_url \
           --header "Authorization: Bearer $tsystems_upload_bearer" \
           --form "file=@${fileName}" \
-          --form "camera=true"
+          --form "camera=true" \
+          --form "uniqueName=${version}"
 
       - name: Trigger App Automation Testing
         env:
@@ -88,7 +93,7 @@ jobs:
         run: |
           curl \
           -X POST \
-          -H 'Accept: application/vnd.github.v3+json' \
-          -H 'authorization: Bearer $GITHUB_ACCESS_TOKEN' \
-          -d '{\"ref\":\"main\"}' \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "authorization: Bearer $GITHUB_ACCESS_TOKEN" \
+          -d "{\"ref\":\"main\"}" \
           https://api.github.com/repos/corona-warn-app/cwa-app-automation/actions/workflows/32064115/dispatches

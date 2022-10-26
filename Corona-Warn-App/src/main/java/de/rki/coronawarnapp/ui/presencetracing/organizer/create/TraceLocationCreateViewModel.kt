@@ -9,7 +9,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
-import de.rki.coronawarnapp.contactdiary.util.CWADateTimeFormatPatternFactory.shortDatePattern
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationCreator
 import de.rki.coronawarnapp.presencetracing.locations.TraceLocationUserInput
@@ -20,9 +19,12 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import org.joda.time.DateTime
-import org.joda.time.Duration
 import timber.log.Timber
+import java.time.Duration
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
 import java.util.Locale
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -43,16 +45,16 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     var description: String by UpdateDelegateWithDefaultValue("")
     var address: String by UpdateDelegateWithDefaultValue("")
     var checkInLength: Duration by UpdateDelegateWithDefaultValue(Duration.ZERO)
-    var begin: DateTime? by UpdateDelegate()
-    var end: DateTime? by UpdateDelegate()
+    var begin: ZonedDateTime? by UpdateDelegate()
+    var end: ZonedDateTime? by UpdateDelegate()
 
     init {
         checkInLength = when (category.uiType) {
             TraceLocationUIType.LOCATION -> {
-                Duration.standardHours(2)
+                Duration.ofHours(2)
             }
             TraceLocationUIType.EVENT -> {
-                Duration.standardMinutes(15)
+                Duration.ofMinutes(15)
             }
         }
     }
@@ -64,9 +66,9 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             type = category.type,
             description = description,
             address = address,
-            startDate = begin?.toDateTime()?.toInstant(),
-            endDate = end?.toDateTime()?.toInstant(),
-            defaultCheckInLengthInMinutes = checkInLength.standardMinutes.toInt()
+            startDate = begin?.toInstant(),
+            endDate = end?.toInstant(),
+            defaultCheckInLengthInMinutes = checkInLength.toMinutes().toInt()
         )
 
         TraceLocationCensor.dataToCensor = userInput
@@ -114,8 +116,8 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     private fun String.isTextFormattedCorrectly(max: Int) = isNotBlank() && trim().length <= max && !contains('\n')
 
     data class UIState(
-        private val begin: DateTime? = null,
-        private val end: DateTime? = null,
+        private val begin: ZonedDateTime? = null,
+        private val end: ZonedDateTime? = null,
         private val checkInLength: Duration? = null,
         @StringRes val title: Int,
         val isRequestInProgress: Boolean,
@@ -132,8 +134,16 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
             )
         }
 
-        private fun getFormattedTime(value: DateTime?, locale: Locale) =
-            value?.toString("E, ${locale.shortDatePattern()}   HH:mm", locale)
+        private fun getFormattedTime(value: ZonedDateTime?, locale: Locale) =
+            value?.format(
+                DateTimeFormatterBuilder()
+                    .append(DateTimeFormatter.ofPattern("E"))
+                    .appendLiteral(", ")
+                    .append(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+                    .appendLiteral("   ")
+                    .append(DateTimeFormatter.ofPattern("HH:mm"))
+                    .toFormatter(locale)
+            )
     }
 
     sealed class Result {

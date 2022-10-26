@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.environment.download
 
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowAny
@@ -33,12 +32,6 @@ class DownloadCDNModuleTest : BaseIOTest() {
         shouldNotThrowAny {
             createModule()
         }
-    }
-
-    @Test
-    fun `home country should be DE`() {
-        val module = createModule()
-        module.provideDiagnosisHomeCountry() shouldBe LocationCode("DE")
     }
 
     @Test

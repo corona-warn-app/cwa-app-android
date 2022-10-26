@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -39,13 +40,13 @@ class ConfigChangeDetector @Inject constructor(
 
     @VisibleForTesting
     internal suspend fun check(newIdentifier: String) {
-        if (riskLevelSettings.lastUsedConfigIdentifier == null) {
+        if (riskLevelSettings.lastUsedConfigIdentifier.first() == null) {
             // No need to reset anything if we didn't calculate a risklevel yet.
             Timber.tag(TAG).d("Config changed, but no previous identifier is available.")
             return
         }
 
-        val oldConfigId = riskLevelSettings.lastUsedConfigIdentifier
+        val oldConfigId = riskLevelSettings.lastUsedConfigIdentifier.first()
         if (newIdentifier != oldConfigId) {
             Timber.tag(TAG).i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
             riskLevelStorage.clearResults()

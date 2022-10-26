@@ -5,8 +5,7 @@ import de.rki.coronawarnapp.submission.Symptoms.Indication.NEGATIVE
 import de.rki.coronawarnapp.submission.Symptoms.Indication.NO_INFORMATION
 import de.rki.coronawarnapp.submission.Symptoms.Indication.POSITIVE
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toJodaTime
-import de.rki.coronawarnapp.util.toLocalDateUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -21,7 +20,7 @@ import java.time.ZoneId
 class DaysSinceOnsetOfSymptomsVectorDeterminerTest {
 
     private val now = Instant.parse("2012-10-15T10:00:00Z")
-    private val today = now.toLocalDateUserTimeZone()
+    private val today = now.toLocalDateUserTz()
     private val zoneId = ZoneId.of("Europe/Paris")
 
     @MockK
@@ -32,7 +31,7 @@ class DaysSinceOnsetOfSymptomsVectorDeterminerTest {
         MockKAnnotations.init(this)
         mockkStatic(ZoneId::class)
         every { ZoneId.systemDefault() } returns zoneId
-        every { timeStamper.nowJavaUTC } returns now
+        every { timeStamper.nowUTC } returns now
     }
 
     @Test
@@ -106,5 +105,5 @@ class DaysSinceOnsetOfSymptomsVectorDeterminerTest {
     }
 
     private fun LocalDate.startMinusDays(days: Int): Symptoms.StartOf =
-        Symptoms.StartOf.Date(this.minusDays(days.toLong()).toJodaTime())
+        Symptoms.StartOf.Date(this.minusDays(days.toLong()))
 }

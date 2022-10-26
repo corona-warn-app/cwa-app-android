@@ -54,6 +54,8 @@ class MoreInformationView @JvmOverloads constructor(
                 setSubtitle(subtitleText.toString())
             }
 
+            binding.arrowIcon.isGone = isToggleVisible
+
             binding.toggle.apply {
                 isGone = !isToggleVisible
                 isFocusable = false

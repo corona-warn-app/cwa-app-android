@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingCertificateSelectionBinding
@@ -13,7 +14,6 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -67,7 +67,7 @@ class DccTicketingCertificateSelectionFragment :
         when (event) {
             ShowCancelConfirmationDialog -> showCloseDialog()
             CloseSelectionScreen -> popBackStack()
-            is NavigateToConsentTwoFragment -> doNavigate(
+            is NavigateToConsentTwoFragment -> findNavController().navigate(
                 DccTicketingCertificateSelectionFragmentDirections
                     .actionDccTicketingCertificateSelectionFragmentToDccTicketingConsentTwoFragment(
                         event.selectedCertificateContainerId

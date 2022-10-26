@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk
 
 import de.rki.coronawarnapp.risk.RiskState
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 interface TraceLocationCheckInRisk {
     val checkInId: Long

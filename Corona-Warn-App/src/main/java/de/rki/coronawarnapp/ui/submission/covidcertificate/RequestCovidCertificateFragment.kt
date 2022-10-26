@@ -12,21 +12,22 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import org.joda.time.LocalDate
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid_certificate), AutoInject {
@@ -86,10 +87,8 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             State.Working -> {
                 // Handled above
             }
-            is State.Error -> {
-                val dialog = state.getDialogBuilder(requireContext())
-                dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                dialog.show()
+            is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
+                setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
             }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
@@ -116,19 +115,18 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         }
     }
 
-    private fun showCloseDialog() = MaterialAlertDialogBuilder(requireContext())
-        .setTitle(R.string.request_gc_dialog_title)
-        .setMessage(R.string.request_gc_dialog_message)
-        .setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
-        .setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
+    private fun showCloseDialog() = displayDialog {
+        setTitle(R.string.request_gc_dialog_title)
+        setMessage(R.string.request_gc_dialog_message)
+        setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
             if (args.comesFromDispatcherFragment) {
-                doNavigate(
+                findNavController().navigate(
                     RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
                 )
             } else popBackStack()
         }
-        .create()
-        .show()
+        setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
+    }
 
     private fun openDatePicker() {
         // Only allow date selections in the past
@@ -143,8 +141,10 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             .build()
             .apply {
                 addOnPositiveButtonClickListener { timestamp ->
-                    val localDate = LocalDate(timestamp)
-                    binding.dateInputEdit.setText(localDate.toDayFormat())
+                    val localDate = Instant.ofEpochMilli(timestamp).toLocalDateUserTz()
+                    binding.dateInputEdit.setText(
+                        localDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+                    )
                     viewModel.birthDateChanged(localDate)
                 }
             }

@@ -16,7 +16,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import java.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.ParameterizedTest
@@ -24,6 +23,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import org.junit.jupiter.params.provider.ArgumentsSource
 import testhelpers.BaseTest
+import java.time.Instant
 import java.util.stream.Stream
 
 @Suppress("MaxLineLength")
@@ -55,7 +55,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
         runTest {
             with(testCase) {
                 every { testRepository.coronaTests } returns flowOf(testSet)
-                every { timeStamper.nowJavaUTC } returns java.time.Instant.EPOCH.plus(durationPassed)
+                every { timeStamper.nowUTC } returns Instant.EPOCH.plus(durationPassed)
                 createInstance().shouldShowRiskCard(riskState) shouldBe showRiskCardExpectedReturnValue
             }
         }

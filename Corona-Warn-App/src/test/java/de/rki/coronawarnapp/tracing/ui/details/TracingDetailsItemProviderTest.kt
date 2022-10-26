@@ -31,11 +31,11 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.test
+import java.time.Instant
 
 class TracingDetailsItemProviderTest : BaseTest() {
 
@@ -102,7 +102,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
 
         val lastCombined = LastCombinedRiskResults(
             lastCalculated = combinedResult,
-            lastSuccessfullyCalculated = combinedResult
+            lastSuccessfullyCalculatedRiskState = combinedResult.riskState
         )
         every { ewRiskLevelTaskResult.matchedKeyCount } returns matchedKeyCount
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(lastCombined)
@@ -203,7 +203,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         val instance = createInstance()
-        val testCollector = instance.state.test(startOnScope = this)
+        instance.state.test(startOnScope = this)
 
         instance.state.first().size.shouldBeGreaterThan(0)
         instance.state.first().any { it is AdditionalInfoLowRiskBox.Item } shouldBe false

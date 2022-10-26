@@ -28,12 +28,12 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okio.ByteString
-import java.time.Duration
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
+import java.time.Duration
+import java.time.Instant
 
 class TestCertificateProcessorTest : BaseTest() {
 
@@ -58,7 +58,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     private val pcrCertificateDataRegistered = pcrCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
+        publicKeyRegisteredAt = Instant.EPOCH.plusMillis(9000)
     )
 
     private val raCertificateData = run {
@@ -74,7 +74,7 @@ class TestCertificateProcessorTest : BaseTest() {
     }
 
     private val raCertificateDataRegistered = raCertificateData.copy(
-        publicKeyRegisteredAt = Instant.EPOCH.plus(9000)
+        publicKeyRegisteredAt = Instant.EPOCH.plusMillis(9000)
     )
 
     private val testCerticateComponents = mockk<TestCertificateComponents>().apply {
@@ -87,7 +87,6 @@ class TestCertificateProcessorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
-        every { timeStamper.nowJavaUTC } returns java.time.Instant.ofEpochSecond(1234567)
 
         every { appConfigProvider.currentConfig } returns flowOf(appConfigData)
         every { appConfigData.covidCertificateParameters } returns mockk<CovidCertificateConfig>().apply {
@@ -95,7 +94,7 @@ class TestCertificateProcessorTest : BaseTest() {
         }
 
         covidTestCertificateConfig.apply {
-            every { waitForRetry } returns java.time.Duration.ofSeconds(10)
+            every { waitForRetry } returns Duration.ofSeconds(10)
             every { waitAfterPublicKeyRegistration } returns Duration.ofSeconds(10)
         }
 

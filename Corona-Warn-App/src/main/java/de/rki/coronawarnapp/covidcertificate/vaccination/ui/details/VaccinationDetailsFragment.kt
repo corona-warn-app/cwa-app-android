@@ -20,35 +20,33 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
-import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
+import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.mutateDrawable
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
     private val args by navArgs<VaccinationDetailsFragmentArgs>()
     private val binding: FragmentVaccinationDetailsBinding by viewBinding()
     private val viewModel: VaccinationDetailsViewModel by cwaViewModelsAssisted(
@@ -70,7 +68,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 if (it == null) {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
-                    popBackStack()
+                    viewModel.goBack()
                     return@observe
                 }
 
@@ -117,9 +115,9 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 startValidationCheck.isLoading = false
                 qrCodeCard.progressBar.hide()
                 if (it is DccValidationException && it.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
-                    DccValidationNoInternetErrorDialog(requireContext()).show()
+                    dccValidationNoInternetDialog()
                 } else {
-                    it.toErrorDialogBuilder(requireContext()).show()
+                    displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
                 }
             }
 
@@ -128,7 +126,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     VaccinationDetailsNavigation.Back -> popBackStack()
                     VaccinationDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
                         if (args.numberOfCertificates == 1) {
-                            doNavigate(
+                            findNavController().navigate(
                                 VaccinationDetailsFragmentDirections
                                     .actionVaccinationDetailsFragmentToPersonOverviewFragment()
                             )
@@ -142,19 +140,19 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     )
                     is VaccinationDetailsNavigation.ValidationStart -> {
                         startValidationCheck.isLoading = false
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToValidationStartFragment(event.containerId)
                         )
                     }
                     is VaccinationDetailsNavigation.Export -> {
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections
                                 .actionVaccinationDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                         )
                     }
                     VaccinationDetailsNavigation.OpenCovPassInfo ->
-                        doNavigate(
+                        findNavController().navigate(
                             VaccinationDetailsFragmentDirections.actionVaccinationDetailsFragmentToCovPassInfoFragment()
                         )
                 }
@@ -169,7 +167,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindToolbar() = toolbar.apply {
         addMenuId(R.id.certificate_detail_fragment_menu_id)
         toolbar.navigationIcon = resources.mutateDrawable(R.drawable.ic_back, Color.WHITE)
-        setNavigationOnClickListener { viewModel.onClose() }
+        setNavigationOnClickListener { viewModel.goBack() }
         setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_covid_certificate_delete -> {
@@ -180,7 +178,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                     viewModel.onExport()
                     true
                 }
-                else -> onOptionsItemSelected(it)
+                else -> false
             }
         }
     }
@@ -210,18 +208,18 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
+        val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
-            certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
         )
     }
 
     private fun setToolbarOverlay() {
         val width = requireContext().resources.displayMetrics.widthPixels
 
-        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams
-            as (CoordinatorLayout.LayoutParams)
+        val params: CoordinatorLayout.LayoutParams = binding.scrollView.layoutParams as (CoordinatorLayout.LayoutParams)
 
         val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
@@ -231,12 +229,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         behavior.overlayTop = (width / 2) - 24
     }
 
-    private fun showCertificateDeletionRequest() {
-        RecycleBinDialogType.RecycleCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.recycleVaccinationCertificateConfirmed() }
-        )
-    }
+    private fun showCertificateDeletionRequest() =
+        recycleCertificateDialog { viewModel.recycleVaccinationCertificateConfirmed() }
 
     companion object {
         private val TAG = tag<VaccinationDetailsFragment>()

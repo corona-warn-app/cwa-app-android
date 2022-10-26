@@ -11,9 +11,9 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 
 /**
  * Periodic background noise worker
@@ -40,7 +40,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
 
             // Check if the numberOfDaysToRunPlaybook are over
             if (
-                initialPairingDate.plus(Duration.standardDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK))
+                initialPairingDate.plus(Duration.ofDays(NUMBER_OF_DAYS_TO_RUN_PLAYBOOK))
                     .isBefore(timeStamper.nowUTC)
             ) {
                 stopWorker()

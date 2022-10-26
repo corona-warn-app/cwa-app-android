@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
 import timber.log.Timber
@@ -25,40 +25,44 @@ class EncryptedPreferencesMigration @Inject constructor(
     private val submissionSettings: SubmissionSettings,
     private val tracingSettings: TracingSettings,
     private val onboardingSettings: OnboardingSettings,
-    private val errorResetTool: EncryptionErrorResetTool
+    private val errorResetTool: EncryptionErrorResetTool,
+    dispatcherProvider: DispatcherProvider,
 ) {
 
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope: CoroutineScope = CoroutineScope(dispatcherProvider.IO)
 
     fun doMigration() {
-        Timber.d("Migration start")
-        try {
-            encryptedPreferences.instance?.let { copyData(it) }
-        } catch (e: Exception) {
-            e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
-            errorResetTool.isResetNoticeToBeShown = true
-        } finally {
+        coroutineScope.launch {
+            Timber.d("Migration start")
             try {
-                encryptedPreferences.clean()
+                encryptedPreferences.instance?.let { copyData(it) }
             } catch (e: Exception) {
-                e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+                e.reportProblem(tag = this::class.simpleName, info = "Migration failed")
+                errorResetTool.isResetNoticeToBeShown = true
+            } finally {
+                try {
+                    encryptedPreferences.clean()
+                } catch (e: Exception) {
+                    e.reportProblem(tag = this::class.simpleName, info = "Encryption data clean up failed")
+                }
             }
+            try {
+                dropDatabase()
+            } catch (e: Exception) {
+                e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
+            }
+            Timber.d("Migration finish")
         }
-        try {
-            dropDatabase()
-        } catch (e: Exception) {
-            e.reportProblem(tag = this::class.simpleName, info = "Database removing failed")
-        }
-        Timber.d("Migration finish")
     }
 
-    private fun copyData(encryptedSharedPreferences: SharedPreferences) {
+    private suspend fun copyData(encryptedSharedPreferences: SharedPreferences) {
         Timber.i("copyData(): EncryptedPreferences are available")
         SettingsLocalData(encryptedSharedPreferences).apply {
-            cwaSettings.wasInteroperabilityShownAtLeastOnce = wasInteroperabilityShown()
-            cwaSettings.wasTracingExplanationDialogShown = wasTracingExplanationDialogShown()
-            cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
+            cwaSettings.updateWasInteroperabilityShownAtLeastOnce(wasInteroperabilityShown())
+            cwaSettings.updateWasTracingExplanationDialogShown(wasTracingExplanationDialogShown())
+            cwaSettings.updateNumberOfRemainingSharePositiveTestResultRemindersPcr(
                 numberOfRemainingSharePositiveTestResultReminders()
+            )
         }
 
         OnboardingLocalData(encryptedSharedPreferences).apply {

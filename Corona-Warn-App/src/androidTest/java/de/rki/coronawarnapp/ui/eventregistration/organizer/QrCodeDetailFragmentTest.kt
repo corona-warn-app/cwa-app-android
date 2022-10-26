@@ -22,7 +22,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.DateTimeZone
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +42,6 @@ class QrCodeDetailFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         TimeZone.setDefault(timeZone)
-        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
         MockKAnnotations.init(this, relaxed = true)
 
         coEvery { traceLocationRepository.traceLocationForId(1) } returns TraceLocationData.traceLocationSameDate
@@ -78,8 +76,8 @@ class QrCodeDetailFragmentTest : BaseUITest() {
             ).toBundle()
         )
 
-        onView(withId(R.id.title)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
-        onView(withId(R.id.subtitle)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
+        onView(withId(R.id.trace_location_organizer_title)).check(matches(withText("Jahrestreffen der deutschen SAP Anwendergruppe")))
+        onView(withId(R.id.trace_location_organizer_subtitle)).check(matches(withText("Hauptstr. 3, 69115 Heidelberg")))
         onView(withId(R.id.eventDate)).check(matches(withText("21.06.2021, 18:00 - 21:00 Uhr")))
     }
 
@@ -90,8 +88,8 @@ class QrCodeDetailFragmentTest : BaseUITest() {
                 traceLocationId = 2
             ).toBundle()
         )
-        onView(withId(R.id.title)).check(matches(withText("Event XYZ")))
-        onView(withId(R.id.subtitle)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
+        onView(withId(R.id.trace_location_organizer_title)).check(matches(withText("Event XYZ")))
+        onView(withId(R.id.trace_location_organizer_subtitle)).check(matches(withText("Otto-Hahn-Str. 3, 123456 Berlin")))
         onView(withId(R.id.eventDate)).check(matches(withText("18.04.2021, 12:00 - 19.04.2021, 22:52 Uhr")))
     }
 

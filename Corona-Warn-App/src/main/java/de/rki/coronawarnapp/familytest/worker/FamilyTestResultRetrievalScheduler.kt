@@ -21,9 +21,9 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.joda.time.Instant
-import org.joda.time.Minutes
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -108,13 +108,12 @@ internal const val PERIODIC_WORK_NAME = "FamilyTestResultRetrieval_PeriodicWork"
 
 @VisibleForTesting
 internal fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
-    return type == BaseCoronaTest.Type.RAPID_ANTIGEN &&
-        registeredAt.plus(frequentPollingDuration) > now
+    return type == BaseCoronaTest.Type.RAPID_ANTIGEN && registeredAt.plus(frequentPollingDuration) > now
 }
 
 private val Set<FamilyCoronaTest>.sortedIdentifierSet: Set<String>
     get() = map { test -> test.identifier }.sorted().toSet()
 
-private val frequentPollingDuration = Minutes.minutes(90).toStandardDuration()
+private val frequentPollingDuration = Duration.ofMinutes(90)
 private const val INTERVAL_MINUTES = 120L // every 2h
 private const val FREQUENT_INTERVAL_MINUTES = 15L // every 15min

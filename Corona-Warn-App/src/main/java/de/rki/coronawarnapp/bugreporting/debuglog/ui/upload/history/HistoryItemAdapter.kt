@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.LogUpload
 import de.rki.coronawarnapp.databinding.BugreportingUploadHistoryItemBinding
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import de.rki.coronawarnapp.util.lists.BindableVH
-import de.rki.coronawarnapp.util.toUserTimeZone
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import java.time.format.DateTimeFormatter
 import timber.log.Timber
 
@@ -29,7 +29,7 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
 
     class CachedKeyViewHolder(
         val parent: ViewGroup
-    ) : BaseAdapter.VH(R.layout.bugreporting_upload_history_item, parent),
+    ) : VH(R.layout.bugreporting_upload_history_item, parent),
         BindableVH<LogUpload, BugreportingUploadHistoryItemBinding> {
 
         override val viewBinding = lazy { BugreportingUploadHistoryItemBinding.bind(itemView) }
@@ -38,7 +38,7 @@ class HistoryItemAdapter : BaseAdapter<HistoryItemAdapter.CachedKeyViewHolder>()
             item: LogUpload,
             payloads: List<Any>
         ) -> Unit = { item, _ ->
-            title.text = item.uploadedAt.toUserTimeZone().format(FORMATTER)
+            title.text = item.uploadedAt.toLocalDateTimeUserTz().format(FORMATTER)
             description.text = "ID ${item.id}"
             itemView.setOnClickListener {
                 try {

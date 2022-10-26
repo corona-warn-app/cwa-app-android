@@ -8,9 +8,8 @@ import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
-import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
+import de.rki.coronawarnapp.statistics.CombinedStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
-import de.rki.coronawarnapp.statistics.source.StatisticsProvider
 import de.rki.coronawarnapp.storage.TracingRepository
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -25,7 +24,6 @@ import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerS
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
-import de.rki.coronawarnapp.util.network.NetworkStateProvider
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -40,7 +38,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
+import java.time.Instant
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -66,16 +64,14 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var statisticsProvider: StatisticsProvider
-    @MockK lateinit var localStatisticsProvider: LocalStatisticsProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
     @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
-    @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
+    @MockK lateinit var combinedStatisticsProvider: CombinedStatisticsProvider
 
     private val dataStore = FakeDataStore()
     private val tracingSettings = TracingSettings(dataStore)
@@ -85,31 +81,22 @@ class HomeFragmentViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { generalTracingStatus.generalStatus } returns flow { emit(Status.TRACING_ACTIVE) }
-
         every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
-
         every { coronaTestRepository.coronaTests } returns emptyFlow()
-
-        coEvery { appConfigProvider.currentConfig } returns emptyFlow()
-        coEvery { statisticsProvider.current } returns emptyFlow()
-
-        coEvery { localStatisticsProvider.current } returns emptyFlow()
-
+        every { combinedStatisticsProvider.statistics } returns emptyFlow()
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
+        every { errorResetTool.isResetNoticeToBeShown } returns false
+        every { familyTestRepository.familyTests } returns flowOf()
+
+        coEvery { cwaSettings.wasTracingExplanationDialogShown } returns flowOf(true)
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
+        coEvery { appConfigProvider.currentConfig } returns emptyFlow()
 
         bluetoothSupport.apply {
             every { isAdvertisingSupported } returns true
             every { isScanningSupported } returns true
         }
-
-        coEvery { networkStateProvider.networkState } returns emptyFlow()
-
-        every { errorResetTool.isResetNoticeToBeShown } returns false
-        every { cwaSettings.wasTracingExplanationDialogShown } returns true
-
-        coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
-        every { familyTestRepository.familyTests } returns flowOf()
     }
 
     @AfterEach
@@ -127,18 +114,16 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
-        statisticsProvider = statisticsProvider,
-        localStatisticsProvider = localStatisticsProvider,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
         traceLocationOrganizerSettings = traceLocationOrganizerSettings,
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         localStatisticsConfigStorage = localStatisticsConfigStorage,
-        networkStateProvider = networkStateProvider,
         recycledTestProvider = recycledTestProvider,
         riskCardDisplayInfo = riskCardDisplayInfo,
-        familyTestRepository = familyTestRepository
+        familyTestRepository = familyTestRepository,
+        combinedStatisticsProvider = combinedStatisticsProvider,
     )
 
     @Test
@@ -189,11 +174,11 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `test correct order of displaying delta onboarding, release notes and popups`() {
-        every { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns false andThen true
+        coEvery { cwaSettings.wasInteroperabilityShownAtLeastOnce } returns flowOf(false) andThen flowOf(true)
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
-        every { cwaSettings.lastChangelogVersion.value } returns 1L andThen 1120004
+        coEvery { cwaSettings.lastChangelogVersion } returns flowOf(1L) andThen flowOf(1120004)
 
         every { errorResetTool.isResetNoticeToBeShown } returns true
 

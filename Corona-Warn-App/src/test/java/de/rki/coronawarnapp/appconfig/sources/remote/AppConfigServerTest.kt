@@ -44,7 +44,7 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.mkdirs()
         testDir.exists() shouldBe true
 
-        every { timeStamper.nowJavaUTC } returns Instant.ofEpochMilli(123456789)
+        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
 
         mockkObject(CWADebug)
@@ -168,7 +168,7 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         val downloadServer = createInstance()
 
@@ -192,7 +192,7 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns true
         every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)
@@ -216,7 +216,7 @@ class AppConfigServerTest : BaseIOTest() {
                 "I am an ETag :)!"
             )
         )
-        every { timeStamper.nowJavaUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
 
         every { CWADebug.isDeviceForTestersBuild } returns false
         every { testSettings.fakeCorrectDeviceTime } returns flowOf(true)

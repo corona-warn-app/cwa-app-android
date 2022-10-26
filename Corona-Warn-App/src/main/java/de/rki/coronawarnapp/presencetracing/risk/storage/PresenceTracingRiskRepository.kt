@@ -9,13 +9,13 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayR
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Days
-import org.joda.time.Instant
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -76,6 +76,12 @@ class PresenceTracingRiskRepository @Inject constructor(
         it.firstOrNull()
     }
 
+    val lastSuccessfulRiskLevelResult: Flow<PtRiskLevelResult?> = allRiskLevelResults.map {
+        it.firstOrNull {
+            it.wasSuccessfullyCalculated
+        }
+    }
+
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
         latestRiskLevelResult.map {
             it?.traceLocationCheckInRiskStates ?: emptyList()
@@ -131,12 +137,12 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     internal suspend fun deleteStaleData() {
         Timber.d("deleteStaleData()")
-        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.millis)
-        riskLevelResultDao.deleteOlderThan(retentionTime.millis)
+        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.toEpochMilli())
+        riskLevelResultDao.deleteOlderThan(retentionTime.toEpochMilli())
     }
 
     private val retentionTime: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+        get() = timeStamper.nowUTC.minus(Duration.ofDays(15))
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")

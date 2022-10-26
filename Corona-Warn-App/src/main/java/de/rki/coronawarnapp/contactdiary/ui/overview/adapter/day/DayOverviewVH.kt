@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBi
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultsBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 class DayOverviewVH(parent: ViewGroup) :
     DiaryOverviewAdapter.ItemVH<DayOverviewItem, ContactDiaryOverviewListItemBinding>(

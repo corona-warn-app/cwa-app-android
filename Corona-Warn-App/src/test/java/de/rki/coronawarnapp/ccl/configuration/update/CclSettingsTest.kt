@@ -1,15 +1,14 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
 import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
+import java.time.Instant
 
 internal class CclSettingsTest : BaseTest() {
 
@@ -23,7 +22,7 @@ internal class CclSettingsTest : BaseTest() {
         val now = Instant.parse("2022-04-02T00:00:00.000Z")
         cclSettings.setExecutionTimeToNow(now)
 
-        fakeDataStore[CclSettings.LAST_EXECUTION_TIME_KEY] shouldBe now.seconds
+        fakeDataStore[CclSettings.LAST_EXECUTION_TIME_KEY] shouldBe now.epochSecond
         cclSettings.getLastExecutionTime() shouldBe now
 
         cclSettings.reset()

@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
 import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
-import de.rki.coronawarnapp.util.toJavaInstant
-import org.joda.time.Instant
-import org.joda.time.LocalDate
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
+import java.time.Instant
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 data class CoronaTest(
     @SerializedName("identifier")
@@ -63,15 +63,15 @@ data class CoronaTest(
     }
 
     fun getFormattedRegistrationDate(): String =
-        registeredAt.toUserTimeZone().toLocalDate().toShortDayFormat()
+        registeredAt.toLocalDateTimeUserTz().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 
     val testTakenAt: Instant
         get() = (additionalInfo?.sampleCollectedAt ?: additionalInfo?.createdAt) as Instant
 
-    private fun isOutdated(nowUTC: java.time.Instant, testConfig: CoronaTestConfig): Boolean =
-        testTakenAt.toJavaInstant().plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
+        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getUiState(nowUTC: java.time.Instant, testConfig: CoronaTestConfig) = when {
+    fun getUiState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED
         testResult == CoronaTestResult.RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {
@@ -152,7 +152,6 @@ data class CoronaTest(
 
         @SerializedName("hasResultChangeBadge")
         override val hasResultChangeBadge: Boolean = false,
-
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
@@ -202,8 +201,8 @@ internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
 }
 
 internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
+    // shouldn't occur, sampleCollectedAt should also be when the test has been created
     val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
-        // shouldn't occur, sampleCollectedAt should also be when the test has been created
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }

@@ -22,12 +22,13 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_detail_fragment), AutoInject {
@@ -60,8 +61,8 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         binding.apply {
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
-                title.alpha = titleAlpha
-                subtitle.alpha = subtitleAlpha
+                traceLocationOrganizerTitle.alpha = titleAlpha
+                traceLocationOrganizerSubtitle.alpha = subtitleAlpha
                 checkShadowVisibility()
             }
             root.viewTreeObserver.addOnGlobalLayoutListener { checkShadowVisibility() }
@@ -94,14 +95,14 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
             when (it) {
                 QrCodeDetailNavigationEvents.NavigateBack -> popBackStack()
 
-                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> doNavigate(
+                is QrCodeDetailNavigationEvents.NavigateToDuplicateFragment -> findNavController().navigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToTraceLocationCreateFragment(
                         it.category,
                         it.traceLocation
                     )
                 )
 
-                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> doNavigate(
+                is QrCodeDetailNavigationEvents.NavigateToQrCodePosterFragment -> findNavController().navigate(
                     QrCodeDetailFragmentDirections.actionQrCodeDetailFragmentToQrCodePosterFragment(it.locationId)
                 )
                 is QrCodeDetailNavigationEvents.NavigateToFullScreenQrCode -> findNavController().navigate(
@@ -115,20 +116,20 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
 
         viewModel.uiState.observe2(this) { uiState ->
             with(binding) {
-                title.text = uiState.description
-                subtitle.text = uiState.address
+                traceLocationOrganizerTitle.text = uiState.description
+                traceLocationOrganizerSubtitle.text = uiState.address
 
                 if (uiState.startDateTime != null && uiState.endDateTime != null) {
 
-                    val startTime = uiState.startDateTime!!.toDateTime()
-                    val endTime = uiState.endDateTime!!.toDateTime()
+                    val startTime = uiState.startDateTime!!.toLocalDateTimeUserTz()
+                    val endTime = uiState.endDateTime!!.toLocalDateTimeUserTz()
 
                     eventDate.isGone = false
 
-                    val startDay = startTime.toLocalDate().toString("dd.MM.yyyy")
-                    val startHour = startTime.toLocalTime().toString("HH:mm")
-                    val endDay = endTime.toLocalDate().toString("dd.MM.yyyy")
-                    val endHour = endTime.toLocalTime().toString("HH:mm")
+                    val startDay = startTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    val startHour = startTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                    val endDay = endTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                    val endHour = endTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
                     eventDate.text = if (startTime.toLocalDate() == endTime.toLocalDate()) {
                         requireContext().getString(
                             R.string.trace_location_organizer_detail_item_duration,
@@ -167,9 +168,9 @@ class QrCodeDetailFragment : Fragment(R.layout.trace_location_organizer_qr_code_
         val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
-        val textParams = binding.subtitle.layoutParams as (LinearLayout.LayoutParams)
+        val textParams = binding.traceLocationOrganizerSubtitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = ((width) / 2) - 24 /* 24 is space between screen border and QrCode */
-        binding.subtitle.requestLayout() /* 24 is space between screen border and QrCode */
+        binding.traceLocationOrganizerSubtitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as ((AppBarLayout.ScrollingViewBehavior))
         behavior.overlayTop = ((width) / 2) - 24

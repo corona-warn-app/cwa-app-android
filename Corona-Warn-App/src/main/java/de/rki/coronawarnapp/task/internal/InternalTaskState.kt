@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.task.TaskRequest
 import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.TaskState.ExecutionState
 import kotlinx.coroutines.Deferred
-import org.joda.time.Instant
+import java.time.Instant
 import java.util.UUID
 import kotlin.reflect.KClass
 

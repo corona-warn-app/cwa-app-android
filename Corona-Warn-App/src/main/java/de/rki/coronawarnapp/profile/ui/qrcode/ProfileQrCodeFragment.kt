@@ -18,16 +18,16 @@ import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.joinToSpannable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -62,23 +62,21 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()
         binding.apply {
-            appBarLayout.addOnOffsetChangedListener(
-                AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                    val alpha = 1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.5f))
-                    title.alpha = alpha
-                }
-            )
+            appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val alpha = 1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.5f))
+                title.alpha = alpha
+            }
 
             nextButton.setOnClickListener { viewModel.onNext() }
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.profile_edit -> doNavigate(
+                    R.id.profile_edit -> findNavController().navigate(
                         ProfileQrCodeFragmentDirections
                             .actionProfileQrCodeFragmentToProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.profile_delete -> confirmDeletionDialog()
-                    R.id.profile_information -> doNavigate(
+                    R.id.profile_information -> findNavController().navigate(
                         ProfileQrCodeFragmentDirections.actionProfileQrCodeFragmentToProfileOnboardingFragment(
                             showButton = false
                         )
@@ -131,7 +129,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
         val birthDate = birthDate?.let {
             getString(
                 R.string.rat_qr_code_profile_birth_date,
-                birthDate.toDayFormat()
+                birthDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
             )
         }.orEmpty()
 

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTe
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
-import de.rki.coronawarnapp.util.toJavaInstant
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.decodeBase64
@@ -160,9 +159,8 @@ class TestCertificateProcessor @Inject constructor(
 
         val certConfig = appConfigProvider.currentConfig.first().covidCertificateParameters.testCertificate
 
-        val nowUTC = timeStamper.nowJavaUTC
+        val nowUTC = timeStamper.nowUTC
         val certAvailableAt = data.publicKeyRegisteredAt
-            ?.toJavaInstant()
             ?.plus(certConfig.waitAfterPublicKeyRegistration)
         val certAvailableIn = Duration.between(nowUTC, certAvailableAt)
 

@@ -22,6 +22,8 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.just
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -31,12 +33,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
-import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runTest2
+import java.time.Instant
 import javax.inject.Inject
 
 class RecoveryCertificateRepositoryTest : BaseTest() {
@@ -69,7 +71,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         storage.apply {
             coEvery { load() } answers { testStorage }
-            coEvery { save(any()) } answers { testStorage = arg(0) }
+            coEvery { save(any()) } just Runs
         }
 
         every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
@@ -116,7 +118,9 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             recoveryCertificate.qrCodeToDisplay.options.correctionLevel shouldBe ErrorCorrectionLevel.M
         }
 
-        testStorage.first().recoveryCertificateQrCode shouldBe RecoveryQrCodeTestData.recoveryQrCode1
+        coVerify(exactly = 1) {
+            storage.save(any())
+        }
     }
 
     @Test

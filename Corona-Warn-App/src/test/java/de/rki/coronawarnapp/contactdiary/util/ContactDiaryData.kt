@@ -6,8 +6,9 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
-import org.joda.time.Duration
-import org.joda.time.LocalDate
+import java.time.Duration
+import java.time.LocalDate
+import java.time.ZoneOffset
 
 object ContactDiaryData {
 
@@ -16,13 +17,13 @@ object ContactDiaryData {
             id = "PCR_01",
             testType = ContactDiaryCoronaTestEntity.TestType.PCR,
             result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
-            time = LocalDate.parse("2021-01-01").toDateTimeAtStartOfDay().toInstant()
+            time = LocalDate.parse("2021-01-01").atStartOfDay(ZoneOffset.systemDefault()).toInstant()
         ),
         ContactDiaryCoronaTestEntity(
             id = "RAT_01",
             testType = ContactDiaryCoronaTestEntity.TestType.ANTIGEN,
             result = ContactDiaryCoronaTestEntity.TestResult.NEGATIVE,
-            time = LocalDate.parse("2021-01-02").toDateTimeAtStartOfDay().toInstant()
+            time = LocalDate.parse("2021-01-02").atStartOfDay(ZoneOffset.systemDefault()).toInstant()
         )
     )
 
@@ -173,7 +174,7 @@ object ContactDiaryData {
             contactDiaryLocation = DefaultContactDiaryLocation(
                 locationName = "Bakery"
             ),
-            duration = Duration.standardMinutes(15)
+            duration = Duration.ofMinutes(15)
         ),
         DefaultContactDiaryLocationVisit(
             date = LocalDate.parse("2021-01-02"),
@@ -181,7 +182,7 @@ object ContactDiaryData {
                 locationName = "Barber"
             ),
             // 105 minutes = 1h45min
-            duration = Duration.standardMinutes(105)
+            duration = Duration.ofMinutes(105)
         )
     )
 

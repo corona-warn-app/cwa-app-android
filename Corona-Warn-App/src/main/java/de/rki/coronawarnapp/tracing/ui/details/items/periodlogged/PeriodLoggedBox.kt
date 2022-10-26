@@ -34,7 +34,7 @@ class PeriodLoggedBox(
 
     data class Item(
         val daysSinceInstallation: Int,
-        val maxEncounterAgeInDays: Int,
+        val maxEncounterAgeInDays: Long,
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
 
@@ -50,7 +50,7 @@ class PeriodLoggedBox(
             )
             1 -> context.getString(
                 R.string.risk_details_information_body_period_logged_assessment_under_14_days_yesterday
-            )
+            ).format(daysSinceInstallation)
             in 2..13 -> String.format(
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days

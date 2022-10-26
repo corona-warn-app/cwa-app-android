@@ -30,13 +30,14 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.toLocalDateUtc
+import java.time.Instant
+import java.time.ZoneOffset
 
 object HomeData {
 
-    private val todayAtNineFiftyFive = Instant.now().toDateTime()
-        .withTime(9, 55, 0, 0).toInstant()
+    private val todayAtNineFiftyFive = Instant.now()
+        .atZone(ZoneOffset.UTC).withHour(9).withMinute(55).toInstant()
 
     object Tracing {
 

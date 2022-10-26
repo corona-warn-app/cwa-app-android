@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscDataParser
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

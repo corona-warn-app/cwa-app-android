@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
+import java.time.Instant
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -161,7 +161,6 @@ class PersonCertificatesSettings @Inject constructor(
         dataStore.edit { prefs -> prefs.remove(CURRENT_PERSON_KEY) }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.tag(TAG).d("setCurrentCwaUser()")
         dataStore.edit { prefs ->
@@ -171,7 +170,6 @@ class PersonCertificatesSettings @Inject constructor(
 
     private suspend fun settings() = personsSettings.first()
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun saveSettings(
         map: Map<CertificatePersonIdentifier, PersonSettings>
     ) {
