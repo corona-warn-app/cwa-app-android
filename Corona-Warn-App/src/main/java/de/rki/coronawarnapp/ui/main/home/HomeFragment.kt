@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -118,6 +119,23 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
         }
 
+        // Usage example of the new new builder
+        createDialog {
+            configureTexts {
+                title { "New implementation" }
+                message { "Putting the app in background won't cause a crash with the dialog open" }
+                positiveButton { "Ok" }
+                negativeButton { R.id.button_done }
+            }
+            configureActions {
+                positiveAction { dummyDialog1() }
+            }
+            configureOptions {
+                isCancelable { false }
+                isDeleteDialog { true }
+            }
+        }
+
         viewModel.markTestBadgesAsSeen.observe2(this) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
@@ -129,6 +147,18 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.refreshTests()
         viewModel.initAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun dummyDialog1() = displayDialog {
+        setTitle("Old implementation 1")
+        setMessage("This dialog would crash if you put the app in background")
+        setPositiveButton("Ok") { _, _ -> dummyDialog2() }
+    }
+
+    private fun dummyDialog2() = displayDialog {
+        setTitle("Old implementation 2")
+        setMessage("This dialog will not crash because there is no action set for the OK button")
+        setPositiveButton("Ok", null)
     }
 
     private fun menuIconWithText(drawable: Drawable?, title: CharSequence): CharSequence {
