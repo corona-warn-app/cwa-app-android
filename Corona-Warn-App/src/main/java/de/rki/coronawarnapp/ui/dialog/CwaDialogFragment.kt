@@ -23,35 +23,35 @@ class CwaDialogFragment : DialogFragment() {
 
         return texts.run {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                when (val title = title) {
+                when (title) {
                     is IntOrString.IntRes -> setTitle(title.intResource)
                     is IntOrString.StringRes -> setTitle(title.stringResource)
                 }
-                when (val message = message) {
+                when (message) {
                     is IntOrString.IntRes -> setMessage(message.intResource)
                     is IntOrString.StringRes -> setMessage(message.stringResource)
                 }
-                when (val positiveButton = positiveButton) {
-                    is IntOrString.IntRes -> setPositiveButton(positiveButton.intResource) { _, _ ->
+                when (positiveButtonText) {
+                    is IntOrString.IntRes -> setPositiveButton(positiveButtonText.intResource) { _, _ ->
                         setAction(Action.PositiveButtonClicked)
                     }
-                    is IntOrString.StringRes -> setPositiveButton(positiveButton.stringResource) { _, _ ->
+                    is IntOrString.StringRes -> setPositiveButton(positiveButtonText.stringResource) { _, _ ->
                         setAction(Action.PositiveButtonClicked)
                     }
                 }
-                when (val negativeButton = negativeButton) {
-                    is IntOrString.IntRes -> setNegativeButton(negativeButton.intResource) { _, _ ->
+                when (negativeButtonText) {
+                    is IntOrString.IntRes -> setNegativeButton(negativeButtonText.intResource) { _, _ ->
                         setAction(Action.NegativeButtonClicked)
                     }
-                    is IntOrString.StringRes -> setNegativeButton(negativeButton.stringResource) { _, _ ->
+                    is IntOrString.StringRes -> setNegativeButton(negativeButtonText.stringResource) { _, _ ->
                         setAction(Action.NegativeButtonClicked)
                     }
                 }
-                when (val neutralButton = neutralButton) {
-                    is IntOrString.IntRes -> setNeutralButton(neutralButton.intResource) { _, _ ->
+                when (neutralButtonText) {
+                    is IntOrString.IntRes -> setNeutralButton(neutralButtonText.intResource) { _, _ ->
                         setAction(Action.NeutralButtonClicked)
                     }
-                    is IntOrString.StringRes -> setNeutralButton(neutralButton.stringResource) { _, _ ->
+                    is IntOrString.StringRes -> setNeutralButton(neutralButtonText.stringResource) { _, _ ->
                         setAction(Action.NeutralButtonClicked)
                     }
                 }

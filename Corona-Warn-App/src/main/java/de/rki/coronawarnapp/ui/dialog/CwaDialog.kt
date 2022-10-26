@@ -10,49 +10,29 @@ annotation class CwaDialogDsl
 
 typealias DialogAction = () -> Unit
 
-data class CwaDialog(
-    val texts: CwaDialogTexts,
-    val actions: CwaDialogActions,
-    val options: CwaDialogOptions
-)
-
-@CwaDialogDsl
-class CwaDialogBuilder {
-    private var config = CwaDialogTexts()
-    private var actions = CwaDialogActions()
-    private var options = CwaDialogOptions()
-
-    fun configureTexts(lambda: CwaDialogTextsBuilder.() -> Unit) {
-        config = CwaDialogTextsBuilder().apply(lambda).build()
-    }
-
-    fun configureActions(lambda: CwaDialogActionsBuilder.() -> Unit) {
-        actions = CwaDialogActionsBuilder().apply(lambda).build()
-    }
-
-    fun configureOptions(lambda: CwaDialogOptionsBuilder.() -> Unit) {
-        options = CwaDialogOptionsBuilder().apply(lambda).build()
-    }
-
-    fun build() = CwaDialog(config, actions, options)
-}
-
 @Parcelize
 data class CwaDialogTexts(
     val title: @RawValue IntOrString? = null,
     val message: @RawValue IntOrString? = null,
-    val positiveButton: @RawValue IntOrString? = null,
-    val negativeButton: @RawValue IntOrString? = null,
-    val neutralButton: @RawValue IntOrString? = null,
+    val positiveButtonText: @RawValue IntOrString? = null,
+    val negativeButtonText: @RawValue IntOrString? = null,
+    val neutralButtonText: @RawValue IntOrString? = null,
 ) : Parcelable
 
 @CwaDialogDsl
-class CwaDialogTextsBuilder {
+class CwaDialogConfigBuilder {
     private var title = IntOrString()
     private var message = IntOrString()
-    private var positiveButton = IntOrString()
-    private var negativeButton = IntOrString()
-    private var neutralButton = IntOrString()
+    private var positiveButtonText = IntOrString()
+    private var positiveButtonAction: DialogAction = { }
+    private var negativeButtonText = IntOrString()
+    private var negativeButtonAction: DialogAction = { }
+    private var neutralButtonText = IntOrString()
+    private var neutralButtonAction: DialogAction = { }
+    private var dismissAction: DialogAction = { }
+    private var isCancelable: Boolean = true
+    private var isDeleteDialog: Boolean = false
+    private var customView: Int? = null
 
     @OptIn(ExperimentalTypeInference::class)
     @OverloadResolutionByLambdaReturnType
@@ -82,95 +62,27 @@ class CwaDialogTextsBuilder {
         message = IntOrString.StringRes(lambda())
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("positiveButtonInt")
-    fun positiveButton(lambda: () -> Int) {
-        positiveButton = IntOrString.IntRes(lambda())
+    fun positiveButton(lambda: ButtonBuilder.() -> Unit) {
+        val contents = ButtonBuilder().apply(lambda).build()
+        positiveButtonText = contents.text
+        positiveButtonAction = contents.action
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("positiveButtonString")
-    fun positiveButton(lambda: () -> String) {
-        positiveButton = IntOrString.StringRes(lambda())
+    fun negativeButton(lambda: ButtonBuilder.() -> Unit) {
+        val contents = ButtonBuilder().apply(lambda).build()
+        negativeButtonText = contents.text
+        negativeButtonAction = contents.action
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("negativeButtonInt")
-    fun negativeButton(lambda: () -> Int) {
-        negativeButton = IntOrString.IntRes(lambda())
-    }
-
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("negativeButtonString")
-    fun negativeButton(lambda: () -> String) {
-        negativeButton = IntOrString.StringRes(lambda())
-    }
-
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("neutralButtonInt")
-    fun neutralButton(lambda: () -> Int) {
-        neutralButton = IntOrString.IntRes(lambda())
-    }
-
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("neutralButtonString")
-    fun neutralButton(lambda: () -> String) {
-        neutralButton = IntOrString.StringRes(lambda())
-    }
-
-    fun build() = CwaDialogTexts(title, message, positiveButton, negativeButton, neutralButton)
-}
-
-data class CwaDialogActions(
-    val positiveAction: DialogAction = { },
-    val negativeAction: DialogAction = { },
-    val neutralAction: DialogAction = { },
-    val dismissAction: DialogAction = { }
-)
-
-class CwaDialogActionsBuilder {
-    private var positiveAction: DialogAction = { }
-    private var negativeAction: DialogAction = { }
-    private var neutralAction: DialogAction = { }
-    private var dismissAction: DialogAction = { }
-
-    fun positiveAction(lambda: () -> Unit) {
-        positiveAction = { lambda() }
-    }
-
-    fun negativeAction(lambda: () -> Unit) {
-        negativeAction = { lambda() }
-    }
-
-    fun neutralAction(lambda: () -> Unit) {
-        neutralAction = { lambda() }
+    fun neutralButton(lambda: ButtonBuilder.() -> Unit) {
+        val contents = ButtonBuilder().apply(lambda).build()
+        neutralButtonText = contents.text
+        neutralButtonAction = contents.action
     }
 
     fun dismissAction(lambda: () -> Unit) {
         dismissAction = { lambda() }
     }
-
-    fun build() = CwaDialogActions(positiveAction, negativeAction, neutralAction, dismissAction)
-}
-
-@Parcelize
-data class CwaDialogOptions(
-    val isCancelable: Boolean = true,
-    val isDeleteDialog: Boolean = false,
-    val customView: Int? = null
-) : Parcelable
-
-@CwaDialogDsl
-class CwaDialogOptionsBuilder {
-    private var isCancelable: Boolean = true
-    private var isDeleteDialog: Boolean = false
-    private var customView: Int? = null
 
     fun isCancelable(lambda: () -> Boolean) {
         isCancelable = lambda()
@@ -184,8 +96,57 @@ class CwaDialogOptionsBuilder {
         customView = lambda()
     }
 
-    fun build() = CwaDialogOptions(isCancelable, isDeleteDialog, customView)
+    fun build() = Triple(
+        CwaDialogTexts(title, message, positiveButtonText, negativeButtonText, neutralButtonText),
+        CwaDialogActions(positiveButtonAction, negativeButtonAction, neutralButtonAction, dismissAction),
+        CwaDialogOptions(isCancelable, isDeleteDialog, customView)
+    )
 }
+
+data class Button(
+    val text: IntOrString,
+    val action: DialogAction = { }
+)
+
+@CwaDialogDsl
+class ButtonBuilder {
+    private var text = IntOrString()
+    private var action: DialogAction = { }
+
+    @OptIn(ExperimentalTypeInference::class)
+    @OverloadResolutionByLambdaReturnType
+    @JvmName("positiveButtonInt")
+    fun text(lambda: () -> Int) {
+        text = IntOrString.IntRes(lambda())
+    }
+
+    @OptIn(ExperimentalTypeInference::class)
+    @OverloadResolutionByLambdaReturnType
+    @JvmName("positiveButtonString")
+    fun text(lambda: () -> String) {
+        text = IntOrString.StringRes(lambda())
+    }
+
+    fun action(lambda: () -> Unit) {
+        action = { lambda() }
+    }
+
+    fun build() = Button(text, action)
+}
+
+data class CwaDialogActions(
+    val positiveAction: DialogAction = { },
+    val negativeAction: DialogAction = { },
+    val neutralAction: DialogAction = { },
+    val dismissAction: DialogAction = { }
+)
+
+@Parcelize
+data class CwaDialogOptions(
+    val isCancelable: Boolean = true,
+    val isDeleteDialog: Boolean = false,
+    val customView: Int? = null
+) : Parcelable
 
 @Parcelize
 open class IntOrString : Parcelable {

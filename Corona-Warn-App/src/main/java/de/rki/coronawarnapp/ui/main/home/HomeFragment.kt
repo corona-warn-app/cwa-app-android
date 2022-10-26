@@ -121,19 +121,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         // Usage example of the new new builder
         createDialog {
-            configureTexts {
-                title { "New implementation" }
-                message { "Putting the app in background won't cause a crash with the dialog open" }
-                positiveButton { "Ok" }
-                negativeButton { R.id.button_done }
+            title { "New implementation" }
+            message { "Putting the app in background won't cause a crash with the dialog open" }
+            positiveButton {
+                text { "Ok"}
+                action { dummyDialog1() }
             }
-            configureActions {
-                positiveAction { dummyDialog1() }
+            negativeButton {
+                text { R.id.button_done }
             }
-            configureOptions {
-                isCancelable { false }
-                isDeleteDialog { true }
-            }
+            isCancelable { false }
+            isDeleteDialog { true }
         }
 
         viewModel.markTestBadgesAsSeen.observe2(this) {
