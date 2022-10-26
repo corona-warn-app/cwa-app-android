@@ -164,7 +164,15 @@ internal fun CheckIn.calculateOverlap(
     warning: TraceWarning.TraceTimeIntervalWarning,
     traceWarningPackageId: String
 ): CheckInWarningOverlap? {
-    if (warning.locationIdHash.toOkioByteString() != traceLocationIdHash) return null
+    val warningLocationId = warning.locationIdHash.toOkioByteString()
+    if (warningLocationId != traceLocationIdHash) return run {
+        Timber.tag(TAG).d(
+            "warningLocationId=%s does NOT match traceLocationId=%s", warningLocationId, traceLocationIdHash
+        )
+        null
+    }
+
+    Timber.tag(TAG).d("warningLocationId matches traceLocationIdHash both are =%s", traceLocationIdHash)
 
     val warningStartMillis = warning.startIntervalNumber.tenMinIntervalToMillis()
     val warningEndMillis = (warning.startIntervalNumber + warning.period).tenMinIntervalToMillis()
