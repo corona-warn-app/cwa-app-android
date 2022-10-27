@@ -125,8 +125,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             message("Putting the app in background won't cause a crash with the dialog open")
             positiveButton("Ok") { dummyDialog1() }
             negativeButton(R.id.button_done)
-            isCancelable { false }
-            isDeleteDialog { true }
+            setCancelable(false)
+            setDeleteDialog(true)
         }
 
         viewModel.markTestBadgesAsSeen.observe2(this) {

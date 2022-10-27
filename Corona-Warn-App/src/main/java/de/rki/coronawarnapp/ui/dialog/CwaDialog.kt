@@ -83,16 +83,16 @@ class CwaDialogBuilder {
         dismissAction = { lambda() }
     }
 
-    fun isCancelable(lambda: () -> Boolean) {
-        isCancelable = lambda()
+    fun setCancelable(cancelable: Boolean) {
+        isCancelable = cancelable
     }
 
-    fun isDeleteDialog(lambda: () -> Boolean) {
-        isDeleteDialog = lambda()
+    fun setDeleteDialog(isDelete: Boolean) {
+        isDeleteDialog = isDelete
     }
 
-    fun customView(lambda: () -> Int) {
-        customView = lambda()
+    fun customView(view: Int) {
+        customView = view
     }
 
     fun build() = Triple(

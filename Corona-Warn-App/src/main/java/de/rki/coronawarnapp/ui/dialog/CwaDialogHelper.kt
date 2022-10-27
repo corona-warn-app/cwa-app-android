@@ -14,9 +14,9 @@ import androidx.fragment.app.Fragment
  *     negativeButton("Negative button text") { action { foo2() }
  *     neutralButton("Neutral button text") { action { foo3() }
  *     dismissAction { foo4() }
- *     isCancelable { false }
- *     isDeleteDialog { true }
- *     customView { R.id.dialog_view }
+ *     setCancelable(false)
+ *     setDeleteDialog(true)
+ *     customView(R.id.dialog_view)
  * }
  * ```
  */
