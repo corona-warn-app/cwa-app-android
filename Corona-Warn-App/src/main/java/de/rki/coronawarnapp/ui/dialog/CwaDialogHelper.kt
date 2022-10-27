@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
  *
  * ```kotlin
  * createDialog {
- *     title { "Title example" }
- *     message { "Message example" }
+ *     title("Title example")
+ *     message("Message example")
  *     positiveButton("Positive button text") { foo1() }
  *     negativeButton("Negative button text") { foo2() }
  *     neutralButton("Neutral button text") { foo3() }
