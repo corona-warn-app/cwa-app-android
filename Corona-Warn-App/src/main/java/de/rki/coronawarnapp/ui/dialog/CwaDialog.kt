@@ -93,7 +93,7 @@ class CwaDialogBuilder {
         isDeleteDialog = isDelete
     }
 
-    fun customView(@LayoutRes view: Int) {
+    fun setCustomView(@LayoutRes view: Int) {
         customView = view
     }
 
