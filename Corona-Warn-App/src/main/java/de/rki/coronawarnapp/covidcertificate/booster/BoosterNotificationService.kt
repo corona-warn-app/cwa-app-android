@@ -55,6 +55,7 @@ class BoosterNotificationService @Inject constructor(
             personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
+            personCertificatesSettings.acknowledgeBoosterRule(personIdentifier, newRuleId)
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
         }
 

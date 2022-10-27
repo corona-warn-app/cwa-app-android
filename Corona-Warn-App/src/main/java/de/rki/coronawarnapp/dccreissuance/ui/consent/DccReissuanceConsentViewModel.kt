@@ -28,7 +28,7 @@ import timber.log.Timber
 class DccReissuanceConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    @Assisted private val personIdentifierCode: String,
+    @Assisted private val groupKey: String,
     private val dccReissuer: DccReissuer,
     private val format: CclTextFormatter,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
@@ -38,7 +38,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
 
     internal val event = SingleLiveEvent<Event>()
 
-    private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+    private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(groupKey)
         .distinctUntilChangedBy { it?.dccWalletInfo?.certificateReissuance }
         .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
@@ -126,7 +126,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccReissuanceConsentViewModel> {
         fun create(
-            personIdentifierCode: String
+            groupKey: String
         ): DccReissuanceConsentViewModel
     }
 

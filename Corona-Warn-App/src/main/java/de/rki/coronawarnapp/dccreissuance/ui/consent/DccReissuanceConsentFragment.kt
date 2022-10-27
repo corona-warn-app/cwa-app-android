@@ -30,7 +30,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         constructorCall = { factory, _ ->
             factory as DccReissuanceConsentViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode,
+                groupKey = args.groupKey,
             )
         }
     )
@@ -103,7 +103,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                             findNavController().navigate(
                                 DccReissuanceConsentFragmentDirections
                                     .actionDccReissuanceConsentFragmentToAccCertsFragment(
-                                        args.personIdentifierCode
+                                        args.groupKey
                                     )
                             )
                     }

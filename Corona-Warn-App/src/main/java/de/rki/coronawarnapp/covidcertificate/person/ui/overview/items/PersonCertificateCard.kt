@@ -32,7 +32,7 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
-            transitionName = firstCertificate.cwaCertificate.personIdentifier.codeSHA256
+            transitionName = firstCertificate.cwaCertificate.personIdentifier.groupingKey
         }
     }
 
