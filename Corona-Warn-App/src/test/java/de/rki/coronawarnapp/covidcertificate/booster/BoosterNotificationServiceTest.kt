@@ -43,6 +43,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.clearBoosterRuleInfo(any()) } just Runs
+        coEvery { personCertificatesSettings.acknowledgeBoosterRule(any(), any()) } just Runs
 
         every { oldWalletInfo.boosterNotification } returns oldBoosterNotification
         every { newWalletInfo.boosterNotification } returns newBoosterNotification

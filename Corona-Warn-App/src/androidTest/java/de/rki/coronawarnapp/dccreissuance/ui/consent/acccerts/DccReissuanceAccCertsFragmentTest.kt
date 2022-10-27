@@ -43,7 +43,7 @@ class DccReissuanceAccCertsFragmentTest : BaseUITest() {
         }
     }
 
-    private val args = DccReissuanceAccCertsFragmentArgs(personIdentifierCode = "personIdentifierCode").toBundle()
+    private val args = DccReissuanceAccCertsFragmentArgs(groupKey = "personIdentifierCode").toBundle()
 
     private val certificateList = mutableListOf<DccReissuanceItem>(
         DccReissuanceCertificateCard.Item(

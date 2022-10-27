@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.databinding.FragmentDccReissuanceAccCertsBinding
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -27,10 +26,12 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
         constructorCall = { factory, _ ->
             factory as DccReissuanceAccCertsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personIdentifierCode,
+                groupKey = args.groupKey,
             )
         }
     )
+
+    private val dccReissuanceAdapter = DccReissuanceAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,19 +43,11 @@ class DccReissuanceAccCertsFragment : Fragment(R.layout.fragment_dcc_reissuance_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dccReissuanceAdapter = DccReissuanceAdapter()
-
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
-
-            certificateRecycler.apply {
-                adapter = dccReissuanceAdapter
-            }
-
-            viewModel.apply {
-                certificatesLiveData.observe2(this@DccReissuanceAccCertsFragment) {
-                    dccReissuanceAdapter.update(it)
-                }
+            certificateRecycler.adapter = dccReissuanceAdapter
+            viewModel.certificatesLiveData.observe(viewLifecycleOwner) {
+                dccReissuanceAdapter.update(it)
             }
         }
     }
