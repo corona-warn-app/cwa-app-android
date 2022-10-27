@@ -278,12 +278,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     },
                     onRemoveListener = { statsItem ->
                         when (statsItem) {
-                            is LocalIncidenceAndHospitalizationStats -> {
-                                localStatisticsConfigStorage.activeSelections.update {
-                                    it.withoutLocation(
+                            is LocalIncidenceAndHospitalizationStats -> launch {
+                                localStatisticsConfigStorage.updateActiveSelections(
+                                    localStatisticsConfigStorage.activeSelections.first().withoutLocation(
                                         statsItem.selectedLocation
                                     )
-                                }
+                                )
                             }
                         }
                     },

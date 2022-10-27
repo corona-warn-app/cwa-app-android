@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.main.CwaSettingsDataStore
 import de.rki.coronawarnapp.presencetracing.LocationPreferencesDataStore
 import de.rki.coronawarnapp.presencetracing.LocationSettingsDataStore
 import de.rki.coronawarnapp.risk.RiskLevelSettingsDataStore
+import de.rki.coronawarnapp.statistics.LocalStatisticsConfigDataStore
 import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
 import de.rki.coronawarnapp.storage.TestSettingsDataStore
 import de.rki.coronawarnapp.storage.TracingSettingsDataStore
@@ -82,4 +83,8 @@ class TestAndroidModule {
     @AnalyticsExposureWindowsDataStore
     @Provides
     fun provideAnalyticsExposureWindowsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @LocalStatisticsConfigDataStore
+    @Provides
+    fun provideLocalStatisticsConfigDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }
