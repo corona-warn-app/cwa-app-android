@@ -19,7 +19,7 @@ data class CwaDialogTexts(
 ) : Parcelable
 
 @CwaDialogDsl
-class CwaDialogConfigBuilder {
+class CwaDialogBuilder {
     private var title = IntOrString()
     private var message = IntOrString()
     private var positiveButtonText = IntOrString()

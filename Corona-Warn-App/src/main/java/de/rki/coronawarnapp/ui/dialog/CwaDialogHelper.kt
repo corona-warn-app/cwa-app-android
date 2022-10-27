@@ -21,9 +21,9 @@ import androidx.fragment.app.Fragment
  * ```
  */
 fun Fragment.createDialog(
-    lambda: CwaDialogConfigBuilder.() -> Unit
+    lambda: CwaDialogBuilder.() -> Unit
 ) {
-    val cwaDialog = CwaDialogConfigBuilder().apply(lambda).build()
+    val cwaDialog = CwaDialogBuilder().apply(lambda).build()
     val texts = cwaDialog.first
     val actions = cwaDialog.second
     val options = cwaDialog.third
