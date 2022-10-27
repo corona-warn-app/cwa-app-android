@@ -24,34 +24,34 @@ class CwaDialogFragment : DialogFragment() {
         return texts.run {
             MaterialAlertDialogBuilder(requireContext()).apply {
                 when (title) {
-                    is IntOrString.IntRes -> setTitle(title.intResource)
-                    is IntOrString.StringRes -> setTitle(title.stringResource)
+                    is IntOrString.IntResource -> setTitle(title.intResource)
+                    is IntOrString.StringResource -> setTitle(title.stringResource)
                 }
                 when (message) {
-                    is IntOrString.IntRes -> setMessage(message.intResource)
-                    is IntOrString.StringRes -> setMessage(message.stringResource)
+                    is IntOrString.IntResource -> setMessage(message.intResource)
+                    is IntOrString.StringResource -> setMessage(message.stringResource)
                 }
                 when (positiveButtonText) {
-                    is IntOrString.IntRes -> setPositiveButton(positiveButtonText.intResource) { _, _ ->
+                    is IntOrString.IntResource -> setPositiveButton(positiveButtonText.intResource) { _, _ ->
                         setAction(Action.PositiveButtonClicked)
                     }
-                    is IntOrString.StringRes -> setPositiveButton(positiveButtonText.stringResource) { _, _ ->
+                    is IntOrString.StringResource -> setPositiveButton(positiveButtonText.stringResource) { _, _ ->
                         setAction(Action.PositiveButtonClicked)
                     }
                 }
                 when (negativeButtonText) {
-                    is IntOrString.IntRes -> setNegativeButton(negativeButtonText.intResource) { _, _ ->
+                    is IntOrString.IntResource -> setNegativeButton(negativeButtonText.intResource) { _, _ ->
                         setAction(Action.NegativeButtonClicked)
                     }
-                    is IntOrString.StringRes -> setNegativeButton(negativeButtonText.stringResource) { _, _ ->
+                    is IntOrString.StringResource -> setNegativeButton(negativeButtonText.stringResource) { _, _ ->
                         setAction(Action.NegativeButtonClicked)
                     }
                 }
                 when (neutralButtonText) {
-                    is IntOrString.IntRes -> setNeutralButton(neutralButtonText.intResource) { _, _ ->
+                    is IntOrString.IntResource -> setNeutralButton(neutralButtonText.intResource) { _, _ ->
                         setAction(Action.NeutralButtonClicked)
                     }
-                    is IntOrString.StringRes -> setNeutralButton(neutralButtonText.stringResource) { _, _ ->
+                    is IntOrString.StringResource -> setNeutralButton(neutralButtonText.stringResource) { _, _ ->
                         setAction(Action.NeutralButtonClicked)
                     }
                 }

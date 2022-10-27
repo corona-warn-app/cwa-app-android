@@ -36,48 +36,48 @@ class CwaDialogBuilder {
     private var customView: Int? = null
 
     fun title(@StringRes resource: Int) {
-        title = IntOrString.IntRes(resource)
+        title = IntOrString.IntResource(resource)
     }
 
     fun title(text: String) {
-        title = IntOrString.StringRes(text)
+        title = IntOrString.StringResource(text)
     }
 
     fun message(@StringRes resource: Int) {
-        message = IntOrString.IntRes(resource)
+        message = IntOrString.IntResource(resource)
     }
 
     fun message(text: String) {
-        message = IntOrString.StringRes(text)
+        message = IntOrString.StringResource(text)
     }
 
     fun positiveButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
-        positiveButtonText = IntOrString.IntRes(resource)
+        positiveButtonText = IntOrString.IntResource(resource)
         positiveButtonAction = lambda
     }
 
     fun positiveButton(text: String, lambda: () -> Unit = { }) {
-        positiveButtonText = IntOrString.StringRes(text)
+        positiveButtonText = IntOrString.StringResource(text)
         positiveButtonAction = lambda
     }
 
     fun negativeButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
-        negativeButtonText = IntOrString.IntRes(resource)
+        negativeButtonText = IntOrString.IntResource(resource)
         negativeButtonAction = lambda
     }
 
     fun negativeButton(text: String, lambda: () -> Unit = { }) {
-        negativeButtonText = IntOrString.StringRes(text)
+        negativeButtonText = IntOrString.StringResource(text)
         negativeButtonAction = lambda
     }
 
     fun neutralButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
-        neutralButtonText = IntOrString.IntRes(resource)
+        neutralButtonText = IntOrString.IntResource(resource)
         neutralButtonAction = lambda
     }
 
     fun neutralButton(text: String, lambda: () -> Unit = { }) {
-        neutralButtonText = IntOrString.StringRes(text)
+        neutralButtonText = IntOrString.StringResource(text)
         neutralButtonAction = lambda
     }
 
@@ -121,12 +121,12 @@ data class CwaDialogOptions(
 @Parcelize
 open class IntOrString : Parcelable {
     @Parcelize
-    data class StringRes(
+    data class StringResource(
         val stringResource: String
     ) : Parcelable, IntOrString()
 
     @Parcelize
-    data class IntRes(
-        val intResource: Int
+    data class IntResource(
+        @StringRes val intResource: Int
     ) : Parcelable, IntOrString()
 }
