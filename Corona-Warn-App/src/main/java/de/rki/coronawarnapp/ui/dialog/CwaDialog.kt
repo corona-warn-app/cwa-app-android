@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.dialog
 
 import android.os.Parcelable
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -33,7 +35,7 @@ class CwaDialogBuilder {
     private var isDeleteDialog: Boolean = false
     private var customView: Int? = null
 
-    fun title(resource: Int) {
+    fun title(@StringRes resource: Int) {
         title = IntOrString.IntRes(resource)
     }
 
@@ -41,7 +43,7 @@ class CwaDialogBuilder {
         title = IntOrString.StringRes(text)
     }
 
-    fun message(resource: Int) {
+    fun message(@StringRes resource: Int) {
         message = IntOrString.IntRes(resource)
     }
 
@@ -49,7 +51,7 @@ class CwaDialogBuilder {
         message = IntOrString.StringRes(text)
     }
 
-    fun positiveButton(resource: Int, lambda: () -> Unit = { }) {
+    fun positiveButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
         positiveButtonText = IntOrString.IntRes(resource)
         positiveButtonAction = lambda
     }
@@ -59,7 +61,7 @@ class CwaDialogBuilder {
         positiveButtonAction = lambda
     }
 
-    fun negativeButton(resource: Int, lambda: () -> Unit = { }) {
+    fun negativeButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
         negativeButtonText = IntOrString.IntRes(resource)
         negativeButtonAction = lambda
     }
@@ -69,7 +71,7 @@ class CwaDialogBuilder {
         negativeButtonAction = lambda
     }
 
-    fun neutralButton(resource: Int, lambda: () -> Unit = { }) {
+    fun neutralButton(@StringRes resource: Int, lambda: () -> Unit = { }) {
         neutralButtonText = IntOrString.IntRes(resource)
         neutralButtonAction = lambda
     }
@@ -91,7 +93,7 @@ class CwaDialogBuilder {
         isDeleteDialog = isDelete
     }
 
-    fun customView(view: Int) {
+    fun customView(@LayoutRes view: Int) {
         customView = view
     }
 

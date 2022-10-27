@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
  * createDialog {
  *     title { "Title example" }
  *     message { "Message example" }
- *     positiveButton("Positive button text") { action { foo1() }
- *     negativeButton("Negative button text") { action { foo2() }
- *     neutralButton("Neutral button text") { action { foo3() }
+ *     positiveButton("Positive button text") { foo1() }
+ *     negativeButton("Negative button text") { foo2() }
+ *     neutralButton("Neutral button text") { foo3() }
  *     dismissAction { foo4() }
  *     setCancelable(false)
  *     setDeleteDialog(true)
