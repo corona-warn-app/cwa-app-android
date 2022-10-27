@@ -85,12 +85,15 @@ class EncryptedPreferencesMigration @Inject constructor(
         }
 
         SubmissionLocalData(encryptedSharedPreferences).apply {
-            submissionSettings.registrationTokenMigration = registrationToken()
-            submissionSettings.initialTestResultReceivedAtMigration =
+            submissionSettings.updateRegistrationTokenMigration(registrationToken())
+            submissionSettings.updateInitialTestResultReceivedAtMigration(
                 initialTestResultReceivedTimestamp().toInstantOrNull()
-            submissionSettings.devicePairingSuccessfulAtMigration = devicePairingSuccessfulTimestamp().toInstantOrNull()
-            submissionSettings.isSubmissionSuccessfulMigration = numberOfSuccessfulSubmissions() >= 1
-            submissionSettings.isAllowedToSubmitKeysMigration = isAllowedToSubmitDiagnosisKeys()
+            )
+            submissionSettings.updateDevicePairingSuccessfulAtMigration(
+                devicePairingSuccessfulTimestamp().toInstantOrNull()
+            )
+            submissionSettings.updateIsSubmissionSuccessfulMigration(numberOfSuccessfulSubmissions() >= 1)
+            submissionSettings.updateIsAllowedToSubmitKeysMigration(isAllowedToSubmitDiagnosisKeys())
         }
         Timber.i("copyData(): EncryptedPreferences have been copied.")
     }

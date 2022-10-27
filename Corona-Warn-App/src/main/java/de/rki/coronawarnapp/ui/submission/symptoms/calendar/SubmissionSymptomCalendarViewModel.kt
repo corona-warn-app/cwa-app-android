@@ -80,11 +80,13 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
             return
         }
         Timber.tag(TAG).d("onDone() clicked on calender screen.")
-        submissionRepository.currentSymptoms.update {
-            Symptoms(
-                symptomIndication = symptomIndication,
-                startOfSymptoms = symptomStartInternal.value
-            ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
+        launch {
+            submissionRepository.updateCurrentSymptoms(
+                Symptoms(
+                    symptomIndication = symptomIndication,
+                    startOfSymptoms = symptomStartInternal.value
+                ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
+            )
         }
         performSubmission {
             launch {
