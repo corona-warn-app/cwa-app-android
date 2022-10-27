@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment
  *     dismissAction { foo4() }
  *     setCancelable(false)
  *     setDeleteDialog(true)
- *     customView(R.id.dialog_view)
+ *     setCustomView(R.id.dialog_view)
  * }
  * ```
  */
