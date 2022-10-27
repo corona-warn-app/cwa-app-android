@@ -127,7 +127,7 @@ class CheckInWarningMatcher @Inject constructor(
         checkInProtectedReport: List<CheckInOuterClass.CheckInProtectedReport>,
         checkIns: List<CheckIn>
     ): List<TraceWarning.TraceTimeIntervalWarning> {
-        val hashCheckInMap = checkIns.map { it.traceLocationIdHash to it }.toMap()
+        val hashCheckInMap = checkIns.associateBy { it.traceLocationIdHash }
         return checkInProtectedReport
             .filter {
                 hashCheckInMap.containsKey(it.locationIdHash.toOkioByteString())
@@ -197,7 +197,9 @@ internal fun CheckIn.calculateOverlap(
         traceWarningPackageId = traceWarningPackageId,
         startTime = Instant.ofEpochMilli(overlapStartMillis),
         endTime = Instant.ofEpochMilli(overlapEndMillis)
-    )
+    ).also {
+        Timber.tag(TAG).d("CheckInWarningOverlap=%s", it)
+    }
 }
 
 // converts number of 10min intervals into milliseconds
