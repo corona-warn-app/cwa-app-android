@@ -121,15 +121,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         // Usage example of the new new builder
         createDialog {
-            title { "New implementation" }
-            message { "Putting the app in background won't cause a crash with the dialog open" }
-            positiveButton {
-                text { "Ok" }
-                action { dummyDialog1() }
-            }
-            negativeButton {
-                text { R.id.button_done }
-            }
+            title("New implementation")
+            message("Putting the app in background won't cause a crash with the dialog open")
+            positiveButton("Ok") { dummyDialog1() }
+            negativeButton(R.id.button_done)
             isCancelable { false }
             isDeleteDialog { true }
         }

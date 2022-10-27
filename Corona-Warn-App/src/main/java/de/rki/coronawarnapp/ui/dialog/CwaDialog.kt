@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.ui.dialog
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
-import kotlin.experimental.ExperimentalTypeInference
 
 @DslMarker
 annotation class CwaDialogDsl
@@ -34,50 +33,50 @@ class CwaDialogConfigBuilder {
     private var isDeleteDialog: Boolean = false
     private var customView: Int? = null
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("titleInt")
-    fun title(lambda: () -> Int) {
-        title = IntOrString.IntRes(lambda())
+    fun title(resource: Int) {
+        title = IntOrString.IntRes(resource)
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("titleString")
-    fun title(lambda: () -> String) {
-        title = IntOrString.StringRes(lambda())
+    fun title(text: String) {
+        title = IntOrString.StringRes(text)
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("messageInt")
-    fun message(lambda: () -> Int) {
-        message = IntOrString.IntRes(lambda())
+    fun message(resource: Int) {
+        message = IntOrString.IntRes(resource)
     }
 
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("messageString")
-    fun message(lambda: () -> String) {
-        message = IntOrString.StringRes(lambda())
+    fun message(text: String) {
+        message = IntOrString.StringRes(text)
     }
 
-    fun positiveButton(lambda: ButtonBuilder.() -> Unit) {
-        val contents = ButtonBuilder().apply(lambda).build()
-        positiveButtonText = contents.text
-        positiveButtonAction = contents.action
+    fun positiveButton(resource: Int, lambda: () -> Unit = { }) {
+        positiveButtonText = IntOrString.IntRes(resource)
+        positiveButtonAction = lambda
     }
 
-    fun negativeButton(lambda: ButtonBuilder.() -> Unit) {
-        val contents = ButtonBuilder().apply(lambda).build()
-        negativeButtonText = contents.text
-        negativeButtonAction = contents.action
+    fun positiveButton(text: String, lambda: () -> Unit = { }) {
+        positiveButtonText = IntOrString.StringRes(text)
+        positiveButtonAction = lambda
     }
 
-    fun neutralButton(lambda: ButtonBuilder.() -> Unit) {
-        val contents = ButtonBuilder().apply(lambda).build()
-        neutralButtonText = contents.text
-        neutralButtonAction = contents.action
+    fun negativeButton(resource: Int, lambda: () -> Unit = { }) {
+        negativeButtonText = IntOrString.IntRes(resource)
+        negativeButtonAction = lambda
+    }
+
+    fun negativeButton(text: String, lambda: () -> Unit = { }) {
+        negativeButtonText = IntOrString.StringRes(text)
+        negativeButtonAction = lambda
+    }
+
+    fun neutralButton(resource: Int, lambda: () -> Unit = { }) {
+        neutralButtonText = IntOrString.IntRes(resource)
+        neutralButtonAction = lambda
+    }
+
+    fun neutralButton(text: String, lambda: () -> Unit = { }) {
+        neutralButtonText = IntOrString.StringRes(text)
+        neutralButtonAction = lambda
     }
 
     fun dismissAction(lambda: () -> Unit) {
@@ -101,37 +100,6 @@ class CwaDialogConfigBuilder {
         CwaDialogActions(positiveButtonAction, negativeButtonAction, neutralButtonAction, dismissAction),
         CwaDialogOptions(isCancelable, isDeleteDialog, customView)
     )
-}
-
-data class Button(
-    val text: IntOrString,
-    val action: DialogAction = { }
-)
-
-@CwaDialogDsl
-class ButtonBuilder {
-    private var text = IntOrString()
-    private var action: DialogAction = { }
-
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("positiveButtonInt")
-    fun text(lambda: () -> Int) {
-        text = IntOrString.IntRes(lambda())
-    }
-
-    @OptIn(ExperimentalTypeInference::class)
-    @OverloadResolutionByLambdaReturnType
-    @JvmName("positiveButtonString")
-    fun text(lambda: () -> String) {
-        text = IntOrString.StringRes(lambda())
-    }
-
-    fun action(lambda: () -> Unit) {
-        action = { lambda() }
-    }
-
-    fun build() = Button(text, action)
 }
 
 data class CwaDialogActions(
