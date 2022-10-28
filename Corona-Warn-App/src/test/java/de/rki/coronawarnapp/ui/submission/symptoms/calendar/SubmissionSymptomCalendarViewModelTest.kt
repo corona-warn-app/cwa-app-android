@@ -41,7 +41,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { autoSubmission.isSubmissionRunning } returns flowOf(false)
-        every { autoSubmission.updateMode(any()) } just Runs
+        coEvery { autoSubmission.updateMode(any()) } just Runs
         coEvery { autoSubmission.runSubmissionNow(any()) } just Runs
         coEvery { submissionRepository.updateCurrentSymptoms(any()) } just Runs
     }

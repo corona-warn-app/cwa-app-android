@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -83,7 +85,9 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
 
     override fun onStop() {
         super.onStop()
-        viewModel.setAutoSubmission()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.setAutoSubmission()
+        }
     }
 
     private fun showSkipDialog() {

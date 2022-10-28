@@ -167,8 +167,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
     @Test
     fun `missing last download causes force sync`() = runTest {
-        syncSettings.updateLastDownloadDays(null)
-        syncSettings.updateLastDownloadHours(null)
+        every { syncSettings.lastDownloadDays } returns flowOf(null)
+        every { syncSettings.lastDownloadHours } returns flowOf(null)
 
         val instance = createInstance()
 
@@ -180,8 +180,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             // Initial reset
-            syncSettings.updateLastDownloadDays(any())
-            syncSettings.updateLastDownloadHours(any())
+            // syncSettings.updateLastDownloadDays(any())
+            // syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys() // To clean up stale locations
 
@@ -205,14 +205,15 @@ class KeyPackageSyncToolTest : BaseIOTest() {
     @Test
     fun `failed last download causes force sync`() = runTest {
 
-        syncSettings.updateLastDownloadDays(
+        every { syncSettings.lastDownloadDays } returns flowOf(
             DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
                 successful = false
             )
         )
-        syncSettings.updateLastDownloadHours(
+
+        every { syncSettings.lastDownloadHours } returns flowOf(
             DownloadDiagnosisKeysSettings.LastDownload(
                 startedAt = Instant.EPOCH,
                 finishedAt = Instant.EPOCH,
@@ -230,8 +231,8 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             // Initial reset
-            syncSettings.updateLastDownloadDays(any())
-            syncSettings.updateLastDownloadHours(any())
+            // syncSettings.updateLastDownloadDays(any())
+            // syncSettings.updateLastDownloadHours(any())
 
             keyCache.getAllCachedKeys() // To clean up stale locations
 

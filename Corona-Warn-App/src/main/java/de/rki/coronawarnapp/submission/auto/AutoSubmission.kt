@@ -56,15 +56,12 @@ class AutoSubmission @Inject constructor(
         }
     }
 
-    fun updateMode(newMode: Mode) {
-        appScope.launch {
-            Timber.tag(TAG).i("updateMode(mode=$newMode)")
-
-            when (newMode) {
-                Mode.DISABLED -> disableAutoSubmission()
-                Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
-                Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
-            }
+    suspend fun updateMode(newMode: Mode) {
+        Timber.tag(TAG).i("updateMode(mode=$newMode)")
+        when (newMode) {
+            Mode.DISABLED -> disableAutoSubmission()
+            Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
+            Mode.SUBMIT_ASAP -> enableAutoSubmission(lastActivity = Instant.EPOCH)
         }
     }
 
