@@ -179,7 +179,7 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device Release
-        uses: dorny/test-reporter@v1.5.0
+        uses: dorny/test-reporter@v1.6.0
         if: always()
         with:
           name: "Unit Test Results - Device Release"
@@ -218,7 +218,7 @@ jobs:
           path: Corona-Warn-App/build/test-results
 
       - name: Publish Test Results - Device For Tester Release
-        uses: dorny/test-reporter@v1.5.0
+        uses: dorny/test-reporter@v1.6.0
         if: always()
         with:
           name: "Unit Test Results - Device For Tester Release"
@@ -343,7 +343,7 @@ jobs:
           path: firebase-results
 
       - name: Publish Firebase Test Results
-        uses: dorny/test-reporter@v1.5.0
+        uses: dorny/test-reporter@v1.6.0
         if: always()
         with:
           name: "Firebase Test Results"
