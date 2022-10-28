@@ -80,10 +80,10 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
 
         val warningPackages = traceWarningRepository.allMetaData.first()
         val overlaps = presenceTracingRiskRepository.allCheckInWarningOverlaps.first()
-        val lastResult = presenceTracingRiskRepository.allRiskLevelResults.first().singleOrNull()
+        val lastResult = presenceTracingRiskRepository.allRiskLevelResults.first().firstOrNull { it.wasSuccessfullyCalculated }
 
         val infoText = when {
-            !lastResult!!.wasSuccessfullyCalculated -> "Last calculation failed"
+            lastResult?.wasSuccessfullyCalculated != true -> "Last calculation failed"
             overlaps.isEmpty() -> "No matches found (${warningPackages.size} warning packages)."
             overlaps.size > 100 -> "Output too large. ${overlaps.size} lines"
             overlaps.isNotEmpty() -> overlaps.fold(StringBuilder()) { stringBuilder, checkInOverlap ->
