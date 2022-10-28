@@ -212,6 +212,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         negativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) {
             position?.let { traceLocationsAdapter.notifyItemChanged(it) }
         }
+        dismissAction { position?.let { traceLocationsAdapter.notifyItemChanged(it) } }
         setDeleteDialog(true)
     }
 
