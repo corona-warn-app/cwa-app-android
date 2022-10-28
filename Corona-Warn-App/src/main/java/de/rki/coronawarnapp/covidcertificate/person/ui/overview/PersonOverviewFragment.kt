@@ -95,7 +95,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                         openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
                     }
                 setCancelable(false)
-                setDeleteDialog(true)
+                setError(event.error)
             }
 
             is ShowMigrationInfoDialog -> createDialog {
