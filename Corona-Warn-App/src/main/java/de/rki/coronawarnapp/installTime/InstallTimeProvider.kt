@@ -1,30 +1,25 @@
 package de.rki.coronawarnapp.installTime
 
-import android.content.Context
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.di.AppInstallTime
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import java.time.Instant
 import java.time.LocalDate
-import java.time.Period
+import java.time.temporal.ChronoUnit
 
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class InstallTimeProvider @Inject constructor(
-    @AppContext private val context: Context
+    @AppInstallTime private val installTime: Instant,
+    private val timeStamper: TimeStamper
 ) {
-    private val dayOfInstallation: LocalDate = Instant.ofEpochMilli(
-        context
-            .packageManager
-            .getPackageInfo(context.packageName, 0)
-            .firstInstallTime
-    )
-        .toLocalDateUserTz()
+    private val dayOfInstallation = installTime.toLocalDateUserTz()
 
     val today: LocalDate
-        get() = Instant.now().toLocalDateUserTz()
+        get() = timeStamper.nowUTC.toLocalDateUserTz()
 
     val daysSinceInstallation: Int
-        get() = Period.between(dayOfInstallation, today).days
+        get() = ChronoUnit.DAYS.between(dayOfInstallation, today).toInt()
 }
