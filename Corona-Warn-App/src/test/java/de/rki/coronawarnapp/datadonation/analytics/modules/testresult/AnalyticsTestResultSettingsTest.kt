@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
-import android.content.Context
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
@@ -18,11 +17,8 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
-import testhelpers.preferences.MockSharedPreferences
 
 class AnalyticsTestResultSettingsTest : BaseTest() {
-    @MockK lateinit var context: Context
-    lateinit var preferences: MockSharedPreferences
     lateinit var pcrStorage: AnalyticsPCRTestResultSettings
     lateinit var raStorage: AnalyticsRATestResultSettings
     @MockK lateinit var analyticsExposureWindow: AnalyticsExposureWindow
@@ -31,25 +27,10 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
     private val dataStore = FakeDataStore()
     private val objectMapper = SerializationModule().jacksonObjectMapper()
 
-    private val sharedPrefKey = "analytics_testResultDonor"
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
-        preferences = MockSharedPreferences()
-        every {
-            context.getSharedPreferences(
-                sharedPrefKey,
-                Context.MODE_PRIVATE
-            )
-        } returns preferences
-        every {
-            context.getSharedPreferences(
-                sharedPrefKey + "_RAT",
-                Context.MODE_PRIVATE
-            )
-        } returns preferences
         pcrStorage = AnalyticsPCRTestResultSettings(objectMapper, dataStore)
         raStorage = AnalyticsRATestResultSettings(objectMapper, dataStore)
 
