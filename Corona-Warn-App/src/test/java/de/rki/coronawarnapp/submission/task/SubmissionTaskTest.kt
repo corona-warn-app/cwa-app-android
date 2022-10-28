@@ -191,8 +191,8 @@ class SubmissionTaskTest : BaseTest() {
         )
 
         coVerifySequence {
-            // coronaTestRepository.coronaTests
             submissionSettings.lastSubmissionUserActivityUTC
+            coronaTestRepository.coronaTests
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
@@ -200,19 +200,19 @@ class SubmissionTaskTest : BaseTest() {
             submissionSettings.updateAutoSubmissionAttemptsCount(any())
             submissionSettings.updateAutoSubmissionAttemptsLast(any())
 
-            // coronaTestRepository.coronaTests
-            // tekHistoryStorage.tekData
+            coronaTestRepository.coronaTests
+            tekHistoryStorage.tekData
             submissionSettings.symptoms
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             checkInRepository.checkInsWithinRetention
             checkInsTransformer.transform(any(), any())
 
-            // playbook.retrieveTan("regtoken", null)
-            // coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
+            playbook.retrieveTan("regtoken", null)
+            coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
 
             appConfigProvider.getAppConfig()
 
-            /*playbook.submit(
+            playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
                     temporaryExposureKeys = listOf(transformedKey),
@@ -223,11 +223,12 @@ class SubmissionTaskTest : BaseTest() {
                     submissionType = SubmissionType.SUBMISSION_TYPE_PCR_TEST,
                     authCode = "tan"
                 )
-            )*/
-            submissionSettings.updateSymptoms(any())
+            )
+            tekHistoryStorage.reset()
+            submissionSettings.updateSymptoms(null)
             checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
-            // coronaTestRepository.markAsSubmitted(any())
+            coronaTestRepository.markAsSubmitted(any())
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
 
@@ -390,10 +391,10 @@ class SubmissionTaskTest : BaseTest() {
         val task = createTask()
 
         task.run(SubmissionTask.Arguments(checkUserActivity = false))
-        coVerify(exactly = 0) { submissionSettings.updateLastSubmissionUserActivityUTC(any()) }
+        coVerify(exactly = 0) { submissionSettings.lastSubmissionUserActivityUTC }
 
         task.run(SubmissionTask.Arguments(checkUserActivity = true))
-        // coVerify { submissionSettings.updateLastSubmissionUserActivityUTC(any()) }
+        coVerify { submissionSettings.lastSubmissionUserActivityUTC }
     }
 
     @Test

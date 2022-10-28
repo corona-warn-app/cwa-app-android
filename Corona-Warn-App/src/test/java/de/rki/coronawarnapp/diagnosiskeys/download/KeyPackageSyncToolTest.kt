@@ -179,10 +179,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         )
 
         coVerifySequence {
-            // Initial reset
-            // syncSettings.updateLastDownloadDays(any())
-            // syncSettings.updateLastDownloadHours(any())
-
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             syncSettings.lastDownloadDays
@@ -231,9 +227,6 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             // Initial reset
-            // syncSettings.updateLastDownloadDays(any())
-            // syncSettings.updateLastDownloadHours(any())
-
             keyCache.getAllCachedKeys() // To clean up stale locations
 
             syncSettings.lastDownloadDays

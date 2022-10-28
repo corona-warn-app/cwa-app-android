@@ -69,7 +69,8 @@ class SubmissionTask @Inject constructor(
                     inBackground = true
                 }
             }
-            val hasGivenConsent = coronaTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
+            val tests = coronaTestRepository.coronaTests.first()
+            val hasGivenConsent = tests.any { it.isAdvancedConsentGiven }
             if (!hasGivenConsent) {
                 Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
                 autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
