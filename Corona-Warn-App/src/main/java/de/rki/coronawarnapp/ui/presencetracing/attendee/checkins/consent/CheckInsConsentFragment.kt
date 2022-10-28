@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -85,24 +85,24 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         viewModel.setAutoSubmission()
     }
 
-    private fun showSkipDialog() = displayDialog {
-        setTitle(R.string.trace_location_attendee_consent_dialog_title)
-        setMessage(R.string.trace_location_attendee_consent_dialog_message)
-        setPositiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) { _, _ ->
+    private fun showSkipDialog() = createDialog {
+        title(R.string.trace_location_attendee_consent_dialog_title)
+        message(R.string.trace_location_attendee_consent_dialog_message)
+        positiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) {
             Timber.d("showSkipDialog:Stay on CheckInsConsentFragment")
         }
-        setNegativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) { _, _ ->
+        negativeButton(R.string.trace_location_attendee_consent_dialog_negative_button) {
             viewModel.doNotShareCheckIns()
         }
     }
 
-    private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.submission_test_result_available_close_dialog_title_consent_given)
-        setMessage(R.string.submission_test_result_available_close_dialog_body_consent_given)
-        setPositiveButton(R.string.submission_test_result_available_close_dialog_continue_button) { _, _ ->
+    private fun showCloseDialog() = createDialog {
+        title(R.string.submission_test_result_available_close_dialog_title_consent_given)
+        message(R.string.submission_test_result_available_close_dialog_body_consent_given)
+        positiveButton(R.string.submission_test_result_available_close_dialog_continue_button) {
             Timber.d("showCloseDialog:Stay on CheckInsConsentFragment")
         }
-        setNegativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) { _, _ ->
+        negativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) {
             viewModel.onCancelConfirmed()
         }
     }

@@ -18,7 +18,7 @@ import com.jakewharton.processphoenix.ProcessPhoenix
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDebugoptionsBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -49,9 +49,9 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 if (!chip.isPressed) return@setOnCheckedChangeListener
                 val type = chip.text.toString()
                 vm.selectEnvironmentType(type)
-                displayDialog {
-                    setTitle("Restarting ↻")
-                    setMessage("Configuring $type environment. Get yourself a glass of water \uD83D\uDEB0")
+                createDialog {
+                    title("Restarting ↻")
+                    message("Configuring $type environment. Get yourself a glass of water \uD83D\uDEB0")
                     setCancelable(false)
                 }
                 ProcessPhoenix.triggerRebirth(context)

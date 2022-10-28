@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewMo
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditLocationsViewModel.NavigationEvent.ShowLocationDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.LocationEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditLocationsFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -85,12 +85,11 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
         binding.locationsRecyclerView.adapter = listAdapter
     }
 
-    private fun deleteAllLocationsConfirmationDialog() = displayDialog(isDeleteDialog = true) {
-        setTitle(R.string.contact_diary_delete_locations_title)
-        setMessage(R.string.contact_diary_delete_locations_message)
-        setPositiveButton(R.string.contact_diary_delete_button_positive) { _, _ ->
-            viewModel.onDeleteAllLocationsClick()
-        }
-        setNegativeButton(R.string.contact_diary_delete_button_negative) { _, _ -> }
+    private fun deleteAllLocationsConfirmationDialog() = createDialog {
+        title(R.string.contact_diary_delete_locations_title)
+        message(R.string.contact_diary_delete_locations_message)
+        positiveButton(R.string.contact_diary_delete_button_positive) { viewModel.onDeleteAllLocationsClick() }
+        negativeButton(R.string.contact_diary_delete_button_negative)
+        setDeleteDialog(true)
     }
 }

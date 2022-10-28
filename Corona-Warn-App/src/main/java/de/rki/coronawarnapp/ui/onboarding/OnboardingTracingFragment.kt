@@ -7,9 +7,8 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -43,15 +42,14 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
             when (it) {
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
-                    displayDialog { dialog ->
-                        setTitle(R.string.onboarding_tracing_dialog_headline)
-                        setMessage(R.string.onboarding_tracing_dialog_body)
-                        setPositiveButton(R.string.onboarding_tracing_dialog_button_positive) { _, _ ->
+                    createDialog {
+                        title(R.string.onboarding_tracing_dialog_headline)
+                        message(R.string.onboarding_tracing_dialog_body)
+                        positiveButton(R.string.onboarding_tracing_dialog_button_positive) {
                             vm.disableTracingIfEnabled()
                             navigateToOnboardingTestFragment()
-                            dialog.dismiss()
                         }
-                        setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
+                        negativeButton(R.string.onboarding_tracing_dialog_button_negative)
                     }
 
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
@@ -62,9 +60,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.ensErrorEvents.observe2(this) { error ->
-            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
-        }
+        vm.ensErrorEvents.observe2(this) { error -> createDialog { setError(error) } }
     }
 
     override fun onResume() {

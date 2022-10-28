@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -144,7 +143,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
-                    displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
+                    createDialog { setError(error) }
                 }
             }
 
@@ -173,16 +172,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
-        displayDialog(
-            isDeleteDialog = true,
-            onDismissAction = { personDetailsAdapter.notifyItemChanged(position) }
-        ) {
-            setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
-            setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
-            setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
+        createDialog {
+            title(R.string.recycle_bin_recycle_certificate_dialog_title)
+            message(R.string.recycle_bin_recycle_certificate_dialog_message)
+            positiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) {
                 viewModel.recycleCertificate(certificate)
             }
-            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
+            negativeButton(R.string.family_tests_list_deletion_alert_cancel_button)
+            dismissAction { personDetailsAdapter.notifyItemChanged(position) }
+            setDeleteDialog(true)
         }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {

@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -159,20 +159,19 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }
 
-    private fun showLogDeletionRequest() = displayDialog(isDeleteDialog = true) {
-        setTitle(R.string.debugging_debuglog_stop_confirmation_title)
-        setMessage(R.string.debugging_debuglog_stop_confirmation_message)
-        setPositiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { _, _ ->
-            vm.stopAndDeleteDebugLog()
-        }
-        setNegativeButton(R.string.debugging_debuglog_stop_confirmation_discard_button) { _, _ -> }
+    private fun showLogDeletionRequest() = createDialog {
+        title(R.string.debugging_debuglog_stop_confirmation_title)
+        message(R.string.debugging_debuglog_stop_confirmation_message)
+        positiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { vm.stopAndDeleteDebugLog() }
+        negativeButton(R.string.debugging_debuglog_stop_confirmation_discard_button)
+        setDeleteDialog(true)
     }
 
-    private fun showLowStorageError() = displayDialog {
-        setTitle(R.string.errors_generic_headline_short)
-        setMessage(R.string.debugging_debuglog_start_low_storage_error)
-        setPositiveButton(android.R.string.ok) { _, _ -> /* dismiss */ }
-        setNeutralButton(R.string.menu_settings) { _, _ ->
+    private fun showLowStorageError() = createDialog {
+        title(R.string.errors_generic_headline_short)
+        message(R.string.debugging_debuglog_start_low_storage_error)
+        positiveButton(android.R.string.ok)
+        neutralButton(R.string.menu_settings) {
             try {
                 startActivity(Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS))
             } catch (e: Exception) {

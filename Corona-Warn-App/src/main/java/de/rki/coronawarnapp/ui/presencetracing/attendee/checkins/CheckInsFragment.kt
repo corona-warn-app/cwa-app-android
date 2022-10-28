@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -126,10 +126,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
     private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
         val errorText = lazyErrorText.get(requireContext())
-        displayDialog {
-            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
-            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
-            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ -> }
+        createDialog {
+            title(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+            message(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+            positiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button)
         }
     }
 
@@ -160,21 +160,19 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }
     }
 
-    private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) =
-        displayDialog(
-            isDeleteDialog = true,
-            onDismissAction = { position?.let { checkInsAdapter.notifyItemChanged(position) } }
-        ) {
-            setTitle(
-                if (checkIn == null)
-                    R.string.trace_location_checkins_remove_all_title
-                else
-                    R.string.trace_location_checkins_remove_single_title
-            )
-            setMessage(R.string.trace_location_checkins_remove_message)
-            setPositiveButton(R.string.generic_action_remove) { _, _ -> viewModel.onRemoveCheckInConfirmed(checkIn) }
-            setNegativeButton(R.string.generic_action_abort) { _, _ -> }
-        }
+    private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) = createDialog {
+        title(
+            if (checkIn == null)
+                R.string.trace_location_checkins_remove_all_title
+            else
+                R.string.trace_location_checkins_remove_single_title
+        )
+        message(R.string.trace_location_checkins_remove_message)
+        positiveButton(R.string.generic_action_remove) { viewModel.onRemoveCheckInConfirmed(checkIn) }
+        negativeButton(R.string.generic_action_abort)
+        dismissAction { position?.let { checkInsAdapter.notifyItemChanged(position) } }
+        setDeleteDialog(true)
+    }
 
     private fun setupMenu(toolbar: MaterialToolbar) = toolbar.apply {
         toolbar.addMenuId(R.id.checkins_fragment_menu_id)

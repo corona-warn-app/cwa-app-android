@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultAvailableBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -104,11 +104,11 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         appShortcutsHelper.disableAllShortcuts()
     }
 
-    private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.submission_test_result_available_close_dialog_title_consent_given)
-        setMessage(R.string.submission_test_result_available_close_dialog_body_consent_given)
-        setPositiveButton(R.string.submission_test_result_available_close_dialog_continue_button) { _, _ -> }
-        setNegativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) { _, _ ->
+    private fun showCloseDialog() = createDialog {
+        title(R.string.submission_test_result_available_close_dialog_title_consent_given)
+        message(R.string.submission_test_result_available_close_dialog_body_consent_given)
+        positiveButton(R.string.submission_test_result_available_close_dialog_continue_button)
+        negativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) {
             returnToScreenWhereUQSWasOpened()
         }
     }

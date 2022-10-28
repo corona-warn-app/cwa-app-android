@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -92,9 +91,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                 TestRegistrationStateProcessor.State.Idle,
                 TestRegistrationStateProcessor.State.Working -> Unit
                 is TestRegistrationStateProcessor.State.Error -> {
-                    displayDialog(dialog = state.getDialogBuilder(requireContext())) {
-                        setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                    }
+                    state.showExceptionDialog(this) { popBackStack() }
                 }
                 is TestRegistrationStateProcessor.State.TestRegistered -> findNavController().navigate(
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(

@@ -14,12 +14,11 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.ValidationStartFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -107,7 +106,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
             }
             is ShowErrorDialog -> {
                 startValidationCheck.isLoading = false
-                displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
+                createDialog { setError(event.error) }
             }
             is ShowNoInternetDialog -> {
                 startValidationCheck.isLoading = false

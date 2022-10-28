@@ -34,6 +34,7 @@ class CwaDialogBuilder {
     private var isCancelable: Boolean = true
     private var isDeleteDialog: Boolean = false
     private var customView: Int? = null
+    private var throwableError: Throwable? = null
 
     fun title(@StringRes resource: Int) {
         title = IntOrString.IntResource(resource)
@@ -93,14 +94,18 @@ class CwaDialogBuilder {
         isDeleteDialog = isDelete
     }
 
-    fun setCustomView(@LayoutRes view: Int) {
+    fun setView(@LayoutRes view: Int) {
         customView = view
+    }
+
+    fun setError(error: Throwable?) {
+        throwableError = error
     }
 
     fun build() = Triple(
         CwaDialogTexts(title, message, positiveButtonText, negativeButtonText, neutralButtonText),
         CwaDialogActions(positiveButtonAction, negativeButtonAction, neutralButtonAction, dismissAction),
-        CwaDialogOptions(isCancelable, isDeleteDialog, customView)
+        CwaDialogOptions(isCancelable, isDeleteDialog, customView, throwableError)
     )
 }
 
@@ -115,7 +120,8 @@ data class CwaDialogActions(
 data class CwaDialogOptions(
     val isCancelable: Boolean = true,
     val isDeleteDialog: Boolean = false,
-    val customView: Int? = null
+    val customView: Int? = null,
+    val throwableError: Throwable? = null
 ) : Parcelable
 
 @Parcelize

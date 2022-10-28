@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -117,12 +117,12 @@ class SubmissionTestResultConsentGivenFragment :
         binding.toolbar.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
     }
 
-    private fun showCancelDialog() = displayDialog {
-        setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
-        setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-        setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
+    private fun showCancelDialog() = createDialog {
+        title(R.string.submission_error_dialog_confirm_cancellation_title)
+        message(R.string.submission_error_dialog_confirm_cancellation_body)
+        positiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) {
             viewModel.onCancelConfirmed()
         }
-        setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ -> }
+        negativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative)
     }
 }

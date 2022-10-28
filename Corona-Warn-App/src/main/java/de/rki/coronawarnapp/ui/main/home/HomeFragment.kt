@@ -16,13 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.dialog.createDialog
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -92,41 +90,28 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.showPopUps()
         viewModel.events.observe2(this) { event -> navigate(event) }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
-        viewModel.errorEvent.observe2(this) {
-            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
-        }
+        viewModel.errorEvent.observe2(this) { createDialog { setError(it) } }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
-            if (showDialog) displayDialog {
-                setTitle(R.string.device_time_incorrect_dialog_headline)
-                setMessage(R.string.device_time_incorrect_dialog_body)
-                setPositiveButton(R.string.device_time_incorrect_dialog_button_confirm) { _, _ ->
+            if (showDialog) createDialog {
+                title(R.string.device_time_incorrect_dialog_headline)
+                message(R.string.device_time_incorrect_dialog_body)
+                positiveButton(R.string.device_time_incorrect_dialog_button_confirm) {
                     viewModel.userHasAcknowledgedIncorrectDeviceTime()
                 }
             }
         }
         viewModel.coronaTestErrors.observe2(this) { tests ->
             tests.forEach { test ->
-                displayDialog(
-                    dialog = test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
-                        val testName = when (test.type) {
-                            BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                            BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
-                        }
-                        setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                createDialog {
+                    val testName = when (test.type) {
+                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
-                )
+                    title(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
+                    setError(test.lastError)
+                }
             }
-        }
-
-        // Usage example of the new new builder
-        createDialog {
-            title("New implementation")
-            message("Putting the app in background won't cause a crash with the dialog open")
-            positiveButton("Ok") { dummyDialog1() }
-            negativeButton(R.string.errors_generic_button_negative)
-            setCancelable(false)
-            setDeleteDialog(true)
         }
 
         viewModel.markTestBadgesAsSeen.observe2(this) {
@@ -140,18 +125,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.refreshTests()
         viewModel.initAppShortcuts()
         binding.container.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun dummyDialog1() = displayDialog {
-        setTitle("Old implementation 1")
-        setMessage("This dialog would crash if you put the app in background")
-        setPositiveButton("Ok") { _, _ -> dummyDialog2() }
-    }
-
-    private fun dummyDialog2() = displayDialog {
-        setTitle("Old implementation 2")
-        setMessage("This dialog will not crash because there is no action set for the OK button")
-        setPositiveButton("Ok", null)
     }
 
     private fun menuIconWithText(drawable: Drawable?, title: CharSequence): CharSequence {
@@ -198,37 +171,41 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
-        setTitle(R.string.risk_lowered_dialog_headline)
-        setMessage(getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays))
-        setPositiveButton(R.string.risk_lowered_dialog_button_confirm) { _, _ ->
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) = createDialog {
+        title(R.string.risk_lowered_dialog_headline)
+        message(getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays))
+        positiveButton(R.string.risk_lowered_dialog_button_confirm) {
             viewModel.userHasAcknowledgedTheLoweredRiskLevel()
         }
+        setCancelable(false)
     }
 
-    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
-        setTitle(R.string.additional_high_risk_dialog_headline)
-        setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
-        setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) = createDialog {
+        title(R.string.additional_high_risk_dialog_headline)
+        message(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
+        positiveButton(R.string.additional_high_risk_dialog_button_confirm) {
             viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
         }
+        setCancelable(false)
     }
 
-    private fun showErrorResetDialog() = displayDialog(cancelable = false) {
-        setTitle(R.string.errors_generic_headline)
-        setMessage(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
-        setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> viewModel.errorResetDialogDismissed() }
-        setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-            openUrl(context.getString(R.string.errors_generic_text_catastrophic_error_encryption_failure))
+    private fun showErrorResetDialog() = createDialog {
+        title(R.string.errors_generic_headline)
+        message(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
+        positiveButton(R.string.errors_generic_button_positive) { viewModel.errorResetDialogDismissed() }
+        neutralButton(R.string.errors_generic_button_negative) {
+            openUrl(getString(R.string.errors_generic_text_catastrophic_error_encryption_failure))
         }
+        setCancelable(false)
     }
 
-    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Long) = displayDialog(cancelable = false) {
-        setTitle(R.string.risk_details_explanation_dialog_title)
-        setMessage(getString(R.string.tracing_explanation_dialog_message, maxEncounterAgeInDays))
-        setPositiveButton(R.string.errors_generic_button_positive) { _, _ ->
+    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Long) = createDialog {
+        title(R.string.risk_details_explanation_dialog_title)
+        message(getString(R.string.tracing_explanation_dialog_message, maxEncounterAgeInDays))
+        positiveButton(R.string.errors_generic_button_positive) {
             viewModel.tracingExplanationWasShown()
         }
+        setCancelable(false)
     }
 
     private fun navigate(event: HomeFragmentEvents) {

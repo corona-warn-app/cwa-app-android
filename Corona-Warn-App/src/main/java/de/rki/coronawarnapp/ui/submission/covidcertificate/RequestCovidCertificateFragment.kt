@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -87,9 +87,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             State.Working -> {
                 // Handled above
             }
-            is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
-                setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-            }
+            is State.Error -> state.showExceptionDialog(this) { popBackStack() }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
                     if (state.test is FamilyCoronaTest) {
@@ -115,17 +113,16 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         }
     }
 
-    private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.request_gc_dialog_title)
-        setMessage(R.string.request_gc_dialog_message)
-        setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
-            if (args.comesFromDispatcherFragment) {
-                findNavController().navigate(
-                    RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
-                )
-            } else popBackStack()
-        }
-        setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
+    private fun showCloseDialog() = createDialog {
+        title(R.string.request_gc_dialog_title)
+        message(R.string.request_gc_dialog_message)
+        positiveButton(R.string.request_gc_dialog_positive_button)
+        if (args.comesFromDispatcherFragment) {
+            findNavController().navigate(
+                RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
+            )
+        } else popBackStack()
+        negativeButton(R.string.request_gc_dialog_negative_button)
     }
 
     private fun openDatePicker() {

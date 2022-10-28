@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.rootdetection.ui.showRootDetectionDialog
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
 import de.rki.coronawarnapp.util.CWADebug
@@ -61,13 +61,11 @@ class LauncherActivity : AppCompatActivity() {
         viewModel.onResult(requestCode, resultCode)
     }
 
-    private fun showUpdateNeededDialog() {
-        displayDialog(cancelable = false) {
-            setTitle(R.string.update_dialog_title)
-            setMessage(R.string.update_dialog_message)
-            setCancelable(false)
-            setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
-        }
+    private fun showUpdateNeededDialog() = createDialog {
+        title(R.string.update_dialog_title)
+        message(R.string.update_dialog_message)
+        positiveButton(R.string.update_dialog_button) { viewModel.requestUpdate() }
+        setCancelable(false)
     }
 
     private fun checkEnvSetup() {

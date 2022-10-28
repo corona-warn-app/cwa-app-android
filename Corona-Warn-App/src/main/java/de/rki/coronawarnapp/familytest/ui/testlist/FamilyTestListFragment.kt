@@ -8,12 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestListBinding
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -40,7 +39,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
         binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
         viewModel.familyTests.observe2(this) { tests -> updateViews(tests) }
         viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
-        viewModel.error.observe2(this) { displayDialog(dialog = it.toErrorDialogBuilder(requireContext())) }
+        viewModel.error.observe2(this) { createDialog { setError(it) } }
         viewModel.refreshComplete.observe2(this) { binding.refreshLayout.isRefreshing = false }
     }
 
@@ -130,12 +129,12 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
                 R.string.family_tests_list_deletion_alert_delete_button
             )
         }
-        displayDialog {
-            setTitle(title)
-            setMessage(message)
-            setPositiveButton(button) { _, _ -> viewModel.onRemoveTestConfirmed(familyCoronaTest) }
-            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
-            setOnDismissListener {
+        createDialog {
+            title(title)
+            message(message)
+            positiveButton(button) { viewModel.onRemoveTestConfirmed(familyCoronaTest) }
+            negativeButton(R.string.family_tests_list_deletion_alert_cancel_button)
+            dismissAction {
                 position?.let { familyTestListAdapter.notifyItemChanged(position) }
             }
         }

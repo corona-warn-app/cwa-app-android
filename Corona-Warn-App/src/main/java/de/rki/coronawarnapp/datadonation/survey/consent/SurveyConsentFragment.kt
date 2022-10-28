@@ -7,8 +7,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SurveyConsentFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.DialogFragmentTemplate
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.CwaDialogFragment
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -62,9 +62,9 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         vm.showLoadingIndicator.observe2(this) { loading ->
             if (loading) showSurveyProgressDialog()
             else {
-                val tag = SurveyConsentFragment::class.java.simpleName + DialogFragmentTemplate.TAG
+                val tag = SurveyConsentFragment::class.java.simpleName + CwaDialogFragment.TAG
                 childFragmentManager.findFragmentByTag(tag)
-                    ?.let { (it as DialogFragmentTemplate).dismiss() }
+                    ?.let { (it as CwaDialogFragment).dismiss() }
             }
         }
 
@@ -73,13 +73,15 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         }
     }
 
-    private fun showSurveyProgressDialog() = displayDialog(cancelable = false) {
+    private fun showSurveyProgressDialog() = createDialog {
+        setCancelable(false)
         setView(R.layout.survey_consent_blocking_progress_dialog)
     }
 
-    private fun showErrorDialog(message: String) = displayDialog(cancelable = false) {
-        setTitle(R.string.datadonation_details_survey_consent_error_dialog_title)
-        setMessage(message)
-        setPositiveButton(R.string.datadonation_details_survey_consent_error_dialog_pos_button) { _, _ -> }
+    private fun showErrorDialog(message: String) = createDialog {
+        title(R.string.datadonation_details_survey_consent_error_dialog_title)
+        message(message)
+        positiveButton(R.string.datadonation_details_survey_consent_error_dialog_pos_button)
+        setCancelable(false)
     }
 }

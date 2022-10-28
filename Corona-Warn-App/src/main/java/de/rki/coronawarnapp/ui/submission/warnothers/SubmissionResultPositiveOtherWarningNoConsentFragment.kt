@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -78,10 +78,10 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showEnableTracingEvent.observe2(this) {
-            displayDialog {
-                setTitle(R.string.submission_test_result_dialog_tracing_required_title)
-                setMessage(R.string.submission_test_result_dialog_tracing_required_message)
-                setPositiveButton(R.string.submission_test_result_dialog_tracing_required_button) { _, _ -> }
+            createDialog {
+                title(R.string.submission_test_result_dialog_tracing_required_title)
+                message(R.string.submission_test_result_dialog_tracing_required_message)
+                positiveButton(R.string.submission_test_result_dialog_tracing_required_button)
             }
         }
 
@@ -105,11 +105,11 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         popBackStack()
     }
 
-    private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.submission_positive_other_warning_dialog_title)
-        setMessage(R.string.submission_positive_other_warning_dialog_body)
-        setPositiveButton(R.string.submission_positive_other_warning_dialog_positive_button) { _, _ -> }
-        setNegativeButton(R.string.submission_positive_other_warning_dialog_negative_button) { _, _ ->
+    private fun showCloseDialog() = createDialog {
+        title(R.string.submission_positive_other_warning_dialog_title)
+        message(R.string.submission_positive_other_warning_dialog_body)
+        positiveButton(R.string.submission_positive_other_warning_dialog_positive_button)
+        negativeButton(R.string.submission_positive_other_warning_dialog_negative_button) {
             viewModel.onBackPressed()
         }
     }
