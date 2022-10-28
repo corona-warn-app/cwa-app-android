@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
-import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
+import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.dialog.createDialog
 import de.rki.coronawarnapp.util.CWADebug
@@ -232,7 +232,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
 
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-            is HomeFragmentEvents.ShowDeleteTestDialog -> recycleCertificateDialog {
+            is HomeFragmentEvents.ShowDeleteTestDialog -> recycleTestDialog {
                 viewModel.moveTestToRecycleBinStorage(event.identifier)
             }
 

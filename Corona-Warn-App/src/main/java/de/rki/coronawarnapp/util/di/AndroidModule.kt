@@ -40,9 +40,12 @@ class AndroidModule {
     @Provides
     @AppInstallTime
     fun installTime(@AppContext context: Context): Instant =
-        context.packageManager.getPackageInfo(context.packageName, 0).firstInstallTime.run {
-            Instant.ofEpochMilli(this)
-        }
+        context
+            .packageManager
+            .getPackageInfo(context.packageName, 0)
+            .firstInstallTime.run {
+                Instant.ofEpochMilli(this)
+            }
 
     @Suppress("DEPRECATION")
     @Provides

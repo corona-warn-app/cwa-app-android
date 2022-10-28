@@ -21,13 +21,13 @@ import timber.log.Timber
 class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    @Assisted private val personIdentifierCode: String,
+    @Assisted private val groupKey: String,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
     private val timeStamper: TimeStamper,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val certificatesLiveData: LiveData<List<DccReissuanceItem>> = personCertificatesProvider
-        .findPersonByIdentifierCode(personIdentifierCode)
+        .findPersonByIdentifierCode(groupKey)
         .map { person ->
             person?.dccWalletInfo?.certificateReissuance?.asCertificateReissuanceCompat()?.toItemList().orEmpty()
         }.asLiveData2()
@@ -54,7 +54,7 @@ class DccReissuanceAccCertsViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccReissuanceAccCertsViewModel> {
         fun create(
-            personIdentifierCode: String
+            groupKey: String
         ): DccReissuanceAccCertsViewModel
     }
 }

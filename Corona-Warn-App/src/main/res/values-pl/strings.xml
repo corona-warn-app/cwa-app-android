@@ -1178,14 +1178,6 @@
     <string name="submission_accept_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
-    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Udostępniać losowe identyfikatory za pośrednictwem Corona-Warn-App?"</string>
-    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Twoje losowe identyfikatory z ostatnich 14 dni służą do powiadamiania innych osób o przebywaniu w ich pobliżu, a tym samym narażeniu na kontakt z osobą, u której zdiagnozowano COVID-19. Twoja tożsamość nigdy nie będzie udostępniana innym osobom."</string>
-    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Nie udostępniaj"</string>
-    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Udostępnij"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->

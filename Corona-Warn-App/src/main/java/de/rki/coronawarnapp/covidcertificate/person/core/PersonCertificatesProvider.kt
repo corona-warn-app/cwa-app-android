@@ -34,52 +34,48 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.personsSettings
     ) { certificateContainer, cwaUser, personWallets, personsSettings ->
 
-        val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
+        val wallets = personWallets.associateBy { it.personGroupKey }
+        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson().filterNot { it.isEmpty() }
 
         if (cwaUser != null && groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        groupedCerts
-            .filterNot { certs ->
-                certs.isEmpty() // Any person should have at least one certificate to show up in the list
-            }.map { certs ->
-                val (personIdentifier: CertificatePersonIdentifier, dccWalletInfo: DccWalletInfo?) =
-                    certs.toCertificateSortOrder().firstNotNullOfOrNull {
-                        personWalletsGroup[it.personIdentifier.groupingKey]?.let { walletGroup ->
-                            it.personIdentifier to walletGroup.dccWalletInfo
-                        }
-                    } ?: (certs.identifier to null)
+        groupedCerts.map { certs ->
+            val sortedCerts = certs.toCertificateSortOrder()
+            val identifier = certs.identifier
+            val dccWalletInfo = sortedCerts.findWalletInfo(wallets)
+            val settings = sortedCerts.findSettings(personsSettings, identifier)
 
-                val settings = personsSettings[personIdentifier]
+            Timber.tag(TAG).v(
+                "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                identifier.codeSHA256,
+                certs.size,
+                dccWalletInfo != null,
+                settings
+            )
 
-                Timber.tag(TAG).v(
-                    "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
-                    personIdentifier.codeSHA256,
-                    certs.size,
-                    dccWalletInfo != null,
-                    settings
-                )
+            val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
+            val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
+            val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
+            val badgeCount = certs.count { it.hasNotificationBadge } +
+                hasBoosterBadge.toInt() +
+                hasDccReissuanceBadge.toInt() +
+                hasNewAdmissionStateBadge.toInt()
 
-                val hasBoosterBadge = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
-                val hasDccReissuanceBadge = settings.hasReissuanceBadge(dccWalletInfo)
-                val hasNewAdmissionStateBadge = settings.hasAdmissionStateChangedBadge()
-                val badgeCount = certs.count { it.hasNotificationBadge } +
-                    hasBoosterBadge.toInt() + hasDccReissuanceBadge.toInt() + hasNewAdmissionStateBadge.toInt()
-                Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
+            Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", identifier.codeSHA256, badgeCount)
 
-                PersonCertificates(
-                    certificates = certs.toCertificateSortOrder(),
-                    isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
-                    badgeCount = badgeCount,
-                    dccWalletInfo = dccWalletInfo,
-                    hasBoosterBadge = hasBoosterBadge,
-                    hasDccReissuanceBadge = hasDccReissuanceBadge,
-                    hasNewAdmissionState = hasNewAdmissionStateBadge
-                )
-            }.toSet()
+            PersonCertificates(
+                certificates = sortedCerts,
+                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
+                badgeCount = badgeCount,
+                dccWalletInfo = dccWalletInfo,
+                hasBoosterBadge = hasBoosterBadge,
+                hasDccReissuanceBadge = hasDccReissuanceBadge,
+                hasNewAdmissionState = hasNewAdmissionStateBadge
+            )
+        }.toSet()
     }.shareLatest(scope = appScope)
 
     /**
@@ -95,12 +91,12 @@ class PersonCertificatesProvider @Inject constructor(
     val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
     /**
-     * Find specific person by [CertificatePersonIdentifier.codeSHA256]
-     * @param personIdentifierCode [String]
+     * Find specific person by [CertificatePersonIdentifier.groupingKey]
+     * @param groupKey [String]
      */
-    fun findPersonByIdentifierCode(personIdentifierCode: String): Flow<PersonCertificates?> =
+    fun findPersonByIdentifierCode(groupKey: String): Flow<PersonCertificates?> =
         personCertificates.map { persons ->
-            persons.find { it.personIdentifier.codeSHA256 == personIdentifierCode }
+            persons.find { it.personIdentifier.belongsToSamePerson(groupKey.toIdentifier()) }
         }
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
@@ -108,7 +104,7 @@ class PersonCertificatesProvider @Inject constructor(
         return hasNotSeenBoosterRuleYet(this, boosterNotification)
     }
 
-    fun hasNotSeenBoosterRuleYet(
+    private fun hasNotSeenBoosterRuleYet(
         personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
     ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier

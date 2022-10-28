@@ -75,7 +75,7 @@ jobs:
           sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${{ env.BUCKETDIR }}/blueline* mkdir firebase-screenshots
 
       - name: Publish Firebase Test Results
-        uses: dorny/test-reporter@v1.5.0
+        uses: dorny/test-reporter@v1.6.0
         if: always()
         with:
           name: "Firebase Test Results"

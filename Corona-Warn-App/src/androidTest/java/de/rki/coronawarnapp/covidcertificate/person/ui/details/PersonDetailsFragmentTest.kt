@@ -76,7 +76,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : PersonDetailsViewModel.Factory {
                 override fun create(
-                    personIdentifierCode: String,
+                    groupKey: String,
                     colorShade: PersonColorShade
                 ): PersonDetailsViewModel = viewModel
             }

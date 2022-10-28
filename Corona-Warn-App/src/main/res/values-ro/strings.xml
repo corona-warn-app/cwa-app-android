@@ -1178,14 +1178,6 @@
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un smartphone transmite un diagnostic de test pozitiv criptat către sistem."</string>
-    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Partajați ID-uri aleatorii prin Corona-Warn-App?"</string>
-    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"ID-urile dvs. aleatorii din ultimele 14 zile sunt utilizate pentru a notifica alte persoane că ați fost în apropierea lor și că, astfel, este posibil să fi fost expuse la o persoană diagnosticată cu COVID-19. Identitatea dvs. nu va fi niciodată partajată cu alte persoane."</string>
-    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Fără partajare"</string>
-    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Partajare"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->

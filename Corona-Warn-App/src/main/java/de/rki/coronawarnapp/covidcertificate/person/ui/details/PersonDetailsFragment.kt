@@ -45,7 +45,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         constructorCall = { factory, _ ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personCode,
+                groupKey = args.groupKey,
                 colorShade = args.colorShade
             )
         }
@@ -64,7 +64,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            root.transitionName = args.personCode
+            root.transitionName = args.groupKey
             toolbar.setNavigationOnClickListener {
                 viewModel.dismissAdmissionStateBadge(true)
             }
@@ -149,12 +149,12 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
 
             is OpenBoosterInfoDetails -> findNavController().navigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personIdentifierCode)
+                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.groupKey)
             ).also { viewModel.dismissAdmissionStateBadge() }
 
             is OpenCertificateReissuanceConsent -> findNavController().navigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
+                    .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.groupKey)
             ).also { viewModel.dismissAdmissionStateBadge() }
 
             Back -> {
