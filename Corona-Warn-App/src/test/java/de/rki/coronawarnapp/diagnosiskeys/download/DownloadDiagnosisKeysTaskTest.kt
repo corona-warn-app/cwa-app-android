@@ -78,6 +78,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         downloadSettings.apply {
             every { lastVersionCode } returns flowOf(1080000)
             coEvery { updateLastVersionCode(any()) } just Runs
+            coEvery { updateLastVersionCodeToCurrent() } just Runs
+            coEvery { isUpdateToEnfV2() } returns false
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
@@ -114,6 +116,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `enf v1 to v2 change flag is checked and set`() = runTest {
         every { downloadSettings.lastVersionCode } returns flowOf(-1L)
+        coEvery { downloadSettings.isUpdateToEnfV2() } returns true
 
         val task = createInstance()
 
@@ -200,7 +203,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @Test
     fun `hasRecentDetectionAndNoNewFiles checks for new files`() = runTest {
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(4))
-
         every { syncResult.newKeys } returns emptyList()
 
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())

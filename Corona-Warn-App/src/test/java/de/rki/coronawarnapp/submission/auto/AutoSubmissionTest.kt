@@ -28,7 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -93,10 +92,10 @@ class AutoSubmissionTest : BaseTest() {
 
         coVerifySequence {
             workManager.cancelAllWorkByTag("AutoSubmissionWorker")
-            submissionSettings.updateAutoSubmissionEnabled(match { true })
-            submissionSettings.updateLastSubmissionUserActivityUTC(match { Instant.now() == Instant.EPOCH })
-            submissionSettings.updateAutoSubmissionAttemptsCount(match { 123 == 0 })
-            submissionSettings.updateAutoSubmissionAttemptsLast(match { Instant.now() == Instant.EPOCH })
+            submissionSettings.updateAutoSubmissionEnabled(false)
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionAttemptsCount(0)
+            submissionSettings.updateAutoSubmissionAttemptsLast(Instant.EPOCH)
         }
     }
 
@@ -106,10 +105,8 @@ class AutoSubmissionTest : BaseTest() {
         instance.updateMode(AutoSubmission.Mode.MONITOR)
 
         coVerifySequence {
-            submissionSettings.updateLastSubmissionUserActivityUTC(
-                match { Instant.now() == Instant.ofEpochMilli(123456789) }
-            )
-            submissionSettings.updateAutoSubmissionEnabled(match { false })
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.ofEpochMilli(123456789))
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",
@@ -125,8 +122,8 @@ class AutoSubmissionTest : BaseTest() {
         instance.updateMode(AutoSubmission.Mode.SUBMIT_ASAP)
 
         coVerifySequence {
-            submissionSettings.updateLastSubmissionUserActivityUTC(match { Instant.now() == Instant.EPOCH })
-            submissionSettings.updateAutoSubmissionEnabled(match { false })
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",
@@ -150,10 +147,7 @@ class AutoSubmissionTest : BaseTest() {
         }
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
-
-        runTest {
-            instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
-        }
+        instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
 
         coVerifySequence {
             taskController.submitBlocking(
@@ -180,13 +174,11 @@ class AutoSubmissionTest : BaseTest() {
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
-        runTest {
-            instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
-        }
+        instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
 
         coVerifySequence {
-            submissionSettings.updateLastSubmissionUserActivityUTC(match { Instant.now() == Instant.EPOCH })
-            submissionSettings.updateAutoSubmissionEnabled(match { false })
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",

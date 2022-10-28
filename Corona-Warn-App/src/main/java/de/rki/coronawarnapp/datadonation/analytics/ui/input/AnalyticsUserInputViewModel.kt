@@ -106,23 +106,21 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     val finishEvent = SingleLiveEvent<Unit>()
 
-    fun selectUserInfoItem(item: UserInfoItem) {
-        launch {
-            when (item.data) {
-                is PpaData.PPAAgeGroup -> {
-                    settings.updateUserInfoAgeGroup(item.data)
-                }
-                is PpaData.PPAFederalState -> {
-                    settings.updateUserInfoFederalState(item.data)
-                    settings.updateUserInfoDistrict(0)
-                }
-                is Districts.District -> {
-                    settings.updateUserInfoDistrict(item.data.districtId)
-                }
-                else -> throw IllegalArgumentException()
+    suspend fun selectUserInfoItem(item: UserInfoItem) {
+        when (item.data) {
+            is PpaData.PPAAgeGroup -> {
+                settings.updateUserInfoAgeGroup(item.data)
             }
-            finishEvent.postValue(Unit)
+            is PpaData.PPAFederalState -> {
+                settings.updateUserInfoFederalState(item.data)
+                settings.updateUserInfoDistrict(0)
+            }
+            is Districts.District -> {
+                settings.updateUserInfoDistrict(item.data.districtId)
+            }
+            else -> throw IllegalArgumentException()
         }
+        finishEvent.postValue(Unit)
     }
 
     @AssistedFactory

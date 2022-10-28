@@ -118,6 +118,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `only once per day`() = runTest {
+        every { covidCertificateSettings.lastDccStateBackgroundCheck } returns flowOf(timeStamper.nowUTC)
         createInstance().apply {
             showNotificationIfStateChanged()
 
@@ -131,6 +132,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
 
     @Test
     fun `check can be enforced`() = runTest {
+        every { covidCertificateSettings.lastDccStateBackgroundCheck } returns flowOf(timeStamper.nowUTC)
         createInstance().run {
             showNotificationIfStateChanged(forceCheck = true)
 

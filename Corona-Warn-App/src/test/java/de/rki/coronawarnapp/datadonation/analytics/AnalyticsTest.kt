@@ -59,22 +59,18 @@ class AnalyticsTest : BaseTest() {
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
         every { configData.analytics } returns analyticsConfig
-
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
-
         every { timeStamper.nowUTC } returns baseTime
-
-        every { analyticsConfig.analyticsEnabled } returns true
-
-        every { settings.analyticsEnabled } returns flowOf(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1.0
 
         val twoDaysAgo = baseTime.minus(Duration.ofDays(2))
         every { settings.lastSubmittedTimestamp } returns flowOf(twoDaysAgo)
-        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
-
+        every { settings.analyticsEnabled } returns flowOf(true)
+        coEvery { settings.updateAnalyticsEnabled(any()) } just Runs
+        coEvery { settings.updateLastSubmittedTimestamp(any()) } just Runs
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
+        every { analyticsConfig.analyticsEnabled } returns true
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
-
+        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
         coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
     }
 
