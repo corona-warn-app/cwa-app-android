@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode.CategoryType
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -20,7 +21,8 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted("allowTestReplacement") private val allowTestReplacement: Boolean,
     @Assisted private val personName: String?,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
-) : CWAViewModel() {
+    dispatcherProvider: DispatcherProvider,
+) : CWAViewModel(dispatcherProvider) {
 
     val registrationState = registrationStateProcessor.state.asLiveData2()
 
