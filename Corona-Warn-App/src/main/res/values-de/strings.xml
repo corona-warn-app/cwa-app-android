@@ -1181,14 +1181,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_accept_button">"Einverstanden"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Ein Smartphone übermittelt einen positiven Testbefund verschlüsselt ins System."</string>
-    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Zufalls-IDs über Corona-Warn-App teilen?"</string>
-    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Ihre Zufalls-IDs der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass Sie in ihrer Nähe gewesen sind und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist. Ihre Identität wird niemals mit anderen Personen geteilt."</string>
-    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Nicht Teilen"</string>
-    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Teilen"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1235,7 +1227,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
-        <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
+        <item>"Sie werden eventuell von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
     </string-array>

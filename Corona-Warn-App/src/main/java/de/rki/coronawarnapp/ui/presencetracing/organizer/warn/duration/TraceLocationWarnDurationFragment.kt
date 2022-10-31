@@ -30,7 +30,6 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
@@ -143,7 +142,7 @@ class TraceLocationWarnDurationFragment :
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(dateTime.toInstant(ZoneOffset.UTC).toEpochMilli())
+            .setSelection(dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
             .apply {

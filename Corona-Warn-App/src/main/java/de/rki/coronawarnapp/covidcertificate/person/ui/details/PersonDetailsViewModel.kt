@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.person.core.isHighestCertificateDisplayValid
 import de.rki.coronawarnapp.covidcertificate.person.core.isMaskOptional
+import de.rki.coronawarnapp.covidcertificate.person.core.toIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
@@ -55,7 +56,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    @Assisted private val personIdentifierCode: String,
+    @Assisted private val groupKey: String,
     @Assisted private val colorShade: PersonColorShade,
     private val format: CclTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
@@ -66,9 +67,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.first { it.personIdentifier.codeSHA256 == personIdentifierCode }
+        certificateSet.first { it.personIdentifier.belongsToSamePerson(groupKey.toIdentifier()) }
     }.catch { error ->
-        Timber.d(error, "No person found for $personIdentifierCode")
+        Timber.d(error, "No person found for $groupKey")
         events.postValue(Back)
     }
 
@@ -203,7 +204,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         title = format(boosterNotification.titleText),
         subtitle = format(boosterNotification.subtitleText),
         badgeVisible = personCertificates.hasBoosterBadge,
-        onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
+        onClick = { events.postValue(OpenBoosterInfoDetails(groupKey)) }
     )
 
     private suspend fun dccReissuanceItem(
@@ -213,7 +214,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         title = format(division.titleText),
         subtitle = format(division.subtitleText),
         badgeVisible = personCertificates.hasDccReissuanceBadge,
-        onClick = { events.postValue(OpenCertificateReissuanceConsent(personIdentifierCode)) }
+        onClick = { events.postValue(OpenCertificateReissuanceConsent(groupKey)) }
     )
 
     private fun onValidateCertificate(containerId: CertificateContainerId) = launch {
@@ -316,7 +317,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     fun dismissAdmissionStateBadge(shouldPopBackstack: Boolean = false) {
         viewModelScope.launch {
-            personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+            personCertificatesProvider.findPersonByIdentifierCode(groupKey)
                 .firstOrNull()?.personIdentifier
                 ?.let { personCertificatesSettings.dismissGStatusBadge(it) }
             if (shouldPopBackstack) events.postValue(Back)
@@ -341,7 +342,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonDetailsViewModel> {
         fun create(
-            personIdentifierCode: String,
+            groupKey: String,
             colorShade: PersonColorShade,
         ): PersonDetailsViewModel
     }
