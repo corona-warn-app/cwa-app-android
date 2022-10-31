@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.Done
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.PDF
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.poster.CertificatePosterViewModel.UiState.PrintResult
@@ -73,7 +72,7 @@ class CertificatePosterFragment : Fragment(R.layout.certificate_poster_fragment)
 
         viewModel.error.observe2(this) {
             binding.progressLayout.isVisible = false
-            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
+            displayDialog { setError(it) }
         }
 
         viewModel.uiState.observe2(this) { state ->

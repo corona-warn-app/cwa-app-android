@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerWarnTanFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addTitleId
@@ -77,9 +77,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
             }
         }
 
-        viewModel.registrationError.observe2(this) {
-            it.toErrorDialogBuilder(requireContext()).show()
-        }
+        viewModel.registrationError.observe2(this) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {

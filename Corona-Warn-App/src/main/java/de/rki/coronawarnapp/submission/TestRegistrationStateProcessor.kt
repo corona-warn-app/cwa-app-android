@@ -1,10 +1,8 @@
 package de.rki.coronawarnapp.submission
 
-import android.content.Context
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -17,6 +15,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
@@ -37,51 +36,43 @@ class TestRegistrationStateProcessor @Inject constructor(
         data class TestRegistered(val test: BaseCoronaTest) : State()
 
         data class Error(val exception: Exception) : State() {
-            fun getDialogBuilder(context: Context, comingFromTan: Boolean = false): MaterialAlertDialogBuilder {
-                val builder = MaterialAlertDialogBuilder(context).apply {
-                    setCancelable(true)
-                }
-
-                return when (exception) {
-                    is AlreadyRedeemedException -> builder.apply {
+            fun showExceptionDialog(
+                fragment: Fragment,
+                comingFromTan: Boolean = false,
+                positiveButtonFunction: () -> Unit = { }
+            ) {
+                when (exception) {
+                    is AlreadyRedeemedException -> fragment.displayDialog {
                         if (comingFromTan) {
-                            setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
-                            setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
+                            title(R.string.submission_error_dialog_web_test_paired_title_tan)
+                            message(R.string.submission_error_dialog_web_test_paired_body_tan)
                         } else {
-                            setTitle(R.string.submission_error_dialog_web_tan_redeemed_title)
-                            setMessage(R.string.submission_error_dialog_web_tan_redeemed_body)
+                            title(R.string.submission_error_dialog_web_tan_redeemed_title)
+                            message(R.string.submission_error_dialog_web_tan_redeemed_body)
                         }
-                        setPositiveButton(android.R.string.ok) { _, _ ->
-                            /* dismiss */
-                        }
+                        positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is BadRequestException -> builder.apply {
+                    is BadRequestException -> fragment.displayDialog {
                         if (comingFromTan) {
-                            setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
-                            setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
+                            title(R.string.submission_error_dialog_web_test_paired_title_tan)
+                            message(R.string.submission_error_dialog_web_test_paired_body_tan)
                         } else {
-                            setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
-                            setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
+                            title(R.string.submission_qr_code_scan_invalid_dialog_headline)
+                            message(R.string.submission_qr_code_scan_invalid_dialog_body)
                         }
-                        setPositiveButton(android.R.string.ok) { _, _ ->
-                            /* dismiss */
-                        }
+                        positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is CwaClientError, is CwaServerError -> builder.apply {
-                        setTitle(R.string.submission_error_dialog_web_generic_error_title)
-                        setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
-                        setPositiveButton(android.R.string.ok) { _, _ ->
-                            /* dismiss */
-                        }
+                    is CwaClientError, is CwaServerError -> fragment.displayDialog {
+                        title(R.string.submission_error_dialog_web_generic_error_title)
+                        message(R.string.submission_error_dialog_web_generic_network_error_body)
+                        positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is CwaWebException -> builder.apply {
-                        setTitle(R.string.submission_error_dialog_web_generic_error_title)
-                        setMessage(R.string.submission_error_dialog_web_generic_error_body)
-                        setPositiveButton(android.R.string.ok) { _, _ ->
-                            /* dismiss */
-                        }
+                    is CwaWebException -> fragment.displayDialog {
+                        title(R.string.submission_error_dialog_web_generic_error_title)
+                        message(R.string.submission_error_dialog_web_generic_error_body)
+                        positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    else -> exception.toErrorDialogBuilder(context)
+                    else -> fragment.displayDialog { setError(exception) }
                 }
             }
         }

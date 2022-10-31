@@ -9,11 +9,10 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -80,8 +79,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                             )
                     )
                 }
-                is OrganizerWarnQrCodeNavigation.Error ->
-                    navEvent.exception.toErrorDialogBuilder(requireContext()).show()
+                is OrganizerWarnQrCodeNavigation.Error -> displayDialog { setError(navEvent.exception) }
                 OrganizerWarnQrCodeNavigation.InProgress -> Unit
             }
         }
@@ -109,42 +107,36 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.camera_permission_dialog_title)
-            .setMessage(R.string.camera_permission_dialog_message)
-            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ ->
+        displayDialog {
+            title(R.string.camera_permission_dialog_title)
+            message(R.string.camera_permission_dialog_message)
+            negativeButton(R.string.camera_permission_dialog_settings) {
                 showsPermissionDialog = false
                 requireContext().openAppDetailsSettings()
             }
-            .setPositiveButton(android.R.string.ok) { _, _ -> leave() }
-            .show()
+            positiveButton(android.R.string.ok) { leave() }
+        }
         showsPermissionDialog = true
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(R.string.camera_permission_rationale_dialog_headline)
-            setMessage(R.string.camera_permission_rationale_dialog_body)
-            setPositiveButton(R.string.camera_permission_rationale_dialog_button_positive) { _, _ ->
+        displayDialog {
+            title(R.string.camera_permission_rationale_dialog_headline)
+            message(R.string.camera_permission_rationale_dialog_body)
+            positiveButton(R.string.camera_permission_rationale_dialog_button_positive) {
                 showsPermissionDialog = false
                 requestCameraPermission()
             }
-            setNegativeButton(R.string.camera_permission_rationale_dialog_button_negative) { _, _ ->
-                leave()
-            }
-        }.show()
+            negativeButton(R.string.camera_permission_rationale_dialog_button_negative) { leave() }
+        }
         showsPermissionDialog = true
     }
 
-    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            val errorText = lazyErrorText.get(context)
-            setTitle(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
-            setMessage(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
-            setPositiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { _, _ ->
-                startDecode()
-            }
-        }.show()
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) = displayDialog {
+        val errorText = lazyErrorText.get(requireContext())
+        title(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
+        message(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
+        positiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { startDecode() }
     }
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)

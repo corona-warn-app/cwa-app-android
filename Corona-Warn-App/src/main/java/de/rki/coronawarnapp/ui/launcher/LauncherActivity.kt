@@ -61,13 +61,11 @@ class LauncherActivity : AppCompatActivity() {
         viewModel.onResult(requestCode, resultCode)
     }
 
-    private fun showUpdateNeededDialog() {
-        displayDialog(cancelable = false) {
-            setTitle(R.string.update_dialog_title)
-            setMessage(R.string.update_dialog_message)
-            setCancelable(false)
-            setPositiveButton(R.string.update_dialog_button) { _, _ -> viewModel.requestUpdate() }
-        }
+    private fun showUpdateNeededDialog() = displayDialog {
+        title(R.string.update_dialog_title)
+        message(R.string.update_dialog_message)
+        positiveButton(R.string.update_dialog_button) { viewModel.requestUpdate() }
+        setCancelable(false)
     }
 
     private fun checkEnvSetup() {
