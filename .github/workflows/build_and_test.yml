@@ -24,11 +24,11 @@ jobs:
   detekt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -38,7 +38,7 @@ jobs:
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:detekt
 
       - name: Archive detekt report
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: reports
           path: Corona-Warn-App/build/reports
@@ -46,11 +46,11 @@ jobs:
   klint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -60,10 +60,17 @@ jobs:
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:ktlintCheck
 
       - name: Archive detekt report
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: reports
           path: Corona-Warn-App/build/reports
+
+  validation:
+    name: "Gradle Validation"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - uses: gradle/wrapper-validation-action@v1.0.5
 
   lint_device_release_check:
     runs-on: ubuntu-latest
@@ -71,11 +78,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -85,7 +92,7 @@ jobs:
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceRelease -i
 
       - name: Archive detekt report
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: reports
           path: Corona-Warn-App/build/reports
@@ -96,11 +103,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -110,7 +117,7 @@ jobs:
         run: ./gradlew -PdisablePreDex :Corona-Warn-App:lintDeviceForTestersRelease -i
 
       - name: Archive detekt report
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: reports
           path: Corona-Warn-App/build/reports
@@ -121,11 +128,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -140,11 +147,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -159,11 +166,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -198,11 +205,11 @@ jobs:
       - detekt
       - klint
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -236,11 +243,11 @@ jobs:
     needs: unit_tests_device_release
     if: ${{ !github.event.pull_request.head.repo.fork }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -256,7 +263,7 @@ jobs:
           path: Corona-Warn-App/build/reports
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3.0.11
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
@@ -281,11 +288,11 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
