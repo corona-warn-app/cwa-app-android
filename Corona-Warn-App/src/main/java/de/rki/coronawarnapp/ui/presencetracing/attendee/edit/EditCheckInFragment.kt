@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -149,11 +149,11 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())
+            .setSelection(defaultValue?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate())
+                    callback(Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate())
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)

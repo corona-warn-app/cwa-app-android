@@ -8,7 +8,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.mapTraceLocationToTitleRes
-import de.rki.coronawarnapp.util.toLocalDateTimeUtc
 import de.rki.coronawarnapp.util.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -69,46 +68,50 @@ class EditCheckInViewModel @AssistedInject constructor(
     }
 
     fun onStartDateClicked() {
-        val utcDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
-        openStartPickerEvent.value = DateTimePickerEvent.DatePickerEvent(utcDateTime?.toLocalDate())
+        val dateTime = checkInStartTime.value?.toLocalDateTimeUserTz()
+        openStartPickerEvent.value = DateTimePickerEvent.DatePickerEvent(dateTime?.toLocalDate())
     }
 
     fun onStartTimeClicked() {
-        val utcDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
-        openStartPickerEvent.value = DateTimePickerEvent.TimePickerEvent(utcDateTime?.toLocalTime())
+        val dateTime = checkInStartTime.value?.toLocalDateTimeUserTz()
+        openStartPickerEvent.value = DateTimePickerEvent.TimePickerEvent(dateTime?.toLocalTime())
     }
 
     fun onEndDateClicked() {
-        val utcDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
-        openEndPickerEvent.value = DateTimePickerEvent.DatePickerEvent(utcDateTime?.toLocalDate())
+        val dateTime = checkInEndTime.value?.toLocalDateTimeUserTz()
+        openEndPickerEvent.value = DateTimePickerEvent.DatePickerEvent(dateTime?.toLocalDate())
     }
 
     fun onEndTimeClicked() {
-        val utcDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
-        openEndPickerEvent.value = DateTimePickerEvent.TimePickerEvent(utcDateTime?.toLocalTime())
+        val dateTime = checkInEndTime.value?.toLocalDateTimeUserTz()
+        openEndPickerEvent.value = DateTimePickerEvent.TimePickerEvent(dateTime?.toLocalTime())
     }
 
     fun onStartTimeChanged(event: DateTimePickerEvent) {
-        val startDateTime = checkInStartTime.value?.toLocalDateTimeUtc()
+        val startDateTime = checkInStartTime.value?.toLocalDateTimeUserTz()
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
                 checkInStartTime.value =
-                    startDateTime?.toLocalDate()?.atTime(event.localTime)?.toInstant(ZoneOffset.UTC)
+                    startDateTime?.toLocalDate()?.atTime(event.localTime)?.atZone(ZoneOffset.systemDefault())
+                        ?.toInstant()
             is DateTimePickerEvent.DatePickerEvent ->
                 checkInStartTime.value =
-                    startDateTime?.toLocalTime()?.atDate(event.localDate)?.toInstant(ZoneOffset.UTC)
+                    startDateTime?.toLocalTime()?.atDate(event.localDate)?.atZone(ZoneOffset.systemDefault())
+                        ?.toInstant()
         }
     }
 
     fun onEndTimeChanged(event: DateTimePickerEvent) {
-        val endDateTime = checkInEndTime.value?.toLocalDateTimeUtc()
+        val endDateTime = checkInEndTime.value?.toLocalDateTimeUserTz()
 
         when (event) {
             is DateTimePickerEvent.TimePickerEvent ->
-                checkInEndTime.value = endDateTime?.toLocalDate()?.atTime(event.localTime)?.toInstant(ZoneOffset.UTC)
+                checkInEndTime.value =
+                    endDateTime?.toLocalDate()?.atTime(event.localTime)?.atZone(ZoneOffset.systemDefault())?.toInstant()
             is DateTimePickerEvent.DatePickerEvent ->
-                checkInEndTime.value = endDateTime?.toLocalTime()?.atDate(event.localDate)?.toInstant(ZoneOffset.UTC)
+                checkInEndTime.value =
+                    endDateTime?.toLocalTime()?.atDate(event.localDate)?.atZone(ZoneOffset.systemDefault())?.toInstant()
         }
     }
 
