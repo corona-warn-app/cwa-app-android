@@ -109,7 +109,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_contact_journal_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_attendee_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_vaccination_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_notifications_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                 android:text="Notifications onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/notifications_delta_onboarding_title" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/switch_analytics_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
