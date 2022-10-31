@@ -80,6 +80,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { builder.setContentTextExpandable(any()) } returns builder
         every { builder.setContentText(any()) } returns builder
         every { builder.setStyle(any()) } returns builder
+        every { builder.setContentIntent(any()) } returns builder
         every { notificationHelper.newBaseBuilder() } returns builder
         every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
