@@ -141,7 +141,7 @@
     <!-- XTXT: Create RAT profile description -->
     <string name="rat_profile_create_description">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
     <!-- XTXT: Create RAT profile street hint -->
-    <string name="rat_profile_create_street_hint">Straße und Hausnummer</string>
+    <string name="rat_profile_create_street_hint">Adresse</string>
     <!-- XTXT: Create RAT profile post code hint -->
     <string name="rat_profile_create_zip_code_hint">PLZ</string>
     <!-- XTXT: Create RAT profile city hint -->
