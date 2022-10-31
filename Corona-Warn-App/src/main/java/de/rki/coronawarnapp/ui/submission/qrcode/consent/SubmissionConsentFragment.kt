@@ -110,9 +110,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 State.Working -> {
                     // Handled above
                 }
-                is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
-                    setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                }
+                is State.Error -> state.showExceptionDialog(this) { popBackStack() }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
@@ -144,10 +142,10 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     }
 
     private fun showInvalidQrCodeDialog() = displayDialog {
-        setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
-        setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
-        setPositiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive) { _, _ -> }
-        setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ -> popBackStack() }
+        title(R.string.submission_qr_code_scan_invalid_dialog_headline)
+        message(R.string.submission_qr_code_scan_invalid_dialog_body)
+        positiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive)
+        negativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { popBackStack() }
     }
 
     companion object {

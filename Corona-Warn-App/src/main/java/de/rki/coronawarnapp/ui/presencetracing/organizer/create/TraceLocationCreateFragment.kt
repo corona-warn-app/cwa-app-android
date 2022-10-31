@@ -19,9 +19,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addSubtitleId
 import de.rki.coronawarnapp.util.ui.addTitleId
@@ -68,7 +68,7 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         viewModel.result.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is TraceLocationCreateViewModel.Result.Error -> {
-                    DialogHelper.showDialog(getErrorDialogInstance(result.exception))
+                    showErrorDialog(result.exception)
                 }
                 is TraceLocationCreateViewModel.Result.Success -> {
                     findNavController().navigate(
@@ -141,26 +141,17 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
     }
 
-    private fun getErrorDialogInstance(exception: Exception): DialogHelper.DialogInstance {
-        return DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.tracelocation_generic_error_title,
-            R.string.tracelocation_generic_qr_code_error_body,
-            R.string.errors_generic_button_positive,
-            R.string.errors_generic_button_negative,
-            negativeButtonFunction = { showExceptionDetails(exception) }
-        )
+    private fun showErrorDialog(exception: Exception) = displayDialog {
+        title(R.string.tracelocation_generic_error_title)
+        message(R.string.tracelocation_generic_qr_code_error_body)
+        positiveButton(R.string.errors_generic_button_positive)
+        negativeButton(R.string.errors_generic_button_negative) { showExceptionDetails(exception) }
     }
 
-    private fun showExceptionDetails(exception: Exception) {
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.errors_generic_headline,
-                exception.toString(),
-                R.string.errors_generic_button_positive
-            )
-        )
+    private fun showExceptionDetails(exception: Exception) = displayDialog {
+        title(R.string.errors_generic_headline)
+        message(exception.toString())
+        positiveButton(R.string.errors_generic_button_positive)
     }
 
     private fun showDatePicker(

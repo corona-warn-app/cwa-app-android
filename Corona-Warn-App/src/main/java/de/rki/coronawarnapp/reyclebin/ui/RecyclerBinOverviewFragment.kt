@@ -9,8 +9,9 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RecyclerBinOverviewFragmentBinding
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinAdapter
-import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
-import de.rki.coronawarnapp.reyclebin.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.ui.dialog.removeAllItemsDialog
+import de.rki.coronawarnapp.reyclebin.ui.dialog.restoreCertificateDialog
+import de.rki.coronawarnapp.reyclebin.ui.dialog.restoreTestDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -54,22 +55,15 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
     }
 
     private fun handleRecyclerEvent(event: RecyclerBinEvent): Unit = when (event) {
-        RecyclerBinEvent.ConfirmRemoveAll -> RecycleBinDialogType.RemoveAllItemsConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
-        )
+        RecyclerBinEvent.ConfirmRemoveAll -> removeAllItemsDialog { viewModel.onRemoveAllItemsConfirmation() }
 
         is RecyclerBinEvent.RemoveCertificate -> viewModel.onRemoveCertificate(event.certificate)
 
-        is RecyclerBinEvent.ConfirmRestoreCertificate -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.onRestoreCertificateConfirmation(event.certificate) }
-        )
+        is RecyclerBinEvent.ConfirmRestoreCertificate -> restoreCertificateDialog {
+            viewModel.onRestoreCertificateConfirmation(event.certificate)
+        }
 
-        is RecyclerBinEvent.ConfirmRestoreTest -> RecycleBinDialogType.RestoreTestConfirmation.show(
-            fragment = this,
-            positiveButtonAction = { viewModel.onRestoreTestConfirmation(event.test) }
-        )
+        is RecyclerBinEvent.ConfirmRestoreTest -> restoreTestDialog { viewModel.onRestoreTestConfirmation(event.test) }
 
         is RecyclerBinEvent.RemoveTest -> viewModel.onRemoveTest(event.test)
         is RecyclerBinEvent.RestoreDuplicateTest -> findNavController().navigate(

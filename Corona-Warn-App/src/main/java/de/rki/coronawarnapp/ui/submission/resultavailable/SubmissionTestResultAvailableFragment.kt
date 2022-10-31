@@ -105,10 +105,10 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
     }
 
     private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.submission_test_result_available_close_dialog_title_consent_given)
-        setMessage(R.string.submission_test_result_available_close_dialog_body_consent_given)
-        setPositiveButton(R.string.submission_test_result_available_close_dialog_continue_button) { _, _ -> }
-        setNegativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) { _, _ ->
+        title(R.string.submission_test_result_available_close_dialog_title_consent_given)
+        message(R.string.submission_test_result_available_close_dialog_body_consent_given)
+        positiveButton(R.string.submission_test_result_available_close_dialog_continue_button)
+        negativeButton(R.string.submission_test_result_available_close_dialog_cancel_button) {
             returnToScreenWhereUQSWasOpened()
         }
     }

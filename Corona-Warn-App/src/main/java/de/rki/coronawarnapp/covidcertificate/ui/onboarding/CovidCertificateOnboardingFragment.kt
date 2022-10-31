@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
-import de.rki.coronawarnapp.qrcode.ui.toQrCodeErrorDialogBuilder
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -95,7 +93,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     findNavController().navigate(uri, navOption)
                 }
                 is CovidCertificateOnboardingViewModel.Event.Error ->
-                    displayDialog(dialog = event.throwable.toQrCodeErrorDialogBuilder(requireContext()))
+                    showCovidCertificateOnboardingErrorDialog(event.throwable)
             }
         }
     }

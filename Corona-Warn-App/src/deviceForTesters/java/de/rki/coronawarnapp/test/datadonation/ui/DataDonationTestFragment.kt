@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.databinding.FragmentTestDatadonationBinding
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.survey.SurveyException
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.observe2
@@ -114,14 +114,12 @@ class DataDonationTestFragment : Fragment(R.layout.fragment_test_datadonation), 
 
         vm.showErrorDialog.observe2(this) {
             val humanReadableError = it.tryHumanReadableError(requireContext())
-            val dialog = DialogHelper.DialogInstance(
-                context = requireContext(),
-                title = R.string.datadonation_details_survey_consent_error_dialog_title,
-                message = humanReadableError.description,
-                positiveButton = R.string.datadonation_details_survey_consent_error_dialog_pos_button,
-                cancelable = false
-            )
-            DialogHelper.showDialog(dialog)
+            displayDialog {
+                title(R.string.datadonation_details_survey_consent_error_dialog_title)
+                message(humanReadableError.description)
+                positiveButton(R.string.datadonation_details_survey_consent_error_dialog_pos_button)
+                setCancelable(false)
+            }
         }
 
         vm.currentSafetyNetExceptionType.observe2(this) { type ->

@@ -5,10 +5,8 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 
 fun Fragment.submissionCancelDialog(cancelFunction: () -> Unit) = displayDialog {
-    setTitle(R.string.submission_error_dialog_confirm_cancellation_title)
-    setMessage(R.string.submission_error_dialog_confirm_cancellation_body)
-    setPositiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { _, _ ->
-        cancelFunction()
-    }
-    setNegativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative) { _, _ -> }
+    title(R.string.submission_error_dialog_confirm_cancellation_title)
+    message(R.string.submission_error_dialog_confirm_cancellation_body)
+    positiveButton(R.string.submission_error_dialog_confirm_cancellation_button_positive) { cancelFunction() }
+    negativeButton(R.string.submission_error_dialog_confirm_cancellation_button_negative)
 }
