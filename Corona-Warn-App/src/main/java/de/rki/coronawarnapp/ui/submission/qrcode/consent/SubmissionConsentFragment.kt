@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionConsentBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentBackNavArg.BackToTestRegistrationSelection
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -141,7 +141,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         }
     }
 
-    private fun showInvalidQrCodeDialog() = createDialog {
+    private fun showInvalidQrCodeDialog() = displayDialog {
         title(R.string.submission_qr_code_scan_invalid_dialog_headline)
         message(R.string.submission_qr_code_scan_invalid_dialog_body)
         positiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive)

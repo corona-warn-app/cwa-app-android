@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
@@ -42,7 +42,7 @@ class TestRegistrationStateProcessor @Inject constructor(
                 positiveButtonFunction: () -> Unit = { }
             ) {
                 when (exception) {
-                    is AlreadyRedeemedException -> fragment.createDialog {
+                    is AlreadyRedeemedException -> fragment.displayDialog {
                         if (comingFromTan) {
                             title(R.string.submission_error_dialog_web_test_paired_title_tan)
                             message(R.string.submission_error_dialog_web_test_paired_body_tan)
@@ -52,7 +52,7 @@ class TestRegistrationStateProcessor @Inject constructor(
                         }
                         positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is BadRequestException -> fragment.createDialog {
+                    is BadRequestException -> fragment.displayDialog {
                         if (comingFromTan) {
                             title(R.string.submission_error_dialog_web_test_paired_title_tan)
                             message(R.string.submission_error_dialog_web_test_paired_body_tan)
@@ -62,17 +62,17 @@ class TestRegistrationStateProcessor @Inject constructor(
                         }
                         positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is CwaClientError, is CwaServerError -> fragment.createDialog {
+                    is CwaClientError, is CwaServerError -> fragment.displayDialog {
                         title(R.string.submission_error_dialog_web_generic_error_title)
                         message(R.string.submission_error_dialog_web_generic_network_error_body)
                         positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    is CwaWebException -> fragment.createDialog {
+                    is CwaWebException -> fragment.displayDialog {
                         title(R.string.submission_error_dialog_web_generic_error_title)
                         message(R.string.submission_error_dialog_web_generic_error_body)
                         positiveButton(android.R.string.ok) { positiveButtonFunction() }
                     }
-                    else -> fragment.createDialog { setError(exception) }
+                    else -> fragment.displayDialog { setError(exception) }
                 }
             }
         }

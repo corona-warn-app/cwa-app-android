@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOvervi
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.exportAll.DccExportAllOverviewViewModel.ShareResult
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.setupWebView
 import de.rki.coronawarnapp.databinding.FragmentDccExportAllOverviewBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -93,7 +93,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         }
     }
 
-    private fun showErrorDialog() = createDialog {
+    private fun showErrorDialog() = displayDialog {
         title(R.string.export_all_error_title)
         message(R.string.export_all_error_message)
         neutralButton(R.string.export_all_error_faq) {
@@ -103,7 +103,7 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         dismissAction { navigateToPersonOverview() }
     }
 
-    private fun showEmptyDialog() = createDialog {
+    private fun showEmptyDialog() = displayDialog {
         title(R.string.export_all_no_pages_title)
         message(R.string.export_all_no_pages_message)
         positiveButton(android.R.string.ok)

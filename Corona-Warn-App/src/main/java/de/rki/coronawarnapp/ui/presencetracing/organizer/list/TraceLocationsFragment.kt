@@ -14,7 +14,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
@@ -179,7 +179,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         }
     }
 
-    private fun showDeleteAllDialog() = createDialog {
+    private fun showDeleteAllDialog() = displayDialog {
         title(R.string.trace_location_organiser_list_delete_all_popup_title)
         message(R.string.trace_location_organiser_list_delete_all_popup_message)
         positiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) {
@@ -203,7 +203,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         }
     }
 
-    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) = createDialog {
+    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) = displayDialog {
         title(R.string.trace_location_organiser_list_delete_single_popup_title)
         message(R.string.trace_location_organiser_list_delete_single_popup_message)
         positiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) {

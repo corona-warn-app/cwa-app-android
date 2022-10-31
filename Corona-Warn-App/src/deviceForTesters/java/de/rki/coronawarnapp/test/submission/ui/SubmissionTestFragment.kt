@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -51,7 +51,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             startActivity(share)
         }
 
-        vm.errorEvents.observe2(this) { createDialog { setError(it) } }
+        vm.errorEvents.observe2(this) { displayDialog { setError(it) } }
 
         binding.apply {
             tekRetrieval.setOnClickListener { vm.updateStorage() }

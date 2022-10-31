@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -79,7 +79,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                             )
                     )
                 }
-                is OrganizerWarnQrCodeNavigation.Error -> createDialog { setError(navEvent.exception) }
+                is OrganizerWarnQrCodeNavigation.Error -> displayDialog { setError(navEvent.exception) }
                 OrganizerWarnQrCodeNavigation.InProgress -> Unit
             }
         }
@@ -107,7 +107,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        createDialog {
+        displayDialog {
             title(R.string.camera_permission_dialog_title)
             message(R.string.camera_permission_dialog_message)
             negativeButton(R.string.camera_permission_dialog_settings) {
@@ -120,7 +120,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        createDialog {
+        displayDialog {
             title(R.string.camera_permission_rationale_dialog_headline)
             message(R.string.camera_permission_rationale_dialog_body)
             positiveButton(R.string.camera_permission_rationale_dialog_button_positive) {
@@ -132,7 +132,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         showsPermissionDialog = true
     }
 
-    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) = createDialog {
+    private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) = displayDialog {
         val errorText = lazyErrorText.get(requireContext())
         title(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
         message(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))

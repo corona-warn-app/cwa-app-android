@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.observe2
@@ -81,7 +81,7 @@ class SubmissionTestResultNoConsentFragment :
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun showCancelDialog() = createDialog {
+    private fun showCancelDialog() = displayDialog {
         title(R.string.submission_test_result_positive_no_consent_dialog_title)
         message(R.string.submission_test_result_positive_no_consent_dialog_message)
         positiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { navigateToHome() }

@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment
  * }
  * ```
  */
-fun Fragment.createDialog(
+fun Fragment.displayDialog(
     lambda: CwaDialogBuilder.() -> Unit
 ) {
     val cwaDialog = CwaDialogBuilder().apply(lambda).build()
@@ -72,7 +72,7 @@ fun Fragment.createDialog(
  * }
  * ```
  */
-fun AppCompatActivity.createDialog(
+fun AppCompatActivity.displayDialog(
     lambda: CwaDialogBuilder.() -> Unit
 ) {
     val cwaDialog = CwaDialogBuilder().apply(lambda).build()

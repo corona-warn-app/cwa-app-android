@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationAttendeeCheckinsFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.CheckInsItem
 import de.rki.coronawarnapp.ui.presencetracing.attendee.edit.EditCheckInFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -126,7 +126,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
 
     private fun showInvalidQrCodeInformation(lazyErrorText: LazyString) {
         val errorText = lazyErrorText.get(requireContext())
-        createDialog {
+        displayDialog {
             title(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
             message(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
             positiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button)
@@ -160,7 +160,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
         }
     }
 
-    private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) = createDialog {
+    private fun showRemovalConfirmation(checkIn: CheckIn?, position: Int?) = displayDialog {
         title(
             if (checkIn == null)
                 R.string.trace_location_checkins_remove_all_title

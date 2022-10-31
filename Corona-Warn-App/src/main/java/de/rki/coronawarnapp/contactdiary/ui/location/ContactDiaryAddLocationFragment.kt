@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddLocationFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
@@ -109,7 +109,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         }
     }
 
-    private fun deleteLocationConfirmationDialog() = createDialog {
+    private fun deleteLocationConfirmationDialog() = displayDialog {
         title(R.string.contact_diary_delete_location_title)
         message(R.string.contact_diary_delete_location_message)
         positiveButton(R.string.contact_diary_delete_location_message) {

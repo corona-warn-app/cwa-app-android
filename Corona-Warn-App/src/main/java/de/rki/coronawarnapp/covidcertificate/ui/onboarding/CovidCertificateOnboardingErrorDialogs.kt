@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 
-fun Fragment.showCovidCertificateOnboardingErrorDialog(error: Throwable) = createDialog {
+fun Fragment.showCovidCertificateOnboardingErrorDialog(error: Throwable) = displayDialog {
     if (error is InvalidHealthCertificateException) {
         when {
             error.isCertificateInvalid ->

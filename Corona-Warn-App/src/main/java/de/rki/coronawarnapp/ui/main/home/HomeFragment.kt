@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -90,10 +90,10 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.showPopUps()
         viewModel.events.observe2(this) { event -> navigate(event) }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
-        viewModel.errorEvent.observe2(this) { createDialog { setError(it) } }
+        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
-            if (showDialog) createDialog {
+            if (showDialog) displayDialog {
                 title(R.string.device_time_incorrect_dialog_headline)
                 message(R.string.device_time_incorrect_dialog_body)
                 positiveButton(R.string.device_time_incorrect_dialog_button_confirm) {
@@ -103,7 +103,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
         viewModel.coronaTestErrors.observe2(this) { tests ->
             tests.forEach { test ->
-                createDialog {
+                displayDialog {
                     val testName = when (test.type) {
                         BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
                         BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
@@ -171,7 +171,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) = createDialog {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Long) = displayDialog {
         title(R.string.risk_lowered_dialog_headline)
         message(getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays))
         positiveButton(R.string.risk_lowered_dialog_button_confirm) {
@@ -180,7 +180,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         setCancelable(false)
     }
 
-    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) = createDialog {
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Long) = displayDialog {
         title(R.string.additional_high_risk_dialog_headline)
         message(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
         positiveButton(R.string.additional_high_risk_dialog_button_confirm) {
@@ -189,7 +189,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         setCancelable(false)
     }
 
-    private fun showErrorResetDialog() = createDialog {
+    private fun showErrorResetDialog() = displayDialog {
         title(R.string.errors_generic_headline)
         message(R.string.errors_generic_text_catastrophic_error_recovery_via_reset)
         positiveButton(R.string.errors_generic_button_positive) { viewModel.errorResetDialogDismissed() }
@@ -199,7 +199,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         setCancelable(false)
     }
 
-    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Long) = createDialog {
+    private fun showTracingExplanationDialog(maxEncounterAgeInDays: Long) = displayDialog {
         title(R.string.risk_details_explanation_dialog_title)
         message(getString(R.string.tracing_explanation_dialog_message, maxEncounterAgeInDays))
         positiveButton(R.string.errors_generic_button_positive) {

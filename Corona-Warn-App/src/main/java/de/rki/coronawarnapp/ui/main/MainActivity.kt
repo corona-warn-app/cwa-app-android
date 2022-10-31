@@ -28,7 +28,7 @@ import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
 import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is MainActivityEvent.Error -> createDialog { setError(event.error) }
+                is MainActivityEvent.Error -> displayDialog { setError(event.error) }
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
         }
@@ -188,7 +188,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             )
     }?.let { navController.navigate(it) }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) = createDialog {
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) = displayDialog {
         title(R.string.recycle_bin_restore_corona_test_dialog_title)
         message(R.string.recycle_bin_restore_corona_test_dialog_message)
         positiveButton(android.R.string.ok) { viewModel.restoreCoronaTest(recycledCoronaTest) }
@@ -319,7 +319,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         dataDonationAnalyticsScheduler.initialize()
     }
 
-    private fun showEnergyOptimizedEnabledForBackground() = createDialog {
+    private fun showEnergyOptimizedEnabledForBackground() = displayDialog {
         title(R.string.onboarding_energy_optimized_dialog_headline)
         message(R.string.onboarding_energy_optimized_dialog_body)
         positiveButton(R.string.onboarding_energy_optimized_dialog_button_positive) {
@@ -333,14 +333,14 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setCancelable(false)
     }
 
-    private fun showManualCheckingRequiredDialog() = createDialog {
+    private fun showManualCheckingRequiredDialog() = displayDialog {
         title(R.string.onboarding_manual_required_dialog_headline)
         message(R.string.onboarding_manual_required_dialog_body)
         positiveButton(R.string.onboarding_manual_required_dialog_button)
         setCancelable(false)
     }
 
-    private fun showBackgroundJobDisabledNotification() = createDialog {
+    private fun showBackgroundJobDisabledNotification() = displayDialog {
         title(R.string.onboarding_background_fetch_dialog_headline)
         message(R.string.onboarding_background_fetch_dialog_body)
         positiveButton(R.string.onboarding_background_fetch_dialog_button_positive) {

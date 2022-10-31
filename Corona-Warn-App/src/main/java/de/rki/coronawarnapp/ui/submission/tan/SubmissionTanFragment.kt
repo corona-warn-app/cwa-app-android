@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -123,17 +123,17 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
     private fun buildErrorDialog(exception: CwaWebException) {
         when (exception) {
-            is BadRequestException -> createDialog {
+            is BadRequestException -> displayDialog {
                 title(R.string.submission_error_dialog_web_test_paired_title_tan)
                 message(R.string.submission_error_dialog_web_test_paired_body_tan)
                 negativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { goBack() }
             }
-            is CwaClientError, is CwaServerError -> createDialog {
+            is CwaClientError, is CwaServerError -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_network_error_body)
                 negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }
             }
-            else -> createDialog {
+            else -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_error_body)
                 negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }

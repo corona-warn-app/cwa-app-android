@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationN
 import de.rki.coronawarnapp.databinding.FragmentVaccinationDetailsBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleCertificateDialog
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
@@ -116,7 +116,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 if (it is DccValidationException && it.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
-                    createDialog { setError(it) }
+                    displayDialog { setError(it) }
                 }
             }
 

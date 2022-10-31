@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.toLocalDateUserTz
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -113,7 +113,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         }
     }
 
-    private fun showCloseDialog() = createDialog {
+    private fun showCloseDialog() = displayDialog {
         title(R.string.request_gc_dialog_title)
         message(R.string.request_gc_dialog_message)
         positiveButton(R.string.request_gc_dialog_positive_button)

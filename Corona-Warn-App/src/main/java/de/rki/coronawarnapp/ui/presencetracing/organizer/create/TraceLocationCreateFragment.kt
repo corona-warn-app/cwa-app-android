@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.TraceLocationCreateFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.ui.durationpicker.format
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -141,14 +141,14 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
     }
 
-    private fun showErrorDialog(exception: Exception) = createDialog {
+    private fun showErrorDialog(exception: Exception) = displayDialog {
         title(R.string.tracelocation_generic_error_title)
         message(R.string.tracelocation_generic_qr_code_error_body)
         positiveButton(R.string.errors_generic_button_positive)
         negativeButton(R.string.errors_generic_button_negative) { showExceptionDetails(exception) }
     }
 
-    private fun showExceptionDetails(exception: Exception) = createDialog {
+    private fun showExceptionDetails(exception: Exception) = displayDialog {
         title(R.string.errors_generic_headline)
         message(exception.toString())
         positiveButton(R.string.errors_generic_button_positive)

@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestPresenceTracingBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -94,7 +94,7 @@ class PresenceTracingTestFragment : Fragment(R.layout.fragment_test_presence_tra
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { createDialog { setError(it) } }
+        viewModel.error.observe(viewLifecycleOwner) { displayDialog { setError(it) } }
 
         viewModel.submissionResult.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "Organizer submission passed", Toast.LENGTH_LONG).show()

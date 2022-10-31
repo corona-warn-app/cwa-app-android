@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -143,7 +143,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
-                    createDialog { setError(error) }
+                    displayDialog { setError(error) }
                 }
             }
 
@@ -172,7 +172,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
-        createDialog {
+        displayDialog {
             title(R.string.recycle_bin_recycle_certificate_dialog_title)
             message(R.string.recycle_bin_recycle_certificate_dialog_message)
             positiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) {

@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddPersonFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
@@ -109,7 +109,7 @@ class ContactDiaryAddPersonFragment :
         }
     }
 
-    private fun deletePersonConfirmationDialog() = createDialog {
+    private fun deletePersonConfirmationDialog() = displayDialog {
         title(R.string.contact_diary_delete_person_title)
         message(R.string.contact_diary_delete_person_message)
         positiveButton(R.string.contact_diary_delete_button_positive) {

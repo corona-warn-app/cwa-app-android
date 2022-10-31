@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import timber.log.Timber
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
@@ -63,12 +63,12 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             Timber.v("Not displaying error dialog, not in foreground.")
             return
         }
-        (activity as AppCompatActivity).createDialog {
+        (activity as AppCompatActivity).displayDialog {
             title(dialogTitle)
             message(message)
             positiveButton(confirm)
             negativeButton(details) {
-                activity.createDialog {
+                activity.displayDialog {
                     title(title)
                     message("$detailsTitle:\n$stack")
                     positiveButton(confirm)

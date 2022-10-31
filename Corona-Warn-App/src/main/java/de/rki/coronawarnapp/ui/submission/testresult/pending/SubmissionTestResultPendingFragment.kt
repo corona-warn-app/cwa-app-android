@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.recycleTestDialog
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.observeOnce
@@ -140,7 +140,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.showRedeemedTokenWarning.observe2(this) {
-            createDialog {
+            displayDialog {
                 title(R.string.submission_error_dialog_web_tan_redeemed_title)
                 message(R.string.submission_error_dialog_web_tan_redeemed_body)
                 positiveButton(R.string.submission_error_dialog_web_tan_redeemed_button_positive)
@@ -158,7 +158,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 findNavController().navigate(it)
             } ?: navigateBackToFlowStart()
         }
-        viewModel.errorEvent.observe2(this) { createDialog { setError(it) } }
+        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {
@@ -190,13 +190,13 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         } else popBackStack()
     }
 
-    private fun showNetworkErrorDialog() = createDialog {
+    private fun showNetworkErrorDialog() = displayDialog {
         title(R.string.submission_error_dialog_web_generic_error_title)
         message(R.string.submission_error_dialog_web_generic_network_error_body)
         negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { navigateBackToFlowStart() }
     }
 
-    private fun showGenericErrorDialog() = createDialog {
+    private fun showGenericErrorDialog() = displayDialog {
         title(R.string.submission_error_dialog_web_generic_error_title)
         message(R.string.submission_error_dialog_web_generic_error_body)
         negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { navigateBackToFlowStart() }

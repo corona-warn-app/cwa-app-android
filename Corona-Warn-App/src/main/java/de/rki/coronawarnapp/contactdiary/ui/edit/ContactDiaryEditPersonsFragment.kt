@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewMode
 import de.rki.coronawarnapp.contactdiary.ui.edit.ContactDiaryEditPersonsViewModel.NavigationEvent.ShowPersonDetailFragment
 import de.rki.coronawarnapp.contactdiary.ui.edit.adapter.PersonEditAdapter
 import de.rki.coronawarnapp.databinding.ContactDiaryEditPersonsFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.addNavigationIconButtonId
@@ -88,7 +88,7 @@ class ContactDiaryEditPersonsFragment : Fragment(R.layout.contact_diary_edit_per
         binding.personsRecyclerView.adapter = listAdapter
     }
 
-    private fun deleteAllPersonsConfirmationDialog() = createDialog {
+    private fun deleteAllPersonsConfirmationDialog() = displayDialog {
         title(R.string.contact_diary_delete_persons_title)
         message(R.string.contact_diary_delete_persons_message)
         positiveButton(R.string.contact_diary_delete_button_positive) { viewModel.onDeleteAllConfirmedClick() }

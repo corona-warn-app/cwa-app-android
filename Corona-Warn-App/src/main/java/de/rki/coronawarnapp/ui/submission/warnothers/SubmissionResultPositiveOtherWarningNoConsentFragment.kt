@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionNoConsentPositiveOtherWarningBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
@@ -78,7 +78,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         }
 
         viewModel.showEnableTracingEvent.observe2(this) {
-            createDialog {
+            displayDialog {
                 title(R.string.submission_test_result_dialog_tracing_required_title)
                 message(R.string.submission_test_result_dialog_tracing_required_message)
                 positiveButton(R.string.submission_test_result_dialog_tracing_required_button)

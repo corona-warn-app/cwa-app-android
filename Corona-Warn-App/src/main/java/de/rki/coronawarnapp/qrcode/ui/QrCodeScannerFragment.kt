@@ -25,7 +25,7 @@ import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboa
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
@@ -163,7 +163,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionDeniedDialog() {
-        createDialog {
+        displayDialog {
             title(R.string.camera_permission_dialog_title)
             message(R.string.camera_permission_dialog_message)
             positiveButton(android.R.string.ok) { leave() }
@@ -177,7 +177,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showCameraPermissionRationaleDialog() {
-        createDialog {
+        displayDialog {
             title(R.string.camera_permission_rationale_dialog_headline)
             message(R.string.camera_permission_rationale_dialog_body)
             positiveButton(R.string.camera_permission_rationale_dialog_button_positive) {
@@ -191,7 +191,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun showCheckInQrCodeError(lazyErrorText: LazyString) {
         val errorText = lazyErrorText.get(requireContext())
-        createDialog {
+        displayDialog {
             title(R.string.trace_location_attendee_invalid_qr_code_dialog_title)
             message(getString(R.string.trace_location_attendee_invalid_qr_code_dialog_message, errorText))
             positiveButton(R.string.trace_location_attendee_invalid_qr_code_dialog_positive_button) { startDecode() }
@@ -199,12 +199,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
     }
 
-    private fun showScannerResultErrorDialog(error: Throwable) = createDialog {
+    private fun showScannerResultErrorDialog(error: Throwable) = displayDialog {
         dismissAction { startDecode() }
         setError(error)
     }
 
-    private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) = createDialog {
+    private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) = displayDialog {
         title(R.string.errors_generic_headline_short)
         message(errorMsg.get(requireContext()))
         positiveButton(R.string.errors_generic_button_positive) { startDecode() }
@@ -332,7 +332,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) =
-        createDialog {
+        displayDialog {
             title(R.string.recycle_bin_restore_dgc_dialog_title)
             message(R.string.recycle_bin_restore_dgc_dialog_message)
             positiveButton(android.R.string.ok) { viewModel.restoreCertificate(containerId) }
@@ -340,7 +340,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
-        createDialog {
+        displayDialog {
             title(R.string.recycle_bin_restore_corona_test_dialog_title)
             message(R.string.recycle_bin_restore_corona_test_dialog_message)
             positiveButton(R.string.recycle_bin_restore_corona_test_dialog_title) {
@@ -350,7 +350,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) =
-        createDialog {
+        displayDialog {
             title(R.string.qr_code_error_max_person_threshold_title)
             message(getString(R.string.qr_code_error_max_person_threshold_body, max))
             positiveButton(R.string.qr_code_error_max_person_covpasscheck_button) {
@@ -365,7 +365,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showMaxPersonExceedsMaxResult(max: Int) =
-        createDialog {
+        displayDialog {
             title(R.string.qr_code_error_max_person_max_title)
             message(getString(R.string.qr_code_error_max_person_max_body, max))
             positiveButton(R.string.qr_code_error_max_person_covpasscheck_button) {
@@ -380,7 +380,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
 
     private fun showDccTicketingErrorDialog(humanReadableError: HumanReadableError) {
-        createDialog {
+        displayDialog {
             if (humanReadableError.title != null) title(humanReadableError.title)
             message(humanReadableError.description)
             positiveButton(R.string.errors_generic_button_positive)
@@ -389,7 +389,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun showDccTicketingErrorDialog(errorMsg: LazyString) {
-        createDialog {
+        displayDialog {
             title(R.string.errors_generic_headline_short)
             message(errorMsg.get(requireContext()))
             positiveButton(R.string.errors_generic_button_positive)

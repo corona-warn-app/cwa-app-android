@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -108,7 +108,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
         }
     }
 
-    private fun confirmDeletionDialog() = createDialog {
+    private fun confirmDeletionDialog() = displayDialog {
         title(R.string.rat_qr_code_profile_dialog_title)
         message(R.string.rat_qr_code_profile_dialog_message)
         positiveButton(R.string.rat_qr_code_profile_dialog_positive_button) { viewModel.deleteProfile() }

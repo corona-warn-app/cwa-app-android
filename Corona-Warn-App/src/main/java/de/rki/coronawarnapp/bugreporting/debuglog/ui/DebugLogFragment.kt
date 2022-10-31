@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.LogSnapshotter
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
@@ -159,7 +159,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         binding.debugLogHistoryContainer.setOnClickListener { vm.onIdHistoryPress() }
     }
 
-    private fun showLogDeletionRequest() = createDialog {
+    private fun showLogDeletionRequest() = displayDialog {
         title(R.string.debugging_debuglog_stop_confirmation_title)
         message(R.string.debugging_debuglog_stop_confirmation_message)
         positiveButton(R.string.debugging_debuglog_stop_confirmation_confirmation_button) { vm.stopAndDeleteDebugLog() }
@@ -167,7 +167,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         setDeleteDialog(true)
     }
 
-    private fun showLowStorageError() = createDialog {
+    private fun showLowStorageError() = displayDialog {
         title(R.string.errors_generic_headline_short)
         message(R.string.debugging_debuglog_start_low_storage_error)
         positiveButton(android.R.string.ok)

@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFrag
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -77,7 +77,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowDeleteDialog -> createDialog {
+            is ShowDeleteDialog -> displayDialog {
                 title(R.string.test_certificate_delete_dialog_title)
                 message(R.string.test_certificate_delete_dialog_body)
                 positiveButton(R.string.test_certificate_delete_dialog_confirm_button) {
@@ -88,7 +88,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 setDeleteDialog(true)
             }
 
-            is ShowRefreshErrorDialog -> createDialog {
+            is ShowRefreshErrorDialog -> displayDialog {
                 title(R.string.test_certificate_refresh_dialog_title)
                 if (event.showTestCertificateFaq)
                     neutralButton(R.string.test_certificate_error_invalid_labid_faq) {
@@ -98,7 +98,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 setError(event.error)
             }
 
-            is ShowMigrationInfoDialog -> createDialog {
+            is ShowMigrationInfoDialog -> displayDialog {
                 title(R.string.certificate_migration_dialog_title)
                 message(R.string.certificate_migration_dialog_message)
                 positiveButton(R.string.errors_generic_button_positive)
@@ -121,7 +121,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowAdmissionScenarioError -> createDialog { setError(event.error) }
+            is ShowAdmissionScenarioError -> displayDialog { setError(event.error) }
         }
     }
 

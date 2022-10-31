@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CheckInsConsentFragmentBinding
-import de.rki.coronawarnapp.ui.dialog.createDialog
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -85,7 +85,7 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         viewModel.setAutoSubmission()
     }
 
-    private fun showSkipDialog() = createDialog {
+    private fun showSkipDialog() = displayDialog {
         title(R.string.trace_location_attendee_consent_dialog_title)
         message(R.string.trace_location_attendee_consent_dialog_message)
         positiveButton(R.string.trace_location_attendee_consent_dialog_positive_button) {
@@ -96,7 +96,7 @@ class CheckInsConsentFragment : Fragment(R.layout.check_ins_consent_fragment), A
         }
     }
 
-    private fun showCloseDialog() = createDialog {
+    private fun showCloseDialog() = displayDialog {
         title(R.string.submission_test_result_available_close_dialog_title_consent_given)
         message(R.string.submission_test_result_available_close_dialog_body_consent_given)
         positiveButton(R.string.submission_test_result_available_close_dialog_continue_button) {
