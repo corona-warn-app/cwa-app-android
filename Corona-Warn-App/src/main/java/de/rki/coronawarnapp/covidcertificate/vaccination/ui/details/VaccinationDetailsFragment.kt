@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
@@ -117,7 +116,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 if (it is DccValidationException && it.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
-                    displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
+                    displayDialog { setError(it) }
                 }
             }
 

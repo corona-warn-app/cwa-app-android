@@ -7,11 +7,10 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentTracingSettingsBinding
 import de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsFragmentViewModel.Event
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openDeviceSettings
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -70,9 +69,7 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
             binding.switchRow.setChecked(checked)
         }
 
-        viewModel.ensErrorEvents.observe2(this) { error ->
-            error.toErrorDialogBuilder(requireContext()).show()
-        }
+        viewModel.ensErrorEvents.observe2(this) { error -> displayDialog { setError(error) } }
 
         setButtonOnClickListener()
     }
@@ -110,19 +107,10 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
         if (isChecked) turnTracingOn() else turnTracingOff()
     }
 
-    private fun showManualCheckingRequiredDialog() {
-        val dialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.onboarding_manual_required_dialog_headline,
-            R.string.onboarding_manual_required_dialog_body,
-            R.string.onboarding_manual_required_dialog_button,
-            null,
-            false,
-            {
-                // close dialog
-            }
-        )
-        DialogHelper.showDialog(dialog)
+    private fun showManualCheckingRequiredDialog() = displayDialog {
+        title(R.string.onboarding_manual_required_dialog_headline)
+        message(R.string.onboarding_manual_required_dialog_body)
+        positiveButton(R.string.onboarding_manual_required_dialog_button)
     }
 
     companion object {

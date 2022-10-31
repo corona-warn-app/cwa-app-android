@@ -12,13 +12,12 @@ import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
-import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
-import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingConfirmCancellationDialog
+import de.rki.coronawarnapp.dccticketing.ui.dialog.dccTicketingErrorDialog
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -102,23 +101,9 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
                 )
 
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
-            ShowCancelConfirmationDialog -> showCloseDialog()
-            is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
+            ShowCancelConfirmationDialog -> dccTicketingConfirmCancellationDialog { viewModel.goBack() }
+            is ShowErrorDialog -> dccTicketingErrorDialog(event.lazyErrorMessage.get(requireContext()))
         }
-    }
-
-    private fun showCloseDialog() {
-        DccTicketingDialogType.ConfirmCancellation.show(
-            fragment = this,
-            negativeButtonAction = { viewModel.goBack() }
-        )
-    }
-
-    private fun showErrorDialog(lazyErrorMessage: LazyString) {
-        val msg = lazyErrorMessage.get(requireContext())
-        DccTicketingDialogType.ErrorDialog(msg = msg).show(
-            fragment = this
-        )
     }
 
     companion object {

@@ -7,7 +7,6 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentOnboardingTracingBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -44,13 +43,13 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                 is OnboardingNavigationEvents.NavigateToOnboardingTest -> navigateToOnboardingTestFragment()
                 is OnboardingNavigationEvents.ShowCancelDialog ->
                     displayDialog {
-                        setTitle(R.string.onboarding_tracing_dialog_headline)
-                        setMessage(R.string.onboarding_tracing_dialog_body)
-                        setPositiveButton(R.string.onboarding_tracing_dialog_button_positive) { _, _ ->
+                        title(R.string.onboarding_tracing_dialog_headline)
+                        message(R.string.onboarding_tracing_dialog_body)
+                        positiveButton(R.string.onboarding_tracing_dialog_button_positive) {
                             vm.disableTracingIfEnabled()
                             navigateToOnboardingTestFragment()
                         }
-                        setNegativeButton(R.string.onboarding_tracing_dialog_button_negative) { _, _ -> }
+                        negativeButton(R.string.onboarding_tracing_dialog_button_negative)
                     }
 
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
@@ -61,9 +60,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
         }
-        vm.ensErrorEvents.observe2(this) { error ->
-            error.toErrorDialogBuilder(requireContext()).show()
-        }
+        vm.ensErrorEvents.observe2(this) { error -> displayDialog { setError(error) } }
     }
 
     override fun onResume() {

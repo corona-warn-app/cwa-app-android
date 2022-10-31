@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.ContactDiaryAddLocationFragmentBinding
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.setTextOnTextInput
 import de.rki.coronawarnapp.util.ui.observe2
@@ -54,9 +54,7 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
                 locationPhoneInput.setTextOnTextInput(location.phoneNumber, endIconVisible = false)
                 locationEmailInput.setTextOnTextInput(location.emailAddress, endIconVisible = false)
                 locationDeleteButton.visibility = View.VISIBLE
-                locationDeleteButton.setOnClickListener {
-                    DialogHelper.showDialog(deleteLocationConfirmationDialog)
-                }
+                locationDeleteButton.setOnClickListener { deleteLocationConfirmationDialog() }
                 locationSaveButton.setOnClickListener {
                     viewModel.updateLocation(
                         location,
@@ -111,19 +109,15 @@ class ContactDiaryAddLocationFragment : Fragment(R.layout.contact_diary_add_loca
         }
     }
 
-    private val deleteLocationConfirmationDialog by lazy {
-        DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.contact_diary_delete_location_title,
-            R.string.contact_diary_delete_location_message,
-            R.string.contact_diary_delete_button_positive,
-            R.string.contact_diary_delete_button_negative,
-            positiveButtonFunction = {
-                navArgs.selectedLocation?.let {
-                    viewModel.deleteLocation(it)
-                }
-            },
-            isDeleteDialog = true
-        )
+    private fun deleteLocationConfirmationDialog() = displayDialog {
+        title(R.string.contact_diary_delete_location_title)
+        message(R.string.contact_diary_delete_location_message)
+        positiveButton(R.string.contact_diary_delete_location_message) {
+            navArgs.selectedLocation?.let {
+                viewModel.deleteLocation(it)
+            }
+        }
+        negativeButton(R.string.contact_diary_delete_button_negative)
+        setDeleteDialog(true)
     }
 }

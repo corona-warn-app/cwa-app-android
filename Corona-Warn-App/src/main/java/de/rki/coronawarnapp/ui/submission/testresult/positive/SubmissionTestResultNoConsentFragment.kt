@@ -82,12 +82,10 @@ class SubmissionTestResultNoConsentFragment :
     }
 
     private fun showCancelDialog() = displayDialog {
-        setTitle(R.string.submission_test_result_positive_no_consent_dialog_title)
-        setMessage(R.string.submission_test_result_positive_no_consent_dialog_message)
-        setPositiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { _, _ ->
-            navigateToHome()
-        }
-        setNegativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button) { _, _ -> }
+        title(R.string.submission_test_result_positive_no_consent_dialog_title)
+        message(R.string.submission_test_result_positive_no_consent_dialog_message)
+        positiveButton(R.string.submission_test_result_positive_no_consent_dialog_negative_button) { navigateToHome() }
+        negativeButton(R.string.submission_test_result_positive_no_consent_dialog_positive_button)
     }
 
     private fun navigateToHome() {

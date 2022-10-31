@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 
 fun Fragment.dccValidationNoInternetDialog() = displayDialog {
-    setTitle(R.string.validation_start_no_internet_dialog_title)
-    setMessage(R.string.validation_start_no_internet_dialog_msg)
-    setPositiveButton(R.string.validation_start_no_internet_dialog_positive_button) { _, _ -> }
+    title(R.string.validation_start_no_internet_dialog_title)
+    message(R.string.validation_start_no_internet_dialog_msg)
+    positiveButton(R.string.validation_start_no_internet_dialog_positive_button)
 }
