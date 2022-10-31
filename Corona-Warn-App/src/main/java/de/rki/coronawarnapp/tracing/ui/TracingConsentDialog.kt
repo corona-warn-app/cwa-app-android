@@ -8,8 +8,8 @@ fun Fragment.tracingConsentDialog(
     positiveButton: () -> Unit,
     negativeButton: () -> Unit
 ) = displayDialog {
-    setTitle(R.string.onboarding_tracing_headline_consent)
-    setMessage(R.string.onboarding_tracing_body_consent)
-    setPositiveButton(R.string.onboarding_button_enable) { _, _ -> positiveButton() }
-    setNegativeButton(R.string.onboarding_button_cancel) { _, _ -> negativeButton() }
+    title(R.string.onboarding_tracing_headline_consent)
+    message(R.string.onboarding_tracing_body_consent)
+    positiveButton(R.string.onboarding_button_enable) { positiveButton() }
+    negativeButton(R.string.onboarding_button_cancel) { negativeButton() }
 }

@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -144,7 +143,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
             dccValidationNoInternetDialog()
         } else {
-            displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
+            displayDialog { setError(error) }
         }
     }
 

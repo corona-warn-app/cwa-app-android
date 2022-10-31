@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -79,12 +78,10 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 State.Working -> {
                     // Handled above
                 }
-                is State.Error -> displayDialog(
-                    dialog = state.getDialogBuilder(
-                        requireContext(),
-                        args.testRegistrationRequest is CoronaTestTAN
-                    )
-                )
+                is State.Error -> state.showExceptionDialog(
+                    fragment = this,
+                    comingFromTan = args.testRegistrationRequest is CoronaTestTAN
+                ) { popBackStack() }
                 is State.TestRegistered -> when {
                     state.test.isPositive -> sortNavigation(state.test.identifier)
                     else -> findNavController().navigate(

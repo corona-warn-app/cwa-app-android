@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
@@ -78,30 +77,31 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowDeleteDialog -> displayDialog(cancelable = false, isDeleteDialog = true) {
-                setTitle(R.string.test_certificate_delete_dialog_title)
-                setMessage(R.string.test_certificate_delete_dialog_body)
-                setPositiveButton(R.string.test_certificate_delete_dialog_confirm_button) { _, _ ->
+            is ShowDeleteDialog -> displayDialog {
+                title(R.string.test_certificate_delete_dialog_title)
+                message(R.string.test_certificate_delete_dialog_body)
+                positiveButton(R.string.test_certificate_delete_dialog_confirm_button) {
                     viewModel.deleteTestCertificate(event.containerId)
                 }
-                setNegativeButton(R.string.test_certificate_delete_dialog_cancel_button) { _, _ -> }
+                negativeButton(R.string.test_certificate_delete_dialog_cancel_button)
+                setCancelable(false)
+                setDeleteDialog(true)
             }
 
-            is ShowRefreshErrorDialog -> displayDialog(
-                cancelable = false,
-                dialog = event.error.toErrorDialogBuilder(requireContext())
-            ) {
-                setTitle(R.string.test_certificate_refresh_dialog_title)
+            is ShowRefreshErrorDialog -> displayDialog {
+                title(R.string.test_certificate_refresh_dialog_title)
                 if (event.showTestCertificateFaq)
-                    setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                    neutralButton(R.string.test_certificate_error_invalid_labid_faq) {
                         openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
                     }
+                setCancelable(false)
+                setError(event.error)
             }
 
             is ShowMigrationInfoDialog -> displayDialog {
-                setTitle(R.string.certificate_migration_dialog_title)
-                setMessage(R.string.certificate_migration_dialog_message)
-                setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+                title(R.string.certificate_migration_dialog_title)
+                message(R.string.certificate_migration_dialog_message)
+                positiveButton(R.string.errors_generic_button_positive)
             }
 
             OpenCovPassInfo -> findNavController().navigate(
@@ -121,7 +121,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 )
             }
 
-            is ShowAdmissionScenarioError -> displayDialog(dialog = event.error.toErrorDialogBuilder(requireContext()))
+            is ShowAdmissionScenarioError -> displayDialog { setError(event.error) }
         }
     }
 
