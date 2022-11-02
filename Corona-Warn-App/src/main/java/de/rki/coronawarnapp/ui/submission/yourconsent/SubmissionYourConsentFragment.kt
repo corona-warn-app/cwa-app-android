@@ -67,7 +67,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         binding.apply {
             binding.toolbar.setNavigationOnClickListener { vm.goBack() }
             submissionYourConsentSwitch.setOnClickListener { vm.switchConsent() }
-            submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
+            submissionConsentMoreInfo.setOnClickListener { vm.goLegal() }
 
             submissionYourConsentAgreementShareSymptomsText.setText(
                 if (navArgs.isTestResultAvailable) {

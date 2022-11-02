@@ -43,6 +43,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.submissionConsentHeader.setNavigationOnClickListener { viewModel.onNavigateClose() }
+        binding.submissionConsentMoreInfo.setOnClickListener {
+            viewModel.onDataPrivacyClick()
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,

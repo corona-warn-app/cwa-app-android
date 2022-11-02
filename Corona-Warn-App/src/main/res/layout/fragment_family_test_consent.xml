@@ -192,37 +192,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginTop="24dp"
-                android:background="@color/dividerColor"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/consent_layout" />
-
-            <TextView
-                android:id="@+id/data_privacy"
-                style="@style/subtitle"
-                android:layout_width="0dp"
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/data_privacy_more_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
+                android:layout_marginHorizontal="24dp"
                 android:focusable="true"
-                android:paddingVertical="@dimen/spacing_tiny"
-                android:text="@string/family_consent_legal_bottom_link"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/divider" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:background="@color/dividerColor"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/data_privacy" />
+                app:layout_constraintTop_toBottomOf="@id/consent_layout"
+                app:titleText="@string/family_consent_legal_bottom_link" />
 
             <include layout="@layout/merge_guidelines_side" />
 

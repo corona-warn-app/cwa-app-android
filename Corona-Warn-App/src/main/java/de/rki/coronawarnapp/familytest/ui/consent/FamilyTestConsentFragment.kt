@@ -122,7 +122,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             toolbar.setNavigationOnClickListener {
                 viewModel.onNavigateClose()
             }
-            dataPrivacy.setOnClickListener {
+            dataPrivacyMoreInfo.setOnClickListener {
                 viewModel.onDataPrivacyClick()
             }
             consentButton.setOnClickListener {
