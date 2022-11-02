@@ -88,7 +88,7 @@ class ContactDiaryEditLocationsFragment : Fragment(R.layout.contact_diary_edit_l
     private fun deleteAllLocationsConfirmationDialog() = displayDialog {
         title(R.string.contact_diary_delete_locations_title)
         message(R.string.contact_diary_delete_locations_message)
-        positiveButton(R.string.contact_diary_delete_button_positive) { viewModel.onDeleteAllLocationsClick() }
+        positiveButton(R.string.contact_diary_delete_button_positive) { viewModel.onDeleteAllConfirmedClick() }
         negativeButton(R.string.contact_diary_delete_button_negative)
         setDeleteDialog(true)
     }
