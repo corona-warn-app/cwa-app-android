@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.kotest.matchers.shouldBe
@@ -32,6 +33,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
@@ -59,6 +61,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
+    @MockK lateinit var deepLinkBuilderFactory: NavDeepLinkBuilderFactory
 
     private val dataStore = FakeDataStore()
     private val tracingSettings = TracingSettings(dataStore)
@@ -77,10 +80,12 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { builder.setContentTextExpandable(any()) } returns builder
         every { builder.setContentText(any()) } returns builder
         every { builder.setStyle(any()) } returns builder
+        every { builder.setContentIntent(any()) } returns builder
         every { notificationHelper.newBaseBuilder() } returns builder
         every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
+        every { deepLinkBuilderFactory.create(any()) } returns mockk(relaxed = true)
     }
 
     @AfterEach
@@ -141,7 +146,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
         tracingSettings = tracingSettings,
-        riskCardDisplayInfo = riskCardDisplayInfo
+        riskCardDisplayInfo = riskCardDisplayInfo,
+        deepLinkBuilderFactory = deepLinkBuilderFactory
     )
 
     @Test

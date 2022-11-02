@@ -85,7 +85,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
             }
         }
 
-        binding.submissionConsentMainBottomBody.setOnClickListener {
+        binding.submissionConsentMoreInfo.setOnClickListener {
             viewModel.onDataPrivacyClick()
         }
 

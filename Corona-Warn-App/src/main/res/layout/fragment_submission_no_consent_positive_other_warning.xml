@@ -154,37 +154,16 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_fourth_point" />
 
-                <FrameLayout
-                    android:id="@+id/divider"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_fifth_point" />
-
-                <TextView
-                    android:id="@+id/submission_consent_main_bottom_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
+                    android:id="@+id/submission_consent_more_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
+                    android:layout_marginHorizontal="24dp"
                     android:focusable="true"
-                    android:paddingVertical="@dimen/spacing_tiny"
-                    android:text="@string/submission_consent_main_bottom_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/divider" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_no_consent_main_fifth_point"
+                    app:titleText="@string/submission_consent_main_bottom_body" />
 
                 <include layout="@layout/merge_guidelines_side" />
 
