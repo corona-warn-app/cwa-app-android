@@ -106,7 +106,9 @@ object AppConfigModule {
         fun covidCertificateConfigMapper(mapper: CovidCertificateConfigMapper): CovidCertificateConfig.Mapper
 
         @Binds
-        fun selfReportSubmissionConfigMapper(mapper: SelfReportSubmissionConfigMapper): SelfReportSubmissionConfig.Mapper
+        fun selfReportSubmissionConfigMapper(
+            mapper: SelfReportSubmissionConfigMapper
+        ): SelfReportSubmissionConfig.Mapper
     }
 }
 
