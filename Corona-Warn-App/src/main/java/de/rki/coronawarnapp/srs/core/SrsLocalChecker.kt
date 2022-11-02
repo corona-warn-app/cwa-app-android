@@ -24,11 +24,14 @@ class SrsLocalChecker @Inject constructor(
 ) {
 
     /**
+     * Check SRS local time prerequisites
+     * throws an error if it fails, otherwise does nothing
      * @throws SrsSubmissionException
      */
     suspend fun check() {
         val appConfig = appConfigProvider.getAppConfig()
         val deviceTimeState = appConfig.deviceTimeState
+        val selfReportSubmissionCommon = appConfig.selfReportSubmission.common
 
         if (deviceTimeState == DeviceTimeState.INCORRECT) {
             Timber.e("DeviceTime INCORRECT")
@@ -44,14 +47,31 @@ class SrsLocalChecker @Inject constructor(
             cwaSettings.firstReliableDeviceTime.first(),
             timeStamper.nowUTC
         )
-        val onboardingInHours = appConfig.selfReportSubmission.common.timeSinceOnboardingInHours
+        val onboardingInHours = selfReportSubmissionCommon.timeSinceOnboardingInHours
         if (reliableDuration < onboardingInHours) {
             Timber.e(
-                "TIME since onboarding is unverified reliableDuration=%s, configDuration=%s",
+                "Time since onboarding is unverified reliableDuration=%s, configDuration=%s",
                 reliableDuration,
                 onboardingInHours
             )
             throw  SrsSubmissionException(ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED)
         }
+
+        val durationSinceSubmission = Duration.between(
+            srsSubmissionSettings.getMostRecentSubmissionTime(),
+            timeStamper.nowUTC
+        )
+
+        val submissionsInDays = selfReportSubmissionCommon.timeBetweenSubmissionsInDays
+        if (durationSinceSubmission < submissionsInDays) {
+            Timber.e(
+                "Submission is too early durationSinceSubmission=%s, configDuration=%s",
+                durationSinceSubmission,
+                submissionsInDays
+            )
+            throw  SrsSubmissionException(ErrorCode.SUBMISSION_TOO_EARLY)
+        }
+
+        Timber.d("Local prerequisites are met -> Congratulations!")
     }
 }
