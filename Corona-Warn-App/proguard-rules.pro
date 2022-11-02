@@ -124,4 +124,3 @@
 -keep class de.rki.coronawarnapp.covidcertificate.revocation.model.** { *; }
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.valueset.valuesets.** { *; }
--keep class de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.** { *; }

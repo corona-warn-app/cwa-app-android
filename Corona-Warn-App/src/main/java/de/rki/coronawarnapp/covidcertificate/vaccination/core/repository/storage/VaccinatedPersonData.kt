@@ -1,20 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 import java.time.Instant
 
 @Deprecated("Used only for migration of legacy data")
 data class VaccinatedPersonData(
-    @JsonProperty("vaccinationData")
+    @SerializedName("vaccinationData")
     val vaccinations: Set<StoredVaccinationCertificateData> = emptySet(),
 
-    @JsonProperty("boosterRuleIdentifier")
+    @SerializedName("boosterRuleIdentifier")
     @Deprecated("the boosterRuleIdentifier is stored in DccWalletInfo from 2.18 onwards")
     val boosterRuleIdentifier: String? = null,
 
-    @JsonProperty("lastSeenBoosterRuleIdentifier")
+    @SerializedName("lastSeenBoosterRuleIdentifier")
     val lastSeenBoosterRuleIdentifier: String? = null,
 
-    @JsonProperty("lastBoosterNotifiedAt")
+    @SerializedName("lastBoosterNotifiedAt")
     val lastBoosterNotifiedAt: Instant? = null,
 )

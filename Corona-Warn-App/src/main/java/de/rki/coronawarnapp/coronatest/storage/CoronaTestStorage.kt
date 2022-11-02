@@ -58,7 +58,7 @@ class CoronaTestStorage @Inject constructor(
                 gson.fromJson<Set<PCRCoronaTest>>(value, typeTokenPCR).onEach {
                     Timber.tag(TAG).v("PCR loaded: %s", it)
                     requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "PCR type should not be null, Jackson footgun." }
+                    requireNotNull(it.type) { "PCR type should not be null, GSON footgun." }
                 }
             }
         }
@@ -72,7 +72,7 @@ class CoronaTestStorage @Inject constructor(
                 gson.fromJson<Set<RACoronaTest>>(value, typeTokenRA).onEach {
                     Timber.tag(TAG).v("RA loaded: %s", it)
                     requireNotNull(it.identifier)
-                    requireNotNull(it.type) { "RA type should not be null, Jackson footgun." }
+                    requireNotNull(it.type) { "RA type should not be null, GSON footgun." }
                 }
             }
         }
