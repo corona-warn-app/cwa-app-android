@@ -2,9 +2,7 @@ package de.rki.coronawarnapp.srs.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ConfigData.DeviceTimeState
-import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
@@ -54,7 +52,7 @@ class SrsLocalChecker @Inject constructor(
                 reliableDuration,
                 onboardingInHours
             )
-            throw  SrsSubmissionException(ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED)
+            throw SrsSubmissionException(ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED)
         }
 
         val durationSinceSubmission = Duration.between(
@@ -69,7 +67,7 @@ class SrsLocalChecker @Inject constructor(
                 durationSinceSubmission,
                 submissionsInDays
             )
-            throw  SrsSubmissionException(ErrorCode.SUBMISSION_TOO_EARLY)
+            throw SrsSubmissionException(ErrorCode.SUBMISSION_TOO_EARLY)
         }
 
         Timber.d("Local prerequisites are met -> Congratulations!")
