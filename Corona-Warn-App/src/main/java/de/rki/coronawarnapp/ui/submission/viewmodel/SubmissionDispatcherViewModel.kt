@@ -49,7 +49,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
     fun onSelfTestClicked() = launch {
         try {
             srsLocalChecker.check()
-            // proceed with SRS type  param
+            // proceed with SRS type param
         } catch (e: SrsSubmissionException) {
             srsError.postValue(e)
             Timber.d(e, "onSelfTestClicked()")
