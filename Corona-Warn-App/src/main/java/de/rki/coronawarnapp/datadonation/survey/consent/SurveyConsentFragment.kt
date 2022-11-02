@@ -39,7 +39,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
         binding.apply {
             toolbar.setNavigationOnClickListener { vm.onBackButtonPressed() }
             surveyNextButton.setOnClickListener { vm.onNextButtonPressed() }
-            surveyConsentMoreInformation.setOnClickListener { vm.onMoreInformationButtonPressed() }
+            surveyConsentMoreInfo.setOnClickListener { vm.onMoreInformationButtonPressed() }
         }
 
         vm.routeToScreen.observe2(this) { event ->

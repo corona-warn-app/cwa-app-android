@@ -27,10 +27,10 @@
         android:focusable="false"
         android:importantForAccessibility="no"
         android:paddingTop="4dp"
-        app:srcCompat="@drawable/ic_consent_status_view_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_consent_status_view_icon" />
 
     <TextView
         android:id="@+id/consent_status_message"
@@ -39,14 +39,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/submission_consent_view_consent_not_given"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/arrow_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Einverständnis\n“Andere warnen” nicht erteilt" />
+
+    <ImageView
+        android:id="@+id/arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_person_overview_item_right_arrow"
+        app:tint="@color/colorTextPrimary2" />
 
     <View
         android:layout_width="match_parent"
