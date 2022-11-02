@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragment
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentModule
-import de.rki.coronawarnapp.srs.ui.typeselction.SrsSubmissionTypeSelectionFragment
+import de.rki.coronawarnapp.srs.ui.typeselction.SrsTypeSelectionFragment
 import de.rki.coronawarnapp.srs.ui.typeselction.SrsTypeSelectionFragmentModule
 
 @Module(
@@ -18,5 +18,5 @@ abstract class SrsSubmissionUiModule {
     abstract fun srsSubmissionConsentFragment(): SrsSubmissionConsentFragment
 
     @ContributesAndroidInjector(modules = [SrsTypeSelectionFragmentModule::class])
-    abstract fun srsSubmissionTypeSelectionFragment(): SrsSubmissionTypeSelectionFragment
+    abstract fun srsSubmissionTypeSelectionFragment(): SrsTypeSelectionFragment
 }
