@@ -14,10 +14,18 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
+import java.time.Instant
 
 class DownloadDiagnosisKeysSettingsTest : BaseTest() {
     lateinit var dataStore: FakeDataStore
-    private val objectMapper = SerializationModule().jacksonObjectMapper()
+    private val gson = SerializationModule().baseGson()
+
+    private val lastDownload = DownloadDiagnosisKeysSettings.LastDownload(
+        startedAt = Instant.EPOCH,
+        finishedAt = Instant.EPOCH,
+        successful = false,
+        newData = false
+    )
 
     @BeforeEach
     fun setup() {
@@ -28,9 +36,24 @@ class DownloadDiagnosisKeysSettingsTest : BaseTest() {
     }
 
     fun createInstance() = DownloadDiagnosisKeysSettings(
-        objectMapper = objectMapper,
+        gson = gson,
         dataStore = dataStore
     )
+
+    @Test
+    fun `LastDownload is correctly built`() = runTest2 {
+        val instance = createInstance()
+
+        with(instance) {
+            lastDownloadDays.first() shouldBe null
+            updateLastDownloadDays(lastDownload)
+            lastDownloadDays.first() shouldBe lastDownload
+
+            lastDownloadHours.first() shouldBe null
+            updateLastDownloadHours(lastDownload)
+            lastDownloadHours.first() shouldBe lastDownload
+        }
+    }
 
     @Test
     fun `lastVersionCode default values`() = runTest2 {

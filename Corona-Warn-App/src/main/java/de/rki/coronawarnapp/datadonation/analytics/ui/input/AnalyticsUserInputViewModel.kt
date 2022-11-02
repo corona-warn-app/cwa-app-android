@@ -106,7 +106,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     val finishEvent = SingleLiveEvent<Unit>()
 
-    suspend fun selectUserInfoItem(item: UserInfoItem) {
+    fun selectUserInfoItem(item: UserInfoItem) = launch {
         when (item.data) {
             is PpaData.PPAAgeGroup -> {
                 settings.updateUserInfoAgeGroup(item.data)

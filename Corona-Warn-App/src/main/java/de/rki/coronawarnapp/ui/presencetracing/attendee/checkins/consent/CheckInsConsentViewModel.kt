@@ -83,7 +83,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    suspend fun setAutoSubmission() {
+    fun setAutoSubmission() = launch {
         Timber.d("setAutoSubmission")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
     }

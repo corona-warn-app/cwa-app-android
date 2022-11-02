@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.datadonation.analytics.ui.input
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_input_fragment), AutoInject {
@@ -55,9 +53,7 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
             itemAdapter.data = it
         }
         itemAdapter.onItemClickListener = {
-            viewLifecycleOwner.lifecycleScope.launch {
-                vm.selectUserInfoItem(it)
-            }
+            vm.selectUserInfoItem(it)
         }
         vm.finishEvent.observe2(this) { popBackStack() }
     }

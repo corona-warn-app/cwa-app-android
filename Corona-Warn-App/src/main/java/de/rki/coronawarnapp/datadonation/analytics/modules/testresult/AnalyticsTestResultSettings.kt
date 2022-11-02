@@ -5,8 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -14,7 +13,8 @@ import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
-import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.map
 import java.time.Instant
 import javax.inject.Inject
@@ -22,9 +22,9 @@ import javax.inject.Singleton
 
 @Singleton
 class AnalyticsPCRTestResultSettings @Inject constructor(
-    @BaseJackson private val objectMapper: ObjectMapper,
+    @BaseGson private val gson: Gson,
     @AnalyticsTestResultSettingsDataStore private val dataStore: DataStore<Preferences>
-) : AnalyticsTestResultSettings(objectMapper, sharedPrefKeySuffix, dataStore) {
+) : AnalyticsTestResultSettings(gson, sharedPrefKeySuffix, dataStore) {
     companion object {
         const val sharedPrefKeySuffix = "" // the original
     }
@@ -32,16 +32,16 @@ class AnalyticsPCRTestResultSettings @Inject constructor(
 
 @Singleton
 class AnalyticsRATestResultSettings @Inject constructor(
-    @BaseJackson private val objectMapper: ObjectMapper,
+    @BaseGson private val gson: Gson,
     @AnalyticsTestResultSettingsDataStore private val dataStore: DataStore<Preferences>
-) : AnalyticsTestResultSettings(objectMapper, sharedPrefKeySuffix, dataStore) {
+) : AnalyticsTestResultSettings(gson, sharedPrefKeySuffix, dataStore) {
     companion object {
         const val sharedPrefKeySuffix = "_RAT"
     }
 }
 
 open class AnalyticsTestResultSettings(
-    private val objectMapper: ObjectMapper,
+    private val gson: Gson,
     private val sharedPrefKeySuffix: String,
     private val dataStore: DataStore<Preferences>
 ) {
@@ -158,7 +158,7 @@ open class AnalyticsTestResultSettings(
         defaultValue = ""
     ).map { value ->
         if (value.isNotEmpty()) {
-            objectMapper.readValue<List<AnalyticsExposureWindow>>(value)
+            gson.fromJson<List<AnalyticsExposureWindow>>(value)
         } else {
             null
         }
@@ -166,7 +166,7 @@ open class AnalyticsTestResultSettings(
 
     suspend fun updateExposureWindowsAtTestRegistration(value: List<AnalyticsExposureWindow>) = dataStore.trySetValue(
         preferencesKey = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_AT_REGISTRATION + sharedPrefKeySuffix),
-        value = objectMapper.writeValueAsString(value)
+        value = gson.toJson(value)
     )
 
     val exposureWindowsUntilTestResult = dataStore.dataRecovering.distinctUntilChanged(
@@ -174,7 +174,7 @@ open class AnalyticsTestResultSettings(
         defaultValue = ""
     ).map { value ->
         if (value.isNotEmpty()) {
-            objectMapper.readValue<List<AnalyticsExposureWindow>>(value)
+            gson.fromJson<List<AnalyticsExposureWindow>>(value)
         } else {
             null
         }
@@ -182,7 +182,7 @@ open class AnalyticsTestResultSettings(
 
     suspend fun updateExposureWindowsUntilTestResult(value: List<AnalyticsExposureWindow>) = dataStore.trySetValue(
         preferencesKey = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT + sharedPrefKeySuffix),
-        value = objectMapper.writeValueAsString(value)
+        value = gson.toJson(value)
     )
 
     suspend fun clear() = dataStore.clear()

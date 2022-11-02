@@ -51,7 +51,8 @@ class ValueSetsStorage @Inject constructor(
         Timber.tag(TAG).v("save(value=%s)", value)
 
         dataStore.trySetValue(
-            preferencesKey = PKEY_VALUE_SETS_CONTAINER_PREFIX, value = gson.toJson(
+            preferencesKey = PKEY_VALUE_SETS_CONTAINER_PREFIX,
+            value = gson.toJson(
                 value, ValueSetsContainer::class.java
             )
         )

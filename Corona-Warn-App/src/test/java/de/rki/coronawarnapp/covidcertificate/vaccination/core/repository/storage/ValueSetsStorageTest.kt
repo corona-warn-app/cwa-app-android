@@ -15,12 +15,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
+import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
 class ValueSetsStorageTest : BaseTest() {
 
     private val dataStore = FakeDataStore()
-    private val mapper = SerializationModule.jacksonBaseMapper
+    private val gson = SerializationModule().baseGson()
 
     @BeforeEach
     fun setup() {
@@ -29,7 +30,7 @@ class ValueSetsStorageTest : BaseTest() {
 
     private fun createInstance(scope: TestScope) =
         ValueSetsStorage(
-            objectMapper = SerializationModule().jacksonObjectMapper(),
+            gson = gson,
             dataStore = dataStore,
             appScope = scope
         )
@@ -55,8 +56,7 @@ class ValueSetsStorageTest : BaseTest() {
     @Test
     fun `storage format`() = runTest2 {
         createInstance(this).save(valueSetsContainerDe)
-        mapper.readTree(dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String) shouldBe mapper.readTree(
-            """
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
             {
               "vaccinationValueSets": {
                 "languageCode": "de",
@@ -129,8 +129,7 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """
-        )
+        """.toComparableJsonPretty()
     }
 
     @Test
@@ -141,8 +140,7 @@ class ValueSetsStorageTest : BaseTest() {
             save(emptyValueSetsContainer)
         }
 
-        mapper.readTree(dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String) shouldBe mapper.readTree(
-            """
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
             {
               "vaccinationValueSets": {
                 "languageCode": "en",
@@ -175,8 +173,7 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """
-        )
+        """.toComparableJsonPretty()
 
         createInstance(this).load() shouldBe emptyValueSetsContainer
     }
