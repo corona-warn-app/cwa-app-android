@@ -140,7 +140,7 @@
     <!-- XTXT: Create RAT profile description -->
     <string name="rat_profile_create_description">"Save your personal data as a QR code to speed up registration at testing points."</string>
     <!-- XTXT: Create RAT profile street hint -->
-    <string name="rat_profile_create_street_hint">"Street and House Number"</string>
+    <string name="rat_profile_create_street_hint">"Address"</string>
     <!-- XTXT: Create RAT profile post code hint -->
     <string name="rat_profile_create_zip_code_hint">"Postal Code"</string>
     <!-- XTXT: Create RAT profile city hint -->
