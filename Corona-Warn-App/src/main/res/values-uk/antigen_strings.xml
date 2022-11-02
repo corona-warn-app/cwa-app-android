@@ -140,7 +140,7 @@
     <!-- XTXT: Create RAT profile description -->
     <string name="rat_profile_create_description">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
     <!-- XTXT: Create RAT profile street hint -->
-    <string name="rat_profile_create_street_hint">"Вулиця та номер будинку"</string>
+    <string name="rat_profile_create_street_hint">"Адреса"</string>
     <!-- XTXT: Create RAT profile post code hint -->
     <string name="rat_profile_create_zip_code_hint">"Поштовий індекс"</string>
     <!-- XTXT: Create RAT profile city hint -->

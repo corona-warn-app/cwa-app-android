@@ -1224,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Please monitor how your symptoms develop closely."</item>
-        <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 10 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
+        <item>"You may be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 10 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
         <item>"Please particularly consider people who will not be notified directly by the app since they don’t own a smartphone, or haven’t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious, so please follow the designated isolation period."</item>
     </string-array>
