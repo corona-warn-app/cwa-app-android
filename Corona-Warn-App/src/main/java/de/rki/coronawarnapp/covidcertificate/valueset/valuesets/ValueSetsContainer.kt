@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.valueset.valuesets
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ValueSetsContainer(
-    @JsonProperty("vaccinationValueSets") val vaccinationValueSets: VaccinationValueSets,
-    @JsonProperty("testCertificateValueSets") val testCertificateValueSets: TestCertificateValueSets
+    @SerializedName("vaccinationValueSets") val vaccinationValueSets: VaccinationValueSets,
+    @SerializedName("testCertificateValueSets") val testCertificateValueSets: TestCertificateValueSets
 )
 
 fun ValueSetsContainer?.isEmpty(): Boolean =

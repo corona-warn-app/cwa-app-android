@@ -1,20 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.valueset.valuesets
 
 import androidx.annotation.VisibleForTesting
-import androidx.core.content.edit
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsDataStore
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
-import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ import javax.inject.Inject
 
 @Reusable
 class ValueSetsStorage @Inject constructor(
-    @BaseJackson private val objectMapper: ObjectMapper,
+    @BaseGson private val gson: Gson,
     @ValueSetsDataStore private val dataStore: DataStore<Preferences>,
     @AppScope var appScope: CoroutineScope
 ) {
@@ -43,7 +42,7 @@ class ValueSetsStorage @Inject constructor(
             key = PKEY_VALUE_SETS_CONTAINER_PREFIX, defaultValue = ""
         ).first()
         return when (valueSetString.isNotEmpty()) {
-            true -> objectMapper.readValue(valueSetString)
+            true -> gson.fromJson(valueSetString)
             else -> emptyValueSetsContainer
         }.also { loaded -> Timber.v("Loaded value sets container %s", loaded) }
     }
@@ -52,7 +51,9 @@ class ValueSetsStorage @Inject constructor(
         Timber.tag(TAG).v("save(value=%s)", value)
 
         dataStore.trySetValue(
-            preferencesKey = PKEY_VALUE_SETS_CONTAINER_PREFIX, value = objectMapper.writeValueAsString(value)
+            preferencesKey = PKEY_VALUE_SETS_CONTAINER_PREFIX, value = gson.toJson(
+                value, ValueSetsContainer::class.java
+            )
         )
     }
 

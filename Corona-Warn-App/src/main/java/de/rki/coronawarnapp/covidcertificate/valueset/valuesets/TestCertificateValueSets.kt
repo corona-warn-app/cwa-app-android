@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.valueset.valuesets
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import java.util.Locale
 
+@Keep
 data class TestCertificateValueSets(
-    @JsonProperty("languageCode") override val languageCode: Locale,
-    @JsonProperty("tg") override val tg: DefaultValueSet,
-    @JsonProperty("tt") val tt: DefaultValueSet, // Type of Test
-    @JsonProperty("ma") val ma: DefaultValueSet, // RAT Test name and manufacturer
-    @JsonProperty("tr") val tr: DefaultValueSet, // Test Result
+    @SerializedName("languageCode") override val languageCode: Locale,
+    @SerializedName("tg") override val tg: DefaultValueSet,
+    @SerializedName("tt") val tt: DefaultValueSet, // Type of Test
+    @SerializedName("ma") val ma: DefaultValueSet, // RAT Test name and manufacturer
+    @SerializedName("tr") val tr: DefaultValueSet, // Test Result
 ) : ValueSets {
 
-    @get:JsonIgnore
     override val isEmpty: Boolean
         get() = tg.items.isEmpty() && tt.items.isEmpty() && ma.items.isEmpty() && tr.items.isEmpty()
 
