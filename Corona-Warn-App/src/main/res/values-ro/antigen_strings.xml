@@ -140,7 +140,7 @@
     <!-- XTXT: Create RAT profile description -->
     <string name="rat_profile_create_description">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
     <!-- XTXT: Create RAT profile street hint -->
-    <string name="rat_profile_create_street_hint">"Strada și numărul"</string>
+    <string name="rat_profile_create_street_hint">"Adresă"</string>
     <!-- XTXT: Create RAT profile post code hint -->
     <string name="rat_profile_create_zip_code_hint">"Cod poștal"</string>
     <!-- XTXT: Create RAT profile city hint -->

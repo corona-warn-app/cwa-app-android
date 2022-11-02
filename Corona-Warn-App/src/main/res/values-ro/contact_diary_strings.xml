@@ -165,7 +165,7 @@
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_person_encounter_environment_inside">"În interior"</string>
     <!-- XTXT: Option - person encounter - circumstances hint-->
-    <string name="contact_diary_person_encounter_circumstances_hint">"Notă (de ex., distanță mică)"</string>
+    <string name="contact_diary_person_encounter_circumstances_hint">"Notă"</string>
 
     <!-- XBUT: Option - person encounter - inside-->
     <string name="contact_diary_location_visit_duration_label">"Durată"</string>
