@@ -3,16 +3,22 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
+import de.rki.coronawarnapp.srs.core.SrsLocalChecker
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 class SubmissionDispatcherViewModel @AssistedInject constructor(
     private val profileSettings: ProfileSettingsDataStore,
+    private val srsLocalChecker: SrsLocalChecker,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
+
+    val srsError = SingleLiveEvent<SrsSubmissionException>()
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
@@ -38,6 +44,26 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
                 profileSettings.onboardedFlow.first()
             )
         )
+    }
+
+    fun onSelfTestClicked() = launch {
+        try {
+            srsLocalChecker.check()
+            // proceed with SRS type  param
+        } catch (e: SrsSubmissionException) {
+            srsError.postValue(e)
+            Timber.d(e, "onSelfTestClicked()")
+        }
+    }
+
+    fun onPositiveTestWithNoResult() = launch {
+        try {
+            srsLocalChecker.check()
+            // proceed with no param
+        } catch (e: SrsSubmissionException) {
+            srsError.postValue(e)
+            Timber.d(e, "onPositiveTestWithNoResult()")
+        }
     }
 
     fun onTestCenterPressed() {

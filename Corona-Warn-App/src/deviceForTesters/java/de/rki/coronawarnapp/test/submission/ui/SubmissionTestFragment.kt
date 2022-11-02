@@ -66,6 +66,9 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
                 negativeButton = { consentResult(false) }
             )
         }
+        vm.otpData.observe(viewLifecycleOwner) {
+            binding.srsOtp.text = it?.toString() ?: "No OTP"
+        }
     }
 
     @Suppress("DEPRECATION")

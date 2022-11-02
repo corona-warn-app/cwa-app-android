@@ -3,10 +3,12 @@ package de.rki.coronawarnapp.test.submission.ui
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,12 +22,17 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     timeStamper: TimeStamper,
-    @BaseGson baseGson: Gson
+    @BaseGson baseGson: Gson,
+    srsSubmissionSettings: SrsSubmissionSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val exportJson = baseGson.newBuilder().apply {
         setPrettyPrinting()
     }.create()
+
+    val otpData = liveData {
+        emit(srsSubmissionSettings.getOtp())
+    }
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
