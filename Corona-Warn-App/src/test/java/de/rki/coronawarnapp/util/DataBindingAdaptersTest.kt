@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.materialswitch.MaterialSwitch
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import io.mockk.MockKAnnotations
@@ -32,7 +32,7 @@ class DataBindingAdaptersTest : BaseTest() {
     }
 
     private fun setChecked(status: Boolean?) {
-        val switch = mockk<SwitchMaterial>().apply {
+        val switch = mockk<MaterialSwitch>().apply {
             every { tag = any() } just Runs
             every { isChecked = any() } just Runs
         }
