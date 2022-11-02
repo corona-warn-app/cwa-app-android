@@ -137,6 +137,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
             dismissAction {
                 position?.let { familyTestListAdapter.notifyItemChanged(position) }
             }
+            setDeleteDialog(true)
         }
     }
 }
