@@ -12,7 +12,7 @@ abstract class SrsTypeSelectionFragmentModule {
     @Binds
     @IntoMap
     @CWAViewModelKey(SrsTypeSelectionFragmentViewModel::class)
-    abstract fun srsSubmissionConsentFragmentViewModel(
+    abstract fun srsTypeSelectionFragmentViewModel(
         factory: SrsTypeSelectionFragmentViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
