@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -186,7 +187,7 @@ class SubmissionTask @Inject constructor(
             authCode = authCode,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
-            visitedCountries = getSupportedCountries(),
+            visitedCountries = appConfigProvider.getAppConfig().getSupportedCountries(),
             unencryptedCheckIns = checkInsReport.unencryptedCheckIns,
             encryptedCheckIns = checkInsReport.encryptedCheckIns,
             submissionType = coronaTest.type.toSubmissionType()
@@ -243,17 +244,6 @@ class SubmissionTask @Inject constructor(
         }
     }
 
-    private suspend fun getSupportedCountries(): List<String> {
-        val countries = appConfigProvider.getAppConfig().supportedCountries
-        return when {
-            countries.isEmpty() -> {
-                Timber.w("Country list was empty, corrected")
-                listOf(FALLBACK_COUNTRY)
-            }
-            else -> countries
-        }.also { Timber.i("Supported countries = $it") }
-    }
-
     private fun checkCancel() {
         if (isCanceled) throw TaskCancellationException()
     }
@@ -282,7 +272,6 @@ class SubmissionTask @Inject constructor(
     }
 
     companion object {
-        private const val FALLBACK_COUNTRY = "DE"
         private const val RETRY_ATTEMPTS = Int.MAX_VALUE
         private val USER_INACTIVITY_TIMEOUT = Duration.ofMinutes(30)
         private const val TAG: String = "SubmissionTask"
