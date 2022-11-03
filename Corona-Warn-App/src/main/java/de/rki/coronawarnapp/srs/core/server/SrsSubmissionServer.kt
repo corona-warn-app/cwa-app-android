@@ -53,7 +53,7 @@ class SrsSubmissionServer @Inject constructor(
             .setSubmissionType(payload.submissionType)
             .build()
 
-        api.submitPayload(payload.srsOtp.otp, submissionPayload)
+        api.submitPayload(payload.srsOtp.uuid, submissionPayload)
     }
 
     companion object {

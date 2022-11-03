@@ -49,6 +49,13 @@ class CWASafetyNet @Inject constructor(
     }
 
     override suspend fun attest(request: DeviceAttestation.Request): DeviceAttestation.Result {
+        return attest(request) { salt, report -> AttestationContainer(salt, report) }
+    }
+
+    override suspend fun attest(
+        request: DeviceAttestation.Request,
+        resultFactory: (ByteArray, SafetyNetClientWrapper.Report) -> DeviceAttestation.Result
+    ): DeviceAttestation.Result {
         if (!googleApiVersion.isPlayServicesVersionAvailable(13000000)) {
             throw SafetyNetException(Type.PLAY_SERVICES_VERSION_MISMATCH, "Google Play Services too old.")
         }
@@ -96,7 +103,7 @@ class CWASafetyNet @Inject constructor(
             )
         }
 
-        return AttestationContainer(salt, report)
+        return resultFactory(salt, report)
     }
 
     private suspend fun requireCorrectDeviceTime(suppliedConfig: ConfigData?) {

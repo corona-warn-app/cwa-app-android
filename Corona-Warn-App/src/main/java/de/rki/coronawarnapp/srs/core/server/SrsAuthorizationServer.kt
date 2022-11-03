@@ -24,7 +24,7 @@ class SrsAuthorizationServer @Inject constructor(
         Timber.tag(TAG).d("authorize(request=%s)", request)
         val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
-                SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.otp).build()
+                SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid).build()
             )
             .setAuthentication(
                 PpacAndroid.PPACAndroid.newBuilder()

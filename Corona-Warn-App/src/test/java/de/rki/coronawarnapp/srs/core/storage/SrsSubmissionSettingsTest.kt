@@ -16,7 +16,7 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
     private var fakeStore = FakeDataStore()
     private val time = Instant.parse("2022-11-02T14:01:22Z")
     private val otp = SrsOtp(
-        otp = "73a373fd-3a7b-49b9-b71c-2ae7a2824760",
+        uuid = "73a373fd-3a7b-49b9-b71c-2ae7a2824760",
         expiresAt = time
     )
 
