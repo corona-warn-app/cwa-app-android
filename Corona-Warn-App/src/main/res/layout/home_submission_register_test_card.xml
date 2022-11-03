@@ -15,7 +15,7 @@
             tools:showIn="@layout/home_card_container_layout">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/register_test_card_title"
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/body"
+                android:id="@+id/register_test_card_body"
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,10 +40,10 @@
                 android:text="@string/register_test_card_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                app:layout_constraintTop_toBottomOf="@+id/register_test_card_title" />
 
             <ImageView
-                android:id="@+id/icon"
+                android:id="@+id/register_test_card_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -52,7 +52,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/body"
+                app:layout_constraintTop_toBottomOf="@id/register_test_card_body"
                 app:srcCompat="@drawable/register_test_card_icons" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/register_test_card_description"
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/next_steps_action"
+                android:id="@+id/register_test_card_continue"
                 style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description" />
+                app:layout_constraintTop_toBottomOf="@id/register_test_card_description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

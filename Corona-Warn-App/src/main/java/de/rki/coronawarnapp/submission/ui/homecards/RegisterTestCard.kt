@@ -30,7 +30,7 @@ class RegisterTestCard(
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         itemView.setOnClickListener { curItem.onClickAction(item) }
-        nextStepsAction.setOnClickListener { curItem.onClickAction(item) }
+        registerTestCardContinue.setOnClickListener { curItem.onClickAction(item) }
     }
 
     data class Item(
