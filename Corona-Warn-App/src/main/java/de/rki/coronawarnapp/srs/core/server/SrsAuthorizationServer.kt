@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.toProtoByteString
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 

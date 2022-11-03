@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.srs.core.server
 
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
-import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import retrofit2.http.Body
 import retrofit2.http.Headers

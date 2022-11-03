@@ -6,7 +6,6 @@ import android.provider.Settings
 import com.google.protobuf.ByteString
 import dagger.Reusable
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
-import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString.Companion.decodeHex

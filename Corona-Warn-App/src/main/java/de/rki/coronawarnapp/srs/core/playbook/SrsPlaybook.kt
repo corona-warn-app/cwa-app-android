@@ -15,7 +15,7 @@ class SrsPlaybook @Inject constructor(
 ) {
 
     suspend fun authorize(request: SrsAuthorizationRequest): SrsAuthorizationResponse {
-      return  srsAuthorizationServer.authorize(request)
+        return srsAuthorizationServer.authorize(request)
     }
 
     suspend fun submit(payLoad: SrsSubmissionPayload) {

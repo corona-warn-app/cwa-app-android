@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.srs.core.repository
 
-import android.provider.Settings
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
@@ -25,9 +23,7 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.toProtoByteString
 import kotlinx.coroutines.flow.first
-import okio.ByteString.Companion.decodeHex
 import timber.log.Timber
 import javax.inject.Inject
 
