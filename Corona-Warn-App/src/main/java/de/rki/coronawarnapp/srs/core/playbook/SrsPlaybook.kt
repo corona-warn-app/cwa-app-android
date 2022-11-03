@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.srs.core.playbook
 
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationServer
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionServer
@@ -13,8 +14,8 @@ class SrsPlaybook @Inject constructor(
     private val srsAuthorizationServer: SrsAuthorizationServer,
 ) {
 
-    suspend fun authorize(request: SrsAuthorizationRequest) {
-        srsAuthorizationServer.authorize(request)
+    suspend fun authorize(request: SrsAuthorizationRequest): SrsAuthorizationResponse {
+      return  srsAuthorizationServer.authorize(request)
     }
 
     suspend fun submit(payLoad: SrsSubmissionPayload) {

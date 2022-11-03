@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.srs.core.repository
 
+import android.provider.Settings
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -10,6 +11,9 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
+import de.rki.coronawarnapp.srs.core.model.SrsAttestationResult
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
@@ -21,10 +25,10 @@ import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.toProtoByteString
 import kotlinx.coroutines.flow.first
+import okio.ByteString.Companion.decodeHex
 import timber.log.Timber
-import java.time.Instant
-import java.util.UUID
 import javax.inject.Inject
 
 class SrsSubmissionRepository @Inject constructor(
@@ -45,17 +49,35 @@ class SrsSubmissionRepository @Inject constructor(
     ) {
 
         val appConfig = appConfigProvider.getAppConfig()
-
-        val srsOtp = srsSubmissionSettings.getOtp() ?: SrsOtp()
-        deviceAttestation.attest(
-            request = SrsDeviceAttestationRequest(
-                configData = appConfig,
-                scenarioPayload = SRSOneTimePassword.newBuilder()
-                    .setOtp(srsOtp.uuid.toString())
-                    .build()
-                    .toByteArray()
-            )
+        val storedOtp = srsSubmissionSettings.getOtp()
+        val nowUtc = timeStamper.nowUTC
+        var srsOtp = if (storedOtp?.isValid(nowUtc) == true) storedOtp else SrsOtp()
+        val attestRequest = SrsDeviceAttestationRequest(
+            configData = appConfig,
+            scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
         )
+
+        val attestResult = deviceAttestation.attest(
+            request = attestRequest
+        ) { salt, report ->
+            SrsAttestationResult(ourSalt = salt, report = report)
+        } as SrsAttestationResult
+
+        attestResult.requirePass(appConfig.selfReportSubmission.ppac)
+
+        if (!srsOtp.isValid(nowUtc)) {
+            val authResponse = playbook.authorize(
+                SrsAuthorizationRequest(
+                    srsOtp = srsOtp,
+                    safetyNetJws = attestResult.report.jwsResult,
+                    salt = ByteString.copyFrom(attestResult.ourSalt),
+                    androidId = getAndroidId()
+                )
+            )
+
+            srsOtp = srsOtp.copy(expiresAt = authResponse.expiresAt)
+            srsSubmissionSettings.setOtp(srsOtp)
+        }
 
         val keys: List<TemporaryExposureKey> = runCatching {
             tekStorage.tekData.first().flatMap { it.keys }
@@ -88,6 +110,18 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
     }
+
+    private fun getAndroidId(): ByteString =
+        try {
+            Timber.tag(TAG).d("getAndroidId()")
+            Settings.Secure.ANDROID_ID.decodeHex().toProtoByteString()
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "getAndroidId() fialed")
+            throw SrsSubmissionException(
+                errorCode = SrsSubmissionException.ErrorCode.ANDROID_ID_INVALID_LOCAL,
+                cause = e
+            )
+        }
 
     companion object {
         val TAG = tag<SrsSubmissionRepository>()

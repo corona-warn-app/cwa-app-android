@@ -19,6 +19,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import java.io.File
 import javax.inject.Qualifier
@@ -33,12 +34,12 @@ object SrsSubmissionModule {
         @DataDonationCDNHttpClient client: OkHttpClient,
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        provideJacksonConverter: JacksonConverterFactory
     ): SrsAuthorizationApi = Retrofit.Builder()
         .client(client.newBuilder().build())
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(provideJacksonConverter)
         .build()
         .create(SrsAuthorizationApi::class.java)
 
@@ -49,7 +50,8 @@ object SrsSubmissionModule {
         @SubmissionHttpClient client: OkHttpClient,
         @SubmissionCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        gsonConverterFactory: GsonConverterFactory,
+        provideJacksonConverter: JacksonConverterFactory
     ): SrsSubmissionApi {
         val cache = Cache(File(context.cacheDir, "http_submission"), DEFAULT_CACHE_SIZE)
         val cachingClient = client.newBuilder().apply { cache(cache) }.build()
@@ -59,6 +61,7 @@ object SrsSubmissionModule {
             .baseUrl(url)
             .addConverterFactory(protoConverterFactory)
             .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(provideJacksonConverter)
             .build()
             .create(SrsSubmissionApi::class.java)
     }

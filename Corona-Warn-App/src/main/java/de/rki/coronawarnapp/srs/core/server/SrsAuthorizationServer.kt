@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.toProtoByteString
@@ -20,22 +21,23 @@ class SrsAuthorizationServer @Inject constructor(
 ) {
     private val api = srsAuthorizationApi.get()
 
-    suspend fun authorize(request: SrsAuthorizationRequest) = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("authorize(request=%s)", request)
-        val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
-            .setPayload(
-                SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid).build()
-            )
-            .setAuthentication(
-                PpacAndroid.PPACAndroid.newBuilder()
-                    .setAndroidId(request.androidId.toProtoByteString())
-                    .setSafetyNetJws(request.safetyNetJws)
-                    .setSalt(request.salt)
-                    .build()
-            )
-            .build()
-        api.authenticate(srsOtpRequest)
-    }
+    suspend fun authorize(request: SrsAuthorizationRequest): SrsAuthorizationResponse =
+        withContext(dispatcherProvider.IO) {
+            Timber.tag(TAG).d("authorize(request=%s)", request)
+            val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
+                .setPayload(
+                    SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid.toString()).build()
+                )
+                .setAuthentication(
+                    PpacAndroid.PPACAndroid.newBuilder()
+                        .setAndroidId(request.androidId)
+                        .setSafetyNetJws(request.safetyNetJws)
+                        .setSaltBytes(request.salt)
+                        .build()
+                )
+                .build()
+            api.authenticate(srsOtpRequest)
+        }
 
     companion object {
         val TAG = tag<SrsAuthorizationServer>()
