@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorSurface"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -40,8 +41,7 @@
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:fillViewport="true"
                 android:focusable="true"
-                android:orientation="vertical"
-                tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/submission_symptom_calendar_headline"

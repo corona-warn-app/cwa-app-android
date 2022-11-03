@@ -338,8 +338,7 @@
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment"
-            app:popUpTo="@id/submissionResultReadyFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionResultReadyFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionContactFragment"
@@ -365,8 +364,7 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment"
-            app:popUpTo="@id/submissionSymptomIntroductionFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionSymptomIntroductionFragment" />
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_mainFragment"
             app:destination="@id/status_nav_graph"
@@ -375,8 +373,7 @@
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
-            app:popUpTo="@id/submissionSymptomIntroductionFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionSymptomIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionSymptomCalendarFragment"
@@ -395,7 +392,8 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
-            app:destination="@id/submissionSymptomIntroductionFragment" />
+            app:destination="@id/submissionSymptomIntroductionFragment"
+            app:popUpTo="@id/submissionSymptomCalendarFragment"/>
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionResultPositiveOtherWarningFragment"
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
@@ -407,8 +405,7 @@
         <action
             android:id="@+id/action_submissionSymptomCalendarFragment_to_submissionDoneFragment"
             app:destination="@id/submissionDoneFragment"
-            app:popUpTo="@id/submissionSymptomCalendarFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionSymptomCalendarFragment" />
     </fragment>
     <fragment
         android:id="@+id/submissionConsentFragment"
@@ -459,8 +456,7 @@
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment"
-            app:popUpTo="@id/submissionTestResultConsentGivenFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/submissionTestResultConsentGivenFragment" />
         <action
             android:id="@+id/action_submissionTestResultConsentGivenFragment_to_homeFragment"
             app:destination="@id/status_nav_graph"

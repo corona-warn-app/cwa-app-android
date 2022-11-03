@@ -36,8 +36,6 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
 
     val navigation = SingleLiveEvent<NavDirections>()
 
-    val navigateBack = SingleLiveEvent<Unit>()
-
     val showCancelDialog = SingleLiveEvent<Unit>()
 
     fun onNextClicked() {
@@ -108,12 +106,10 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     fun onCancelConfirmed() {
         Timber.d("Symptom submission was cancelled.")
         performSubmission()
-        if (comesFromDispatcherFragment) {
-            navigation.postValue(
-                SubmissionSymptomIntroductionFragmentDirections
-                    .actionSubmissionSymptomIntroductionFragmentToMainFragment()
-            )
-        } else navigateBack.postValue(Unit)
+        navigation.postValue(
+            SubmissionSymptomIntroductionFragmentDirections
+                .actionSubmissionSymptomIntroductionFragmentToMainFragment()
+        )
     }
 
     private fun performSubmission() {

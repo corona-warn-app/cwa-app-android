@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -59,13 +58,10 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 SubmissionNavigationEvents.NavigateToMainActivity -> {
-                    if (args.comesFromDispatcherFragment) {
-                        findNavController().navigate(
-                            SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
-                        )
-                    } else popBackStack()
+                    findNavController().navigate(
+                        SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
+                    )
                 }
-
                 else -> Unit
             }
         }

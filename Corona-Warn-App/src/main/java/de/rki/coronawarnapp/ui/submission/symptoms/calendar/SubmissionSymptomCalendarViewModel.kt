@@ -38,7 +38,6 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     val symptomStart = symptomStartInternal.asLiveData(context = dispatcherProvider.Default)
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
-    val navigateBack = SingleLiveEvent<Unit>()
     val showCancelDialog = SingleLiveEvent<Unit>()
 
     fun onLastSevenDaysStart() {
@@ -100,11 +99,9 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         performSubmission {
             analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
         }
-        if (comesFromDispatcherFragment) {
-            routeToScreen.postValue(
-                SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
-            )
-        } else navigateBack.postValue(Unit)
+        routeToScreen.postValue(
+            SubmissionSymptomCalendarFragmentDirections.actionSubmissionSymptomCalendarFragmentToMainFragment()
+        )
     }
 
     private fun performSubmission(onSubmitted: () -> Unit) {

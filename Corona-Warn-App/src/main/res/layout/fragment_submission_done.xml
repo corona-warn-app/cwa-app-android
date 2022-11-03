@@ -10,7 +10,7 @@
         android:background="@color/colorSurface"
         android:contentDescription="@string/submission_done_title"
         android:fillViewport="true"
-        tools:context=".ui.submission.fragment.SubmissionDoneFragment">
+        tools:context=".ui.submission.submissiondone.SubmissionDoneFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
