@@ -8,7 +8,7 @@ data class SrsOtp(
     @JsonProperty("otp")
     val uuid: UUID = UUID.randomUUID(),
     @JsonProperty("expiresAt")
-    val expiresAt: Instant = Instant.now()
+    val expiresAt: Instant = Instant.MIN
 ) {
 
     fun isValid(now: Instant = Instant.now()) = expiresAt >= now

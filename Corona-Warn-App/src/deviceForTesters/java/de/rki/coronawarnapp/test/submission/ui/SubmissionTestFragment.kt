@@ -69,6 +69,13 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         vm.otpData.observe(viewLifecycleOwner) {
             binding.srsOtp.text = it?.toString() ?: "No OTP"
         }
+
+        binding.submit.setOnClickListener {
+            vm.submit()
+        }
+        vm.error.observe(viewLifecycleOwner) {
+            displayDialog { setError(it) }
+        }
     }
 
     @Suppress("DEPRECATION")

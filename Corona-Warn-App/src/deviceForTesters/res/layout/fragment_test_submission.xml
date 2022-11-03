@@ -35,6 +35,14 @@
                 android:layout_marginTop="8dp"
                 tools:text="No OTP" />
 
+            <Button
+                android:id="@+id/submit"
+                style="@style/buttonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Run submission" />
+
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,6 +71,7 @@
 
             <Button
                 android:id="@+id/tek_retrieval"
+                style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
@@ -73,6 +82,7 @@
 
             <Button
                 android:id="@+id/tek_email"
+                style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Email TEKs"

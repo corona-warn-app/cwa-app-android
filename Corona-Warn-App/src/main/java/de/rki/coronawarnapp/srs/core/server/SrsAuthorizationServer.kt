@@ -32,7 +32,7 @@ class SrsAuthorizationServer @Inject constructor(
                     PpacAndroid.PPACAndroid.newBuilder()
                         .setAndroidId(request.androidId)
                         .setSafetyNetJws(request.safetyNetJws)
-                        .setSaltBytes(request.salt)
+                        .setSalt(request.salt)
                         .build()
                 )
                 .build()

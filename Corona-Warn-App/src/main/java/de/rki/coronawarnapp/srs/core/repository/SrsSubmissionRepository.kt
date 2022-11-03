@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
+import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.model.SrsAttestationResult
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
@@ -41,6 +41,7 @@ class SrsSubmissionRepository @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val deviceAttestation: DeviceAttestation,
     private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val androidIdProvider: AndroidIdProvider,
 ) {
 
     suspend fun submit(
@@ -70,8 +71,8 @@ class SrsSubmissionRepository @Inject constructor(
                 SrsAuthorizationRequest(
                     srsOtp = srsOtp,
                     safetyNetJws = attestResult.report.jwsResult,
-                    salt = ByteString.copyFrom(attestResult.ourSalt),
-                    androidId = getAndroidId()
+                    salt = String(attestResult.ourSalt),
+                    androidId = androidIdProvider.getAndroidId()
                 )
             )
 
@@ -110,18 +111,6 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
     }
-
-    private fun getAndroidId(): ByteString =
-        try {
-            Timber.tag(TAG).d("getAndroidId()")
-            Settings.Secure.ANDROID_ID.decodeHex().toProtoByteString()
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "getAndroidId() fialed")
-            throw SrsSubmissionException(
-                errorCode = SrsSubmissionException.ErrorCode.ANDROID_ID_INVALID_LOCAL,
-                cause = e
-            )
-        }
 
     companion object {
         val TAG = tag<SrsSubmissionRepository>()

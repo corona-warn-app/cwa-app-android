@@ -8,6 +8,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
+import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
@@ -17,13 +19,15 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import kotlin.Exception
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     timeStamper: TimeStamper,
     @BaseGson baseGson: Gson,
-    srsSubmissionSettings: SrsSubmissionSettings
+    srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsSubmissionRepository: SrsSubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val exportJson = baseGson.newBuilder().apply {
@@ -33,6 +37,8 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val otpData = liveData {
         emit(srsSubmissionSettings.getOtp())
     }
+
+    val error = SingleLiveEvent<Exception>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -74,6 +80,15 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
 
     val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
+
+    fun submit() = launch {
+        try {
+            srsSubmissionRepository.submit(SrsSubmissionType.SRS_RAT)
+        } catch (e: Exception) {
+            error.postValue(e)
+            Timber.e(e, "submit()")
+        }
+    }
 
     fun updateStorage() {
         tekHistoryUpdater.getTeksForTesting()
