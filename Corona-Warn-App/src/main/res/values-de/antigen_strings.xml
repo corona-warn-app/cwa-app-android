@@ -2,14 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-        Homescreen cards - register test card
-    ###################################### -->
-    <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Weiter"</string>
-    <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Finden Sie Teststellen in Ihrer Umgebung und registrieren Sie einen Test, um andere schneller warnen zu können, oder Ihr digitales COVID-Testzertifikat anzufordern."</string>
-
-    <!-- ####################################
         Homescreen cards - common status
     ###################################### -->
     <!-- XTXT: Homescreen card: status subtitle - no result -->

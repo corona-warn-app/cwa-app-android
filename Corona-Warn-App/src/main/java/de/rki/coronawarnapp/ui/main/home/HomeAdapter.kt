@@ -20,8 +20,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.ui.homecards.IncreasedRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
@@ -76,7 +76,7 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is RapidTestReadyCard.Item }) { RapidTestReadyCard(it) },
                 TypedVHCreatorMod({ data[it] is RapidTestPendingCard.Item }) { RapidTestPendingCard(it) },
                 TypedVHCreatorMod({ data[it] is RapidTestOutdatedCard.Item }) { RapidTestOutdatedCard(it) },
-                TypedVHCreatorMod({ data[it] is TestUnregisteredCard.Item }) { TestUnregisteredCard(it) },
+                TypedVHCreatorMod({ data[it] is RegisterTestCard.Item }) { RegisterTestCard(it) },
                 TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
                 SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
             )

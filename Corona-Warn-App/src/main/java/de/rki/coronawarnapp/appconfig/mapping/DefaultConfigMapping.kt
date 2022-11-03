@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.LogUploadConfig
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfig
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 
 data class DefaultConfigMapping(
@@ -22,6 +23,7 @@ data class DefaultConfigMapping(
     override val presenceTracing: PresenceTracingConfig,
     override val coronaTestParameters: CoronaTestConfig,
     override val covidCertificateParameters: CovidCertificateConfig,
+    override val selfReportSubmission: SelfReportSubmissionConfig,
 ) : ConfigMapping,
     CWAConfig by cwaConfig,
     KeyDownloadConfig by keyDownloadConfig,
