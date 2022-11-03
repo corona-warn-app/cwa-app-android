@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.internal.AppConfigSource
-import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -59,4 +58,3 @@ fun ConfigData.getSupportedCountries(): List<String> =
         Timber.w("Country list was empty, corrected")
         listOf("DE")
     }.also { Timber.i("Supported countries = $it") }
-

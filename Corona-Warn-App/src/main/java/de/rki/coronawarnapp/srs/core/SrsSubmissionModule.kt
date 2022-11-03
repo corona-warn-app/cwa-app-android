@@ -7,14 +7,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.datadonation.survey.server.SurveyApiV1
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
 import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationApi
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionApi
 import de.rki.coronawarnapp.submission.DEFAULT_CACHE_SIZE
-import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
