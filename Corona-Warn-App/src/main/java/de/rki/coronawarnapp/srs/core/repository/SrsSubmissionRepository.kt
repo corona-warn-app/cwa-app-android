@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("LongParameterList")
 class SrsSubmissionRepository @Inject constructor(
     private val playbook: SrsPlaybook,
     private val appConfigProvider: AppConfigProvider,
@@ -44,7 +45,6 @@ class SrsSubmissionRepository @Inject constructor(
         type: SrsSubmissionType,
         symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
     ) {
-
         val appConfig = appConfigProvider.getAppConfig()
         val storedOtp = srsSubmissionSettings.getOtp()
         val nowUtc = timeStamper.nowUTC

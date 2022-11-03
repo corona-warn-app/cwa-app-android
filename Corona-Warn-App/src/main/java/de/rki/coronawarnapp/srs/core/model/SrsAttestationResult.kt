@@ -21,12 +21,10 @@ internal data class SrsAttestationResult(
         }
 
         if (requirements.requireCTSProfileMatch && !report.ctsProfileMatch) {
-
             Timber.w("Requirement 'ctsProfileMatch' not met (${report.advice}).")
         }
 
         if (requirements.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
-
             Timber.w("Evaluation type 'BASIC' not met (${report.advice}).")
         }
 
