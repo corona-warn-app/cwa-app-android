@@ -83,7 +83,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/card_padding"
                 android:layout_marginBottom="@dimen/card_padding"
-                android:text="@string/ag_homescreen_card_test_register_title"
+                android:text="@string/register_test_card_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
