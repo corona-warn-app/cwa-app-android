@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title">Tests erfassen und andere warnen</string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle">Selbsttest, PCR- und Schnelltest</string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description">Warnen Sie andere, wenn Sie positiv getestet sind oder fordern Sie Ihr digitales COVID-Testzertifikat an. Finden Sie Teststellen in Ihrer Umgebung. </string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button">Weiter</string>
+
 </resources>
