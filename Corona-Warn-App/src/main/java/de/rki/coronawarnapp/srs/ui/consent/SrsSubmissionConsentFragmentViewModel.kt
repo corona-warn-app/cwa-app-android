@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
@@ -47,7 +47,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SrsSubmissionConsentFragmentViewModel> {
+    interface Factory : CWAViewModelFactory<SrsSubmissionConsentFragmentViewModel> {
         fun create(
             srsSubmissionType: SrsSubmissionType?,
             inAppResult: Boolean

@@ -53,7 +53,10 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy -> TODO()
-                SrsSubmissionConsentNavigationEvents.NavigateToMainScreen -> TODO()
+                SrsSubmissionConsentNavigationEvents.NavigateToMainScreen ->
+                    findNavController().navigate(
+                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToMainFragment()
+                    )
                 SrsSubmissionConsentNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
                         SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsCheckinsFragment()
