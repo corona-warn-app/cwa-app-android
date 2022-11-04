@@ -66,7 +66,7 @@ class SrsAuthorizationServer @Inject constructor(
                     is SrsSubmissionException -> e
                     is CwaUnknownHostException,
                     is NetworkReadTimeoutException,
-                    is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_OTO_NO_NETWORK)
+                    is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_OTO_NO_NETWORK, cause = e)
 
                     else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR, cause = e)
                 }

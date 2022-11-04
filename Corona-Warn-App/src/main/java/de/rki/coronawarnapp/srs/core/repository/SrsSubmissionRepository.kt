@@ -40,7 +40,6 @@ class SrsSubmissionRepository @Inject constructor(
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val androidIdProvider: AndroidIdProvider,
 ) {
-
     suspend fun submit(
         type: SrsSubmissionType,
         symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
