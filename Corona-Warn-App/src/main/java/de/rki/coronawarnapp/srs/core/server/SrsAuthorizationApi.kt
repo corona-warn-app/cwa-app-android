@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.srs.core.server
 
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
-import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -12,5 +13,5 @@ interface SrsAuthorizationApi {
     @Headers("Content-Type: application/x-protobuf")
     suspend fun authenticate(
         @Body requestBody: SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
-    ): SrsAuthorizationResponse
+    ): Response<ResponseBody>
 }

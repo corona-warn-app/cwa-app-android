@@ -71,7 +71,7 @@ class SrsSubmissionRepository @Inject constructor(
 
         if (!srsOtp.isValid(nowUtc)) {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
-            val authResponse = playbook.authorize(
+            val expiresAt = playbook.authorize(
                 SrsAuthorizationRequest(
                     srsOtp = srsOtp,
                     safetyNetJws = attestResult.report.jwsResult,
@@ -80,7 +80,7 @@ class SrsSubmissionRepository @Inject constructor(
                 )
             )
 
-            srsOtp = srsOtp.copy(expiresAt = authResponse.expiresAt)
+            srsOtp = srsOtp.copy(expiresAt = expiresAt)
             srsSubmissionSettings.setOtp(srsOtp)
         }
 
