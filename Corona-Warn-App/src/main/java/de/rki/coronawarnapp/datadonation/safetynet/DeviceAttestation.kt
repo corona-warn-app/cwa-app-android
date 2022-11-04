@@ -13,12 +13,6 @@ interface DeviceAttestation {
     @Throws(SafetyNetException::class)
     suspend fun attest(request: Request): Result
 
-    @Throws(SafetyNetException::class)
-    suspend fun attest(
-        request: Request,
-        resultFactory: (ByteArray, SafetyNetClientWrapper.Report) -> Result
-    ): Result
-
     interface Request {
 
         val configData: ConfigData?

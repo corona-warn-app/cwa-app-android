@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.srs.core.repository
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
+import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
-import de.rki.coronawarnapp.srs.core.model.SrsAttestationResult
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
@@ -62,9 +62,7 @@ class SrsSubmissionRepository @Inject constructor(
 
         val attestResult = deviceAttestation.attest(
             request = attestRequest
-        ) { salt, report ->
-            SrsAttestationResult(ourSalt = salt, report = report)
-        } as SrsAttestationResult
+        ) as AttestationContainer
 
         attestResult.requirePass(appConfig.selfReportSubmission.ppac)
 
