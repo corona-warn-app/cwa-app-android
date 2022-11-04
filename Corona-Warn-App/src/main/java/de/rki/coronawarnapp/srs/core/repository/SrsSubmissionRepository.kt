@@ -1,16 +1,19 @@
 package de.rki.coronawarnapp.srs.core.repository
 
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
+import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
@@ -25,6 +28,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 
 @Suppress("LongParameterList")
@@ -46,26 +50,9 @@ class SrsSubmissionRepository @Inject constructor(
     ) {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
-        val storedOtp = srsSubmissionSettings.getOtp()
         val nowUtc = timeStamper.nowUTC
-        var srsOtp = if (storedOtp?.isValid(nowUtc) == true) {
-            Timber.tag(TAG).d("SRS otp is still valid -> use it")
-            storedOtp
-        } else {
-            Timber.tag(TAG).d("SRS otp is not valid -> new otp generated")
-            SrsOtp()
-        }
-        val attestRequest = SrsDeviceAttestationRequest(
-            configData = appConfig,
-            scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
-        )
-
-        val attestResult = deviceAttestation.attest(
-            request = attestRequest
-        ) as AttestationContainer
-
-        attestResult.requirePass(appConfig.selfReportSubmission.ppac)
-
+        var srsOtp = currentOtp(nowUtc)
+        val attestResult = attest(appConfig, srsOtp)
         if (!srsOtp.isValid(nowUtc)) {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
             val expiresAt = playbook.authorize(
@@ -114,16 +101,39 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun currentOtp(nowUtc: Instant): SrsOtp {
+        val srsOtp = srsSubmissionSettings.getOtp()
+        return if (srsOtp?.isValid(nowUtc) == true) {
+            Timber.tag(TAG).d("SRS otp is still valid -> use it")
+            srsOtp
+        } else {
+            Timber.tag(TAG).d("SRS otp is not valid -> new otp generated")
+            SrsOtp()
+        }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun attest(
+        appConfig: ConfigData,
+        srsOtp: SrsOtp
+    ): AttestationContainer = try {
+        val attestRequest = SrsDeviceAttestationRequest(
+            configData = appConfig,
+            scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
+        )
+        val attestResult = deviceAttestation.attest(attestRequest) as AttestationContainer
+        attestResult.requirePass(appConfig.selfReportSubmission.ppac)
+        attestResult
+    } catch (e: Exception) {
+        Timber.e(e, "attest() failed")
+        throw when (e) {
+            is SafetyNetException -> SrsSubmissionException(errorCode = e.type.toSrsErrorType(), cause = e)
+            else -> e
+        }
+    }
+
     companion object {
         val TAG = tag<SrsSubmissionRepository>()
     }
-}
-
-internal fun SrsSubmissionType.toSubmissionType() = when (this) {
-    SrsSubmissionType.SRS_SELF_TEST -> SubmissionType.SUBMISSION_TYPE_SRS_SELF_TEST
-    SrsSubmissionType.SRS_RAT -> SubmissionType.SUBMISSION_TYPE_SRS_RAT
-    SrsSubmissionType.SRS_REGISTERED_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_PCR
-    SrsSubmissionType.SRS_UNREGISTERED_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_PCR
-    SrsSubmissionType.SRS_RAPID_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_RAPID_PCR
-    SrsSubmissionType.SRS_OTHER -> SubmissionType.SUBMISSION_TYPE_SRS_OTHER
 }

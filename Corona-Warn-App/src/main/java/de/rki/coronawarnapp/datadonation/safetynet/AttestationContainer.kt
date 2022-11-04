@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 
-internal data class AttestationContainer(
+data class AttestationContainer(
     val ourSalt: ByteArray,
     val report: SafetyNetClientWrapper.Report
 ) : DeviceAttestation.Result {
