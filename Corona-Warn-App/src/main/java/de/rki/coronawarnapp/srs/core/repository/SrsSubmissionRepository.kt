@@ -45,10 +45,17 @@ class SrsSubmissionRepository @Inject constructor(
         type: SrsSubmissionType,
         symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
     ) {
+        Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val storedOtp = srsSubmissionSettings.getOtp()
         val nowUtc = timeStamper.nowUTC
-        var srsOtp = if (storedOtp?.isValid(nowUtc) == true) storedOtp else SrsOtp()
+        var srsOtp = if (storedOtp?.isValid(nowUtc) == true) {
+            Timber.tag(TAG).d("SRS otp is still valid -> use it")
+            storedOtp
+        } else {
+            Timber.tag(TAG).d("SRS otp is not valid -> new otp generated")
+            SrsOtp()
+        }
         val attestRequest = SrsDeviceAttestationRequest(
             configData = appConfig,
             scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
@@ -63,6 +70,7 @@ class SrsSubmissionRepository @Inject constructor(
         attestResult.requirePass(appConfig.selfReportSubmission.ppac)
 
         if (!srsOtp.isValid(nowUtc)) {
+            Timber.d("Authorize new srsOtp=%s", srsOtp)
             val authResponse = playbook.authorize(
                 SrsAuthorizationRequest(
                     srsOtp = srsOtp,
@@ -106,6 +114,7 @@ class SrsSubmissionRepository @Inject constructor(
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
+        Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
     companion object {

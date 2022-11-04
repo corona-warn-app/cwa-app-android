@@ -69,7 +69,7 @@ class SrsSubmissionSettings @Inject constructor(
     }
 
     suspend fun setOtp(srsOtp: SrsOtp) {
-        Timber.tag(TAG).d("setOtp()")
+        Timber.tag(TAG).d("save otp()")
         runCatching {
             dataStore.edit { prefs ->
                 prefs[SRS_OTP_KEY] = mapper.writeValueAsString(srsOtp)
