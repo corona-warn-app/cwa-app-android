@@ -10,13 +10,14 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
 import java.time.Instant
+import java.util.UUID
 
 internal class SrsSubmissionSettingsTest : BaseTest() {
 
     private var fakeStore = FakeDataStore()
     private val time = Instant.parse("2022-11-02T14:01:22Z")
     private val otp = SrsOtp(
-        uuid = "73a373fd-3a7b-49b9-b71c-2ae7a2824760",
+        uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
         expiresAt = time
     )
 
