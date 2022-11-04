@@ -34,44 +34,48 @@ class SrsAuthorizationServer @Inject constructor(
     suspend fun authorize(request: SrsAuthorizationRequest): Instant =
         withContext(dispatcherProvider.IO) {
             try {
-                Timber.tag(TAG).d("authorize(request=%s)", request)
-                val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
-                    .setPayload(
-                        SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid.toString()).build()
-                    )
-                    .setAuthentication(
-                        PpacAndroid.PPACAndroid.newBuilder()
-                            .setAndroidId(request.androidId)
-                            .setSafetyNetJws(request.safetyNetJws)
-                            .setSalt(request.salt)
-                            .build()
-                    )
-                    .build()
-                val bodyResponse = api.authenticate(srsOtpRequest)
-                val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
-                when {
-                    response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
-                    response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.from(response.errorCode))
-                    else -> throw when (bodyResponse.code()) {
-                        400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
-                        401 -> SrsSubmissionException(ErrorCode.SRS_OTP_401)
-                        403 -> SrsSubmissionException(ErrorCode.SRS_OTP_403)
-                        in 400..499 -> SrsSubmissionException(ErrorCode.SRS_OTP_CLIENT_ERROR)
-                        // error code in 500..599
-                        else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR)
-                    }
-                }
+                authoriseRequest(request)
             } catch (e: Exception) {
                 throw when (e) {
                     is SrsSubmissionException -> e
                     is CwaUnknownHostException,
                     is NetworkReadTimeoutException,
                     is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_OTO_NO_NETWORK, cause = e)
-
+                    // otherwise blame the server
                     else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR, cause = e)
                 }
             }
         }
+
+    private suspend fun authoriseRequest(request: SrsAuthorizationRequest): Instant {
+        Timber.tag(TAG).d("authorize(request=%s)", request)
+        val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
+            .setPayload(
+                SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid.toString()).build()
+            )
+            .setAuthentication(
+                PpacAndroid.PPACAndroid.newBuilder()
+                    .setAndroidId(request.androidId)
+                    .setSafetyNetJws(request.safetyNetJws)
+                    .setSalt(request.salt)
+                    .build()
+            )
+            .build()
+        val bodyResponse = api.authenticate(srsOtpRequest)
+        val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
+        return when {
+            response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
+            response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.from(response.errorCode))
+            else -> throw when (bodyResponse.code()) {
+                400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
+                401 -> SrsSubmissionException(ErrorCode.SRS_OTP_401)
+                403 -> SrsSubmissionException(ErrorCode.SRS_OTP_403)
+                in 400..499 -> SrsSubmissionException(ErrorCode.SRS_OTP_CLIENT_ERROR)
+                // error code in 500..599
+                else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR)
+            }
+        }
+    }
 
     companion object {
         val TAG = tag<SrsAuthorizationServer>()

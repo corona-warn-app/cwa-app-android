@@ -31,56 +31,60 @@ class SrsSubmissionServer @Inject constructor(
     suspend fun submit(payload: SrsSubmissionPayload) = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).d("submit()")
-            val plausibleParameters = appConfigProvider
-                .getAppConfig()
-                .presenceTracing
-                .plausibleDeniabilityParameters
-
-            val keyList = payload.exposureKeys
-            val keyPadding = paddingTool.keyPadding(keyList.size)
-            val checkInsReport = payload.checkInsReport
-            val checkInPadding = paddingTool.checkInPadding(plausibleParameters, checkInsReport.encryptedCheckIns.size)
-            val requestPadding = keyPadding + checkInPadding
-            Timber.tag(TAG).d(
-                "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
-                keyPadding,
-                checkInPadding,
-                requestPadding
-            )
-
-            @Suppress("DEPRECATION")
-            val submissionPayload = SubmissionPayloadOuterClass.SubmissionPayload.newBuilder()
-                .addAllKeys(keyList)
-                .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
-                .setConsentToFederation(false)
-                .addAllVisitedCountries(payload.visitedCountries)
-                .addAllCheckIns(checkInsReport.unencryptedCheckIns)
-                .addAllCheckInProtectedReports(checkInsReport.encryptedCheckIns)
-                .setSubmissionType(payload.submissionType)
-                .build()
-
-            val bodyResponse = api.submitPayload(payload.srsOtp.uuid.toString(), submissionPayload)
-
-            when (bodyResponse.code()) {
-                200 -> {
-                    Timber.i("SRS submission is successful!")
-                }
-
-                400 -> throw SrsSubmissionException(ErrorCode.SRS_SUB_400)
-                403 -> throw SrsSubmissionException(ErrorCode.SRS_SUB_403)
-                in 400..499 -> throw SrsSubmissionException(ErrorCode.SRS_SUB_CLIENT_ERROR)
-                // error code in 500..599
-                else -> throw SrsSubmissionException(ErrorCode.SRS_SUB_SERVER_ERROR)
-            }
+            submitPayload(payload)
         } catch (e: Exception) {
             throw when (e) {
                 is SrsSubmissionException -> e
                 is CwaUnknownHostException,
                 is NetworkReadTimeoutException,
                 is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_SUB_NO_NETWORK, cause = e)
-
+                // otherwise blame the server
                 else -> SrsSubmissionException(ErrorCode.SRS_SUB_SERVER_ERROR, cause = e)
             }
+        }
+    }
+
+    private suspend fun submitPayload(payload: SrsSubmissionPayload) {
+        val plausibleParameters = appConfigProvider
+            .getAppConfig()
+            .presenceTracing
+            .plausibleDeniabilityParameters
+
+        val keyList = payload.exposureKeys
+        val keyPadding = paddingTool.keyPadding(keyList.size)
+        val checkInsReport = payload.checkInsReport
+        val checkInPadding = paddingTool.checkInPadding(plausibleParameters, checkInsReport.encryptedCheckIns.size)
+        val requestPadding = keyPadding + checkInPadding
+        Timber.tag(TAG).d(
+            "keyPadding=%s\ncheckInPadding=%s\nrequestPadding=%s",
+            keyPadding,
+            checkInPadding,
+            requestPadding
+        )
+
+        @Suppress("DEPRECATION")
+        val submissionPayload = SubmissionPayloadOuterClass.SubmissionPayload.newBuilder()
+            .addAllKeys(keyList)
+            .setRequestPadding(ByteString.copyFromUtf8(requestPadding))
+            .setConsentToFederation(false)
+            .addAllVisitedCountries(payload.visitedCountries)
+            .addAllCheckIns(checkInsReport.unencryptedCheckIns)
+            .addAllCheckInProtectedReports(checkInsReport.encryptedCheckIns)
+            .setSubmissionType(payload.submissionType)
+            .build()
+
+        val bodyResponse = api.submitPayload(payload.srsOtp.uuid.toString(), submissionPayload)
+        if (bodyResponse.isSuccessful) {
+            Timber.i("SRS submission is successful!")
+            return
+        }
+
+        throw when (bodyResponse.code()) {
+            400 -> SrsSubmissionException(ErrorCode.SRS_SUB_400)
+            403 -> SrsSubmissionException(ErrorCode.SRS_SUB_403)
+            in 400..499 -> SrsSubmissionException(ErrorCode.SRS_SUB_CLIENT_ERROR)
+            // error code in 500..599
+            else -> SrsSubmissionException(ErrorCode.SRS_SUB_SERVER_ERROR)
         }
     }
 
