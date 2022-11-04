@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragment
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentModule
-import de.rki.coronawarnapp.srs.ui.typeselction.SrsTypeSelectionFragment
-import de.rki.coronawarnapp.srs.ui.typeselction.SrsTypeSelectionFragmentModule
+import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragment
+import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragmentModule
 
 @Module(
     includes = [

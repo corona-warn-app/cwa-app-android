@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.typeselction
+package de.rki.coronawarnapp.srs.ui.typeselection
 
 import dagger.Binds
 import dagger.Module

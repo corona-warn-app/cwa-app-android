@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/srsSubmissionTypeSelectionFragment"
-        android:name="de.rki.coronawarnapp.srs.ui.typeselction.SrsSubmissionTypeSelectionFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.typeselection.SrsSubmissionTypeSelectionFragment"
         android:label="SrsSubmissionTypeSelectionFragment"
         tools:layout="@layout/fragment_srs_type_selection" />
     <fragment
