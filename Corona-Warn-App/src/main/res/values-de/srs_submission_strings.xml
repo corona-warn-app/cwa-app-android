@@ -11,4 +11,8 @@
     <!-- XTXT: Register test card button -->
     <string name="register_test_card_button">Weiter</string>
 
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent Header -->
+    <string name="srs_submission_consent_header">"Ihr Einverständnis"</string>
+
 </resources>

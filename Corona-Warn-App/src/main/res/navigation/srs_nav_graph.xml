@@ -14,13 +14,38 @@
             android:name="srsSubmissionType"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType"
             app:nullable="true" />
+        <argument
+            android:name="unregisteredTest"
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_srsSubmissionTypeSelectionFragment"
             app:destination="@id/srsSubmissionTypeSelectionFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsCheckinsFragment"
+            app:destination="@id/srsCheckinsFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/srsSubmissionTypeSelectionFragment"
         android:name="de.rki.coronawarnapp.srs.ui.typeselction.SrsSubmissionTypeSelectionFragment"
         android:label="SrsSubmissionTypeSelectionFragment"
+        tools:layout="@layout/fragment_srs_type_selection" />
+    <fragment
+        android:id="@+id/srsCheckinsFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.checkins.SrsSubmissionCheckinsFragment"
+        android:label="SrsCheckinsFragment"
+        tools:layout="@layout/fragment_srs_type_selection" />
+    <fragment
+        android:id="@+id/srsSymptomsFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.symptoms.SrsSubmissionSymptomsFragment"
+        android:label="SrsSymptomsFragment"
         tools:layout="@layout/fragment_srs_type_selection" />
 </navigation>

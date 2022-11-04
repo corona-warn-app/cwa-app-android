@@ -11,4 +11,49 @@
     <!-- XTXT: Register test card button -->
     <string name="register_test_card_button">Weiter</string>
 
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header">"Ihr Einverständnis"</string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text">Andere warnen</string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text">Bevor Sie andere warnen können, ist ihr Einverständnis erforderlich.</string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text">Sie bestätigen hiermit, dass Sie persönlich durch einen Selbsttest oder von einer Teststelle positiv getestet wurden. Sie können hier nicht in Vertretung von Familienmitgliedern warnen.</string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text">Sie können andere nur ein Mal innerhalb von 3 Monaten warnen, es sei denn, Sie haben Ihr Testergebnis in der App erhalten. Dies dient der Vermeidung von Missbrauch.</string>
+    <!-- XTXT: Submission consent section not official -->
+    <string name="srs_section_not_official_text">Sie können für einen Selbsttest kein offizielles COVID-Testzertifikat erhalten.</string>
+    <!-- XTXT: Submission consent help others headline -->
+    <string name="srs_help_others_headline_text">Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!</string>
+    <!-- XTXT: Submission consent help others positive test -->
+    <string name="srs_help_others_positive_test_text">Wenn Ihr Corona-Test positiv ist, können Sie Nutzer über die App warnen. Es wird nur innerhalb Deutschlands gewarnt.</string>
+    <!-- XTXT: Submission consent help others warn other users -->
+    <string name="srs_help_others_warn_other_users_text">Es werden auch Nutzer gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren.</string>
+    <!-- XHED: Submission consent privacy card title -->
+    <string name="srs_privacy_card_title_text">Ihr Einverständnis</string>
+    <!-- XTXT: Submission consent privacy card subtitle -->
+    <string name="srs_privacy_card_subtitle_text">Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:</string>
+    <!-- XTXT: Submission consent privacy card first bulletpoint -->
+    <string name="srs_privacy_card_first_bulletpoint_text">Die App teilt Ihr positives Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft auch Nutzer der Corona-Warn-App, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren.</string>
+    <!-- XTXT: Submission consent privacy card second bulletpoint -->
+    <string name="srs_privacy_card_second_bulletpoint_text">Ihre Angaben zur Art des Tests werden anonym statistisch ausgewertet.</string>
+    <!-- XTXT: Submission consent privacy card third bulletpoint -->
+    <string name="srs_privacy_card_third_bulletpoint_text">Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text">Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat.</string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text">Unter „Meine Check-ins" können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen.</string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+    <!-- XHED: Submission consent request dialog title -->
+    <string name="srs_submission_consent_request_dialog_title">Zufalls-IDs über Corona-Warn-App teilen?</string>
+    <!-- XTXT: Submission consent request dialog body -->
+    <string name="srs_submission_consent_request_dialog_body">Deine Zufallskennungen der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist.\n\nDeine Identität wird niemals mit anderen Personen geteilt.</string>
+    <!-- XTXT: Submission consent request dialog positive button text -->
+    <string name="srs_submission_consent_request_dialog_positive_button_text">Teilen</string>
+    <!-- XTXT: Submission consent request dialog negative button text -->
+    <string name="srs_submission_consent_request_dialog_negative_button_text">Nicht Teilen</string>
 </resources>
