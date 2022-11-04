@@ -163,7 +163,7 @@ class SubmissionTaskTest : BaseTest() {
                     invalidCheckIn3
                 )
             )
-            coEvery { this@apply.updatePostSubmissionFlags(any<Long>()) } just Runs
+            coEvery { updatePostSubmissionFlags(any<Long>()) } just Runs
         }
 
         coEvery { checkInsTransformer.transform(any(), any()) } returns CheckInsReport(emptyList(), emptyList())
