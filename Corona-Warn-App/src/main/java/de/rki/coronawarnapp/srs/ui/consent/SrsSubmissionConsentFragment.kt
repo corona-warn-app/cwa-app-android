@@ -7,7 +7,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsSubmissionConsentBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -40,19 +39,13 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         }
 
         binding.srsSubmissionConsentButtonNext.setOnClickListener {
-            displayDialog {
-                title(R.string.srs_submission_consent_request_dialog_title)
-                message(R.string.srs_submission_consent_request_dialog_body)
-                positiveButton(R.string.srs_submission_consent_request_dialog_positive_button_text) {
-                    viewModel.onConsentDialogConfirmed()
-                }
-                negativeButton(R.string.srs_submission_consent_request_dialog_negative_button_text)
-            }
+            viewModel.proceed()
         }
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
-                SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy -> TODO()
+                SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy ->
+                    findNavController().navigate(R.id.informationPrivacyFragment)
                 SrsSubmissionConsentNavigationEvents.NavigateToMainScreen ->
                     findNavController().navigate(
                         SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToMainFragment()

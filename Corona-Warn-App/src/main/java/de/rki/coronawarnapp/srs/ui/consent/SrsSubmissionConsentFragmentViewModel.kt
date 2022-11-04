@@ -46,6 +46,11 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
         routeToScreen.postValue(SrsSubmissionConsentNavigationEvents.NavigateToMainScreen)
     }
 
+    fun proceed() {
+        // TODO: Trigger keys sharing here when logic is implemented
+        onConsentDialogConfirmed()
+    }
+
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SrsSubmissionConsentFragmentViewModel> {
         fun create(

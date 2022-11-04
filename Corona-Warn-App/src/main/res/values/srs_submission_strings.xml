@@ -48,12 +48,4 @@
     <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
-    <!-- XHED: Submission consent request dialog title -->
-    <string name="srs_submission_consent_request_dialog_title">Zufalls-IDs über Corona-Warn-App teilen?</string>
-    <!-- XTXT: Submission consent request dialog body -->
-    <string name="srs_submission_consent_request_dialog_body">Deine Zufallskennungen der letzten 14 Tage werden dazu genutzt, andere darüber zu benachrichtigen, dass du in ihrer Nähe gewesen bist und sie daher möglicherweise in Kontakt mit einer Person gekommen sind, die positiv auf COVID-19 getestet worden ist.\n\nDeine Identität wird niemals mit anderen Personen geteilt.</string>
-    <!-- XTXT: Submission consent request dialog positive button text -->
-    <string name="srs_submission_consent_request_dialog_positive_button_text">Teilen</string>
-    <!-- XTXT: Submission consent request dialog negative button text -->
-    <string name="srs_submission_consent_request_dialog_negative_button_text">Nicht Teilen</string>
 </resources>
