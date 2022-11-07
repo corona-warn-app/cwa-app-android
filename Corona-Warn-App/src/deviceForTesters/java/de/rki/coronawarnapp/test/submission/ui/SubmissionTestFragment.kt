@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -73,8 +74,11 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         binding.submit.setOnClickListener {
             vm.submit()
         }
-        vm.error.observe(viewLifecycleOwner) {
-            displayDialog { setError(it) }
+        vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Error -> displayDialog { setError(result.cause) }
+                Success -> Toast.makeText(requireContext(), "SRS submission is successful", Toast.LENGTH_LONG).show()
+            }
         }
     }
 

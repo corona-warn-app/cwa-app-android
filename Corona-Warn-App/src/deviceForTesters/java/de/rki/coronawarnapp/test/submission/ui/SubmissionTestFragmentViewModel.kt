@@ -35,7 +35,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     val otpData = srsSubmissionSettings.otp.asLiveData2()
 
-    val error = SingleLiveEvent<Exception>()
+    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -81,8 +81,9 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     fun submit() = launch {
         try {
             srsSubmissionRepository.submit(SrsSubmissionType.SRS_RAT)
+            srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
-            error.postValue(e)
+            srsSubmissionResult.postValue(Error(e))
             Timber.e(e, "submit()")
         }
     }
@@ -111,3 +112,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestFragmentViewModel>
 }
+
+sealed interface SrsSubmissionResult
+data class Error(val cause: Exception) : SrsSubmissionResult
+object Success : SrsSubmissionResult
