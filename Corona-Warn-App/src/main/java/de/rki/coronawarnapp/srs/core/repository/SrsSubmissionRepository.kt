@@ -126,7 +126,7 @@ class SrsSubmissionRepository @Inject constructor(
         attestResult.requirePass(appConfig.selfReportSubmission.ppac)
         attestResult
     } catch (e: Exception) {
-        Timber.e(e, "attest() failed")
+        Timber.d(e, "attest() failed -> map to SRS error")
         throw when (e) {
             is SafetyNetException -> SrsSubmissionException(errorCode = e.type.toSrsErrorType(), cause = e)
             else -> e
