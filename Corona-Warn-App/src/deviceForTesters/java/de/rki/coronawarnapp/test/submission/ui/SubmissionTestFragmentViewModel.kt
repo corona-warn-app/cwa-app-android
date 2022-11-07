@@ -25,7 +25,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     timeStamper: TimeStamper,
     @BaseGson baseGson: Gson,
-    srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -79,14 +79,18 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
 
-    fun submit() = launch {
+    fun submit(checkDeviceTime: Boolean) = launch {
         try {
-            srsSubmissionRepository.submit(SrsSubmissionType.SRS_RAT)
+            srsSubmissionRepository.submit(SrsSubmissionType.SRS_RAT, checkDeviceTime = checkDeviceTime)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             srsSubmissionResult.postValue(Error(e))
             Timber.e(e, "submit()")
         }
+    }
+
+    fun clearSrsSettings() = launch {
+        srsSubmissionSettings.reset()
     }
 
     fun updateStorage() {

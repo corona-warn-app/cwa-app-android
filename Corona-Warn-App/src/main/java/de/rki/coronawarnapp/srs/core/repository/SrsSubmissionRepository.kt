@@ -46,13 +46,14 @@ class SrsSubmissionRepository @Inject constructor(
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
-        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
+        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN,
+        checkDeviceTime: Boolean = true,
     ) {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
         var srsOtp = currentOtp(nowUtc)
-        val attestResult = attest(appConfig, srsOtp)
+        val attestResult = attest(appConfig, srsOtp, checkDeviceTime)
         if (!srsOtp.isValid(nowUtc)) {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
             val expiresAt = playbook.authorize(
@@ -118,10 +119,12 @@ class SrsSubmissionRepository @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun attest(
         appConfig: ConfigData,
-        srsOtp: SrsOtp
+        srsOtp: SrsOtp,
+        checkDeviceTime: Boolean = true
     ): AttestationContainer = try {
         val attestRequest = SrsDeviceAttestationRequest(
             configData = appConfig,
+            checkDeviceTime = checkDeviceTime,
             scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
         )
         val attestResult = deviceAttestation.attest(attestRequest) as AttestationContainer

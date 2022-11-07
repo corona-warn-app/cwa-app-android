@@ -82,6 +82,13 @@ class SrsSubmissionSettings @Inject constructor(
         }
     }
 
+    suspend fun reset() {
+        Timber.tag(TAG).d("reset()")
+        dataStore.edit { prefs ->
+            prefs.clear()
+        }
+    }
+
     companion object {
         internal val LAST_SUBMISSION_TIME_KEY = longPreferencesKey("srs.settings.lastSubmissionTime")
         internal val SRS_OTP_KEY = stringPreferencesKey("srs.settings.otp")

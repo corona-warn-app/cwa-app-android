@@ -67,13 +67,16 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
                 negativeButton = { consentResult(false) }
             )
         }
-        vm.otpData.observe(viewLifecycleOwner) { binding.srsOtp.text = "OTP:%s".format(it?.toString() ?: "No OTP") }
+        vm.otpData.observe(viewLifecycleOwner) { binding.srsOtp.text = it?.toString() ?: "No OTP" }
         vm.mostRecentSubmissionDate.observe(viewLifecycleOwner) {
-            binding.submissionTime.text = "Submission Time:%s".format(it.toString())
+            binding.submissionTime.text = "Submission Time: %s".format(it.toString())
         }
 
         binding.submit.setOnClickListener {
-            vm.submit()
+            vm.submit(binding.checkDeviceTimeSwitch.isChecked)
+        }
+        binding.clearSrsSettings.setOnClickListener {
+            vm.clearSrsSettings()
         }
         vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
             when (result) {

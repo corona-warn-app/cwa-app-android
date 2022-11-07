@@ -43,6 +43,20 @@
                 android:layout_marginTop="8dp"
                 tools:text="Submission Time" />
 
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/check_device_time_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:text="Check Device Time" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Note: This checkbox has effect only as long as you are in this test menu. it does not have an effect on real submission time check." />
+
             <Button
                 android:id="@+id/submit"
                 style="@style/buttonPrimary"
@@ -50,6 +64,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Run submission" />
+
+            <Button
+                android:id="@+id/clear_srs_settings"
+                style="@style/buttonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Clear submission data" />
 
         </LinearLayout>
 
