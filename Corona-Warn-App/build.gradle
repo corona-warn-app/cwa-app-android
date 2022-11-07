@@ -330,6 +330,7 @@ dependencies {
     // See https://github.com/corona-warn-app/dgc-certlogic-android
     //noinspection GradleDynamicVersion
     implementation('dgca.verifier.app:dgc-certlogic-android-light:+')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
