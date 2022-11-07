@@ -46,13 +46,13 @@ class SrsSubmissionSettings @Inject constructor(
         }
     }
 
+    val mostRecentSubmissionTime = dataStoreFlow.map { prefs ->
+        prefs[LAST_SUBMISSION_TIME_KEY]?.let { Instant.ofEpochMilli(it) } ?: Instant.EPOCH
+    }
+
     suspend fun getMostRecentSubmissionTime(): Instant {
         Timber.d("getMostRecentSubmissionTime()")
-        return dataStoreFlow.map { prefs ->
-            prefs[LAST_SUBMISSION_TIME_KEY]
-        }.map { time ->
-            time?.let { Instant.ofEpochMilli(it) } ?: Instant.EPOCH
-        }.first()
+        return mostRecentSubmissionTime.first()
     }
 
     suspend fun setMostRecentSubmissionTime(time: Instant = Instant.now()) {

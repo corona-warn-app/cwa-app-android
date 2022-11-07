@@ -34,6 +34,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     }.create()
 
     val otpData = srsSubmissionSettings.otp.asLiveData2()
+    val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
 
     val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
 

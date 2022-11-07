@@ -35,6 +35,14 @@
                 android:layout_marginTop="8dp"
                 tools:text="No OTP" />
 
+            <TextView
+                android:id="@+id/submission_time"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="Submission Time" />
+
             <Button
                 android:id="@+id/submit"
                 style="@style/buttonPrimary"
