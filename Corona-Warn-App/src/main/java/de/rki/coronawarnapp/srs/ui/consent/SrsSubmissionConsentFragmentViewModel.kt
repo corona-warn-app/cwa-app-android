@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
-    @Assisted private val srsSubmissionType: SrsSubmissionType?,
+    @Assisted private val srsSubmissionType: SrsSubmissionType,
     @Assisted private val inAppResult: Boolean,
     private val checkInRepository: CheckInRepository,
     private val enfClient: ENFClient,
