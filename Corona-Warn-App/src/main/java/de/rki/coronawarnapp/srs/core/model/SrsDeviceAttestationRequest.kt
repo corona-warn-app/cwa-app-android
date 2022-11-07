@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 
 data class SrsDeviceAttestationRequest(
     override val scenarioPayload: ByteArray,
-    override val configData: ConfigData? = null
+    override val configData: ConfigData? = null,
+    override val checkDeviceTime: Boolean = true
 
 ) : DeviceAttestation.Request {
     override fun equals(other: Any?): Boolean {
