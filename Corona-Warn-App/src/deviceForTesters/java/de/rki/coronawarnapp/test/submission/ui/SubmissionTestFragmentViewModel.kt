@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.submission.ui
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
@@ -34,9 +33,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         setPrettyPrinting()
     }.create()
 
-    val otpData = liveData {
-        emit(srsSubmissionSettings.getOtp())
-    }
+    val otpData = srsSubmissionSettings.otp.asLiveData2()
 
     val error = SingleLiveEvent<Exception>()
 

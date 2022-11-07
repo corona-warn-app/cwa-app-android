@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import com.fasterxml.jackson.module.kotlin.readValue
+import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 import java.time.Instant
 import javax.inject.Inject
@@ -34,6 +35,16 @@ class SrsSubmissionSettings @Inject constructor(
                 throw e
             }
         }
+
+    val otp: Flow<SrsOtp?> = dataStoreFlow.map { prefs ->
+        prefs[SRS_OTP_KEY]?.let {
+            runCatching {
+                mapper.readValue<SrsOtp>(it)
+            }.onFailure {
+                Timber.tag(TAG).e(it, "Failed to read")
+            }.getOrNull()
+        }
+    }
 
     suspend fun getMostRecentSubmissionTime(): Instant {
         Timber.d("getMostRecentSubmissionTime()")
@@ -57,15 +68,7 @@ class SrsSubmissionSettings @Inject constructor(
 
     suspend fun getOtp(): SrsOtp? {
         Timber.d("getOtp()")
-        return dataStoreFlow.map { prefs ->
-            prefs[SRS_OTP_KEY]?.let {
-                runCatching {
-                    mapper.readValue<SrsOtp>(it)
-                }.onFailure {
-                    Timber.tag(TAG).e(it, "getOtp failed")
-                }.getOrNull()
-            }
-        }.first()
+        return otp.first()
     }
 
     suspend fun setOtp(srsOtp: SrsOtp) {
