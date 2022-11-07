@@ -187,7 +187,7 @@
 
                 <include
                     android:id="@+id/srs_submission_consent_first_bulletpoint"
-                    layout="@layout/view_bullet_point_text_srs"
+                    layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -198,7 +198,7 @@
 
                 <include
                     android:id="@+id/srs_submission_consent_second_bulletpoint"
-                    layout="@layout/view_bullet_point_text_srs"
+                    layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
@@ -209,7 +209,7 @@
 
                 <include
                     android:id="@+id/srs_submission_consent_third_bulletpoint"
-                    layout="@layout/view_bullet_point_text_srs"
+                    layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"

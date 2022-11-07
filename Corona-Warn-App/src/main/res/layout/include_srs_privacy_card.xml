@@ -33,8 +33,8 @@
     <include
         android:id="@+id/bulletpoint_one"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size_srs"
-        android:layout_height="@dimen/bullet_point_size_srs"
+        android:layout_width="@dimen/bullet_point_size"
+        android:layout_height="@dimen/bullet_point_size"
         app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_title"
         app:layout_constraintStart_toStartOf="@id/srs_privacy_card_subtitle" />
 
@@ -53,8 +53,8 @@
     <include
         android:id="@+id/bulletpoint_two"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size_srs"
-        android:layout_height="@dimen/bullet_point_size_srs"
+        android:layout_width="@dimen/bullet_point_size"
+        android:layout_height="@dimen/bullet_point_size"
         app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_title"
         app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
 
@@ -72,8 +72,8 @@
     <include
         android:id="@+id/bulletpoint_three"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size_srs"
-        android:layout_height="@dimen/bullet_point_size_srs"
+        android:layout_width="@dimen/bullet_point_size"
+        android:layout_height="@dimen/bullet_point_size"
         app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_title"
         app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
 
