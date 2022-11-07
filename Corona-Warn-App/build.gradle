@@ -425,7 +425,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = '5.4.2'
+    def kotest_version = '5.5.4'
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
@@ -457,7 +457,7 @@ dependencies {
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.10'
     implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
@@ -479,14 +479,14 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-android'
 
     // Jackson
-    def jackson = "2.13.4"
+    def jackson = '2.14.0'
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
     implementation 'com.networknt:json-schema-validator:1.0.73'
     implementation 'net.swiftzer.semver:semver:1.2.0'
 
     //JWT
-    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.4'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.6'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0"
