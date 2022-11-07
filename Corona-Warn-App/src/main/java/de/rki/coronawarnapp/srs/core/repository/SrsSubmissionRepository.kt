@@ -98,6 +98,8 @@ class SrsSubmissionRepository @Inject constructor(
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
+
+        srsSubmissionSettings.setMostRecentSubmissionTime(timeStamper.nowUTC)
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 

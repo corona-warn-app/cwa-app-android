@@ -55,11 +55,11 @@ class SrsSubmissionSettings @Inject constructor(
         }.first()
     }
 
-    suspend fun setMostRecentSubmissionTime(executionTime: Instant = Instant.now()) {
-        Timber.tag(TAG).d("setMostRecentSubmissionTime: %s", executionTime)
+    suspend fun setMostRecentSubmissionTime(time: Instant = Instant.now()) {
+        Timber.tag(TAG).d("setMostRecentSubmissionTime: %s", time)
         runCatching {
             dataStore.edit { prefs ->
-                prefs[LAST_SUBMISSION_TIME_KEY] = executionTime.toEpochMilli()
+                prefs[LAST_SUBMISSION_TIME_KEY] = time.toEpochMilli()
             }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "setMostRecentSubmissionTime failed")
