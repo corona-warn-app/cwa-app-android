@@ -16,7 +16,7 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
 
     private var fakeStore = FakeDataStore()
     private val time = Instant.parse("2022-11-02T14:01:22Z")
-    private val otp = SrsOtp(
+    private val otpTest = SrsOtp(
         uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
         expiresAt = time
     )
@@ -52,22 +52,22 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
         instance().apply {
             fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe null
             getOtp() shouldBe null
-            setOtp(otp)
+            setOtp(otpTest)
             fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe """
                 {"otp":"73a373fd-3a7b-49b9-b71c-2ae7a2824760","expiresAt":1667397682.000000000}
             """.trimIndent()
-            getOtp() shouldBe otp
+            getOtp() shouldBe otpTest
         }
     }
 
     @Test
     fun setOtp() = runTest {
         instance().apply {
-            setOtp(otp)
+            setOtp(otpTest)
             fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe """
                 {"otp":"73a373fd-3a7b-49b9-b71c-2ae7a2824760","expiresAt":1667397682.000000000}
             """.trimIndent()
-            getOtp() shouldBe otp
+            getOtp() shouldBe otpTest
         }
     }
 
