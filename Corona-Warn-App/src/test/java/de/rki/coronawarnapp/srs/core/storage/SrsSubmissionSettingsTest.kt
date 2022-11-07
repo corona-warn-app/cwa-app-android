@@ -71,6 +71,23 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
         }
     }
 
+    @Test
+    fun reset() = runTest {
+        instance().apply {
+            setOtp(otpTest)
+            fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe """
+                {"otp":"73a373fd-3a7b-49b9-b71c-2ae7a2824760","expiresAt":1667397682.000000000}
+            """.trimIndent()
+            setMostRecentSubmissionTime(time)
+            fakeStore[SrsSubmissionSettings.LAST_SUBMISSION_TIME_KEY] shouldBe 1667397682000L
+
+            reset()
+
+            fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe null
+            fakeStore[SrsSubmissionSettings.LAST_SUBMISSION_TIME_KEY] shouldBe null
+        }
+    }
+
     private fun instance() = SrsSubmissionSettings(
         dataStore = fakeStore,
         mapper = SerializationModule.jacksonBaseMapper
