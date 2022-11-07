@@ -234,8 +234,8 @@ class SubmissionTaskTest : BaseTest() {
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
             coronaTestRepository.markAsSubmitted(any())
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
+            srsSubmissionSettings.setMostRecentSubmissionTime(any())
         }
 
         coVerify(exactly = 0) {
