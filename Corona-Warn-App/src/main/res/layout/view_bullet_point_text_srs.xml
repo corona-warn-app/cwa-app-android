@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/bullet_point_padding_srs"
+        android:paddingHorizontal="@dimen/bullet_point_padding_srs"
         android:paddingBottom="@dimen/spacing_small">
 
         <ImageView
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toEndOf="@id/bullet_point"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@{itemText}"
-            tools:text="@tools:sample/lorem" />
+            tools:text="@{itemText}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

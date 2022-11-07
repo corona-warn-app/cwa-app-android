@@ -46,8 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_test_result_illustration_result_available"
-                    tools:ignore="ContentDescription" />
+                    app:srcCompat="@drawable/ic_test_result_illustration_result_available" />
 
                 <TextView
                     android:id="@+id/srs_submission_consent_headline"
@@ -263,7 +262,7 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/srs_submission_consent_button_next"
+            android:id="@+id/srs_submission_consent_accept_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

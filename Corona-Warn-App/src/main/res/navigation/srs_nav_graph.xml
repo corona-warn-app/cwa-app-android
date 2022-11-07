@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_srs_submission_consent">
         <argument
             android:name="srsSubmissionType"
-            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType"
-            app:nullable="true" />
+            android:defaultValue="SRS_OTHER"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
         <argument
             android:name="unregisteredTest"
             android:defaultValue="false"
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/srsSubmissionTypeSelectionFragment"
-        android:name="de.rki.coronawarnapp.srs.ui.typeselection.SrsSubmissionTypeSelectionFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragment"
         android:label="SrsSubmissionTypeSelectionFragment"
         tools:layout="@layout/fragment_srs_type_selection" />
     <fragment
