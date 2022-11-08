@@ -87,6 +87,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             State.Working -> {
                 // Handled above
             }
+
             is State.Error -> state.showExceptionDialog(this) { popBackStack() }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
@@ -116,12 +117,13 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
     private fun showCloseDialog() = displayDialog {
         title(R.string.request_gc_dialog_title)
         message(R.string.request_gc_dialog_message)
-        positiveButton(R.string.request_gc_dialog_positive_button)
-        if (args.comesFromDispatcherFragment) {
-            findNavController().navigate(
-                RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
-            )
-        } else popBackStack()
+        positiveButton(R.string.request_gc_dialog_positive_button) {
+            if (args.comesFromDispatcherFragment) {
+                findNavController().navigate(
+                    RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
+                )
+            } else popBackStack()
+        }
         negativeButton(R.string.request_gc_dialog_negative_button)
     }
 
