@@ -3,11 +3,7 @@ syntax = "proto3";
 package de.rki.coronawarnapp.server.protocols.internal.ppdd;
 
 
-message PPACIOS {
+message SRSOneTimePassword {
 
-  string deviceToken = 1;
-
-  string apiToken = 2;
-
-  string previousApiToken = 3;
+  string otp = 1;
 }
