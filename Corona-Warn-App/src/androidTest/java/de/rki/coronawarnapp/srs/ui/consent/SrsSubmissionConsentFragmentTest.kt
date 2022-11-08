@@ -12,10 +12,9 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
-import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
-import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
@@ -23,23 +22,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SrsSubmissionConsentFragmentTest : BaseUITest() {
 
-    private val srsSubmissionType: SrsSubmissionType = SrsSubmissionType.SRS_UNREGISTERED_PCR
-    private lateinit var viewModel: SrsSubmissionConsentFragmentViewModel
+    @MockK lateinit var viewModel: SrsSubmissionConsentFragmentViewModel
 
-    @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
-
-    private val fragmentArgs = SrsSubmissionConsentFragmentArgs(
-        srsSubmissionType = srsSubmissionType,
-        openTypeSelection = true
-    ).toBundle()
+    private val fragmentArgs = SrsSubmissionConsentFragmentArgs().toBundle()
 
     private val navController = TestNavHostController(
         ApplicationProvider.getApplicationContext()
@@ -55,18 +46,17 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        viewModel = SrsSubmissionConsentFragmentViewModel(
-            srsSubmissionType,
-            true,
-            checkInRepository,
-            TestDispatcherProvider(),
-            tekHistoryUpdaterFactory
-        )
+        viewModel.apply {
+            every { showKeysRetrievalProgress } returns SingleLiveEvent()
+            every { showTracingConsentDialog } returns SingleLiveEvent()
+            every { showPermissionRequest } returns SingleLiveEvent()
+            every { event } returns SingleLiveEvent()
+        }
+
         setupMockViewModel(
             object : SrsSubmissionConsentFragmentViewModel.Factory {
                 override fun create(
-                    srsSubmissionType: SrsSubmissionType,
-                    inAppResult: Boolean
+                    openTypeSelection: Boolean
                 ): SrsSubmissionConsentFragmentViewModel = viewModel
             }
         )
