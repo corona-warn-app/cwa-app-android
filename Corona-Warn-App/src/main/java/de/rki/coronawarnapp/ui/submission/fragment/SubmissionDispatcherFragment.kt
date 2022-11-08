@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentArgs
+import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentArgs
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -63,7 +64,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     )
                 }
                 is SubmissionNavigationEvents.NavigateToSelfTestConsentScreen -> {
-                    // TODO: navigate to consent screen and pass it.positiveNoAnswer value
+                    findNavController().navigate(
+                        R.id.srs_nav_graph,
+                        SrsSubmissionConsentFragmentArgs(it.positiveNoAnswer).toBundle()
+                    )
                 }
 
                 else -> Unit
@@ -72,7 +76,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
         viewModel.srsError.observe2(this) {
             // TODO to be finished in Error handling task EXPOSUREAPP-14175
-            displayDialog { error(it) }
+            displayDialog { setError(it) }
         }
     }
 
