@@ -83,7 +83,7 @@ internal class SrsSubmissionServerTest : BaseTest() {
 
     @Test
     fun `other error maps to server error`() = runTest {
-        coEvery { srsSubmissionApi.submitPayload(any(), any()) } throws Exception(message = "Surprise!")
+        coEvery { srsSubmissionApi.submitPayload(any(), any()) } throws Exception("Surprise!")
         shouldThrow<SrsSubmissionException> { instance().submit(payload) }.errorCode shouldBe
             SrsSubmissionException.ErrorCode.SRS_SUB_SERVER_ERROR
     }
