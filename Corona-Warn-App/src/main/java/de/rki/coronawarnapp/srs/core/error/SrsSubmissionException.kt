@@ -11,7 +11,7 @@ class SrsSubmissionException(
         DEVICE_TIME_INCORRECT("DEVICE_TIME_INCORRECT"),
         DEVICE_TIME_UNVERIFIED("DEVICE_TIME_UNVERIFIED"),
         SRS_OTP_CLIENT_ERROR("SRS_OTP_CLIENT_ERROR"),
-        SRS_OTO_NO_NETWORK("SRS_OTO_NO_NETWORK"),
+        SRS_OTP_NO_NETWORK("SRS_OTP_NO_NETWORK"),
         SRS_OTP_SERVER_ERROR("SRS_OTP_SERVER_ERROR"),
         SRS_OTP_400("SRS_OTP_400"),
         SRS_OTP_401("SRS_OTP_401"),
@@ -45,9 +45,9 @@ class SrsSubmissionException(
         SALT_REDEEMED("SALT_REDEEMED");
 
         companion object {
-            fun from(code: String) = values().find { code == it.code } ?: run {
-                Timber.e("ErrorCode=%s was not found -> return SRS_SUB_SERVER_ERROR as fallback", code)
-                SRS_SUB_SERVER_ERROR
+            fun fromAuthErrorCode(code: String) = values().find { code == it.code } ?: run {
+                Timber.e("ErrorCode=%s was not found -> return SRS_OTP_SERVER_ERROR as fallback", code)
+                SRS_OTP_SERVER_ERROR
             }
         }
     }

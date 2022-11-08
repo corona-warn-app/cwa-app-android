@@ -40,7 +40,7 @@ class SrsAuthorizationServer @Inject constructor(
                     is SrsSubmissionException -> e
                     is CwaUnknownHostException,
                     is NetworkReadTimeoutException,
-                    is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_OTO_NO_NETWORK, cause = e)
+                    is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_OTP_NO_NETWORK, cause = e)
                     // otherwise blame the server
                     else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR, cause = e)
                 }
@@ -63,10 +63,9 @@ class SrsAuthorizationServer @Inject constructor(
             .build()
         val bodyResponse = api.authenticate(srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
-        val expirationDate = response?.expirationDate
         return when {
-            response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.from(response.errorCode))
-            !expirationDate.isNullOrBlank() -> OffsetDateTime.parse(response.expirationDate).toInstant()
+            response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.fromAuthErrorCode(response.errorCode))
+            response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
                 401 -> SrsSubmissionException(ErrorCode.SRS_OTP_401)
