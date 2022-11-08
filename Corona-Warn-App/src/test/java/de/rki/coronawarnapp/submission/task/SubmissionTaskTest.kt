@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.server.protocols.external.exposurenotification.TemporaryExposureKeyExportOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
-import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -71,7 +71,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var srsSubmissionSettings: SrsSubmissionSettings
+    @MockK lateinit var submissionReporter: SubmissionReporter
 
     private val userSymptoms: Symptoms = mockk()
     private val settingSymptomsPreference: FlowPreference<Symptoms?> = mockFlowPreference(userSymptoms)
@@ -146,7 +146,7 @@ class SubmissionTaskTest : BaseTest() {
 
         coEvery { playbook.submit(any()) } just Runs
         coEvery { playbook.retrieveTan(any(), any()) } returns "tan"
-        coEvery { srsSubmissionSettings.setMostRecentSubmissionTime(any()) } just Runs
+        coEvery { submissionReporter.reportAt(any()) } just Runs
 
         every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
         every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
@@ -185,7 +185,7 @@ class SubmissionTaskTest : BaseTest() {
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
         coronaTestRepository = coronaTestRepository,
-        srsSubmissionSettings = srsSubmissionSettings,
+        submissionReporter = submissionReporter,
     )
 
     @Test
@@ -235,7 +235,7 @@ class SubmissionTaskTest : BaseTest() {
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
             coronaTestRepository.markAsSubmitted(any())
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
+            submissionReporter.reportAt(any())
         }
 
         coVerify(exactly = 0) {

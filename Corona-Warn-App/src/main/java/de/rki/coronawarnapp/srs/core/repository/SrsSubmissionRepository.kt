@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
@@ -44,7 +45,7 @@ class SrsSubmissionRepository @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val androidIdProvider: AndroidIdProvider,
-    private val contactDiaryRepository: ContactDiaryRepository,
+    private val submissionReporter: SubmissionReporter,
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
@@ -102,9 +103,7 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
 
-        val instant = timeStamper.nowUTC
-        srsSubmissionSettings.setMostRecentSubmissionTime(instant)
-        contactDiaryRepository.insertSubmissionAt(instant)
+        submissionReporter.reportAt(timeStamper.nowUTC)
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
