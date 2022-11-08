@@ -20,10 +20,10 @@
             style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_mega_tiny"
+            android:paddingTop="@dimen/spacing_medium"
             android:text="@string/srs_privacy_card_title_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -34,8 +34,8 @@
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:text="@string/srs_privacy_card_subtitle_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/srs_privacy_card_title"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/srs_privacy_card_title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
