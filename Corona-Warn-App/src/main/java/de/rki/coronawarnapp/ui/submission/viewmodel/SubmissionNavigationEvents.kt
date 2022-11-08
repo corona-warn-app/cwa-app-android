@@ -22,6 +22,8 @@ sealed class SubmissionNavigationEvents {
 
     data class RegisterTestResult(val state: TestRegistrationStateProcessor.State) : SubmissionNavigationEvents()
 
+    data class NavigateToSelfTestConsentScreen(val positiveNoAnswer: Boolean = false) : SubmissionNavigationEvents()
+
     data class NavigateToRequestDccFragment(
         val coronaTestQRCode: CoronaTestQRCode,
         val consentGiven: Boolean,
