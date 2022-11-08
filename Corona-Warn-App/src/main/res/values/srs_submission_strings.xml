@@ -55,4 +55,35 @@
     <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header">"Art des Tests"</string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text">Bitte wählen Sie die Art des Tests aus, auf dessen Grundlage Sie warnen.</string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="target_button_rat_registered_no_result_text">Antigen-Schnelltest in der App registriert, aber kein Ergebnis erhalten</string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="target_button_rat_not_registered_text">Antigen-Schnelltest nicht in der App registriert</string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="target_button_pcr_registered_no_result_text">PCR-Labortest in der App registriert, aber kein Ergebnis erhalten</string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="target_button_pcr_not_registered_text">PCR-Labortest nicht in der App registriert</string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="target_button_rapid_pcr_text">PCR-Schnelltest (PoC-NAT-Test)</string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="target_button_other_text">Sonstige / keine Angabe</string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text">Weiter</string>
+
+    <!-- Cancel dialog -->
+    <!-- XTXT: SRS cancel dialog title -->
+    <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
+    <!-- XTXT: SRS cancel dialog body -->
+    <string name="srs_cancel_dialog_body">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\nWenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
+    <!-- XTXT: SRS cancel dialog positive button -->
+    <string name="srs_cancel_dialog_positive_button">Warnen fortsetzen</string>
+    <!-- XTXT: TSRS cancel dialog negative button -->
+    <string name="srs_cancel_dialog_negative_button">Nicht warnen</string>
+
 </resources>

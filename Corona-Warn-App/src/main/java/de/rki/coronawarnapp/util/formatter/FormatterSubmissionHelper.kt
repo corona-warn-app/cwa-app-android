@@ -9,6 +9,7 @@ import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -17,6 +18,28 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import java.util.Date
 import java.util.Locale
 
+fun formatSrsTypeSelectionButtonTextStyleByState(
+    context: Context,
+    currentState: SrsSubmissionType,
+    submissionType: SrsSubmissionType?
+): Int =
+    formatColor(
+        context,
+        currentState == submissionType,
+        R.color.colorCalendarTextSelected,
+        R.color.colorCalendarTextUnselected
+    )
+fun formatSrsTypeSelectionBackgroundButtonStyleByState(
+    context: Context,
+    currentState: SrsSubmissionType,
+    submissionType: SrsSubmissionType?
+): Int =
+    formatColor(
+        context,
+        currentState == submissionType,
+        R.color.colorCalendarBackgroundSelected,
+        R.color.colorCalendarBackgroundUnselected
+    )
 fun formatSymptomButtonTextStyleByState(
     context: Context,
     currentState: Symptoms.Indication?,
