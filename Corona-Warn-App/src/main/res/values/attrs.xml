@@ -56,6 +56,16 @@
         <attr name="android:checked" />
     </declare-styleable>
 
+    <declare-styleable name="DispatcherCardView">
+        <attr name="headline" format="string" />
+        <attr name="body" format="string" />
+        <attr name="illustration" format="integer" />
+        <attr name="topIcon" format="integer" />
+        <attr name="cardBackground" format="integer" />
+        <attr name="colorForText" format="color" />
+        <attr name="iconTint" format="color" />
+    </declare-styleable>
+
     <item name="default_button" type="id" />
     <item name="checkins_fragment_menu_id" type="id" />
     <item name="contact_diary_onboarding_fragment_menu_id" type="id" />

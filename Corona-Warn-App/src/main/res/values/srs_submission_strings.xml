@@ -11,4 +11,21 @@
     <!-- XTXT: Register test card button -->
     <string name="register_test_card_button">Weiter</string>
 
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title">Test registrieren</string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title">Selbsttest positiv?</string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body">Warnen Sie andere, wenn Ihr eigener Selbsttest positiv ist.</string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title">Test positiv und kein Ergebnis in der App?</string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body">Warnen Sie andere mit Ihrem eigenen positiven Schnell- oder PCR-Test, auch wenn Ihr Test nicht registriert war oder Ihr Testergebnis nicht in der App zugestellt wurde.</string>
+
 </resources>
