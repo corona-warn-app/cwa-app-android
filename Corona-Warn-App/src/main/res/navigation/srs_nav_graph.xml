@@ -15,7 +15,7 @@
             android:defaultValue="SRS_OTHER"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
         <argument
-            android:name="unregisteredTest"
+            android:name="openTypeSelection"
             android:defaultValue="false"
             app:argType="boolean" />
         <action

@@ -40,7 +40,7 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
 
     private val fragmentArgs = SrsSubmissionConsentFragmentArgs(
         srsSubmissionType = srsSubmissionType,
-        unregisteredTest = true
+        openTypeSelection = true
     ).toBundle()
 
     private val navController = TestNavHostController(

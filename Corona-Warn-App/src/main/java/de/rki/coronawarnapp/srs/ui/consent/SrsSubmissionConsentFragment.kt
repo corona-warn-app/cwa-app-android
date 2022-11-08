@@ -26,7 +26,7 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SrsSubmissionConsentFragmentViewModel.Factory
-            factory.create(navArgs.srsSubmissionType, navArgs.unregisteredTest)
+            factory.create(navArgs.srsSubmissionType, navArgs.openTypeSelection)
         }
     )
     private val binding by viewBinding<FragmentSrsSubmissionConsentBinding>()

@@ -185,39 +185,6 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@id/srs_help_others_warn_other_users" />
 
-                <include
-                    android:id="@+id/srs_submission_consent_first_bulletpoint"
-                    layout="@layout/view_bullet_point_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    app:itemText="@{@string/srs_submission_consent_first_bulletpoint_text}"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_privacy_card" />
-
-                <include
-                    android:id="@+id/srs_submission_consent_second_bulletpoint"
-                    layout="@layout/view_bullet_point_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:itemText="@{@string/srs_submission_consent_second_bulletpoint_text}"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_first_bulletpoint" />
-
-                <include
-                    android:id="@+id/srs_submission_consent_third_bulletpoint"
-                    layout="@layout/view_bullet_point_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    app:itemText="@{@string/srs_submission_consent_third_bulletpoint_text}"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_second_bulletpoint" />
-
                 <TextView
                     android:id="@+id/srs_next_step_submission"
                     style="@style/subtitle"
@@ -228,7 +195,7 @@
                     android:text="@string/srs_next_step_submission_text"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_third_bulletpoint" />
+                    app:layout_constraintTop_toBottomOf="@id/srs_privacy_card" />
 
 
                 <de.rki.coronawarnapp.ui.view.MoreInformationView

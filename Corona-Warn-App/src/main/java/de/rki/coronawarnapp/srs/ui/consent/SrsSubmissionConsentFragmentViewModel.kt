@@ -21,7 +21,7 @@ import timber.log.Timber
 
 class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     @Assisted private val srsSubmissionType: SrsSubmissionType,
-    @Assisted private val inAppResult: Boolean,
+    @Assisted private val openTypeSelection: Boolean,
     private val checkInRepository: CheckInRepository,
     private val enfClient: ENFClient,
     dispatcherProvider: DispatcherProvider,
@@ -44,7 +44,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
                 Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
                 showKeysRetrievalProgress.postValue(false)
 
-                if (!inAppResult) {
+                if (!openTypeSelection) {
                     Timber.tag(TAG).d("Navigate to TestType")
                     routeToScreen.postValue(SrsSubmissionConsentNavigationEvents.NavigateToTestType)
                 } else {
