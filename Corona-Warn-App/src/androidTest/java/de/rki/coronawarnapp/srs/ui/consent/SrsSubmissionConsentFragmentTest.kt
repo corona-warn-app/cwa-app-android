@@ -12,7 +12,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
@@ -36,7 +35,6 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
-    @MockK lateinit var enfClient: ENFClient
 
     private val fragmentArgs = SrsSubmissionConsentFragmentArgs(
         srsSubmissionType = srsSubmissionType,
@@ -61,7 +59,6 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
             srsSubmissionType,
             true,
             checkInRepository,
-            enfClient,
             TestDispatcherProvider(),
             tekHistoryUpdaterFactory
         )
