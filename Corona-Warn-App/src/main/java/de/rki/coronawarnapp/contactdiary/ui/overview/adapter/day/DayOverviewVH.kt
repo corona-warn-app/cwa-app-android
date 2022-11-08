@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.Coro
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventAdapter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.submission.SubmissionItem
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDay
 import de.rki.coronawarnapp.contactdiary.util.toFormattedDayForAccessibility
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemContactBi
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemHeaderBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEnfBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemRiskEventBinding
+import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemSubmissionBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewDayListItemTestResultsBinding
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewListItemBinding
 import java.time.LocalDate
@@ -43,6 +45,7 @@ class DayOverviewVH(parent: ViewGroup) :
                 dayRiskEvent.apply(riskEventItem = riskEventItem)
                 dayContact.apply(contactItem = contactItem)
                 dayTestResult.apply(coronaTestItem = coronaTestItem)
+                daySubmission.apply(submissionItem = submissionItem)
             }
 
             dayElementBody.apply {
@@ -112,5 +115,9 @@ class DayOverviewVH(parent: ViewGroup) :
                 suppressLayout(true)
             }
         }
+    }
+
+    private fun ContactDiaryOverviewDayListItemSubmissionBinding.apply(submissionItem: SubmissionItem?) {
+        root.isGone = submissionItem == null
     }
 }

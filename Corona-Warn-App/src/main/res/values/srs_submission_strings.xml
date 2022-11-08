@@ -55,4 +55,6 @@
     <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title">Andere gewarnt</string>
 </resources>

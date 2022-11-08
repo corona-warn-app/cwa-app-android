@@ -5,6 +5,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
+import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
@@ -43,6 +44,7 @@ class SrsSubmissionRepository @Inject constructor(
     private val deviceAttestation: DeviceAttestation,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val androidIdProvider: AndroidIdProvider,
+    private val contactDiaryRepository: ContactDiaryRepository,
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
@@ -100,7 +102,9 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
 
-        srsSubmissionSettings.setMostRecentSubmissionTime(timeStamper.nowUTC)
+        val instant = timeStamper.nowUTC
+        srsSubmissionSettings.setMostRecentSubmissionTime(instant)
+        contactDiaryRepository.insertSubmissionAt(instant)
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
