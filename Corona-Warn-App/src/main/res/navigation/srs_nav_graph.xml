@@ -11,10 +11,6 @@
         android:label="fragment_srs_submission_consent"
         tools:layout="@layout/fragment_srs_submission_consent">
         <argument
-            android:name="srsSubmissionType"
-            android:defaultValue="SRS_OTHER"
-            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
-        <argument
             android:name="openTypeSelection"
             android:defaultValue="false"
             app:argType="boolean" />

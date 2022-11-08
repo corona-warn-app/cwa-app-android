@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -20,7 +19,6 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
-    @Assisted private val srsSubmissionType: SrsSubmissionType,
     @Assisted private val openTypeSelection: Boolean,
     private val checkInRepository: CheckInRepository,
     dispatcherProvider: DispatcherProvider,
@@ -30,10 +28,9 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
-
-    val routeToScreen = SingleLiveEvent<SrsSubmissionConsentNavigationEvents>()
+    val event = SingleLiveEvent<SrsSubmissionConsentNavigationEvents>()
     fun onDataPrivacyClick() {
-        routeToScreen.postValue(SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy)
+        event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy)
     }
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
@@ -42,9 +39,9 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
                 Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
                 showKeysRetrievalProgress.postValue(false)
 
-                if (!openTypeSelection) {
+                if (openTypeSelection) {
                     Timber.tag(TAG).d("Navigate to TestType")
-                    routeToScreen.postValue(SrsSubmissionConsentNavigationEvents.NavigateToTestType)
+                    event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToTestType)
                 } else {
                     val completedCheckInsExist = checkInRepository.completedCheckIns.first().isNotEmpty()
                     val navDirections = if (completedCheckInsExist) {
@@ -54,7 +51,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
                         Timber.tag(TAG).d("Navigate to ShareSymptoms")
                         SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms
                     }
-                    routeToScreen.postValue(navDirections)
+                    event.postValue(navDirections)
                 }
             }
 
@@ -97,14 +94,13 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     }
 
     fun onConsentCancel() {
-        routeToScreen.postValue(SrsSubmissionConsentNavigationEvents.NavigateToMainScreen)
+        event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToMainScreen)
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SrsSubmissionConsentFragmentViewModel> {
         fun create(
-            srsSubmissionType: SrsSubmissionType,
-            inAppResult: Boolean
+            openTypeSelection: Boolean
         ): SrsSubmissionConsentFragmentViewModel
     }
 

@@ -26,7 +26,7 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SrsSubmissionConsentFragmentViewModel.Factory
-            factory.create(navArgs.srsSubmissionType, navArgs.openTypeSelection)
+            factory.create(navArgs.openTypeSelection)
         }
     )
     private val binding by viewBinding<FragmentSrsSubmissionConsentBinding>()
@@ -66,7 +66,7 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
             permissionRequest.invoke(requireActivity())
         }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.event.observe2(this) {
             when (it) {
                 SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate(R.id.informationPrivacyFragment)
