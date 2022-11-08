@@ -63,9 +63,10 @@ class SrsAuthorizationServer @Inject constructor(
             .build()
         val bodyResponse = api.authenticate(srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
+        val expirationDate = response?.expirationDate
         return when {
-            response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.from(response.errorCode))
+            !expirationDate.isNullOrBlank() -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
                 401 -> SrsSubmissionException(ErrorCode.SRS_OTP_401)
