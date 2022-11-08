@@ -29,10 +29,6 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val event = SingleLiveEvent<SrsSubmissionConsentNavigationEvents>()
-    fun onDataPrivacyClick() {
-        event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy)
-    }
-
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) = launch {
@@ -83,6 +79,10 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
             }
         }
     )
+
+    fun onDataPrivacyClick() {
+        event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy)
+    }
 
     fun submissionConsentAcceptButtonClicked() {
         tekHistoryUpdater.getTeksOrRequestPermission()
