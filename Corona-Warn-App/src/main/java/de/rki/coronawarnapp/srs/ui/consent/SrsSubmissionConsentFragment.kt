@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.srs.ui.consent
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -8,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsSubmissionConsentBinding
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -55,14 +55,6 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
             binding.srsSubmissionConsentAcceptButton.isEnabled = !it
         }
 
-        viewModel.showEnableTracingEvent.observe2(this) {
-            displayDialog {
-                title(R.string.submission_test_result_dialog_tracing_required_title)
-                message(R.string.submission_test_result_dialog_tracing_required_message)
-                positiveButton(R.string.submission_test_result_dialog_tracing_required_button)
-            }
-        }
-
         viewModel.showTracingConsentDialog.observe2(this) { onConsentResult ->
             tracingConsentDialog(
                 positiveButton = { onConsentResult(true) },
@@ -101,5 +93,10 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
                     )
             }
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
 }

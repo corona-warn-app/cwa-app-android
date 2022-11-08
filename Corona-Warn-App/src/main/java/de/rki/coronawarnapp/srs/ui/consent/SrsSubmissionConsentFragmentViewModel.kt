@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.srs.ui.consent
 
 import android.app.Activity
+import android.content.Intent
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -23,13 +23,11 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     @Assisted private val srsSubmissionType: SrsSubmissionType,
     @Assisted private val openTypeSelection: Boolean,
     private val checkInRepository: CheckInRepository,
-    private val enfClient: ENFClient,
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
 ) : CWAViewModel(dispatcherProvider) {
 
     val showKeysRetrievalProgress = SingleLiveEvent<Boolean>()
-    val showEnableTracingEvent = SingleLiveEvent<Unit>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
 
@@ -89,15 +87,13 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
         }
     )
 
-    fun submissionConsentAcceptButtonClicked() = launch {
-        if (enfClient.isTracingEnabled.first()) {
-            Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
-            tekHistoryUpdater.getTeksOrRequestPermission()
-        } else {
-            showKeysRetrievalProgress.postValue(false)
-            Timber.tag(TAG).d("showEnableTracingEvent:Unit")
-            showEnableTracingEvent.postValue(Unit)
-        }
+    fun submissionConsentAcceptButtonClicked() {
+        tekHistoryUpdater.getTeksOrRequestPermission()
+    }
+
+    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        showKeysRetrievalProgress.value = true
+        tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
     fun onConsentCancel() {
@@ -111,6 +107,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
             inAppResult: Boolean
         ): SrsSubmissionConsentFragmentViewModel
     }
+
     companion object {
         private const val TAG = "SrsSubmissionConsentFragmentViewModel"
     }
