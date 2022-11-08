@@ -17,9 +17,6 @@ interface ContactDiarySubmissionDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSubmission(submission: ContactDiarySubmissionEntity)
 
-    @Query("DELETE FROM submissions")
-    suspend fun deleteAll()
-
     @Delete
     suspend fun delete(submissions: List<ContactDiarySubmissionEntity>)
 }
