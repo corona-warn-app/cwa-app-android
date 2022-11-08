@@ -46,20 +46,12 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         )
     }
 
-    fun onSelfTestClicked() = launch {
+    fun onSrsTileClicked(
+        positiveNoAnswer: Boolean = false
+    ) = launch {
         try {
             srsLocalChecker.check()
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSelfTestConsentScreen())
-        } catch (e: SrsSubmissionException) {
-            srsError.postValue(e)
-            Timber.d(e, "onSelfTestClicked()")
-        }
-    }
-
-    fun onPositiveTestWithNoResultClicked() = launch {
-        try {
-            srsLocalChecker.check()
-            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSelfTestConsentScreen(true))
+            routeToScreen.postValue(SubmissionNavigationEvents.NavigateToSelfTestConsentScreen(positiveNoAnswer))
         } catch (e: SrsSubmissionException) {
             srsError.postValue(e)
             Timber.d(e, "onPositiveTestWithNoResult()")

@@ -103,8 +103,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     private fun setButtonOnClickListener() {
         binding.apply {
             toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-            srsSelfTest.setOnClickListener { viewModel.onSelfTestClicked() }
-            positiveSelfTest.setOnClickListener { viewModel.onPositiveTestWithNoResultClicked() }
+            srsSelfTest.setOnClickListener { viewModel.onSrsTileClicked() }
+            positiveSelfTest.setOnClickListener { viewModel.onSrsTileClicked(positiveNoAnswer = true) }
             submissionDispatcherQr.setOnClickListener { viewModel.onQRCodePressed() }
             submissionDispatcherTanCode.setOnClickListener { viewModel.onTanPressed() }
             submissionDispatcherTanTele.setOnClickListener { viewModel.onTeleTanPressed() }
