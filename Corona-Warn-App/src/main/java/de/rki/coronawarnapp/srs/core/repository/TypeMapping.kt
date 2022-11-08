@@ -7,7 +7,8 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 
 internal fun SrsSubmissionType.toSubmissionType() = when (this) {
     SrsSubmissionType.SRS_SELF_TEST -> SubmissionType.SUBMISSION_TYPE_SRS_SELF_TEST
-    SrsSubmissionType.SRS_RAT -> SubmissionType.SUBMISSION_TYPE_SRS_RAT
+    SrsSubmissionType.SRS_REGISTERED_RAT -> SubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_RAT
+    SrsSubmissionType.SRS_UNREGISTERED_RAT -> SubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_RAT
     SrsSubmissionType.SRS_REGISTERED_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_PCR
     SrsSubmissionType.SRS_UNREGISTERED_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_PCR
     SrsSubmissionType.SRS_RAPID_PCR -> SubmissionType.SUBMISSION_TYPE_SRS_RAPID_PCR

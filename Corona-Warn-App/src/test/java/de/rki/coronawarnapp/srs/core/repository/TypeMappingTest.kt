@@ -15,8 +15,10 @@ internal class TypeMappingTest {
             SubmissionType.SUBMISSION_TYPE_SRS_OTHER
         SrsSubmissionType.SRS_SELF_TEST.toSubmissionType() shouldBe
             SubmissionType.SUBMISSION_TYPE_SRS_SELF_TEST
-        SrsSubmissionType.SRS_RAT.toSubmissionType() shouldBe
-            SubmissionType.SUBMISSION_TYPE_SRS_RAT
+        SrsSubmissionType.SRS_REGISTERED_RAT.toSubmissionType() shouldBe
+            SubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_RAT
+        SrsSubmissionType.SRS_UNREGISTERED_RAT.toSubmissionType() shouldBe
+            SubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_RAT
         SrsSubmissionType.SRS_REGISTERED_PCR.toSubmissionType() shouldBe
             SubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_PCR
         SrsSubmissionType.SRS_UNREGISTERED_PCR.toSubmissionType() shouldBe

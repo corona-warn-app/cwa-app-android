@@ -81,7 +81,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun submit(checkDeviceTime: Boolean) = launch {
         try {
-            srsSubmissionRepository.submit(SrsSubmissionType.SRS_RAT, checkDeviceTime = checkDeviceTime)
+            srsSubmissionRepository.submit(SrsSubmissionType.SRS_REGISTERED_RAT, checkDeviceTime = checkDeviceTime)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             srsSubmissionResult.postValue(Error(e))
