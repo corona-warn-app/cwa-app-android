@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentArgs
+import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragment
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
@@ -35,6 +36,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()
+
                 is SubmissionNavigationEvents.NavigateToTAN ->
                     findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
@@ -42,13 +44,16 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                                 comesFromDispatcherFragment = true
                             )
                     )
+
                 is SubmissionNavigationEvents.OpenTestCenterUrl ->
                     openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
+
                 is SubmissionNavigationEvents.NavigateToContact ->
                     findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
+
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> openUniversalScanner()
 
                 is SubmissionNavigationEvents.NavigateToProfileList -> {
@@ -62,8 +67,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
                 }
+
                 is SubmissionNavigationEvents.NavigateToSelfTestConsentScreen -> {
-                    // TODO: navigate to consent screen and pass it.positiveNoAnswer value
+                    findNavController().navigate(SrsSubmissionConsentFragment.uri(it.positiveNoAnswer))
                 }
 
                 else -> Unit
