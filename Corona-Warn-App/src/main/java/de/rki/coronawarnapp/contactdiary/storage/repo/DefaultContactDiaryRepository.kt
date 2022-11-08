@@ -292,14 +292,14 @@ class DefaultContactDiaryRepository @Inject constructor(
     override val submissions: Flow<List<ContactDiarySubmissionEntity>> = contactDiarySubmissionDao.allSubmissions()
 
     override suspend fun insertSubmissionAt(submittedAt: Instant) {
+        Timber.d("insertSubmissionAt($submittedAt)")
         contactDiarySubmissionDao.insertSubmission(
-            ContactDiarySubmissionEntity(
-                submittedAt = submittedAt
-            )
+            ContactDiarySubmissionEntity(submittedAt = submittedAt)
         )
     }
 
     override suspend fun deleteSubmissions(submissions: List<ContactDiarySubmissionEntity>) {
+        Timber.d("deleteSubmissions(%s)", submissions.map { it.id })
         contactDiarySubmissionDao.delete(submissions)
     }
 
