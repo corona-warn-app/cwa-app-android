@@ -12,12 +12,14 @@ import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.util.HashExtensions.toHexString
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import java.time.Instant
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
@@ -67,9 +69,13 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
                 negativeButton = { consentResult(false) }
             )
         }
-        vm.otpData.observe(viewLifecycleOwner) { binding.srsOtp.text = it?.toString() ?: "No OTP" }
+        vm.otpData.observe(viewLifecycleOwner) {
+            binding.srsOtp.text = it?.let { "OTP:\nUUID=%s\nExpiresAt=%s".format(it.uuid, it.expiresAt) } ?: "No OTP"
+        }
         vm.mostRecentSubmissionDate.observe(viewLifecycleOwner) {
-            binding.submissionTime.text = "Submission Time: %s".format(it.toString())
+            binding.submissionTime.text = "SubmissionTime: %s".format(
+                it.takeIf { it != Instant.EPOCH }?.toString() ?: "No Submission"
+            )
         }
 
         binding.submit.setOnClickListener {
@@ -82,6 +88,12 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             when (result) {
                 is Error -> displayDialog { setError(result.cause) }
                 Success -> Toast.makeText(requireContext(), "SRS submission is successful", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        vm.androidId.observe(viewLifecycleOwner) {
+            binding.androidId.text = it.run {
+                "AndroidId:\nHex=%s\nBytes=%s".format(toByteArray().toHexString(), toByteArray().joinToString())
             }
         }
     }

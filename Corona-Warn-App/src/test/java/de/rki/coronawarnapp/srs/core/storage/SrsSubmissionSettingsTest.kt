@@ -81,9 +81,9 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
             setMostRecentSubmissionTime(time)
             fakeStore[SrsSubmissionSettings.LAST_SUBMISSION_TIME_KEY] shouldBe 1667397682000L
 
-            reset()
+            resetMostRecentSubmission()
 
-            fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe null
+            fakeStore[SrsSubmissionSettings.SRS_OTP_KEY] shouldBe otpTest
             fakeStore[SrsSubmissionSettings.LAST_SUBMISSION_TIME_KEY] shouldBe null
         }
     }

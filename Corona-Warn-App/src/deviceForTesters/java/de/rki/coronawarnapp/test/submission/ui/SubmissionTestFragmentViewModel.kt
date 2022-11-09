@@ -3,10 +3,12 @@ package de.rki.coronawarnapp.test.submission.ui
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
@@ -27,6 +29,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @BaseGson baseGson: Gson,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
+    androidIdProvider: AndroidIdProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val exportJson = baseGson.newBuilder().apply {
@@ -35,6 +38,9 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     val otpData = srsSubmissionSettings.otp.asLiveData2()
     val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
+    val androidId = liveData {
+        emit(androidIdProvider.getAndroidId())
+    }
 
     val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
 
@@ -81,7 +87,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun submit(checkDeviceTime: Boolean) = launch {
         try {
-            srsSubmissionRepository.submit(SrsSubmissionType.SRS_REGISTERED_RAT, checkDeviceTime = checkDeviceTime)
+            srsSubmissionRepository.submit(SrsSubmissionType.SRS_SELF_TEST, checkDeviceTime = checkDeviceTime)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             srsSubmissionResult.postValue(Error(e))
@@ -90,7 +96,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun clearSrsSettings() = launch {
-        srsSubmissionSettings.reset()
+        srsSubmissionSettings.resetMostRecentSubmission()
     }
 
     fun updateStorage() {

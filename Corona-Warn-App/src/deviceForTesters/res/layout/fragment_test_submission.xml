@@ -41,7 +41,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="Submission Time" />
+                tools:text="SubmissionTime" />
+
+            <TextView
+                android:id="@+id/android_id"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="Android ID" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/check_device_time_switch"
@@ -49,29 +57,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:checked="true"
-                android:text="Check Device Time" />
+                android:text="Check Local prerequisite" />
 
-            <TextView
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/android_id_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="Note: This checkbox has effect only as long as you are in this test menu. it does not have an effect on real submission time check." />
-
-            <Button
-                android:id="@+id/submit"
-                style="@style/buttonPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Run submission" />
+                android:checked="false"
+                android:text="Force Android ID acceptance" />
 
             <Button
                 android:id="@+id/clear_srs_settings"
                 style="@style/buttonPrimary"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Clear submission data" />
+                android:text="Clear submission date" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="_________ For DEVs _________" />
+            <Button
+                android:id="@+id/submit"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Run submission" />
 
         </LinearLayout>
 
