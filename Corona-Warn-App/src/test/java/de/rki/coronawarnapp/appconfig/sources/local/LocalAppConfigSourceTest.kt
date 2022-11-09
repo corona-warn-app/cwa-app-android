@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -57,6 +58,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
         }
         coEvery { srsDevSettings.deviceState() } returns null
 
+        every { configData.isDeviceTimeCheckEnabled } returns false
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
@@ -91,16 +93,31 @@ class LocalAppConfigSourceTest : BaseIOTest() {
 
         val instance = createInstance()
 
-        instance.getConfigData() shouldBe ConfigDataContainer(
+        val config = instance.getConfigData()
+        config shouldBe ConfigDataContainer(
             serverTime = expectedData.serverTime,
             localOffset = expectedData.localOffset,
             mappedConfig = configData,
             configType = ConfigData.Type.LAST_RETRIEVED,
             identifier = expectedData.etag,
-            cacheValidity = Duration.ofMinutes(5)
+            cacheValidity = Duration.ofMinutes(5),
+            devDeviceTimeDeviceState = null,
         )
 
+        config!!.deviceTimeState shouldBe ConfigData.DeviceTimeState.ASSUMED_CORRECT
+
         coVerifyOrder { configStorage.getStoredConfig() }
+    }
+
+    @Test
+    fun `provided device state`() = runTest {
+        ConfigData.DeviceTimeState.values().forEach { state ->
+            coEvery { configStorage.getStoredConfig() } returns expectedData
+            coEvery { srsDevSettings.deviceState() } returns state
+            val instance = createInstance()
+            val config = instance.getConfigData()
+            config!!.deviceTimeState shouldBe state
+        }
     }
 
     @Test

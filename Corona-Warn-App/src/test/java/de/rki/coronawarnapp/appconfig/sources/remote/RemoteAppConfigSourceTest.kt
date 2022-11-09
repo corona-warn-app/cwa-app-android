@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.appconfig.sources.local.AppConfigStorage
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
+import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -61,6 +62,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         }
 
         coEvery { configServer.downloadAppConfig() } returns dataFromServer
+        every { configData.isDeviceTimeCheckEnabled } returns false
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
@@ -85,7 +87,8 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     @Test
     fun `successful download stores new config`() = runTest2 {
         val source = createInstance()
-        source.getConfigData() shouldBe ConfigDataContainer(
+        val config = source.getConfigData()
+        config shouldBe ConfigDataContainer(
             serverTime = mockConfigStorage!!.serverTime,
             localOffset = mockConfigStorage!!.localOffset,
             mappedConfig = configData,
@@ -95,9 +98,21 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
             devDeviceTimeDeviceState = null
         )
 
+        config!!.deviceTimeState shouldBe ConfigData.DeviceTimeState.ASSUMED_CORRECT
+
         mockConfigStorage shouldBe dataFromServer
 
         coVerify { configStorage.setStoredConfig(dataFromServer) }
+    }
+
+    @Test
+    fun `provided device time state`() = runTest2 {
+        ConfigData.DeviceTimeState.values().forEach { state ->
+            coEvery { srsDevSettings.deviceState() } returns state
+            val source = createInstance()
+            val config = source.getConfigData()
+            config!!.deviceTimeState shouldBe state
+        }
     }
 
     @Test
