@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.DayOverviewItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.ContactItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
+import de.rki.coronawarnapp.ui.contactdiary.DiaryData.SUBMISSION_ITEM
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -123,7 +124,8 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
                     date = localDate,
                     riskEnfItem = riskEnf,
                     riskEventItem = riskEvent,
-                    coronaTestItem = coronaTestEvent
+                    coronaTestItem = coronaTestEvent,
+                    submissionItem = SUBMISSION_ITEM
                 ) {
                     // onClick
                 }
