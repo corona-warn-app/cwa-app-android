@@ -120,7 +120,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
+            submissionReporter.reportAt(any())
         }
     }
 
@@ -146,8 +146,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
-        }
+            submissionReporter.reportAt(any())        }
     }
 
     @Test
