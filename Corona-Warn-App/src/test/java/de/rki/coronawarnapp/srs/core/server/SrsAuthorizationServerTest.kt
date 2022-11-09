@@ -15,6 +15,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -54,6 +55,24 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     @Test
     fun `authorize pass`() = runTest {
         instance().authorize(request) shouldBe "2023-05-16T08:34:00+00:00".toInstant()
+    }
+
+    @Test
+    fun `force accept android id - on`() = runTest {
+        val headers = mapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-ppac-android-accept-android-id" to "1"
+        )
+        coEvery { srsDevSettings.forceAndroidIdAcceptance() } returns true
+        instance().authorize(request) shouldBe "2023-05-16T08:34:00+00:00".toInstant()
+        coVerify { srsAuthorizationApi.authenticate(headers, any()) }
+    }
+
+    @Test
+    fun `force accept android id - off`() = runTest {
+        val headers = mapOf("Content-Type" to "application/x-protobuf")
+        instance().authorize(request) shouldBe "2023-05-16T08:34:00+00:00".toInstant()
+        coVerify { srsAuthorizationApi.authenticate(headers, any()) }
     }
 
     @Test
