@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
@@ -66,8 +67,22 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
                 negativeButton = { consentResult(false) }
             )
         }
-        vm.otpData.observe(viewLifecycleOwner) {
-            binding.srsOtp.text = it?.toString() ?: "No OTP"
+        vm.otpData.observe(viewLifecycleOwner) { binding.srsOtp.text = it?.toString() ?: "No OTP" }
+        vm.mostRecentSubmissionDate.observe(viewLifecycleOwner) {
+            binding.submissionTime.text = "Submission Time: %s".format(it.toString())
+        }
+
+        binding.submit.setOnClickListener {
+            vm.submit(binding.checkDeviceTimeSwitch.isChecked)
+        }
+        binding.clearSrsSettings.setOnClickListener {
+            vm.clearSrsSettings()
+        }
+        vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Error -> displayDialog { setError(result.cause) }
+                Success -> Toast.makeText(requireContext(), "SRS submission is successful", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
