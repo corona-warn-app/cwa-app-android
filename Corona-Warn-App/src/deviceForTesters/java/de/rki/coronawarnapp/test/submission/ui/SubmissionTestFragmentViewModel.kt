@@ -8,6 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -25,27 +26,29 @@ import timber.log.Timber
 import kotlin.Exception
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
+    @BaseGson baseGson: Gson,
+    timeStamper: TimeStamper,
+    androidIdProvider: AndroidIdProvider,
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    timeStamper: TimeStamper,
-    @BaseGson baseGson: Gson,
-    private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsDevSettings: SrsDevSettings,
+    private val appConfigProvider: AppConfigProvider,
+    private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
-    androidIdProvider: AndroidIdProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
-    val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
-    val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
-    val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
+    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
+
     val otpData = srsSubmissionSettings.otp.asLiveData2()
     val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
-    val androidId = liveData {
-        emit(androidIdProvider.getAndroidId())
-    }
 
-    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
+    val androidId = liveData { emit(androidIdProvider.getAndroidId()) }
+    val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
+    val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
+    val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
+
+    private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
+
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -113,6 +116,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun deviceTimeState(state: ConfigData.DeviceTimeState?) = launch {
         srsDevSettings.deviceTimeState(state)
+        appConfigProvider.apply {
+            reset()
+            getAppConfig()
+        }
     }
 
     fun updateStorage() {
