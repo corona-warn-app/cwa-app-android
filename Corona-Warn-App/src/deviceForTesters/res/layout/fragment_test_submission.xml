@@ -56,8 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:checked="true"
-                android:text="Check Local prerequisite" />
+                android:text="Check Local prerequisites" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/android_id_switch"
@@ -88,6 +87,15 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="Run submission" />
+
+            <Button
+                android:id="@+id/clear_otp"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Clear OTP" />
 
         </LinearLayout>
 

@@ -8,9 +8,11 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
@@ -28,14 +30,15 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     timeStamper: TimeStamper,
     @BaseGson baseGson: Gson,
     private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsDevSettings: SrsDevSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
     androidIdProvider: AndroidIdProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val exportJson = baseGson.newBuilder().apply {
-        setPrettyPrinting()
-    }.create()
-
+    private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
+    val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
+    val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
+    val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
     val otpData = srsSubmissionSettings.otp.asLiveData2()
     val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
     val androidId = liveData {
@@ -77,17 +80,14 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     )
 
     val errorEvents = SingleLiveEvent<Throwable>()
-
     val shareTEKsEvent = SingleLiveEvent<TEKExport>()
-
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
-
     val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
 
-    fun submit(checkDeviceTime: Boolean) = launch {
+    fun submit() = launch {
         try {
-            srsSubmissionRepository.submit(SrsSubmissionType.SRS_SELF_TEST, checkDeviceTime = checkDeviceTime)
+            srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             srsSubmissionResult.postValue(Error(e))
@@ -95,8 +95,24 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun clearSrsSettings() = launch {
+    fun resetMostRecentSubmission() = launch {
         srsSubmissionSettings.resetMostRecentSubmission()
+    }
+
+    fun resetOtp() = launch {
+        srsSubmissionSettings.resetOtp()
+    }
+
+    fun checkLocalPrerequisites(check: Boolean) = launch {
+        srsDevSettings.checkLocalPrerequisites(check)
+    }
+
+    fun forceAndroidIdAcceptance(force: Boolean) = launch {
+        srsDevSettings.forceAndroidIdAcceptance(force)
+    }
+
+    fun deviceTimeState(state: ConfigData.DeviceTimeState?) = launch {
+        srsDevSettings.deviceTimeState(state)
     }
 
     fun updateStorage() {

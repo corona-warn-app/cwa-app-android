@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -26,8 +27,9 @@ import java.time.OffsetDateTime
 @Reusable
 class SrsAuthorizationServer @Inject constructor(
     srsAuthorizationApi: Lazy<SrsAuthorizationApi>,
+    @BaseJackson private val mapper: ObjectMapper,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseJackson private val mapper: ObjectMapper
+    private val srsDevSettings: SrsDevSettings,
 ) {
     private val api = srsAuthorizationApi.get()
 
@@ -61,7 +63,14 @@ class SrsAuthorizationServer @Inject constructor(
                     .build()
             )
             .build()
-        val bodyResponse = api.authenticate(srsOtpRequest)
+
+        val headers = mutableMapOf("Content-Type" to "application/x-protobuf").apply {
+            if (srsDevSettings.forceAndroidIdAcceptance()) {
+                Timber.tag(TAG).d("forceAndroidIdAcceptance is enabled")
+                put("cwa-ppac-android-accept-android-id", "1")
+            }
+        }
+        val bodyResponse = api.authenticate(headers, srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
         return when {
             response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.fromAuthErrorCode(response.errorCode))

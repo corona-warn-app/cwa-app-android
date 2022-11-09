@@ -78,11 +78,10 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             )
         }
 
-        binding.submit.setOnClickListener {
-            vm.submit(binding.checkDeviceTimeSwitch.isChecked)
-        }
+        binding.submit.setOnClickListener { vm.submit() }
+
         binding.clearSrsSettings.setOnClickListener {
-            vm.clearSrsSettings()
+            vm.resetMostRecentSubmission()
         }
         vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -95,6 +94,20 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             binding.androidId.text = it.run {
                 "AndroidId:\nHex=%s\nBytes=%s".format(toByteArray().toHexString(), toByteArray().joinToString())
             }
+        }
+
+        vm.checkLocalPrerequisites.observe(viewLifecycleOwner) { binding.checkDeviceTimeSwitch.isChecked = it }
+        binding.checkDeviceTimeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            vm.checkLocalPrerequisites(isChecked)
+        }
+
+        vm.forceAndroidIdAcceptance.observe(viewLifecycleOwner) { binding.androidIdSwitch.isChecked = it }
+        binding.androidIdSwitch.setOnCheckedChangeListener { _, isChecked ->
+            vm.forceAndroidIdAcceptance(isChecked)
+        }
+
+        binding.clearOtp.setOnClickListener {
+            vm.resetOtp()
         }
     }
 

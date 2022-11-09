@@ -23,7 +23,11 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Module
+@Module(
+    includes = [
+        SrsDevSettingsModule::class
+    ]
+)
 object SrsSubmissionModule {
 
     @Singleton
