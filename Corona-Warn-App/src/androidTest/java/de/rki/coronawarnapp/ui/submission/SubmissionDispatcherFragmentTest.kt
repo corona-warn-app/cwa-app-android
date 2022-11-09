@@ -26,6 +26,7 @@ import io.mockk.just
 import kotlinx.coroutines.flow.flowOf
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
@@ -89,6 +90,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
             .perform(click())
     }
 
+    @Ignore("Removed tile from UI, not deleting it completely for now")
     @Test
     fun testEventTeleClicked() {
         launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
@@ -100,6 +102,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
             .perform(click())
     }
 
+    @Ignore("Removed tile from UI, not deleting it completely for now")
     @Test
     fun testEventTanClicked() {
         launchFragmentInContainer<SubmissionDispatcherFragment>(themeResId = R.style.AppTheme_Main)
