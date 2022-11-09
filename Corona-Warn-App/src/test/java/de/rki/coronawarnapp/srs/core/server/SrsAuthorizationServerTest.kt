@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -28,6 +29,7 @@ import java.time.DateTimeException
 internal class SrsAuthorizationServerTest : BaseTest() {
 
     @MockK lateinit var srsAuthorizationApi: SrsAuthorizationApi
+    @MockK lateinit var srsDevSettings: SrsDevSettings
 
     private val request = SrsAuthorizationRequest(
         srsOtp = SrsOtp(),
@@ -39,13 +41,14 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { srsAuthorizationApi.authenticate(any()) } returns Response.success(
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
             """
              {
                "expirationDate": "2023-05-16T08:34:00+00:00"
              }
             """.trimIndent().toResponseBody()
         )
+        coEvery { srsDevSettings.forceAndroidIdAcceptance() } returns false
     }
 
     @Test
@@ -55,7 +58,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     @Test
     fun `invalid expiry time`() = runTest {
-        coEvery { srsAuthorizationApi.authenticate(any()) } returns Response.success(
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
             """
              {
                "expirationDate": ""
@@ -69,17 +72,17 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     @Test
     fun `no network errors`() = runTest {
-        coEvery { srsAuthorizationApi.authenticate(any()) } throws
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } throws
             CwaUnknownHostException(cause = Exception("CwaUnknownHostException"))
         shouldThrow<SrsSubmissionException> { instance().authorize(request) }.errorCode shouldBe
             ErrorCode.SRS_OTP_NO_NETWORK
 
-        coEvery { srsAuthorizationApi.authenticate(any()) } throws
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } throws
             NetworkReadTimeoutException(message = "NetworkReadTimeoutException")
         shouldThrow<SrsSubmissionException> { instance().authorize(request) }.errorCode shouldBe
             ErrorCode.SRS_OTP_NO_NETWORK
 
-        coEvery { srsAuthorizationApi.authenticate(any()) } throws
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } throws
             NetworkConnectTimeoutException(message = "NetworkConnectTimeoutException")
         shouldThrow<SrsSubmissionException> { instance().authorize(request) }.errorCode shouldBe
             ErrorCode.SRS_OTP_NO_NETWORK
@@ -103,7 +106,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
             // iOS error that does not map to Android Error :D
             "API_TOKEN_ALREADY_ISSUED" to ErrorCode.SRS_OTP_SERVER_ERROR,
         ).forEach { (serverErrorCode, errorCode) ->
-            coEvery { srsAuthorizationApi.authenticate(any()) } returns Response.success(
+            coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
                 """
                   {
                      "errorCode": "$serverErrorCode"
@@ -126,7 +129,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
             404 to ErrorCode.SRS_OTP_CLIENT_ERROR,
             505 to ErrorCode.SRS_OTP_SERVER_ERROR,
         ).forEach { (responseErrorCode, errorCode) ->
-            coEvery { srsAuthorizationApi.authenticate(any()) } returns
+            coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns
                 Response.error(responseErrorCode, "".toResponseBody())
             shouldThrow<SrsSubmissionException> {
                 instance().authorize(request)
@@ -137,6 +140,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     private fun instance() = SrsAuthorizationServer(
         srsAuthorizationApi = { srsAuthorizationApi },
         dispatcherProvider = TestDispatcherProvider(),
-        mapper = SerializationModule.jacksonBaseMapper
+        mapper = SerializationModule.jacksonBaseMapper,
+        srsDevSettings = srsDevSettings,
     )
 }

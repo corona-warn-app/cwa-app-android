@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -30,6 +31,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var srsDevSettings: SrsDevSettings
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
 
@@ -53,6 +55,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
         coEvery { configStorage.setStoredConfig(any()) } answers {
             mockConfigStorage = arg(0)
         }
+        coEvery { srsDevSettings.deviceState() } returns null
 
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
@@ -67,7 +70,8 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     private fun createInstance() = LocalAppConfigSource(
         storage = configStorage,
         parser = configParser,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        srsDevSettings = srsDevSettings,
     )
 
     @Test

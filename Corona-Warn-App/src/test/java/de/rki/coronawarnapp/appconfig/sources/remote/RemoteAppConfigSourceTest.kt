@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.appconfig.sources.local.AppConfigStorage
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -33,6 +34,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var srsDevSettings: SrsDevSettings
     @MockK(relaxUnitFun = true) lateinit var remoteCache: Cache
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
@@ -63,6 +65,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
+        coEvery { srsDevSettings.deviceState() } returns null
     }
 
     @AfterEach
@@ -75,7 +78,8 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         storage = configStorage,
         parser = configParser,
         dispatcherProvider = TestDispatcherProvider(),
-        remoteCache = remoteCache
+        remoteCache = remoteCache,
+        srsDevSettings = srsDevSettings,
     )
 
     @Test
@@ -87,7 +91,8 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
             mappedConfig = configData,
             configType = ConfigData.Type.FROM_SERVER,
             identifier = "etag",
-            cacheValidity = Duration.ofSeconds(420)
+            cacheValidity = Duration.ofSeconds(420),
+            devDeviceTimeDeviceState = null
         )
 
         mockConfigStorage shouldBe dataFromServer
