@@ -49,7 +49,6 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
 
-
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) {

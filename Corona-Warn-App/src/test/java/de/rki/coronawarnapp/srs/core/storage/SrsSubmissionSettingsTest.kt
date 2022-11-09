@@ -22,7 +22,7 @@ internal class SrsSubmissionSettingsTest : BaseTest() {
 
     private val json = """
                 {"otp":"73a373fd-3a7b-49b9-b71c-2ae7a2824760","expiresAt":1667397682.000000000}
-            """.trimIndent()
+    """.trimIndent()
 
     @BeforeEach
     fun setUp() {

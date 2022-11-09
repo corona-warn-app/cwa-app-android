@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
-import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
