@@ -179,7 +179,7 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
             coEvery { contactDiaryRepository.deleteSubmissions(any()) } just runs
 
             filteredList.size shouldBe 1
-            clearObsoleteCoronaTests()
+            clearObsoleteSubmissions()
             coVerify { contactDiaryRepository.deleteSubmissions(filteredList) }
         }
     }
