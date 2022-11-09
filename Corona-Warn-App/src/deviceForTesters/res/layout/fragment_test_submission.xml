@@ -73,12 +73,40 @@
                 android:layout_gravity="center"
                 android:text="Clear submission date" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="_________ Device Time State _________" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/state_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:hint="Device Time State"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/device_time_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/colorOnPrimary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:gravity="center"
                 android:text="_________ For DEVs _________" />
+
             <Button
                 android:id="@+id/submit"
                 style="@style/buttonPrimary"

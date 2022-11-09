@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
@@ -64,10 +66,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
             permissionRequest.invoke(requireActivity())
         }
         vm.showTracingConsentDialog.observe2(this) { consentResult ->
-            tracingConsentDialog(
-                positiveButton = { consentResult(true) },
-                negativeButton = { consentResult(false) }
-            )
+            tracingConsentDialog(positiveButton = { consentResult(true) }, negativeButton = { consentResult(false) })
         }
         vm.otpData.observe(viewLifecycleOwner) {
             binding.srsOtp.text = it?.let { "OTP:\nUUID=%s\nExpiresAt=%s".format(it.uuid, it.expiresAt) } ?: "No OTP"
@@ -108,6 +107,21 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
 
         binding.clearOtp.setOnClickListener {
             vm.resetOtp()
+        }
+
+        val states = ConfigData.DeviceTimeState.values().map { it.key }.toMutableList().apply {
+            add(0, "RESET")
+        }.toTypedArray()
+
+        binding.deviceTimeState.setAdapter(
+            ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, states)
+        )
+        binding.deviceTimeState.setOnItemClickListener { _, _, position, _ ->
+            vm.deviceTimeState(ConfigData.DeviceTimeState.values().find { it.key == states[position] })
+        }
+
+        vm.deviceTimeState.observe(viewLifecycleOwner) { state ->
+            binding.deviceTimeState.setText(state?.key ?: "RESET", false)
         }
     }
 
