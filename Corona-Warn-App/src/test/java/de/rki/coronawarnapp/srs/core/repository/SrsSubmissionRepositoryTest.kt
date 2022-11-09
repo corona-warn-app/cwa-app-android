@@ -146,7 +146,8 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            submissionReporter.reportAt(any())        }
+            submissionReporter.reportAt(any())
+        }
     }
 
     @Test
