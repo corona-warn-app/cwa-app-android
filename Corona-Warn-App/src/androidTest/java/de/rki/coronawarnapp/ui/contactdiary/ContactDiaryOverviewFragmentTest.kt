@@ -122,6 +122,7 @@ class ContactDiaryOverviewFragmentTest : BaseUITest() {
 
                 DayOverviewItem(
                     date = localDate,
+                    contactItem = ContactItem(dayData),
                     riskEnfItem = riskEnf,
                     riskEventItem = riskEvent,
                     coronaTestItem = coronaTestEvent,
