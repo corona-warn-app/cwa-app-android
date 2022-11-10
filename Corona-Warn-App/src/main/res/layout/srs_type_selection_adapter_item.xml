@@ -9,5 +9,6 @@
     android:layout_marginTop="@dimen/spacing_small"
     android:layout_marginEnd="12dp"
     android:backgroundTint="@color/srs_type_bg_color"
+    android:foreground="?attr/selectableItemBackground"
     android:textColor="@color/srs_type_text_color"
     tools:text="@string/srs_rat_registered_no_result_text" />
