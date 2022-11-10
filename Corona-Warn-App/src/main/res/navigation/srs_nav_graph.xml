@@ -28,7 +28,6 @@
             app:destination="@id/status_nav_graph"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
-        <deepLink app:uri="cwa://srs-consent/?openTypeSelection={openTypeSelection}" />
     </fragment>
     <fragment
         android:id="@+id/srsSubmissionTypeSelectionFragment"

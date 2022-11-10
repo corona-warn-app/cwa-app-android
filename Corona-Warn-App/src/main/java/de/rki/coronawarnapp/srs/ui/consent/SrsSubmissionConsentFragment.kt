@@ -100,10 +100,4 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         viewModel.handleActivityResult(requestCode, resultCode, data)
     }
-
-    companion object {
-        fun uri(
-            openTypeSelection: Boolean = false
-        ) = "cwa://srs-consent/?openTypeSelection=$openTypeSelection".toUri()
-    }
 }
