@@ -7,12 +7,12 @@ val typeList = listOf(
     SrsTypeSelectionItem(
         0,
         R.string.target_button_rat_registered_no_result_text,
-        SrsSubmissionType.SRS_RAT
+        SrsSubmissionType.SRS_REGISTERED_RAT
     ),
     SrsTypeSelectionItem(
         1,
         R.string.target_button_rat_not_registered_text,
-        SrsSubmissionType.SRS_RAT
+        SrsSubmissionType.SRS_UNREGISTERED_RAT
     ),
     SrsTypeSelectionItem(
         2,
