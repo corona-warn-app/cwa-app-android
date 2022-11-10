@@ -7,7 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsTypeSelectionBinding
-import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.srs.ui.helper.showSrsCloseDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -29,7 +29,9 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
 
         viewModel.navigation.observe2(this) {
             when (it) {
-                SrsTypeSelectionNavigationEvents.NavigateToCloseDialog -> showCancelDialog()
+                SrsTypeSelectionNavigationEvents.NavigateToCloseDialog -> showSrsCloseDialog {
+                    viewModel.onCancelConfirmed()
+                }
                 SrsTypeSelectionNavigationEvents.NavigateToMainScreen ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections.actionSrsSubmissionTypeSelectionFragmentToMainFragment()
@@ -63,15 +65,6 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
         binding.toolbar.setNavigationOnClickListener { viewModel.onCancel() }
         binding.typeSelectionNextButton.setOnClickListener {
             viewModel.onNextClicked()
-        }
-    }
-
-    private fun showCancelDialog() {
-        displayDialog {
-            title(R.string.srs_cancel_dialog_title)
-            message(R.string.srs_cancel_dialog_body)
-            positiveButton(R.string.srs_cancel_dialog_positive_button)
-            negativeButton(R.string.srs_cancel_dialog_negative_button) { viewModel.onCancelConfirmed() }
         }
     }
 }
