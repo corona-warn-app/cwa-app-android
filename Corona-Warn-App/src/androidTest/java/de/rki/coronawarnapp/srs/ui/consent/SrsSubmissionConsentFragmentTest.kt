@@ -11,7 +11,6 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -77,7 +76,7 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         takeScreenshot<SrsSubmissionConsentFragment>("1")
 
         onView(withId(R.id.content_scrollcontainer)).perform(swipeUp())
-        takeScreenshot<ContactDiaryOverviewFragment>("2")
+        takeScreenshot<SrsSubmissionConsentFragment>("2")
     }
 }
 
