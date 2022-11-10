@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,110 +13,34 @@
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/srs_type_selection_header" />
 
-        <ScrollView
-            android:id="@+id/scrollView"
+        <TextView
+            android:id="@+id/srs_type_selection_introduction"
+            style="@style/subtitleMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:text="@string/srs_type_selection_introduction_text" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/typeList"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintBottom_toTopOf="@+id/type_selection_next_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-            <LinearLayout
-                android:id="@+id/submission_symptom_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fillViewport="true"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/srs_type_selection_introduction"
-                    style="@style/subtitleMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:focusable="true"
-                    android:text="@string/srs_type_selection_introduction_text" />
-
-
-                <Button
-                    android:id="@+id/target_button_rat_registered_no_result"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_rat_registered_no_result_text" />
-
-                <Button
-                    android:id="@+id/target_button_rat_not_registered"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_rat_not_registered_text" />
-
-                <Button
-                    android:id="@+id/target_button_pcr_registered_no_result"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_pcr_registered_no_result_text" />
-
-                <Button
-                    android:id="@+id/target_button_pcr_not_registered"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_pcr_not_registered_text" />
-
-                <Button
-                    android:id="@+id/target_button_rapid_pcr"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_rapid_pcr_text" />
-
-                <Button
-                    android:id="@+id/target_button_other"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:enabled="true"
-                    android:text="@string/target_button_other_text" />
-
-
-            </LinearLayout>
-
-        </ScrollView>
+            app:layout_constraintTop_toBottomOf="@+id/srs_type_selection_introduction" />
 
         <Button
             android:id="@+id/type_selection_next_button"
@@ -130,6 +53,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollView" />
+            app:layout_constraintTop_toBottomOf="@id/typeList" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

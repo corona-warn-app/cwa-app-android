@@ -4,4 +4,5 @@ sealed class SrsTypeSelectionNavigationEvents {
     object NavigateToMainScreen : SrsTypeSelectionNavigationEvents()
     object NavigateToCloseDialog : SrsTypeSelectionNavigationEvents()
     object NavigateToShareCheckins : SrsTypeSelectionNavigationEvents()
+    object NavigateToShareSymptoms : SrsTypeSelectionNavigationEvents()
 }

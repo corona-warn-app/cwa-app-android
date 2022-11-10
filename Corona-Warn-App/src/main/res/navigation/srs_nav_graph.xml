@@ -46,7 +46,9 @@
             android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsCheckinsFragment"
             app:destination="@id/srsCheckinsFragment" />
 
-        <deepLink app:uri="cwa://srs-consent/openTypeSelection" />
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsFragment" />
     </fragment>
     <fragment
         android:id="@+id/srsCheckinsFragment"
@@ -62,5 +64,10 @@
         android:id="@+id/srsSymptomsFragment"
         android:name="de.rki.coronawarnapp.srs.ui.symptoms.SrsSubmissionSymptomsFragment"
         android:label="SrsSymptomsFragment"
-        tools:layout="@layout/fragment_srs_type_selection" />
+        tools:layout="@layout/fragment_srs_type_selection">
+        <argument
+            android:name="openTypeSelection"
+            android:defaultValue="SRS_OTHER"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
+    </fragment>
 </navigation>

@@ -20,8 +20,8 @@ import java.util.Locale
 
 fun formatSrsTypeSelectionButtonTextStyleByState(
     context: Context,
-    currentState: SrsSubmissionType,
-    submissionType: SrsSubmissionType?
+    submissionType: SrsSubmissionType?,
+    currentState: SrsSubmissionType?,
 ): Int =
     formatColor(
         context,
@@ -31,8 +31,8 @@ fun formatSrsTypeSelectionButtonTextStyleByState(
     )
 fun formatSrsTypeSelectionBackgroundButtonStyleByState(
     context: Context,
-    currentState: SrsSubmissionType,
-    submissionType: SrsSubmissionType?
+    submissionType: SrsSubmissionType?,
+    currentState: SrsSubmissionType?,
 ): Int =
     formatColor(
         context,
