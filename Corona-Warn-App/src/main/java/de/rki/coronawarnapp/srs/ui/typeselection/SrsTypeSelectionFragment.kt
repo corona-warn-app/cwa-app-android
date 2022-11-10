@@ -1,21 +1,14 @@
 package de.rki.coronawarnapp.srs.ui.typeselection
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Button
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsTypeSelectionBinding
-import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.formatter.formatSrsTypeSelectionBackgroundButtonStyleByState
-import de.rki.coronawarnapp.util.formatter.formatSrsTypeSelectionButtonTextStyleByState
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -41,12 +34,14 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections.actionSrsSubmissionTypeSelectionFragmentToMainFragment()
                     )
-                SrsTypeSelectionNavigationEvents.NavigateToShareCheckins ->
+
+                is SrsTypeSelectionNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
                             .actionSrsSubmissionTypeSelectionFragmentToSrsCheckinsFragment()
                     )
-                SrsTypeSelectionNavigationEvents.NavigateToShareSymptoms ->
+
+                is SrsTypeSelectionNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
                             .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment()
@@ -58,43 +53,17 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
             override fun handleOnBackPressed() = viewModel.onCancel()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
-
-        binding.typeList.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = itemAdapter
+        binding.typeList.adapter = itemAdapter
+        viewModel.types.observe(viewLifecycleOwner) { types ->
+            itemAdapter.data = types
+            binding.typeSelectionNextButton.isEnabled = types.any { it.checked }
         }
 
-        itemAdapter.data = typeList
-
-        itemAdapter.onItemClickListener = {
-            viewModel.selectTypeListItem(it)
-        }
-
+        itemAdapter.onItemClickListener = { viewModel.selectTypeListItem(it) }
         binding.toolbar.setNavigationOnClickListener { viewModel.onCancel() }
-
-        viewModel.srsTestType.observe2(this) {
-            updateButtons(it)
+        binding.typeSelectionNextButton.setOnClickListener {
+            viewModel.onNextClicked()
         }
-    }
-
-    private fun updateButtons(typeSelectionItem: SrsTypeSelectionItem) {
-
-        binding.typeList.children.forEachIndexed { i, view ->
-            (view as Button).apply {
-                handleColors(typeSelectionItem.submissionType, typeList[i].submissionType)
-            }
-        }
-
-        binding.typeSelectionNextButton.apply {
-            isEnabled = typeSelectionItem.submissionType != null
-            setOnClickListener { viewModel.onNextClicked() }
-        }
-    }
-
-    private fun Button.handleColors(submissionType: SrsSubmissionType?, state: SrsSubmissionType?) {
-        setTextColor(formatSrsTypeSelectionButtonTextStyleByState(context, submissionType, state))
-        backgroundTintList =
-            ColorStateList.valueOf(formatSrsTypeSelectionBackgroundButtonStyleByState(context, submissionType, state))
     }
 
     private fun showCancelDialog() {

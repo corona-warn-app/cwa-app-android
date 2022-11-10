@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.srs.ui.typeselection
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.SrsTypeSelectionAdapterItemBinding
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.ui.lists.BaseAdapter
 import javax.inject.Inject
 
@@ -37,7 +38,19 @@ class SrsTypeSelectionItemAdapter @Inject constructor() : BaseAdapter<SrsTypeSel
             SrsTypeSelectionAdapterItemBinding.bind(itemView)
 
         fun bind(item: SrsTypeSelectionItem) = viewBinding.apply {
-            targetButton.text = context.getString(item.buttonText)
+            typeName.isChecked = item.checked
+            typeName.setText(
+                when (item.submissionType) {
+                    SrsSubmissionType.SRS_SELF_TEST,
+                    SrsSubmissionType.SRS_REGISTERED_RAT -> R.string.srs_rat_registered_no_result_text
+
+                    SrsSubmissionType.SRS_UNREGISTERED_RAT -> R.string.srs_rat_not_registered_text
+                    SrsSubmissionType.SRS_REGISTERED_PCR -> R.string.srs_pcr_registered_no_result_text
+                    SrsSubmissionType.SRS_UNREGISTERED_PCR -> R.string.srs_pcr_not_registered_text
+                    SrsSubmissionType.SRS_RAPID_PCR -> R.string.srs_rapid_pcr_text
+                    SrsSubmissionType.SRS_OTHER -> R.string.srs_other_text
+                }
+            )
         }
     }
 }

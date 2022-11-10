@@ -62,17 +62,17 @@
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">Bitte wählen Sie die Art des Tests aus, auf dessen Grundlage Sie warnen.</string>
     <!-- XTXT: Type selection button rat registered no result text -->
-    <string name="target_button_rat_registered_no_result_text">Antigen-Schnelltest in der App registriert, aber kein Ergebnis erhalten</string>
+    <string name="srs_rat_registered_no_result_text">Antigen-Schnelltest in der App registriert, aber kein Ergebnis erhalten</string>
     <!-- XTXT: Type selection button rat not registered text -->
-    <string name="target_button_rat_not_registered_text">Antigen-Schnelltest nicht in der App registriert</string>
+    <string name="srs_rat_not_registered_text">Antigen-Schnelltest nicht in der App registriert</string>
     <!-- XTXT: Type selection button pcr registered no result text -->
-    <string name="target_button_pcr_registered_no_result_text">PCR-Labortest in der App registriert, aber kein Ergebnis erhalten</string>
+    <string name="srs_pcr_registered_no_result_text">PCR-Labortest in der App registriert, aber kein Ergebnis erhalten</string>
     <!-- XTXT: Type selection button pcr not registered text -->
-    <string name="target_button_pcr_not_registered_text">PCR-Labortest nicht in der App registriert</string>
+    <string name="srs_pcr_not_registered_text">PCR-Labortest nicht in der App registriert</string>
     <!-- XTXT: Type selection button rapid pcr text -->
-    <string name="target_button_rapid_pcr_text">PCR-Schnelltest (PoC-NAT-Test)</string>
+    <string name="srs_rapid_pcr_text">PCR-Schnelltest (PoC-NAT-Test)</string>
     <!-- XTXT: Type selection button other text -->
-    <string name="target_button_other_text">Sonstige / keine Angabe</string>
+    <string name="srs_other_text">Sonstige / keine Angabe</string>
     <!-- XTXT: Type selection next button text -->
     <string name="type_selection_next_button_text">Weiter</string>
 
