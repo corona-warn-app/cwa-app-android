@@ -9,6 +9,7 @@ data class ConfigDataContainer(
     val serverTime: Instant,
     val cacheValidity: Duration,
     val mappedConfig: ConfigMapping,
+    val devDeviceTimeDeviceState: ConfigData.DeviceTimeState? = null,
     override val identifier: String,
     override val localOffset: Duration,
     override val configType: ConfigData.Type
@@ -19,6 +20,7 @@ data class ConfigDataContainer(
 
     override val deviceTimeState: ConfigData.DeviceTimeState
         get() = when {
+            devDeviceTimeDeviceState != null -> devDeviceTimeDeviceState
             !isDeviceTimeCheckEnabled -> ConfigData.DeviceTimeState.ASSUMED_CORRECT
             localOffset.abs() < ConfigData.DEVICE_TIME_GRACE_RANGE -> ConfigData.DeviceTimeState.CORRECT
             else -> ConfigData.DeviceTimeState.INCORRECT

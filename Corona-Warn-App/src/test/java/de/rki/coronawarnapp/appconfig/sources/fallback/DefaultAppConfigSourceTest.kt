@@ -5,6 +5,7 @@ import android.content.res.AssetManager
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -27,6 +28,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
     @MockK private lateinit var assetManager: AssetManager
     @MockK lateinit var configParser: ConfigParser
     @MockK lateinit var configData: ConfigData
+    @MockK lateinit var srsDevSettings: SrsDevSettings
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val configFile = File(testDir, "default_app_config_android.bin")
@@ -36,10 +38,10 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
         MockKAnnotations.init(this)
 
         every { context.assets } returns assetManager
-
         every { assetManager.open("default_app_config_android.bin") } answers { configFile.inputStream() }
 
         coEvery { configParser.parse(any()) } returns configData
+        coEvery { srsDevSettings.deviceTimeState() } returns null
 
         testDir.mkdirs()
         testDir.exists() shouldBe true
@@ -52,7 +54,8 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
 
     private fun createInstance() = DefaultAppConfigSource(
         context = context,
-        configParser = configParser
+        configParser = configParser,
+        srsDevSettings = srsDevSettings,
     )
 
     @Test

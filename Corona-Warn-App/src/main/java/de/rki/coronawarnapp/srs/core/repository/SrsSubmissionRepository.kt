@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -42,18 +43,18 @@ class SrsSubmissionRepository @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val deviceAttestation: DeviceAttestation,
     private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsDevSettings: SrsDevSettings,
     private val androidIdProvider: AndroidIdProvider,
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
-        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN,
-        checkDeviceTime: Boolean = true,
+        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
     ) {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
         var srsOtp = currentOtp(nowUtc)
-        val attestResult = attest(appConfig, srsOtp, checkDeviceTime)
+        val attestResult = attest(appConfig, srsOtp, srsDevSettings.checkLocalPrerequisites())
         if (!srsOtp.isValid(nowUtc)) {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
             val expiresAt = playbook.authorize(
