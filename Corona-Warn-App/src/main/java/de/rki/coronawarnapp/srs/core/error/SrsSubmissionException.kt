@@ -1,15 +1,17 @@
 package de.rki.coronawarnapp.srs.core.error
 
+import timber.log.Timber
+
 class SrsSubmissionException(
     val errorCode: ErrorCode,
     override val cause: Throwable? = null
-) : Exception(errorCode.message, cause) {
+) : Exception(errorCode.code, cause) {
 
-    enum class ErrorCode(val message: String) {
+    enum class ErrorCode(val code: String) {
         DEVICE_TIME_INCORRECT("DEVICE_TIME_INCORRECT"),
         DEVICE_TIME_UNVERIFIED("DEVICE_TIME_UNVERIFIED"),
         SRS_OTP_CLIENT_ERROR("SRS_OTP_CLIENT_ERROR"),
-        SRS_OTO_NO_NETWORK("SRS_OTO_NO_NETWORK"),
+        SRS_OTP_NO_NETWORK("SRS_OTP_NO_NETWORK"),
         SRS_OTP_SERVER_ERROR("SRS_OTP_SERVER_ERROR"),
         SRS_OTP_400("SRS_OTP_400"),
         SRS_OTP_401("SRS_OTP_401"),
@@ -42,13 +44,11 @@ class SrsSubmissionException(
         JWS_SIGNATURE_VERIFICATION_FAILED("JWS_SIGNATURE_VERIFICATION_FAILED"),
         SALT_REDEEMED("SALT_REDEEMED");
 
-        /**
-         * TODO check if server ones are needed
-         * NONCE_MISMATCH,
-         * BASIC_INTEGRITY_REQUIRED,
-         * CTS_PROFILE_MATCH_REQUIRED,
-         * EVALUATION_TYPE_BASIC_REQUIRED,
-         * EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
-         */
+        companion object {
+            fun fromAuthErrorCode(code: String) = values().find { code == it.code } ?: run {
+                Timber.e("ErrorCode=%s was not found -> return SRS_OTP_SERVER_ERROR as fallback", code)
+                SRS_OTP_SERVER_ERROR
+            }
+        }
     }
 }

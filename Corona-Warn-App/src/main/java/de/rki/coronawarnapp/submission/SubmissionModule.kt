@@ -81,4 +81,4 @@ object SubmissionModule {
     }
 }
 
-private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB

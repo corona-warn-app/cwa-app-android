@@ -3,11 +3,12 @@ package de.rki.coronawarnapp.test.submission.ui
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
+import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
@@ -17,22 +18,25 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import kotlin.Exception
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     timeStamper: TimeStamper,
     @BaseGson baseGson: Gson,
-    srsSubmissionSettings: SrsSubmissionSettings
+    private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsSubmissionRepository: SrsSubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val exportJson = baseGson.newBuilder().apply {
         setPrettyPrinting()
     }.create()
 
-    val otpData = liveData {
-        emit(srsSubmissionSettings.getOtp())
-    }
+    val otpData = srsSubmissionSettings.otp.asLiveData2()
+    val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
+
+    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -75,6 +79,20 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
 
+    fun submit(checkDeviceTime: Boolean) = launch {
+        try {
+            srsSubmissionRepository.submit(SrsSubmissionType.SRS_REGISTERED_RAT, checkDeviceTime = checkDeviceTime)
+            srsSubmissionResult.postValue(Success)
+        } catch (e: Exception) {
+            srsSubmissionResult.postValue(Error(e))
+            Timber.e(e, "submit()")
+        }
+    }
+
+    fun clearSrsSettings() = launch {
+        srsSubmissionSettings.reset()
+    }
+
     fun updateStorage() {
         tekHistoryUpdater.getTeksForTesting()
     }
@@ -99,3 +117,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestFragmentViewModel>
 }
+
+sealed interface SrsSubmissionResult
+data class Error(val cause: Exception) : SrsSubmissionResult
+object Success : SrsSubmissionResult
