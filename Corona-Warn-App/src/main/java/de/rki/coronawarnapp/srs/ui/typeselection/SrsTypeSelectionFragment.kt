@@ -44,16 +44,12 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
                 SrsTypeSelectionNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
-                            .actionSrsSubmissionTypeSelectionFragmentToSrsCheckinsFragment(
-                                viewModel.srsTestType.value?.submissionType ?: SrsSubmissionType.SRS_OTHER
-                            )
+                            .actionSrsSubmissionTypeSelectionFragmentToSrsCheckinsFragment()
                     )
                 SrsTypeSelectionNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
-                            .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment(
-                                viewModel.srsTestType.value?.submissionType ?: SrsSubmissionType.SRS_OTHER
-                            )
+                            .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment()
                     )
             }
         }

@@ -54,20 +54,10 @@
         android:id="@+id/srsCheckinsFragment"
         android:name="de.rki.coronawarnapp.srs.ui.checkins.SrsSubmissionCheckinsFragment"
         android:label="SrsCheckinsFragment"
-        tools:layout="@layout/fragment_srs_type_selection">
-        <argument
-            android:name="openTypeSelection"
-            android:defaultValue="SRS_OTHER"
-            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
-    </fragment>
+        tools:layout="@layout/fragment_srs_type_selection" />
     <fragment
         android:id="@+id/srsSymptomsFragment"
         android:name="de.rki.coronawarnapp.srs.ui.symptoms.SrsSubmissionSymptomsFragment"
         android:label="SrsSymptomsFragment"
-        tools:layout="@layout/fragment_srs_type_selection">
-        <argument
-            android:name="openTypeSelection"
-            android:defaultValue="SRS_OTHER"
-            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
-    </fragment>
+        tools:layout="@layout/fragment_srs_type_selection" />
 </navigation>
