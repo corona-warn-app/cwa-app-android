@@ -66,7 +66,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
         every { configParser.parse(APPCONFIG_RAW) } returns configData
 
         every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
-        coEvery { srsDevSettings.deviceState() } returns null
+        coEvery { srsDevSettings.deviceTimeState() } returns null
     }
 
     @AfterEach
@@ -107,7 +107,7 @@ class RemoteAppConfigSourceTest : BaseIOTest() {
     @Test
     fun `provided device time state`() = runTest2 {
         ConfigData.DeviceTimeState.values().forEach { state ->
-            coEvery { srsDevSettings.deviceState() } returns state
+            coEvery { srsDevSettings.deviceTimeState() } returns state
             val source = createInstance()
             val config = source.getConfigData()
             config!!.deviceTimeState shouldBe state

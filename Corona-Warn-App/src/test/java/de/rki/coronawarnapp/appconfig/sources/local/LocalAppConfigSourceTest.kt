@@ -55,7 +55,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
         coEvery { configStorage.setStoredConfig(any()) } answers {
             mockConfigStorage = arg(0)
         }
-        coEvery { srsDevSettings.deviceState() } returns null
+        coEvery { srsDevSettings.deviceTimeState() } returns null
 
         every { configData.isDeviceTimeCheckEnabled } returns false
         every { configParser.parse(APPCONFIG_RAW) } returns configData
@@ -112,7 +112,7 @@ class LocalAppConfigSourceTest : BaseIOTest() {
     fun `provided device state`() = runTest {
         ConfigData.DeviceTimeState.values().forEach { state ->
             coEvery { configStorage.getStoredConfig() } returns expectedData
-            coEvery { srsDevSettings.deviceState() } returns state
+            coEvery { srsDevSettings.deviceTimeState() } returns state
             val instance = createInstance()
             val config = instance.getConfigData()
             config!!.deviceTimeState shouldBe state

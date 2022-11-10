@@ -36,7 +36,7 @@ class LocalAppConfigSource @Inject constructor(
                     identifier = it.etag,
                     configType = ConfigData.Type.LAST_RETRIEVED,
                     cacheValidity = it.cacheValidity,
-                    devDeviceTimeDeviceState = srsDevSettings.deviceState(),
+                    devDeviceTimeDeviceState = srsDevSettings.deviceTimeState(),
                 )
             }
         } catch (e: Exception) {

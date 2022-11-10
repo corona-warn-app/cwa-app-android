@@ -11,7 +11,7 @@ interface SrsDevSettings {
 
     suspend fun checkLocalPrerequisites(): Boolean = checkLocalPrerequisites.first()
     suspend fun forceAndroidIdAcceptance(): Boolean = forceAndroidIdAcceptance.first()
-    suspend fun deviceState(): ConfigData.DeviceTimeState? = deviceTimeState.first()
+    suspend fun deviceTimeState(): ConfigData.DeviceTimeState? = deviceTimeState.first()
 
     suspend fun checkLocalPrerequisites(check: Boolean)
     suspend fun forceAndroidIdAcceptance(force: Boolean)

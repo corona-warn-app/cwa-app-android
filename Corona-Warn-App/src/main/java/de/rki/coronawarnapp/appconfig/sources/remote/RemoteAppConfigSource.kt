@@ -44,7 +44,7 @@ class RemoteAppConfigSource @Inject constructor(
                     identifier = configDownload.etag,
                     configType = ConfigData.Type.FROM_SERVER,
                     cacheValidity = configDownload.cacheValidity,
-                    devDeviceTimeDeviceState = srsDevSettings.deviceState(),
+                    devDeviceTimeDeviceState = srsDevSettings.deviceTimeState(),
                 )
             }
         } catch (e: Exception) {

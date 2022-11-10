@@ -41,7 +41,7 @@ class DefaultAppConfigSourceTest : BaseIOTest() {
         every { assetManager.open("default_app_config_android.bin") } answers { configFile.inputStream() }
 
         coEvery { configParser.parse(any()) } returns configData
-        coEvery { srsDevSettings.deviceState() } returns null
+        coEvery { srsDevSettings.deviceTimeState() } returns null
 
         testDir.mkdirs()
         testDir.exists() shouldBe true
