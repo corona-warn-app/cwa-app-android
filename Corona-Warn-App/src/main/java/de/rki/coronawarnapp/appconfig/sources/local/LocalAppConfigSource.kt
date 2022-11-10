@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.appconfig.sources.local
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -13,7 +14,8 @@ import javax.inject.Singleton
 class LocalAppConfigSource @Inject constructor(
     private val storage: AppConfigStorage,
     private val parser: ConfigParser,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val srsDevSettings: SrsDevSettings,
 ) {
 
     suspend fun getConfigData(): ConfigDataContainer? = withContext(dispatcherProvider.IO) {
@@ -33,7 +35,8 @@ class LocalAppConfigSource @Inject constructor(
                     localOffset = it.localOffset,
                     identifier = it.etag,
                     configType = ConfigData.Type.LAST_RETRIEVED,
-                    cacheValidity = it.cacheValidity
+                    cacheValidity = it.cacheValidity,
+                    devDeviceTimeDeviceState = srsDevSettings.deviceTimeState(),
                 )
             }
         } catch (e: Exception) {

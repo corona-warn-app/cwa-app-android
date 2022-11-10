@@ -3,12 +3,17 @@ package de.rki.coronawarnapp.test.submission.ui
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
@@ -21,22 +26,28 @@ import timber.log.Timber
 import kotlin.Exception
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
+    @BaseGson baseGson: Gson,
+    timeStamper: TimeStamper,
+    androidIdProvider: AndroidIdProvider,
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    timeStamper: TimeStamper,
-    @BaseGson baseGson: Gson,
+    private val srsDevSettings: SrsDevSettings,
+    private val appConfigProvider: AppConfigProvider,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val exportJson = baseGson.newBuilder().apply {
-        setPrettyPrinting()
-    }.create()
+    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
 
     val otpData = srsSubmissionSettings.otp.asLiveData2()
     val mostRecentSubmissionDate = srsSubmissionSettings.mostRecentSubmissionTime.asLiveData2()
 
-    val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
+    val androidId = liveData { emit(androidIdProvider.getAndroidId()) }
+    val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
+    val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
+    val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
+
+    private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -71,17 +82,14 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     )
 
     val errorEvents = SingleLiveEvent<Throwable>()
-
     val shareTEKsEvent = SingleLiveEvent<TEKExport>()
-
     val permissionRequestEvent = SingleLiveEvent<(Activity) -> Unit>()
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
-
     val tekHistory = MutableLiveData<List<TEKHistoryItem>>()
 
-    fun submit(checkDeviceTime: Boolean) = launch {
+    fun submit() = launch {
         try {
-            srsSubmissionRepository.submit(SrsSubmissionType.SRS_REGISTERED_RAT, checkDeviceTime = checkDeviceTime)
+            srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             srsSubmissionResult.postValue(Error(e))
@@ -89,8 +97,28 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun clearSrsSettings() = launch {
-        srsSubmissionSettings.reset()
+    fun resetMostRecentSubmission() = launch {
+        srsSubmissionSettings.resetMostRecentSubmission()
+    }
+
+    fun resetOtp() = launch {
+        srsSubmissionSettings.resetOtp()
+    }
+
+    fun checkLocalPrerequisites(check: Boolean) = launch {
+        srsDevSettings.checkLocalPrerequisites(check)
+    }
+
+    fun forceAndroidIdAcceptance(force: Boolean) = launch {
+        srsDevSettings.forceAndroidIdAcceptance(force)
+    }
+
+    fun deviceTimeState(state: ConfigData.DeviceTimeState?) = launch {
+        srsDevSettings.deviceTimeState(state)
+        appConfigProvider.apply {
+            reset()
+            getAppConfig()
+        }
     }
 
     fun updateStorage() {

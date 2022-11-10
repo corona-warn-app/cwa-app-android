@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -99,11 +98,5 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         viewModel.handleActivityResult(requestCode, resultCode, data)
-    }
-
-    companion object {
-        fun uri(
-            openTypeSelection: Boolean = false
-        ) = "cwa://srs-consent/?openTypeSelection=$openTypeSelection".toUri()
     }
 }

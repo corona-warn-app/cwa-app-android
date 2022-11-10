@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
@@ -56,6 +57,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var srsSubmissionSettings: SrsSubmissionSettings
     @MockK lateinit var androidIdProvider: AndroidIdProvider
     @MockK lateinit var submissionReporter: SubmissionReporter
+    @MockK lateinit var srsDevSettings: SrsDevSettings
 
     @MockK lateinit var attestationContainer: AttestationContainer
     @MockK lateinit var configData: ConfigData
@@ -99,6 +101,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns configData
         coEvery { playbook.authorize(any()) } returns Instant.parse("2023-11-07T12:10:10Z")
         coEvery { playbook.submit(any()) } just Runs
+        coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
         coEvery { submissionReporter.reportAt(any()) } just Runs
     }
 
@@ -307,5 +310,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         androidIdProvider = androidIdProvider,
         timeStamper = timeStamper,
         submissionReporter = submissionReporter,
+        srsDevSettings = srsDevSettings,
     )
 }

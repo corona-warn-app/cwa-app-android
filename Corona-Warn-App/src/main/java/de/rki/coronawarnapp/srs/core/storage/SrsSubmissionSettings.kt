@@ -82,10 +82,17 @@ class SrsSubmissionSettings @Inject constructor(
         }
     }
 
-    suspend fun reset() {
-        Timber.tag(TAG).d("reset()")
+    suspend fun resetMostRecentSubmission() {
+        Timber.tag(TAG).d("resetMostRecentSubmission()")
         dataStore.edit { prefs ->
-            prefs.clear()
+            prefs.remove(LAST_SUBMISSION_TIME_KEY)
+        }
+    }
+
+    suspend fun resetOtp() {
+        Timber.tag(TAG).d("resetOtp()")
+        dataStore.edit { prefs ->
+            prefs.remove(SRS_OTP_KEY)
         }
     }
 

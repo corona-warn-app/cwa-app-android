@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/type_name"
+    style="@style/selectionButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="@dimen/spacing_small"
+    android:layout_marginEnd="12dp"
+    android:backgroundTint="@color/srs_type_bg_color"
+    android:foreground="?attr/selectableItemBackground"
+    android:textColor="@color/srs_type_text_color"
+    tools:text="@string/srs_rat_registered_no_result_text" />
