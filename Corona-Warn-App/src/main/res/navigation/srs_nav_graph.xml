@@ -22,7 +22,7 @@
             app:destination="@id/srsCheckinsFragment" />
         <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_srsSymptomsFragment"
-            app:destination="@id/srsSymptomsFragment" />
+            app:destination="@id/srsSymptomsIntroductionFragment" />
         <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_mainFragment"
             app:destination="@id/status_nav_graph"
@@ -47,7 +47,7 @@
 
         <action
             android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsSymptomsFragment"
-            app:destination="@id/srsSymptomsFragment" />
+            app:destination="@id/srsSymptomsIntroductionFragment" />
     </fragment>
     <fragment
         android:id="@+id/srsCheckinsFragment"
