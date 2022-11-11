@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.ui.submission.submissionCancelDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
@@ -46,7 +45,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
         super.onViewCreated(view, savedInstanceState)
 
         val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() = submissionCancelDialog { viewModel.onCancelConfirmed() }
+            override fun handleOnBackPressed() = viewModel.onCancelConfirmed()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
