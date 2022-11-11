@@ -1214,6 +1214,8 @@
     <string name="submission_done_subtitle">"Please note:"</string>
     <!-- YTXT: text after submission: pcr validation -->
     <string name="submission_done_pcr_validation">"Take a PCR test to verify this test result."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Ihre Warnung wird dem Kontakt-Tagebuch hinzugefügt."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"The public health authority may contact you within the next few days."</string>
     <!-- YTXT: text after submission: isolate -->
