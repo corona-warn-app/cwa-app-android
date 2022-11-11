@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
+import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
@@ -66,7 +67,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
-                SrsSymptomsCalendarNavigation.ShowCloseDialog -> displayDialog { viewModel.goHome() }
+                SrsSymptomsCalendarNavigation.ShowCloseDialog -> showCloseDialog { viewModel.goHome() }
                 SrsSymptomsCalendarNavigation.ShowSubmissionWarning -> showSubmissionWarningDialog {
                     viewModel.startSubmission()
                 }
