@@ -59,7 +59,10 @@ class SrsLocalChecker @Inject constructor(
                 reliableDuration,
                 onboardingInHours
             )
-            throw SrsSubmissionException(ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED)
+            throw SrsSubmissionException(
+                errorCode = ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
+                errorArgs = arrayOf(onboardingInHours.toHours())
+            )
         }
 
         val durationSinceSubmission = Duration.between(
@@ -74,7 +77,10 @@ class SrsLocalChecker @Inject constructor(
                 durationSinceSubmission,
                 submissionsInDays
             )
-            throw SrsSubmissionException(ErrorCode.SUBMISSION_TOO_EARLY)
+            throw SrsSubmissionException(
+                errorCode = ErrorCode.SUBMISSION_TOO_EARLY,
+                errorArgs = arrayOf(submissionsInDays.toDays())
+            )
         }
 
         Timber.d("Local prerequisites are met -> Congratulations!")

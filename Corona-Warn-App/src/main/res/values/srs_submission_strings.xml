@@ -88,4 +88,22 @@
     <!-- XTXT: TSRS cancel dialog negative button -->
     <string name="srs_cancel_dialog_negative_button">Nicht warnen</string>
 
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie die Warnung später erneut zu senden oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time">Die Uhrzeit Ihres Smartphones stimmt nicht mit der aktuellen Zeit überein. Bitte korrigieren Sie die Uhrzeit in den Einstellungen Ihres Smartphones. Nach der Korrektur kann es einige Minuten dauern, bis die App die Uhrzeit erneut überprüft. Danach können Sie erneut versuchen zu warnen.</string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted">Ihr Gerät erfüllt nicht die notwendigen Sicherheitsanforderungen für diese Art von Warnung. Einen offiziellen Test können Sie jederzeit in der App registrieren und andere damit warnen.</string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early">Sie können momentan andere nicht warnen, da Sie innerhalb der vergangenen %d Tage bereits ein positives Testergebnis gemeldet haben. Dies dient der Vermeidung von Missbrauch. Einen offiziellen Test können Sie jederzeit in der App registrieren und andere damit warnen.</string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified">Aus Sicherheitsgründen können Sie erst %d Stunden, nachdem Sie die App installiert oder aktualisiert haben, diese Art von Warnung senden. Bitte versuchen Sie es in %d Stunden erneut.</string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later">Ein Fehler ist aufgetreten. Bitte versuchen Sie die Warnung erneut zu senden.</string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services">Die Warnung kann aktuell nicht gesendet werden. Bitte aktualisieren Sie die Google Play Services.</string>
+
 </resources>
