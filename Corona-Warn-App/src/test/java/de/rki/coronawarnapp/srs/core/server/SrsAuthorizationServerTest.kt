@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.srs.core.server
 
 import com.google.protobuf.ByteString
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfigContainer
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
@@ -16,7 +19,9 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
@@ -31,6 +36,8 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     @MockK lateinit var srsAuthorizationApi: SrsAuthorizationApi
     @MockK lateinit var srsDevSettings: SrsDevSettings
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var configData: ConfigData
 
     private val request = SrsAuthorizationRequest(
         srsOtp = SrsOtp(),
@@ -50,6 +57,8 @@ internal class SrsAuthorizationServerTest : BaseTest() {
             """.trimIndent().toResponseBody()
         )
         coEvery { srsDevSettings.forceAndroidIdAcceptance() } returns false
+        every { configData.selfReportSubmission } returns SelfReportSubmissionConfigContainer.DEFAULT
+        every { appConfigProvider.currentConfig } returns flowOf(configData)
     }
 
     @Test
@@ -161,5 +170,6 @@ internal class SrsAuthorizationServerTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         mapper = SerializationModule.jacksonBaseMapper,
         srsDevSettings = srsDevSettings,
+        appConfigProvider = appConfigProvider,
     )
 }

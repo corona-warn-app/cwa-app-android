@@ -8,6 +8,4 @@ message PPACAndroid {
   string safetyNetJws = 1;
 
   string salt = 2;
-
-  bytes androidId = 3; // optional, only required for SRS
 }

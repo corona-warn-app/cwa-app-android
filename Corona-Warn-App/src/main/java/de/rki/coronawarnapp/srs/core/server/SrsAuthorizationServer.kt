@@ -5,12 +5,12 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import javax.inject.Inject
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.Instant
@@ -30,6 +31,7 @@ class SrsAuthorizationServer @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     private val dispatcherProvider: DispatcherProvider,
     private val srsDevSettings: SrsDevSettings,
+    private val appConfigProvider: AppConfigProvider,
 ) {
     private val api = srsAuthorizationApi.get()
 
@@ -51,13 +53,16 @@ class SrsAuthorizationServer @Inject constructor(
 
     private suspend fun authoriseRequest(request: SrsAuthorizationRequest): Instant {
         Timber.tag(TAG).d("authorize(request=%s)", request)
-        val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
+        val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
-                SrsOtp.SRSOneTimePassword.newBuilder().setOtp(request.srsOtp.uuid.toString()).build()
+                SRSOneTimePasswordRequestAndroid.SRSOneTimePassword
+                    .newBuilder()
+                    .setOtp(request.srsOtp.uuid.toString())
+                    .setAndroidId(request.androidId)
+                    .build()
             )
             .setAuthentication(
                 PpacAndroid.PPACAndroid.newBuilder()
-                    .setAndroidId(request.androidId)
                     .setSafetyNetJws(request.safetyNetJws)
                     .setSalt(request.salt)
                     .build()
@@ -73,7 +78,13 @@ class SrsAuthorizationServer @Inject constructor(
         val bodyResponse = api.authenticate(headers, srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
         return when {
-            response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.fromAuthErrorCode(response.errorCode))
+            response?.errorCode != null -> {
+                val errorCode = ErrorCode.fromAuthErrorCode(response.errorCode)
+                throw SrsSubmissionException(
+                    errorCode = errorCode,
+                    errorArgs = errorArgs(errorCode)
+                )
+            }
             response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
@@ -84,6 +95,29 @@ class SrsAuthorizationServer @Inject constructor(
                 else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR)
             }
         }
+    }
+
+    private suspend fun errorArgs(errorCode: ErrorCode): Array<Any> = when (errorCode) {
+        ErrorCode.SUBMISSION_TOO_EARLY -> arrayOf(
+            appConfigProvider
+                .currentConfig
+                .first()
+                .selfReportSubmission
+                .common
+                .timeBetweenSubmissionsInDays
+                .toDays()
+        )
+        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
+            val hours = appConfigProvider
+                .currentConfig
+                .first()
+                .selfReportSubmission
+                .common
+                .timeSinceOnboardingInHours
+                .toHours()
+            arrayOf(hours, hours)
+        }
+        else -> emptyArray()
     }
 
     companion object {
