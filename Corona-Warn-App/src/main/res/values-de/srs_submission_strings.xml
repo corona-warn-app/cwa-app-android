@@ -89,6 +89,8 @@
     <string name="srs_cancel_dialog_negative_button">Nicht warnen</string>
 
     <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title">Andere warnen nicht möglich</string>
     <!-- XTXT: SRS CALL_HOTLINE error message -->
     <string name="srs_error_call_hotline">Ein Fehler ist aufgetreten. Bitte versuchen Sie die Warnung später erneut zu senden oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
     <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
