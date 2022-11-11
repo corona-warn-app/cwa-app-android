@@ -52,3 +52,9 @@ class AppConfigProvider @Inject constructor(
         private const val TAG = "AppConfigProvider"
     }
 }
+
+fun ConfigData.getSupportedCountries(): List<String> =
+    supportedCountries.ifEmpty {
+        Timber.w("Country list was empty, corrected")
+        listOf("DE")
+    }.also { Timber.i("Supported countries = $it") }

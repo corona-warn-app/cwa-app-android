@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData.DeviceTimeState
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @Reusable
 class SrsLocalChecker @Inject constructor(
     private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val srsDevSettings: SrsDevSettings,
     private val appConfigProvider: AppConfigProvider,
     private val cwaSettings: CWASettings,
     private val timeStamper: TimeStamper,
@@ -27,6 +29,11 @@ class SrsLocalChecker @Inject constructor(
      * @throws SrsSubmissionException
      */
     suspend fun check() {
+        if (!srsDevSettings.checkLocalPrerequisites()) {
+            Timber.d("checkLocalPrerequisites is disabled")
+            return
+        }
+
         val appConfig = appConfigProvider.getAppConfig()
         val deviceTimeState = appConfig.deviceTimeState
         val selfReportSubmissionCommon = appConfig.selfReportSubmission.common

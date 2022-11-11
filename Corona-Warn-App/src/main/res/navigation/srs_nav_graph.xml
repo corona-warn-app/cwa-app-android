@@ -22,20 +22,33 @@
             app:destination="@id/srsCheckinsFragment" />
         <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_srsSymptomsFragment"
-            app:destination="@id/srsSymptomsIntroductionFragment" />
+            app:destination="@id/srsSymptomsFragment" />
         <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_mainFragment"
             app:destination="@id/status_nav_graph"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
-        <deepLink app:uri="cwa://srs-consent/?openTypeSelection={openTypeSelection}" />
     </fragment>
     <fragment
         android:id="@+id/srsSubmissionTypeSelectionFragment"
         android:name="de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragment"
         android:label="SrsSubmissionTypeSelectionFragment"
-        tools:layout="@layout/fragment_srs_type_selection" />
+        tools:layout="@layout/fragment_srs_type_selection">
 
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsCheckinsFragment"
+            app:destination="@id/srsCheckinsFragment" />
+
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/srsCheckinsFragment"
         android:name="de.rki.coronawarnapp.srs.ui.checkins.SrsCheckinsFragment"

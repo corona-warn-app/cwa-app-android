@@ -14,8 +14,10 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.submission.SubmissionItem
 import java.time.Duration
 import java.time.LocalDate
+import kotlin.random.Random
 
 object DiaryData {
 
@@ -49,7 +51,7 @@ object DiaryData {
         )
     )
 
-    val HIGH_RISK = RiskEnfItem(
+    private val HIGH_RISK = RiskEnfItem(
         title = R.string.contact_diary_high_risk_title,
         body = R.string.contact_diary_risk_body,
         bodyExtended = R.string.contact_diary_risk_body_extended,
@@ -58,13 +60,6 @@ object DiaryData {
 
     val HIGH_RISK_DUE_LOW_RISK_ENCOUNTERS =
         HIGH_RISK.copy(body = R.string.contact_diary_risk_body_high_risk_due_to_low_risk_encounters)
-
-    val LOW_RISK = RiskEnfItem(
-        title = R.string.contact_diary_low_risk_title,
-        body = R.string.contact_diary_risk_body,
-        bodyExtended = R.string.contact_diary_risk_body_extended,
-        drawableId = R.drawable.ic_low_risk_alert
-    )
 
     val LOW_RISK_EVENT_LOCATION = ContactItem.Data(
         R.drawable.ic_contact_diary_location_item,
@@ -84,14 +79,14 @@ object DiaryData {
         ContactItem.Type.LOCATION
     )
 
-    val HIGH_RISK_EVENT = RiskEventItem.Event(
+    private val HIGH_RISK_EVENT = RiskEventItem.Event(
         name = HIGH_RISK_EVENT_LOCATION.name,
         description = "2",
         bulledPointColor = R.color.colorBulletPointHighRisk,
         riskInfoAddition = R.string.contact_diary_trace_location_risk_high
     )
 
-    val LOW_RISK_EVENT = RiskEventItem.Event(
+    private val LOW_RISK_EVENT = RiskEventItem.Event(
         name = LOW_RISK_EVENT_LOCATION.name,
         description = "1",
         bulledPointColor = R.color.colorBulletPointLowRisk,
@@ -112,17 +107,19 @@ object DiaryData {
         events = listOf(LOW_RISK_EVENT)
     )
 
-    val PCR_TEST_NEGATIVE = CoronaTestItem.Data(
+    private val PCR_TEST_NEGATIVE = CoronaTestItem.Data(
         icon = R.drawable.ic_corona_test_icon_green,
         header = R.string.contact_diary_corona_test_pcr_title,
         body = R.string.contact_diary_corona_test_negative
     )
 
-    val RAT_TEST_POSITIVE = CoronaTestItem.Data(
+    private val RAT_TEST_POSITIVE = CoronaTestItem.Data(
         icon = R.drawable.ic_corona_test_icon_red,
         header = R.string.contact_diary_corona_test_rat_title,
         body = R.string.contact_diary_corona_test_positive
     )
+
+    val SUBMISSION_ITEM = SubmissionItem(id = Random.nextLong())
 
     val TEST_ITEM = CoronaTestItem(listOf(PCR_TEST_NEGATIVE, RAT_TEST_POSITIVE))
 

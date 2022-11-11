@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import com.fasterxml.jackson.module.kotlin.readValue
+import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 import java.time.Instant
 import javax.inject.Inject
@@ -35,20 +36,30 @@ class SrsSubmissionSettings @Inject constructor(
             }
         }
 
-    suspend fun getMostRecentSubmissionTime(): Instant {
-        Timber.d("getMostRecentSubmissionTime()")
-        return dataStoreFlow.map { prefs ->
-            prefs[LAST_SUBMISSION_TIME_KEY]
-        }.map { time ->
-            time?.let { Instant.ofEpochMilli(it) } ?: Instant.EPOCH
-        }.first()
+    val otp: Flow<SrsOtp?> = dataStoreFlow.map { prefs ->
+        prefs[SRS_OTP_KEY]?.let {
+            runCatching {
+                mapper.readValue<SrsOtp>(it)
+            }.onFailure {
+                Timber.tag(TAG).e(it, "Failed to read")
+            }.getOrNull()
+        }
     }
 
-    suspend fun setMostRecentSubmissionTime(executionTime: Instant = Instant.now()) {
-        Timber.tag(TAG).d("setMostRecentSubmissionTime: %s", executionTime)
+    val mostRecentSubmissionTime = dataStoreFlow.map { prefs ->
+        prefs[LAST_SUBMISSION_TIME_KEY]?.let { Instant.ofEpochMilli(it) } ?: Instant.EPOCH
+    }
+
+    suspend fun getMostRecentSubmissionTime(): Instant {
+        Timber.d("getMostRecentSubmissionTime()")
+        return mostRecentSubmissionTime.first()
+    }
+
+    suspend fun setMostRecentSubmissionTime(time: Instant = Instant.now()) {
+        Timber.tag(TAG).d("setMostRecentSubmissionTime: %s", time)
         runCatching {
             dataStore.edit { prefs ->
-                prefs[LAST_SUBMISSION_TIME_KEY] = executionTime.toEpochMilli()
+                prefs[LAST_SUBMISSION_TIME_KEY] = time.toEpochMilli()
             }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "setMostRecentSubmissionTime failed")
@@ -57,25 +68,31 @@ class SrsSubmissionSettings @Inject constructor(
 
     suspend fun getOtp(): SrsOtp? {
         Timber.d("getOtp()")
-        return dataStoreFlow.map { prefs ->
-            prefs[SRS_OTP_KEY]?.let {
-                runCatching {
-                    mapper.readValue<SrsOtp>(it)
-                }.onFailure {
-                    Timber.tag(TAG).e(it, "getOtp failed")
-                }.getOrNull()
-            }
-        }.first()
+        return otp.first()
     }
 
     suspend fun setOtp(srsOtp: SrsOtp) {
-        Timber.tag(TAG).d("setOtp()")
+        Timber.tag(TAG).d("save otp()")
         runCatching {
             dataStore.edit { prefs ->
                 prefs[SRS_OTP_KEY] = mapper.writeValueAsString(srsOtp)
             }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "setOtp failed")
+        }
+    }
+
+    suspend fun resetMostRecentSubmission() {
+        Timber.tag(TAG).d("resetMostRecentSubmission()")
+        dataStore.edit { prefs ->
+            prefs.remove(LAST_SUBMISSION_TIME_KEY)
+        }
+    }
+
+    suspend fun resetOtp() {
+        Timber.tag(TAG).d("resetOtp()")
+        dataStore.edit { prefs ->
+            prefs.remove(SRS_OTP_KEY)
         }
     }
 

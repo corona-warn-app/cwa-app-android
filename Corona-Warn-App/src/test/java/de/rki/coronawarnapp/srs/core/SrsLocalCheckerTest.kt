@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfigContainer
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldNotThrow
@@ -29,6 +30,7 @@ internal class SrsLocalCheckerTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var srsDevSettings: SrsDevSettings
 
     @BeforeEach
     fun setUp() {
@@ -37,6 +39,7 @@ internal class SrsLocalCheckerTest : BaseTest() {
         every { cwaSettings.firstReliableDeviceTime } returns flowOf(Instant.parse("2022-10-02T14:01:22Z"))
         coEvery { srsSubmissionSettings.getMostRecentSubmissionTime() } returns
             Instant.parse("2022-08-02T14:01:22Z")
+        coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
         coEvery { appConfigProvider.getAppConfig() } returns config()
     }
 
@@ -84,6 +87,7 @@ internal class SrsLocalCheckerTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         cwaSettings = cwaSettings,
         timeStamper = timeStamper,
+        srsDevSettings = srsDevSettings,
     )
 
     private fun config(

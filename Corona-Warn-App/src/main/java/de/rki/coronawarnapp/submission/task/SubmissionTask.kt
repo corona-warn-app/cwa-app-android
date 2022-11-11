@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -47,6 +49,7 @@ class SubmissionTask @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val coronaTestRepository: CoronaTestRepository,
+    private val submissionReporter: SubmissionReporter,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -186,7 +189,7 @@ class SubmissionTask @Inject constructor(
             authCode = authCode,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
-            visitedCountries = getSupportedCountries(),
+            visitedCountries = appConfigProvider.getAppConfig().getSupportedCountries(),
             unencryptedCheckIns = checkInsReport.unencryptedCheckIns,
             encryptedCheckIns = checkInsReport.encryptedCheckIns,
             submissionType = coronaTest.type.toSubmissionType()
@@ -218,6 +221,7 @@ class SubmissionTask @Inject constructor(
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
         setSubmissionFinished(coronaTest.identifier)
+        submissionReporter.reportAt(timeStamper.nowUTC)
 
         return Result(state = Result.State.SUCCESSFUL)
     }
@@ -241,17 +245,6 @@ class SubmissionTask @Inject constructor(
             SUCCESSFUL,
             SKIPPED
         }
-    }
-
-    private suspend fun getSupportedCountries(): List<String> {
-        val countries = appConfigProvider.getAppConfig().supportedCountries
-        return when {
-            countries.isEmpty() -> {
-                Timber.w("Country list was empty, corrected")
-                listOf(FALLBACK_COUNTRY)
-            }
-            else -> countries
-        }.also { Timber.i("Supported countries = $it") }
     }
 
     private fun checkCancel() {
@@ -282,7 +275,6 @@ class SubmissionTask @Inject constructor(
     }
 
     companion object {
-        private const val FALLBACK_COUNTRY = "DE"
         private const val RETRY_ATTEMPTS = Int.MAX_VALUE
         private val USER_INACTIVITY_TIMEOUT = Duration.ofMinutes(30)
         private const val TAG: String = "SubmissionTask"

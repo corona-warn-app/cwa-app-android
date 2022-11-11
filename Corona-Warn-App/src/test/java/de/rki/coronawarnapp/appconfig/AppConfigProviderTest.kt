@@ -140,4 +140,13 @@ class AppConfigProviderTest : BaseIOTest() {
             appConfigSource.clear()
         }
     }
+
+    @Test
+    fun `Supported countries`() {
+        every { configData.supportedCountries } returns listOf("DE", "ES", "AT")
+        configData.getSupportedCountries() shouldBe listOf("DE", "ES", "AT")
+
+        every { configData.supportedCountries } returns emptyList()
+        configData.getSupportedCountries() shouldBe listOf("DE")
+    }
 }

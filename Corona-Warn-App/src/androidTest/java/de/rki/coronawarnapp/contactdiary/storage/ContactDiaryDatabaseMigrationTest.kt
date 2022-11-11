@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitWrapper
@@ -34,6 +35,7 @@ import org.junit.runner.RunWith
 import testhelpers.BaseTestInstrumentation
 import java.io.IOException
 import java.time.Duration
+import java.time.Instant
 import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
@@ -319,6 +321,94 @@ class ContactDiaryDatabaseMigrationTest : BaseTestInstrumentation() {
                 contactDiaryLocationEntity = locationAfter,
                 contactDiaryLocationVisitEntity = locationVisitAfter
             )
+        }
+    }
+
+    @Test
+    fun migrate4To5() {
+        val location = ContactDiaryLocationEntity(
+            locationId = 1,
+            locationName = "My Location Name",
+            phoneNumber = "1234567890",
+            emailAddress = "email@address.com",
+            traceLocationID = null
+        )
+
+        val locationVisit = ContactDiaryLocationVisitEntity(
+            id = 2,
+            date = LocalDate.parse("2020-12-31"),
+            fkLocationId = 1,
+            duration = Duration.ofMinutes(13),
+            circumstances = "N/A",
+            checkInID = null
+        )
+
+        val locationAfter = location.copy(traceLocationID = "jshrgu-aifhioaio-aofsjof-samofp-kjsadngsgf".decodeBase64())
+        val locationVisitAfter = locationVisit.copy(checkInID = 101)
+
+        val locationValues = ContentValues().apply {
+            put("locationId", location.locationId)
+            put("locationName", location.locationName)
+            put("phoneNumber", location.phoneNumber)
+            put("emailAddress", location.emailAddress)
+        }
+
+        val locationVisitValues = ContentValues().apply {
+            put("id", locationVisit.id)
+            put("date", locationVisit.date.toString())
+            put("fkLocationId", locationVisit.fkLocationId)
+            put("duration", locationVisit.duration?.toMillis())
+            put("circumstances", locationVisit.circumstances)
+        }
+
+        val test = ContactDiaryCoronaTestEntity(
+            id = "123-456-7890",
+            testType = ContactDiaryCoronaTestEntity.TestType.PCR,
+            result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
+            time = Instant.now()
+        )
+        val coronaTestValues = ContentValues().apply {
+            put("id", test.id)
+            put("testType", test.testType.raw)
+            put("result", test.result.raw)
+            put("time", test.time.toString())
+        }
+
+        helper.createDatabase(DB_NAME, 4).apply {
+            insert("locations", SQLiteDatabase.CONFLICT_FAIL, locationValues)
+            insert("locationvisits", SQLiteDatabase.CONFLICT_FAIL, locationVisitValues)
+            insert("corona_tests", SQLiteDatabase.CONFLICT_FAIL, coronaTestValues)
+            close()
+        }
+
+        // Run migration
+        helper.runMigrationsAndValidate(
+            DB_NAME,
+            5,
+            true
+        )
+
+        val daoDb = ContactDiaryDatabase.Factory(
+            ctx = ApplicationProvider.getApplicationContext()
+        ).create(databaseName = DB_NAME)
+
+        runBlocking {
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = location,
+                contactDiaryLocationVisitEntity = locationVisit
+            )
+
+            // Test if new attributes are added correctly
+            daoDb.locationDao().update(locationAfter)
+            daoDb.locationVisitDao().update(locationVisitAfter)
+
+            daoDb.locationVisitDao().allEntries().first().single() shouldBe ContactDiaryLocationVisitWrapper(
+                contactDiaryLocationEntity = locationAfter,
+                contactDiaryLocationVisitEntity = locationVisitAfter
+            )
+
+            daoDb.coronaTestDao().allTests().first().single() shouldBe test
+            daoDb.submissionDao().allSubmissions().first().size shouldBe 0
         }
     }
 

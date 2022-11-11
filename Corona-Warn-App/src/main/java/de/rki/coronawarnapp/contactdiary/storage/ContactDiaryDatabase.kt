@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.contactdiary.storage
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -10,11 +11,13 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDa
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiarySubmissionDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisitEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import de.rki.coronawarnapp.contactdiary.storage.internal.converters.ContactDiaryRoomConverters
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration1To2
 import de.rki.coronawarnapp.contactdiary.storage.internal.migrations.ContactDiaryDatabaseMigration2To3
@@ -29,10 +32,17 @@ import javax.inject.Inject
         ContactDiaryLocationVisitEntity::class,
         ContactDiaryPersonEntity::class,
         ContactDiaryPersonEncounterEntity::class,
-        ContactDiaryCoronaTestEntity::class
+        ContactDiaryCoronaTestEntity::class,
+        ContactDiarySubmissionEntity::class,
     ],
-    version = 4,
-    exportSchema = true
+    version = 5,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(
+            from = 4,
+            to = 5
+        )
+    ]
 )
 @TypeConverters(CommonConverters::class, ContactDiaryRoomConverters::class)
 abstract class ContactDiaryDatabase : RoomDatabase() {
@@ -42,6 +52,7 @@ abstract class ContactDiaryDatabase : RoomDatabase() {
     abstract fun personDao(): ContactDiaryPersonDao
     abstract fun personEncounterDao(): ContactDiaryPersonEncounterDao
     abstract fun coronaTestDao(): ContactDiaryCoronaTestDao
+    abstract fun submissionDao(): ContactDiarySubmissionDao
 
     class Factory @Inject constructor(@AppContext private val ctx: Context) {
         fun create(databaseName: String = CONTACT_DIARY_DATABASE_NAME): ContactDiaryDatabase = Room
