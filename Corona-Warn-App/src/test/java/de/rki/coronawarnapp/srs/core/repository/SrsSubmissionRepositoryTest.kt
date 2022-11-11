@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInsReport
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -55,6 +56,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var deviceAttestation: DeviceAttestation
     @MockK lateinit var srsSubmissionSettings: SrsSubmissionSettings
     @MockK lateinit var androidIdProvider: AndroidIdProvider
+    @MockK lateinit var submissionReporter: SubmissionReporter
     @MockK lateinit var srsDevSettings: SrsDevSettings
 
     @MockK lateinit var attestationContainer: AttestationContainer
@@ -100,6 +102,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { playbook.authorize(any()) } returns Instant.parse("2023-11-07T12:10:10Z")
         coEvery { playbook.submit(any()) } just Runs
         coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
+        coEvery { submissionReporter.reportAt(any()) } just Runs
     }
 
     @Test
@@ -120,7 +123,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
+            submissionReporter.reportAt(any())
         }
     }
 
@@ -146,7 +149,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
+            submissionReporter.reportAt(any())
         }
     }
 
@@ -166,7 +169,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
-            srsSubmissionSettings.setMostRecentSubmissionTime(any())
+            submissionReporter.reportAt(any())
         }
     }
 
@@ -306,6 +309,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         srsSubmissionSettings = srsSubmissionSettings,
         androidIdProvider = androidIdProvider,
         timeStamper = timeStamper,
+        submissionReporter = submissionReporter,
         srsDevSettings = srsDevSettings,
     )
 }

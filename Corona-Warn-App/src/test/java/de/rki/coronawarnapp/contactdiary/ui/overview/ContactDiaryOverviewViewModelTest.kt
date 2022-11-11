@@ -71,6 +71,7 @@ open class ContactDiaryOverviewViewModelTest {
         every { contactDiaryRepository.personEncounters } returns flowOf(emptyList())
         every { contactDiaryRepository.testResults } returns flowOf(emptyList())
         every { contactDiaryRepository.locations } returns flowOf(emptyList())
+        every { contactDiaryRepository.submissions } returns flowOf(emptyList())
         every { contactDiaryRepository.people } returns flowOf(emptyList())
         every { riskLevelStorage.ewDayRiskStates } returns flowOf(emptyList())
         every { riskLevelStorage.traceLocationCheckInRiskStates } returns flowOf(emptyList())

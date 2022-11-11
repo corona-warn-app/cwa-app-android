@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryLocationVisi
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEncounterWrapper
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryPersonEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -81,6 +82,7 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
     private val personEncounterDao = contactDiaryDatabase.personEncounterDao()
     private val locationVisitDao = contactDiaryDatabase.locationVisitDao()
     private val coronaTestsDao = contactDiaryDatabase.coronaTestDao()
+    private val submissionDao = contactDiaryDatabase.submissionDao()
 
     private fun List<ContactDiaryPersonEncounterWrapper>.toContactDiaryPersonEncounterEntityList(): List<ContactDiaryPersonEncounterEntity> =
         this.map { it.contactDiaryPersonEncounterEntity }
@@ -265,6 +267,23 @@ class ContactDiaryDatabaseTest : BaseTestInstrumentation() {
 
         coronaTestsDao.insertTest(newTest)
         coronaTestsFlow.first().containsAll(listOf(coronaTest, newTest)) shouldBe true
+    }
+
+    @Test
+    fun submissions(): Unit = runBlocking {
+        val submissionsFlow = submissionDao.allSubmissions()
+
+        val submissionEntity = ContactDiarySubmissionEntity(
+            submittedAt = Instant.now()
+        )
+        submissionDao.insertSubmission(submissionEntity)
+        submissionsFlow.first().first() shouldBe submissionEntity.copy(id = 1)
+
+        submissionDao.insertSubmission(submissionEntity)
+        submissionsFlow.first().size shouldBe 2
+
+        submissionDao.delete(submissionsFlow.first())
+        submissionsFlow.first().size shouldBe 0
     }
 
     @Test

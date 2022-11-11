@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
-import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -49,7 +49,7 @@ class SubmissionTask @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val coronaTestRepository: CoronaTestRepository,
-    private val srsSubmissionSettings: SrsSubmissionSettings,
+    private val submissionReporter: SubmissionReporter,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -221,7 +221,7 @@ class SubmissionTask @Inject constructor(
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
         setSubmissionFinished(coronaTest.identifier)
-        srsSubmissionSettings.setMostRecentSubmissionTime(timeStamper.nowUTC)
+        submissionReporter.reportAt(timeStamper.nowUTC)
 
         return Result(state = Result.State.SUCCESSFUL)
     }
