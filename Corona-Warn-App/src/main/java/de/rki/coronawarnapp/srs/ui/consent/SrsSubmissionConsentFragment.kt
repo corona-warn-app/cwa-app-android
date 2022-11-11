@@ -2,13 +2,14 @@ package de.rki.coronawarnapp.srs.ui.consent
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsSubmissionConsentBinding
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -79,12 +80,16 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
 
                 SrsSubmissionConsentNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
-                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsCheckinsFragment()
+                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsCheckinsFragment(
+                            SrsSubmissionType.SRS_OTHER
+                        )
                     )
 
                 SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
-                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsSymptomsFragment()
+                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsSymptomsFragment(
+                            SrsSubmissionType.SRS_OTHER
+                        )
                     )
 
                 SrsSubmissionConsentNavigationEvents.NavigateToTestType ->

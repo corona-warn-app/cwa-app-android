@@ -55,4 +55,25 @@
     <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\Wenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">Warnen fortsetzen</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">Nicht warnen</string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">Achtung</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">Sind Sie sicher, dass Sie jetzt andere Personen, mit denen Sie in letzter Zeit Kontakt hatten, warnen wollen?</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">Andere Warnen</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">Abbrechen</string>
+
 </resources>
