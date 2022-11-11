@@ -78,17 +78,6 @@
     <!-- XTXT: Type selection next button text -->
     <string name="type_selection_next_button_text">Weiter</string>
 
-    <!-- Cancel dialog -->
-    <!-- XTXT: SRS cancel dialog title -->
-    <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
-    <!-- XTXT: SRS cancel dialog body -->
-    <string name="srs_cancel_dialog_body">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\nWenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
-    <!-- XTXT: SRS cancel dialog positive button -->
-    <string name="srs_cancel_dialog_positive_button">Warnen fortsetzen</string>
-    <!-- XTXT: TSRS cancel dialog negative button -->
-    <string name="srs_cancel_dialog_negative_button">Nicht warnen</string>
-
-
     <!-- Srs Submission Cancel Dialog -->
     <!-- XHED: Cancel submission dialog title -->
     <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
