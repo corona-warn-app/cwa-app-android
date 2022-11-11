@@ -61,7 +61,7 @@ class SrsLocalChecker @Inject constructor(
             )
             throw SrsSubmissionException(
                 errorCode = ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
-                errorArgs = arrayOf(onboardingInHours.toHours())
+                errorArgs = arrayOf(onboardingInHours.toHours(), onboardingInHours.toHours())
             )
         }
 

@@ -105,15 +105,16 @@ class SrsAuthorizationServer @Inject constructor(
                 .timeBetweenSubmissionsInDays
                 .toDays()
         )
-        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> arrayOf(
-            appConfigProvider
+        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
+            val hours = appConfigProvider
                 .currentConfig
                 .first()
                 .selfReportSubmission
                 .common
                 .timeSinceOnboardingInHours
                 .toHours()
-        )
+            arrayOf(hours, hours)
+        }
         else -> emptyArray()
     }
 

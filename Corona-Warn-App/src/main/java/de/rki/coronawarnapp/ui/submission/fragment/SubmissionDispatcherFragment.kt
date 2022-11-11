@@ -75,8 +75,11 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         }
 
         viewModel.srsError.observe2(this) {
-            // TODO to be finished in Error handling task EXPOSUREAPP-14175
-            displayDialog { setError(it) }
+            displayDialog {
+                setError(it)
+                positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
+                negativeButton(android.R.string.ok)
+            }
         }
     }
 
