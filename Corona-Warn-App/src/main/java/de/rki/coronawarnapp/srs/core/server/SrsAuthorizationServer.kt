@@ -5,6 +5,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import javax.inject.Inject
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.Instant
@@ -30,6 +32,7 @@ class SrsAuthorizationServer @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     private val dispatcherProvider: DispatcherProvider,
     private val srsDevSettings: SrsDevSettings,
+    private val appConfigProvider: AppConfigProvider,
 ) {
     private val api = srsAuthorizationApi.get()
 
@@ -73,7 +76,13 @@ class SrsAuthorizationServer @Inject constructor(
         val bodyResponse = api.authenticate(headers, srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
         return when {
-            response?.errorCode != null -> throw SrsSubmissionException(ErrorCode.fromAuthErrorCode(response.errorCode))
+            response?.errorCode != null -> {
+                val errorCode = ErrorCode.fromAuthErrorCode(response.errorCode)
+                throw SrsSubmissionException(
+                    errorCode = errorCode,
+                    errorArgs = errorArgs(errorCode)
+                )
+            }
             response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
@@ -84,6 +93,29 @@ class SrsAuthorizationServer @Inject constructor(
                 else -> SrsSubmissionException(ErrorCode.SRS_OTP_SERVER_ERROR)
             }
         }
+    }
+
+    private suspend fun errorArgs(errorCode: ErrorCode): Array<Any> = when (errorCode) {
+        ErrorCode.SUBMISSION_TOO_EARLY -> arrayOf(
+            appConfigProvider
+                .currentConfig
+                .first()
+                .selfReportSubmission
+                .common
+                .timeBetweenSubmissionsInDays
+                .toDays()
+        )
+        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
+            val hours = appConfigProvider
+                .currentConfig
+                .first()
+                .selfReportSubmission
+                .common
+                .timeSinceOnboardingInHours
+                .toHours()
+            arrayOf(hours, hours)
+        }
+        else -> emptyArray()
     }
 
     companion object {
