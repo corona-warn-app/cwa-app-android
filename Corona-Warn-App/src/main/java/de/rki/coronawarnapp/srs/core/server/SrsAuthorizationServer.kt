@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
@@ -51,9 +51,9 @@ class SrsAuthorizationServer @Inject constructor(
 
     private suspend fun authoriseRequest(request: SrsAuthorizationRequest): Instant {
         Timber.tag(TAG).d("authorize(request=%s)", request)
-        val srsOtpRequest = SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid.newBuilder()
+        val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
-                SrsOtp.SRSOneTimePassword
+                SRSOneTimePasswordRequestAndroid.SRSOneTimePassword
                     .newBuilder()
                     .setOtp(request.srsOtp.uuid.toString())
                     .setAndroidId(request.androidId)
