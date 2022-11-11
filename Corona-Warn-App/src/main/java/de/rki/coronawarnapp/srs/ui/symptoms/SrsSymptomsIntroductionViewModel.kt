@@ -52,14 +52,14 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
                 submitSRS(Symptoms.Indication.NEGATIVE)
                 // TODO: Implement navigation to ThankYouScreen
                 events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
-                //events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
+                // events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
             }
 
             Symptoms.Indication.NO_INFORMATION -> {
                 submitSRS(Symptoms.Indication.NO_INFORMATION)
                 // TODO: Implement navigation to ThankYouScreen
                 events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
-                //events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
+                // events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
             }
 
             else -> Unit

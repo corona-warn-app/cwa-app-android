@@ -75,7 +75,6 @@ class SrsCheckinsFragment : Fragment(R.layout.check_ins_consent_fragment), AutoI
                         selectedCheckIns = it.selectedCheckIns
                     )
                 )
-
             }
         }
     }
