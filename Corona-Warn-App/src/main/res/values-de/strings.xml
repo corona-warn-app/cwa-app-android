@@ -1216,7 +1216,9 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
+    <string name="submission_done_pcr_validation">"Falls noch nicht geschehen, machen Sie einen PCR-Test, um dieses Testergebnis zu verifizieren."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Ihre Warnung wird dem Kontakt-Tagebuch hinzugefügt."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->
