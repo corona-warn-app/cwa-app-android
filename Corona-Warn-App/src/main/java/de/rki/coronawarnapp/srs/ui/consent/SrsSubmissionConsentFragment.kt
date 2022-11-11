@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.srs.ui.consent
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
@@ -79,14 +80,14 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
                 SrsSubmissionConsentNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
                         SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsCheckinsFragment(
-                            SrsSubmissionType.SRS_OTHER
+                            SrsSubmissionType.SRS_SELF_TEST
                         )
                     )
 
                 SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
                         SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsSymptomsFragment(
-                            SrsSubmissionType.SRS_OTHER
+                            SrsSubmissionType.SRS_SELF_TEST
                         )
                     )
 
