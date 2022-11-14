@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.srs.ui.typeselection
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsTypeSelectionBinding
+import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -28,9 +29,10 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
 
         viewModel.navigation.observe2(this) {
             when (it) {
-                SrsTypeSelectionNavigationEvents.NavigateToCloseDialog -> {
-                    // Common close dialog
+                SrsTypeSelectionNavigationEvents.NavigateToCloseDialog -> showCloseDialog {
+                    viewModel.onCancelConfirmed()
                 }
+
                 SrsTypeSelectionNavigationEvents.NavigateToMainScreen ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections.actionSrsSubmissionTypeSelectionFragmentToMainFragment()
@@ -39,13 +41,13 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
                 is SrsTypeSelectionNavigationEvents.NavigateToShareCheckins ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
-                            .actionSrsSubmissionTypeSelectionFragmentToSrsCheckinsFragment()
+                            .actionSrsSubmissionTypeSelectionFragmentToSrsCheckinsFragment(it.type)
                     )
 
                 is SrsTypeSelectionNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
                         SrsTypeSelectionFragmentDirections
-                            .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment()
+                            .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment(it.type)
                     )
             }
         }

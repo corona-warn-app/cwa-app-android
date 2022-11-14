@@ -78,17 +78,26 @@
     <!-- XTXT: Type selection next button text -->
     <string name="type_selection_next_button_text">Weiter</string>
 
-    <!-- Cancel dialog -->
-    <!-- XTXT: SRS cancel dialog title -->
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
     <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
-    <!-- XTXT: SRS cancel dialog body -->
-    <string name="srs_cancel_dialog_body">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\nWenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
-    <!-- XTXT: SRS cancel dialog positive button -->
-    <string name="srs_cancel_dialog_positive_button">Warnen fortsetzen</string>
-    <!-- XTXT: TSRS cancel dialog negative button -->
-    <string name="srs_cancel_dialog_negative_button">Nicht warnen</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\Wenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">Warnen fortsetzen</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">Nicht warnen</string>
 
-    <!-- Srs Errors-->
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">Achtung</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">Sind Sie sicher, dass Sie jetzt andere Personen, mit denen Sie in letzter Zeit Kontakt hatten, warnen wollen?</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">Andere Warnen</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">Abbrechen</string>
+<!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">Andere warnen nicht möglich</string>
     <!-- XTXT: SRS CALL_HOTLINE error message -->
