@@ -9,6 +9,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.datadonation.survey.SurveySettingsDataStore
 import de.rki.coronawarnapp.main.CwaSettingsDataStore
 import de.rki.coronawarnapp.risk.RiskLevelSettingsDataStore
+import de.rki.coronawarnapp.srs.core.SrsSettingsDataStore
 import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
 import de.rki.coronawarnapp.storage.TestSettingsDataStore
 import de.rki.coronawarnapp.storage.TracingSettingsDataStore
@@ -52,4 +53,8 @@ class TestAndroidModule {
     @CwaSettingsDataStore
     @Provides
     fun provideCwaSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @SrsSettingsDataStore
+    @Provides
+    fun provideSrsSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }
