@@ -82,6 +82,6 @@ class SrsSubmissionException(
 
     override fun toHumanReadableError(context: Context) = HumanReadableError(
         title = context.getString(errorCode.textKey.title),
-        description = context.getString(errorCode.textKey.message, *errorArgs)
+        description = context.getString(errorCode.textKey.message, *errorArgs) + " (${errorCode.code})"
     )
 }
