@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.srs.ui.consent
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -35,6 +36,12 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = viewModel.onConsentCancel()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         keyRetrievalProgress = SubmissionBlockingDialog(requireContext())
 
