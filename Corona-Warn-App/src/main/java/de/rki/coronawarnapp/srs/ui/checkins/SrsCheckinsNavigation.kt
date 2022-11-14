@@ -10,6 +10,26 @@ sealed class SrsCheckinsNavigation {
 
     object GoToHome : SrsCheckinsNavigation()
 
-    data class GoToSymptomSubmission(val type: SrsSubmissionType, val selectedCheckIns: LongArray? = null) :
-        SrsCheckinsNavigation()
+    data class GoToSymptomSubmission(
+        val submissionType: SrsSubmissionType,
+        val selectedCheckIns: LongArray = longArrayOf()
+    ) : SrsCheckinsNavigation() {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as GoToSymptomSubmission
+
+            if (submissionType != other.submissionType) return false
+            if (!selectedCheckIns.contentEquals(other.selectedCheckIns)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = submissionType.hashCode()
+            result = 31 * result + selectedCheckIns.contentHashCode()
+            return result
+        }
+    }
 }

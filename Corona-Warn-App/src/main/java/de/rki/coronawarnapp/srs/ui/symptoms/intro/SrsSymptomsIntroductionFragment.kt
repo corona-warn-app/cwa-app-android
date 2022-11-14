@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.symptoms
+package de.rki.coronawarnapp.srs.ui.symptoms.intro
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
@@ -32,7 +34,7 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
         constructorCall = { factory, _ ->
             factory as SrsSymptomsIntroductionViewModel.Factory
             factory.create(
-                testType = navArgs.testType,
+                submissionType = navArgs.submissionType,
                 selectedCheckIns = navArgs.selectedCheckIns
             )
         }
@@ -65,21 +67,24 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
                     SrsSymptomsIntroductionFragmentDirections.actionSrsSymptomsIntroductionFragmentToMainFragment()
                 )
 
-                SrsSymptomsIntroductionNavigation.GoToThankYouScreen -> {
-                    // TODO: Implement navigation to thank you screen
-                    findNavController().navigate(
-                        SrsSymptomsIntroductionFragmentDirections.actionSrsSymptomsIntroductionFragmentToMainFragment()
-                    )
-                }
+                is SrsSymptomsIntroductionNavigation.GoToThankYouScreen -> findNavController().navigate(
+                    SrsSymptomsIntroductionFragmentDirections
+                        .actionSrsSymptomsIntroductionFragmentToSrsSubmissionDoneFragment(it.submissionType)
+                )
 
                 is SrsSymptomsIntroductionNavigation.GoToSymptomCalendar -> findNavController().navigate(
-                    SrsSymptomsIntroductionFragmentDirections
-                        .actionSrsSymptomsIntroductionFragmentToSrsSymptomsCalendarFragment(
-                            testType = it.testType,
-                            symptomIndication = it.symptomIndication,
-                            selectedCheckIns = it.selectedCheckins
-                        )
+                    SrsSymptomsIntroductionFragmentDirections.actionSrsSymptomsIntroductionFragmentToSrsSymptomsCalendarFragment(
+                        submissionType = it.submissionType,
+                        symptomIndication = it.symptomIndication,
+                        selectedCheckIns = it.selectedCheckins
+                    )
                 )
+
+                is SrsSymptomsIntroductionNavigation.Error -> displayDialog {
+                    setError(it.cause)
+                    positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
+                    negativeButton(android.R.string.ok)
+                }
             }
         }
     }

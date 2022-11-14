@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.symptoms
+package de.rki.coronawarnapp.srs.ui.symptoms.calendar
 
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -22,8 +22,8 @@ import java.time.LocalDate
 class SrsSymptomsCalendarViewModel @AssistedInject constructor(
     private val checkInRepository: CheckInRepository,
     private val srsSubmissionRepository: SrsSubmissionRepository,
-    @Assisted private val testType: SrsSubmissionType,
-    @Assisted private val selectedCheckIns: LongArray?,
+    @Assisted private val submissionType: SrsSubmissionType,
+    @Assisted private val selectedCheckIns: LongArray,
     @Assisted private val symptomsIndication: Symptoms.Indication,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
@@ -52,17 +52,20 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
 
     private fun submitSrs() = launch {
         resetPreviousSubmissionConsents()
-        selectedCheckIns?.let {
-            checkInRepository.updateSubmissionConsents(
-                checkInIds = it.asList(),
-                consent = true
-            )
-        }
-        srsSubmissionRepository.submit(
-            testType,
-            Symptoms(startOfSymptoms = symptomStartInternal.value, symptomIndication = symptomsIndication)
+        checkInRepository.updateSubmissionConsents(
+            checkInIds = selectedCheckIns.asList(),
+            consent = true
         )
-        events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen)
+
+        try {
+            srsSubmissionRepository.submit(
+                submissionType,
+                Symptoms(startOfSymptoms = symptomStartInternal.value, symptomIndication = symptomsIndication)
+            )
+            events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
+        } catch (e: Exception) {
+            events.postValue(SrsSymptomsCalendarNavigation.Error(e))
+        }
     }
 
     fun onDone() {
@@ -115,7 +118,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<SrsSymptomsCalendarViewModel> {
 
         fun create(
-            testType: SrsSubmissionType,
+            submissionType: SrsSubmissionType,
             selectedCheckIns: LongArray?,
             symptomsIndication: Symptoms.Indication
         ): SrsSymptomsCalendarViewModel

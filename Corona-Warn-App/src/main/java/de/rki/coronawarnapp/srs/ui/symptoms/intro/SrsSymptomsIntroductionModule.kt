@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.symptoms
+package de.rki.coronawarnapp.srs.ui.symptoms.intro
 
 import dagger.Binds
 import dagger.Module
@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class SrsSymptomsCalendarModule {
+abstract class SrsSymptomsIntroductionModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(SrsSymptomsCalendarViewModel::class)
-    abstract fun srsSymptomsCalendarViewModel(
-        factory: SrsSymptomsCalendarViewModel.Factory
+    @CWAViewModelKey(SrsSymptomsIntroductionViewModel::class)
+    abstract fun srsSymptionIntroductionViewModel(
+        factory: SrsSymptomsIntroductionViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

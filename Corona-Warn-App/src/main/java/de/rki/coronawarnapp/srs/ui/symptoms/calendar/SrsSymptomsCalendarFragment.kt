@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.symptoms
+package de.rki.coronawarnapp.srs.ui.symptoms.calendar
 
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
 import de.rki.coronawarnapp.submission.Symptoms
+import de.rki.coronawarnapp.ui.dialog.displayDialog
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.formatter.formatSymptomBackgroundButtonStyleByState
 import de.rki.coronawarnapp.util.formatter.formatSymptomButtonTextStyleByState
@@ -32,7 +34,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
         constructorCall = { factory, _ ->
             factory as SrsSymptomsCalendarViewModel.Factory
             factory.create(
-                testType = navArgs.testType,
+                submissionType = navArgs.submissionType,
                 selectedCheckIns = navArgs.selectedCheckIns,
                 symptomsIndication = navArgs.symptomIndication
             )
@@ -75,10 +77,17 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
                     SrsSymptomsCalendarFragmentDirections.actionSrsSymptomsCalendarFragmentToMainFragment()
                 )
 
-                SrsSymptomsCalendarNavigation.GoToThankYouScreen -> findNavController().navigate(
-                    // TODO: Implement navigation to thank you screen
-                    SrsSymptomsCalendarFragmentDirections.actionSrsSymptomsCalendarFragmentToMainFragment()
+                is SrsSymptomsCalendarNavigation.GoToThankYouScreen -> findNavController().navigate(
+                    SrsSymptomsCalendarFragmentDirections.actionSrsSymptomsCalendarFragmentToSrsSubmissionDoneFragment(
+                        it.submissionType
+                    )
                 )
+
+                is SrsSymptomsCalendarNavigation.Error -> displayDialog {
+                    setError(it.cause)
+                    positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
+                    negativeButton(android.R.string.ok)
+                }
             }
         }
     }
