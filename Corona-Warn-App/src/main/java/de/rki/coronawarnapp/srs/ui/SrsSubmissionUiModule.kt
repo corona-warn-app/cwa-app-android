@@ -6,10 +6,10 @@ import de.rki.coronawarnapp.srs.ui.checkins.SrsCheckinsFragment
 import de.rki.coronawarnapp.srs.ui.checkins.SrsCheckinsFragmentModule
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragment
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentModule
-import de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsCalendarFragment
-import de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsCalendarModule
-import de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsIntroductionFragment
-import de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsIntroductionModule
+import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarFragment
+import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarModule
+import de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionFragment
+import de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionModule
 import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragment
 import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragmentModule
 

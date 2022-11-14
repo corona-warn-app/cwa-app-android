@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.srs.ui.checkins
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -23,10 +22,9 @@ import timber.log.Timber
 
 class SrsCheckinsFragmentViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
-    @Assisted private val testType: SrsSubmissionType,
-    private val checkInRepository: CheckInRepository,
-    dispatcherProvider: DispatcherProvider,
-    private val checkInsRepository: CheckInRepository
+    @Assisted private val submissionType: SrsSubmissionType,
+    checkInRepository: CheckInRepository,
+    dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedSetFlow = MutableStateFlow(initialSet())
@@ -39,7 +37,7 @@ class SrsCheckinsFragmentViewModel @AssistedInject constructor(
             add(headerItem(checkIns))
             addAll(mapCheckIns(checkIns, ids))
         }
-    }.asLiveData(context = dispatcherProvider.Default)
+    }.asLiveData2()
 
     val events = SingleLiveEvent<SrsCheckinsNavigation>()
 
@@ -61,12 +59,12 @@ class SrsCheckinsFragmentViewModel @AssistedInject constructor(
     fun onNextClick() {
         Timber.d("onNextClick")
         val idsWithConsent = selectedSetFlow.value
-        events.postValue(SrsCheckinsNavigation.GoToSymptomSubmission(testType, idsWithConsent.toLongArray()))
+        events.postValue(SrsCheckinsNavigation.GoToSymptomSubmission(submissionType, idsWithConsent.toLongArray()))
     }
 
     fun doNotShareCheckIns() {
         Timber.d("doNotShareCheckins")
-        events.postValue(SrsCheckinsNavigation.GoToSymptomSubmission(testType))
+        events.postValue(SrsCheckinsNavigation.GoToSymptomSubmission(submissionType))
     }
 
     private fun headerItem(checkIns: List<CheckIn>) = HeaderCheckInsVH.Item(
@@ -94,7 +92,7 @@ class SrsCheckinsFragmentViewModel @AssistedInject constructor(
                 addAll(selectedSetFlow.value) // Existing Ids
             } else {
                 addAll(
-                    selectedSetFlow.value.toMutableSet().apply { removeAll(ids) }
+                    selectedSetFlow.value.toMutableSet().apply { removeAll(ids.toSet()) }
                 )
             }
         }.also {
@@ -109,7 +107,7 @@ class SrsCheckinsFragmentViewModel @AssistedInject constructor(
 
         fun create(
             savedState: SavedStateHandle,
-            testType: SrsSubmissionType
+            submissionType: SrsSubmissionType
         ): SrsCheckinsFragmentViewModel
     }
 

@@ -33,7 +33,7 @@ class SrsCheckinsFragment : Fragment(R.layout.check_ins_consent_fragment), AutoI
             factory as SrsCheckinsFragmentViewModel.Factory
             factory.create(
                 savedState = savedState,
-                testType = navArgs.testType
+                submissionType = navArgs.submissionType
             )
         }
     )
@@ -71,7 +71,7 @@ class SrsCheckinsFragment : Fragment(R.layout.check_ins_consent_fragment), AutoI
 
                 is SrsCheckinsNavigation.GoToSymptomSubmission -> findNavController().navigate(
                     SrsCheckinsFragmentDirections.actionSrsCheckinsFragmentToSrsSymptomsFragment(
-                        testType = it.type,
+                        submissionType = it.submissionType,
                         selectedCheckIns = it.selectedCheckIns
                     )
                 )

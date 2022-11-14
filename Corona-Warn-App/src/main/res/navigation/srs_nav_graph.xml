@@ -56,7 +56,7 @@
         tools:layout="@layout/check_ins_consent_fragment">
 
         <argument
-            android:name="testType"
+            android:name="submissionType"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
 
         <action
@@ -72,17 +72,16 @@
     </fragment>
     <fragment
         android:id="@+id/srsSymptomsIntroductionFragment"
-        android:name="de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsIntroductionFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionFragment"
         android:label="SrsSymptomsIntroductionFragment"
         tools:layout="@layout/fragment_submission_symptom_intro">
 
         <argument
-            android:name="testType"
+            android:name="submissionType"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
 
         <argument
             android:name="selectedCheckIns"
-            android:defaultValue="@null"
             app:argType="long[]"
             app:nullable="true" />
 
@@ -94,21 +93,25 @@
         <action
             android:id="@+id/action_srsSymptomsIntroductionFragment_to_srsSymptomsCalendarFragment"
             app:destination="@id/srsSymptomsCalendarFragment" />
+        <action
+            android:id="@+id/action_srsSymptomsIntroductionFragment_to_srsSubmissionDoneFragment"
+            app:destination="@id/srsSubmissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
     </fragment>
     <fragment
         android:id="@+id/srsSymptomsCalendarFragment"
-        android:name="de.rki.coronawarnapp.srs.ui.symptoms.SrsSymptomsCalendarFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarFragment"
         android:label="SrsSymptomsCalendarFragment"
         tools:layout="@layout/fragment_submission_symptom_calendar">
 
         <argument
-            android:name="testType"
+            android:name="submissionType"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
 
         <argument
             android:name="selectedCheckIns"
-            android:defaultValue="@null"
             app:argType="long[]"
             app:nullable="true" />
 
@@ -121,6 +124,20 @@
             app:destination="@id/status_nav_graph"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_srsSymptomsCalendarFragment_to_srsSubmissionDoneFragment"
+            app:destination="@id/srsSubmissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/srsSubmissionDoneFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.done.SrsSubmissionDoneFragment"
+        android:label="SrsSubmissionDoneFragment"
+        tools:layout="@layout/fragment_submission_done">
+        <argument
+            android:name="submissionType"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
     </fragment>
 </navigation>

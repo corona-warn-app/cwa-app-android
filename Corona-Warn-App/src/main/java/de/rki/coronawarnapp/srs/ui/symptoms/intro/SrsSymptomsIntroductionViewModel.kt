@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.srs.ui.symptoms
+package de.rki.coronawarnapp.srs.ui.symptoms.intro
 
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
@@ -20,8 +20,8 @@ import timber.log.Timber
 class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     private val checkInRepository: CheckInRepository,
     private val srsSubmissionRepository: SrsSubmissionRepository,
-    @Assisted private val testType: SrsSubmissionType,
-    @Assisted private val selectedCheckIns: LongArray?,
+    @Assisted private val submissionType: SrsSubmissionType,
+    @Assisted private val selectedCheckIns: LongArray,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -35,7 +35,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             Symptoms.Indication.POSITIVE -> {
                 events.postValue(
                     SrsSymptomsIntroductionNavigation.GoToSymptomCalendar(
-                        testType = testType,
+                        submissionType = submissionType,
                         selectedCheckins = selectedCheckIns,
                         symptomIndication = Symptoms.Indication.POSITIVE
                     )
@@ -50,16 +50,10 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
         when (symptomIndication.value) {
             Symptoms.Indication.NEGATIVE -> {
                 submitSRS(Symptoms.Indication.NEGATIVE)
-                // TODO: Implement navigation to ThankYouScreen
-                events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
-                // events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
             }
 
             Symptoms.Indication.NO_INFORMATION -> {
                 submitSRS(Symptoms.Indication.NO_INFORMATION)
-                // TODO: Implement navigation to ThankYouScreen
-                events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
-                // events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
             }
 
             else -> Unit
@@ -69,17 +63,20 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     private fun submitSRS(symptomsIndication: Symptoms.Indication) = launch {
         Timber.d("Submit SRS")
         resetPreviousSubmissionConsents()
-        selectedCheckIns?.let {
-            checkInRepository.updateSubmissionConsents(
-                checkInIds = it.asList(),
-                consent = true
-            )
-        }
-
-        srsSubmissionRepository.submit(
-            testType,
-            Symptoms(startOfSymptoms = null, symptomIndication = symptomsIndication)
+        checkInRepository.updateSubmissionConsents(
+            checkInIds = selectedCheckIns.asList(),
+            consent = true
         )
+
+        try {
+            srsSubmissionRepository.submit(
+                submissionType,
+                Symptoms(startOfSymptoms = null, symptomIndication = symptomsIndication)
+            )
+            events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
+        } catch (e: Exception) {
+            events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+        }
     }
 
     fun onPositiveSymptomIndication() = updateSymptomIndication(Symptoms.Indication.POSITIVE)
@@ -118,7 +115,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<SrsSymptomsIntroductionViewModel> {
 
         fun create(
-            testType: SrsSubmissionType,
+            submissionType: SrsSubmissionType,
             selectedCheckIns: LongArray?
         ): SrsSymptomsIntroductionViewModel
     }
