@@ -34,7 +34,7 @@
     <!-- XHED: Submission consent headline -->
     <string name="srs_submission_consent_headline_text">Andere warnen</string>
     <!-- XHED: Submission consent disclaimer sub headline -->
-    <string name="srs_submission_consent_disclaimer_subheadline_text">Bevor Sie andere warnen können, ist ihr Einverständnis erforderlich.</string>
+    <string name="srs_submission_consent_disclaimer_subheadline_text">Bevor Sie andere warnen können, ist Ihr Einverständnis erforderlich.</string>
     <!-- XTXT: Submission consent section warn consent -->
     <string name="srs_section_warn_consent_text">Sie bestätigen hiermit, dass Sie persönlich durch einen Selbsttest oder von einer Teststelle positiv getestet wurden. Sie können hier nicht in Vertretung von Familienmitgliedern warnen.</string>
     <!-- XTXT: Submission consent section warn interval -->
