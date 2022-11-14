@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
-import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import io.kotest.matchers.shouldBe
@@ -9,7 +8,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -30,11 +28,6 @@ class OtpCensorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { srsSubmissionSettings.getOtp() } returns srsOtp
-    }
-
-    @AfterEach
-    fun teardown() {
-        PcrQrCodeCensor.lastGUID = null
     }
 
     private fun createInstance() = OtpCensor(
