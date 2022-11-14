@@ -7,7 +7,7 @@
         android:id="@+id/dispatcher_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grey_card_ripple"
+        android:background="@drawable/dispatcher_card_background"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="parent">
 
