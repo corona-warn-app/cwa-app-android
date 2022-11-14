@@ -87,7 +87,7 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
                 SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
                         SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsSymptomsFragment(
-                           submissionType= SrsSubmissionType.SRS_SELF_TEST,
+                            submissionType = SrsSubmissionType.SRS_SELF_TEST,
                             selectedCheckIns = longArrayOf()
 
                         )

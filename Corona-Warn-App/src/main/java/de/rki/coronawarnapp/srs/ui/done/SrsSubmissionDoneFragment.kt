@@ -29,7 +29,7 @@ class SrsSubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
 
             submissionDoneButtonDone.setOnClickListener { popBackStack() }
             submissionDoneContent.submissionDoneContent.submissionDonePcrValidation.root.isVisible = true // TODO
-            submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible = true// TODO
+            submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible = true // TODO
         }
     }
 
