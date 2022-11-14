@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.appconfig.mapping.ExposureWindowRiskCalculationConfi
 import de.rki.coronawarnapp.appconfig.mapping.KeyDownloadParametersMapper
 import de.rki.coronawarnapp.appconfig.mapping.LogUploadConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.PresenceTracingConfigMapper
+import de.rki.coronawarnapp.appconfig.mapping.SelfReportSubmissionConfigMapper
 import de.rki.coronawarnapp.appconfig.mapping.SurveyConfigMapper
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -103,6 +104,11 @@ object AppConfigModule {
 
         @Binds
         fun covidCertificateConfigMapper(mapper: CovidCertificateConfigMapper): CovidCertificateConfig.Mapper
+
+        @Binds
+        fun selfReportSubmissionConfigMapper(
+            mapper: SelfReportSubmissionConfigMapper
+        ): SelfReportSubmissionConfig.Mapper
     }
 }
 

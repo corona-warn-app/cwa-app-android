@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".srs.ui.consent.SrsSubmissionConsentFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/submission_positive_other_privacy_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface"
+        android:contentDescription="@string/srs_submission_consent_header"
+        android:fillViewport="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/srs_submission_consent_header" />
+
+        <ScrollView
+            android:id="@+id/content_scrollcontainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/guideline_action"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/spacing_normal">
+
+                <ImageView
+                    android:id="@+id/ic_srs_submission_consent_hero_illustration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/submission_test_result_available_illustration_description"
+                    android:scaleType="fitXY"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_test_result_illustration_result_available" />
+
+                <TextView
+                    android:id="@+id/srs_submission_consent_headline"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/srs_submission_consent_headline_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/ic_srs_submission_consent_hero_illustration" />
+
+                <TextView
+                    android:id="@+id/srs_submission_consent_disclaimer_subheadline"
+                    style="@style/boldSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/srs_submission_consent_disclaimer_subheadline_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_headline" />
+
+                <ImageView
+                    android:id="@+id/srs_section_warn_consent_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_disclaimer_subheadline"
+                    app:srcCompat="@drawable/ic_srs_virus" />
+
+                <TextView
+                    android:id="@+id/srs_section_warn_consent"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/srs_section_warn_consent_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/srs_section_warn_consent_image"
+                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_consent_image" />
+
+                <ImageView
+                    android:id="@+id/srs_section_warn_interval_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_section_warn_consent"
+                    app:srcCompat="@drawable/ic_srs_clock" />
+
+                <TextView
+                    android:id="@+id/srs_section_warn_interval"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/srs_section_warn_interval_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/srs_section_warn_interval_image"
+                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image" />
+
+                <ImageView
+                    android:id="@+id/srs_section_not_official_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_section_warn_interval"
+                    app:srcCompat="@drawable/ic_srs_not_official" />
+
+                <TextView
+                    android:id="@+id/srs_section_not_official"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/srs_section_not_official_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@id/srs_section_not_official_image"
+                    app:layout_constraintTop_toTopOf="@id/srs_section_not_official_image" />
+
+                <TextView
+                    android:id="@+id/srs_help_others_headline"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/srs_help_others_headline_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_section_not_official" />
+
+                <TextView
+                    android:id="@+id/srs_help_others_positive_test"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/srs_help_others_positive_test_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_headline" />
+
+                <TextView
+                    android:id="@+id/srs_help_others_warn_other_users"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:focusable="true"
+                    android:text="@string/srs_help_others_warn_other_users_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_positive_test" />
+
+
+                <include
+                    android:id="@+id/srs_privacy_card"
+                    layout="@layout/include_srs_privacy_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_warn_other_users" />
+
+                <TextView
+                    android:id="@+id/srs_next_step_submission"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
+                    android:text="@string/srs_next_step_submission_text"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_privacy_card" />
+
+
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
+                    android:id="@+id/srs_submission_consent_more_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_next_step_submission"
+                    app:titleText="@string/submission_consent_main_bottom_body" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/spacing_normal" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/spacing_normal" />
+
+                <include layout="@layout/merge_guidelines_card" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/srs_submission_consent_accept_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_accept_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/guideline_action" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

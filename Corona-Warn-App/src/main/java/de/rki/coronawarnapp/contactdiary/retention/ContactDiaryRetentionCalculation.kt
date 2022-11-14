@@ -72,6 +72,16 @@ class ContactDiaryRetentionCalculation @Inject constructor(
             }
     }
 
+    suspend fun clearObsoleteSubmissions() {
+        repository.submissions.first()
+            .also { Timber.d("Contact Diary Submissions total count: %d", it.size) }
+            .filter { isOutOfRetention(it.submittedAt.toLocalDateUtc()) }
+            .also {
+                Timber.d("Contact Diary Submissions to be deleted: %d", it.size)
+                repository.deleteSubmissions(it)
+            }
+    }
+
     companion object {
         /**
          * Contact diary data retention in days 15+1

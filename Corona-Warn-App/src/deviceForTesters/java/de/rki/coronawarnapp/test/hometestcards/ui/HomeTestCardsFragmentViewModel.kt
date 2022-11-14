@@ -21,9 +21,9 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestResultItem
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -38,7 +38,7 @@ class HomeTestCardsFragmentViewModel @AssistedInject constructor(
 
     private val cards: Flow<List<TestResultItem>> = flowOf(
         listOf(
-            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {},
+            RegisterTestCard.Item(SubmissionStatePCR.NoTest) {},
             TestFetchingCard.Item(SubmissionStatePCR.FetchingResult),
             PcrTestPendingCard.Item(SubmissionStatePCR.TestPending) {},
             PcrTestReadyCard.Item(SubmissionStatePCR.TestResultReady) {},

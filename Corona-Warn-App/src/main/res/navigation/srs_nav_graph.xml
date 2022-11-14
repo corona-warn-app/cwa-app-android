@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srs_nav_graph"
+    app:startDestination="@id/srsSubmissionConsentFragment">
+
+    <fragment
+        android:id="@+id/srsSubmissionConsentFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragment"
+        android:label="fragment_srs_submission_consent"
+        tools:layout="@layout/fragment_srs_submission_consent">
+        <argument
+            android:name="openTypeSelection"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsSubmissionTypeSelectionFragment"
+            app:destination="@id/srsSubmissionTypeSelectionFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsCheckinsFragment"
+            app:destination="@id/srsCheckinsFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsIntroductionFragment" />
+        <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/srsSubmissionTypeSelectionFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragment"
+        android:label="SrsSubmissionTypeSelectionFragment"
+        tools:layout="@layout/fragment_srs_type_selection">
+
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsCheckinsFragment"
+            app:destination="@id/srsCheckinsFragment" />
+
+        <action
+            android:id="@+id/action_srsSubmissionTypeSelectionFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsIntroductionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/srsCheckinsFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.checkins.SrsCheckinsFragment"
+        android:label="SrsCheckinsFragment"
+        tools:layout="@layout/check_ins_consent_fragment">
+
+        <argument
+            android:name="submissionType"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
+
+        <action
+            android:id="@+id/action_SrsCheckInsFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_srsCheckinsFragment_to_srsSymptomsFragment"
+            app:destination="@id/srsSymptomsIntroductionFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/srsSymptomsIntroductionFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionFragment"
+        android:label="SrsSymptomsIntroductionFragment"
+        tools:layout="@layout/fragment_submission_symptom_intro">
+
+        <argument
+            android:name="submissionType"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
+
+        <argument
+            android:name="selectedCheckIns"
+            app:argType="long[]"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_SrsSymptomsIntroductionFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_srsSymptomsIntroductionFragment_to_srsSymptomsCalendarFragment"
+            app:destination="@id/srsSymptomsCalendarFragment" />
+        <action
+            android:id="@+id/action_srsSymptomsIntroductionFragment_to_srsSubmissionDoneFragment"
+            app:destination="@id/srsSubmissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/srsSymptomsCalendarFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarFragment"
+        android:label="SrsSymptomsCalendarFragment"
+        tools:layout="@layout/fragment_submission_symptom_calendar">
+
+        <argument
+            android:name="submissionType"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
+
+        <argument
+            android:name="selectedCheckIns"
+            app:argType="long[]"
+            app:nullable="true" />
+
+        <argument
+            android:name="symptomIndication"
+            app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
+
+        <action
+            android:id="@+id/action_SrsSymptomsCalendarFragment_to_mainFragment"
+            app:destination="@id/status_nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_srsSymptomsCalendarFragment_to_srsSubmissionDoneFragment"
+            app:destination="@id/srsSubmissionDoneFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/srsSubmissionDoneFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.done.SrsSubmissionDoneFragment"
+        android:label="SrsSubmissionDoneFragment"
+        tools:layout="@layout/fragment_submission_done">
+        <argument
+            android:name="submissionType"
+            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
+    </fragment>
+</navigation>

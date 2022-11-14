@@ -10,6 +10,8 @@ import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDispatcherBinding
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentArgs
+import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentArgs
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -61,14 +63,28 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
                 }
+                is SubmissionNavigationEvents.NavigateToSelfTestConsentScreen -> {
+                    findNavController().navigate(
+                        R.id.srs_nav_graph,
+                        SrsSubmissionConsentFragmentArgs(it.positiveNoAnswer).toBundle()
+                    )
+                }
 
                 else -> Unit
+            }
+        }
+
+        viewModel.srsError.observe2(this) {
+            displayDialog {
+                setError(it)
+                positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
+                negativeButton(android.R.string.ok)
             }
         }
     }
 
     private fun openUniversalScanner() {
-        val dispatcherCard = binding.submissionDispatcherQr.dispatcherCard.apply {
+        val dispatcherCard = binding.submissionDispatcherQr.apply {
             transitionName = "shared_element_container"
         }
         val args = QrCodeScannerFragmentArgs(comesFromDispatcherFragment = true).toBundle()
@@ -88,21 +104,13 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     private fun setButtonOnClickListener() {
         binding.apply {
             toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-            submissionDispatcherQr.dispatcherCard.setOnClickListener {
-                viewModel.onQRCodePressed()
-            }
-            submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
-                viewModel.onTanPressed()
-            }
-            submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-                viewModel.onTeleTanPressed()
-            }
-            submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
-                viewModel.onTestCenterPressed()
-            }
-            profileCard.dispatcherCard.setOnClickListener {
-                viewModel.onProfilePressed()
-            }
+            srsSelfTest.setOnClickListener { viewModel.onSrsTileClicked() }
+            positiveSelfTest.setOnClickListener { viewModel.onSrsTileClicked(positiveNoAnswer = true) }
+            submissionDispatcherQr.setOnClickListener { viewModel.onQRCodePressed() }
+            submissionDispatcherTanCode.setOnClickListener { viewModel.onTanPressed() }
+            submissionDispatcherTanTele.setOnClickListener { viewModel.onTeleTanPressed() }
+            submissionDispatcherTestCenter.setOnClickListener { viewModel.onTestCenterPressed() }
+            profileCard.setOnClickListener { viewModel.onProfilePressed() }
         }
     }
 }

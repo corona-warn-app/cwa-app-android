@@ -25,6 +25,8 @@ import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
+import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentTestModule
+import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditPersonsFragmentTestModule
@@ -63,6 +65,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestNegativeModule
 import de.rki.coronawarnapp.ui.submission.SubmissionYourConsentFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentTestModule
+import de.rki.coronawarnapp.ui.submission.submissiondone.SubmissionDoneFragmentTestModule
 import de.rki.coronawarnapp.ui.tracing.TracingDetailsFragmentTestTestModule
 import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModule
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -96,6 +99,9 @@ import kotlinx.coroutines.test.TestScope
         SubmissionConsentFragmentTestModule::class,
         SubmissionYourConsentFragmentTestModule::class,
         SubmissionSymptomCalendarFragmentTestModule::class,
+        SrsSubmissionConsentFragmentTestModule::class,
+        SrsTypeSelectionFragmentTestModule::class,
+        SubmissionDoneFragmentTestModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,

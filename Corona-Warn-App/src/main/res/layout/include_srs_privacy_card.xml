@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/srs_privacy_card_title"
+            app:layout_constraintBottom_toBottomOf="@id/third_bulletpoint"
+            style="@style/GreyCard" />
+
+        <TextView
+            android:id="@+id/srs_privacy_card_title"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_medium"
+            android:text="@string/srs_privacy_card_title_text"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/srs_privacy_card_subtitle"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/srs_privacy_card_subtitle_text"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/srs_privacy_card_title" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/first_bulletpoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/srs_privacy_card_subtitle"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start">
+
+            <include layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_title"/>
+
+            <TextView
+                android:id="@+id/first_bulletpoint_title"
+                style="@style/boldSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/bullet_point"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/srs_privacy_card_first_bulletpoint_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/second_bulletpoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/first_bulletpoint"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start">
+
+            <include layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_title"/>
+
+            <TextView
+                android:id="@+id/second_bulletpoint_title"
+                style="@style/boldSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/bullet_point"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/srs_privacy_card_second_bulletpoint_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/third_bulletpoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/second_bulletpoint"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start">
+
+            <include layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_title"/>
+
+            <TextView
+                android:id="@+id/third_bulletpoint_title"
+                style="@style/boldSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/bullet_point"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/srs_privacy_card_third_bulletpoint_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/srs_submission_consent_main_first_point"
+            layout="@layout/view_bullet_point_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:itemText="@{@string/srs_submission_consent_first_bulletpoint_text}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/third_bulletpoint" />
+
+        <include
+            android:id="@+id/srs_submission_consent_main_second_point"
+            layout="@layout/view_bullet_point_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            app:itemText="@{@string/srs_submission_consent_second_bulletpoint_text}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_main_first_point" />
+
+        <include
+            android:id="@+id/srs_submission_consent_main_third_point"
+            layout="@layout/view_bullet_point_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            app:itemText="@{@string/srs_submission_consent_third_bulletpoint_text}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_main_second_point" />
+
+        <include layout="@layout/merge_guidelines_side" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

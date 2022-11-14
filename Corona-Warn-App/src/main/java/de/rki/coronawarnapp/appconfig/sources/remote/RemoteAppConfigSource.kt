@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.RemoteAppConfigCache
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
 import de.rki.coronawarnapp.appconfig.mapping.ConfigParser
 import de.rki.coronawarnapp.appconfig.sources.local.AppConfigStorage
+import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
@@ -18,7 +19,8 @@ class RemoteAppConfigSource @Inject constructor(
     @RemoteAppConfigCache private val remoteCache: Cache,
     private val storage: AppConfigStorage,
     private val parser: ConfigParser,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val srsDevSettings: SrsDevSettings,
 ) {
 
     suspend fun getConfigData(): ConfigData? = withContext(dispatcherProvider.IO) {
@@ -41,7 +43,8 @@ class RemoteAppConfigSource @Inject constructor(
                     localOffset = configDownload.localOffset,
                     identifier = configDownload.etag,
                     configType = ConfigData.Type.FROM_SERVER,
-                    cacheValidity = configDownload.cacheValidity
+                    cacheValidity = configDownload.cacheValidity,
+                    devDeviceTimeDeviceState = srsDevSettings.deviceTimeState(),
                 )
             }
         } catch (e: Exception) {
