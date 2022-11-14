@@ -73,11 +73,12 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
                 )
 
                 is SrsSymptomsIntroductionNavigation.GoToSymptomCalendar -> findNavController().navigate(
-                    SrsSymptomsIntroductionFragmentDirections.actionSrsSymptomsIntroductionFragmentToSrsSymptomsCalendarFragment(
-                        submissionType = it.submissionType,
-                        symptomIndication = it.symptomIndication,
-                        selectedCheckIns = it.selectedCheckins
-                    )
+                    SrsSymptomsIntroductionFragmentDirections
+                        .actionSrsSymptomsIntroductionFragmentToSrsSymptomsCalendarFragment(
+                            submissionType = it.submissionType,
+                            symptomIndication = it.symptomIndication,
+                            selectedCheckIns = it.selectedCheckins
+                        )
                 )
 
                 is SrsSymptomsIntroductionNavigation.Error -> displayDialog {

@@ -46,10 +46,11 @@ class SrsTypeSelectionFragment : Fragment(R.layout.fragment_srs_type_selection),
 
                 is SrsTypeSelectionNavigationEvents.NavigateToShareSymptoms ->
                     findNavController().navigate(
-                        SrsTypeSelectionFragmentDirections.actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment(
-                            submissionType = it.type,
-                            selectedCheckIns = longArrayOf()
-                        )
+                        SrsTypeSelectionFragmentDirections
+                            .actionSrsSubmissionTypeSelectionFragmentToSrsSymptomsFragment(
+                                submissionType = it.type,
+                                selectedCheckIns = longArrayOf()
+                            )
                     )
             }
         }
