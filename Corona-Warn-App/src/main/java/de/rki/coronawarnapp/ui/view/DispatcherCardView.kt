@@ -41,7 +41,7 @@ class DispatcherCardView @JvmOverloads constructor(
             binding.dispatcherCardIcon.setImageDrawable(topIcon)
             val cardBackground = getDrawable(
                 context,
-                getResourceId(R.styleable.DispatcherCardView_cardBackground, R.drawable.grey_card_ripple)
+                getResourceId(R.styleable.DispatcherCardView_cardBackground, R.drawable.dispatcher_card_background)
             )
             val textColor = getColor(
                 R.styleable.DispatcherCardView_colorForText,
