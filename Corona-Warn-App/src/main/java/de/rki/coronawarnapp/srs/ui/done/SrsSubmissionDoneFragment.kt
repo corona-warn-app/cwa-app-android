@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
 class SrsSubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
@@ -23,15 +24,10 @@ class SrsSubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
             toolbar.apply {
                 navigationIcon = context.getDrawableCompat(R.drawable.ic_close)
                 navigationContentDescription = getString(R.string.accessibility_close)
-                setNavigationOnClickListener {
-                    // TODO
-                }
+                setNavigationOnClickListener { popBackStack() }
             }
 
-            submissionDoneButtonDone.setOnClickListener {
-                // TODO
-            }
-
+            submissionDoneButtonDone.setOnClickListener { popBackStack() }
             submissionDoneContent.submissionDoneContent.submissionDonePcrValidation.root.isVisible = true // TODO
             submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible = true// TODO
         }

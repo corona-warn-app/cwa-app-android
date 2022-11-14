@@ -96,8 +96,8 @@
         <action
             android:id="@+id/action_srsSymptomsIntroductionFragment_to_srsSubmissionDoneFragment"
             app:destination="@id/srsSubmissionDoneFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
     </fragment>
     <fragment
@@ -127,8 +127,8 @@
         <action
             android:id="@+id/action_srsSymptomsCalendarFragment_to_srsSubmissionDoneFragment"
             app:destination="@id/srsSubmissionDoneFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
 
     </fragment>
     <fragment
