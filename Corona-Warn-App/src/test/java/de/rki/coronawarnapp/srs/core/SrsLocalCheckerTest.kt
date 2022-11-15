@@ -71,7 +71,7 @@ internal class SrsLocalCheckerTest : BaseTest() {
         every { cwaSettings.firstReliableDeviceTime } returns flowOf(Instant.parse("2022-11-02T10:01:22Z"))
         shouldThrow<SrsSubmissionException> {
             instance().check()
-        }.errorCode shouldBe SrsSubmissionException.ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED
+        }.errorCode shouldBe SrsSubmissionException.ErrorCode.MIN_TIME_SINCE_ONBOARDING
     }
 
     @Test

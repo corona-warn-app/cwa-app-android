@@ -140,7 +140,8 @@ class SrsAuthorizationServer @Inject constructor(
                 .toDays()
         )
 
-        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
+        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
+        ErrorCode.MIN_TIME_SINCE_ONBOARDING -> {
             val hours = appConfigProvider
                 .currentConfig
                 .first()
