@@ -9,11 +9,13 @@ import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -73,6 +75,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     fun `force accept android id - on`() = runTest {
         val headers = mapOf(
             "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "0",
             "cwa-ppac-android-accept-android-id" to "1"
         )
         coEvery { srsDevSettings.forceAndroidIdAcceptance() } returns true
@@ -82,9 +85,39 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     @Test
     fun `force accept android id - off`() = runTest {
-        val headers = mapOf("Content-Type" to "application/x-protobuf")
+        val headers = mapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "0"
+        )
         instance().authorize(request) shouldBe "2023-05-16T08:34:00+00:00".toInstant()
         coVerify { srsAuthorizationApi.authenticate(headers, any()) }
+    }
+
+    @Test
+    fun `fake srs auth`() = runTest {
+        val headers = mapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "1"
+        )
+        val fakeRequest = SrsAuthorizationFakeRequest(
+            salt = "",
+            safetyNetJws = ""
+        )
+        instance().fakeAuthorize(fakeRequest)
+        coVerify { srsAuthorizationApi.authenticate(headers, any()) }
+    }
+
+    @Test
+    fun `fake srs auth should not throw any error`() = runTest {
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } throws Exception("Surprise!")
+        val fakeRequest = SrsAuthorizationFakeRequest(
+            salt = "",
+            safetyNetJws = ""
+        )
+
+        shouldNotThrowAny {
+            instance().fakeAuthorize(fakeRequest)
+        }
     }
 
     @Test
