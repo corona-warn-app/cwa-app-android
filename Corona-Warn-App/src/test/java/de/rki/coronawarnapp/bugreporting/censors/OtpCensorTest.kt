@@ -37,7 +37,7 @@ class OtpCensorTest : BaseTest() {
         val instance = createInstance()
         val censored = "This is the very secret otp: ${srsOtp.uuid}"
         instance.checkLog(censored)!!
-            .compile()!!.censored shouldBe "This is the very secret otp: ########-####-####-####-########"
+            .compile()!!.censored shouldBe "This is the very secret otp: ${OtpCensor.OTP_MASK}"
     }
 
     @Test
@@ -46,6 +46,6 @@ class OtpCensorTest : BaseTest() {
         val instance = createInstance()
         val censored = "This is the expiration date of the secret otp: ${srsOtp.expiresAt}"
         instance.checkLog(censored)!!
-            .compile()!!.censored shouldBe "This is the expiration date of the secret otp: SrsOtp/expiresAt"
+            .compile()!!.censored shouldBe "This is the expiration date of the secret otp: ${OtpCensor.DATE_MASK}"
     }
 }

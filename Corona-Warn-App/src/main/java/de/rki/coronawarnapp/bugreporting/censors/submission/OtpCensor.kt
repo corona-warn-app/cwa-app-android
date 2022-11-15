@@ -12,11 +12,11 @@ class OtpCensor @Inject constructor() : BugCensor {
         var container = BugCensor.CensorContainer(message)
 
         otp?.uuid?.let {
-            container = container.censor(it.toString(), "########-####-####-####-########")
+            container = container.censor(it.toString(), OTP_MASK)
         }
 
         otp?.expiresAt?.toString()?.let {
-            container = container.censor(it, "SrsOtp/expiresAt")
+            container = container.censor(it, DATE_MASK)
         }
 
         return container.nullIfEmpty()
@@ -24,5 +24,7 @@ class OtpCensor @Inject constructor() : BugCensor {
 
     companion object {
         var otp: SrsOtp? = null
+        const val OTP_MASK = "########-####-####-####-########"
+        const val DATE_MASK = "SrsOtp/expiresAt"
     }
 }
