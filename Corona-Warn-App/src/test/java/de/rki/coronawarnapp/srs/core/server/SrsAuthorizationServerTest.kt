@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfigContainer
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
@@ -34,6 +35,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.toInstant
 import java.time.DateTimeException
+import java.util.UUID
 import kotlin.random.Random
 
 internal class SrsAuthorizationServerTest : BaseTest() {
@@ -46,7 +48,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     private val request = SrsAuthorizationRequest(
         srsOtp = SrsOtp(),
-        safetyNetJws = "wwrr",
+        safetyNetJws = "safetyNetJws",
         salt = "salt",
         androidId = ByteString.EMPTY
     )
@@ -54,13 +56,32 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
-            """
-             {
-               "expirationDate": "2023-05-16T08:34:00+00:00"
-             }
-            """.trimIndent().toResponseBody()
-        )
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } answers {
+            args[0] shouldBe mapOf(
+                "Content-Type" to "application/x-protobuf",
+                "cwa-fake" to "0"
+            )
+
+            val body = args[1]
+            body.shouldBeInstanceOf<SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid>()
+            body.authentication.apply {
+                salt shouldBe "salt"
+                safetyNetJws shouldBe "safetyNetJws"
+            }
+
+            body.payload.apply {
+                androidId shouldBe ByteString.EMPTY
+                shouldNotThrowAny { UUID.fromString(otp) }
+            }
+
+            Response.success(
+                """
+                    {
+                      "expirationDate": "2023-05-16T08:34:00+00:00"
+                    }
+                """.trimIndent().toResponseBody()
+            )
+        }
         coEvery { srsDevSettings.forceAndroidIdAcceptance() } returns false
         every { configData.selfReportSubmission } returns SelfReportSubmissionConfigContainer.DEFAULT
         every { appConfigProvider.currentConfig } returns flowOf(configData)
@@ -73,6 +94,13 @@ internal class SrsAuthorizationServerTest : BaseTest() {
 
     @Test
     fun `force accept android id - on`() = runTest {
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
+            """
+             {
+               "expirationDate": "2023-05-16T08:34:00+00:00"
+             }
+            """.trimIndent().toResponseBody()
+        )
         val headers = mapOf(
             "Content-Type" to "application/x-protobuf",
             "cwa-fake" to "0",
@@ -105,6 +133,30 @@ internal class SrsAuthorizationServerTest : BaseTest() {
         )
         instance().fakeAuthorize(fakeRequest)
         coVerify { srsAuthorizationApi.authenticate(headers, any()) }
+    }
+
+    @Test
+    fun `fake srs auth body`() = runTest {
+        coEvery { srsAuthorizationApi.authenticate(any(), any()) } answers {
+            args[0] shouldBe mapOf(
+                "Content-Type" to "application/x-protobuf",
+                "cwa-fake" to "1"
+            )
+
+            val body = args[1]
+            body.shouldBeInstanceOf<SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid>()
+            body.authentication.safetyNetJws shouldBe "safetyNetJws"
+            body.authentication.salt shouldBe "salt"
+            body.hasPayload() shouldBe false
+
+            Response.success("".toResponseBody())
+        }
+
+        val fakeRequest = SrsAuthorizationFakeRequest(
+            salt = "salt",
+            safetyNetJws = "safetyNetJws"
+        )
+        instance().fakeAuthorize(fakeRequest)
     }
 
     @Test
