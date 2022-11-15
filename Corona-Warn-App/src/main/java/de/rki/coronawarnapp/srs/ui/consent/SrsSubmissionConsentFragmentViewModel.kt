@@ -29,26 +29,11 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val event = SingleLiveEvent<SrsSubmissionConsentNavigationEvents>()
+
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
             override fun onTEKAvailable(teks: List<TemporaryExposureKey>) = launch {
-                Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
-                showKeysRetrievalProgress.postValue(false)
-
-                if (openTypeSelection) {
-                    Timber.tag(TAG).d("Navigate to TestType")
-                    event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToTestType)
-                } else {
-                    val completedCheckInsExist = checkInRepository.completedCheckIns.first().isNotEmpty()
-                    val navDirections = if (completedCheckInsExist) {
-                        Timber.tag(TAG).d("Navigate to ShareCheckins")
-                        SrsSubmissionConsentNavigationEvents.NavigateToShareCheckins
-                    } else {
-                        Timber.tag(TAG).d("Navigate to ShareSymptoms")
-                        SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms
-                    }
-                    event.postValue(navDirections)
-                }
+                onTekAvailable(teks)
             }
 
             override fun onTEKPermissionDeclined() {
@@ -79,6 +64,26 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
             }
         }
     )
+
+    suspend fun onTekAvailable(teks: List<TemporaryExposureKey>) {
+        Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
+        showKeysRetrievalProgress.postValue(false)
+
+        if (openTypeSelection) {
+            Timber.tag(TAG).d("Navigate to TestType")
+            event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToTestType)
+        } else {
+            val completedCheckInsExist = checkInRepository.completedCheckIns.first().isNotEmpty()
+            val navDirections = if (completedCheckInsExist) {
+                Timber.tag(TAG).d("Navigate to ShareCheckins")
+                SrsSubmissionConsentNavigationEvents.NavigateToShareCheckins
+            } else {
+                Timber.tag(TAG).d("Navigate to ShareSymptoms")
+                SrsSubmissionConsentNavigationEvents.NavigateToShareSymptoms
+            }
+            event.postValue(navDirections)
+        }
+    }
 
     fun onDataPrivacyClick() {
         event.postValue(SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy)
