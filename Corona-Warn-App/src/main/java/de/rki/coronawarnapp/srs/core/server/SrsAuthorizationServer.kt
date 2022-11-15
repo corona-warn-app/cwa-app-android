@@ -76,7 +76,7 @@ class SrsAuthorizationServer @Inject constructor(
         )
         api.authenticate(headers, srsOtpRequest)
     }.onFailure {
-        Timber.tag(TAG).d("fakeAuthorize() failed ->%s", it.localizedMessage)
+        Timber.tag(TAG).d("fakeAuthorize() failed -> %s", it.localizedMessage)
     }
 
     private suspend fun authorizeRequest(request: SrsAuthorizationRequest): Instant {
