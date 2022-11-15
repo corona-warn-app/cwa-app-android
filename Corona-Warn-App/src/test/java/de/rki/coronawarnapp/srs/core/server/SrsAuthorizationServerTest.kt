@@ -131,6 +131,12 @@ internal class SrsAuthorizationServerTest : BaseTest() {
             "JWS_SIGNATURE_VERIFICATION_FAILED" to ErrorCode.JWS_SIGNATURE_VERIFICATION_FAILED,
             "NONCE_MISMATCH" to ErrorCode.NONCE_MISMATCH,
             "SALT_REDEEMED" to ErrorCode.SALT_REDEEMED,
+
+            // Should not be thrown by server ,but just in case it is also covered
+            "TIME_SINCE_ONBOARDING_UNVERIFIED" to ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
+            "MIN_TIME_SINCE_ONBOARDING" to ErrorCode.MIN_TIME_SINCE_ONBOARDING,
+            "SUBMISSION_TOO_EARLY" to ErrorCode.SUBMISSION_TOO_EARLY,
+
             // iOS error that does not map to Android Error :D
             "API_TOKEN_ALREADY_ISSUED" to ErrorCode.SRS_OTP_SERVER_ERROR,
         ).forEach { (serverErrorCode, errorCode) ->
