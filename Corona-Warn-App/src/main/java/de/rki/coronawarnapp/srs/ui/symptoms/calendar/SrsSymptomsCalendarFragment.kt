@@ -66,6 +66,8 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
 
         binding.toolbar.setNavigationOnClickListener { viewModel.onCancelConfirmed() }
 
+        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) { binding.symptomButtonNext.isLoading = true }
+
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 SrsSymptomsCalendarNavigation.ShowCloseDialog -> showCloseDialog { viewModel.goHome() }
