@@ -2,14 +2,10 @@ package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
-import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -17,8 +13,6 @@ import java.time.Instant
 import java.util.UUID
 
 class OtpCensorTest : BaseTest() {
-
-    @MockK lateinit var srsSubmissionSettings: SrsSubmissionSettings
 
     private val srsOtp = SrsOtp(
         uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
@@ -28,17 +22,18 @@ class OtpCensorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        every { srsSubmissionSettings.otp } returns flowOf(srsOtp)
-        coEvery { srsSubmissionSettings.getOtp() } returns srsOtp
     }
 
-    private fun createInstance() = OtpCensor(
-        srsSubmissionSettings
-    )
+    @AfterEach
+    fun teardown() {
+        OtpCensor.otp = null
+    }
+
+    private fun createInstance() = OtpCensor()
 
     @Test
     fun `censoring replaces the otp uuid`() = runTest {
+        OtpCensor.otp = srsOtp
         val instance = createInstance()
         val censored = "This is the very secret otp: ${srsOtp.uuid}"
         instance.checkLog(censored)!!
@@ -47,6 +42,7 @@ class OtpCensorTest : BaseTest() {
 
     @Test
     fun `censoring replaces the otp expiration date`() = runTest {
+        OtpCensor.otp = srsOtp
         val instance = createInstance()
         val censored = "This is the expiration date of the secret otp: ${srsOtp.expiresAt}"
         instance.checkLog(censored)!!
