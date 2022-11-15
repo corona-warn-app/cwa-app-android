@@ -32,7 +32,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
     val symptomStart = symptomStartInternal.asLiveData(context = dispatcherProvider.Default)
 
     val events = SingleLiveEvent<SrsSymptomsCalendarNavigation>()
-    val showLoadingIndicator = SingleLiveEvent<Unit>()
+    val showLoadingIndicator = SingleLiveEvent<Boolean>()
 
     fun onCancelConfirmed() {
         Timber.d("Canceled SRS submission")
@@ -48,7 +48,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
             return
         }
         Timber.tag(TAG).d("onDone() clicked on calender screen.")
-        showLoadingIndicator.postValue(Unit)
+        showLoadingIndicator.postValue(true)
         submitSrs()
     }
 
@@ -66,6 +66,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
+            showLoadingIndicator.postValue(false)
             events.postValue(SrsSymptomsCalendarNavigation.Error(e))
         }
     }
