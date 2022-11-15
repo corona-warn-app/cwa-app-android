@@ -82,7 +82,7 @@
     <!-- XHED: Cancel submission dialog title -->
     <string name="srs_cancel_dialog_title">Warn-Vorgang abbrechen?</string>
     <!-- XTXT: Cancel submission dialog message -->
-    <string name="srs_cancel_dialog_message">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\Wenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
+    <string name="srs_cancel_dialog_message">Sind Sie sich sicher, dass Sie den Warn-Vorgang abbrechen wollen?\n\nWenn Ihr Test positiv war, können Sie mit einer Warnung helfen, Infektionsketten zu unterbrechen.</string>
     <!-- XBUT: Continue warning button -->
     <string name="srs_cancel_dialog_continue">Warnen fortsetzen</string>
     <!-- XBUT: Don't warn button -->
