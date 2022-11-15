@@ -85,6 +85,7 @@ class SrsAuthorizationServer @Inject constructor(
                     errorArgs = errorArgs(errorCode)
                 )
             }
+
             response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
@@ -107,7 +108,9 @@ class SrsAuthorizationServer @Inject constructor(
                 .timeBetweenSubmissionsInDays
                 .toDays()
         )
-        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
+
+        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
+        ErrorCode.MIN_TIME_SINCE_ONBOARDING -> {
             val hours = appConfigProvider
                 .currentConfig
                 .first()
@@ -117,6 +120,7 @@ class SrsAuthorizationServer @Inject constructor(
                 .toHours()
             arrayOf(hours, hours)
         }
+
         else -> emptyArray()
     }
 
