@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 fun Fragment.showCloseDialog(cancelFunction: () -> Unit) = displayDialog {
     title(R.string.srs_cancel_dialog_title)
     message(R.string.srs_cancel_dialog_message)
-    positiveButton(R.string.srs_cancel_dialog_cancel) { cancelFunction() }
-    neutralButton(R.string.srs_cancel_dialog_continue)
+    positiveButton(R.string.srs_cancel_dialog_continue)
+    negativeButton(R.string.srs_cancel_dialog_cancel) { cancelFunction() }
 }
 
 fun Fragment.showSubmissionWarningDialog(positiveFunction: () -> Unit) = displayDialog {
