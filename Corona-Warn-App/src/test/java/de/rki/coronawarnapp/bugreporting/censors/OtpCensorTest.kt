@@ -6,7 +6,9 @@ import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,6 +29,7 @@ class OtpCensorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
+        every { srsSubmissionSettings.otp } returns flowOf(srsOtp)
         coEvery { srsSubmissionSettings.getOtp() } returns srsOtp
     }
 

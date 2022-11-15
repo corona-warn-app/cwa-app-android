@@ -13,10 +13,12 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
+import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
@@ -132,5 +134,11 @@ class MockProvider {
     @Provides
     fun profileRepository(): ProfileRepository = mockk {
         every { profilesFlow } returns flowOf(emptySet())
+    }
+
+    @Singleton
+    @Provides
+    fun provideSrsSettingsDataStore(): SrsSubmissionSettings = mockk {
+        coEvery { getOtp() } returns null
     }
 }
