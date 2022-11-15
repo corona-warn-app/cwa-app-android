@@ -67,7 +67,7 @@ class SrsAuthorizationServer @Inject constructor(
                     .setSalt(request.salt)
                     .build()
             )
-            .setRequestPadding(ByteString.copyFromUtf8(authPadding)) // TBD
+            .setRequestPadding(ByteString.copyFromUtf8(authPadding))
             .build()
 
         val headers = mapOf(
