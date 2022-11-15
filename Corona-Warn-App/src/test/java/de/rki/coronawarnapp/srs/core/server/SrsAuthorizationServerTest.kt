@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -31,6 +32,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.toInstant
 import java.time.DateTimeException
+import kotlin.random.Random
 
 internal class SrsAuthorizationServerTest : BaseTest() {
 
@@ -38,6 +40,7 @@ internal class SrsAuthorizationServerTest : BaseTest() {
     @MockK lateinit var srsDevSettings: SrsDevSettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
+    private val paddingTool = PaddingTool(Random)
 
     private val request = SrsAuthorizationRequest(
         srsOtp = SrsOtp(),
@@ -171,5 +174,6 @@ internal class SrsAuthorizationServerTest : BaseTest() {
         mapper = SerializationModule.jacksonBaseMapper,
         srsDevSettings = srsDevSettings,
         appConfigProvider = appConfigProvider,
+        paddingTool = paddingTool,
     )
 }
