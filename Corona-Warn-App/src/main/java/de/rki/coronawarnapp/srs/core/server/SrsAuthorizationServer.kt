@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.srs.core.server
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.protobuf.ByteString
 import javax.inject.Inject
 import dagger.Lazy
 import dagger.Reusable
@@ -13,14 +14,18 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -32,6 +37,7 @@ class SrsAuthorizationServer @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val srsDevSettings: SrsDevSettings,
     private val appConfigProvider: AppConfigProvider,
+    private val paddingTool: PaddingTool,
 ) {
     private val api = srsAuthorizationApi.get()
 
@@ -51,6 +57,28 @@ class SrsAuthorizationServer @Inject constructor(
             }
         }
 
+    suspend fun fakeAuthorize(request: SrsAuthorizationFakeRequest): Result<Response<ResponseBody>> = runCatching {
+        Timber.tag(TAG).d("fakeAuthorize()")
+        val authPadding = paddingTool.srsAuthPadding(appConfigProvider.currentConfig.first().selfReportSubmission)
+        val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
+            .setAuthentication(
+                PpacAndroid.PPACAndroid.newBuilder()
+                    .setSafetyNetJws(request.safetyNetJws)
+                    .setSalt(request.salt)
+                    .build()
+            )
+            .setRequestPadding(ByteString.copyFromUtf8(authPadding)) // TBD
+            .build()
+
+        val headers = mapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "1",
+        )
+        api.authenticate(headers, srsOtpRequest)
+    }.onFailure {
+        Timber.tag(TAG).d("fakeAuthorize() failed ->%s", it.localizedMessage)
+    }
+
     private suspend fun authorizeRequest(request: SrsAuthorizationRequest): Instant {
         Timber.tag(TAG).d("authorize(request=%s)", request)
         val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
@@ -69,7 +97,10 @@ class SrsAuthorizationServer @Inject constructor(
             )
             .build()
 
-        val headers = mutableMapOf("Content-Type" to "application/x-protobuf").apply {
+        val headers = mutableMapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "0",
+        ).apply {
             if (srsDevSettings.forceAndroidIdAcceptance()) {
                 Timber.tag(TAG).d("forceAndroidIdAcceptance is enabled")
                 put("cwa-ppac-android-accept-android-id", "1")
@@ -85,6 +116,7 @@ class SrsAuthorizationServer @Inject constructor(
                     errorArgs = errorArgs(errorCode)
                 )
             }
+
             response?.expirationDate != null -> OffsetDateTime.parse(response.expirationDate).toInstant()
             else -> throw when (bodyResponse.code()) {
                 400 -> SrsSubmissionException(ErrorCode.SRS_OTP_400)
@@ -107,6 +139,7 @@ class SrsAuthorizationServer @Inject constructor(
                 .timeBetweenSubmissionsInDays
                 .toDays()
         )
+
         ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED -> {
             val hours = appConfigProvider
                 .currentConfig
@@ -117,6 +150,7 @@ class SrsAuthorizationServer @Inject constructor(
                 .toHours()
             arrayOf(hours, hours)
         }
+
         else -> emptyArray()
     }
 

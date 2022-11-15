@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.PlausibleDeniabilityParametersContainer
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfig
 import de.rki.coronawarnapp.risk.DefaultRiskLevels.Companion.inRange
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 import de.rki.coronawarnapp.submission.server.SubmissionServer
@@ -97,6 +98,11 @@ class PaddingTool @Inject constructor(
                 sum + size
             }
         return requestPadding(numberOfBytes)
+    }
+
+    fun srsAuthPadding(selfReportSubmission: SelfReportSubmissionConfig): String {
+        return (0..10).map { PADDING_ITEMS.random(sourceFast) } // TODO finalise it
+            .joinToString("")
     }
 
     companion object {

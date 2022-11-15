@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePass
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
@@ -57,7 +58,16 @@ class SrsSubmissionRepository @Inject constructor(
         val nowUtc = timeStamper.nowUTC
         var srsOtp = currentOtp(nowUtc)
         val attestResult = attest(appConfig, srsOtp, srsDevSettings.checkLocalPrerequisites())
-        if (!srsOtp.isValid(nowUtc)) {
+
+        if (srsOtp.isValid(nowUtc)) {
+            Timber.d("Otp is still valid -> fakePlaybookAuthorization")
+            playbook.fakeAuthorize(
+                SrsAuthorizationFakeRequest(
+                    safetyNetJws = attestResult.report.jwsResult,
+                    salt = String(attestResult.ourSalt),
+                )
+            )
+        } else {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
             val expiresAt = playbook.authorize(
                 SrsAuthorizationRequest(
@@ -67,7 +77,6 @@ class SrsSubmissionRepository @Inject constructor(
                     androidId = androidIdProvider.getAndroidId()
                 )
             )
-
             srsOtp = srsOtp.copy(expiresAt = expiresAt)
             srsSubmissionSettings.setOtp(srsOtp)
         }
