@@ -38,7 +38,7 @@ class SrsAuthorizationServer @Inject constructor(
     suspend fun authorize(request: SrsAuthorizationRequest): Instant =
         withContext(dispatcherProvider.IO) {
             try {
-                authoriseRequest(request)
+                authorizeRequest(request)
             } catch (e: Exception) {
                 throw when (e) {
                     is SrsSubmissionException -> e
@@ -51,7 +51,7 @@ class SrsAuthorizationServer @Inject constructor(
             }
         }
 
-    private suspend fun authoriseRequest(request: SrsAuthorizationRequest): Instant {
+    private suspend fun authorizeRequest(request: SrsAuthorizationRequest): Instant {
         Timber.tag(TAG).d("authorize(request=%s)", request)
         val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
