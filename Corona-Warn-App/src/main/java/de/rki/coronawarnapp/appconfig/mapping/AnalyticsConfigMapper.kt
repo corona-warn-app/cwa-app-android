@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
-import de.rki.coronawarnapp.server.protocols.internal.v2.PpddPpaParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.PpddPpaParameters.PPDDPrivacyPreservingAnalyticsParametersCommon
 import timber.log.Timber
 import javax.inject.Inject
