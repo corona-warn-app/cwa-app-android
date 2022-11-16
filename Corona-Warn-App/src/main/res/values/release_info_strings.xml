@@ -25,7 +25,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt mit positiven Ergebnissen von alleine durchgeführen Selbsttests eine Warnung an andere Nutzer der Corona-Warn-App schicken.</item>
+        <item>Sie können jetzt mit positiven Ergebnissen von alleine durchgeführten Selbsttests eine Warnung an andere Nutzer der Corona-Warn-App schicken.</item>
         <item>Sollten Sie bei einer Teststelle mit einem nicht in der Corona-Warn-App registrierten Schnell- oder PCR-Test positiv getestet worden sein, können Sie jetzt auch mit diesen Testergebnissen andere Nutzer der App warnen.</item>
         <item>Die Möglichkeit, eine TAN über die TAN-Hotline zu erhalten, entfällt in einigen Wochen. Sie können nun ohne TAN andere Nutzer der Corona-Warn-App warnen.</item>
     </string-array>
