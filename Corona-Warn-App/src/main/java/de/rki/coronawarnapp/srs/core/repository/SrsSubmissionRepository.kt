@@ -5,6 +5,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
+import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
@@ -55,7 +56,7 @@ class SrsSubmissionRepository @Inject constructor(
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
-        var srsOtp = currentOtp(nowUtc)
+        var srsOtp = currentOtp(nowUtc).also { OtpCensor.otp = it }
         val attestResult = attest(appConfig, srsOtp, srsDevSettings.checkLocalPrerequisites())
         if (!srsOtp.isValid(nowUtc)) {
             Timber.d("Authorize new srsOtp=%s", srsOtp)
