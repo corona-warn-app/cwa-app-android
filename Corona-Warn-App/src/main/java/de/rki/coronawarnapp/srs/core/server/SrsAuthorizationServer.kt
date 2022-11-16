@@ -59,7 +59,12 @@ class SrsAuthorizationServer @Inject constructor(
 
     suspend fun fakeAuthorize(request: SrsAuthorizationFakeRequest): Result<Response<ResponseBody>> = runCatching {
         Timber.tag(TAG).d("fakeAuthorize()")
-        val authPadding = paddingTool.srsAuthPadding(appConfigProvider.currentConfig.first().selfReportSubmission)
+        val selfReportSubmission = appConfigProvider.currentConfig.first().selfReportSubmission
+        val min = selfReportSubmission.common.plausibleDeniabilityParameters.minRequestPaddingBytes
+        val max = selfReportSubmission.common.plausibleDeniabilityParameters.maxRequestPaddingBytes
+        val authPadding = ByteString.copyFrom(paddingTool.srsAuthPadding(min, max))
+
+        Timber.tag(TAG).d("authPadding=%s, min=%s, max=%s", authPadding, min, max)
         val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
             .setAuthentication(
                 PpacAndroid.PPACAndroid.newBuilder()
@@ -67,7 +72,7 @@ class SrsAuthorizationServer @Inject constructor(
                     .setSalt(request.salt)
                     .build()
             )
-            .setRequestPadding(ByteString.copyFromUtf8(authPadding))
+            .setRequestPadding(authPadding)
             .build()
 
         val headers = mapOf(

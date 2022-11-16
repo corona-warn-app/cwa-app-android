@@ -14,11 +14,18 @@ interface SelfReportSubmissionConfig {
 interface SelfReportSubmissionCommon {
     val timeSinceOnboardingInHours: Duration
     val timeBetweenSubmissionsInDays: Duration
+    val plausibleDeniabilityParameters: SrsPlausibleDeniabilityParameters
 }
+
+data class SrsPlausibleDeniabilityParameters(
+    val minRequestPaddingBytes: Int = 0,
+    val maxRequestPaddingBytes: Int = 0
+)
 
 data class SelfReportSubmissionCommonContainer(
     override val timeSinceOnboardingInHours: Duration = DEFAULT_HOURS,
-    override val timeBetweenSubmissionsInDays: Duration = DEFAULT_DAYS
+    override val timeBetweenSubmissionsInDays: Duration = DEFAULT_DAYS,
+    override val plausibleDeniabilityParameters: SrsPlausibleDeniabilityParameters = SrsPlausibleDeniabilityParameters()
 ) : SelfReportSubmissionCommon {
     companion object {
         val DEFAULT_HOURS: Duration = Duration.ofHours(24)
