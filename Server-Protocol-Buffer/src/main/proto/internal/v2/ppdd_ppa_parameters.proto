@@ -23,5 +23,5 @@ message PPDDPrivacyPreservingAnalyticsParametersCommon {
 }
 
 message PPDDPrivacyPreservingAnalyticsPlausibleDeniabilityParameters {
-    double probabilityOfFakeKeySubmission = 1;
+  double probabilityOfFakeKeySubmission = 1;
 }
