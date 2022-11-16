@@ -10,6 +10,11 @@ interface AnalyticsConfig {
     val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int
     val probabilityToSubmitNewExposureWindows: Double
     val analyticsEnabled: Boolean
+    val plausibleDeniabilityParameters: PlausibleDeniabilityParameters
+
+    interface PlausibleDeniabilityParameters {
+        val probabilityOfFakeKeySubmission: Double
+    }
 
     interface Mapper : ConfigMapper<AnalyticsConfig>
 }

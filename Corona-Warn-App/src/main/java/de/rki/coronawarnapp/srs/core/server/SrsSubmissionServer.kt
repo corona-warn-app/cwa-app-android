@@ -30,7 +30,7 @@ class SrsSubmissionServer @Inject constructor(
 
     suspend fun submit(payload: SrsSubmissionPayload) = withContext(dispatcherProvider.IO) {
         try {
-            Timber.tag(TAG).d("submit()")
+            Timber.tag(TAG).d("submit(payload=%s)", payload)
             submitPayload(payload)
         } catch (e: Exception) {
             throw when (e) {

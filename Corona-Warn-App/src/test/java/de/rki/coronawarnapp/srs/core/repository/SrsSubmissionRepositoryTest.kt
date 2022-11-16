@@ -31,6 +31,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -101,6 +102,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { appConfigProvider.getAppConfig() } returns configData
         coEvery { playbook.authorize(any()) } returns Instant.parse("2023-11-07T12:10:10Z")
         coEvery { playbook.submit(any()) } just Runs
+        coEvery { playbook.fakeAuthorize(any()) } just Runs
         coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
         coEvery { submissionReporter.reportAt(any()) } just Runs
     }
@@ -124,6 +126,10 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
+        }
+
+        coVerify(exactly = 0) {
+            playbook.fakeAuthorize(any())
         }
     }
 
@@ -151,6 +157,10 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
         }
+
+        coVerify(exactly = 0) {
+            playbook.fakeAuthorize(any())
+        }
     }
 
     @Test
@@ -161,6 +171,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             appConfigProvider.getAppConfig()
             timeStamper.nowUTC
             srsSubmissionSettings.getOtp()
+            playbook.fakeAuthorize(any())
             tekStorage.tekData
             tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
             checkInsRepo.completedCheckIns
@@ -170,6 +181,10 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
+        }
+
+        coVerify(exactly = 0) {
+            playbook.authorize(any())
         }
     }
 

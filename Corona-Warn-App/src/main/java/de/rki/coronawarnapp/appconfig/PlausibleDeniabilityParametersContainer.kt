@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.appconfig
 
-import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass
-    .PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
+import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingPlausibleDeniabilityParameters.NumberOfFakeCheckInsFunctionParametersOrBuilder
 
 data class PlausibleDeniabilityParametersContainer(
     val checkInSizesInBytes: List<Int> = emptyList(),

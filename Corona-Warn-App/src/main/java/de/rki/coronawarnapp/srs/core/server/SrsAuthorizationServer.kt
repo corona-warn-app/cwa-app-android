@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.srs.core.server
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.protobuf.ByteString
 import javax.inject.Inject
 import dagger.Lazy
 import dagger.Reusable
@@ -13,14 +14,18 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
+import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationResponse
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import java.time.Instant
 import java.time.OffsetDateTime
@@ -32,13 +37,14 @@ class SrsAuthorizationServer @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val srsDevSettings: SrsDevSettings,
     private val appConfigProvider: AppConfigProvider,
+    private val paddingTool: PaddingTool,
 ) {
     private val api = srsAuthorizationApi.get()
 
     suspend fun authorize(request: SrsAuthorizationRequest): Instant =
         withContext(dispatcherProvider.IO) {
             try {
-                authoriseRequest(request)
+                authorizeRequest(request)
             } catch (e: Exception) {
                 throw when (e) {
                     is SrsSubmissionException -> e
@@ -51,7 +57,34 @@ class SrsAuthorizationServer @Inject constructor(
             }
         }
 
-    private suspend fun authoriseRequest(request: SrsAuthorizationRequest): Instant {
+    suspend fun fakeAuthorize(request: SrsAuthorizationFakeRequest): Result<Response<ResponseBody>> = runCatching {
+        Timber.tag(TAG).d("fakeAuthorize()")
+        val selfReportSubmission = appConfigProvider.currentConfig.first().selfReportSubmission
+        val min = selfReportSubmission.common.plausibleDeniabilityParameters.minRequestPaddingBytes
+        val max = selfReportSubmission.common.plausibleDeniabilityParameters.maxRequestPaddingBytes
+        val authPadding = ByteString.copyFrom(paddingTool.srsAuthPadding(min, max))
+
+        Timber.tag(TAG).d("authPadding=%s, min=%s, max=%s", authPadding, min, max)
+        val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
+            .setAuthentication(
+                PpacAndroid.PPACAndroid.newBuilder()
+                    .setSafetyNetJws(request.safetyNetJws)
+                    .setSalt(request.salt)
+                    .build()
+            )
+            .setRequestPadding(authPadding)
+            .build()
+
+        val headers = mapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "1",
+        )
+        api.authenticate(headers, srsOtpRequest)
+    }.onFailure {
+        Timber.tag(TAG).d("fakeAuthorize() failed -> %s", it.localizedMessage)
+    }
+
+    private suspend fun authorizeRequest(request: SrsAuthorizationRequest): Instant {
         Timber.tag(TAG).d("authorize(request=%s)", request)
         val srsOtpRequest = SRSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
@@ -69,7 +102,10 @@ class SrsAuthorizationServer @Inject constructor(
             )
             .build()
 
-        val headers = mutableMapOf("Content-Type" to "application/x-protobuf").apply {
+        val headers = mutableMapOf(
+            "Content-Type" to "application/x-protobuf",
+            "cwa-fake" to "0",
+        ).apply {
             if (srsDevSettings.forceAndroidIdAcceptance()) {
                 Timber.tag(TAG).d("forceAndroidIdAcceptance is enabled")
                 put("cwa-ppac-android-accept-android-id", "1")

@@ -77,6 +77,16 @@ class PaddingToolTest : BaseTest() {
     }
 
     @Test
+    fun `srs request padding`() {
+        createInstance().srsAuthPadding(0, 0).isEmpty() shouldBe true
+        createInstance().srsAuthPadding(19, 19).isEmpty() shouldBe true
+        createInstance().srsAuthPadding(45, 19).isEmpty() shouldBe true
+
+        (createInstance().srsAuthPadding(19, 45).size in 19..45) shouldBe true
+        (createInstance().srsAuthPadding(1, 100).size in 1..100) shouldBe true
+    }
+
+    @Test
     fun `keyPadding - genuine request with 5 keys`() {
         // keyPadding = 10 keys x 28 bytes per key = 252 bytes`
         createInstance().keyPadding(keyListSize = 5).toByteArray().size shouldBe 280
