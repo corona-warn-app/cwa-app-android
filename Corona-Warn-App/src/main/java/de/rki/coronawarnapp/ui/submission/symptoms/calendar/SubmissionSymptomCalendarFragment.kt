@@ -95,7 +95,7 @@ class SubmissionSymptomCalendarFragment :
             }
 
             symptomButtonNext.apply {
-                isEnabled = symptomStart != null
+                isActive = symptomStart != null
                 setOnClickListener { viewModel.onDone() }
             }
         }

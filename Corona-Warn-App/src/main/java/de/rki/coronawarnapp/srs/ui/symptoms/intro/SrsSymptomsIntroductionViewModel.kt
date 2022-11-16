@@ -77,8 +77,9 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
-            showLoadingIndicator.postValue(false)
             events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+        } finally {
+            showLoadingIndicator.postValue(false)
         }
     }
 

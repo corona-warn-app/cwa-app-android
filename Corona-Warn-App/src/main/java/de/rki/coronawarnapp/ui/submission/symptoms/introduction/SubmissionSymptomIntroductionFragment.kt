@@ -85,7 +85,7 @@ class SubmissionSymptomIntroductionFragment :
         }
 
         binding.symptomButtonNext.apply {
-            isEnabled = symptomIndication != null
+            isActive = symptomIndication != null
             defaultButton.setText(
                 when (symptomIndication) {
                     Symptoms.Indication.NEGATIVE -> R.string.submission_done_button_done
@@ -93,10 +93,7 @@ class SubmissionSymptomIntroductionFragment :
                     else -> R.string.submission_symptom_further_button
                 }
             )
-            setOnClickListener {
-                isLoading = true
-                viewModel.onNextClicked()
-            }
+            setOnClickListener { viewModel.onNextClicked() }
         }
     }
 

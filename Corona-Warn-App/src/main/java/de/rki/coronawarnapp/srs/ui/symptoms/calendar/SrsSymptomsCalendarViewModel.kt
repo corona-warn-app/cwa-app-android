@@ -66,8 +66,9 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
-            showLoadingIndicator.postValue(false)
             events.postValue(SrsSymptomsCalendarNavigation.Error(e))
+        } finally {
+            showLoadingIndicator.postValue(false)
         }
     }
 
