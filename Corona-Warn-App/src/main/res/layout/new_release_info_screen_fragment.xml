@@ -42,8 +42,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_new_release_info"
-                    tools:src="@drawable/ic_new_release_info" />
+                    app:srcCompat="@drawable/ic_new_release_info_3_0"
+                    tools:src="@drawable/ic_new_release_info_3_0" />
 
                 <TextView
                     android:id="@+id/headline"
