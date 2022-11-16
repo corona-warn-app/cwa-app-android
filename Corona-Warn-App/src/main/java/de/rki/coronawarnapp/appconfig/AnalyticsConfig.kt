@@ -12,8 +12,9 @@ interface AnalyticsConfig {
     val analyticsEnabled: Boolean
     val plausibleDeniabilityParameters: PlausibleDeniabilityParameters
 
-    interface PlausibleDeniabilityParameters{
+    interface PlausibleDeniabilityParameters {
         val probabilityOfFakeKeySubmission: Double
     }
+
     interface Mapper : ConfigMapper<AnalyticsConfig>
 }
