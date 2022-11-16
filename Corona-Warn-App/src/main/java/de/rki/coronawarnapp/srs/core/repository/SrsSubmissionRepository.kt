@@ -116,9 +116,7 @@ class SrsSubmissionRepository @Inject constructor(
             srsOtp
         } else {
             Timber.tag(TAG).d("SRS otp is not valid -> new otp generated")
-            SrsOtp().also {
-                OtpCensor.otp = it
-            }
+            SrsOtp()
         }
     }
 
