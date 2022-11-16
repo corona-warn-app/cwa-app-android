@@ -166,8 +166,11 @@ class Analytics @Inject constructor(
             .analytics
             .plausibleDeniabilityParameters
             .probabilityOfFakeKeySubmission
-        if (randomSource.nextDouble() <= probability) {
-            Timber.tag(TAG).d("fake key submission")
+
+        val randomDouble = randomSource.nextDouble()
+        Timber.tag(TAG).d("randomDouble=%s, probability=%s", randomDouble, probability)
+        if (randomDouble <= probability) {
+            Timber.tag(TAG).d("Send fake key submission")
             playbook.submitFake()
         } else {
             Timber.tag(TAG).d("Skip fake key submission")
