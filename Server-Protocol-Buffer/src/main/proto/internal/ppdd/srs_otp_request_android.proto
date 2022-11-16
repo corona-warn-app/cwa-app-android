@@ -10,6 +10,8 @@ message SRSOneTimePasswordRequestAndroid {
 
   SRSOneTimePassword payload = 2;
 
+  bytes requestPadding = 3;
+
   message SRSOneTimePassword {
     string otp = 1;
     bytes androidId = 2;
