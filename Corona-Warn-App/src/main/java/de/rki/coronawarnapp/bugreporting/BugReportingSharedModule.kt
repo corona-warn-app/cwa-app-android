@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCe
 import de.rki.coronawarnapp.bugreporting.censors.profile.ProfileCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCertificateCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
@@ -163,5 +164,9 @@ object BugReportingSharedModule {
         @Binds
         @IntoSet
         fun familyTestCensor(censor: FamilyTestCensor): BugCensor
+
+        @Binds
+        @IntoSet
+        fun otpCensor(censor: OtpCensor): BugCensor
     }
 }
