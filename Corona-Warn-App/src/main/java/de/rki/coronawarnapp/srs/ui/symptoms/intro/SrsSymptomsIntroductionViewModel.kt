@@ -26,6 +26,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<SrsSymptomsIntroductionNavigation>()
+    val showLoadingIndicator = SingleLiveEvent<Boolean>()
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
     val symptomIndication = symptomIndicationInternal.asLiveData(context = dispatcherProvider.Default)
@@ -47,6 +48,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     }
 
     fun onWarningClicked() {
+        showLoadingIndicator.postValue(true)
         when (symptomIndication.value) {
             Symptoms.Indication.NEGATIVE -> {
                 submitSRS(Symptoms.Indication.NEGATIVE)
@@ -76,6 +78,8 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
             events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+        } finally {
+            showLoadingIndicator.postValue(false)
         }
     }
 
