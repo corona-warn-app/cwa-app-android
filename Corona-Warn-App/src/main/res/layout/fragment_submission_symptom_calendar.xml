@@ -108,19 +108,20 @@
 
         </ScrollView>
 
-        <Button
+        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
             android:id="@+id/symptom_button_next"
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
             android:layout_marginVertical="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small"
-            android:text="@string/submission_done_button_done"
+            app:buttonText="@string/submission_done_button_done"
+            app:isLoading="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollView" />
+            app:layout_constraintTop_toBottomOf="@id/scrollView"
+            app:loadingText="@string/start_validation_rule_check_loading_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
