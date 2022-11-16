@@ -18,21 +18,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Pandemic Radar"</item>
+        <item>Warnung mit Selbsttests</item>
+        <item>Warnung mit unregistrierten Tests</item>
+        <item>TAN-Hotline entfällt</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The Corona-Warn-App now contains a “Pandemic Radar” tile, which takes you directly to a Robert Koch Institute website (in German) when tapped. The Pandemic Radar contains a variety of statistics on the coronavirus pandemic, which are updated every working day. Please note that any data used when opening the website will be deducted from your data plan and that the website is not designed to be barrier-free."</item>
+        <item>Sie können jetzt mit positiven Ergebnissen von alleine durchgeführten Selbsttests eine Warnung an andere Nutzer der Corona-Warn-App schicken.</item>
+        <item>Sollten Sie bei einer Teststelle mit einem nicht in der Corona-Warn-App registrierten Schnell- oder PCR-Test positiv getestet worden sein, können Sie jetzt auch mit diesen Testergebnissen andere Nutzer der App warnen.</item>
+        <item>Die Möglichkeit, eine TAN über die TAN-Hotline zu erhalten, entfällt in einigen Wochen. Sie können nun ohne TAN andere Nutzer der Corona-Warn-App warnen.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
         <item/>
     </string-array>
 

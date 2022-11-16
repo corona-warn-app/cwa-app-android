@@ -18,21 +18,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Radar pandemiczny"</item>
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Aplikacja Corona-Warn-App zawiera teraz kafelek „Radar pandemiczny”, który po dotknięciu prowadzi bezpośrednio do strony internetowej Instytutu Roberta Kocha (w języku niemieckim). Radar pandemiczny zawiera różnorodne statystyki dotyczące pandemii koronawirusa, które są aktualizowane w każdym dniu roboczym. Zwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako pozbawiona barier."</item>
+        <item></item>
+        <item></item>
+        <item></item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
         <item/>
     </string-array>
 
