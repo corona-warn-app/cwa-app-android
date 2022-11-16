@@ -56,6 +56,8 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
             updateButtons(it)
         }
 
+        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) { binding.symptomButtonNext.isLoading = it }
+
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 SrsSymptomsIntroductionNavigation.ShowCloseDialog -> showCloseDialog { viewModel.goHome() }
@@ -105,8 +107,8 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
         }
 
         binding.symptomButtonNext.apply {
-            isEnabled = symptomIndication != null
-            setText(
+            isActive = symptomIndication != null
+            defaultButton.setText(
                 when (symptomIndication) {
                     Symptoms.Indication.NEGATIVE -> R.string.submission_done_button_done
                     Symptoms.Indication.NO_INFORMATION -> R.string.submission_done_button_done
