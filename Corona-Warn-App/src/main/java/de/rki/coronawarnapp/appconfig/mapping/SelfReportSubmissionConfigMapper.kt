@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.appconfig.SelfReportSubmissionCommonContainer
 
 import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfig
 import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfigContainer
+import de.rki.coronawarnapp.appconfig.SrsPlausibleDeniabilityParameters
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.PpddSrsParameters
 import timber.log.Timber
@@ -20,6 +21,7 @@ class SelfReportSubmissionConfigMapper @Inject constructor() : SelfReportSubmiss
                 Timber.d("No SelfReportParameters -> set to default")
                 SelfReportSubmissionConfigContainer.DEFAULT
             }
+
             else -> rawConfig.selfReportParameters.map()
         }
     } catch (e: Exception) {
@@ -41,6 +43,16 @@ class SelfReportSubmissionConfigMapper @Inject constructor() : SelfReportSubmiss
                     SelfReportSubmissionCommonContainer.DEFAULT_DAYS
                 } else {
                     Duration.ofHours(common.timeBetweenSubmissionsInDays.toLong())
+                },
+
+                plausibleDeniabilityParameters = if (common.hasPlausibleDeniabilityParameters()) {
+                    SrsPlausibleDeniabilityParameters(
+                        minRequestPaddingBytes = common.plausibleDeniabilityParameters.minRequestPaddingBytes,
+                        maxRequestPaddingBytes = common.plausibleDeniabilityParameters.maxRequestPaddingBytes
+                    )
+                } else {
+                    Timber.d("No plausibleDeniabilityParameters -> set to default")
+                    SrsPlausibleDeniabilityParameters()
                 }
             )
         } else {
