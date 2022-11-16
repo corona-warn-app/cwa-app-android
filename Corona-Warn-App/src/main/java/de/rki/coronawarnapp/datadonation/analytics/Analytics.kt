@@ -33,6 +33,7 @@ import javax.inject.Singleton
 import kotlin.random.Random
 
 @Singleton
+@Suppress("LongParameterList")
 class Analytics @Inject constructor(
     private val dataDonationAnalyticsServer: DataDonationAnalyticsServer,
     private val appConfigProvider: AppConfigProvider,
