@@ -28,7 +28,7 @@ import testhelpers.extensions.getOrAwaitValue
 import java.time.Instant
 
 @ExtendWith(InstantExecutorExtension::class)
-open class SrsCheckinsViewModelTest {
+open class SrsCheckinsFragmentViewModelTest {
 
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var savedState: SavedStateHandle
