@@ -115,6 +115,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     }
 
     @Test
+    @Ignore("Removed tile from UI, not deleting it completely for now")
     @Screenshot
     fun capture_fragment() {
         launchFragmentInContainer2<SubmissionDispatcherFragment>()
