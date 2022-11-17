@@ -19,4 +19,9 @@ message PPDDPrivacyPreservingAnalyticsParametersCommon {
     double probabilityToSubmitExposureWindows = 2;
     int32 hoursSinceTestRegistrationToSubmitTestResultMetadata = 3;
     int32 hoursSinceTestResultToSubmitKeySubmissionMetadata = 4;
+    PPDDPrivacyPreservingAnalyticsPlausibleDeniabilityParameters plausibleDeniabilityParameters = 5;
+}
+
+message PPDDPrivacyPreservingAnalyticsPlausibleDeniabilityParameters {
+  double probabilityOfFakeKeySubmission = 1;
 }

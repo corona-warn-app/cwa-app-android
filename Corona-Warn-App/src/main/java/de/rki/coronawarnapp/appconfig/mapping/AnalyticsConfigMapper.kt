@@ -4,7 +4,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper.PlausibleDeniabilityParametersContainer
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
+import de.rki.coronawarnapp.server.protocols.internal.v2.PpddPpaParameters.PPDDPrivacyPreservingAnalyticsParametersCommon
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,7 +24,8 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
                 hoursSinceTestRegistrationToSubmitTestResultMetadata = 0,
                 hoursSinceTestResultToSubmitKeySubmissionMetadata = 0,
                 probabilityToSubmitNewExposureWindows = 0.0,
-                analyticsEnabled = false
+                analyticsEnabled = false,
+                plausibleDeniabilityParameters = PlausibleDeniabilityParametersContainer()
             )
         }
 
@@ -55,7 +58,8 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
                     .hoursSinceTestRegistrationToSubmitTestResultMetadata,
                 probabilityToSubmitNewExposureWindows = it
                     .probabilityToSubmitExposureWindows,
-                analyticsEnabled = true
+                analyticsEnabled = true,
+                plausibleDeniabilityParameters = it.mapPlausibleDeniabilityParameters()
             )
         }
 
@@ -65,6 +69,19 @@ class AnalyticsConfigMapper @Inject constructor() : AnalyticsConfig.Mapper {
         override val hoursSinceTestRegistrationToSubmitTestResultMetadata: Int,
         override val hoursSinceTestResultToSubmitKeySubmissionMetadata: Int,
         override val probabilityToSubmitNewExposureWindows: Double,
-        override val analyticsEnabled: Boolean
+        override val analyticsEnabled: Boolean,
+        override val plausibleDeniabilityParameters: AnalyticsConfig.PlausibleDeniabilityParameters,
     ) : AnalyticsConfig
+
+    data class PlausibleDeniabilityParametersContainer(
+        override val probabilityOfFakeKeySubmission: Double = 0.0
+    ) : AnalyticsConfig.PlausibleDeniabilityParameters
+}
+
+private fun PPDDPrivacyPreservingAnalyticsParametersCommon.mapPlausibleDeniabilityParameters() = when {
+    hasPlausibleDeniabilityParameters() -> PlausibleDeniabilityParametersContainer(
+        probabilityOfFakeKeySubmission = plausibleDeniabilityParameters.probabilityOfFakeKeySubmission
+    )
+
+    else -> PlausibleDeniabilityParametersContainer()
 }

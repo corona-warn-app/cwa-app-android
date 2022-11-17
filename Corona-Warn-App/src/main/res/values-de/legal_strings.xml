@@ -237,4 +237,16 @@
     <string name="family_consent_legal_point_1" translatable="false">"<b>Die App ruft das Testergebnis Ihres Familienmitglieds ab.</b>\nWenn Sie es sich später anders überlegen, können Sie den Test in der App löschen."</string>
     <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
     <string name="family_consent_legal_bottom_link" translatable="false">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."</string>
+
+    <!-- SRS Submission Consent Screen -->
+    <!-- XHED: Submission consent privacy card title -->
+    <string name="srs_privacy_card_title_text" translatable="false">Ihr Einverständnis</string>
+    <!-- XTXT: Submission consent privacy card subtitle -->
+    <string name="srs_privacy_card_subtitle_text" translatable="false">Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:</string>
+    <!-- XTXT: Submission consent privacy card first bulletpoint -->
+    <string name="srs_privacy_card_first_bulletpoint_text" translatable="false">Die App teilt Ihr positives Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft auch Nutzer der Corona-Warn-App, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren.</string>
+    <!-- XTXT: Submission consent privacy card second bulletpoint -->
+    <string name="srs_privacy_card_second_bulletpoint_text" translatable="false">Ihre Angaben zur Art des Tests werden anonym statistisch ausgewertet.</string>
+    <!-- XTXT: Submission consent privacy card third bulletpoint -->
+    <string name="srs_privacy_card_third_bulletpoint_text" translatable="false">Wenn Sie zusätzlich Angaben zum Beginn Ihrer Symptome machen, werden auch diese geteilt.</string>
 </resources>

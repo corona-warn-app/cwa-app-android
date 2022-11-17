@@ -164,6 +164,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
+
                 is MainActivityEvent.Error -> displayDialog { setError(event.error) }
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
@@ -182,6 +183,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             showRestoreCoronaTestConfirmation(coronaTestResult.recycledCoronaTest)
             null
         }
+
         is CoronaTestQRCodeHandler.TestRegistrationSelection ->
             NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
                 coronaTestQrCode = coronaTestResult.coronaTestQrCode
@@ -199,6 +201,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
             event.restoreRecycledTestRequest
         )
+
         is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
     }.let { navController.navigate(it) }
 

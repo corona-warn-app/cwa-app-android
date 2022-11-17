@@ -10,4 +10,6 @@ message SRSOneTimePasswordRequestIOS {
   PPACIOS authentication = 1;
 
   SRSOneTimePassword payload = 2;
+
+  bytes requestPadding = 3;
 }

@@ -99,6 +99,12 @@ class PaddingTool @Inject constructor(
         return requestPadding(numberOfBytes)
     }
 
+    fun srsAuthPadding(min: Int, max: Int): ByteArray {
+        if (min >= max) return byteArrayOf()
+        val n = sourceFast.nextInt(min, max)
+        return sourceFast.nextBytes(n)
+    }
+
     companion object {
         private val PADDING_ITEMS = ('A'..'Z') + ('a'..'z') + ('0'..'9')
         private const val MIN_KEY_COUNT_FOR_SUBMISSION = 15 // Increased from 14 to 15 in purpose for CheckIn submission

@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiarySubmissionDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.asTestResultEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.canBeAddedToJournal
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryLocationEntity
@@ -27,6 +29,7 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.time.Instant
 import java.time.LocalDate
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,6 +58,10 @@ class DefaultContactDiaryRepository @Inject constructor(
 
     private val contactDiaryCoronaTestDao: ContactDiaryCoronaTestDao by lazy {
         contactDiaryDatabase.coronaTestDao()
+    }
+
+    private val contactDiarySubmissionDao: ContactDiarySubmissionDao by lazy {
+        contactDiaryDatabase.submissionDao()
     }
 
     // Location
@@ -280,6 +287,20 @@ class DefaultContactDiaryRepository @Inject constructor(
         } else {
             throw IllegalArgumentException("Entity has default id")
         }
+    }
+
+    override val submissions: Flow<List<ContactDiarySubmissionEntity>> = contactDiarySubmissionDao.allSubmissions()
+
+    override suspend fun insertSubmissionAt(submittedAt: Instant) {
+        Timber.d("insertSubmissionAt($submittedAt)")
+        contactDiarySubmissionDao.insertSubmission(
+            ContactDiarySubmissionEntity(submittedAt = submittedAt)
+        )
+    }
+
+    override suspend fun deleteSubmissions(submissions: List<ContactDiarySubmissionEntity>) {
+        Timber.d("deleteSubmissions(%s)", submissions.map { it.id })
+        contactDiarySubmissionDao.delete(submissions)
     }
 
     override suspend fun reset() {

@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 
-internal data class AttestationContainer(
-    private val ourSalt: ByteArray,
-    private val report: SafetyNetClientWrapper.Report
+data class AttestationContainer(
+    val ourSalt: ByteArray,
+    val report: SafetyNetClientWrapper.Report
 ) : DeviceAttestation.Result {
     override val accessControlProtoBuf: PpacAndroid.PPACAndroid
         get() = PpacAndroid.PPACAndroid.newBuilder().apply {
@@ -20,6 +20,7 @@ internal data class AttestationContainer(
         Timber.v("requirePass(%s)", requirements)
 
         if (requirements.requireBasicIntegrity && !report.basicIntegrity) {
+            Timber.w("Requirement 'basicIntegrity' not met (${report.advice}).")
             throw SafetyNetException(
                 Type.BASIC_INTEGRITY_REQUIRED,
                 "Requirement 'basicIntegrity' not met (${report.advice})."
@@ -27,6 +28,7 @@ internal data class AttestationContainer(
         }
 
         if (requirements.requireCTSProfileMatch && !report.ctsProfileMatch) {
+            Timber.w("Requirement 'ctsProfileMatch' not met (${report.advice}).")
             throw SafetyNetException(
                 Type.CTS_PROFILE_MATCH_REQUIRED,
                 "Requirement 'ctsProfileMatch' not met (${report.advice})."
@@ -34,6 +36,7 @@ internal data class AttestationContainer(
         }
 
         if (requirements.requireBasicIntegrity && !report.evaluationTypes.contains("BASIC")) {
+            Timber.w("Requirement 'ctsProfileMatch' not met (${report.advice}).")
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_BASIC_REQUIRED,
                 "Evaluation type 'BASIC' not met (${report.advice})."
@@ -41,6 +44,7 @@ internal data class AttestationContainer(
         }
 
         if (requirements.requireEvaluationTypeHardwareBacked && !report.evaluationTypes.contains("HARDWARE_BACKED")) {
+            Timber.w("Requirement 'ctsProfileMatch' not met (${report.advice}).")
             throw SafetyNetException(
                 Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED,
                 "Evaluation type 'HARDWARE_BACKED' not met (${report.advice})."

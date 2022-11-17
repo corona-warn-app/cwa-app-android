@@ -37,6 +37,9 @@ class ContactDiaryCleanTask @Inject constructor(
 
             clearObsoleteCoronaTests()
             Timber.tag(TAG).d("Obsolete Contact Diary Corona Tests cleaned up")
+
+            clearObsoleteSubmissions()
+            Timber.tag(TAG).d("Obsolete Contact Diary Submissions cleaned up")
         }
 
         object : Task.Result {}

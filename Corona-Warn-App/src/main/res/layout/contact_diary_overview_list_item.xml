@@ -27,13 +27,17 @@
         layout="@layout/contact_diary_overview_day_list_item_test_results" />
 
     <include
+        android:id="@+id/day_submission"
+        layout="@layout/contact_diary_overview_day_list_item_submission" />
+
+    <include
         android:id="@+id/day_contact"
         layout="@layout/contact_diary_overview_day_list_item_contact" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="day_header,day_risk_enf,day_risk_event,day_test_result,day_contact"
+        app:constraint_referenced_ids="day_header,day_risk_enf,day_risk_event,day_test_result,day_submission,day_contact"
         app:flow_maxElementsWrap="1"
         app:flow_wrapMode="chain"
         app:layout_constraintBottom_toBottomOf="parent"

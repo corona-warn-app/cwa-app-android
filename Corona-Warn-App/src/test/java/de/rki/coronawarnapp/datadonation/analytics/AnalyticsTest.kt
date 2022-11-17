@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirements
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.appconfig.mapping.AnalyticsConfigMapper
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.ExposureRiskMetadataDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata.UserMetadataDonor
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
+import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpacAndroid
@@ -38,6 +40,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Duration
+import kotlin.random.Random
 
 class AnalyticsTest : BaseTest() {
     @MockK lateinit var dataDonationAnalyticsServer: DataDonationAnalyticsServer
@@ -50,6 +53,7 @@ class AnalyticsTest : BaseTest() {
     @MockK lateinit var lastAnalyticsSubmissionLogger: LastAnalyticsSubmissionLogger
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var onboardingSettings: OnboardingSettings
+    @MockK lateinit var playbook: Playbook
 
     private val baseTime: Instant = Instant.ofEpochMilli(0)
 
@@ -61,7 +65,9 @@ class AnalyticsTest : BaseTest() {
         every { configData.analytics } returns analyticsConfig
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
         every { timeStamper.nowUTC } returns baseTime
-
+        every { analyticsConfig.plausibleDeniabilityParameters } returns
+            AnalyticsConfigMapper.PlausibleDeniabilityParametersContainer()
+        coEvery { playbook.submitFake() } just Runs
         val twoDaysAgo = baseTime.minus(Duration.ofDays(2))
         every { settings.lastSubmittedTimestamp } returns flowOf(twoDaysAgo)
         every { settings.analyticsEnabled } returns flowOf(true)
@@ -83,7 +89,9 @@ class AnalyticsTest : BaseTest() {
             settings = settings,
             logger = lastAnalyticsSubmissionLogger,
             timeStamper = timeStamper,
-            onboardingSettings = onboardingSettings
+            onboardingSettings = onboardingSettings,
+            playbook = playbook,
+            randomSource = Random
         )
     )
 
@@ -217,7 +225,7 @@ class AnalyticsTest : BaseTest() {
     }
 
     @Test
-    fun `submit analytics data`() {
+    fun `submit analytics data - no fake key submission`() {
         val metadata = PpaData.ExposureRiskMetadata.newBuilder()
             .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
             .setMostRecentDateAtRiskLevel(baseTime.toEpochMilli())
@@ -264,6 +272,67 @@ class AnalyticsTest : BaseTest() {
         coVerify(exactly = 1) {
             analytics.submitAnalyticsData(configData)
             dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
+        }
+
+        coVerify(exactly = 0) {
+            playbook.submitFake()
+        }
+    }
+
+    @Test
+    fun `submit analytics data - fake key submission`() {
+        every { analyticsConfig.plausibleDeniabilityParameters } returns
+            AnalyticsConfigMapper.PlausibleDeniabilityParametersContainer(
+                probabilityOfFakeKeySubmission = 1.0
+            )
+
+        val metadata = PpaData.ExposureRiskMetadata.newBuilder()
+            .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            .setMostRecentDateAtRiskLevel(baseTime.toEpochMilli())
+            .setDateChangedComparedToPreviousSubmission(true)
+            .setRiskLevelChangedComparedToPreviousSubmission(true)
+            .build()
+
+        val payload = PpaData.PPADataAndroid.newBuilder()
+            .addExposureRiskMetadataSet(metadata)
+            .build()
+
+        val analyticsRequest = PpaDataRequestAndroid.PPADataRequestAndroid.newBuilder()
+            .setPayload(payload)
+            .setAuthentication(PpacAndroid.PPACAndroid.getDefaultInstance())
+            .build()
+
+        val donationRequestSlot = slot<DonorModule.Request>()
+        coEvery { exposureRiskMetadataDonor.beginDonation(capture(donationRequestSlot)) } returns
+            ExposureRiskMetadataDonor.ExposureRiskMetadataContribution(
+                contributionProto = metadata,
+                onContributionFinished = {}
+            )
+
+        coEvery { deviceAttestation.attest(any()) } returns
+            object : DeviceAttestation.Result {
+                override val accessControlProtoBuf: PpacAndroid.PPACAndroid
+                    get() = PpacAndroid.PPACAndroid.getDefaultInstance()
+
+                override fun requirePass(requirements: SafetyNetRequirements) {}
+            }
+
+        val analytics = createInstance()
+
+        runTest {
+            val result = analytics.submitIfWanted()
+            result.apply {
+                successful shouldBe true
+                shouldRetry shouldBe false
+            }
+        }
+
+        donationRequestSlot.captured.currentConfig shouldBe configData
+
+        coVerify(exactly = 1) {
+            analytics.submitAnalyticsData(configData)
+            dataDonationAnalyticsServer.uploadAnalyticsData(analyticsRequest)
+            playbook.submitFake()
         }
     }
 

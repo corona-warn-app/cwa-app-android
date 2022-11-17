@@ -50,8 +50,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -303,13 +303,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) {
         // PCR test card, register test is added below
         val pcrTestCard = testPCR.toTestCardItem(testPCR?.identifier.orEmpty())
-        if (pcrTestCard !is TestUnregisteredCard.Item) {
+        if (pcrTestCard !is RegisterTestCard.Item) {
             add(pcrTestCard)
         }
 
         // RAT test card, register test is added below
         val ratTestCard = testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier.orEmpty())
-        if (ratTestCard !is TestUnregisteredCard.Item) {
+        if (ratTestCard !is RegisterTestCard.Item) {
             add(ratTestCard)
         }
 
@@ -325,7 +325,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
         // Register test card
         add(
-            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+            RegisterTestCard.Item(SubmissionStatePCR.NoTest) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
         )
@@ -360,7 +360,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
-            is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
+            is SubmissionStatePCR.NoTest -> RegisterTestCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
 
@@ -410,7 +410,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig, testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
-            is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
+            is SubmissionStateRAT.NoTest -> RegisterTestCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
 

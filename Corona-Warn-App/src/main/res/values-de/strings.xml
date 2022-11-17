@@ -1050,7 +1050,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for pendin family test result next steps -->
     <string name="submission_family_test_result_pending_steps_waiting_heading">"Das Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, löschen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
     <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\nSie bekommen das Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -1216,7 +1216,9 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Bitte beachten Sie:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Machen Sie einen PCR-Test, um dieses Test-Ergebnis zu verifizieren."</string>
+    <string name="submission_done_pcr_validation">"Falls noch nicht geschehen, machen Sie einen PCR-Test, um dieses Testergebnis zu verifizieren."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Ihre Warnung wird dem Kontakt-Tagebuch hinzugefügt."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text after submission: isolate -->

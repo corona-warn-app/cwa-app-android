@@ -47,61 +47,92 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_register_test_illustration" />
 
-                <include
-                    android:id="@+id/submission_dispatcher_qr"
-                    layout="@layout/include_dispatcher_card"
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
+                    android:id="@+id/srs_self_test"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:clickable="true"
                     android:focusable="true"
-                    app:body="@{@string/submission_dispatcher_qr_card_text}"
-                    app:cardBackground="@{@drawable/grey_card_ripple}"
-                    app:headline="@{@string/submission_dispatcher_card_qr}"
-                    app:iconTint="@{@color/colorTextPrimary2}"
-                    app:illustration="@{@drawable/ic_submission_illustration_qr_code_card}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_illustration"
-                    app:textColor="@{@color/colorOnPrimary}" />
+                    app:body="@string/srs_self_test_body"
+                    app:headline="@string/srs_self_test_title"
+                    app:illustration="@drawable/ic_self_test_illustration"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_illustration" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
+                    android:id="@+id/positive_self_test"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:body="@string/srs_positive_test_no_answer_body"
+                    app:headline="@string/srs_positive_test_no_answer_title"
+                    app:illustration="@drawable/ic_positive_self_test_illustration"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/srs_self_test" />
+
+                <TextView
+                    android:id="@+id/test_registration_title"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:accessibilityHeading="true"
+                    android:text="@string/dispatcher_test_registration_title"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/positive_self_test" />
+
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
+                    android:id="@+id/submission_dispatcher_qr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:body="@string/submission_dispatcher_qr_card_text"
+                    app:headline="@string/submission_dispatcher_card_qr"
+                    app:illustration="@drawable/ic_submission_illustration_qr_code_card"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/test_registration_title" />
+
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
                     android:id="@+id/submission_dispatcher_test_center"
-                    layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:clickable="true"
                     android:focusable="true"
-                    app:body="@{@string/submission_dispatcher_card_test_center_text}"
-                    app:cardBackground="@{@drawable/grey_card_ripple}"
-                    app:headline="@{@string/submission_dispatcher_card_test_center}"
-                    app:icon="@{@drawable/ic_external_link}"
-                    app:iconTint="@{@color/colorTextPrimary2}"
-                    app:illustration="@{@drawable/ic_submission_illustration_test_center_card}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_qr"
-                    app:textColor="@{@color/colorOnPrimary}" />
+                    app:body="@string/submission_dispatcher_card_test_center_text"
+                    app:headline="@string/submission_dispatcher_card_test_center"
+                    app:illustration="@drawable/ic_submission_illustration_test_center_card"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_qr"
+                    app:topIcon="@drawable/ic_external_link" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
                     android:id="@+id/profile_card"
-                    layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:clickable="true"
                     android:focusable="true"
-                    app:body="@{@string/rat_profile_open_card_subtitle}"
-                    app:cardBackground="@{@drawable/blue_card_ripple}"
-                    app:headline="@{@string/rat_profile_open_card_title}"
-                    app:icon="@{@drawable/ic_forward}"
-                    app:iconTint="@{@color/whiteAlpha60}"
-                    app:illustration="@{@drawable/ic_rat_profile_open_card_illustration}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_test_center"
-                    app:textColor="@{@android:color/white}" />
+                    app:body="@string/rat_profile_open_card_subtitle"
+                    app:cardBackground="@drawable/blue_card_ripple"
+                    app:colorForText="@android:color/white"
+                    app:headline="@string/rat_profile_open_card_title"
+                    app:iconTint="@color/whiteAlpha60"
+                    app:illustration="@drawable/ic_rat_profile_open_card_illustration"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_test_center" />
+
 
                 <TextView
                     android:id="@+id/submission_dispatcher_already_positive_text"
@@ -110,46 +141,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/submission_dispatcher_already_positive_subheadline"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/profile_card" />
+                    app:layout_constraintTop_toBottomOf="@id/profile_card"
+                    tools:visibility="visible" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
                     android:id="@+id/submission_dispatcher_tan_code"
-                    layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:clickable="true"
                     android:focusable="true"
-                    app:body="@{@string/submission_dispatcher_tan_code_card_text}"
-                    app:cardBackground="@{@drawable/grey_card_ripple}"
-                    app:headline="@{@string/submission_dispatcher_card_tan_code}"
-                    app:iconTint="@{@color/colorTextPrimary2}"
-                    app:illustration="@{@drawable/ic_submission_illustration_tan_code_card}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_already_positive_text"
-                    app:textColor="@{@color/colorOnPrimary}" />
+                    android:visibility="gone"
+                    app:body="@string/submission_dispatcher_tan_code_card_text"
+                    app:headline="@string/submission_dispatcher_card_tan_code"
+                    app:illustration="@drawable/ic_submission_illustration_tan_code_card"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_already_positive_text"
+                    tools:visibility="visible" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.DispatcherCardView
                     android:id="@+id/submission_dispatcher_tan_tele"
-                    layout="@layout/include_dispatcher_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:clickable="true"
                     android:focusable="true"
-                    app:body="@{@string/submission_dispatcher_tan_tele_card_text}"
-                    app:cardBackground="@{@drawable/grey_card_ripple}"
-                    app:headline="@{@string/submission_dispatcher_card_tan_tele}"
-                    app:iconTint="@{@color/colorTextPrimary2}"
-                    app:illustration="@{@drawable/ic_submission_illustration_tan_hotline_card}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_tan_code"
-                    app:textColor="@{@color/colorOnPrimary}" />
+                    android:visibility="gone"
+                    app:body="@string/submission_dispatcher_tan_tele_card_text"
+                    app:headline="@string/submission_dispatcher_card_tan_tele"
+                    app:illustration="@drawable/ic_submission_illustration_tan_hotline_card"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/submission_dispatcher_tan_code"
+                    tools:visibility="visible" />
 
                 <include layout="@layout/merge_guidelines_side" />
 

@@ -17,8 +17,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestNegativeCard
+import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tracing.RiskCalculationState
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
 import de.rki.coronawarnapp.tracing.states.LowRisk
@@ -127,7 +127,7 @@ object HomeData {
     }
 
     object Submission {
-        val TEST_UNREGISTERED_ITEM = TestUnregisteredCard.Item(
+        val TEST_UNREGISTERED_ITEM = RegisterTestCard.Item(
             state = NoTest,
             onClickAction = {}
         )
