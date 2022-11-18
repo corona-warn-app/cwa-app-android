@@ -32,7 +32,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     val symptomIndication = symptomIndicationInternal.asLiveData(context = dispatcherProvider.Default)
 
     fun onNextClick() {
-        when (symptomIndication.value) {
+        when (symptomIndicationInternal.value) {
             Symptoms.Indication.POSITIVE -> {
                 events.postValue(
                     SrsSymptomsIntroductionNavigation.GoToSymptomCalendar(
@@ -49,7 +49,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
 
     fun onWarningClicked() {
         showLoadingIndicator.postValue(true)
-        when (symptomIndication.value) {
+        when (symptomIndicationInternal.value) {
             Symptoms.Indication.NEGATIVE -> {
                 submitSRS(Symptoms.Indication.NEGATIVE)
             }
