@@ -22,6 +22,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -115,6 +116,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                             EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent(it)
                         )
                     }
+
                 is EditCheckInViewModel.DateTimePickerEvent.TimePickerEvent ->
                     showTimePicker(event.localTime) {
                         viewModel.onStartTimeChanged(
@@ -132,6 +134,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                             EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent(it)
                         )
                     }
+
                 is EditCheckInViewModel.DateTimePickerEvent.TimePickerEvent ->
                     showTimePicker(event.localTime) {
                         viewModel.onEndTimeChanged(
@@ -149,7 +152,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
         MaterialDatePicker
             .Builder
             .datePicker()
-            .setSelection(defaultValue?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli())
+            .setSelection(defaultValue?.atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli())
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
