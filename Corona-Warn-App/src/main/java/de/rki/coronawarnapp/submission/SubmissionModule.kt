@@ -117,4 +117,4 @@ annotation class SubmissionSettingsDataStore
 private const val LEGACY_SHARED_PREFS_SUBMISSION_SETTINGS_SETTINGS_NAME = "submission_localdata"
 private const val STORAGE_DATASTORE_SUBMISSION_SETTINGS_SETTINGS_NAME = "submission_settings_storage"
 
-private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB

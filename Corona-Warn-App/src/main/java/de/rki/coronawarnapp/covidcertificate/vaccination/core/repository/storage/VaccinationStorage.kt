@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.serialization.SerializationModule.Companion.baseGson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -60,18 +59,19 @@ class VaccinationStorage @Inject constructor(
     suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("loadLegacyData()")
 
-        val persons = dataStore.data.mapNotNull {
-            it.asMap().keys.map { key ->
-                if (!key.name.startsWith("vaccination.person.")) {
-                    return@mapNotNull null
-                }
-                gson.fromJson<VaccinatedPersonData>(it[key] as String, TYPE_TOKEN).also {
-                    Timber.tag(TAG).v("Person loaded: %s", key.name)
-                }
+        val persons = mutableListOf<VaccinatedPersonData>()
+
+        dataStore.data.first().asMap().forEach { (key, value) ->
+            if (key.name.startsWith("vaccination.person.")) {
+                persons.add(
+                    gson.fromJson<VaccinatedPersonData>(value as String, LEGACY_TYPE_TOKEN).also {
+                        Timber.tag(TAG).v("Person loaded: %s", key.name)
+                    }
+                )
             }
         }
 
-        return persons.first().toSet()
+        return persons.toSet()
     }
 
     suspend fun clearLegacyData(): Unit = mutex.withLock {
@@ -91,5 +91,6 @@ class VaccinationStorage @Inject constructor(
         private const val TAG = "VaccinationStorage"
         val PKEY_VACCINATION_CERT = stringPreferencesKey("vaccination.certificate")
         val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
+        val LEGACY_TYPE_TOKEN = object : TypeToken<VaccinatedPersonData>() {}.type
     }
 }
