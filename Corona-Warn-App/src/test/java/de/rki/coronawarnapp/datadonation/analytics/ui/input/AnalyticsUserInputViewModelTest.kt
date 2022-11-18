@@ -79,6 +79,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
             UserInfoItem(data = PPAAgeGroup.AGE_GROUP_30_TO_59, label = mockk(), isSelected = false)
         )
 
+        Thread.sleep(1)
         analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_30_TO_59
         analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
         analyticsSettings.userInfoDistrict.first() shouldBe 0
@@ -121,6 +122,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
             UserInfoItem(data = PPAFederalState.FEDERAL_STATE_NRW, label = mockk(), isSelected = false)
         )
 
+        Thread.sleep(1)
         analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
         analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_NRW
         analyticsSettings.userInfoDistrict.first() shouldBe 0
@@ -157,6 +159,8 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
         instance.selectUserInfoItem(
             UserInfoItem(data = Districts.District(districtId = 9000), label = mockk(), isSelected = false)
         )
+
+        Thread.sleep(1)
         analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
         analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
         analyticsSettings.userInfoDistrict.first() shouldBe 9000
