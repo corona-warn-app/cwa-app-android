@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData.Companion.personAData2Vac
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage.Companion.LEGACY_TYPE_TOKEN
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage.Companion.PKEY_VACCINATION_CERT
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -51,7 +50,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `legacy data is correctly loaded`() = runTest2 {
         val storage = createInstance()
-        val json = gson.toJson(personAData2Vac, LEGACY_TYPE_TOKEN)
+        val json = gson.toJson(personAData2Vac)
         dataStore[stringPreferencesKey("vaccination.person.person1")] = json
 
         val legacyData = storage.loadLegacyData()
@@ -62,7 +61,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `legacy data is empty when key doesn't match`() = runTest2 {
         val storage = createInstance()
-        val json = gson.toJson(personAData2Vac, LEGACY_TYPE_TOKEN)
+        val json = gson.toJson(personAData2Vac)
         dataStore[stringPreferencesKey("vaccination.animal")] = json
 
         storage.loadLegacyData() shouldBe emptySet<VaccinatedPersonData>()

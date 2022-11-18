@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.serialization.SerializationModule.Companion.baseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
@@ -64,7 +65,7 @@ class VaccinationStorage @Inject constructor(
         dataStore.data.first().asMap().forEach { (key, value) ->
             if (key.name.startsWith("vaccination.person.")) {
                 persons.add(
-                    gson.fromJson<VaccinatedPersonData>(value as String, LEGACY_TYPE_TOKEN).also {
+                    gson.fromJson<VaccinatedPersonData>(value as String).also {
                         Timber.tag(TAG).v("Person loaded: %s", key.name)
                     }
                 )
@@ -91,6 +92,5 @@ class VaccinationStorage @Inject constructor(
         private const val TAG = "VaccinationStorage"
         val PKEY_VACCINATION_CERT = stringPreferencesKey("vaccination.certificate")
         val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
-        val LEGACY_TYPE_TOKEN = object : TypeToken<VaccinatedPersonData>() {}.type
     }
 }
