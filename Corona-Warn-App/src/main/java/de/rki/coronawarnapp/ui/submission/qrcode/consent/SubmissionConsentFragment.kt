@@ -64,6 +64,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
+
                 is SubmissionNavigationEvents.ResolvePlayServicesException ->
                     it.exception.status.startResolutionForResult(
                         requireActivity(),
@@ -79,6 +80,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     ),
                     navOptions
                 )
+
                 is SubmissionNavigationEvents.NavigateClose -> {
                     if (navArgs.comesFromDispatcherFragment) {
                         findNavController().navigate(
@@ -86,12 +88,14 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         )
                     } else popBackStack()
                 }
+
                 is SubmissionNavigationEvents.NavigateBackToTestRegistration -> findNavController().navigate(
                     SubmissionConsentFragmentDirections
                         .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
                             navArgs.coronaTestQrCode
                         )
                 )
+
                 else -> Unit
             }
         }
@@ -113,17 +117,20 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 State.Working -> {
                     // Handled above
                 }
+
                 is State.Error -> state.showExceptionDialog(this) { popBackStack() }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                             .run { findNavController().navigate(this, navOptions) }
                 }
