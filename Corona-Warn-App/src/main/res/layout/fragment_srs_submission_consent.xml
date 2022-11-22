@@ -109,10 +109,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@string/srs_section_warn_interval_text"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toEndOf="@id/srs_section_warn_interval_image"
-                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image" />
+                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image"
+                    tools:text="@string/srs_section_warn_interval_text"/>
 
 
                 <include
