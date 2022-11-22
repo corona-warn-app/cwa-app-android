@@ -50,10 +50,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="45dp"
+                    android:layout_marginBottom="45dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/survey_details_headline">
+                    app:layout_constraintTop_toBottomOf="@+id/survey_details_headline"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <TextView
                         android:id="@+id/legal_title"
@@ -80,30 +82,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/legal_title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/survey_details_bottom_info_title"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="33dp"
-                    android:focusable="true"
-                    android:text="@string/datadonation_survey_consent_details_title_below"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/consent_layout" />
-
-                <TextView
-                    android:id="@+id/survey_details_bottom_info_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:focusable="true"
-                    android:text="@string/datadonation_survey_consent_details_text_below"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/survey_details_bottom_info_title" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
