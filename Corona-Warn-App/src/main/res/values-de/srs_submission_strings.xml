@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -72,7 +72,7 @@
     <!-- XTXT: Type selection button rapid pcr text -->
     <string name="srs_rapid_pcr_text">PCR-Schnelltest (PoC-NAT-Test)</string>
     <!-- XTXT: Type selection button other text -->
-    <string name="srs_other_text">Sonstige / keine Angabe</string>
+    <string name="srs_other_text">Keine Angabe</string>
     <!-- XTXT: Type selection next button text -->
     <string name="type_selection_next_button_text">Weiter</string>
 
@@ -107,7 +107,7 @@
     <!-- XTXT: SRS NO_NETWORK error message -->
     <string name="srs_error_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
-    <string name="srs_error_submission_too_early">Sie können momentan andere nicht warnen, da Sie innerhalb der vergangenen %d Tage bereits ein positives Testergebnis gemeldet haben. Dies dient der Vermeidung von Missbrauch. Einen offiziellen Test können Sie jederzeit in der App registrieren und andere damit warnen.</string>
+    <string name="srs_error_submission_too_early">Sie können momentan andere nicht warnen, da Sie innerhalb der vergangenen %d Tage bereits ein positives Testergebnis gemeldet haben. Dies dient der Vermeidung von Missbrauch. Einen offiziellen Test können Sie jederzeit registrieren und andere damit warnen.</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
     <string name="srs_error_time_since_onboarding_unverified">Aus Sicherheitsgründen können Sie erst %d Stunden, nachdem Sie die App installiert oder aktualisiert haben, diese Art von Warnung senden. Bitte versuchen Sie es in %d Stunden erneut.</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
