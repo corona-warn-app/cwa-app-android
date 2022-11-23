@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title"></string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle"></string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description"></string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button"></string>
+
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title"></string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title"></string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body"></string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title"></string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body"></string>
+
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header"></string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text"></string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text"></string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text"></string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text"></string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text"></string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text"></string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text"></string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text"></string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text"></string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text"></string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title"></string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text"></string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header"></string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text"></string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="srs_rat_registered_no_result_text"></string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="srs_rat_not_registered_text"></string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="srs_pcr_registered_no_result_text"></string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="srs_pcr_not_registered_text"></string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="srs_rapid_pcr_text"></string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="srs_other_text"></string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text"></string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title"></string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message"></string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue"></string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel"></string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title"></string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message"></string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button"></string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button"></string>
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title"></string>
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline"></string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time"></string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted"></string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network"></string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early"></string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified"></string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later"></string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services"></string>
+</resources>

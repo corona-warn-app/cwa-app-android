@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.srs.ui.consent
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfigContainer
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,12 +26,14 @@ open class SrsSubmissionConsentFragmentViewModelTest {
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
     @MockK lateinit var checkInRepository: CheckInRepository
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     @MockK lateinit var checkIn: CheckIn
 
     fun createInstance(openTypeSelection: Boolean) = SrsSubmissionConsentFragmentViewModel(
         openTypeSelection,
         checkInRepository,
+        appConfigProvider,
         dispatcherProvider = TestDispatcherProvider(),
         tekHistoryUpdaterFactory
     )
@@ -35,6 +42,7 @@ open class SrsSubmissionConsentFragmentViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         every { tekHistoryUpdaterFactory.create(any()) } returns tekHistoryUpdater
+        coEvery { appConfigProvider.currentConfig } returns flowOf(config())
     }
 
     @Test
@@ -87,5 +95,9 @@ open class SrsSubmissionConsentFragmentViewModelTest {
         vm.onConsentCancel()
 
         vm.event.value shouldBe SrsSubmissionConsentNavigationEvents.NavigateToMainScreen
+    }
+
+    private fun config() = mockk<ConfigData>().apply {
+        every { selfReportSubmission } returns SelfReportSubmissionConfigContainer.DEFAULT
     }
 }
