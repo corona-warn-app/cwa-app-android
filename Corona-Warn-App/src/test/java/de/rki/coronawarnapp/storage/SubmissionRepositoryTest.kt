@@ -18,11 +18,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.slot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 
 class SubmissionRepositoryTest : BaseTest() {
@@ -52,7 +52,7 @@ class SubmissionRepositoryTest : BaseTest() {
         }
 
         submissionSettings.apply {
-            every { symptoms } returns mockFlowPreference(null)
+            every { symptoms } returns flowOf(null)
         }
     }
 

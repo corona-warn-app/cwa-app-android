@@ -54,9 +54,10 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
         }
     }
 
-    fun onNewUserActivity() {
-        Timber.d("onNewUserActivity()")
-        autoSubmission.updateLastSubmissionUserActivity()
+    fun onNewUserActivity() = launch {
+        autoSubmission.updateLastSubmissionUserActivity().also {
+            Timber.d("onNewUserActivity()")
+        }
     }
 
     @AssistedFactory

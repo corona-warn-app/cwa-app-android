@@ -28,11 +28,11 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
 
     val completedOnboardingEvent = SingleLiveEvent<Unit>()
 
-    val ageGroup = settings.userInfoAgeGroup.flow.asLiveData()
-    val federalState = settings.userInfoFederalState.flow.asLiveData()
+    val ageGroup = settings.userInfoAgeGroup.asLiveData2()
+    val federalState = settings.userInfoFederalState.asLiveData2()
     val district: LiveData<Districts.District?> = combine(
         flow { emit(districts.loadDistricts()) },
-        settings.userInfoDistrict.flow
+        settings.userInfoDistrict
     ) { districtsList, id ->
         districtsList.singleOrNull { it.districtId == id }
     }.asLiveData(dispatcherProvider.IO)
@@ -40,8 +40,8 @@ class OnboardingAnalyticsViewModel @AssistedInject constructor(
     fun onProceed(enable: Boolean) {
         appScope.launch(context = dispatcherProvider.IO) {
             analytics.setAnalyticsEnabled(enabled = enable)
+            settings.updateLastOnboardingVersionCode(BuildConfigWrap.VERSION_CODE)
         }
-        settings.lastOnboardingVersionCode.update { BuildConfigWrap.VERSION_CODE }
         completedOnboardingEvent.postValue(Unit)
     }
 

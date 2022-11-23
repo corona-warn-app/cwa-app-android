@@ -1,42 +1,40 @@
 package de.rki.coronawarnapp.coronatest.storage
 
-import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.PKEY_DATA_PCR
+import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage.Companion.PKEY_DATA_RA
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 import java.io.IOException
 import java.time.Instant
 import java.time.LocalDate
 
 class CoronaTestStorageTest : BaseTest() {
-    @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+
+    lateinit var dataStore: FakeDataStore
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("coronatest_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        dataStore = FakeDataStore()
     }
 
-    private fun createInstance() = CoronaTestStorage(
-        context = context,
+    private fun createInstance(scope: TestScope) = CoronaTestStorage(
+        appScope = scope,
+        dataStore = dataStore,
         baseGson = SerializationModule().baseGson()
     )
 
@@ -85,35 +83,34 @@ class CoronaTestStorageTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free`() {
-        createInstance()
+    fun `init is sideeffect free`() = runTest2 {
+        createInstance(this)
     }
 
     @Test
-    fun `storing empty set deletes data`() {
-        mockPreferences.edit {
-            putString("dontdeleteme", "test")
-            putString("coronatest.data.ra", "test")
-            putString("coronatest.data.pcr", "test")
-        }
-        createInstance().coronaTests = emptySet()
+    fun `storing empty set deletes data`() = runTest2 {
+        dataStore[stringPreferencesKey("dontdeleteme")] = "test"
+        dataStore[PKEY_DATA_RA] = "test"
+        dataStore[PKEY_DATA_PCR] = "test"
 
-        mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
+        createInstance(this).updateCoronaTests(emptySet())
+
+        dataStore[stringPreferencesKey("dontdeleteme")] shouldBe "test"
     }
 
     @Test
-    fun `store only PCRT`() {
-        val instance = createInstance()
-        instance.coronaTests = setOf(
-            pcrTest.copy(
-                isProcessing = true,
-                lastError = IOException()
+    fun `store only PCRT`() = runTest2 {
+        val instance = createInstance(this)
+        instance.updateCoronaTests(
+            setOf(
+                pcrTest.copy(
+                    isProcessing = true,
+                    lastError = IOException()
+                )
             )
         )
 
-        val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr",
@@ -135,7 +132,7 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single().apply {
+        instance.getCoronaTests().single().apply {
             this shouldBe pcrTest.copy(
                 lastError = null,
                 isProcessing = false
@@ -145,13 +142,11 @@ class CoronaTestStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store only PCRT that has QrCode Hash`() {
-        val instance = createInstance()
-        instance.coronaTests = setOf(pcrTest1)
+    fun `store only PCRT that has QrCode Hash`() = runTest2 {
+        val instance = createInstance(this)
+        instance.updateCoronaTests(setOf(pcrTest1))
 
-        val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr1",
@@ -174,7 +169,7 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single().apply {
+        instance.getCoronaTests().single().apply {
             this shouldBe pcrTest1.copy(
                 lastError = null,
                 isProcessing = false
@@ -184,14 +179,12 @@ class CoronaTestStorageTest : BaseTest() {
     }
 
     @Test
-    fun `Store PCRT with isDccSupportedByPoc = false`() {
-        val instance = createInstance()
-        val test = pcrTest1.copy(_isDccSupportedByPoc = false)
-        instance.coronaTests = setOf(test)
+    fun `Store PCRT with isDccSupportedByPoc = false`() = runTest2 {
+        val instance = createInstance(this)
+        val pcrTest = pcrTest1.copy(_isDccSupportedByPoc = false)
+        instance.updateCoronaTests(setOf(pcrTest))
 
-        val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr1",
@@ -214,8 +207,8 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single().apply {
-            this shouldBe test.copy(
+        instance.getCoronaTests().single().apply {
+            this shouldBe pcrTest.copy(
                 lastError = null,
                 isProcessing = false
             )
@@ -224,18 +217,18 @@ class CoronaTestStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store only RAT`() {
-        val instance = createInstance()
-        instance.coronaTests = setOf(
-            raTest.copy(
-                isProcessing = true,
-                lastError = IOException()
+    fun `store only RAT`() = runTest2 {
+        val instance = createInstance(this)
+        instance.updateCoronaTests(
+            setOf(
+                raTest.copy(
+                    isProcessing = true,
+                    lastError = IOException()
+                )
             )
         )
 
-        val json = (mockPreferences.dataMapPeek["coronatest.data.ra"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-ra",
@@ -261,7 +254,7 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single().apply {
+        instance.getCoronaTests().single().apply {
             this shouldBe raTest.copy(
                 lastError = null,
                 isProcessing = false
@@ -271,13 +264,11 @@ class CoronaTestStorageTest : BaseTest() {
     }
 
     @Test
-    fun `store only RAT that has QrCodeHash`() {
-        val instance = createInstance()
-        instance.coronaTests = setOf(raTest1)
+    fun `store only RAT that has QrCodeHash`() = runTest2 {
+        val instance = createInstance(this)
+        instance.updateCoronaTests(setOf(raTest1))
 
-        val json = (mockPreferences.dataMapPeek["coronatest.data.ra"] as String)
-
-        json.toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-ra1",
@@ -304,41 +295,39 @@ class CoronaTestStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        instance.coronaTests.single().apply {
+        instance.getCoronaTests().single().apply {
             this shouldBe raTest1
             type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         }
     }
 
     @Test
-    fun `store one of each`() {
-        val instance = createInstance()
-        instance.coronaTests = setOf(raTest, pcrTest)
+    fun `store one of each`() = runTest2 {
+        val instance = createInstance(this)
+        instance.updateCoronaTests(setOf(raTest, pcrTest))
 
-        mockPreferences.contains("coronatest.data.ra") shouldBe true
-        mockPreferences.contains("coronatest.data.pcr") shouldBe true
+        dataStore[PKEY_DATA_RA] shouldNotBe null
+        dataStore[PKEY_DATA_PCR] shouldNotBe null
 
-        instance.coronaTests shouldBe setOf(raTest, pcrTest)
+        instance.getCoronaTests() shouldBe setOf(raTest, pcrTest)
     }
 
     @Test
-    fun `storing one and deleting the other`() {
-        val instance = createInstance()
+    fun `storing one and deleting the other`() = runTest2 {
+        val instance = createInstance(this)
 
-        instance.coronaTests = setOf(raTest)
-        mockPreferences.contains("coronatest.data.ra") shouldBe true
-        mockPreferences.contains("coronatest.data.pcr") shouldBe false
+        instance.updateCoronaTests(setOf(raTest))
+        dataStore[PKEY_DATA_RA] shouldNotBe null
+        dataStore[PKEY_DATA_PCR] shouldBe null
 
-        instance.coronaTests = setOf(pcrTest)
+        instance.updateCoronaTests(setOf(pcrTest))
+        dataStore[PKEY_DATA_RA] shouldBe null
+        dataStore[PKEY_DATA_PCR] shouldNotBe null
+        instance.getCoronaTests() shouldBe setOf(pcrTest)
 
-        mockPreferences.contains("coronatest.data.ra") shouldBe false
-        mockPreferences.contains("coronatest.data.pcr") shouldBe true
-        instance.coronaTests shouldBe setOf(pcrTest)
-
-        instance.coronaTests = setOf(raTest)
-
-        mockPreferences.contains("coronatest.data.ra") shouldBe true
-        mockPreferences.contains("coronatest.data.pcr") shouldBe false
-        instance.coronaTests shouldBe setOf(raTest)
+        instance.updateCoronaTests(setOf(raTest))
+        dataStore[PKEY_DATA_RA] shouldNotBe null
+        dataStore[PKEY_DATA_PCR] shouldBe null
+        instance.getCoronaTests() shouldBe setOf(raTest)
     }
 }

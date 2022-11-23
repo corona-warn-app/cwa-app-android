@@ -1,32 +1,52 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core
 
-import android.content.Context
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import androidx.annotation.VisibleForTesting
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.map
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
-import java.time.Instant
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CovidCertificateSettings @Inject constructor(
-    @AppContext val context: Context,
+    @CovidCertificateSettingsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
-    private val prefs by lazy {
-        context.getSharedPreferences("covid_certificate_localdata", Context.MODE_PRIVATE)
-    }
 
-    val isOnboarded = prefs.createFlowPreference(
-        key = "covid_certificate_onboarded",
-        defaultValue = false
+    val isOnboarded = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_COVID_CERTIFICATE_IS_ONBOARDED, defaultValue = false
     )
 
-    val lastDccStateBackgroundCheck = prefs.createFlowPreference("dcc.state.lastcheck", Instant.EPOCH)
+    suspend fun updateIsOnboarded(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_COVID_CERTIFICATE_IS_ONBOARDED, value = value
+    )
+
+    val lastDccStateBackgroundCheck = dataStore.dataRecovering.map(
+        PKEY_COVID_CERTIFICATE_LAST_DCC_STATE_BACKGROUND_CHECK
+    ).map { if (it != null && it != 0L) Instant.ofEpochMilli(it) else Instant.EPOCH }.distinctUntilChanged()
+
+    suspend fun updateLastDccStateBackgroundCheck(value: Instant) = dataStore.trySetValue(
+        preferencesKey = PKEY_COVID_CERTIFICATE_LAST_DCC_STATE_BACKGROUND_CHECK, value = value.toEpochMilli()
+    )
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 }
+
+@VisibleForTesting
+val PKEY_COVID_CERTIFICATE_IS_ONBOARDED = booleanPreferencesKey("covid_certificate_onboarded")
+@VisibleForTesting
+val PKEY_COVID_CERTIFICATE_LAST_DCC_STATE_BACKGROUND_CHECK = longPreferencesKey("dcc.state.lastcheck")

@@ -1,137 +1,191 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
-import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
+import kotlinx.coroutines.flow.map
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AnalyticsPCRTestResultSettings @Inject constructor(
-    @AppContext context: Context,
-    @BaseGson val gson: Gson,
-) : AnalyticsTestResultSettings(context, gson, "") // the original
+    @BaseGson private val gson: Gson,
+    @AnalyticsTestResultSettingsDataStore private val dataStore: DataStore<Preferences>
+) : AnalyticsTestResultSettings(gson, sharedPrefKeySuffix, dataStore) {
+    companion object {
+        const val sharedPrefKeySuffix = "" // the original
+    }
+}
 
 @Singleton
 class AnalyticsRATestResultSettings @Inject constructor(
-    @AppContext context: Context,
-    @BaseGson val gson: Gson,
-) : AnalyticsTestResultSettings(context, gson, "_RAT")
+    @BaseGson private val gson: Gson,
+    @AnalyticsTestResultSettingsDataStore private val dataStore: DataStore<Preferences>
+) : AnalyticsTestResultSettings(gson, sharedPrefKeySuffix, dataStore) {
+    companion object {
+        const val sharedPrefKeySuffix = "_RAT"
+    }
+}
 
 open class AnalyticsTestResultSettings(
-    private val context: Context,
-    gson: Gson,
-    sharedPrefKeySuffix: String
+    private val gson: Gson,
+    private val sharedPrefKeySuffix: String,
+    private val dataStore: DataStore<Preferences>
 ) {
-    private val prefs by lazy {
-        context.getSharedPreferences("analytics_testResultDonor$sharedPrefKeySuffix", Context.MODE_PRIVATE)
+
+    val testRegisteredAt = dataStore.dataRecovering.distinctUntilChanged(
+        key = longPreferencesKey(PREFS_KEY_TEST_REGISTERED_AT + sharedPrefKeySuffix), defaultValue = 0L
+    ).map { value ->
+        if (value != 0L) {
+            Instant.ofEpochMilli(value)
+        } else null
     }
 
-    val testRegisteredAt = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_REGISTERED_AT + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.toEpochMilli() ?: 0L)
-        }
+    suspend fun updateTestRegisteredAt(value: Instant) = dataStore.trySetValue(
+        preferencesKey = longPreferencesKey(PREFS_KEY_TEST_REGISTERED_AT + sharedPrefKeySuffix),
+        value = value.toEpochMilli()
     )
 
-    val ewRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_EW + sharedPrefKeySuffix,
-        reader = { key ->
-            PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
-                ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        },
-        writer = { key, value ->
-            putInt(key, value.number)
-        }
+    val ewRiskLevelAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_EW + sharedPrefKeySuffix),
+        defaultValue = PpaData.PPARiskLevel.RISK_LEVEL_LOW.number
+    ).map { value ->
+        PpaData.PPARiskLevel.forNumber(value)
+    }
+
+    suspend fun updateEwRiskLevelAtTestRegistration(value: PpaData.PPARiskLevel) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_EW + sharedPrefKeySuffix),
+        value = value.number
     )
 
-    val ptRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_PT + sharedPrefKeySuffix,
-        reader = { key ->
-            PpaData.PPARiskLevel.forNumber(getInt(key, PpaData.PPARiskLevel.RISK_LEVEL_LOW.number))
-                ?: PpaData.PPARiskLevel.RISK_LEVEL_LOW
-        },
-        writer = { key, value ->
-            putInt(key, value.number)
-        }
+    val ptRiskLevelAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_PT + sharedPrefKeySuffix),
+        defaultValue = PpaData.PPARiskLevel.RISK_LEVEL_LOW.number
+    ).map { value ->
+        PpaData.PPARiskLevel.forNumber(value)
+    }
+
+    suspend fun updatePtRiskLevelAtTestRegistration(value: PpaData.PPARiskLevel) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_RISK_LEVEL_AT_REGISTRATION_PT + sharedPrefKeySuffix),
+        value = value.number
     )
 
-    val finalTestResultReceivedAt = prefs.createFlowPreference(
-        key = PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT + sharedPrefKeySuffix,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
-                } else null
-            }
-        },
-        writer = { key, value ->
-            putLong(key, value?.toEpochMilli() ?: 0L)
-        }
+    val finalTestResultReceivedAt = dataStore.dataRecovering.distinctUntilChanged(
+        key = longPreferencesKey(PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT + sharedPrefKeySuffix),
+        defaultValue = 0L
+    ).map { value ->
+        if (value != 0L) {
+            Instant.ofEpochMilli(value)
+        } else null
+    }
+
+    suspend fun updateFinalTestResultReceivedAt(value: Instant) = dataStore.trySetValue(
+        preferencesKey = longPreferencesKey(PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT + sharedPrefKeySuffix),
+        value = value.toEpochMilli()
     )
 
-    val testResult = prefs.createFlowPreference(
-        key = PREFS_KEY_TEST_RESULT + sharedPrefKeySuffix,
-        reader = { key ->
-            val value = getInt(key, -1)
-            if (value == -1) {
-                null
-            } else {
-                CoronaTestResult.fromInt(value)
-            }
-        },
-        writer = { key, result ->
-            putInt(key, result?.value ?: -1)
+    val testResult = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_TEST_RESULT + sharedPrefKeySuffix),
+        defaultValue = -1
+    ).map { value ->
+        if (value == -1) {
+            null
+        } else {
+            CoronaTestResult.fromInt(value)
         }
+    }
+
+    suspend fun updateTestResult(value: CoronaTestResult) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_TEST_RESULT + sharedPrefKeySuffix),
+        value = value.value
     )
-    val ewHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_HOURS_SINCE_WARNING_EW + sharedPrefKeySuffix,
+
+    val ewHoursSinceHighRiskWarningAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_HOURS_SINCE_WARNING_EW + sharedPrefKeySuffix),
         defaultValue = -1
     )
 
-    val ptHoursSinceHighRiskWarningAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_HOURS_SINCE_WARNING_PT + sharedPrefKeySuffix,
+    suspend fun updateEwHoursSinceHighRiskWarningAtTestRegistration(value: Int) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_HOURS_SINCE_WARNING_EW + sharedPrefKeySuffix),
+        value = value
+    )
+
+    val ptHoursSinceHighRiskWarningAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_HOURS_SINCE_WARNING_PT + sharedPrefKeySuffix),
         defaultValue = -1
     )
 
-    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_DAYS_SINCE_RISK_LEVEL_EW + sharedPrefKeySuffix,
+    suspend fun updatePtHoursSinceHighRiskWarningAtTestRegistration(value: Int) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_HOURS_SINCE_WARNING_PT + sharedPrefKeySuffix),
+        value = value
+    )
+
+    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_DAYS_SINCE_RISK_LEVEL_EW + sharedPrefKeySuffix),
         defaultValue = -1
     )
 
-    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = prefs.createFlowPreference(
-        key = PREFS_KEY_DAYS_SINCE_RISK_LEVEL_PT + sharedPrefKeySuffix,
+    suspend fun updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(value: Int) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_DAYS_SINCE_RISK_LEVEL_EW + sharedPrefKeySuffix),
+        value = value
+    )
+
+    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = intPreferencesKey(PREFS_KEY_DAYS_SINCE_RISK_LEVEL_PT + sharedPrefKeySuffix),
         defaultValue = -1
     )
 
-    val exposureWindowsAtTestRegistration: FlowPreference<List<AnalyticsExposureWindow>?> = prefs.createFlowPreference(
-        key = PREFS_KEY_EXPOSURE_WINDOWS_AT_REGISTRATION + sharedPrefKeySuffix,
-        reader = FlowPreference.gsonReader<List<AnalyticsExposureWindow>?>(gson, null),
-        writer = FlowPreference.gsonWriter(gson)
+    suspend fun updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(value: Int) = dataStore.trySetValue(
+        preferencesKey = intPreferencesKey(PREFS_KEY_DAYS_SINCE_RISK_LEVEL_PT + sharedPrefKeySuffix),
+        value = value
     )
 
-    val exposureWindowsUntilTestResult: FlowPreference<List<AnalyticsExposureWindow>?> = prefs.createFlowPreference(
-        key = PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT + sharedPrefKeySuffix,
-        reader = FlowPreference.gsonReader<List<AnalyticsExposureWindow>?>(gson, null),
-        writer = FlowPreference.gsonWriter(gson)
+    val exposureWindowsAtTestRegistration = dataStore.dataRecovering.distinctUntilChanged(
+        key = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_AT_REGISTRATION + sharedPrefKeySuffix),
+        defaultValue = ""
+    ).map { value ->
+        if (value.isNotEmpty()) {
+            gson.fromJson<List<AnalyticsExposureWindow>>(value)
+        } else {
+            null
+        }
+    }
+
+    suspend fun updateExposureWindowsAtTestRegistration(value: List<AnalyticsExposureWindow>) = dataStore.trySetValue(
+        preferencesKey = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_AT_REGISTRATION + sharedPrefKeySuffix),
+        value = gson.toJson(value)
     )
 
-    fun clear() = prefs.clearAndNotify()
+    val exposureWindowsUntilTestResult = dataStore.dataRecovering.distinctUntilChanged(
+        key = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT + sharedPrefKeySuffix),
+        defaultValue = ""
+    ).map { value ->
+        if (value.isNotEmpty()) {
+            gson.fromJson<List<AnalyticsExposureWindow>>(value)
+        } else {
+            null
+        }
+    }
+
+    suspend fun updateExposureWindowsUntilTestResult(value: List<AnalyticsExposureWindow>) = dataStore.trySetValue(
+        preferencesKey = stringPreferencesKey(PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT + sharedPrefKeySuffix),
+        value = gson.toJson(value)
+    )
+
+    suspend fun clear() = dataStore.clear()
 
     companion object {
         private const val PREFS_KEY_TEST_RESULT = "testResultDonor.testResultAtRegistration" // wrong name legacy
@@ -141,8 +195,7 @@ open class AnalyticsTestResultSettings(
 
         private const val PREFS_KEY_FINAL_TEST_RESULT_RECEIVED_AT = "testResultDonor.finalTestResultReceivedAt"
 
-        private const val PREFS_KEY_TEST_REGISTERED_AT =
-            "testResultDonor.testRegisteredAt"
+        private const val PREFS_KEY_TEST_REGISTERED_AT = "testResultDonor.testRegisteredAt"
 
         private const val PREFS_KEY_HOURS_SINCE_WARNING_EW =
             "testResultDonor.ewHoursSinceHighRiskWarningAtTestRegistration"

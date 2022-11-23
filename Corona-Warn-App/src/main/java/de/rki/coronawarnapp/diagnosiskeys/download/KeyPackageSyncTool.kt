@@ -75,25 +75,25 @@ class KeyPackageSyncTool @Inject constructor(
     }
 
     private suspend fun runDaySync(locations: List<LocationCode>): BaseKeyPackageSyncTool.SyncResult {
-        val lastDownload = syncSettings.lastDownloadDays.value
+        val lastDownload = syncSettings.lastDownloadDays.first()
         Timber.tag(TAG).d("Synchronizing available days (lastDownload=%s).", lastDownload)
 
-        syncSettings.lastDownloadDays.update {
-            DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowUTC)
-        }
+        syncSettings.updateLastDownloadDays(DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowUTC))
 
         val syncResult = dayPackageSyncTool.syncMissingDayPackages(
             targetLocations = locations,
             forceIndexLookup = lastDownload == null || !lastDownload.successful
         )
 
-        syncSettings.lastDownloadDays.update {
-            if (it == null) {
-                Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
-                null
-            } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
-            }
+        val lastDownloadDays = syncSettings.lastDownloadDays.first()
+
+        if (lastDownloadDays == null) {
+            Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
+            syncSettings.updateLastDownloadDays(null)
+        } else {
+            syncSettings.updateLastDownloadDays(
+                lastDownloadDays.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
+            )
         }
 
         return syncResult.also {
@@ -102,27 +102,25 @@ class KeyPackageSyncTool @Inject constructor(
     }
 
     private suspend fun runHourSync(locations: List<LocationCode>): BaseKeyPackageSyncTool.SyncResult {
-        val lastDownload = syncSettings.lastDownloadHours.value
+        val lastDownload = syncSettings.lastDownloadHours.first()
         Timber.tag(TAG).d("Synchronizing available hours (lastDownload=%s).", lastDownload)
 
-        syncSettings.lastDownloadHours.update {
-            DownloadDiagnosisKeysSettings.LastDownload(
-                startedAt = timeStamper.nowUTC
-            )
-        }
+        syncSettings.updateLastDownloadHours(DownloadDiagnosisKeysSettings.LastDownload(startedAt = timeStamper.nowUTC))
 
         val syncResult = hourPackageSyncTool.syncMissingHourPackages(
             targetLocations = locations,
             forceIndexLookup = lastDownload == null || !lastDownload.successful
         )
 
-        syncSettings.lastDownloadHours.update {
-            if (it == null) {
-                Timber.tag(TAG).e("lastDownloadHours is missing a download start!?")
-                null
-            } else {
-                it.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
-            }
+        val lastDownloadHours = syncSettings.lastDownloadHours.first()
+
+        if (lastDownloadHours == null) {
+            Timber.tag(TAG).e("lastDownloadDays is missing a download start!?")
+            syncSettings.updateLastDownloadHours(null)
+        } else {
+            syncSettings.updateLastDownloadHours(
+                lastDownloadHours.copy(finishedAt = timeStamper.nowUTC, successful = syncResult.successful)
+            )
         }
 
         return syncResult.also {

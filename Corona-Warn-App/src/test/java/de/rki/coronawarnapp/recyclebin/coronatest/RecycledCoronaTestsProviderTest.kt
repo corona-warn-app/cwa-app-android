@@ -105,7 +105,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         coEvery { familyTestRepository.deleteTest(any()) } returns mockk()
 
         every { analyticsKeySubmissionCollector.reset(any()) } just Runs
-        every { analyticsTestResultCollector.clear(any()) } just Runs
+        coEvery { analyticsTestResultCollector.clear(any()) } just Runs
     }
 
     private fun createInstance() = RecycledCoronaTestsProvider(

@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -84,22 +85,26 @@ class FederalStateSelectionViewModel @AssistedInject constructor(
 
     val event = SingleLiveEvent<Events>()
 
-    fun selectUserInfoItem(item: ListItem) {
+    fun selectUserInfoItem(item: ListItem) = launch {
         when (item.data) {
             is PpaData.PPAFederalState -> {
                 if (selectedFederalState == null) {
                     event.postValue(Events.OpenDistricts(item.data))
                 } else {
-                    localStatisticsConfigStorage.activeSelections.update {
-                        it.withLocation(SelectedStatisticsLocation.SelectedFederalState(item.data, timeStamper.nowUTC))
-                    }
+                    localStatisticsConfigStorage.updateActiveSelections(
+                        localStatisticsConfigStorage.activeSelections.first().withLocation(
+                            SelectedStatisticsLocation.SelectedFederalState(item.data, timeStamper.nowUTC)
+                        )
+                    )
                     event.postValue(Events.FinishEvent)
                 }
             }
             is Districts.District -> {
-                localStatisticsConfigStorage.activeSelections.update {
-                    it.withLocation(SelectedStatisticsLocation.SelectedDistrict(item.data, timeStamper.nowUTC))
-                }
+                localStatisticsConfigStorage.updateActiveSelections(
+                    localStatisticsConfigStorage.activeSelections.first().withLocation(
+                        SelectedStatisticsLocation.SelectedDistrict(item.data, timeStamper.nowUTC)
+                    )
+                )
                 event.postValue(Events.FinishEvent)
             }
             else -> throw IllegalArgumentException()

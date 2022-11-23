@@ -12,24 +12,26 @@ import de.rki.coronawarnapp.task.TaskState
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
-import io.mockk.verifySequence
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.coroutines.runTest2
 import java.time.Instant
 
 class AutoSubmissionTest : BaseTest() {
@@ -39,10 +41,10 @@ class AutoSubmissionTest : BaseTest() {
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var taskController: TaskController
 
-    private val autoSubmissionEnabled: FlowPreference<Boolean> = mockFlowPreference(false)
-    private val lastSubmissionUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
-    private val autoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
-    private val autoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
+    private val autoSubmissionEnabled: Flow<Boolean> = flowOf(false)
+    private val lastSubmissionUserActivityUTC: Flow<Instant> = flowOf(Instant.EPOCH)
+    private val autoSubmissionAttemptsCount: Flow<Int> = flowOf(0)
+    private val autoSubmissionAttemptsLast: Flow<Instant> = flowOf(Instant.EPOCH)
 
     @BeforeEach
     fun setup() {
@@ -56,6 +58,11 @@ class AutoSubmissionTest : BaseTest() {
         every { submissionSettings.autoSubmissionAttemptsCount } returns autoSubmissionAttemptsCount
         every { submissionSettings.autoSubmissionAttemptsLast } returns autoSubmissionAttemptsLast
 
+        coEvery { submissionSettings.updateAutoSubmissionEnabled(any()) } just Runs
+        coEvery { submissionSettings.updateLastSubmissionUserActivityUTC(any()) } just Runs
+        coEvery { submissionSettings.updateAutoSubmissionAttemptsCount(any()) } just Runs
+        coEvery { submissionSettings.updateAutoSubmissionAttemptsLast(any()) } just Runs
+
         every { taskController.tasks } returns emptyFlow()
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(123456789)
@@ -63,7 +70,8 @@ class AutoSubmissionTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.task.TaskControllerExtensionsKt")
     }
 
-    private fun createInstance() = AutoSubmission(
+    private fun createInstance(appScope: CoroutineScope) = AutoSubmission(
+        appScope = appScope,
         timeStamper = timeStamper,
         submissionSettings = submissionSettings,
         workManager = workManager,
@@ -71,36 +79,34 @@ class AutoSubmissionTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free`() {
-        createInstance()
-
+    fun `init is sideeffect free`() = runTest2 {
+        createInstance(this)
         verify { workManager wasNot Called }
     }
 
     @Test
-    fun `update mode DISABLED`() {
-        val instance = createInstance()
+    fun `update mode DISABLED`() = runTest2 {
+        val instance = createInstance(this)
 
         instance.updateMode(AutoSubmission.Mode.DISABLED)
 
-        verifySequence {
+        coVerifySequence {
             workManager.cancelAllWorkByTag("AutoSubmissionWorker")
-            autoSubmissionEnabled.update(match { !it.invoke(true) })
-            lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
-            autoSubmissionAttemptsCount.update(match { it.invoke(123) == 0 })
-            autoSubmissionAttemptsLast.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
+            submissionSettings.updateAutoSubmissionEnabled(false)
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionAttemptsCount(0)
+            submissionSettings.updateAutoSubmissionAttemptsLast(Instant.EPOCH)
         }
     }
 
     @Test
-    fun `update mode MONITOR`() {
-        val instance = createInstance()
-
+    fun `update mode MONITOR`() = runTest2 {
+        val instance = createInstance(this)
         instance.updateMode(AutoSubmission.Mode.MONITOR)
 
-        verifySequence {
-            lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.ofEpochMilli(123456789) })
-            autoSubmissionEnabled.update(match { it.invoke(false) })
+        coVerifySequence {
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.ofEpochMilli(123456789))
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",
@@ -111,14 +117,13 @@ class AutoSubmissionTest : BaseTest() {
     }
 
     @Test
-    fun `update mode SUBMIT_ASAP`() {
-        val instance = createInstance()
-
+    fun `update mode SUBMIT_ASAP`() = runTest2 {
+        val instance = createInstance(this)
         instance.updateMode(AutoSubmission.Mode.SUBMIT_ASAP)
 
-        verifySequence {
-            lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
-            autoSubmissionEnabled.update(match { it.invoke(false) })
+        coVerifySequence {
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",
@@ -132,8 +137,8 @@ class AutoSubmissionTest : BaseTest() {
     }
 
     @Test
-    fun `blocking submission successful`() {
-        val instance = createInstance()
+    fun `blocking submission successful`() = runTest2 {
+        val instance = createInstance(this)
 
         val slot = slot<TaskRequest>()
 
@@ -142,10 +147,7 @@ class AutoSubmissionTest : BaseTest() {
         }
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
-
-        runTest {
-            instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
-        }
+        instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
 
         coVerifySequence {
             taskController.submitBlocking(
@@ -160,8 +162,8 @@ class AutoSubmissionTest : BaseTest() {
     }
 
     @Test
-    fun `blocking submission failure sets up SUBMIT_ASAP`() {
-        val instance = createInstance()
+    fun `blocking submission failure sets up SUBMIT_ASAP`() = runTest2 {
+        val instance = createInstance(this)
 
         val slot = slot<TaskRequest>()
 
@@ -172,13 +174,11 @@ class AutoSubmissionTest : BaseTest() {
 
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
-        runTest {
-            instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
-        }
+        instance.runSubmissionNow(BaseCoronaTest.Type.PCR)
 
-        verifySequence {
-            lastSubmissionUserActivityUTC.update(match { it.invoke(Instant.now()) == Instant.EPOCH })
-            autoSubmissionEnabled.update(match { it.invoke(false) })
+        coVerifySequence {
+            submissionSettings.updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            submissionSettings.updateAutoSubmissionEnabled(true)
 
             workManager.enqueueUniquePeriodicWork(
                 "AutoSubmissionWorker",

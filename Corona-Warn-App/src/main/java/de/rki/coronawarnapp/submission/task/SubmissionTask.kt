@@ -72,7 +72,8 @@ class SubmissionTask @Inject constructor(
                     inBackground = true
                 }
             }
-            val hasGivenConsent = coronaTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
+            val tests = coronaTestRepository.coronaTests.first()
+            val hasGivenConsent = tests.any { it.isAdvancedConsentGiven }
             if (!hasGivenConsent) {
                 Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
                 autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
@@ -94,9 +95,9 @@ class SubmissionTask @Inject constructor(
         }
     }
 
-    private fun hasRecentUserActivity(): Boolean {
+    private suspend fun hasRecentUserActivity(): Boolean {
         val nowUTC = timeStamper.nowUTC
-        val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.value
+        val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.first()
         val userInactivity = Duration.between(lastUserActivity, nowUTC)
         Timber.tag(TAG).d(
             "now=%s, lastUserActivity=%s, userInactivity=%dmin",
@@ -108,9 +109,9 @@ class SubmissionTask @Inject constructor(
         return userInactivity.toMillis() >= 0 && userInactivity < USER_INACTIVITY_TIMEOUT
     }
 
-    private fun hasExceededRetryAttempts(): Boolean {
-        val currentAttempt = submissionSettings.autoSubmissionAttemptsCount.value
-        val lastAttemptAt = submissionSettings.autoSubmissionAttemptsLast.value
+    private suspend fun hasExceededRetryAttempts(): Boolean {
+        val currentAttempt = submissionSettings.autoSubmissionAttemptsCount.first()
+        val lastAttemptAt = submissionSettings.autoSubmissionAttemptsLast.first()
         Timber.tag(TAG).i(
             "checkRetryAttempts(): submissionAttemptsCount=%d, lastAttemptAt=%s",
             currentAttempt,
@@ -123,8 +124,10 @@ class SubmissionTask @Inject constructor(
             true
         } else {
             Timber.tag(TAG).d("Within the attempts limit, continuing.")
-            submissionSettings.autoSubmissionAttemptsCount.update { it + 1 }
-            submissionSettings.autoSubmissionAttemptsLast.update { timeStamper.nowUTC }
+            submissionSettings.apply {
+                updateAutoSubmissionAttemptsCount(autoSubmissionAttemptsCount.first() + 1)
+                updateAutoSubmissionAttemptsLast(timeStamper.nowUTC)
+            }
             false
         }
     }
@@ -154,7 +157,7 @@ class SubmissionTask @Inject constructor(
             throw e
         }
 
-        val symptoms: Symptoms = submissionSettings.symptoms.value ?: Symptoms.NO_INFO_GIVEN
+        val symptoms: Symptoms = submissionSettings.symptoms.first() ?: Symptoms.NO_INFO_GIVEN
 
         val transformedKeys = tekHistoryCalculations.transformToKeyHistoryInExternalFormat(
             keys,
@@ -208,7 +211,7 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.reset()
-        submissionSettings.symptoms.update { null }
+        submissionSettings.updateSymptoms(null)
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkIns.forEach { checkIn ->

@@ -26,7 +26,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     dispatcherProvider: DispatcherProvider,
     private val checkInRepository: CheckInRepository,
-    private val submissionRepository: SubmissionRepository,
+    submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
     @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider) {
@@ -83,7 +83,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    fun setAutoSubmission() {
+    fun setAutoSubmission() = launch {
         Timber.d("setAutoSubmission")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
     }
