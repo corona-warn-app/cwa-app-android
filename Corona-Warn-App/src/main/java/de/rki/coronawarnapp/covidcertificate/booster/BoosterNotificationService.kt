@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSend
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,7 +56,18 @@ class BoosterNotificationService @Inject constructor(
             personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
-            personCertificatesSettings.acknowledgeBoosterRule(personIdentifier, newRuleId)
+            val lastNotifiedRule = personCertificatesSettings.personsSettings.first().entries.firstOrNull {
+                it.key.belongsToSamePerson(personIdentifier)
+            }?.value?.lastSeenBoosterRuleIdentifier
+            Timber.tag(TAG).d("lastNotifiedRule=%s, newRuleId=%s", lastNotifiedRule, newRuleId)
+            if (lastNotifiedRule != null && lastNotifiedRule == newRuleId) {
+                Timber.tag(TAG).d(
+                    "Dismissing badge because lastNotifiedRule did not change lastNotifiedRule=%s ",
+                    lastNotifiedRule
+                )
+                personCertificatesSettings.acknowledgeBoosterRule(personIdentifier, newRuleId)
+            }
+
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
         }
 
