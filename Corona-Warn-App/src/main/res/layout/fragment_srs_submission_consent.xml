@@ -205,7 +205,7 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/srs_next_step_submission"
-                    app:titleText="@string/submission_consent_main_bottom_body" />
+                    app:titleText="@string/srs_submission_consent_survey_button" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"

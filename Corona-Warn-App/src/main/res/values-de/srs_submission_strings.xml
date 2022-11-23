@@ -48,13 +48,19 @@
     <!-- XTXT: Submission consent help others warn other users -->
     <string name="srs_help_others_warn_other_users_text">Es werden auch Nutzer gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren.</string>
     <!-- XTXT: Submission consent first bulletpoint -->
-    <string name="srs_submission_consent_first_bulletpoint_text">Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat.</string>
+    <string name="srs_submission_consent_first_bulletpoint_text">Die Warnung anderer ist freiwillig. Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen.</string>
     <!-- XTXT: Submission consent second bulletpoint -->
-    <string name="srs_submission_consent_second_bulletpoint_text">Unter „Meine Check-ins" können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen.</string>
+    <string name="srs_submission_consent_second_bulletpoint_text">Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat.</string>
     <!-- XTXT: Submission consent third bulletpoint -->
-    <string name="srs_submission_consent_third_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
+    <string name="srs_submission_consent_third_bulletpoint_text">Unter „Meine Check-ins" können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen.</string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text">Sie können andere auch ohne Echtheitsprüfung warnen. Hierfür müssen Sie einen PCR- oder Schnelltest in der App registrieren und das Ergebnis in der App abrufen.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+    <!-- XTXT: Submission consent survey consent button -->
+    <string name="srs_submission_consent_survey_button">Ausführliche Informationen zur Echtheitsprüfung und den Datenschutzrisiken in den USA und anderen Drittländern</string>
     <!-- XTXT: Contact journal submission entry title -->
     <string name="srs_contact_diary_submission_item_title">Andere gewarnt</string>
 
@@ -97,7 +103,7 @@
     <string name="srs_submission_warning_dialog_positive_button">Andere Warnen</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">Abbrechen</string>
-<!-- Srs Errors-->
+    <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">Andere warnen nicht möglich</string>
     <!-- XTXT: SRS CALL_HOTLINE error message -->
