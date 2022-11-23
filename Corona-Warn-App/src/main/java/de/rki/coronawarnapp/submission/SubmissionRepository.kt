@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
-    submissionSettings: SubmissionSettings,
+    private val submissionSettings: SubmissionSettings,
     private val coronaTestRepository: CoronaTestRepository,
 ) {
 
@@ -52,7 +52,9 @@ class SubmissionRepository @Inject constructor(
             }
         }
 
-    val currentSymptoms = submissionSettings.symptoms
+    suspend fun updateCurrentSymptoms(symptoms: Symptoms?) {
+        submissionSettings.updateSymptoms(symptoms)
+    }
 
     suspend fun giveConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("giveConsentToSubmission(type=%s)", type)

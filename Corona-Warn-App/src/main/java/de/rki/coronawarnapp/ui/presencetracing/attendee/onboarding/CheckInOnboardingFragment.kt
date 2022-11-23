@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -39,15 +40,6 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (viewModel.isOnboardingComplete && args.uri != null) {
-            findNavController().navigate(
-                CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                    args.uri,
-                    args.cleanHistory
-                )
-            )
-        }
-
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
             checkInOnboardingPrivacy.setOnClickListener { viewModel.onPrivacy() }
@@ -60,6 +52,17 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                 }
             } else {
                 binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+            }
+        }
+
+        viewModel.isOnboardingComplete.observe2(this) {
+            if (it == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0 && args.uri != null) {
+                findNavController().navigate(
+                    CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                        args.uri,
+                        args.cleanHistory
+                    )
+                )
             }
         }
 

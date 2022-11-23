@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerQrCodeInfoFragmentBinding
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -21,7 +21,7 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
 
     private val binding: TraceLocationOrganizerQrCodeInfoFragmentBinding by viewBinding()
 
-    @Inject lateinit var settings: TraceLocationOrganizerSettings
+    @Inject lateinit var settings: TraceLocationPreferences
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val vm: TraceLocationQRInfoViewModel by cwaViewModels { viewModelFactory }
@@ -48,10 +48,10 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
 
                 is TraceLocationQRInfoNavigationEvents.NavigateToMyQrCodes -> {
 
-                    if (isAlreadyOnboarded()) {
+                    if (vm.isAlreadyOnboarded.value == true) {
                         popBackStack()
                     } else {
-                        settings.qrInfoAcknowledged = true
+                        vm.updateQrInfoAcknowledged(true)
                         findNavController().navigate(
                             TraceLocationQRInfoFragmentDirections
                                 .actionTraceLocationOrganizerQRInfoFragmentToTraceLocationOrganizerListFragment()
@@ -60,9 +60,5 @@ class TraceLocationQRInfoFragment : Fragment(R.layout.trace_location_organizer_q
                 }
             }
         }
-    }
-
-    private fun isAlreadyOnboarded(): Boolean {
-        return settings.qrInfoAcknowledged
     }
 }

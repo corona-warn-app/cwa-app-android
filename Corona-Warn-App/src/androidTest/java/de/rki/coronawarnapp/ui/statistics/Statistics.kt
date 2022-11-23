@@ -24,11 +24,11 @@ import de.rki.coronawarnapp.util.security.SignatureValidation
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
 import java.time.Instant
 import retrofit2.converter.gson.GsonConverterFactory
-import testhelpers.mockFlowPreference
 import timber.log.Timber
 
 object Statistics {
@@ -58,7 +58,7 @@ object Statistics {
 
         every { preferences.getString(any(), any()) } returns null
         every { context.getSharedPreferences(any(), any()) } returns preferences
-        every { localStatisticsConfigStorage.activeSelections } returns mockFlowPreference(
+        every { localStatisticsConfigStorage.activeSelections } returns flowOf(
             SelectedLocations(
                 setOf(
                     SelectedStatisticsLocation.SelectedDistrict(

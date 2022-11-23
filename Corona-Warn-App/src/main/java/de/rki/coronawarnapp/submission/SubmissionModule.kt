@@ -1,6 +1,11 @@
 package de.rki.coronawarnapp.submission
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.SharedPreferencesMigration
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -14,8 +19,12 @@ import de.rki.coronawarnapp.submission.server.SubmissionApiV1
 import de.rki.coronawarnapp.submission.server.SubmissionHttpClient
 import de.rki.coronawarnapp.submission.task.DefaultKeyConverter
 import de.rki.coronawarnapp.submission.task.KeyConverter
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
 import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
@@ -23,6 +32,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import java.io.File
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module(includes = [SubmissionModule.ResetModule::class, SubmissionModule.BindsModule::class])
@@ -61,6 +71,24 @@ object SubmissionModule {
             .create(SubmissionApiV1::class.java)
     }
 
+    @Singleton
+    @SubmissionSettingsDataStore
+    @Provides
+    fun provideSubmissionSettingsDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_SUBMISSION_SETTINGS_SETTINGS_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                LEGACY_SHARED_PREFS_SUBMISSION_SETTINGS_SETTINGS_NAME
+            )
+        )
+    )
+
     @Module
     internal interface ResetModule {
 
@@ -80,5 +108,13 @@ object SubmissionModule {
         fun provideKeyConverter(defaultKeyConverter: DefaultKeyConverter): KeyConverter
     }
 }
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class SubmissionSettingsDataStore
+
+private const val LEGACY_SHARED_PREFS_SUBMISSION_SETTINGS_SETTINGS_NAME = "submission_localdata"
+private const val STORAGE_DATASTORE_SUBMISSION_SETTINGS_SETTINGS_NAME = "submission_settings_storage"
 
 const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB

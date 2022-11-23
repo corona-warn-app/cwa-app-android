@@ -62,7 +62,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
-        every { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, any()) } just Runs
     }
 
     private fun createViewModel() = SubmissionResultPositiveOtherWarningNoConsentViewModel(
@@ -98,8 +98,10 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
             every { type } returns RAPID_ANTIGEN
         }
         createViewModel().onResume()
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR) }
-        verify(exactly = 1) {
+        coVerify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR)
+        }
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, RAPID_ANTIGEN)
         }
     }

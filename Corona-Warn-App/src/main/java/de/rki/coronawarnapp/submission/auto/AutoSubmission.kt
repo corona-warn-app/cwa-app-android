@@ -15,8 +15,12 @@ import de.rki.coronawarnapp.task.TaskInfo
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Instant
 import java.util.concurrent.TimeUnit
@@ -25,6 +29,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AutoSubmission @Inject constructor(
+    @AppScope private val appScope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val submissionSettings: SubmissionSettings,
     private val workManager: WorkManager,
@@ -38,20 +43,21 @@ class AutoSubmission @Inject constructor(
     val isSubmissionRunning = taskController.tasks.map { it.isSubmissionTaskRunning() }
 
     override fun initialize() {
-        Timber.tag(TAG).v("setup()")
+        appScope.launch {
+            Timber.tag(TAG).v("setup()")
 
-        if (submissionSettings.autoSubmissionEnabled.value) {
-            Timber.tag(TAG).i("Fresh app start and auto submission is enabled, updating mode.")
+            if (submissionSettings.autoSubmissionEnabled.first()) {
+                Timber.tag(TAG).i("Fresh app start and auto submission is enabled, updating mode.")
 
-            updateMode(Mode.SUBMIT_ASAP)
-        } else {
-            Timber.tag(TAG).d("AutoSubmission is disabled.")
+                updateMode(Mode.SUBMIT_ASAP)
+            } else {
+                Timber.tag(TAG).d("AutoSubmission is disabled.")
+            }
         }
     }
 
-    fun updateMode(newMode: Mode) {
+    suspend fun updateMode(newMode: Mode) {
         Timber.tag(TAG).i("updateMode(mode=$newMode)")
-
         when (newMode) {
             Mode.DISABLED -> disableAutoSubmission()
             Mode.MONITOR -> enableAutoSubmission(lastActivity = timeStamper.nowUTC)
@@ -93,36 +99,36 @@ class AutoSubmission @Inject constructor(
         workManager.enqueueUniquePeriodicWork(AUTOSUBMISSION_WORKER_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
-    private fun enableAutoSubmission(lastActivity: Instant) {
+    private suspend fun enableAutoSubmission(lastActivity: Instant) {
         submissionSettings.apply {
             // Setting last activity to EPOCH will skip the user activity period.
-            lastSubmissionUserActivityUTC.update { lastActivity }
+            updateLastSubmissionUserActivityUTC(lastActivity)
 
             // Will trigger worker scheduling
-            autoSubmissionEnabled.update { true }
+            updateAutoSubmissionEnabled(true)
         }
 
         scheduleWorker()
     }
 
-    private fun disableAutoSubmission() {
+    private suspend fun disableAutoSubmission() {
         Timber.tag(TAG).v("disableAutoSubmission()")
         workManager.cancelAllWorkByTag(AUTOSUBMISSION_WORKER_TAG)
 
         submissionSettings.apply {
-            autoSubmissionEnabled.update { false }
-            lastSubmissionUserActivityUTC.update { Instant.EPOCH }
-            autoSubmissionAttemptsCount.update { 0 }
-            autoSubmissionAttemptsLast.update { Instant.EPOCH }
+            updateAutoSubmissionEnabled(false)
+            updateLastSubmissionUserActivityUTC(Instant.EPOCH)
+            updateAutoSubmissionAttemptsCount(0)
+            updateAutoSubmissionAttemptsLast(Instant.EPOCH)
         }
     }
 
     /**
      * User is still active in the submission flow, causes the submission task to skip if within timeout.
      */
-    fun updateLastSubmissionUserActivity() {
+    suspend fun updateLastSubmissionUserActivity() {
         Timber.tag(TAG).d("updateLastSubmissionUserActivity()")
-        submissionSettings.lastSubmissionUserActivityUTC.update { timeStamper.nowUTC }
+        submissionSettings.updateLastSubmissionUserActivityUTC(timeStamper.nowUTC)
     }
 
     enum class Mode {

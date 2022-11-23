@@ -36,7 +36,7 @@ class DccValidityStateNotificationService @Inject constructor(
 
     suspend fun showNotificationIfStateChanged(forceCheck: Boolean = false) = mutex.withLock {
         Timber.tag(TAG).v("showNotificationIfStateChanged(forceCheck=%s)", forceCheck)
-        val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.value
+        val lastCheck = covidCertificateSettings.lastDccStateBackgroundCheck.first()
         val timeBasedCheckRequired = lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()
 
         if (!forceCheck && timeBasedCheckRequired) {
@@ -48,7 +48,7 @@ class DccValidityStateNotificationService @Inject constructor(
         allCerts.notifyForState<Invalid> { it.notifiedInvalidAt == null }
         allCerts.notifyForState<Blocked> { it.notifiedBlockedAt == null }
         allCerts.notifyForState<Revoked> { it.notifiedRevokedAt == null }
-        covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
+        covidCertificateSettings.updateLastDccStateBackgroundCheck(timeStamper.nowUTC)
     }
 
     private suspend fun CwaCovidCertificate.setStateNotificationShown(

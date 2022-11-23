@@ -1,12 +1,22 @@
 package de.rki.coronawarnapp.datadonation.analytics.storage
 
-import android.content.Context
+import androidx.annotation.VisibleForTesting
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.ExposureRiskMetadata
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
+import kotlinx.coroutines.flow.map
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import java.time.Instant
@@ -16,99 +26,102 @@ import javax.inject.Singleton
 
 @Singleton
 class AnalyticsSettings @Inject constructor(
-    @AppContext private val context: Context
+    @AnalyticsSettingsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
-    private val prefs by lazy {
-        context.getSharedPreferences("analytics_localdata", Context.MODE_PRIVATE)
-    }
 
-    val previousExposureRiskMetadata = prefs.createFlowPreference(
-        key = PREVIOUS_EXPOSURE_RISK_METADATA,
-        reader = { key ->
-            getString(key, null)?.let { prefString ->
-                prefString.decodeBase64()?.toByteArray()?.let {
-                    try {
-                        ExposureRiskMetadata.parseFrom(it)
-                    } catch (e: Exception) {
-                        null
-                    }
+    val previousExposureRiskMetadata =
+        dataStore.dataRecovering.distinctUntilChanged(key = PREVIOUS_EXPOSURE_RISK_METADATA).map { value ->
+            value?.decodeBase64()?.toByteArray()?.let {
+                try {
+                    ExposureRiskMetadata.parseFrom(it)
+                } catch (e: Exception) {
+                    null
                 }
             }
-        },
-        writer = { key, value ->
-            putString(key, value?.toByteArray()?.toByteString()?.base64())
         }
-    )
 
-    val userInfoAgeGroup = prefs.createFlowPreference(
-        key = PKEY_USERINFO_AGEGROUP,
-        reader = { key ->
-            PpaData.PPAAgeGroup.forNumber(getInt(key, 0)) ?: PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
-        },
-        writer = { key, value ->
-            val numberToWrite = when (value) {
-                PpaData.PPAAgeGroup.UNRECOGNIZED -> PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED.number
-                else -> value.number
-            }
-            putInt(key, numberToWrite)
+    suspend fun updatePreviousExposureRiskMetadata(data: ExposureRiskMetadata?) = dataStore.edit {
+        if (data == null) {
+            it.remove(PREVIOUS_EXPOSURE_RISK_METADATA)
+        } else {
+            it[PREVIOUS_EXPOSURE_RISK_METADATA] = data.toByteArray().toByteString().base64()
         }
-    )
+    }
 
-    val userInfoFederalState = prefs.createFlowPreference(
+    val userInfoAgeGroup =
+        dataStore.dataRecovering.distinctUntilChanged(key = PKEY_USERINFO_AGEGROUP, defaultValue = 0).map { value ->
+            PpaData.PPAAgeGroup.forNumber(value)
+        }
+
+    suspend fun updateUserInfoAgeGroup(value: PpaData.PPAAgeGroup) = dataStore.edit {
+        val numberToWrite = when (value) {
+            PpaData.PPAAgeGroup.UNRECOGNIZED -> PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED.number
+            else -> value.number
+        }
+        it[PKEY_USERINFO_AGEGROUP] = numberToWrite
+    }
+
+    val userInfoFederalState = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_USERINFO_FEDERALSTATE,
-        reader = { key ->
-            PpaData.PPAFederalState.forNumber(getInt(key, -1)) ?: PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-        },
-        writer = { key, value ->
-            val numberToWrite = when (value) {
-                PpaData.PPAFederalState.UNRECOGNIZED -> PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED.number
-                else -> value.number
-            }
-            putInt(key, numberToWrite)
-        }
-    )
-
-    val userInfoDistrict = prefs.createFlowPreference(
-        key = PKEY_USERINFO_DISTRICT,
         defaultValue = 0
+    ).map { value -> PpaData.PPAFederalState.forNumber(value) }
+
+    suspend fun updateUserInfoFederalState(value: PpaData.PPAFederalState) = dataStore.edit {
+        val numberToWrite = when (value) {
+            PpaData.PPAFederalState.UNRECOGNIZED -> PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED.number
+            else -> value.number
+        }
+        it[PKEY_USERINFO_FEDERALSTATE] = numberToWrite
+    }
+
+    val userInfoDistrict = dataStore.dataRecovering.distinctUntilChanged(key = PKEY_USERINFO_DISTRICT, defaultValue = 0)
+
+    suspend fun updateUserInfoDistrict(value: Int) = dataStore.trySetValue(
+        preferencesKey = PKEY_USERINFO_DISTRICT, value = value
     )
 
-    val lastSubmittedTimestamp = prefs.createFlowPreference(
-        key = PKEY_LAST_SUBMITTED_TIMESTAMP,
-        reader = { key ->
-            getLong(key, 0L).let {
-                if (it != 0L) {
-                    Instant.ofEpochMilli(it)
+    val lastSubmittedTimestamp =
+        dataStore.dataRecovering.distinctUntilChanged(key = PKEY_LAST_SUBMITTED_TIMESTAMP, defaultValue = 0L)
+            .map { value ->
+                if (value != 0L) {
+                    Instant.ofEpochMilli(value)
                 } else null
             }
-        },
-        writer = { key, value ->
-            putLong(key, value?.toEpochMilli() ?: 0L)
-        }
+
+    suspend fun updateLastSubmittedTimestamp(value: Instant?) = dataStore.trySetValue(
+        preferencesKey = PKEY_LAST_SUBMITTED_TIMESTAMP, value = value?.toEpochMilli() ?: 0L
     )
 
-    val analyticsEnabled = prefs.createFlowPreference(
-        key = PKEY_ANALYTICS_ENABLED,
-        defaultValue = false
+    val analyticsEnabled =
+        dataStore.dataRecovering.distinctUntilChanged(key = PKEY_ANALYTICS_ENABLED, defaultValue = false)
+
+    suspend fun updateAnalyticsEnabled(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_ANALYTICS_ENABLED, value = value
     )
 
-    val lastOnboardingVersionCode = prefs.createFlowPreference(
-        key = PKEY_ONBOARDED_VERSION_CODE,
-        defaultValue = 0L
+    val lastOnboardingVersionCode =
+        dataStore.dataRecovering.distinctUntilChanged(key = PKEY_ONBOARDED_VERSION_CODE, defaultValue = 0L)
+
+    suspend fun updateLastOnboardingVersionCode(value: Long) = dataStore.trySetValue(
+        preferencesKey = PKEY_ONBOARDED_VERSION_CODE, value = value
     )
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 
     companion object {
-        private const val PREVIOUS_EXPOSURE_RISK_METADATA = "exposurerisk.metadata.previous"
-        private const val PKEY_USERINFO_AGEGROUP = "userinfo.agegroup"
-        private const val PKEY_USERINFO_FEDERALSTATE = "userinfo.federalstate"
-        private const val PKEY_USERINFO_DISTRICT = "userinfo.district"
-        private const val PKEY_LAST_SUBMITTED_TIMESTAMP = "analytics.submission.timestamp"
-        private const val PKEY_ANALYTICS_ENABLED = "analytics.enabled"
-        private const val PKEY_ONBOARDED_VERSION_CODE = "analytics.onboarding.versionCode"
+        @VisibleForTesting
+        val PREVIOUS_EXPOSURE_RISK_METADATA = stringPreferencesKey("exposurerisk.metadata.previous")
+        @VisibleForTesting
+        val PKEY_USERINFO_AGEGROUP = intPreferencesKey("userinfo.agegroup")
+        @VisibleForTesting
+        val PKEY_USERINFO_FEDERALSTATE = intPreferencesKey("userinfo.federalstate")
+        @VisibleForTesting
+        val PKEY_USERINFO_DISTRICT = intPreferencesKey("userinfo.district")
+        private val PKEY_LAST_SUBMITTED_TIMESTAMP = longPreferencesKey("analytics.submission.timestamp")
+        private val PKEY_ANALYTICS_ENABLED = booleanPreferencesKey("analytics.enabled")
+        private val PKEY_ONBOARDED_VERSION_CODE = longPreferencesKey("analytics.onboarding.versionCode")
     }
 }

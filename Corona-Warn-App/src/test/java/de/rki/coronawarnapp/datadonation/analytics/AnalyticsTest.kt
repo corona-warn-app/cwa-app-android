@@ -39,7 +39,6 @@ import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.time.Duration
 import kotlin.random.Random
 
@@ -64,26 +63,20 @@ class AnalyticsTest : BaseTest() {
 
         coEvery { appConfigProvider.getAppConfig() } returns configData
         every { configData.analytics } returns analyticsConfig
-
         coEvery { lastAnalyticsSubmissionLogger.storeAnalyticsData(any()) } just Runs
-
         every { timeStamper.nowUTC } returns baseTime
-
-        every { analyticsConfig.analyticsEnabled } returns true
-
-        every { settings.analyticsEnabled } returns mockFlowPreference(true)
-        every { analyticsConfig.probabilityToSubmit } returns 1.0
         every { analyticsConfig.plausibleDeniabilityParameters } returns
             AnalyticsConfigMapper.PlausibleDeniabilityParametersContainer()
-
         coEvery { playbook.submitFake() } just Runs
-
         val twoDaysAgo = baseTime.minus(Duration.ofDays(2))
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(twoDaysAgo)
-        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
-
+        every { settings.lastSubmittedTimestamp } returns flowOf(twoDaysAgo)
+        every { settings.analyticsEnabled } returns flowOf(true)
+        coEvery { settings.updateAnalyticsEnabled(any()) } just Runs
+        coEvery { settings.updateLastSubmittedTimestamp(any()) } just Runs
+        every { analyticsConfig.probabilityToSubmit } returns 1.0
+        every { analyticsConfig.analyticsEnabled } returns true
         every { analyticsConfig.safetyNetRequirements } returns SafetyNetRequirementsContainer()
-
+        every { onboardingSettings.onboardingCompletedTimestamp } returns flowOf(twoDaysAgo)
         coEvery { dataDonationAnalyticsServer.uploadAnalyticsData(any()) } just Runs
     }
 
@@ -128,7 +121,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to no user consent`() {
-        every { settings.analyticsEnabled } returns mockFlowPreference(false)
+        every { settings.analyticsEnabled } returns flowOf(false)
 
         val analytics = createInstance()
 
@@ -179,7 +172,7 @@ class AnalyticsTest : BaseTest() {
 
     @Test
     fun `abort due to last submit timestamp`() {
-        every { settings.lastSubmittedTimestamp } returns mockFlowPreference(Instant.now())
+        every { settings.lastSubmittedTimestamp } returns flowOf(Instant.now())
 
         val analytics = createInstance()
 

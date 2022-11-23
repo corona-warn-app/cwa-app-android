@@ -51,7 +51,7 @@ class CoronaTestRepository @Inject constructor(
         sharingBehavior = SharingStarted.Eagerly,
     ) {
         val legacyTests = legacyMigration.startMigration()
-        val persistedTests = storage.coronaTests
+        val persistedTests = storage.getCoronaTests()
         legacyTests.plus(persistedTests)
             .associateBy { it.identifier }
             .also {
@@ -83,7 +83,7 @@ class CoronaTestRepository @Inject constructor(
             .onStart { Timber.tag(TAG).d("Observing test data.") }
             .onEach {
                 Timber.tag(TAG).v("CoronaTest data changed: %s", it)
-                storage.coronaTests = it.values.toSet()
+                storage.updateCoronaTests(it.values.toSet())
                 legacyMigration.finishMigration()
                 contactDiaryRepository.updateTests(it)
             }

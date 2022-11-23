@@ -3,11 +3,11 @@ package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.nearby.ENFClientLocalData
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.time.Duration
-import java.time.Instant
 import java.time.ZoneOffset
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,18 +18,6 @@ class SubmissionQuota @Inject constructor(
     private val timeStamper: TimeStamper
 ) {
 
-    private var currentQuota: Int
-        get() = enfData.currentQuota
-        set(value) {
-            enfData.currentQuota = value
-        }
-
-    private var lastQuotaReset: Instant
-        get() = enfData.lastQuotaResetAt
-        set(value) {
-            enfData.lastQuotaResetAt = value
-        }
-
     private val mutex = Mutex()
 
     /**
@@ -38,8 +26,9 @@ class SubmissionQuota @Inject constructor(
     suspend fun consumeQuota(wanted: Int): Boolean = mutex.withLock {
         attemptQuotaReset()
 
+        val currentQuota = enfData.currentQuota.first()
         if (currentQuota < wanted) {
-            Timber.d("Not enough quota: want=%d, have=%d", wanted, currentQuota)
+            Timber.d("Not enough quota: want=%d, have=%d", wanted, enfData.currentQuota.first())
             return false
         }
 
@@ -47,7 +36,7 @@ class SubmissionQuota @Inject constructor(
             val oldQuota = currentQuota
             val newQuota = currentQuota - wanted
             Timber.d("Consuming quota: old=%d, new=%d", oldQuota, newQuota)
-            currentQuota = newQuota
+            enfData.updateCurrentQuota(newQuota)
         }
         return true
     }
@@ -57,13 +46,13 @@ class SubmissionQuota @Inject constructor(
      * On initial launch, the lastQuotaReset is set to Instant.EPOCH,
      * thus the quota will be immediately set to 20.
      */
-    private fun attemptQuotaReset() {
-        val oldQuota = currentQuota
-        val oldQuotaReset = lastQuotaReset
+    private suspend fun attemptQuotaReset() {
+        val oldQuota = enfData.currentQuota.first()
+        val oldQuotaReset = enfData.lastQuotaResetAt.first()
 
         val now = timeStamper.nowUTC
 
-        val nextQuotaReset = lastQuotaReset
+        val nextQuotaReset = enfData.lastQuotaResetAt.first()
             .atZone(ZoneOffset.UTC)
             .toLocalDate()
             .atStartOfDay()
@@ -72,14 +61,14 @@ class SubmissionQuota @Inject constructor(
             .toInstant()
 
         if (now.isAfter(nextQuotaReset)) {
-            currentQuota = DEFAULT_QUOTA
-            lastQuotaReset = now
+            enfData.updateCurrentQuota(DEFAULT_QUOTA)
+            enfData.updateLastQuotaResetAt(now)
 
             Timber.i(
                 "Quota reset: oldQuota=%d, lastReset=%s -> newQuota=%d, thisReset=%s",
                 oldQuota,
                 oldQuotaReset,
-                currentQuota,
+                enfData.currentQuota.first(),
                 now
             )
         } else {

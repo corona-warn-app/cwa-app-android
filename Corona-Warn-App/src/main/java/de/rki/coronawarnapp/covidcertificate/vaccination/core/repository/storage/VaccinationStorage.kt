@@ -1,13 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import android.content.Context
-import androidx.core.content.edit
-import com.google.gson.Gson
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.serialization.SerializationModule.Companion.baseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -16,13 +20,9 @@ import javax.inject.Singleton
 
 @Singleton
 class VaccinationStorage @Inject constructor(
-    @AppContext val context: Context,
-    @BaseGson val baseGson: Gson,
+    @VaccinationStorageDataStore private val dataStore: DataStore<Preferences>
 ) {
     private val mutex = Mutex()
-    private val prefs by lazy {
-        context.getSharedPreferences("vaccination_localdata", Context.MODE_PRIVATE)
-    }
 
     private val gson by lazy {
         baseGson.newBuilder().apply {
@@ -32,22 +32,26 @@ class VaccinationStorage @Inject constructor(
 
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
-        return gson
-            .fromJson<Set<StoredVaccinationCertificateData>?>(
-                prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
-                TYPE_TOKEN
-            )
-            .toSet()
+
+        return dataStore.dataRecovering.distinctUntilChanged(
+            key = PKEY_VACCINATION_CERT, defaultValue = ""
+        ).map { value ->
+            if (value.isEmpty()) {
+                emptySet()
+            } else {
+                gson.fromJson<Set<StoredVaccinationCertificateData>>(value, TYPE_TOKEN)
+            }
+        }.first()
     }
 
-    suspend fun save(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
+    suspend fun save(certificates: Set<StoredVaccinationCertificateData>): Unit = mutex.withLock {
         Timber.tag(TAG).d("save(%s)", certificates.size)
-        prefs.edit(commit = true) {
+
+        dataStore.edit {
             if (certificates.isEmpty()) {
-                remove(PKEY_VACCINATION_CERT)
+                it.remove(PKEY_VACCINATION_CERT)
             } else {
-                val rawJson = gson.toJson(certificates, TYPE_TOKEN)
-                putString(PKEY_VACCINATION_CERT, rawJson)
+                it[PKEY_VACCINATION_CERT] = gson.toJson(certificates, TYPE_TOKEN)
             }
         }
     }
@@ -55,31 +59,38 @@ class VaccinationStorage @Inject constructor(
     @Suppress("DEPRECATION")
     suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("loadLegacyData()")
-        val persons = prefs.all.mapNotNull { (key, value) ->
-            if (!key.startsWith("vaccination.person.")) {
-                return@mapNotNull null
-            }
-            value as String
-            gson.fromJson<VaccinatedPersonData>(value).also {
-                Timber.tag(TAG).v("Person loaded: %s", key)
+
+        val persons = mutableListOf<VaccinatedPersonData>()
+
+        dataStore.data.first().asMap().forEach { (key, value) ->
+            if (key.name.startsWith("vaccination.person.")) {
+                persons.add(
+                    gson.fromJson<VaccinatedPersonData>(value as String).also {
+                        Timber.tag(TAG).v("Person loaded: %s", key.name)
+                    }
+                )
             }
         }
+
         return persons.toSet()
     }
 
-    suspend fun clearLegacyData() = mutex.withLock {
+    suspend fun clearLegacyData(): Unit = mutex.withLock {
         Timber.tag(TAG).d("clearLegacyData()")
-        prefs.edit(commit = true) {
-            prefs.all.keys.filter { it.startsWith("vaccination.person.") }.forEach {
-                Timber.tag(TAG).v("Removing data for %s", it)
-                remove(it)
+
+        dataStore.edit { pref ->
+            pref.asMap().keys.filter { key ->
+                key.name.startsWith("vaccination.person.")
+            }.forEach { key ->
+                Timber.tag(TAG).v("Removing data for %s", key.name)
+                pref.remove(key)
             }
         }
     }
 
     companion object {
         private const val TAG = "VaccinationStorage"
-        private const val PKEY_VACCINATION_CERT = "vaccination.certificate"
-        private val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
+        val PKEY_VACCINATION_CERT = stringPreferencesKey("vaccination.certificate")
+        val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
 }
