@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.SubmissionTask.Result.State
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowMessage
@@ -38,14 +37,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import java.io.IOException
 import java.time.Duration
 import java.time.Instant
@@ -74,11 +74,6 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var submissionReporter: SubmissionReporter
 
     private val userSymptoms: Symptoms = mockk()
-    private val settingSymptomsPreference: FlowPreference<Symptoms?> = mockFlowPreference(userSymptoms)
-    private val settingAutoSubmissionAttemptsCount: FlowPreference<Int> = mockFlowPreference(0)
-    private val settingAutoSubmissionAttemptsLast: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH)
-
-    private val settingLastUserActivityUTC: FlowPreference<Instant> = mockFlowPreference(Instant.EPOCH.plusMillis(1))
 
     private val coronaTestsFlow = MutableStateFlow(
         setOf(
@@ -136,10 +131,15 @@ class SubmissionTaskTest : BaseTest() {
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), any())
         } returns listOf(transformedKey)
 
-        every { submissionSettings.symptoms } returns settingSymptomsPreference
-        every { submissionSettings.lastSubmissionUserActivityUTC } returns settingLastUserActivityUTC
-        every { submissionSettings.autoSubmissionAttemptsCount } returns settingAutoSubmissionAttemptsCount
-        every { submissionSettings.autoSubmissionAttemptsLast } returns settingAutoSubmissionAttemptsLast
+        every { submissionSettings.symptoms } returns flowOf(userSymptoms)
+        every { submissionSettings.lastSubmissionUserActivityUTC } returns flowOf(Instant.EPOCH.plusMillis(1))
+        every { submissionSettings.autoSubmissionAttemptsCount } returns flowOf(0)
+        every { submissionSettings.autoSubmissionAttemptsLast } returns flowOf(Instant.EPOCH)
+
+        coEvery { submissionSettings.updateAutoSubmissionAttemptsCount(any()) } just Runs
+        coEvery { submissionSettings.updateLastSubmissionUserActivityUTC(any()) } just Runs
+        coEvery { submissionSettings.updateAutoSubmissionAttemptsLast(any()) } just Runs
+        coEvery { submissionSettings.updateSymptoms(any()) } just Runs
 
         coEvery { appConfigProvider.getAppConfig() } returns appConfigData
         every { appConfigData.supportedCountries } returns listOf("NL")
@@ -148,12 +148,12 @@ class SubmissionTaskTest : BaseTest() {
         coEvery { playbook.retrieveTan(any(), any()) } returns "tan"
         coEvery { submissionReporter.reportAt(any()) } just Runs
 
-        every { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
-        every { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportSubmitted(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportSubmittedInBackground(any()) } just Runs
 
         every { testResultAvailableNotificationService.cancelTestResultAvailableNotification() } just Runs
 
-        every { autoSubmission.updateMode(any()) } just Runs
+        coEvery { autoSubmission.updateMode(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH.plus(Duration.ofHours(1))
 
@@ -196,23 +196,26 @@ class SubmissionTaskTest : BaseTest() {
 
         coVerifySequence {
             submissionSettings.lastSubmissionUserActivityUTC
-            settingLastUserActivityUTC.value
             coronaTestRepository.coronaTests
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
-            submissionSettings.autoSubmissionAttemptsLast
+
+            submissionSettings.updateAutoSubmissionAttemptsCount(any())
+            submissionSettings.updateAutoSubmissionAttemptsLast(any())
+
             coronaTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
-            settingSymptomsPreference.value
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             checkInRepository.checkInsWithinRetention
             checkInsTransformer.transform(any(), any())
+
             playbook.retrieveTan("regtoken", null)
             coronaTestRepository.updateAuthCode("coronatest-identifier", "tan")
 
             appConfigProvider.getAppConfig()
+
             playbook.submit(
                 Playbook.SubmissionData(
                     registrationToken = "regtoken",
@@ -225,13 +228,9 @@ class SubmissionTaskTest : BaseTest() {
                     authCode = "tan"
                 )
             )
-
             tekHistoryStorage.reset()
-            submissionSettings.symptoms
-
-            settingSymptomsPreference.update(match { it.invoke(mockk()) == null })
+            submissionSettings.updateSymptoms(null)
             checkInRepository.updatePostSubmissionFlags(validCheckIn.id)
-
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
             coronaTestRepository.markAsSubmitted(any())
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
@@ -247,7 +246,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `NO_INFORMATION symptoms are used when the stored symptoms are null`() = runTest {
-        val emptySymptoms: FlowPreference<Symptoms?> = mockFlowPreference(null)
+        val emptySymptoms: Flow<Symptoms?> = flowOf(null)
         every { submissionSettings.symptoms } returns emptySymptoms
 
         val task = createTask()
@@ -270,9 +269,14 @@ class SubmissionTaskTest : BaseTest() {
 
         coVerifySequence {
             coronaTestRepository.coronaTests // Consent
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.updateAutoSubmissionAttemptsCount(any())
+            submissionSettings.updateAutoSubmissionAttemptsLast(any())
             coronaTestRepository.coronaTests // regToken
             tekHistoryStorage.tekData
-            settingSymptomsPreference.value
+            submissionSettings.symptoms
 
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             playbook.retrieveTan("regtoken", null)
@@ -295,15 +299,16 @@ class SubmissionTaskTest : BaseTest() {
         coVerify(exactly = 0) {
             tekHistoryStorage.reset()
             checkInRepository.reset()
-            settingSymptomsPreference.update(any())
+            submissionSettings.updateSymptoms(any())
             autoSubmission.updateMode(any())
         }
-        submissionSettings.symptoms.value shouldBe userSymptoms
+        submissionSettings.symptoms.first() shouldBe userSymptoms
     }
 
     @Test
     fun `matches playbook pattern if tan retrieval fails`() = runTest {
         coEvery { playbook.retrieveTan("regtoken", null) } throws Exception()
+        coEvery { playbook.submitFake() } just Runs
 
         shouldThrow<Exception> {
             createTask().run(SubmissionTask.Arguments())
@@ -311,9 +316,14 @@ class SubmissionTaskTest : BaseTest() {
 
         coVerifySequence {
             coronaTestRepository.coronaTests // Consent
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.autoSubmissionAttemptsLast
+            submissionSettings.autoSubmissionAttemptsCount
+            submissionSettings.updateAutoSubmissionAttemptsCount(any())
+            submissionSettings.updateAutoSubmissionAttemptsLast(any())
             coronaTestRepository.coronaTests // regToken
             tekHistoryStorage.tekData
-            settingSymptomsPreference.value
+            submissionSettings.symptoms
             tekHistoryCalculations.transformToKeyHistoryInExternalFormat(listOf(tek), userSymptoms)
             playbook.retrieveTan("regtoken", null)
             playbook.submitFake()
@@ -321,11 +331,11 @@ class SubmissionTaskTest : BaseTest() {
         coVerify(exactly = 0) {
             tekHistoryStorage.reset()
             checkInRepository.reset()
-            settingSymptomsPreference.update(any())
+            submissionSettings.updateSymptoms(any())
             autoSubmission.updateMode(any())
             coronaTestRepository.updateAuthCode(any(), any())
         }
-        submissionSettings.symptoms.value shouldBe userSymptoms
+        submissionSettings.symptoms.first() shouldBe userSymptoms
     }
 
     @Test
@@ -371,7 +381,8 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `submission is skipped if user was recently active in submission`() = runTest {
-        settingLastUserActivityUTC.update { Instant.EPOCH.plus(Duration.ofHours(1)) }
+        every { submissionSettings.lastSubmissionUserActivityUTC } returns
+            flowOf(Instant.EPOCH.plus(Duration.ofMinutes(33)))
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = State.SKIPPED
@@ -385,10 +396,10 @@ class SubmissionTaskTest : BaseTest() {
         val task = createTask()
 
         task.run(SubmissionTask.Arguments(checkUserActivity = false))
-        verify(exactly = 0) { settingLastUserActivityUTC.value }
+        coVerify(exactly = 0) { submissionSettings.lastSubmissionUserActivityUTC }
 
         task.run(SubmissionTask.Arguments(checkUserActivity = true))
-        verify { settingLastUserActivityUTC.value }
+        coVerify { submissionSettings.lastSubmissionUserActivityUTC }
     }
 
     @Test
@@ -398,7 +409,7 @@ class SubmissionTaskTest : BaseTest() {
 
     @Test
     fun `negative user activity durations lead to immediate submission`() = runTest {
-        settingLastUserActivityUTC.update { Instant.ofEpochMilli(Long.MAX_VALUE) }
+        submissionSettings.updateLastSubmissionUserActivityUTC(Instant.ofEpochMilli(Long.MAX_VALUE))
         val task = createTask()
         task.run(SubmissionTask.Arguments(checkUserActivity = true)) shouldBe SubmissionTask.Result(
             state = State.SUCCESSFUL
@@ -412,17 +423,17 @@ class SubmissionTaskTest : BaseTest() {
         shouldThrow<NoSuchElementException> {
             task.run(SubmissionTask.Arguments())
         }
-        verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
+        coVerify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
     }
 
     @Test
     fun `exceeding retry attempts throws error and disables autosubmission`() = runTest {
-        settingAutoSubmissionAttemptsCount.update { Int.MAX_VALUE }
+        every { submissionSettings.autoSubmissionAttemptsCount } returns flowOf(Int.MAX_VALUE)
         val task = createTask()
         shouldThrowMessage("Submission task retry limit exceeded") {
             task.run(SubmissionTask.Arguments())
         }
-        verify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
+        coVerify { autoSubmission.updateMode(AutoSubmission.Mode.DISABLED) }
     }
 
     @Test
@@ -441,11 +452,11 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -464,10 +475,10 @@ class SubmissionTaskTest : BaseTest() {
 
         createTask().run(SubmissionTask.Arguments(checkUserActivity = true))
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmitted(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedInBackground(PCR) }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmitted(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedInBackground(RAPID_ANTIGEN) }
     }
 }

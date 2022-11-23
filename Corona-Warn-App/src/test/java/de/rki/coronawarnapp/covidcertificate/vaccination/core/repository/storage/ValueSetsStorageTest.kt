@@ -1,45 +1,43 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.valueSetsContainerDe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.valueSetsContainerEn
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsStorage
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsStorage.Companion.PKEY_VALUE_SETS_CONTAINER_PREFIX
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsStorage.Companion.PKEY_VALUE_SETS_PREFIX
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 
 class ValueSetsStorageTest : BaseTest() {
 
-    @MockK lateinit var context: Context
-    lateinit var prefs: MockSharedPreferences
-
+    private val dataStore = FakeDataStore()
     private val gson = SerializationModule().baseGson()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        prefs = MockSharedPreferences()
-        every { context.getSharedPreferences("valuesets_localdata", Context.MODE_PRIVATE) } returns prefs
     }
 
-    private fun createInstance() = ValueSetsStorage(
-        context = context,
-        gson = gson
-    )
+    private fun createInstance(scope: TestScope) =
+        ValueSetsStorage(
+            gson = gson,
+            dataStore = dataStore,
+            appScope = scope
+        )
 
     @Test
-    fun `Updates values`() = runTest {
-        createInstance().run {
+    fun `Updates values`() = runTest2 {
+        createInstance(this).run {
             save(valueSetsContainerDe)
             load() shouldBe valueSetsContainerDe
 
@@ -49,15 +47,16 @@ class ValueSetsStorageTest : BaseTest() {
     }
 
     @Test
-    fun `storage inits empty without sideeffects`() {
-        createInstance()
-        prefs.dataMapPeek.isEmpty() shouldBe true
+    fun `storage inits empty without sideeffects`() = runTest2 {
+        createInstance(this)
+        dataStore[PKEY_VALUE_SETS_PREFIX] shouldBe null
+        dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] shouldBe null
     }
 
     @Test
-    fun `storage format`() = runTest {
-        createInstance().save(valueSetsContainerDe)
-        (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
+    fun `storage format`() = runTest2 {
+        createInstance(this).save(valueSetsContainerDe)
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
             {
               "vaccinationValueSets": {
                 "languageCode": "de",
@@ -131,12 +130,17 @@ class ValueSetsStorageTest : BaseTest() {
               }
             }
         """.toComparableJsonPretty()
+    }
 
-        createInstance().apply {
+    @Test
+    fun `storage format empty container`() = runTest2 {
+        createInstance(this).save(valueSetsContainerDe)
+        createInstance(this).apply {
             load() shouldBe valueSetsContainerDe
             save(emptyValueSetsContainer)
         }
-        (prefs.dataMapPeek["valuesets_container"] as String).toComparableJsonPretty() shouldBe """
+
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
             {
               "vaccinationValueSets": {
                 "languageCode": "en",
@@ -171,19 +175,17 @@ class ValueSetsStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        createInstance().load() shouldBe emptyValueSetsContainer
+        createInstance(this).load() shouldBe emptyValueSetsContainer
     }
 
     @Test
-    fun `removes leftover`() = runTest {
+    fun `removes leftover`() = runTest2 {
         val leftover = "I'm a malicious leftover"
-        val valueSet = "valueset"
-        prefs.edit(commit = true) {
-            putString(valueSet, leftover)
-        }
+        val valueSet = stringPreferencesKey("valueset")
+        dataStore[valueSet] = leftover
 
-        prefs.dataMapPeek[valueSet] shouldBe leftover
-        createInstance().load() shouldBe emptyValueSetsContainer
-        prefs.dataMapPeek.isEmpty() shouldBe true
+        dataStore[valueSet] shouldBe leftover
+        createInstance(this).load() shouldBe emptyValueSetsContainer
+        dataStore[valueSet] shouldBe null
     }
 }

@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.presencetracing
 
-import android.content.Context
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -14,33 +17,26 @@ import javax.inject.Singleton
 
 @Singleton
 class TraceLocationSettings @Inject constructor(
-    @AppContext val context: Context
+    @LocationSettingsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
 
-    private val preferences by lazy {
-        context.getSharedPreferences(name, Context.MODE_PRIVATE)
+    val onboardingStatus = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_ONBOARDING_STATUS, defaultValue = OnboardingStatus.NOT_ONBOARDED.order
+    ).map { value ->
+        OnboardingStatus.values().find { it.order == value } ?: OnboardingStatus.NOT_ONBOARDED
     }
 
-    val onboardingStatus: FlowPreference<OnboardingStatus> = preferences.createFlowPreference(
-        key = PKEY_ONBOARDING_STATUS,
-        reader = { key ->
-            val order = getInt(key, OnboardingStatus.NOT_ONBOARDED.order)
-            OnboardingStatus.values().find { it.order == order } ?: OnboardingStatus.NOT_ONBOARDED
-        },
-        writer = { key, value ->
-            putInt(key, value.order)
-        }
-    )
+    suspend fun updateOnboardingStatus(value: OnboardingStatus) =
+        dataStore.trySetValue(preferencesKey = PKEY_ONBOARDING_STATUS, value = value.order)
 
     inline val isOnboardingDoneFlow: Flow<Boolean>
-        get() = onboardingStatus.flow.map { it == OnboardingStatus.ONBOARDED_2_0 }
+        get() = onboardingStatus.map { it == OnboardingStatus.ONBOARDED_2_0 }
 
-    inline val isOnboardingDone: Boolean
-        get() = onboardingStatus.value == OnboardingStatus.ONBOARDED_2_0
+    suspend fun isOnboardingDone() = onboardingStatus.first() == OnboardingStatus.ONBOARDED_2_0
 
     override suspend fun reset() {
         Timber.d("reset()")
-        preferences.clearAndNotify()
+        dataStore.clear()
     }
 
     enum class OnboardingStatus(val order: Int) {
@@ -49,7 +45,6 @@ class TraceLocationSettings @Inject constructor(
     }
 
     companion object {
-        private const val PKEY_ONBOARDING_STATUS = "trace_location_onboardingstatus"
-        private const val name = "trace_location_localdata"
+        private val PKEY_ONBOARDING_STATUS = intPreferencesKey("trace_location_onboardingstatus")
     }
 }

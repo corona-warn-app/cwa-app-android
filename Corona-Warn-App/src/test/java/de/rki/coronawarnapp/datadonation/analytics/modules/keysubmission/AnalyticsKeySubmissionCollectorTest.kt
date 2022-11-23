@@ -14,16 +14,17 @@ import de.rki.coronawarnapp.util.toLocalDateUtc
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.coroutines.runTest2
 import java.time.Duration
 import java.time.Instant
 
@@ -43,12 +44,34 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns now
+        every { analyticsSettings.analyticsEnabled } returns flowOf(true)
     }
 
     @Test
-    fun `save test registered`() {
+    fun `save test registered`() = runTest2 {
         val combinedEwPtRiskLevelResult = CombinedEwPtRiskLevelResult(ptRiskLevelResult, ewRiskLevelResult)
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+
+        coEvery { analyticsPcrKeySubmissionStorage.updateTestRegisteredAt(any()) } just Runs
+        coEvery {
+            analyticsPcrKeySubmissionStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(any())
+        } just Runs
+        coEvery {
+            analyticsPcrKeySubmissionStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
+        } just Runs
+        coEvery {
+            analyticsPcrKeySubmissionStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
+        } just Runs
+
+        coEvery { analyticsRaKeySubmissionStorage.updateTestRegisteredAt(any()) } just Runs
+        coEvery {
+            analyticsRaKeySubmissionStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(any())
+        } just Runs
+        coEvery {
+            analyticsRaKeySubmissionStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
+        } just Runs
+        coEvery {
+            analyticsRaKeySubmissionStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
+        } just Runs
 
         every { ewRiskLevelResult.riskState } returns RiskState.INCREASED_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
@@ -65,209 +88,187 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
         coEvery { riskLevelStorage.allEwRiskLevelResults } returns flowOf(listOf(ewRiskLevelResult))
         coEvery { riskLevelStorage.allPtRiskLevelResults } returns flowOf(listOf(ptRiskLevelResult))
 
-        val pcrTestRegisteredAt = mockFlowPreference(now.toEpochMilli())
-        coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns pcrTestRegisteredAt
+        coEvery { analyticsPcrKeySubmissionStorage.testRegisteredAt } returns flowOf(now.toEpochMilli())
 
-        val raTestRegisteredAt = mockFlowPreference(now.toEpochMilli())
-        coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns raTestRegisteredAt
+        coEvery { analyticsRaKeySubmissionStorage.testRegisteredAt } returns flowOf(now.toEpochMilli())
 
         every { ewRiskLevelResult.wasSuccessfullyCalculated } returns true
 
-        val hoursSinceHighRiskWarningAtTestRegistration = mockFlowPreference(-1)
         every { analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
-            hoursSinceHighRiskWarningAtTestRegistration
+            flowOf(-1)
         every { analyticsRaKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration } returns
-            hoursSinceHighRiskWarningAtTestRegistration
+            flowOf(-1)
 
-        val daysSinceMostRecentDateAtRiskLevelAtTestRegistration = mockFlowPreference(0)
         every { analyticsPcrKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
-            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            flowOf(0)
         every { analyticsRaKeySubmissionStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
-            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            flowOf(0)
         every { analyticsPcrKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
-            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            flowOf(0)
         every { analyticsRaKeySubmissionStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
-            daysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            flowOf(0)
 
-        every { analyticsPcrKeySubmissionStorage.clear() } just Runs
-        every { analyticsRaKeySubmissionStorage.clear() } just Runs
+        coEvery { analyticsPcrKeySubmissionStorage.clear() } just Runs
+        coEvery { analyticsRaKeySubmissionStorage.clear() } just Runs
 
         every { ewRiskLevelResult.mostRecentDateAtRiskState } returns now.minus(Duration.ofDays(2))
         every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
             now.minus(Duration.ofDays(2)).toLocalDateUtc()
 
-        runTest {
-            val collector = createInstance()
-            collector.reportTestRegistered(PCR)
-            verify { pcrTestRegisteredAt.update(any()) }
-            verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
-            verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
+        val collector = createInstance(this)
+        collector.reportTestRegistered(PCR)
+        coVerify {
+            analyticsPcrKeySubmissionStorage.updateTestRegisteredAt(any())
+            analyticsPcrKeySubmissionStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(any())
+            analyticsPcrKeySubmissionStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
+            analyticsPcrKeySubmissionStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
         }
 
-        runTest {
-            val collector = createInstance()
-            collector.reportTestRegistered(RAPID_ANTIGEN)
-            verify { raTestRegisteredAt.update(any()) }
-            verify { hoursSinceHighRiskWarningAtTestRegistration.update(any()) }
-            verify { daysSinceMostRecentDateAtRiskLevelAtTestRegistration.update(any()) }
-        }
-    }
-
-    @Test
-    fun `PCR save keys submitted`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val submittedFlow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.submitted } returns submittedFlow
-        val submittedAtFlow = mockFlowPreference(now.toEpochMilli())
-        every { analyticsPcrKeySubmissionStorage.submittedAt } returns submittedAtFlow
-        runTest {
-            val collector = createInstance()
-            collector.reportSubmitted(PCR)
-            verify { submittedFlow.update(any()) }
-            verify { submittedAtFlow.update(any()) }
+        val collector2 = createInstance(this)
+        collector2.reportTestRegistered(RAPID_ANTIGEN)
+        coVerify {
+            analyticsRaKeySubmissionStorage.updateTestRegisteredAt(any())
+            analyticsRaKeySubmissionStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(any())
+            analyticsRaKeySubmissionStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(any())
         }
     }
 
     @Test
-    fun `PCR save keys submitted after cancel`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.submittedAfterCancel } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportSubmittedAfterCancel(PCR)
-            verify { flow.update(any()) }
+    fun `PCR save keys submitted`() = runTest2 {
+        coEvery { analyticsPcrKeySubmissionStorage.updateSubmitted(any()) } just Runs
+        coEvery { analyticsPcrKeySubmissionStorage.updateSubmittedAt(any()) } just Runs
+        every { analyticsPcrKeySubmissionStorage.submitted } returns flowOf(false)
+        every { analyticsPcrKeySubmissionStorage.submittedAt } returns flowOf(now.toEpochMilli())
+
+        val collector = createInstance(this)
+        collector.reportSubmitted(PCR)
+        coVerify {
+            analyticsPcrKeySubmissionStorage.updateSubmitted(any())
+            analyticsPcrKeySubmissionStorage.updateSubmittedAt(any())
         }
     }
 
     @Test
-    fun `PCR save keys submitted in background`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.submittedInBackground } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportSubmittedInBackground(PCR)
-            verify { flow.update(any()) }
-        }
+    fun `PCR save keys submitted after cancel`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.submittedAfterCancel } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateSubmittedAfterCancel(any()) } just Runs
+
+        val collector = createInstance(this)
+        collector.reportSubmittedAfterCancel(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateSubmittedAfterCancel(any()) }
     }
 
     @Test
-    fun `PCR save keys submitted after symptom flow`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.submittedAfterSymptomFlow } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportSubmittedAfterSymptomFlow(PCR)
-            verify { flow.update(any()) }
-        }
+    fun `PCR save keys submitted in background`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.submittedInBackground } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateSubmittedInBackground(any()) } just Runs
+
+        val collector = createInstance(this)
+        collector.reportSubmittedInBackground(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateSubmittedInBackground(any()) }
     }
 
     @Test
-    fun `PCR save positive test result received`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(-1L)
-        every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
+    fun `PCR save keys submitted after symptom flow`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.submittedAfterSymptomFlow } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateSubmittedAfterSymptomFlow(any()) } just Runs
 
-        runTest {
-            val collector = createInstance()
-            collector.reportPositiveTestResultReceived(PCR)
-            verify { flow.update(any()) }
-        }
+        val collector = createInstance(this)
+        collector.reportSubmittedAfterSymptomFlow(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateSubmittedAfterSymptomFlow(any()) }
     }
 
     @Test
-    fun `PCR positive test result received is not overwritten`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(now.toEpochMilli())
-        every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
+    fun `PCR save positive test result received`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flowOf(-1L)
+        coEvery { analyticsPcrKeySubmissionStorage.updateTestResultReceivedAt(any()) } just Runs
 
-        runTest {
-            val collector = createInstance()
-            collector.reportPositiveTestResultReceived(PCR)
-            verify(exactly = 0) { flow.update(any()) }
-        }
+        val collector = createInstance(this)
+        collector.reportPositiveTestResultReceived(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateTestResultReceivedAt(any()) }
     }
 
     @Test
-    fun `PCR save advanced consent given`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportAdvancedConsentGiven(PCR)
-            verify { flow.update(any()) }
-        }
+    fun `PCR positive test result received is not overwritten`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flowOf(now.toEpochMilli())
+
+        val collector = createInstance(this)
+        collector.reportPositiveTestResultReceived(PCR)
+        coVerify(exactly = 0) { analyticsPcrKeySubmissionStorage.updateTestResultReceivedAt(any()) }
     }
 
     @Test
-    fun `PCR save consent withdrawn`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportConsentWithdrawn(PCR)
-            verify { flow.update(any()) }
-        }
+    fun `PCR save advanced consent given`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateAdvancedConsentGiven(any()) } just Runs
+
+        val collector = createInstance(this)
+        collector.reportAdvancedConsentGiven(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateAdvancedConsentGiven(any()) }
     }
 
     @Test
-    fun `save registered with tele tan`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(false)
-        every { analyticsPcrKeySubmissionStorage.registeredWithTeleTAN } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportRegisteredWithTeleTAN()
-            verify { flow.update(any()) }
-        }
+    fun `PCR save consent withdrawn`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.advancedConsentGiven } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateAdvancedConsentGiven(any()) } just Runs
+
+        val collector = createInstance(this)
+        collector.reportConsentWithdrawn(PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateAdvancedConsentGiven(any()) }
     }
 
     @Test
-    fun `PCR save last submission flow screen`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(0)
-        every { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen } returns flow
-        runTest {
-            val collector = createInstance()
-            collector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR)
-            verify { flow.update(any()) }
-        }
+    fun `save registered with tele tan`() = runTest2 {
+        every { analyticsPcrKeySubmissionStorage.registeredWithTeleTAN } returns flowOf(false)
+        coEvery { analyticsPcrKeySubmissionStorage.updateRegisteredWithTeleTAN(any()) } just Runs
+
+        val collector = createInstance(this)
+        collector.reportRegisteredWithTeleTAN()
+        coVerify { analyticsPcrKeySubmissionStorage.updateRegisteredWithTeleTAN(any()) }
     }
 
     @Test
-    fun `PCR no data collection if disabled`() {
-        coEvery { analyticsSettings.analyticsEnabled.value } returns false
-        runTest {
-            val collector = createInstance()
-            collector.reportTestRegistered(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.testRegisteredAt }
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration }
-            collector.reportSubmitted(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submitted }
-            collector.reportSubmittedInBackground(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submittedInBackground }
-            collector.reportAdvancedConsentGiven(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.advancedConsentGiven }
-            collector.reportConsentWithdrawn(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.advancedConsentGiven }
-            collector.reportLastSubmissionFlowScreen(Screen.UNKNOWN, PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen }
-            collector.reportPositiveTestResultReceived(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.testResultReceivedAt }
-            collector.reportSubmittedAfterCancel(PCR)
-            verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submittedAfterCancel }
-        }
+    fun `PCR save last submission flow screen`() = runTest2 {
+        coEvery { analyticsPcrKeySubmissionStorage.updateLastSubmissionFlowScreen(any()) } just Runs
+        every { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen } returns flowOf(0)
+
+        val collector = createInstance(this)
+        collector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR)
+        coVerify { analyticsPcrKeySubmissionStorage.updateLastSubmissionFlowScreen(any()) }
     }
 
-    fun createInstance() = AnalyticsKeySubmissionCollector(
+    @Test
+    fun `PCR no data collection if disabled`() = runTest2 {
+        every { analyticsSettings.analyticsEnabled } returns flowOf(false)
+
+        val collector = createInstance(this)
+        collector.reportTestRegistered(PCR)
+        verify(exactly = 0) {
+            analyticsPcrKeySubmissionStorage.testRegisteredAt
+            analyticsPcrKeySubmissionStorage.ewHoursSinceHighRiskWarningAtTestRegistration
+        }
+        collector.reportSubmitted(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submitted }
+        collector.reportSubmittedInBackground(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submittedInBackground }
+        collector.reportAdvancedConsentGiven(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.advancedConsentGiven }
+        collector.reportConsentWithdrawn(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.advancedConsentGiven }
+        collector.reportLastSubmissionFlowScreen(Screen.UNKNOWN, PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.lastSubmissionFlowScreen }
+        collector.reportPositiveTestResultReceived(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.testResultReceivedAt }
+        collector.reportSubmittedAfterCancel(PCR)
+        verify(exactly = 0) { analyticsPcrKeySubmissionStorage.submittedAfterCancel }
+    }
+
+    fun createInstance(scope: CoroutineScope) = AnalyticsKeySubmissionCollector(
         timeStamper,
         analyticsSettings,
         analyticsPcrKeySubmissionStorage,
         analyticsRaKeySubmissionStorage,
         riskLevelStorage,
+        scope
     )
 }

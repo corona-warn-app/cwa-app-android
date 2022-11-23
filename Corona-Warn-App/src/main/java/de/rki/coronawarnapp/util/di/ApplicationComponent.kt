@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.ccl.CclModule
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageModule
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
 import de.rki.coronawarnapp.dccreissuance.DccReissuanceModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingModule
@@ -55,6 +57,7 @@ import de.rki.coronawarnapp.util.coroutine.CoroutineModule
 import de.rki.coronawarnapp.util.device.DeviceModule
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesFactory
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesMigration
+import de.rki.coronawarnapp.util.encryptionmigration.EncryptedPreferencesModule
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
 import de.rki.coronawarnapp.util.security.SecurityModule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -71,6 +74,7 @@ import javax.inject.Singleton
         ServiceBinder::class,
         ActivityBinder::class,
         CoilModule::class,
+        EncryptedPreferencesModule::class,
         RiskModule::class,
         DeviceModule::class,
         ENFModule::class,
@@ -106,6 +110,8 @@ import javax.inject.Singleton
         MainModule::class,
         StorageModule::class,
         InitializerModule::class,
+        VaccinationStorageModule::class,
+        TestCertificateStorageModule::class,
         SrsSubmissionModule::class,
     ]
 )

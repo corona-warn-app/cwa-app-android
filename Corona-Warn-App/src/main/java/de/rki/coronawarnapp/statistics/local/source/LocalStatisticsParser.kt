@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.LocalStatisticsData
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -15,10 +16,10 @@ import javax.inject.Inject
 class LocalStatisticsParser @Inject constructor(
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
 ) {
-    fun parse(rawData: ByteArray): LocalStatisticsData {
+    suspend fun parse(rawData: ByteArray): LocalStatisticsData {
         val parsed = LocalStatisticsOuterClass.LocalStatistics.parseFrom(rawData)
 
-        val activeSelections = localStatisticsConfigStorage.activeSelections.value.locations
+        val activeSelections = localStatisticsConfigStorage.activeSelections.first().locations
 
         val states = activeSelections.filterIsInstance<SelectedStatisticsLocation.SelectedFederalState>()
         parsed.federalStateDataList.size

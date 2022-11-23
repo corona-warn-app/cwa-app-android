@@ -1,16 +1,24 @@
 package de.rki.coronawarnapp.submission
 
-import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
+import de.rki.coronawarnapp.util.serialization.fromJson
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -18,8 +26,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SubmissionSettings @Inject constructor(
-    @AppContext val context: Context,
-    @BaseGson val baseGson: Gson
+    @SubmissionSettingsDataStore private val dataStore: DataStore<Preferences>,
+    @BaseGson private val baseGson: Gson
 ) : Resettable {
 
     private val gson by lazy {
@@ -35,106 +43,140 @@ class SubmissionSettings @Inject constructor(
         }.create()
     }
 
-    private val prefs by lazy {
-        context.getSharedPreferences("submission_localdata", Context.MODE_PRIVATE)
-    }
-
     //region Needed for migration ONLY. Use CoronaTestRepository
-    var registrationTokenMigration: String?
-        get() = prefs.getString(TEST_REGISTRATION_TOKEN, null)
-        set(value) = prefs.edit { putString(TEST_REGISTRATION_TOKEN, value) }
+    val registrationTokenMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = TEST_REGISTRATION_TOKEN
+    )
 
-    var initialTestResultReceivedAtMigration: Instant?
-        get() = prefs.getLong(TEST_RESULT_RECEIVED_AT, 0L).toInstantOrNull()
-        set(value) = prefs.edit { putLong(TEST_RESULT_RECEIVED_AT, value?.toEpochMilli() ?: 0L) }
+    suspend fun updateRegistrationTokenMigration(value: String?) = dataStore.trySetValue(
+        preferencesKey = TEST_REGISTRATION_TOKEN,
+        value = value ?: ""
+    )
 
-    var devicePairingSuccessfulAtMigration: Instant?
-        get() = prefs.getLong(TEST_PARING_SUCCESSFUL_AT, 0L).toInstantOrNull()
-        set(value) = prefs.edit { putLong(TEST_PARING_SUCCESSFUL_AT, value?.toEpochMilli() ?: 0L) }
+    suspend fun updateInitialTestResultReceivedAtMigration(value: Instant?) = dataStore.trySetValue(
+        preferencesKey = TEST_RESULT_RECEIVED_AT,
+        value = value?.toEpochMilli() ?: 0L
+    )
 
-    var isSubmissionSuccessfulMigration: Boolean
-        get() = prefs.getBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, false)
-        set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_SUCCESSFUL, value) }
+    val devicePairingSuccessfulAtMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = TEST_PARING_SUCCESSFUL_AT, defaultValue = 0L
+    ).map { it.toInstantOrNull() }
 
-    var isAllowedToSubmitKeysMigration: Boolean
-        get() = prefs.getBoolean(IS_KEY_SUBMISSION_ALLOWED, false)
-        set(value) = prefs.edit { putBoolean(IS_KEY_SUBMISSION_ALLOWED, value) }
+    suspend fun updateDevicePairingSuccessfulAtMigration(value: Instant?) = dataStore.trySetValue(
+        preferencesKey = TEST_PARING_SUCCESSFUL_AT,
+        value = value?.toEpochMilli() ?: 0L
+    )
 
-    val hasGivenConsentMigration: Boolean
-        get() = prefs.getBoolean(SUBMISSION_CONSENT_GIVEN, false)
+    val isSubmissionSuccessfulMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = IS_KEY_SUBMISSION_SUCCESSFUL,
+        defaultValue = false
+    )
 
-    val hasViewedTestResultMigration: Boolean
-        get() = prefs.getBoolean(SUBMISSION_RESULT_VIEWED, false)
+    suspend fun updateIsSubmissionSuccessfulMigration(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = IS_KEY_SUBMISSION_SUCCESSFUL,
+        value = value
+    )
 
+    val isAllowedToSubmitKeysMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = IS_KEY_SUBMISSION_ALLOWED,
+        defaultValue = false
+    )
+
+    suspend fun updateIsAllowedToSubmitKeysMigration(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = IS_KEY_SUBMISSION_ALLOWED,
+        value = value
+    )
+
+    val hasGivenConsentMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = SUBMISSION_CONSENT_GIVEN,
+        defaultValue = false
+    )
+
+    val hasViewedTestResultMigration = dataStore.dataRecovering.distinctUntilChanged(
+        key = SUBMISSION_RESULT_VIEWED,
+        defaultValue = false
+    )
     //endregion Needed for migration ONLY.
 
-    val symptoms: FlowPreference<Symptoms?> = FlowPreference(
-        prefs,
-        key = SUBMISSION_SYMPTOMS_LATEST,
-        reader = FlowPreference.gsonReader<Symptoms?>(gson, null),
-        writer = FlowPreference.gsonWriter(gson)
+    val symptoms: Flow<Symptoms?> = dataStore.dataRecovering.distinctUntilChanged(
+        key = SUBMISSION_SYMPTOMS_LATEST, defaultValue = ""
+    ).map { value ->
+        if (value.isNotEmpty()) gson.fromJson(value) else null
+    }
+
+    suspend fun updateSymptoms(value: Symptoms?) = dataStore.trySetValue(
+        preferencesKey = SUBMISSION_SYMPTOMS_LATEST,
+        value = gson.toJson(value)
     )
 
-    val lastSubmissionUserActivityUTC = prefs.createFlowPreference(
-        key = AUTO_SUBMISSION_LAST_USER_ACTIVITY,
-        reader = { key ->
-            Instant.ofEpochMilli(getLong(key, 0L))
-        },
-        writer = { key, value ->
-            putLong(key, value.toEpochMilli())
-        }
+    val lastSubmissionUserActivityUTC = dataStore.dataRecovering.distinctUntilChanged(
+        key = AUTO_SUBMISSION_LAST_USER_ACTIVITY, defaultValue = 0L
+    ).map { Instant.ofEpochMilli(it) }
+
+    suspend fun updateLastSubmissionUserActivityUTC(value: Instant) = dataStore.trySetValue(
+        preferencesKey = AUTO_SUBMISSION_LAST_USER_ACTIVITY,
+        value = value.toEpochMilli()
     )
 
-    val autoSubmissionEnabled = prefs.createFlowPreference(
+    val autoSubmissionEnabled = dataStore.dataRecovering.distinctUntilChanged(
         key = AUTO_SUBMISSION_ENABLED,
         defaultValue = false
     )
 
-    val autoSubmissionAttemptsCount = prefs.createFlowPreference(
+    suspend fun updateAutoSubmissionEnabled(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = AUTO_SUBMISSION_ENABLED,
+        value = value
+    )
+
+    val autoSubmissionAttemptsCount = dataStore.dataRecovering.distinctUntilChanged(
         key = AUTO_SUBMISSION_ATTEMPT_COUNT,
         defaultValue = 0
     )
 
-    val autoSubmissionAttemptsLast = prefs.createFlowPreference(
-        key = AUTO_SUBMISSION_LAST_ATTEMPT,
-        reader = { key ->
-            Instant.ofEpochMilli(getLong(key, 0L))
-        },
-        writer = { key, value ->
-            putLong(key, value.toEpochMilli())
-        }
+    suspend fun updateAutoSubmissionAttemptsCount(value: Int) = dataStore.trySetValue(
+        preferencesKey = AUTO_SUBMISSION_ATTEMPT_COUNT,
+        value = value
     )
 
-    fun deleteLegacyTestData() {
+    val autoSubmissionAttemptsLast = dataStore.dataRecovering.distinctUntilChanged(
+        key = AUTO_SUBMISSION_LAST_ATTEMPT, defaultValue = 0L
+    ).map { Instant.ofEpochMilli(it) }
+
+    suspend fun updateAutoSubmissionAttemptsLast(value: Instant) = dataStore.trySetValue(
+        preferencesKey = AUTO_SUBMISSION_LAST_ATTEMPT,
+        value = value.toEpochMilli()
+    )
+
+    suspend fun deleteLegacyTestData() {
         Timber.d("deleteLegacyTestData()")
-        prefs.edit {
-            remove(SUBMISSION_RESULT_VIEWED)
-            remove(TEST_REGISTRATION_TOKEN)
-            remove(TEST_PARING_SUCCESSFUL_AT)
-            remove(TEST_RESULT_RECEIVED_AT)
-            remove(IS_KEY_SUBMISSION_ALLOWED)
-            remove(IS_KEY_SUBMISSION_SUCCESSFUL)
-            remove(SUBMISSION_CONSENT_GIVEN)
+        dataStore.edit { prefs ->
+            prefs.remove(SUBMISSION_RESULT_VIEWED)
+            prefs.remove(TEST_REGISTRATION_TOKEN)
+            prefs.remove(TEST_PARING_SUCCESSFUL_AT)
+            prefs.remove(TEST_RESULT_RECEIVED_AT)
+            prefs.remove(IS_KEY_SUBMISSION_ALLOWED)
+            prefs.remove(IS_KEY_SUBMISSION_SUCCESSFUL)
+            prefs.remove(SUBMISSION_CONSENT_GIVEN)
         }
     }
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 
     companion object {
-        private const val TEST_REGISTRATION_TOKEN = "submission.test.token"
-        private const val TEST_RESULT_RECEIVED_AT = "submission.test.result.receivedAt"
-        private const val TEST_PARING_SUCCESSFUL_AT = "submission.test.pairedAt"
-        private const val IS_KEY_SUBMISSION_ALLOWED = "submission.allowed"
-        private const val IS_KEY_SUBMISSION_SUCCESSFUL = "submission.successful"
-        private const val SUBMISSION_CONSENT_GIVEN = "key_submission_consent"
-        private const val SUBMISSION_RESULT_VIEWED = "key_submission_result_viewed"
-        private const val SUBMISSION_SYMPTOMS_LATEST = "submission.symptoms.latest"
-        private const val AUTO_SUBMISSION_LAST_USER_ACTIVITY = "submission.user.activity.last"
-        private const val AUTO_SUBMISSION_ENABLED = "submission.auto.enabled"
-        private const val AUTO_SUBMISSION_ATTEMPT_COUNT = "submission.auto.attempts.count"
-        private const val AUTO_SUBMISSION_LAST_ATTEMPT = "submission.auto.attempts.last"
+        private val TEST_REGISTRATION_TOKEN = stringPreferencesKey("submission.test.token")
+        private val TEST_RESULT_RECEIVED_AT = longPreferencesKey("submission.test.result.receivedAt")
+        private val TEST_PARING_SUCCESSFUL_AT = longPreferencesKey("submission.test.pairedAt")
+        private val IS_KEY_SUBMISSION_ALLOWED = booleanPreferencesKey("submission.allowed")
+        private val IS_KEY_SUBMISSION_SUCCESSFUL = booleanPreferencesKey("submission.successful")
+        private val SUBMISSION_CONSENT_GIVEN = booleanPreferencesKey("key_submission_consent")
+        private val SUBMISSION_RESULT_VIEWED = booleanPreferencesKey("key_submission_result_viewed")
+        val SUBMISSION_SYMPTOMS_LATEST = stringPreferencesKey("submission.symptoms.latest")
+        private val AUTO_SUBMISSION_LAST_USER_ACTIVITY = longPreferencesKey("submission.user.activity.last")
+        private val AUTO_SUBMISSION_ENABLED = booleanPreferencesKey("submission.auto.enabled")
+        private val AUTO_SUBMISSION_ATTEMPT_COUNT = intPreferencesKey("submission.auto.attempts.count")
+        private val AUTO_SUBMISSION_LAST_ATTEMPT = longPreferencesKey("submission.auto.attempts.last")
     }
 }

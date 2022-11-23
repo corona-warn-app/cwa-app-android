@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.util.worker
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.work.ListenableWorker
 import com.google.gson.Gson
 import dagger.Component
@@ -12,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
+import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -214,4 +217,8 @@ class MockProvider {
 
     @Provides
     fun revocationUpdater(): DccRevocationListUpdater = mockk()
+
+    @CovidCertificateSettingsDataStore
+    @Provides
+    fun provideCovidCertificateSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }

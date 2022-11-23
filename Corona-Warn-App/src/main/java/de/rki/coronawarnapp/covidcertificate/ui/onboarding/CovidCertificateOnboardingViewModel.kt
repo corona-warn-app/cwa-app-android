@@ -23,7 +23,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<Event>()
 
     fun onContinueClick() = launch {
-        covidCertificateSettings.isOnboarded.update { true }
+        covidCertificateSettings.updateIsOnboarded(true)
         val event = if (dccQrCode != null) {
             try {
                 val containerId = dccQrCodeHandler.validateAndRegister(dccQrCode = dccQrCode)
@@ -38,9 +38,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    fun onDataPrivacyClick() {
-        events.postValue(Event.NavigateToDataPrivacy)
-    }
+    fun onDataPrivacyClick() = events.postValue(Event.NavigateToDataPrivacy)
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateOnboardingViewModel> {

@@ -17,7 +17,6 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -27,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
@@ -36,7 +34,6 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var testType: BaseCoronaTest.Type
-    private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach
     fun setUp() {
@@ -44,7 +41,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         every { autoSubmission.isSubmissionRunning } returns flowOf(false)
         coEvery { autoSubmission.runSubmissionNow(any()) } just Runs
-        every { submissionRepository.currentSymptoms } returns currentSymptoms
+        coEvery { submissionRepository.updateCurrentSymptoms(any()) } just Runs
     }
 
     private fun createViewModel(scope: CoroutineScope) = SubmissionSymptomIntroductionViewModel(
@@ -70,7 +67,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
                 )
         }
 
-        verify(exactly = 0) { submissionRepository.currentSymptoms }
+        coVerify(exactly = 0) { submissionRepository.updateCurrentSymptoms(any()) }
     }
 
     @Test
@@ -83,11 +80,16 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
                     .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
             }
         }
-        currentSymptoms.value shouldBe Symptoms(
-            startOfSymptoms = null,
-            symptomIndication = Symptoms.Indication.NEGATIVE
-        )
-        coVerify { autoSubmission.runSubmissionNow(any()) }
+
+        coVerifySequence {
+            submissionRepository.updateCurrentSymptoms(
+                Symptoms(
+                    startOfSymptoms = null,
+                    symptomIndication = Symptoms.Indication.NEGATIVE
+                )
+            )
+            autoSubmission.runSubmissionNow(any())
+        }
     }
 
     @Test
@@ -99,13 +101,17 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             }
             viewModel.navigation.value shouldBe SubmissionSymptomIntroductionFragmentDirections
                 .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
-            currentSymptoms.value shouldBe Symptoms(
-                startOfSymptoms = null,
-                symptomIndication = Symptoms.Indication.NO_INFORMATION
-            )
         }
 
-        coVerify { autoSubmission.runSubmissionNow(any()) }
+        coVerifySequence {
+            submissionRepository.updateCurrentSymptoms(
+                Symptoms(
+                    startOfSymptoms = null,
+                    symptomIndication = Symptoms.Indication.NO_INFORMATION
+                )
+            )
+            autoSubmission.runSubmissionNow(any())
+        }
     }
 
     @Test
@@ -117,7 +123,11 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
                     .actionSubmissionSymptomIntroductionFragmentToMainFragment()
             }
         }
-        currentSymptoms.value shouldBe null
+
+        coVerify(exactly = 0) {
+            submissionRepository.updateCurrentSymptoms(any())
+        }
+
         coVerifySequence {
             autoSubmission.runSubmissionNow(any())
         }
@@ -129,8 +139,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         createViewModel(this).onNewUserActivity()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
-        verify(exactly = 0) {
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, RAPID_ANTIGEN)
         }
     }
@@ -141,8 +151,8 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         createViewModel(this).onNewUserActivity()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
-        verify(exactly = 1) {
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, PCR) }
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, RAPID_ANTIGEN)
         }
     }

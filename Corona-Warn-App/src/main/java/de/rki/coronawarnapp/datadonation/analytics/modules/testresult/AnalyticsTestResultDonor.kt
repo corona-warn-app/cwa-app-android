@@ -6,9 +6,10 @@ import de.rki.coronawarnapp.coronatest.server.isFinalResult
 import de.rki.coronawarnapp.coronatest.server.isPending
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
+import kotlinx.coroutines.flow.first
 import java.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,13 +39,13 @@ abstract class AnalyticsTestResultDonor(
     abstract val type: BaseCoronaTest.Type
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        val timestampAtRegistration = testResultSettings.testRegisteredAt.value
+        val timestampAtRegistration = testResultSettings.testRegisteredAt.first()
         if (timestampAtRegistration == null) {
             Timber.d("Skipping TestResultMetadata donation (timestampAtRegistration is missing)")
             return TestResultMetadataNoContribution
         }
 
-        val testResult = testResultSettings.testResult.value
+        val testResult = testResultSettings.testResult.first()
         if (testResult == null) {
             Timber.d("Skipping TestResultMetadata donation (testResultAtRegistration is missing)")
             return TestResultMetadataNoContribution
@@ -52,7 +53,7 @@ abstract class AnalyticsTestResultDonor(
 
         val hoursSinceTestRegistrationTime = Duration.between(
             timestampAtRegistration,
-            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowUTC
+            testResultSettings.finalTestResultReceivedAt.first() ?: timeStamper.nowUTC
         ).toHours().toInt()
 
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
@@ -97,34 +98,34 @@ abstract class AnalyticsTestResultDonor(
         testResultSettings.clear()
     }
 
-    private fun createDonation(
+    private suspend fun createDonation(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
     ): DonorModule.Contribution {
 
         val exposureWindowsAtTestRegistration =
-            testResultSettings.exposureWindowsAtTestRegistration.value?.asPpaData() ?: emptyList()
+            testResultSettings.exposureWindowsAtTestRegistration.first()?.asPpaData() ?: emptyList()
 
         val exposureWindowsUntilTestResult =
-            testResultSettings.exposureWindowsUntilTestResult.value?.asPpaData() ?: emptyList()
+            testResultSettings.exposureWindowsUntilTestResult.first()?.asPpaData() ?: emptyList()
 
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
             .setHoursSinceHighRiskWarningAtTestRegistration(
-                testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value
+                testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.first()
             )
             .setPtHoursSinceHighRiskWarningAtTestRegistration(
-                testResultSettings.ptHoursSinceHighRiskWarningAtTestRegistration.value
+                testResultSettings.ptHoursSinceHighRiskWarningAtTestRegistration.first()
             )
             .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+                testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first()
             )
             .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                testResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+                testResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first()
             )
             .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
-            .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
+            .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.first())
+            .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.first())
             .addAllExposureWindowsAtTestRegistration(exposureWindowsAtTestRegistration)
             .addAllExposureWindowsUntilTestResult(exposureWindowsUntilTestResult)
             .build()

@@ -4,19 +4,21 @@ import de.rki.coronawarnapp.appconfig.AnalyticsConfig
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import java.time.Duration
 import java.time.Instant
@@ -24,7 +26,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 
 class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @MockK lateinit var testResultSettings: AnalyticsPCRTestResultSettings
@@ -57,16 +58,16 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
         }
 
         with(testResultSettings) {
-            every { testRegisteredAt } returns mockFlowPreference(baseTime)
-            every { ewRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
-            every { ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns mockFlowPreference(1)
-            every { ewHoursSinceHighRiskWarningAtTestRegistration } returns mockFlowPreference(1)
-            every { ptRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
-            every { ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns mockFlowPreference(1)
-            every { ptHoursSinceHighRiskWarningAtTestRegistration } returns mockFlowPreference(1)
-            every { exposureWindowsAtTestRegistration } returns mockFlowPreference(listOf(analyticsExposureWindow))
+            every { testRegisteredAt } returns flowOf(baseTime)
+            every { ewRiskLevelAtTestRegistration } returns flowOf(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+            every { ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns flowOf(1)
+            every { ewHoursSinceHighRiskWarningAtTestRegistration } returns flowOf(1)
+            every { ptRiskLevelAtTestRegistration } returns flowOf(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+            every { ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns flowOf(1)
+            every { ptHoursSinceHighRiskWarningAtTestRegistration } returns flowOf(1)
+            every { exposureWindowsAtTestRegistration } returns flowOf(listOf(analyticsExposureWindow))
             every { exposureWindowsUntilTestResult } returns
-                mockFlowPreference(listOf(analyticsExposureWindow, analyticsExposureWindow))
+                flowOf(listOf(analyticsExposureWindow, analyticsExposureWindow))
         }
         every { timeStamper.nowUTC } returns baseTime
 
@@ -83,44 +84,42 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun `No donation when timestamp at registration is missing`() = runTest {
-        every { testResultSettings.testRegisteredAt } returns mockFlowPreference(null)
+        every { testResultSettings.testRegisteredAt } returns flowOf(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is INVALID`() = runTest {
-        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_INVALID)
-        every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
+        every { testResultSettings.testResult } returns flowOf(CoronaTestResult.PCR_INVALID)
+        every { testResultSettings.finalTestResultReceivedAt } returns flowOf(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runTest {
-        every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.PCR_OR_RAT_REDEEMED)
-        every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
+        every { testResultSettings.testResult } returns flowOf(CoronaTestResult.PCR_OR_RAT_REDEEMED)
+        every { testResultSettings.finalTestResultReceivedAt } returns flowOf(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
-    fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
-        runTest {
-            every { testResultSettings.testResult } returns
-                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
+    fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() = runTest {
+        every { testResultSettings.testResult } returns
+            flowOf(CoronaTestResult.PCR_OR_RAT_PENDING)
+        every { testResultSettings.finalTestResultReceivedAt } returns flowOf(null)
 
-            testResultDonor.beginDonation(TestRequest) shouldBe
-                AnalyticsTestResultDonor.TestResultMetadataNoContribution
-        }
+        testResultDonor.beginDonation(TestRequest) shouldBe
+            AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `Donation is collected when test result is PENDING and hours is greater or equal to config hours`() {
         runTest {
             every { testResultSettings.testResult } returns
-                mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
+                flowOf(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.ofDays(1))
-            every { testResultSettings.testRegisteredAt } returns mockFlowPreference(timeDayBefore)
-            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
+            every { testResultSettings.testRegisteredAt } returns flowOf(timeDayBefore)
+            every { testResultSettings.finalTestResultReceivedAt } returns flowOf(null)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -141,9 +140,9 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is POSITIVE`() {
         runTest {
             every { testResultSettings.testResult } returns
-                mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
+                flowOf(CoronaTestResult.PCR_POSITIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns
-                mockFlowPreference(baseTime)
+                flowOf(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -163,9 +162,9 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     fun `Donation is collected when test result is NEGATIVE`() {
         runTest {
             every { testResultSettings.testResult } returns
-                mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
+                flowOf(CoronaTestResult.PCR_NEGATIVE)
             every { testResultSettings.finalTestResultReceivedAt } returns
-                mockFlowPreference(baseTime)
+                flowOf(baseTime)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -184,12 +183,12 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 1 LowRisk`() = runTest {
         with(testResultSettings) {
-            every { testResult } returns mockFlowPreference(CoronaTestResult.PCR_NEGATIVE)
-            every { finalTestResultReceivedAt } returns mockFlowPreference(
+            every { testResult } returns flowOf(CoronaTestResult.PCR_NEGATIVE)
+            every { finalTestResultReceivedAt } returns flowOf(
                 Instant.parse("2021-03-20T20:00:00Z")
             )
-            every { ewRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
-            every { testRegisteredAt } returns mockFlowPreference(
+            every { ewRiskLevelAtTestRegistration } returns flowOf(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+            every { testRegisteredAt } returns flowOf(
                 Instant.parse("2021-03-20T00:00:00Z")
             )
         }
@@ -211,14 +210,14 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
     @Test
     fun `Scenario 2 HighRisk`() = runTest {
         with(testResultSettings) {
-            every { testResult } returns mockFlowPreference(CoronaTestResult.PCR_POSITIVE)
-            every { finalTestResultReceivedAt } returns mockFlowPreference(
+            every { testResult } returns flowOf(CoronaTestResult.PCR_POSITIVE)
+            every { finalTestResultReceivedAt } returns flowOf(
                 Instant.parse("2021-03-20T20:00:00Z")
             )
-            every { testRegisteredAt } returns mockFlowPreference(
+            every { testRegisteredAt } returns flowOf(
                 Instant.parse("2021-03-20T00:00:00Z")
             )
-            every { ewRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+            every { ewRiskLevelAtTestRegistration } returns flowOf(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
         }
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T00:00:00Z")
@@ -238,11 +237,11 @@ class AnalyticsPCRTestResultDonorTest : BaseTest() {
 
     @Test
     fun deleteData() = runTest {
-        every { testResultSettings.clear() } just Runs
+        coEvery { testResultSettings.clear() } just Runs
 
         testResultDonor.deleteData()
 
-        verify {
+        coVerify {
             testResultSettings.clear()
         }
     }
