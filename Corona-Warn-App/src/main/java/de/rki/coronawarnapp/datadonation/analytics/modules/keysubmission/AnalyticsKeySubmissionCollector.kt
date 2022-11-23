@@ -11,8 +11,11 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.toLocalDateUtc
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.Duration
 import javax.inject.Inject
 
@@ -22,24 +25,27 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     private val pcrStorage: AnalyticsPCRKeySubmissionStorage,
     private val raStorage: AnalyticsRAKeySubmissionStorage,
     private val riskLevelStorage: RiskLevelStorage,
+    @AppScope private val scope: CoroutineScope
 ) {
 
     fun reset(type: BaseCoronaTest.Type) {
-        type.storage.clear()
+        scope.launch {
+            type.storage.clear()
+        }
     }
 
-    fun reportPositiveTestResultReceived(type: BaseCoronaTest.Type) {
-        if (disabled) return
+    suspend fun reportPositiveTestResultReceived(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
         // do not overwrite once set
-        if (type.storage.testResultReceivedAt.value > 0) return
-        type.storage.testResultReceivedAt.update { timeStamper.nowUTC.toEpochMilli() }
+        if (type.storage.testResultReceivedAt.first() > 0) return
+        type.storage.updateTestResultReceivedAt(timeStamper.nowUTC.toEpochMilli())
     }
 
     suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
-        if (disabled) return
+        if (isDisabled()) return
 
         val testRegisteredAt = timeStamper.nowUTC
-        type.storage.testRegisteredAt.update { testRegisteredAt.toEpochMilli() }
+        type.storage.updateTestRegisteredAt(testRegisteredAt.toEpochMilli())
 
         val lastResult = riskLevelStorage
             .latestAndLastSuccessfulCombinedEwPtRiskLevelResult
@@ -51,13 +57,8 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                 .first()
                 .getLastChangeToHighEwRiskBefore(testRegisteredAt)
                 ?.let {
-                    val hours = Duration.between(
-                        it,
-                        testRegisteredAt
-                    ).toHours().toInt()
-                    type.storage.ewHoursSinceHighRiskWarningAtTestRegistration.update {
-                        hours
-                    }
+                    val hours = Duration.between(it, testRegisteredAt).toHours().toInt()
+                    type.storage.updateEwHoursSinceHighRiskWarningAtTestRegistration(hours)
                 }
         }
 
@@ -66,79 +67,73 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
                 .first()
                 .getLastChangeToHighPtRiskBefore(testRegisteredAt)
                 ?.let {
-                    val hours = Duration.between(
-                        it,
-                        testRegisteredAt
-                    ).toHours().toInt()
-                    type.storage.ptHoursSinceHighRiskWarningAtTestRegistration.update {
-                        hours
-                    }
+                    val hours = Duration.between(it, testRegisteredAt).toHours().toInt()
+                    type.storage.updatePtHoursSinceHighRiskWarningAtTestRegistration(hours)
                 }
         }
 
-        type.storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.storage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 lastResult.ewRiskLevelResult.mostRecentDateAtRiskState?.toLocalDateUtc(),
                 testRegisteredAt.toLocalDateUtc()
             )
-        }
+        )
 
-        type.storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.update {
+        type.storage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
                 lastResult.ptRiskLevelResult.mostRecentDateAtRiskState,
                 testRegisteredAt.toLocalDateUtc()
             )
-        }
+        )
     }
 
-    fun reportSubmitted(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.submitted.update { true }
-        type.storage.submittedAt.update { timeStamper.nowUTC.toEpochMilli() }
+    suspend fun reportSubmitted(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateSubmitted(true)
+        type.storage.updateSubmittedAt(timeStamper.nowUTC.toEpochMilli())
     }
 
-    fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.submittedInBackground.update { true }
+    suspend fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateSubmittedInBackground(true)
     }
 
-    fun reportSubmittedAfterCancel(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.submittedAfterCancel.update { true }
+    suspend fun reportSubmittedAfterCancel(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateSubmittedAfterCancel(true)
     }
 
-    fun reportSubmittedAfterSymptomFlow(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.submittedAfterSymptomFlow.update { true }
+    suspend fun reportSubmittedAfterSymptomFlow(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateSubmittedAfterSymptomFlow(true)
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen, type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.lastSubmissionFlowScreen.update { screen.code }
+    suspend fun reportLastSubmissionFlowScreen(screen: Screen, type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateLastSubmissionFlowScreen(screen.code)
     }
 
-    fun reportAdvancedConsentGiven(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.advancedConsentGiven.update { true }
+    suspend fun reportAdvancedConsentGiven(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateAdvancedConsentGiven(true)
     }
 
-    fun reportConsentWithdrawn(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.advancedConsentGiven.update { false }
+    suspend fun reportConsentWithdrawn(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateAdvancedConsentGiven(false)
     }
 
-    fun reportRegisteredWithTeleTAN() {
-        if (disabled) return
-        pcrStorage.registeredWithTeleTAN.update { true }
+    suspend fun reportRegisteredWithTeleTAN() {
+        if (isDisabled()) return
+        pcrStorage.updateRegisteredWithTeleTAN(true)
     }
 
-    fun reportSubmittedWithCheckIns(type: BaseCoronaTest.Type) {
-        if (disabled) return
-        type.storage.submittedWithCheckIns.update { true }
+    suspend fun reportSubmittedWithCheckIns(type: BaseCoronaTest.Type) {
+        if (isDisabled()) return
+        type.storage.updateSubmittedWithCheckIns(true)
     }
 
-    private val disabled: Boolean
-        get() = !analyticsSettings.analyticsEnabled.value
+    private suspend fun isDisabled() = !analyticsSettings.analyticsEnabled.first()
 
     private val BaseCoronaTest.Type.storage: AnalyticsKeySubmissionStorage
         get() = when (this) {

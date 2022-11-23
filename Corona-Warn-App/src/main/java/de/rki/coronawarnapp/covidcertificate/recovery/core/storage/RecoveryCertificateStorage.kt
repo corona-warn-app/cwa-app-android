@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import de.rki.coronawarnapp.covidcertificate.RecoveryCertificateDataStore
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateDataStore
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.serialization.BaseGson

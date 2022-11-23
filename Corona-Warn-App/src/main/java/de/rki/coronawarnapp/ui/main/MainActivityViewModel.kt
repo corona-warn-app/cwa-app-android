@@ -132,9 +132,11 @@ class MainActivityViewModel @AssistedInject constructor(
         }
     }
 
-    fun onBottomNavSelected() {
-        mutableIsTraceLocationOnboardingDone.value = traceLocationSettings.isOnboardingDone
-        mutableIsCertificatesOnboardingDone.value = covidCertificateSettings.isOnboarded.value
+    fun onBottomNavSelected() = launch {
+        mutableIsTraceLocationOnboardingDone.postValue(traceLocationSettings.isOnboardingDone())
+        covidCertificateSettings.isOnboarded.first().let {
+            mutableIsCertificatesOnboardingDone.postValue(it)
+        }
     }
 
     private suspend fun checkForEnergyOptimizedEnabled() {

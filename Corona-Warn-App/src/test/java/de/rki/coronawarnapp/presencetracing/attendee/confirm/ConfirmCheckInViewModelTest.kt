@@ -55,7 +55,7 @@ class ConfirmCheckInViewModelTest : BaseTest() {
         every { verifiedTraceLocation.traceLocation } returns traceLocation
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
         every { traceLocationAttendeeSettings.createJournalEntryCheckedState } returns flowOf(true)
-        every { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
+        coEvery { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
     }
 
     private fun createInstance() = ConfirmCheckInViewModel(

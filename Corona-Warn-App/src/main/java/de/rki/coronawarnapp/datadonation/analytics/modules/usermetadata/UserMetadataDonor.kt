@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.usermetadata
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,9 +14,9 @@ class UserMetadataDonor @Inject constructor(
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val userMetadata = PpaData.PPAUserMetadata.newBuilder()
-            .setAgeGroup(analyticsSettings.userInfoAgeGroup.value)
-            .setFederalState(analyticsSettings.userInfoFederalState.value)
-            .setAdministrativeUnit(analyticsSettings.userInfoDistrict.value)
+            .setAgeGroup(analyticsSettings.userInfoAgeGroup.first())
+            .setFederalState(analyticsSettings.userInfoFederalState.first())
+            .setAdministrativeUnit(analyticsSettings.userInfoDistrict.first())
             .build()
 
         return UserMetadataContribution(
@@ -25,15 +26,9 @@ class UserMetadataDonor @Inject constructor(
 
     override suspend fun deleteData() {
         analyticsSettings.apply {
-            userInfoAgeGroup.update {
-                PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
-            }
-            userInfoFederalState.update {
-                PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-            }
-            userInfoDistrict.update {
-                0
-            }
+            updateUserInfoAgeGroup(PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED)
+            updateUserInfoFederalState(PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED)
+            updateUserInfoDistrict(0)
         }
     }
 

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.util.CWADebug
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -28,7 +29,7 @@ class PCRTestMigration @Inject constructor(
         isMigrating = true
         Timber.tag(TAG).i("startMigration()")
 
-        val token: RegistrationToken? = submissionSettings.registrationTokenMigration
+        val token: RegistrationToken? = submissionSettings.registrationTokenMigration.first()
         if (token == null) {
             Timber.tag(TAG).d("Nothing to migrate, token was null.")
             return emptySet()
@@ -36,7 +37,7 @@ class PCRTestMigration @Inject constructor(
             Timber.tag(TAG).i("Migrating token %s", token)
         }
 
-        val devicePairingSuccessfulAt = submissionSettings.devicePairingSuccessfulAtMigration
+        val devicePairingSuccessfulAt = submissionSettings.devicePairingSuccessfulAtMigration.first()
         Timber.tag(TAG).v("devicePairingSuccessfulAt=%s", devicePairingSuccessfulAt)
         if (devicePairingSuccessfulAt == null) {
             if (CWADebug.isDeviceForTestersBuild) {
@@ -45,16 +46,16 @@ class PCRTestMigration @Inject constructor(
             return emptySet()
         }
 
-        val isAllowedToSubmitKeys = submissionSettings.isAllowedToSubmitKeysMigration
+        val isAllowedToSubmitKeys = submissionSettings.isAllowedToSubmitKeysMigration.first()
         Timber.tag(TAG).v("isAllowedToSubmitKeys=%s", isAllowedToSubmitKeys)
 
-        val isSubmissionSuccessful = submissionSettings.isSubmissionSuccessfulMigration
+        val isSubmissionSuccessful = submissionSettings.isSubmissionSuccessfulMigration.first()
         Timber.tag(TAG).v("isSubmissionSuccessful=%s", isSubmissionSuccessful)
 
-        val hasViewedTestResult = submissionSettings.hasViewedTestResultMigration
+        val hasViewedTestResult = submissionSettings.hasViewedTestResultMigration.first()
         Timber.tag(TAG).v("hasViewedTestResult=%s", hasViewedTestResult)
 
-        val hasGivenConsent = submissionSettings.hasGivenConsentMigration
+        val hasGivenConsent = submissionSettings.hasGivenConsentMigration.first()
         Timber.tag(TAG).v("hasGivenConsent=%s", hasGivenConsent)
 
         val testResultNotificationSent = tracingSettings.isTestResultAvailableNotificationSentMigration()

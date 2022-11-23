@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -37,7 +38,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     private val ageGroupSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAAgeGroup.values())
         .map { ages ->
-            val selected = settings.userInfoAgeGroup.value
+            val selected = settings.userInfoAgeGroup.first()
             ages.mapNotNull { age ->
                 if (age == PpaData.PPAAgeGroup.UNRECOGNIZED) return@mapNotNull null
                 UserInfoItem(
@@ -50,7 +51,7 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     private val federalStateSource: Flow<List<UserInfoItem>> = flowOf(PpaData.PPAFederalState.values())
         .map { states ->
-            val selected = settings.userInfoFederalState.value
+            val selected = settings.userInfoFederalState.first()
             val items = states
                 .mapNotNull { state ->
                     if (state == PpaData.PPAFederalState.UNRECOGNIZED) return@mapNotNull null
@@ -73,11 +74,11 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     private val districtSource: Flow<List<UserInfoItem>> = flow { emit(districtsSource.loadDistricts()) }
         .map { allDistricts ->
-            val ourStateCode = settings.userInfoFederalState.value.federalStateShortName
+            val ourStateCode = settings.userInfoFederalState.first().federalStateShortName
             allDistricts.filter { it.federalStateShortName == ourStateCode }
         }
         .map { districts ->
-            val selected = settings.userInfoDistrict.value
+            val selected = settings.userInfoDistrict.first()
             val items = districts
                 .map { district ->
                     UserInfoItem(
@@ -105,17 +106,17 @@ class AnalyticsUserInputViewModel @AssistedInject constructor(
 
     val finishEvent = SingleLiveEvent<Unit>()
 
-    fun selectUserInfoItem(item: UserInfoItem) {
+    fun selectUserInfoItem(item: UserInfoItem) = launch {
         when (item.data) {
             is PpaData.PPAAgeGroup -> {
-                settings.userInfoAgeGroup.update { item.data }
+                settings.updateUserInfoAgeGroup(item.data)
             }
             is PpaData.PPAFederalState -> {
-                settings.userInfoFederalState.update { item.data }
-                settings.userInfoDistrict.update { 0 }
+                settings.updateUserInfoFederalState(item.data)
+                settings.updateUserInfoDistrict(0)
             }
             is Districts.District -> {
-                settings.userInfoDistrict.update { item.data.districtId }
+                settings.updateUserInfoDistrict(item.data.districtId)
             }
             else -> throw IllegalArgumentException()
         }
