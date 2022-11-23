@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -16,6 +17,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -44,6 +46,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { personCertificatesSettings.clearBoosterRuleInfo(any()) } just Runs
         coEvery { personCertificatesSettings.acknowledgeBoosterRule(any(), any()) } just Runs
+        every { personCertificatesSettings.personsSettings } returns flowOf(emptyMap())
 
         every { oldWalletInfo.boosterNotification } returns oldBoosterNotification
         every { newWalletInfo.boosterNotification } returns newBoosterNotification
@@ -113,6 +116,32 @@ class BoosterNotificationServiceTest : BaseTest() {
 
             service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
 
+            verifyThatNotificationWasNotSent()
+            verifyThatBoosterNotificationTimeIsNotUpdated()
+        }
+
+    @Test
+    fun `notifyIfNecessary() should NOT send notification if the new booster rule and saved rule id are the same `() =
+        runTest {
+            every { personCertificatesSettings.personsSettings } returns flowOf(
+                mapOf(
+                    CertificatePersonIdentifier(
+                        firstNameStandardized = "Erika",
+                        lastNameStandardized = "MusterFrau",
+                        dateOfBirthFormatted = "1980-01-01"
+                    ) to PersonSettings(
+                        lastSeenBoosterRuleIdentifier = "1"
+                    )
+                )
+            )
+            every { newBoosterNotification.identifier } returns "1"
+            every { oldBoosterNotification.identifier } returns "1"
+
+            service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
+
+            coVerify {
+                personCertificatesSettings.acknowledgeBoosterRule(personIdentifier, "1")
+            }
             verifyThatNotificationWasNotSent()
             verifyThatBoosterNotificationTimeIsNotUpdated()
         }
