@@ -42,7 +42,7 @@ class SelfReportSubmissionConfigMapper @Inject constructor() : SelfReportSubmiss
                     Timber.d("Faulty timeBetweenSubmissionsInDays -> set to default")
                     SelfReportSubmissionCommonContainer.DEFAULT_DAYS
                 } else {
-                    Duration.ofHours(common.timeBetweenSubmissionsInDays.toLong())
+                    Duration.ofDays(common.timeBetweenSubmissionsInDays.toLong())
                 },
 
                 plausibleDeniabilityParameters = if (common.hasPlausibleDeniabilityParameters()) {

@@ -6,6 +6,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -16,11 +17,13 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     @Assisted private val openTypeSelection: Boolean,
     private val checkInRepository: CheckInRepository,
+    appConfigProvider: AppConfigProvider,
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
 ) : CWAViewModel(dispatcherProvider) {
@@ -29,6 +32,9 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     val showTracingConsentDialog = SingleLiveEvent<(Boolean) -> Unit>()
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val event = SingleLiveEvent<SrsSubmissionConsentNavigationEvents>()
+    val timeBetweenSubmissionsInDays = appConfigProvider.currentConfig.map {
+        it.selfReportSubmission.common.timeBetweenSubmissionsInDays
+    }.asLiveData2()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
