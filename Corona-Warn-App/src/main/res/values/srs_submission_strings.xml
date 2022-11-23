@@ -51,6 +51,8 @@
     <string name="srs_submission_consent_fifth_bulletpoint_text">Sie können andere auch ohne Echtheitsprüfung warnen. Hierfür müssen Sie einen PCR- oder Schnelltest in der App registrieren und das Ergebnis in der App abrufen.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
+    <!-- XTXT: Submission consent survey consent button -->
+    <string name="srs_submission_consent_survey_button">Ausführliche Informationen zur Echtheitsprüfung und den Datenschutzrisiken in den USA und anderen Drittländern</string>
     <!-- XTXT: Contact journal submission entry title -->
     <string name="srs_contact_diary_submission_item_title">Andere gewarnt</string>
     <!-- XTXT: Submission consent legal link text -->
