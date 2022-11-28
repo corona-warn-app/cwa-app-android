@@ -1549,7 +1549,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our blog."</string>
+    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our <div>blog.</div>"</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1608,7 +1608,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"For further information, please see our FAQ page:\nFAQ for statistics"</string>
+    <string name="statistics_faq_text">"For further information, please see our FAQ page:\n<div>FAQ for statistics</div>"</string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"FAQ for statistics"</string>
 

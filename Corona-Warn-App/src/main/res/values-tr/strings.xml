@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
+    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için <div>blogumuzu</div> okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogumuzu"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1606,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\nİstatistikler için SSS"</string>
+    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\n<div>İstatistikler için SSS</div>"</string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"İstatistikler için SSS"</string>
 
