@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz blog."</string>
+    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz <div>blog.</div>"</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1606,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Liczba osób zgłoszonych w RKI, które otrzymały pierwszą dawkę szczepionki."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania:\nCzęsto zadawane pytania dotyczące statystyk"</string>
+    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania:\n<div>Często zadawane pytania dotyczące statystyk</div>"</string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"Często zadawane pytania dotyczące statystyk"</string>
 

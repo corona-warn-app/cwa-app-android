@@ -1,33 +1,28 @@
 package de.rki.coronawarnapp.submission.data
 
-import android.content.Context
 import com.google.gson.Gson
 import de.rki.coronawarnapp.submission.SubmissionSettings
+import de.rki.coronawarnapp.submission.SubmissionSettings.Companion.SUBMISSION_SYMPTOMS_LATEST
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.coroutines.runTest2
+import testhelpers.preferences.FakeDataStore
 
 class SubmissionSettingsTest {
-    @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+    private lateinit var dataStore: FakeDataStore
     private lateinit var baseGson: Gson
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("submission_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        dataStore = FakeDataStore()
 
         baseGson = SerializationModule().baseGson().newBuilder().apply {
             setPrettyPrinting()
@@ -35,20 +30,22 @@ class SubmissionSettingsTest {
     }
 
     fun createInstance() = SubmissionSettings(
-        context = context,
+        dataStore = dataStore,
         baseGson = baseGson
     )
 
     @Test
-    fun `persist symptoms`() {
+    fun `persist symptoms`() = runTest2 {
         createInstance().apply {
-            symptoms.value shouldBe null
-            mockPreferences.dataMapPeek.isEmpty() shouldBe true
+            symptoms.first() shouldBe null
+            dataStore.data.map {
+                it.asMap().keys.isEmpty() shouldBe true
+            }
 
             Symptoms(startOfSymptoms = Symptoms.StartOf.NoInformation, Symptoms.Indication.POSITIVE).let { value ->
-                symptoms.update { value }
-                symptoms.value shouldBe value
-                mockPreferences.dataMapPeek["submission.symptoms.latest"] shouldBe """
+                updateSymptoms(value)
+                symptoms.first() shouldBe value
+                dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
                     {
                       "startOfSymptoms": {
                         "type": "NoInformation"
@@ -59,9 +56,9 @@ class SubmissionSettingsTest {
             }
 
             Symptoms(startOfSymptoms = Symptoms.StartOf.OneToTwoWeeksAgo, Symptoms.Indication.NEGATIVE).let { value ->
-                symptoms.update { value }
-                symptoms.value shouldBe value
-                mockPreferences.dataMapPeek["submission.symptoms.latest"] shouldBe """
+                updateSymptoms(value)
+                symptoms.first() shouldBe value
+                dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
                     {
                       "startOfSymptoms": {
                         "type": "OneToTwoWeeksAgo"
@@ -75,9 +72,9 @@ class SubmissionSettingsTest {
                 startOfSymptoms = Symptoms.StartOf.MoreThanTwoWeeks,
                 Symptoms.Indication.NO_INFORMATION
             ).let { value ->
-                symptoms.update { value }
-                symptoms.value shouldBe value
-                mockPreferences.dataMapPeek["submission.symptoms.latest"] shouldBe """
+                updateSymptoms(value)
+                symptoms.first() shouldBe value
+                dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
                     {
                       "startOfSymptoms": {
                         "type": "MoreThanTwoWeeks"
@@ -91,9 +88,9 @@ class SubmissionSettingsTest {
                 startOfSymptoms = Symptoms.StartOf.LastSevenDays,
                 Symptoms.Indication.NO_INFORMATION
             ).let { value ->
-                symptoms.update { value }
-                symptoms.value shouldBe value
-                mockPreferences.dataMapPeek["submission.symptoms.latest"] shouldBe """
+                updateSymptoms(value)
+                symptoms.first() shouldBe value
+                dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
                     {
                       "startOfSymptoms": {
                         "type": "LastSevenDays"
@@ -107,9 +104,9 @@ class SubmissionSettingsTest {
                 startOfSymptoms = Symptoms.StartOf.Date(LocalDate.parse("2020-12-24")),
                 Symptoms.Indication.NO_INFORMATION
             ).let { value ->
-                symptoms.update { value }
-                symptoms.value shouldBe value
-                mockPreferences.dataMapPeek["submission.symptoms.latest"] shouldBe """
+                updateSymptoms(value)
+                symptoms.first() shouldBe value
+                dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
                     {
                       "startOfSymptoms": {
                         "type": "Date",
@@ -123,9 +120,17 @@ class SubmissionSettingsTest {
     }
 
     @Test
-    fun `symptoms default to null`() {
+    fun `symptoms default to null`() = runTest2 {
         createInstance().apply {
-            symptoms.value shouldBe null
+            symptoms.first() shouldBe null
+        }
+    }
+
+    @Test
+    fun `setting symptoms to null works`() = runTest2 {
+        createInstance().apply {
+            updateSymptoms(null)
+            symptoms.first() shouldBe null
         }
     }
 }

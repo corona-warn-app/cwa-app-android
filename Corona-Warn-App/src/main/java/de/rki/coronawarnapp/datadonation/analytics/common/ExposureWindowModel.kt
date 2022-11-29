@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
+package de.rki.coronawarnapp.datadonation.analytics.common
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256

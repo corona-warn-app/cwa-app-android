@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -11,8 +12,12 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
-import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -21,14 +26,10 @@ import javax.inject.Singleton
 
 @Singleton
 class TestCertificateStorage @Inject constructor(
-    @AppContext val context: Context,
+    @TestCertificateStorageDataStore private val dataStore: DataStore<Preferences>,
     @BaseGson val baseGson: Gson,
 ) {
-
     private val mutex = Mutex()
-    private val prefs by lazy {
-        context.getSharedPreferences("coronatest_certificate_localdata", Context.MODE_PRIVATE)
-    }
 
     private val gson by lazy {
         baseGson.newBuilder().apply {
@@ -50,9 +51,9 @@ class TestCertificateStorage @Inject constructor(
     suspend fun load(): Collection<BaseTestCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
 
-        val pcrCertContainers: Set<PCRCertificateData> = prefs.loadCerts(typeTokenPCR, PKEY_DATA_PCR)
-        val raCerts: Set<RACertificateData> = prefs.loadCerts(typeTokenRA, PKEY_DATA_RA)
-        val scannedCerts: Set<GenericTestCertificateData> = prefs.loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
+        val pcrCertContainers: Set<PCRCertificateData> = loadCerts(typeTokenPCR, PKEY_DATA_PCR)
+        val raCerts: Set<RACertificateData> = loadCerts(typeTokenRA, PKEY_DATA_RA)
+        val scannedCerts: Set<GenericTestCertificateData> = loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
 
         return (pcrCertContainers + raCerts + scannedCerts).also {
             Timber.tag(TAG).v("Loaded %d certificates.", it.size)
@@ -61,46 +62,51 @@ class TestCertificateStorage @Inject constructor(
 
     suspend fun save(certs: Collection<BaseTestCertificateData>) = mutex.withLock {
         Timber.tag(TAG).d("save(testCertificates=%s)", certs.size)
-        prefs.edit(commit = true) {
-            storeCerts(certs.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
-            storeCerts(certs.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
-            storeCerts(certs.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
-        }
+
+        storeCerts(certs.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
+        storeCerts(certs.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
+        storeCerts(certs.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
     }
 
-    private fun <T : BaseTestCertificateData> SharedPreferences.Editor.storeCerts(
+    private suspend fun <T : BaseTestCertificateData> storeCerts(
         certs: Collection<BaseTestCertificateData>,
         typeToken: TypeToken<Set<T>>,
-        storageKey: String
+        storageKey: Preferences.Key<String>
     ) {
         val type = typeToken.type
         if (certs.isNotEmpty()) {
             val raw = gson.toJson(certs, type)
             Timber.tag(TAG).v("Storing scanned certs ($type): %s", certs.size)
-            putString(storageKey, raw)
+            dataStore.trySetValue(storageKey, raw)
         } else {
             Timber.tag(TAG).v("No stored certificates ($type) available, clearing.")
-            remove(storageKey)
+            dataStore.edit { it.remove(storageKey) }
         }
     }
 
-    private fun <T : BaseTestCertificateData> SharedPreferences.loadCerts(
+    private suspend fun <T : BaseTestCertificateData> loadCerts(
         typeToken: TypeToken<Set<T>>,
-        storageKey: String
+        storageKey: Preferences.Key<String>
     ): Set<T> {
         object : TypeToken<Set<PCRCertificateData>>() {}
         val type = typeToken.type
-        val raw = prefs.getString(storageKey, null) ?: return emptySet()
-        return gson.fromJson<Set<T>>(raw, type).onEach {
-            Timber.tag(TAG).v("Certificates ($type) loaded: %s", it.identifier)
-            requireNotNull(it.identifier)
-        }
+
+        return dataStore.dataRecovering.distinctUntilChanged(storageKey, "").map { value ->
+            if (value.isEmpty()) {
+                emptySet()
+            } else {
+                gson.fromJson<Set<T>>(value, type).onEach {
+                    Timber.tag(TAG).v("Certificates ($type) loaded: %s", it.identifier)
+                    requireNotNull(it.identifier)
+                }
+            }
+        }.first()
     }
 
     companion object {
         private const val TAG = "TestCertificateStorage"
-        private const val PKEY_DATA_RA = "testcertificate.data.ra"
-        private const val PKEY_DATA_PCR = "testcertificate.data.pcr"
-        private const val PKEY_DATA_SCANNED = "testcertificate.data.scanned"
+        val PKEY_DATA_RA = stringPreferencesKey("testcertificate.data.ra")
+        val PKEY_DATA_PCR = stringPreferencesKey("testcertificate.data.pcr")
+        val PKEY_DATA_SCANNED = stringPreferencesKey("testcertificate.data.scanned")
     }
 }

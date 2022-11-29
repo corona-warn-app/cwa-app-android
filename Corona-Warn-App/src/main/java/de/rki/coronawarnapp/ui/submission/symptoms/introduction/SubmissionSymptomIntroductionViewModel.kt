@@ -54,12 +54,12 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                     )
                 }
                 Symptoms.Indication.NEGATIVE -> {
-                    submissionRepository.currentSymptoms.update {
+                    submissionRepository.updateCurrentSymptoms(
                         Symptoms(
                             startOfSymptoms = null,
                             symptomIndication = Symptoms.Indication.NEGATIVE
                         )
-                    }
+                    )
                     performSubmission()
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
@@ -67,12 +67,12 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                     )
                 }
                 Symptoms.Indication.NO_INFORMATION -> {
-                    submissionRepository.currentSymptoms.update {
+                    submissionRepository.updateCurrentSymptoms(
                         Symptoms(
                             startOfSymptoms = null,
                             symptomIndication = Symptoms.Indication.NO_INFORMATION
                         )
-                    }
+                    )
                     performSubmission()
                     navigation.postValue(
                         SubmissionSymptomIntroductionFragmentDirections
@@ -127,9 +127,11 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     }
 
     fun onNewUserActivity() {
-        Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, testType)
-        autoSubmission.updateLastSubmissionUserActivity()
+        launch {
+            Timber.d("onNewUserActivity()")
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOMS, testType)
+            autoSubmission.updateLastSubmissionUserActivity()
+        }
     }
 
     @AssistedFactory

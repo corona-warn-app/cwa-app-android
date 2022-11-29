@@ -7,8 +7,8 @@ import javax.inject.Inject
 @Reusable
 class TraceLocationAttendeeSettings @Inject constructor(private val preferences: TraceLocationPreferences) {
 
-    val createJournalEntryCheckedState = preferences.createJournalEntryCheckedState.flow
+    val createJournalEntryCheckedState = preferences.createJournalEntryCheckedState
 
-    fun setCreateJournalEntryCheckedState(isChecked: Boolean) =
-        preferences.createJournalEntryCheckedState.update { isChecked }
+    suspend fun setCreateJournalEntryCheckedState(isChecked: Boolean) =
+        preferences.updateCreateJournalEntryCheckedState(isChecked)
 }

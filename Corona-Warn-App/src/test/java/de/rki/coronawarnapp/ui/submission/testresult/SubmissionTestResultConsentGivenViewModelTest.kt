@@ -12,8 +12,8 @@ import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResu
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -62,8 +62,10 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     fun `onNewUserActivity should call analyticsSubmissionCollector for PCR tests`() {
         testType = PCR
         createViewModel().onNewUserActivity()
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
-        verify(exactly = 0) {
+        coVerify(exactly = 1) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR)
+        }
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
         }
     }
@@ -72,8 +74,10 @@ class SubmissionTestResultConsentGivenViewModelTest : BaseTest() {
     fun `onNewUserActivity should NOT call analyticsSubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
         createViewModel().onNewUserActivity()
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR) }
-        verify(exactly = 1) {
+        coVerify(exactly = 0) {
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, PCR)
+        }
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, RAPID_ANTIGEN)
         }
     }

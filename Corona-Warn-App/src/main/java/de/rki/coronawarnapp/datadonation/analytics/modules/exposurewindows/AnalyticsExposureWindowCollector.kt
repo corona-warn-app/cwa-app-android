@@ -2,9 +2,12 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.util.debug.measureTime
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -13,7 +16,7 @@ class AnalyticsExposureWindowCollector @Inject constructor(
     private val analyticsSettings: AnalyticsSettings
 ) {
     suspend fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
-        if (analyticsSettings.analyticsEnabled.value) {
+        if (analyticsSettings.analyticsEnabled.first()) {
             collectAnalyticsData(riskResultsPerWindow)
         }
     }

@@ -1,31 +1,33 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData.Companion.personAData2Vac
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage.Companion.PKEY_VACCINATION_CERT
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationStorageTest : BaseTest() {
 
-    @MockK lateinit var context: Context
     @Inject lateinit var testData: VaccinationTestData
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
-    private lateinit var mockPreferences: MockSharedPreferences
+    private lateinit var dataStore: FakeDataStore
+
+    private val gson = SerializationModule().baseGson()
 
     @BeforeEach
     fun setup() {
@@ -33,16 +35,11 @@ class VaccinationStorageTest : BaseTest() {
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("vaccination_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        dataStore = FakeDataStore()
     }
 
     private fun createInstance() = VaccinationStorage(
-        context = context,
-        baseGson = SerializationModule().baseGson(),
+        dataStore = dataStore
     )
 
     @Test
@@ -51,14 +48,33 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     @Test
+    fun `legacy data is correctly loaded`() = runTest2 {
+        val storage = createInstance()
+        val json = gson.toJson(personAData2Vac)
+        dataStore[stringPreferencesKey("vaccination.person.person1")] = json
+
+        val legacyData = storage.loadLegacyData()
+        legacyData shouldNotBe emptySet<VaccinatedPersonData>()
+        legacyData.contains(personAData2Vac) shouldBe true
+    }
+
+    @Test
+    fun `legacy data is empty when key doesn't match`() = runTest2 {
+        val storage = createInstance()
+        val json = gson.toJson(personAData2Vac)
+        dataStore[stringPreferencesKey("vaccination.animal")] = json
+
+        storage.loadLegacyData() shouldBe emptySet<VaccinatedPersonData>()
+    }
+
+    @Test
     fun `storing empty set deletes data`() = runTest {
-        mockPreferences.edit {
-            putString("dontdeleteme", "test")
-            putString("vaccination.certificate", "test")
-        }
+        dataStore[stringPreferencesKey("dontdeleteme")] = "test"
+        dataStore[PKEY_VACCINATION_CERT] = "test"
+
         createInstance().save(emptySet())
 
-        mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
+        dataStore[stringPreferencesKey("dontdeleteme")] shouldBe "test"
     }
 
     @Test
@@ -72,8 +88,7 @@ class VaccinationStorageTest : BaseTest() {
             val instance = createInstance()
             instance.save(personData)
 
-            val json =
-                (mockPreferences.dataMapPeek["vaccination.certificate"] as String)
+            val json = (dataStore[PKEY_VACCINATION_CERT] as String)
 
             json.toComparableJsonPretty() shouldBe """
                 [

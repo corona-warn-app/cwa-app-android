@@ -8,16 +8,15 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -27,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.preferences.mockFlowPreference
 import java.time.LocalDate
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -37,18 +35,15 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var testType: BaseCoronaTest.Type
-    private lateinit var currentSymptoms: FlowPreference<Symptoms?>
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        currentSymptoms = mockFlowPreference(null)
-
         every { autoSubmission.isSubmissionRunning } returns flowOf(false)
-        every { autoSubmission.updateMode(any()) } just Runs
+        coEvery { autoSubmission.updateMode(any()) } just Runs
         coEvery { autoSubmission.runSubmissionNow(any()) } just Runs
-        every { submissionRepository.currentSymptoms } returns currentSymptoms
+        coEvery { submissionRepository.updateCurrentSymptoms(any()) } just Runs
     }
 
     private fun createViewModel(
@@ -78,7 +73,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 0) { submissionRepository.currentSymptoms }
+        coVerify(exactly = 0) { submissionRepository.updateCurrentSymptoms(any()) }
     }
 
     @Test
@@ -93,14 +88,14 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         }
 
         coVerifySequence {
-            submissionRepository.currentSymptoms
+            submissionRepository.updateCurrentSymptoms(
+                Symptoms(
+                    startOfSymptoms = Symptoms.StartOf.LastSevenDays,
+                    symptomIndication = Symptoms.Indication.POSITIVE
+                )
+            )
             autoSubmission.runSubmissionNow(any())
         }
-
-        currentSymptoms.value shouldBe Symptoms(
-            startOfSymptoms = Symptoms.StartOf.LastSevenDays,
-            symptomIndication = Symptoms.Indication.POSITIVE
-        )
     }
 
     @Test
@@ -125,10 +120,10 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             createViewModel(this).onNewUserActivity()
         }
 
-        verify(exactly = 1) {
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
         }
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
         }
     }
@@ -141,10 +136,10 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             createViewModel(this).onNewUserActivity()
         }
 
-        verify(exactly = 0) {
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, PCR)
         }
-        verify(exactly = 1) {
+        coVerify(exactly = 1) {
             analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.SYMPTOM_ONSET, RAPID_ANTIGEN)
         }
     }
@@ -160,8 +155,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -176,8 +171,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterCancel(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -193,8 +188,8 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -210,7 +205,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
             }
         }
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(RAPID_ANTIGEN) }
     }
 }
