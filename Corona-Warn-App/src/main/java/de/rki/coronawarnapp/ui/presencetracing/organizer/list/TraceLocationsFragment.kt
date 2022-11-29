@@ -117,7 +117,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     findNavController().navigate(
                         CheckInsFragment.createDeepLink(it.traceLocation.locationUrl, true),
                         NavOptions.Builder()
-                            .setPopUpTo(R.id.checkInsFragment, true)
+                            .setPopUpTo(R.id.checkInOnboardingFragment, true)
                             .build()
                     )
                 }
