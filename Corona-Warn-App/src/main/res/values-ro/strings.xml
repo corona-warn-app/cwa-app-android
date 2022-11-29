@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți blogul nostru."</string>
+    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți <div>blogul</div> nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogul"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1606,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Numărul de persoane raportat la RKI care au primit prima doză de vaccin."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\nÎntrebări frecvente pentru statistică"</string>
+    <string name="statistics_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente:\n<div>Întrebări frecvente pentru statistică</div>"</string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"Întrebări frecvente pentru statistică"</string>
 
