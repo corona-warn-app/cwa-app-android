@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-        Homescreen cards - register test card
-    ###################################### -->
-    <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Devam Et"</string>
-    <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak veya dijital COVID test sertifikanızı talep etmek için yakınınızdaki test merkezlerini bulun ve bir testi kaydedin."</string>
-
-    <!-- ####################################
         Homescreen cards - common status
     ###################################### -->
     <!-- XTXT: Homescreen card: status subtitle - no result -->
