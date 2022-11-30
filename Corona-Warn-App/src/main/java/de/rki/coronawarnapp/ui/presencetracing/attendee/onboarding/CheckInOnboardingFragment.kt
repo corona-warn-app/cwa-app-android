@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTraceLocationOnboardingBinding
-import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -39,6 +38,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkOnboarding()
 
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
@@ -55,17 +55,6 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
             }
         }
 
-        viewModel.isOnboardingComplete.observe2(this) {
-            if (it == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0 && args.uri != null) {
-                findNavController().navigate(
-                    CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                        args.uri,
-                        args.cleanHistory
-                    )
-                )
-            }
-        }
-
         viewModel.events.observe2(this) { navEvent ->
             when (navEvent) {
                 CheckInOnboardingNavigation.AcknowledgedNavigation -> {
@@ -75,15 +64,20 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                             .setPopUpTo(R.id.checkInOnboardingFragment, true)
                             .build()
                         findNavController().navigate(ConfirmCheckInFragment.uri(locationId), navOption)
-                    } else {
+                    }
+                }
+
+                CheckInOnboardingNavigation.SkipOnboardingInfo -> {
+                    if (args.uri == null) {
                         findNavController().navigate(
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                                uri = args.uri,
-                                cleanHistory = true
+                                args.uri,
+                                args.cleanHistory
                             )
                         )
                     }
                 }
+
                 CheckInOnboardingNavigation.DataProtectionNavigation -> findNavController().navigate(
                     CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToPrivacyFragment()
                 )
