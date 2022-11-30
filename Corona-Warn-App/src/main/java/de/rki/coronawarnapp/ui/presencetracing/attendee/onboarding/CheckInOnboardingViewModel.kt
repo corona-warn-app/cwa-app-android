@@ -13,8 +13,6 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
     val events = SingleLiveEvent<CheckInOnboardingNavigation>()
 
-    val isOnboardingComplete = settings.onboardingStatus.asLiveData2()
-
     fun onAcknowledged() = launch {
         settings.updateOnboardingStatus(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
         events.postValue(CheckInOnboardingNavigation.AcknowledgedNavigation)
