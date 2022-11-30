@@ -18,16 +18,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Kendi Kendine Testler ile Uyarı"</item>
+        <item>"Kayıtlı Olmayan Testler ile Uyarı"</item>
+        <item>"TAN Yardım Hattı Yakında Durdurulacak"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Artık kendi kendine yapılan bir test koronavirüs enfeksiyonu kaptığınızı belirtirse Corona-Warn-App uygulamasının diğer kullanıcılarına uyarı gönderebilirsiniz."</item>
+        <item>"Bir test noktasında yapılan hızlı test veya PCR testi koronavirüs enfeksiyonu kaptığınızı belirtir ancak bu test Corona-Warn-App uygulamasında kayıtlı değilse artık yine de diğer uygulama kullanıcılarını uyarabilirsiniz."</item>
+        <item>"Gelecek birkaç hafta içinde, TAN yardım hattından TAN alma seçeneği durdurulacak. Bu nedenle artık diğer Corona-Warn-App kullanıcılarını uyarmak için TAN\'a ihtiyacınız yok."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

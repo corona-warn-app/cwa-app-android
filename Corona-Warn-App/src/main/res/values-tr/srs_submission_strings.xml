@@ -1,117 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
-    <string name="register_test_card_title"></string>
+    <string name="register_test_card_title">"Testlerinizi Yönetin ve Diğer Kullanıcıları Uyarın"</string>
     <!-- XTXT: Register test card subtitle -->
-    <string name="register_test_card_subtitle"></string>
+    <string name="register_test_card_subtitle">"Kendi kendine test, PCR testleri ve hızlı testler"</string>
     <!-- XTXT: Register test card description -->
-    <string name="register_test_card_description"></string>
+    <string name="register_test_card_description">"Diğer kullanıcıları daha hızlı uyarmak veya dijital COVID test sertifikanızı talep etmek için yakınınızdaki test merkezlerini bulun ve bir testi kaydedin."</string>
     <!-- XTXT: Register test card button -->
-    <string name="register_test_card_button"></string>
+    <string name="register_test_card_button">"Devam Et"</string>
 
     <!-- Dispatcher screen -->
     <!-- XHED: Test registration title -->
-    <string name="dispatcher_test_registration_title"></string>
+    <string name="dispatcher_test_registration_title">"Testi Kaydet"</string>
 
     <!-- SRS self test card -->
     <!-- XHED: Self test title -->
-    <string name="srs_self_test_title"></string>
+    <string name="srs_self_test_title">"Kendi kendine test pozitif mi çıktı?"</string>
     <!-- XTXT: Self test body -->
-    <string name="srs_self_test_body"></string>
+    <string name="srs_self_test_body">"Kendi kendine testiniz pozitif çıktıysa diğer kullanıcıları uyarın."</string>
 
 
     <!-- SRS Positive test no answer card -->
     <!-- XHED: Positive test no answer title -->
-    <string name="srs_positive_test_no_answer_title"></string>
+    <string name="srs_positive_test_no_answer_title">"Testiniz pozitif çıktı ve uygulamada sonuç yok mu?"</string>
     <!-- XTXT: Positive test no answer body -->
-    <string name="srs_positive_test_no_answer_body"></string>
+    <string name="srs_positive_test_no_answer_body">"Testinizin kayıtlı olmadığı veya test sonucunuzun uygulamada sunulmadığı durumda bile pozitif kendi kendine veya PCR testinizle diğer kullanıcıları uyarın."</string>
 
     <!-- Submission Consent Screen -->
     <!-- XHED: Submission consent header -->
-    <string name="srs_submission_consent_header"></string>
+    <string name="srs_submission_consent_header">"İzniniz"</string>
     <!-- XHED: Submission consent headline -->
-    <string name="srs_submission_consent_headline_text"></string>
+    <string name="srs_submission_consent_headline_text">"Diğer Kullanıcıları Uyarın"</string>
     <!-- XHED: Submission consent disclaimer sub headline -->
-    <string name="srs_submission_consent_disclaimer_subheadline_text"></string>
+    <string name="srs_submission_consent_disclaimer_subheadline_text">"Diğer kullanıcıları uyarabilmeniz için izniniz gereklidir."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text"></string>
+    <string name="srs_section_warn_consent_text">"Koronavirüs testiniz pozitif çıkarsa uygulama üzerinden diğer kullanıcıları uyarabilirsiniz.\nKendi kendine test pozitif çıktıktan sonra veya uygulamada sunulmayan bir test sonucuyla uyarı göndermek için uygulamanın orijinalliği doğrulanmalıdır."</string>
     <!-- XTXT: Submission consent section warn interval -->
-    <string name="srs_section_warn_interval_text"></string>
+    <string name="srs_section_warn_interval_text">"Bu, yinelenen uyarıların yalnızca %d gün geçtikten sonra gönderilebilmesini de sağlar."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
-    <string name="srs_submission_consent_first_bulletpoint_text"></string>
+    <string name="srs_submission_consent_first_bulletpoint_text">"Diğer kullanıcıları uyarma işlemi isteğe bağlıdır. Ancak test sonucunuzu diğer kullanıcılarla paylaşarak diğer kullanıcıların enfeksiyon kapmasını önlemeye yardımcı olabilirsiniz."</string>
     <!-- XTXT: Submission consent second bulletpoint -->
-    <string name="srs_submission_consent_second_bulletpoint_text"></string>
+    <string name="srs_submission_consent_second_bulletpoint_text">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- XTXT: Submission consent third bulletpoint -->
-    <string name="srs_submission_consent_third_bulletpoint_text"></string>
+    <string name="srs_submission_consent_third_bulletpoint_text">"“Check-In’lerim” bölümünde check-in yapan konuklarına uyarı gönderilecek etkinlikleri ve yerleri görebilirsiniz. Uyarı işlemlerinin dışında tutmak için listeden ayrı ayrı check-in’leri kaldırabilirsiniz."</string>
     <!-- XTXT: Submission consent fourth bulletpoint -->
-    <string name="srs_submission_consent_fourth_bulletpoint_text"></string>
+    <string name="srs_submission_consent_fourth_bulletpoint_text">"Onay vermek için 16 yaşın üzerinde olmanız gerekir."</string>
     <!-- XTXT: Submission consent fifth bulletpoint -->
-    <string name="srs_submission_consent_fifth_bulletpoint_text"></string>
+    <string name="srs_submission_consent_fifth_bulletpoint_text">"Orijinalliği doğrulamadan da diğer kullanıcıları uyarabilirsiniz. Bunu yapmak için, uygulamaya bir PCR testi veya hızlı test kaydedin ve sonuçları uygulamada alın."</string>
     <!-- XTXT: Submission consent next step submission -->
-    <string name="srs_next_step_submission_text"></string>
+    <string name="srs_next_step_submission_text">"Sonraki adımda, rastgele kimliklerinize erişim onayı verin."</string>
     <!-- XTXT: Contact journal submission entry title -->
-    <string name="srs_contact_diary_submission_item_title"></string>
+    <string name="srs_contact_diary_submission_item_title">"Diğer Kullanıcıları Uyardınız"</string>
     <!-- XTXT: Submission consent legal link text -->
-    <string name="srs_submission_consent_legal_link_text"></string>
+    <string name="srs_submission_consent_legal_link_text">"ABD’de ve Diğer Üçüncü Ülkelerde Orijinallik Kontrolü ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
 
     <!-- Type Selection Screen -->
     <!-- XHED: Type selection header -->
-    <string name="srs_type_selection_header"></string>
+    <string name="srs_type_selection_header">"Test Türü"</string>
     <!-- XTXT: Type selection introduction -->
-    <string name="srs_type_selection_introduction_text"></string>
+    <string name="srs_type_selection_introduction_text">"Lütfen uyarının temeli olan test türünü seçin."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
-    <string name="srs_rat_registered_no_result_text"></string>
+    <string name="srs_rat_registered_no_result_text">"Uygulamada kaydedilen ancak sonuç alınmayan hızlı antijen testi"</string>
     <!-- XTXT: Type selection button rat not registered text -->
-    <string name="srs_rat_not_registered_text"></string>
+    <string name="srs_rat_not_registered_text">"Uygulamada kaydedilmeyen hızlı antijen testi"</string>
     <!-- XTXT: Type selection button pcr registered no result text -->
-    <string name="srs_pcr_registered_no_result_text"></string>
+    <string name="srs_pcr_registered_no_result_text">"Uygulamada kaydedilen ancak sonuç alınmayan PCR laboratuvar testi"</string>
     <!-- XTXT: Type selection button pcr not registered text -->
-    <string name="srs_pcr_not_registered_text"></string>
+    <string name="srs_pcr_not_registered_text">"Uygulamada kaydedilmeyen PCR laboratuvar testi"</string>
     <!-- XTXT: Type selection button rapid pcr text -->
-    <string name="srs_rapid_pcr_text"></string>
+    <string name="srs_rapid_pcr_text">"Hızlı PCR testi (PoC NAT testi)"</string>
     <!-- XTXT: Type selection button other text -->
-    <string name="srs_other_text"></string>
+    <string name="srs_other_text">"Bilgi yok"</string>
     <!-- XTXT: Type selection next button text -->
-    <string name="type_selection_next_button_text"></string>
+    <string name="type_selection_next_button_text">"Devam Et"</string>
 
     <!-- Srs Submission Cancel Dialog -->
     <!-- XHED: Cancel submission dialog title -->
-    <string name="srs_cancel_dialog_title"></string>
+    <string name="srs_cancel_dialog_title">"Uyarı işlemi iptal edilsin mi?"</string>
     <!-- XTXT: Cancel submission dialog message -->
-    <string name="srs_cancel_dialog_message"></string>
+    <string name="srs_cancel_dialog_message">"Uyarı işlemini iptal etmek istediğinizden emin misiniz?\n\nKoronavirüs tanısı aldıysanız diğer kullanıcıları bilgilendirebilir ve enfeksiyon zincirini kırabilirsiniz."</string>
     <!-- XBUT: Continue warning button -->
-    <string name="srs_cancel_dialog_continue"></string>
+    <string name="srs_cancel_dialog_continue">"Uyarı işlemine devam et"</string>
     <!-- XBUT: Don't warn button -->
-    <string name="srs_cancel_dialog_cancel"></string>
+    <string name="srs_cancel_dialog_cancel">"Diğer kullanıcıları uyarma"</string>
 
     <!-- Srs Submission Warning Dialog -->
     <!-- XHED: Submission warning dialog title -->
-    <string name="srs_submission_warning_dialog_title"></string>
+    <string name="srs_submission_warning_dialog_title">"Önemli"</string>
     <!-- XTXT: Submission warning dialog message -->
-    <string name="srs_submission_warning_dialog_message"></string>
+    <string name="srs_submission_warning_dialog_message">"Yakın zamanda temasta bulunduğunuz diğer kullanıcıları uyarmak istediğinizden emin misiniz?"</string>
     <!-- XBUT: Submission warning positive button -->
-    <string name="srs_submission_warning_dialog_positive_button"></string>
+    <string name="srs_submission_warning_dialog_positive_button">"Diğer Kullanıcıları Uyar"</string>
     <!-- XBUT: Submission warning negative button -->
-    <string name="srs_submission_warning_dialog_negative_button"></string>
+    <string name="srs_submission_warning_dialog_negative_button">"İptal"</string>
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
-    <string name="srs_error_title"></string>
+    <string name="srs_error_title">"Diğer Kullanıcıları Uyaramazsınız"</string>
     <!-- XTXT: SRS CALL_HOTLINE error message -->
-    <string name="srs_error_call_hotline"></string>
+    <string name="srs_error_call_hotline">"Bir hata oluştu. Lütfen daha sonra tekrar uyarı göndermeyi deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
-    <string name="srs_error_device_time"></string>
+    <string name="srs_error_device_time">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun ayarlarında saati düzeltin. Bu düzeltmeden sonra uygulamanın yeniden saati kontrol etmesi birkaç dakika sürebilir. Uygulama saati yeniden kontrol ettikten sonra yeniden diğer kullanıcıları uyarmayı deneyebilirsiniz."</string>
     <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
-    <string name="srs_error_device_not_trusted"></string>
+    <string name="srs_error_device_not_trusted">"Cihazınız, bu türde uyarı için güvenlik gerekliliklerini karşılamıyor. Resmi bir test kaydedip bu testi, dilediğiniz zaman diğer kullanıcıları uyarmak için kullanabilirsiniz."</string>
     <!-- XTXT: SRS NO_NETWORK error message -->
-    <string name="srs_error_no_network"></string>
+    <string name="srs_error_no_network">"İnternet bağlantınız kesilmiş olabilir. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
-    <string name="srs_error_submission_too_early"></string>
+    <string name="srs_error_submission_too_early">"Geçmiş %d gün içinde zaten pozitif bir test sonucu bildirdiğiniz için şu anda diğer kullanıcıları uyaramazsınız. Bunun amacı, uyarı özelliğinin kötüye kullanımını önlemektir. Resmi bir test kaydedip bu testi, dilediğiniz zaman diğer kullanıcıları uyarmak için kullanabilirsiniz."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified"></string>
+    <string name="srs_error_time_since_onboarding_unverified">"Güvenlik nedenleriyle uygulamayı yüklemenizin üzerinden %d geçene kadar bu türde uyarı gönderemezsiniz. Lütfen %d saat içinde yeniden deneyin."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
-    <string name="srs_error_try_again_later"></string>
+    <string name="srs_error_try_again_later">"Bir hata oluştu. Lütfen yeniden uyarı göndermeyi deneyin."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
-    <string name="srs_error_update_play_services"></string>
+    <string name="srs_error_update_play_services">"Uyarı şu anda gönderilemiyor. Lütfen Google Play Hizmetlerini güncelleyin."</string>
 </resources>
