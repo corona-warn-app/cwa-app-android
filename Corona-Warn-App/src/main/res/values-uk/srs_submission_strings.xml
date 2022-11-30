@@ -37,7 +37,7 @@
     <!-- XTXT: Submission consent section warn consent -->
     <string name="srs_section_warn_consent_text">"Якщо у вас позитивний тест на коронавірус, ви можете попередити інших через застосунок.\nЩоб надіслати попередження після отримання позитивного результату під час самостійного тестування або отримання результату тесту, якого немає в застосунку, автентичність застосунку має бути перевірено."</string>
     <!-- XTXT: Submission consent section warn interval -->
-    <string name="srs_section_warn_interval_text">"Це також гарантуватиме надсилання повторних попереджень лише після того, як мине кілька днів."</string>
+    <string name="srs_section_warn_interval_text">"Це також гарантуватиме надсилання повторних попереджень лише після того, як мине %d днів."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
     <string name="srs_submission_consent_first_bulletpoint_text">"Попереджати інших необов’язково, однак, якщо ви поділитеся своїми результатами тесту з іншими, ви допоможете запобігти їх зараженню."</string>
     <!-- XTXT: Submission consent second bulletpoint -->
