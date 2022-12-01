@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
-import testhelpers.extensions.toComparableJsonPretty
+import testhelpers.extensions.toComparableJsonPretty1
 import testhelpers.preferences.FakeDataStore
 
 class ValueSetsStorageTest : BaseTest() {
 
     private val dataStore = FakeDataStore()
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
     fun setup() {
@@ -30,7 +30,7 @@ class ValueSetsStorageTest : BaseTest() {
 
     private fun createInstance(scope: TestScope) =
         ValueSetsStorage(
-            gson = gson,
+            mapper = mapper,
             dataStore = dataStore,
             appScope = scope
         )
@@ -56,80 +56,65 @@ class ValueSetsStorageTest : BaseTest() {
     @Test
     fun `storage format`() = runTest2 {
         createInstance(this).save(valueSetsContainerDe)
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty1() shouldBe
+            """
             {
-              "vaccinationValueSets": {
-                "languageCode": "de",
-                "tg": {
-                  "items": [
-                    {
-                      "key": "tg",
-                      "displayText": "Ziel-Name"
-                    }
-                  ]
+              "vaccinationValueSets" : {
+                "languageCode" : "de",
+                "tg" : {
+                  "items" : [ {
+                    "key" : "tg",
+                    "displayText" : "Ziel-Name"
+                  } ]
                 },
-                "vp": {
-                  "items": [
-                    {
-                      "key": "1119305005",
-                      "displayText": "Impfstoff-Name"
-                    }
-                  ]
+                "vp" : {
+                  "items" : [ {
+                    "key" : "1119305005",
+                    "displayText" : "Impfstoff-Name"
+                  } ]
                 },
-                "mp": {
-                  "items": [
-                    {
-                      "key": "EU/1/21/1529",
-                      "displayText": "Arzneimittel-Name"
-                    }
-                  ]
+                "mp" : {
+                  "items" : [ {
+                    "key" : "EU/1/21/1529",
+                    "displayText" : "Arzneimittel-Name"
+                  } ]
                 },
-                "ma": {
-                  "items": [
-                    {
-                      "key": "ORG-100001699",
-                      "displayText": "Hersteller-Name"
-                    }
-                  ]
+                "ma" : {
+                  "items" : [ {
+                    "key" : "ORG-100001699",
+                    "displayText" : "Hersteller-Name"
+                  } ]
                 }
               },
-              "testCertificateValueSets": {
-                "languageCode": "de",
-                "tg": {
-                  "items": [
-                    {
-                      "key": "tg",
-                      "displayText": "Ziel-Name"
-                    }
-                  ]
+              "testCertificateValueSets" : {
+                "languageCode" : "de",
+                "tg" : {
+                  "items" : [ {
+                    "key" : "tg",
+                    "displayText" : "Ziel-Name"
+                  } ]
                 },
-                "tt": {
-                  "items": [
-                    {
-                      "key": "tt",
-                      "displayText": "Test-Typ"
-                    }
-                  ]
+                "tt" : {
+                  "items" : [ {
+                    "key" : "tt",
+                    "displayText" : "Test-Typ"
+                  } ]
                 },
-                "ma": {
-                  "items": [
-                    {
-                      "key": "tcMa",
-                      "displayText": "RAT-Test-Name-und-Hersteller"
-                    }
-                  ]
+                "ma" : {
+                  "items" : [ {
+                    "key" : "tcMa",
+                    "displayText" : "RAT-Test-Name-und-Hersteller"
+                  } ]
                 },
-                "tr": {
-                  "items": [
-                    {
-                      "key": "tr",
-                      "displayText": "Test-Ergebnis"
-                    }
-                  ]
+                "tr" : {
+                  "items" : [ {
+                    "key" : "tr",
+                    "displayText" : "Test-Ergebnis"
+                  } ]
                 }
               }
             }
-        """.toComparableJsonPretty()
+        """.toComparableJsonPretty1()
     }
 
     @Test
@@ -140,40 +125,40 @@ class ValueSetsStorageTest : BaseTest() {
             save(emptyValueSetsContainer)
         }
 
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty1() shouldBe """
             {
-              "vaccinationValueSets": {
-                "languageCode": "en",
-                "tg": {
-                  "items": []
+             "vaccinationValueSets" : {
+                "languageCode" : "en",
+                "tg" : {
+                  "items" : [ ]
                 },
-                "vp": {
-                  "items": []
+                "vp" : {
+                  "items" : [ ]
                 },
-                "mp": {
-                  "items": []
+                "mp" : {
+                  "items" : [ ]
                 },
-                "ma": {
-                  "items": []
+                "ma" : {
+                  "items" : [ ]
                 }
               },
-              "testCertificateValueSets": {
-                "languageCode": "en",
-                "tg": {
-                  "items": []
+              "testCertificateValueSets" : {
+                "languageCode" : "en",
+                "tg" : {
+                  "items" : [ ]
                 },
-                "tt": {
-                  "items": []
+                "tt" : {
+                  "items" : [ ]
                 },
-                "ma": {
-                  "items": []
+                "ma" : {
+                  "items" : [ ]
                 },
-                "tr": {
-                  "items": []
+                "tr" : {
+                  "items" : [ ]
                 }
               }
             }
-        """.toComparableJsonPretty()
+        """.toComparableJsonPretty1()
 
         createInstance(this).load() shouldBe emptyValueSetsContainer
     }
