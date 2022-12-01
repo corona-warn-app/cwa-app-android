@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.appconfig.sources.local
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -18,13 +17,12 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.extensions.toComparableJson
+import testhelpers.extensions.toComparableJsonPretty1
 import java.io.File
 
 class AppConfigStorageTest : BaseIOTest() {
 
     @MockK private lateinit var context: Context
-    @MockK private lateinit var timeStamper: TimeStamper
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val privateFiles = File(testDir, "files")
@@ -44,8 +42,6 @@ class AppConfigStorageTest : BaseIOTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { context.filesDir } returns privateFiles
-
-        every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1234)
     }
 
     @AfterEach
@@ -55,8 +51,7 @@ class AppConfigStorageTest : BaseIOTest() {
 
     private fun createStorage() = AppConfigStorage(
         context = context,
-        timeStamper = timeStamper,
-        baseGson = SerializationModule().baseGson()
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test
@@ -68,15 +63,15 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.setStoredConfig(testConfigDownload)
 
         configPath.exists() shouldBe true
-        configPath.readText().toComparableJson() shouldBe """
+        configPath.readText().toComparableJsonPretty1() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1604381716000,
-                "localOffset": 3600000,
-                "cacheValidity": 123000
+                "serverTime": 1.604381716E9,
+                "localOffset": 3600.0,
+                "cacheValidity": 123.0
             }
-        """.toComparableJson()
+        """.toComparableJsonPretty1()
 
         storage.getStoredConfig() shouldBe testConfigDownload
     }
@@ -89,9 +84,9 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1604381716000,
-                "localOffset": 3600000,
-                "cacheValidity": 123000
+                "serverTime": 1.604381716E9,
+                "localOffset": 3600.0,
+                "cacheValidity": 123.0
             }
             """.trimIndent()
         )
@@ -113,15 +108,15 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.getStoredConfig() shouldBe testConfigDownload
 
         configPath.exists() shouldBe true
-        configPath.readText().toComparableJson() shouldBe """
+        configPath.readText().toComparableJsonPretty1() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1604381716000,
-                "localOffset": 3600000,
-                "cacheValidity": 123000
+                "serverTime": 1.604381716E9,
+                "localOffset": 3600.0,
+                "cacheValidity": 123.0
             }
-        """.toComparableJson()
+        """.toComparableJsonPretty1()
 
         storage.setStoredConfig(null)
         storage.getStoredConfig() shouldBe null
@@ -182,7 +177,6 @@ class AppConfigStorageTest : BaseIOTest() {
 
     @Test
     fun `return null on errors`() = runTest {
-        every { timeStamper.nowUTC } throws Exception()
 
         val storage = createStorage()
         storage.getStoredConfig() shouldBe null
