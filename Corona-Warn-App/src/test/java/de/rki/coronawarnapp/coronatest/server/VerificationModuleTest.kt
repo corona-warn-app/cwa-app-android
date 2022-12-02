@@ -12,7 +12,7 @@ import okhttp3.OkHttpClient
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import testhelpers.BaseIOTest
 import java.io.File
 
@@ -73,7 +73,7 @@ class VerificationModuleTest : BaseIOTest() {
             context = context,
             client = client,
             url = "https://testurl",
-            gsonConverterFactory = GsonConverterFactory.create()
+            jacksonConverterFactory = JacksonConverterFactory.create()
         )
 
         verify { context.cacheDir }

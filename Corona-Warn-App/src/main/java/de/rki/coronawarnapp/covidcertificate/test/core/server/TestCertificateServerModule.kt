@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import java.lang.reflect.Type
 
 @Module
@@ -38,12 +38,12 @@ class TestCertificateServerModule {
     fun apiV1(
         @DCCHttpClient httpClient: OkHttpClient,
         @DCCServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): TestCertificateApiV1 = Retrofit.Builder()
         .client(httpClient)
         .baseUrl(url)
         .addConverterFactory(nullConverter)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .build()
         .create(TestCertificateApiV1::class.java)
 }

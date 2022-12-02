@@ -14,7 +14,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.TlsVersion
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -47,7 +47,7 @@ class HttpModule {
 
     @Reusable
     @Provides
-    fun provideGSONConverter(): GsonConverterFactory = GsonConverterFactory.create()
+    fun provideJacksonConverter(): JacksonConverterFactory = JacksonConverterFactory.create()
 
     @Reusable
     @Provides

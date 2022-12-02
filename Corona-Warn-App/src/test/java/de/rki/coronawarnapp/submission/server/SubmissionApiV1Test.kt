@@ -61,7 +61,7 @@ class SubmissionApiV1Test : BaseTest() {
                 context = context,
                 client = downloadHttpClient,
                 url = serverAddress,
-                gsonConverterFactory = httpModule.provideGSONConverter(),
+                jacksonConverterFactory = httpModule.provideJacksonConverter(),
                 protoConverterFactory = httpModule.provideProtoConverter()
             )
         }

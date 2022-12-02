@@ -55,7 +55,7 @@ class LogUploadApiTest : BaseIOTest() {
     private fun createAPI(): LogUploadApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
+        val jacksonConverterFactory = httpModule.provideJacksonConverter()
         val protoConverterFactory = httpModule.provideProtoConverter()
 
         val cdnHttpClient = DownloadCDNModule()
@@ -67,7 +67,7 @@ class LogUploadApiTest : BaseIOTest() {
         return BugReportingSharedModule.logUploadApi(
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory,
+            jacksonConverterFactory = jacksonConverterFactory,
             protoConverterFactory = protoConverterFactory
         )
     }

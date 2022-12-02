@@ -50,7 +50,7 @@ class VerificationApiV1Test : BaseIOTest() {
     private fun createAPI(): VerificationApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
+        val jacksonConverterFactory = httpModule.provideJacksonConverter()
 
         return VerificationModule().let {
             val downloadHttpClient = it.cdnHttpClient(
@@ -61,7 +61,7 @@ class VerificationApiV1Test : BaseIOTest() {
                 context = context,
                 client = downloadHttpClient,
                 url = serverAddress,
-                gsonConverterFactory = gsonConverterFactory
+                jacksonConverterFactory = jacksonConverterFactory
             )
         }
     }
