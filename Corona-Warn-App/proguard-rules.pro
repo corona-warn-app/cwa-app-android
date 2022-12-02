@@ -125,3 +125,4 @@
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
 -keep class de.rki.coronawarnapp.srs.core.model.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.valueset.valuesets.** { *; }
+-keep class de.rki.coronawarnapp.submission.** { *; }

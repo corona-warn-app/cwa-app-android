@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.common
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
@@ -82,5 +82,5 @@ class JwtTokenParserTest : BaseTest() {
         getInstance().getResultToken(token).result shouldBe DccTicketingResultToken.DccResult.PASS
     }
 
-    private fun getInstance() = JwtTokenParser(JwtTokenConverter(Gson()))
+    private fun getInstance() = JwtTokenParser(JwtTokenConverter(ObjectMapper()))
 }
