@@ -1,25 +1,25 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DccTicketingQrCodeData(
-    @SerializedName("protocol")
+    @JsonProperty("protocol")
     val protocol: String,
-    @SerializedName("protocolVersion")
+    @JsonProperty("protocolVersion")
     val protocolVersion: String,
-    @SerializedName("serviceIdentity")
+    @JsonProperty("serviceIdentity")
     val serviceIdentity: String,
-    @SerializedName("privacyUrl")
+    @JsonProperty("privacyUrl")
     val privacyUrl: String,
-    @SerializedName("token")
+    @JsonProperty("token")
     val token: String,
-    @SerializedName("consent")
+    @JsonProperty("consent")
     val consent: String,
-    @SerializedName("subject")
+    @JsonProperty("subject")
     val subject: String,
-    @SerializedName("serviceProvider")
+    @JsonProperty("serviceProvider")
     val serviceProvider: String,
 ) : Parcelable
