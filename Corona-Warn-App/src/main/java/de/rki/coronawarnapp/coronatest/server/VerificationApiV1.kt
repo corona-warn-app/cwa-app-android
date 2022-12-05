@@ -10,7 +10,7 @@ interface VerificationApiV1 {
     data class RegistrationTokenRequest(
         @JsonProperty("keyType") val keyType: VerificationKeyType,
         @JsonProperty("key") val key: String,
-        @JsonProperty("keyDob") val dateOfBirthKey: String? = null,
+        @JsonProperty("dateOfBirthKey") val dateOfBirthKey: String? = null,
         @JsonProperty("requestPadding") val requestPadding: String? = null,
     )
 

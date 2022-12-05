@@ -46,7 +46,7 @@ class SerializationModule {
 
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true) // TODO: back to false
+                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
         }
 

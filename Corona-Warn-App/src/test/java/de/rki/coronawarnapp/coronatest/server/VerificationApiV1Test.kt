@@ -14,8 +14,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.extensions.toComparableJson
-import testhelpers.extensions.toJsonResponse
+import testhelpers.extensions.toComparableJson1
+import testhelpers.extensions.toJsonResponse1
 import java.io.File
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
@@ -74,7 +74,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "registrationToken": "testRegistrationToken"
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationTokenRequest(
             keyType = VerificationKeyType.GUID,
@@ -95,14 +95,15 @@ class VerificationApiV1Test : BaseIOTest() {
             headers["cwa-fake"] shouldBe "0"
             headers["cwa-header-padding"] shouldBe "testPadding"
             path shouldBe "/version/v1/registrationToken"
-            body.readUtf8() shouldBe """
+            val utf = body.readUtf8()
+            utf shouldBe """
                 {
                     "keyType": "GUID",
                     "key": "testKey",
-                    "keyDob": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
+                    "dateOfBirthKey": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson()
+            """.toComparableJson1()
         }
 
         httpCacheDir.exists() shouldBe true
@@ -116,7 +117,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "registrationToken": "testRegistrationToken"
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationTokenRequest(
             keyType = VerificationKeyType.TELETAN,
@@ -142,7 +143,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "key": "testKey",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson()
+            """.toComparableJson1()
         }
 
         httpCacheDir.exists() shouldBe true
@@ -156,7 +157,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "testResult": 1
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationRequest(
             registrationToken = "testRegistrationToken",
@@ -182,7 +183,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "registrationToken": "testRegistrationToken",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson()
+            """.toComparableJson1()
         }
     }
 
@@ -194,7 +195,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "tan": "testTan"
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.TanRequestBody(
             registrationToken = "testRegistrationToken",
@@ -218,7 +219,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "registrationToken": "testRegistrationToken",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson()
+            """.toComparableJson1()
         }
     }
 }
