@@ -93,6 +93,7 @@ internal class SrsSubmissionServerTest : BaseTest() {
         listOf(
             400 to SrsSubmissionException.ErrorCode.SRS_SUB_400,
             403 to SrsSubmissionException.ErrorCode.SRS_SUB_403,
+            429 to SrsSubmissionException.ErrorCode.SRS_SUB_429,
             404 to SrsSubmissionException.ErrorCode.SRS_SUB_CLIENT_ERROR,
             505 to SrsSubmissionException.ErrorCode.SRS_SUB_SERVER_ERROR,
         ).forEach { (responseErrorCode, errorCode) ->

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.PaddingTool
@@ -34,7 +35,9 @@ class SrsSubmissionServer @Inject constructor(
             submitPayload(payload)
         } catch (e: Exception) {
             throw when (e) {
-                is SrsSubmissionException -> e
+                is SrsSubmissionException,
+                is SrsSubmissionTruncatedException -> e
+
                 is CwaUnknownHostException,
                 is NetworkReadTimeoutException,
                 is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_SUB_NO_NETWORK, cause = e)
@@ -75,6 +78,10 @@ class SrsSubmissionServer @Inject constructor(
 
         val bodyResponse = api.submitPayload(payload.srsOtp.uuid.toString(), submissionPayload)
         if (bodyResponse.isSuccessful) {
+            val truncatedHeaderException = bodyResponse.headers()[CWA_KEYS_TRUNCATED]
+            if (truncatedHeaderException != null) {
+                throw SrsSubmissionTruncatedException(truncatedHeaderException)
+            }
             Timber.i("SRS submission is successful!")
             return
         }
@@ -82,6 +89,7 @@ class SrsSubmissionServer @Inject constructor(
         throw when (bodyResponse.code()) {
             400 -> SrsSubmissionException(ErrorCode.SRS_SUB_400)
             403 -> SrsSubmissionException(ErrorCode.SRS_SUB_403)
+            429 -> SrsSubmissionException(ErrorCode.SRS_SUB_429)
             in 400..499 -> SrsSubmissionException(ErrorCode.SRS_SUB_CLIENT_ERROR)
             // error code in 500..599
             else -> SrsSubmissionException(ErrorCode.SRS_SUB_SERVER_ERROR)
@@ -90,5 +98,6 @@ class SrsSubmissionServer @Inject constructor(
 
     companion object {
         val TAG = tag<SrsSubmissionServer>()
+        private const val CWA_KEYS_TRUNCATED = "cwa-keys-truncated"
     }
 }
