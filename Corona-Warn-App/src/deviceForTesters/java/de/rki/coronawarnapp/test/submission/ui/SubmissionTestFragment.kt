@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
+import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
@@ -85,6 +86,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Error -> displayDialog { setError(result.cause) }
+                is TruncatedSubmission -> showTruncatedSubmissionDialog(result.numberOfDays) { }
                 Success -> Toast.makeText(requireContext(), "SRS submission is successful", Toast.LENGTH_LONG).show()
             }
         }

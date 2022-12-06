@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -77,7 +78,13 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
-            events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+            when (e) {
+                is SrsSubmissionTruncatedException -> events.postValue(
+                    SrsSymptomsIntroductionNavigation.TruncatedSubmission(e.message)
+                )
+
+                else -> events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+            }
         } finally {
             showLoadingIndicator.postValue(false)
         }
@@ -95,6 +102,9 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     }
 
     fun goHome() = events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
+
+    fun onTruncatedDialogClick() =
+        events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
 
     private fun resetPreviousSubmissionConsents() = launch {
         try {
