@@ -223,7 +223,7 @@ class VerificationServerTest : BaseIOTest() {
     }
 
     @Test
-    fun `all requests have the same footprint for pleasible deniability`(): Unit = runTest {
+    fun `all requests have the same footprint for plausible deniability`(): Unit = runTest {
         val registrationTokenExample = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
 
         val requests = mutableListOf<RecordedRequest>()

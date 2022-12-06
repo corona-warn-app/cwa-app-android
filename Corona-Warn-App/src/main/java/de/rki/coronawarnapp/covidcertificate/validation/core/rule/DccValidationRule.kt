@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -59,12 +60,15 @@ data class DccValidationRule(
     @JsonProperty("Logic") val logic: JsonNode
 ) : Parcelable {
 
+    @get:JsonIgnore
     val validFromDateTime: ZonedDateTime
         get() = ZonedDateTime.parse(validFrom)
 
+    @get:JsonIgnore
     val validToDateTime: ZonedDateTime
         get() = ZonedDateTime.parse(validTo)
 
+    @get:JsonIgnore
     val versionSemVer: SemVer
         get() = try {
             SemVer.parse(version)

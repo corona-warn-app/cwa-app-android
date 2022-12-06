@@ -59,7 +59,9 @@ class JwtTokenParserTest : BaseTest() {
 
     @Test
     fun `Invalid JSON body shouldn't be parsed`() {
-        getInstance().getAccessToken("A.B.C") shouldBe null
+        shouldThrow<Exception> {
+            getInstance().getAccessToken("A.B.C")
+        }
     }
 
     @Test
@@ -71,7 +73,9 @@ class JwtTokenParserTest : BaseTest() {
 
     @Test
     fun `getResultToken - Invalid JSON body shouldn't be parsed`() {
-        getInstance().getResultToken("A.B.C") shouldBe null
+        shouldThrow<Exception> {
+            getInstance().getResultToken("A.B.C")
+        }
     }
 
     @Test
