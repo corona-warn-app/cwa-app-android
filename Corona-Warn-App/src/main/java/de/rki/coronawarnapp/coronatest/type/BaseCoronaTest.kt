@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import java.time.Instant
@@ -11,10 +11,10 @@ interface PersonalCoronaTest : BaseCoronaTest, CoronaTestKeySubmission, CoronaTe
 interface BaseCoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
 
     enum class Type(val raw: String) {
-        @SerializedName("PCR")
+        @JsonProperty("PCR")
         PCR("PCR"),
 
-        @SerializedName("RAPID_ANTIGEN")
+        @JsonProperty("RAPID_ANTIGEN")
         RAPID_ANTIGEN("RAPID_ANTIGEN"),
     }
 

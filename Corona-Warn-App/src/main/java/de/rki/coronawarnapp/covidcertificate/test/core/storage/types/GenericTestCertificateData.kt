@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import java.time.Instant
 
@@ -9,38 +9,38 @@ import java.time.Instant
  * May be cloned if we need to support different types of test certificates in the future.
  */
 data class GenericTestCertificateData(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     override val identifier: String,
 
-    @SerializedName("registeredAt")
+    @JsonProperty("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("certificateReceivedAt")
+    @JsonProperty("certificateReceivedAt")
     override val certificateReceivedAt: Instant? = null,
 
-    @SerializedName("notifiedInvalidAt")
+    @JsonProperty("notifiedInvalidAt")
     override val notifiedInvalidAt: Instant? = null,
 
-    @SerializedName("lastSeenStateChange")
+    @JsonProperty("lastSeenStateChange")
     override val lastSeenStateChange: State? = null,
 
-    @SerializedName("notifiedBlockedAt")
+    @JsonProperty("notifiedBlockedAt")
     override val notifiedBlockedAt: Instant? = null,
 
-    @SerializedName("notifiedRevokedAt")
+    @JsonProperty("notifiedRevokedAt")
     override val notifiedRevokedAt: Instant? = null,
 
-    @SerializedName("lastSeenStateChangeAt")
+    @JsonProperty("lastSeenStateChangeAt")
     override val lastSeenStateChangeAt: Instant? = null,
 
-    @SerializedName("testCertificateQrCode")
+    @JsonProperty("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
 
     // Imported Certificates are already scanned some time ago and shouldn't show a badge
-    @SerializedName("certificateSeenByUser")
+    @JsonProperty("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = true,
 
-    @SerializedName("recycledAt")
+    @JsonProperty("recycledAt")
     override val recycledAt: Instant? = null,
 ) : ScannedTestCertificate() {
 

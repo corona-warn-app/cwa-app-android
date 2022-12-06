@@ -1,18 +1,22 @@
 package de.rki.coronawarnapp.statistics.local.storage
 
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.jackson.SelectedStatisticsLocationFactory
 import io.kotest.matchers.shouldBe
 import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
+import testhelpers.extensions.toComparableJsonPretty1
 
 class SelectedLocationsTest : BaseTest() {
     private val baseGson = SerializationModule().baseGson()
+    private val objectMapper = SerializationModule.jacksonBaseMapper
 
     private val gson by lazy {
         baseGson
@@ -23,6 +27,15 @@ class SelectedLocationsTest : BaseTest() {
                     .registerSubtype(SelectedStatisticsLocation.SelectedFederalState::class.java)
             )
             .create()
+    }
+
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                context.addBeanSerializerModifier(SelectedStatisticsLocationFactory())
+            }
+        })
     }
 
     private val expectedJson = """
@@ -72,7 +85,7 @@ class SelectedLocationsTest : BaseTest() {
                 )
             )
 
-        val json = gson.toJson(locations).toComparableJsonPretty()
+        val json = mapper.writeValueAsString(locations).toComparableJsonPretty1()
 
         json shouldBe expectedJson
     }
@@ -100,9 +113,9 @@ class SelectedLocationsTest : BaseTest() {
                 )
             )
 
-        val json = gson.toJson(initialLocations)
+        val json = mapper.writeValueAsString(initialLocations)
 
-        val resultLocations = gson.fromJson<SelectedLocations>(json)
+        val resultLocations = mapper.readValue<SelectedLocations>(json)
 
         initialLocations shouldBe resultLocations
     }

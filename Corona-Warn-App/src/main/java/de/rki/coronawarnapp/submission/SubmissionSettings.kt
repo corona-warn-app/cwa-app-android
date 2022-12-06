@@ -7,6 +7,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.datastore.clear
@@ -15,8 +18,9 @@ import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.jackson.SymptomsJsonSerializerFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -27,7 +31,8 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionSettings @Inject constructor(
     @SubmissionSettingsDataStore private val dataStore: DataStore<Preferences>,
-    @BaseGson private val baseGson: Gson
+    @BaseGson private val baseGson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) : Resettable {
 
     private val gson by lazy {
@@ -41,6 +46,15 @@ class SubmissionSettings @Inject constructor(
 
             registerTypeAdapterFactory(rta)
         }.create()
+    }
+
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                context.addBeanSerializerModifier(SymptomsJsonSerializerFactory())
+            }
+        })
     }
 
     //region Needed for migration ONLY. Use CoronaTestRepository
@@ -101,12 +115,12 @@ class SubmissionSettings @Inject constructor(
     val symptoms: Flow<Symptoms?> = dataStore.dataRecovering.distinctUntilChanged(
         key = SUBMISSION_SYMPTOMS_LATEST, defaultValue = ""
     ).map { value ->
-        if (value.isNotEmpty()) gson.fromJson(value) else null
+        if (value.isNotEmpty()) mapper.readValue(value) else null
     }
 
     suspend fun updateSymptoms(value: Symptoms?) = dataStore.trySetValue(
         preferencesKey = SUBMISSION_SYMPTOMS_LATEST,
-        value = gson.toJson(value)
+        value = mapper.writeValueAsString(value)
     )
 
     val lastSubmissionUserActivityUTC = dataStore.dataRecovering.distinctUntilChanged(

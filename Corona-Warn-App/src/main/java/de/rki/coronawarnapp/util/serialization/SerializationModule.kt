@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
@@ -21,6 +20,10 @@ import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerLocalDateSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPrivateSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPublicSerialization
 import okio.ByteString
 import java.time.Duration
 import java.time.Instant
@@ -43,9 +46,13 @@ class SerializationModule {
         val jacksonBaseMapper: ObjectMapper by lazy {
             val jacksonSerializationModule = SimpleModule()
                 .registerByteStringSerialization()
+                .registerInstantSerialization()
+                .registerLocalDateSerialization()
+                .registerPublicSerialization()
+                .registerPrivateSerialization()
 
             jsonMapper {
-                addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
+                addModules(kotlinModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
         }

@@ -31,7 +31,8 @@ class SubmissionSettingsTest {
 
     fun createInstance() = SubmissionSettings(
         dataStore = dataStore,
-        baseGson = baseGson
+        baseGson = baseGson,
+        objectMapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

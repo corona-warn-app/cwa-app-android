@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.familytest.core.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -15,34 +16,34 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 data class CoronaTest(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     override val identifier: TestIdentifier,
 
-    @SerializedName("type")
+    @JsonProperty("type")
     override val type: BaseCoronaTest.Type,
 
-    @SerializedName("registeredAt")
+    @JsonProperty("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("registrationToken")
+    @JsonProperty("registrationToken")
     override val registrationToken: RegistrationToken,
 
-    @SerializedName("testResult")
+    @JsonProperty("testResult")
     override val testResult: CoronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
 
-    @SerializedName("labId")
+    @JsonProperty("labId")
     override val labId: String? = null,
 
-    @SerializedName("qrCodeHash")
+    @JsonProperty("qrCodeHash")
     override val qrCodeHash: String? = null,
 
-    @SerializedName("dcc")
+    @JsonProperty("dcc")
     val dcc: Dcc = Dcc(),
 
-    @SerializedName("uiState")
+    @JsonProperty("uiState")
     val uiState: UiState = UiState(),
 
-    @SerializedName("additionalInfo")
+    @JsonProperty("additionalInfo")
     val additionalInfo: AdditionalInfo? = null,
 
     @Transient
@@ -64,7 +65,7 @@ data class CoronaTest(
 
     fun getFormattedRegistrationDate(): String =
         registeredAt.toLocalDateTimeUserTz().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-
+    @get:JsonIgnore
     val testTakenAt: Instant
         get() = (additionalInfo?.sampleCollectedAt ?: additionalInfo?.createdAt) as Instant
 
@@ -92,7 +93,7 @@ data class CoronaTest(
             CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
         }
     }
-
+    @get:JsonIgnore
     val state: State
         get() = when {
             isRecycled -> State.RECYCLED
@@ -113,61 +114,61 @@ data class CoronaTest(
                 CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
             }
         }
-
+    @get:JsonIgnore
     override val isRedeemed: Boolean
         get() = state == State.REDEEMED
-
+    @get:JsonIgnore
     override val isPositive: Boolean
         get() = state == State.POSITIVE
-
+    @get:JsonIgnore
     override val isNegative: Boolean
         get() = state == State.NEGATIVE
-
+    @get:JsonIgnore
     override val isPending: Boolean
         get() = state == State.PENDING
-
+    @get:JsonIgnore
     override val isInvalid: Boolean
         get() = state == State.INVALID
 
     data class Dcc(
-        @SerializedName("isDccSupportedByPoc")
+        @JsonProperty("isDccSupportedByPoc")
         override val isDccSupportedByPoc: Boolean = true,
 
-        @SerializedName("isDccConsentGiven")
+        @JsonProperty("isDccConsentGiven")
         override val isDccConsentGiven: Boolean = false,
 
-        @SerializedName("isDccDataSetCreated")
+        @JsonProperty("isDccDataSetCreated")
         override val isDccDataSetCreated: Boolean = false,
     ) : CoronaTestDcc
 
     data class UiState(
-        @SerializedName("isViewed")
+        @JsonProperty("isViewed")
         override val isViewed: Boolean = false,
 
-        @SerializedName("didShowBadge")
+        @JsonProperty("didShowBadge")
         override val didShowBadge: Boolean = false,
 
-        @SerializedName("isResultAvailableNotificationSent")
+        @JsonProperty("isResultAvailableNotificationSent")
         override val isResultAvailableNotificationSent: Boolean = false,
 
-        @SerializedName("hasResultChangeBadge")
+        @JsonProperty("hasResultChangeBadge")
         override val hasResultChangeBadge: Boolean = false,
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
-        @SerializedName("createdAt")
+        @JsonProperty("createdAt")
         val createdAt: Instant,
 
-        @SerializedName("firstName")
+        @JsonProperty("firstName")
         val firstName: String? = null,
 
-        @SerializedName("lastName")
+        @JsonProperty("lastName")
         val lastName: String? = null,
 
-        @SerializedName("dateOfBirth")
+        @JsonProperty("dateOfBirth")
         val dateOfBirth: LocalDate? = null,
 
-        @SerializedName("sampleCollectedAt")
+        @JsonProperty("sampleCollectedAt")
         val sampleCollectedAt: Instant? = null,
     )
 }

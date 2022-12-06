@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.util.serialization.adapter
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.jackson.registerByteArraySerialization
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
@@ -10,6 +13,15 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class ByteArrayAdapterTest : BaseTest() {
+
+    private val mapper = ObjectMapper().registerModule(
+        object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                this.registerByteArraySerialization()
+            }
+        }
+    )
 
     private val gson = GsonBuilder()
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
@@ -27,9 +39,9 @@ class ByteArrayAdapterTest : BaseTest() {
 
     @Test
     fun `serialize and deserialize`() {
-        val serialized: String = gson.toJson(TestData(goodByteArray))
+        val serialized: String = mapper.writeValueAsString(TestData(goodByteArray))
 
-        gson.fromJson<TestData>(serialized) shouldBe TestData(goodByteArray)
+        mapper.readValue<TestData>(serialized) shouldBe TestData(goodByteArray)
     }
 
     @Test
@@ -39,7 +51,7 @@ class ByteArrayAdapterTest : BaseTest() {
                 {
                     "byteArray": "Don't feed this to your base 64 decoder :("
                 }
-            """.trimIndent().let { gson.fromJson<TestData>(it) }
+            """.trimIndent().let { mapper.readValue<TestData>(it) }
         }
     }
 
@@ -50,7 +62,7 @@ class ByteArrayAdapterTest : BaseTest() {
                 "byteArray": ""
             }
         """.trimIndent().let {
-            gson.fromJson<TestData>(it) shouldBe TestData(ByteArray(0))
+            mapper.readValue<TestData>(it) shouldBe TestData(ByteArray(0))
         }
     }
 

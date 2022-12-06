@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.storage
 
 import android.content.Context
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.TypeAdapter
@@ -12,8 +14,10 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.toJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.jackson.registerPPADataSerialization
+import de.rki.coronawarnapp.util.serialization.readValue
+import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.withContext
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
@@ -25,6 +29,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
     @AppContext private val context: Context,
     private val dispatcherProvider: DispatcherProvider,
     @BaseGson private val baseGson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
     private val timeStamper: TimeStamper
 ) : LastAnalyticsSubmissionLogger {
     private val analyticsDir = File(context.cacheDir, "analytics_storage")
@@ -34,6 +39,15 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
         baseGson.newBuilder()
             .registerTypeAdapter(PpaData.PPADataAndroid::class.java, PPADataAndroidAdapter())
             .create()
+    }
+
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                this.registerPPADataSerialization()
+            }
+        })
     }
 
     override suspend fun storeAnalyticsData(analyticsProto: PpaData.PPADataAndroid) =
@@ -48,7 +62,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
             )
 
             try {
-                gson.toJson(dataObject, analyticsFile)
+                mapper.writeValue(dataObject, analyticsFile)
             } catch (e: Exception) {
                 Timber.e(e, "Failed to store analytics data.")
             }
@@ -56,7 +70,7 @@ class DefaultLastAnalyticsSubmissionLogger @Inject constructor(
 
     override suspend fun getLastAnalyticsData(): LastAnalyticsSubmission? = withContext(dispatcherProvider.IO) {
         try {
-            gson.fromJson<LastAnalyticsSubmission>(analyticsFile)?.also {
+            mapper.readValue<LastAnalyticsSubmission>(analyticsFile)?.also {
                 requireNotNull(it.ppaDataAndroid)
                 requireNotNull(it.timestamp)
             }

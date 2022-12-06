@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
@@ -85,22 +84,21 @@ interface CwaCovidCertificate : Recyclable {
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
      */
-    @Keep
     sealed class State(val type: String) {
         data class Valid(
-            @SerializedName("expiresAt") val expiresAt: Instant,
+            @JsonProperty("expiresAt") val expiresAt: Instant,
         ) : State("Valid")
 
         data class ExpiringSoon(
-            @SerializedName("expiresAt") val expiresAt: Instant,
+            @JsonProperty("expiresAt") val expiresAt: Instant,
         ) : State("ExpiringSoon")
 
         data class Expired(
-            @SerializedName("expiredAt") val expiredAt: Instant,
+            @JsonProperty("expiredAt") val expiredAt: Instant,
         ) : State("Expired")
 
         data class Invalid(
-            @SerializedName("isInvalidSignature") val isInvalidSignature: Boolean = true
+            @JsonProperty("isInvalidSignature") val isInvalidSignature: Boolean = true
         ) : State("Invalid") {
             companion object {
                 const val URL_INVALID_SIGNATURE_DE = "https://www.coronawarn.app/de/faq/#hc_signature_invalid"

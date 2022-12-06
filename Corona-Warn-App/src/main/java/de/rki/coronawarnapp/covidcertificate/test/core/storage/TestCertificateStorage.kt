@@ -4,6 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -16,6 +19,9 @@ import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.jackson.StateJsonSerializerFactory
+import de.rki.coronawarnapp.util.serialization.jackson.registerCoronaTestResultSerialization
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
@@ -28,6 +34,7 @@ import javax.inject.Singleton
 class TestCertificateStorage @Inject constructor(
     @TestCertificateStorageDataStore private val dataStore: DataStore<Preferences>,
     @BaseGson val baseGson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) {
     private val mutex = Mutex()
 
@@ -36,6 +43,16 @@ class TestCertificateStorage @Inject constructor(
             registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
             registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
         }.create()
+    }
+
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                context.addBeanSerializerModifier(StateJsonSerializerFactory())
+                this.registerCoronaTestResultSerialization()
+            }
+        })
     }
 
     private val typeTokenPCR: TypeToken<Set<PCRCertificateData>> by lazy {
@@ -75,7 +92,7 @@ class TestCertificateStorage @Inject constructor(
     ) {
         val type = typeToken.type
         if (certs.isNotEmpty()) {
-            val raw = gson.toJson(certs, type)
+            val raw = mapper.writeValueAsString(certs)
             Timber.tag(TAG).v("Storing scanned certs ($type): %s", certs.size)
             dataStore.trySetValue(storageKey, raw)
         } else {
@@ -95,7 +112,7 @@ class TestCertificateStorage @Inject constructor(
             if (value.isEmpty()) {
                 emptySet()
             } else {
-                gson.fromJson<Set<T>>(value, type).onEach {
+                mapper.readValue<Set<T>>(value).onEach {
                     Timber.tag(TAG).v("Certificates ($type) loaded: %s", it.identifier)
                     requireNotNull(it.identifier)
                 }

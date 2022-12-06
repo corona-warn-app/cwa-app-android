@@ -98,7 +98,8 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     private fun createStorage() = ExposureDetectionTrackerStorage(
         context = context,
-        baseGson = SerializationModule.baseGson
+        baseGson = SerializationModule.baseGson,
+        objectMapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

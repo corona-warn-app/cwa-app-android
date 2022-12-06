@@ -5,6 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.covidcertificate.RecoveryCertificateDataStore
@@ -12,6 +15,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.jackson.StateJsonSerializerFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -23,6 +28,7 @@ import javax.inject.Singleton
 class RecoveryCertificateStorage @Inject constructor(
     @RecoveryCertificateDataStore private val dataStore: DataStore<Preferences>,
     @BaseGson val baseGson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
     private val gson by lazy {
@@ -31,16 +37,23 @@ class RecoveryCertificateStorage @Inject constructor(
             .create()
     }
 
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                context.addBeanSerializerModifier(StateJsonSerializerFactory())
+            }
+        })
+    }
+
     private val mutex = Mutex()
 
     suspend fun load(): Set<StoredRecoveryCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("recoveryCertificates - load()")
-        return gson
-            .fromJson<Set<StoredRecoveryCertificateData>>(
-                dataStore.dataRecovering.distinctUntilChanged(key = PKEY_RECOVERY_CERT).first()
-                    ?: return emptySet(),
-                TYPE_TOKEN
-            )
+        return mapper.readValue<Set<StoredRecoveryCertificateData>>(
+            dataStore.dataRecovering.distinctUntilChanged(key = PKEY_RECOVERY_CERT).first()
+                ?: return emptySet()
+        )
             .onEach { Timber.tag(TAG).v("StoredRecoveryCertificateData loaded: %s", it) }
     }
 
@@ -51,7 +64,7 @@ class RecoveryCertificateStorage @Inject constructor(
             dataStore.edit { it.remove(PKEY_RECOVERY_CERT) }
             Unit
         } else {
-            val rawJson = gson.toJson(certificates, TYPE_TOKEN)
+            val rawJson = mapper.writeValueAsString(certificates)
             dataStore.edit { it[PKEY_RECOVERY_CERT] = rawJson }
             Unit
         }

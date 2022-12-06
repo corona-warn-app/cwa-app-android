@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.statistics.local.storage
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
 import de.rki.coronawarnapp.statistics.LocalStatisticsConfigDataStore
@@ -12,8 +15,9 @@ import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.jackson.SelectedStatisticsLocationFactory
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,6 +27,7 @@ import javax.inject.Singleton
 class LocalStatisticsConfigStorage @Inject constructor(
     @LocalStatisticsConfigDataStore private val dataStore: DataStore<Preferences>,
     @BaseGson private val baseGson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
 ) : Resettable {
 
     private val gson by lazy {
@@ -36,18 +41,27 @@ class LocalStatisticsConfigStorage @Inject constructor(
             .create()
     }
 
+    private val mapper by lazy {
+        objectMapper.registerModule(object : SimpleModule() {
+            override fun setupModule(context: SetupContext) {
+                super.setupModule(context)
+                context.addBeanSerializerModifier(SelectedStatisticsLocationFactory())
+            }
+        })
+    }
+
     val activeSelections = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_ACTIVE_SELECTIONS, defaultValue = ""
     ).map { value ->
         if (value.isEmpty()) {
             SelectedLocations()
         } else {
-            gson.fromJson(value)
+            mapper.readValue(value)
         }
     }
 
     suspend fun updateActiveSelections(locations: SelectedLocations) =
-        dataStore.trySetValue(preferencesKey = PKEY_ACTIVE_SELECTIONS, value = gson.toJson(locations))
+        dataStore.trySetValue(preferencesKey = PKEY_ACTIVE_SELECTIONS, value = mapper.writeValueAsString(locations))
 
     val activePackages = activeSelections.map { selections ->
         selections.locations.mapNotNull { selection ->

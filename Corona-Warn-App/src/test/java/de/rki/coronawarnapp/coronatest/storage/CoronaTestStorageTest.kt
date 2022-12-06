@@ -35,7 +35,8 @@ class CoronaTestStorageTest : BaseTest() {
     private fun createInstance(scope: TestScope) = CoronaTestStorage(
         appScope = scope,
         dataStore = dataStore,
-        baseGson = SerializationModule().baseGson()
+        baseGson = SerializationModule().baseGson(),
+        objectMapper = SerializationModule.jacksonBaseMapper
     )
 
     private val pcrTest = PCRCoronaTest(

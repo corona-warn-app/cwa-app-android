@@ -1,44 +1,46 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import java.time.Instant
 import java.time.LocalDate
 
 data class DccV1(
-    @SerializedName("ver") val version: String,
-    @SerializedName("nam") val nameData: NameData,
-    @SerializedName("dob") val dob: String,
-    @SerializedName("v") val vaccinations: List<VaccinationData>? = null,
-    @SerializedName("t") val tests: List<TestCertificateData>? = null,
-    @SerializedName("r") val recoveries: List<RecoveryCertificateData>? = null,
+    @JsonProperty("ver") val version: String,
+    @JsonProperty("nam") val nameData: NameData,
+    @JsonProperty("dob") val dob: String,
+    @JsonProperty("v") val vaccinations: List<VaccinationData>? = null,
+    @JsonProperty("t") val tests: List<TestCertificateData>? = null,
+    @JsonProperty("r") val recoveries: List<RecoveryCertificateData>? = null,
 ) {
     data class NameData(
-        @SerializedName("fn") internal val familyName: String?,
-        @SerializedName("fnt") internal val familyNameStandardized: String?,
-        @SerializedName("gn") internal val givenName: String?,
-        @SerializedName("gnt") internal val givenNameStandardized: String?,
+        @JsonProperty("fn") internal val familyName: String?,
+        @JsonProperty("fnt") internal val familyNameStandardized: String?,
+        @JsonProperty("gn") internal val givenName: String?,
+        @JsonProperty("gnt") internal val givenNameStandardized: String?,
     ) {
+        @get:JsonIgnore
         val firstName: String?
             get() = if (givenName.isNullOrBlank()) givenNameStandardized else givenName
-
+        @get:JsonIgnore
         val lastName: String?
             get() = if (familyName.isNullOrBlank()) familyNameStandardized else familyName
-
+        @get:JsonIgnore
         val fullName: String
             get() = when {
                 firstName.isNullOrBlank() -> lastName.assertName()
                 lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$firstName $lastName"
             }
-
+        @get:JsonIgnore
         val fullNameFormatted: String
             get() = when {
                 firstName.isNullOrBlank() -> lastName.assertName()
                 lastName.isNullOrBlank() -> firstName.assertName()
                 else -> "$lastName, $firstName"
             }
-
+        @get:JsonIgnore
         val fullNameStandardizedFormatted: String
             get() = when {
                 givenNameStandardized.isNullOrBlank() -> familyNameStandardized.assertName()
@@ -51,10 +53,10 @@ data class DccV1(
             return this
         }
     }
-
+    @get:JsonIgnore
     val dateOfBirthFormatted: String
         get() = dob.formatDate()
-
+    @get:JsonIgnore
     val personIdentifier: CertificatePersonIdentifier
         get() = CertificatePersonIdentifier(
             dateOfBirthFormatted = dateOfBirthFormatted,
@@ -80,92 +82,97 @@ data class DccV1(
 
     data class RecoveryCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
-        @SerializedName("tg") override val targetId: String,
+        @JsonProperty("tg") override val targetId: String,
         // Date of First Positive NAA Test Result (required) e.g. "2021-04-21"
-        @SerializedName("fr") val fr: String,
+        @JsonProperty("fr") val fr: String,
         // Certificate Valid From (required) e.g. "2021-05-01"
-        @SerializedName("df") val df: String,
+        @JsonProperty("df") val df: String,
         // Certificate Valid Until (required) e.g. "2021-10-21"
-        @SerializedName("du") val du: String,
+        @JsonProperty("du") val du: String,
         // Country of Test (required)
-        @SerializedName("co") override val certificateCountry: String,
+        @JsonProperty("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
-        @SerializedName("is") override val certificateIssuer: String,
+        @JsonProperty("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
-        @SerializedName("ci") override val uniqueCertificateIdentifier: String
+        @JsonProperty("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
+        @get:JsonIgnore
         val testedPositiveOn: LocalDate?
             get() = fr.parseLocalDate()
-
+        @get:JsonIgnore
         val testedPositiveOnFormatted: String
             get() = fr.formatDate()
-
+        @get:JsonIgnore
         val validFromFormatted: String
             get() = df.formatDate()
+        @get:JsonIgnore
         val validFrom: LocalDate?
             get() = validFromFormatted.parseLocalDate()
-
+        @get:JsonIgnore
         val validUntilFormatted: String
             get() = du.formatDate()
+        @get:JsonIgnore
         val validUntil: LocalDate?
             get() = validUntilFormatted.parseLocalDate()
     }
 
     data class VaccinationData(
         // Disease or agent targeted, e.g. "tg": "840539006"
-        @SerializedName("tg") override val targetId: String,
+        @JsonProperty("tg") override val targetId: String,
         // Vaccine or prophylaxis, e.g. "vp": "1119349007"
-        @SerializedName("vp") val vaccineId: String,
+        @JsonProperty("vp") val vaccineId: String,
         // Vaccine medicinal product,e.g. "mp": "EU/1/20/1528",
-        @SerializedName("mp") val medicalProductId: String,
+        @JsonProperty("mp") val medicalProductId: String,
         // Marketing Authorization Holder, e.g. "ma": "ORG-100030215",
-        @SerializedName("ma") val marketAuthorizationHolderId: String,
+        @JsonProperty("ma") val marketAuthorizationHolderId: String,
         // Dose Number, e.g. "dn": 2
-        @SerializedName("dn") val doseNumber: Int,
+        @JsonProperty("dn") val doseNumber: Int,
         // Total Series of Doses, e.g. "sd": 2,
-        @SerializedName("sd") val totalSeriesOfDoses: Int,
+        @JsonProperty("sd") val totalSeriesOfDoses: Int,
         // Date of Vaccination, e.g. "dt" : "2021-04-21"
-        @SerializedName("dt") val dt: String,
+        @JsonProperty("dt") val dt: String,
         // Country of Vaccination, e.g. "co": "NL"
-        @SerializedName("co") override val certificateCountry: String,
+        @JsonProperty("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
-        @SerializedName("is") override val certificateIssuer: String,
+        @JsonProperty("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
-        @SerializedName("ci") override val uniqueCertificateIdentifier: String
+        @JsonProperty("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
+        @get:JsonIgnore
         val vaccinatedOnFormatted: String
             get() = dt.formatDate()
 
+        @get:JsonIgnore
         val vaccinatedOn: LocalDate?
             get() = vaccinatedOnFormatted.parseLocalDate()
     }
 
     data class TestCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
-        @SerializedName("tg") override val targetId: String,
+        @JsonProperty("tg") override val targetId: String,
         // Type of Test (required) eg "LP217198-3"
-        @SerializedName("tt") val testType: String,
+        @JsonProperty("tt") val testType: String,
         // Test Result (required) e. g. "tr": "260415000"
-        @SerializedName("tr") val testResult: String,
+        @JsonProperty("tr") val testResult: String,
         // NAA Test Name (only for PCR tests, but not required) "nm": "Roche LightCycler qPCR",
-        @SerializedName("nm") val testName: String? = null,
+        @JsonProperty("nm") val testName: String? = null,
         // RAT Test name and manufacturer (only for RAT tests, but not required)
-        @SerializedName("ma") val testNameAndManufacturer: String? = null,
+        @JsonProperty("ma") val testNameAndManufacturer: String? = null,
         // Date/Time of Sample Collection (required) "sc": "2021-04-13T14:20:00+00:00"
-        @SerializedName("sc") val sc: String,
+        @JsonProperty("sc") val sc: String,
         // Testing Center (required) "tc": "GGD Fryslân, L-Heliconweg",
-        @SerializedName("tc") val testCenter: String?,
+        @JsonProperty("tc") val testCenter: String?,
         // Country of Test (required)
-        @SerializedName("co") override val certificateCountry: String,
+        @JsonProperty("co") override val certificateCountry: String,
         // Certificate Issuer, e.g. "is": "Ministry of Public Health, Welfare and Sport",
-        @SerializedName("is") override val certificateIssuer: String,
+        @JsonProperty("is") override val certificateIssuer: String,
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
-        @SerializedName("ci") override val uniqueCertificateIdentifier: String
+        @JsonProperty("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-
+        @get:JsonIgnore
         val sampleCollectedAt: Instant?
             get() = sc.parseInstant()
-
+        @get:JsonIgnore
         val sampleCollectedAtFormatted: String
             get() = sc.formatDateTime()
     }
