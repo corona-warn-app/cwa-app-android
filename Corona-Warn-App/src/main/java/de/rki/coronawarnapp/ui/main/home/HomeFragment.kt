@@ -302,9 +302,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     companion object {
         val TAG = tag<HomeFragment>()
-        val EN = "en"
-        val DE = "de"
-        val TR = "tr"
-        val LANG = ":lang"
+        private const val EN = "en"
+        private const val DE = "de"
+        private const val TR = "tr"
+        private const val LANG = ":lang"
     }
 }
