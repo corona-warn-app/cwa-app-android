@@ -11,6 +11,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
@@ -23,7 +24,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
-import kotlin.Exception
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @BaseGson baseGson: Gson,
@@ -92,7 +92,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
             srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
-            srsSubmissionResult.postValue(Error(e))
+            when (e) {
+                is SrsSubmissionTruncatedException -> srsSubmissionResult.postValue(TruncatedSubmission(e.message))
+                else -> srsSubmissionResult.postValue(Error(e))
+            }
             Timber.e(e, "submit()")
         }
     }
@@ -147,5 +150,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 }
 
 sealed interface SrsSubmissionResult
+
+data class TruncatedSubmission(val numberOfDays: String?) : SrsSubmissionResult
 data class Error(val cause: Exception) : SrsSubmissionResult
 object Success : SrsSubmissionResult

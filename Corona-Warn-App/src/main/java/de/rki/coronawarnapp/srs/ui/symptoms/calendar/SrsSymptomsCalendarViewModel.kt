@@ -7,6 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -41,6 +42,9 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
 
     fun goHome() = events.postValue(SrsSymptomsCalendarNavigation.GoToHome)
 
+    fun onTruncatedDialogClick() =
+        events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
+
     fun startSubmission() {
         if (symptomStartInternal.value == null) {
             IllegalStateException("Can't finish symptom indication without symptomStart value.")
@@ -66,7 +70,13 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
-            events.postValue(SrsSymptomsCalendarNavigation.Error(e))
+            when (e) {
+                is SrsSubmissionTruncatedException -> events.postValue(
+                    SrsSymptomsCalendarNavigation.TruncatedSubmission(e.message)
+                )
+
+                else -> events.postValue(SrsSymptomsCalendarNavigation.Error(e))
+            }
         } finally {
             showLoadingIndicator.postValue(false)
         }

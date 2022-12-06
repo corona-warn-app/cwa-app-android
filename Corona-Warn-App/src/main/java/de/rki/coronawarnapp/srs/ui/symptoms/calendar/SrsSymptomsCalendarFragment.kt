@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
+import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -84,6 +85,12 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
                         it.submissionType
                     )
                 )
+
+                is SrsSymptomsCalendarNavigation.TruncatedSubmission -> {
+                    showTruncatedSubmissionDialog(it.numberOfDays) {
+                        viewModel.onTruncatedDialogClick()
+                    }
+                }
 
                 is SrsSymptomsCalendarNavigation.Error -> displayDialog {
                     setError(it.cause)
