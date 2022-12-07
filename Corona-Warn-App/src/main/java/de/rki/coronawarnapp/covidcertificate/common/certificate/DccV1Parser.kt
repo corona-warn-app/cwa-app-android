@@ -1,17 +1,26 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
+import com.fasterxml.jackson.databind.node.MissingNode
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.databind.node.TextNode
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonNull
-import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.upokecenter.cbor.CBORObject
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import timber.log.Timber
 import java.time.Instant
 import java.time.ZoneOffset
@@ -20,6 +29,7 @@ import javax.inject.Inject
 @Reusable
 class DccV1Parser @Inject constructor(
     @BaseGson private val gson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     private val dccJsonSchemaValidator: DccJsonSchemaValidator,
 ) {
     fun parse(map: CBORObject, mode: Mode): Body = try {
@@ -40,8 +50,8 @@ class DccV1Parser @Inject constructor(
 
     private fun CBORObject.toCertificate(): Pair<String, DccV1> = try {
         val originalJson = ToJSONString()
-        val correctedJson = gson.fromJson(originalJson, JsonObject::class.java).filterExceptions().toString()
-        correctedJson to gson.fromJson(correctedJson)
+        val correctedJson = mapper.readValue(originalJson, JsonNode::class.java).filterExceptions().toString()
+        correctedJson to mapper.readValue(correctedJson)
     } catch (e: InvalidHealthCertificateException) {
         throw e
     } catch (e: Throwable) {
@@ -140,6 +150,31 @@ class DccV1Parser @Inject constructor(
 
             else -> this // Should never be reached
         }
+
+    private fun JsonNode.filterExceptions(): JsonNode {
+        return when (this) {
+            is ObjectNode -> {
+                val copy = mapper.convertValue(this, object : TypeReference<Set<Map.Entry<String, JsonNode>>>() {})
+
+                copy.fold(JsonNodeFactory.instance.objectNode()) { acc, (key, jsonNode) ->
+                    when (jsonNode) {
+                        is MissingNode -> acc
+                        else -> acc.apply { set<JsonNode>(key, jsonNode.filterExceptions()) }
+                    }
+                }
+            }
+            is ArrayNode -> {
+                fold(JsonNodeFactory.instance.arrayNode()) { acc, jsonNode ->
+                    when (jsonNode) {
+                        is MissingNode -> acc
+                        else -> acc.apply { add(jsonNode.filterExceptions()) }
+                    }
+                }
+            }
+            is TextNode -> JsonNodeFactory.instance.textNode(this.asText().trim())
+            else -> this
+        }
+    }
 
     enum class Mode {
         CERT_VAC_STRICT, // exactly one vaccination certificate allowed
