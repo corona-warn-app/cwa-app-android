@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Вашето съгласие е необходимо преди да може да изпратите предупреждение на другите."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"Ако имате положителен резултат от тест за коронавирус може да изпратите предупреждение на другите потребители чрез приложението.\nЗа да изпратите предупреждение след положителен резултат от самотестуване или нерегистриран тест трябва да се провери автентичността на приложението."</string>
+    <string name="srs_section_warn_consent_text">"Ако имате положителен резултат от тест за коронавирус може да изпратите предупреждение на другите потребители чрез приложението.\nЗа да изпратите предупреждение след положителен резултат от самотестуване или нерегистриран тест трябва автоматично да се провери автентичността на приложението."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"Това подсигурява, че повторно предупреждение е възможно само след като са минали %d дни."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Предупредете другите"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"Отказ"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Бележка"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Поради високия брой предупреждения изпращани от приложението в момента само контактите Ви от последните %s дни са били предупредени."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"ОК"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"Не може да предупреждавате другите"</string>

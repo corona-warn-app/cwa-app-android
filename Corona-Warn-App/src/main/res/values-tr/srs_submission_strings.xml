@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Diğer kullanıcıları uyarabilmeniz için izniniz gereklidir."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"Koronavirüs testiniz pozitif çıkarsa uygulama üzerinden diğer kullanıcıları uyarabilirsiniz.\nKendi kendine test pozitif çıktıktan sonra veya uygulamada sunulmayan bir test sonucuyla uyarı göndermek için uygulamanın orijinalliği doğrulanmalıdır."</string>
+    <string name="srs_section_warn_consent_text">"Koronavirüs testiniz pozitif çıkarsa uygulama üzerinden diğer kullanıcıları uyarabilirsiniz.\nKendi kendine test pozitif çıktıktan sonra veya uygulamada sunulmayan bir test sonucuyla uyarı göndermek için uygulamanın orijinalliği otomatik olarak doğrulanmalıdır."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"Bu, yinelenen uyarıların yalnızca %d gün geçtikten sonra gönderilebilmesini de sağlar."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Diğer Kullanıcıları Uyar"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"İptal"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Not"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Şu anda uygulama üzerinden gönderilmekte olan yüksek uyarı sayısı nedeniyle yalnızca son %s gün içinde temasa geçtiğiniz kişiler uyarıldı."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"Tamam"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"Diğer Kullanıcıları Uyaramazsınız"</string>
