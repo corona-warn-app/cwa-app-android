@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Consimțământul dvs. este obligatoriu înainte de a-i avertiza pe ceilalți."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"Dacă ați fost testat pozitiv la coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației.\nPentru a trimite o avertizare după un test făcut acasă pozitiv sau cu un rezultat de test care nu este în aplicație, trebuie verificată autenticitatea aplicației."</string>
+    <string name="srs_section_warn_consent_text">"Dacă ați fost testat pozitiv la coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației.\nPentru a trimite o avertizare după un test făcut acasă pozitiv sau cu un rezultat de test care nu este în aplicație, trebuie verificată automat autenticitatea aplicației."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"Această funcție asigură, de asemenea, că avertizările repetate sunt posibile doar după ce au trecut %d de zile."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Îi avertizez pe ceilalți"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"Anulare"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Notă"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Ca urmare a numărului mare de avertizări care sunt trimise în prezent prin aplicație, doar contactele dvs. din ultimele %s zile au fost avertizate."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"Nu-i puteți avertiza pe ceilalți"</string>

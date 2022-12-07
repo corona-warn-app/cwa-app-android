@@ -1432,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Pandemi Radarı"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"Robert Koch Institute tarafından sunulur"</string>
+    <string name="pandemic_radar_card_subtitle">"Almanya Federal Sağlık Bakanlığı tarafından sunulur"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Pandemi ile ilgili ilave istatistikleri keşfedin."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1521,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Pandemi Radarı"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Robert Koch Institute web sitesinde sunulan çeşitli koronavirüs pandemisi istatistikleri. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini, web sitesinin engellilere uygun şekilde tasarlanmadığını ve yalnızca Almanca dilinde kullanılabildiğini unutmayın."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Almanya Federal Sağlık Bakanlığı, koronavirüs pandemisine ilişkin çeşitli istatistikler sağlar. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini ve web sitesinin engellilere uygun şekilde tasarlanmadığını unutmayın. Bu sayfa İngilizce, Almanca, Türkçe ve Rusça dilinde kullanılabilir."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7 Günlük Ortalama"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

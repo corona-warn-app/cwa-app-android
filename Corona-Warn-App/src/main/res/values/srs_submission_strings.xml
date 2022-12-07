@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Your consent is required before you can warn others."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"If you test positive for coronavirus, you can warn others through the app.\nTo send a warning after a positive self-test or with a test result that is not in the app, the authenticity of the app must be verified."</string>
+    <string name="srs_section_warn_consent_text">"If you test positive for coronavirus, you can warn others through the app.\nTo send a warning after a positive self-test or with a test result that is not in the app, the authenticity of the app must be verified automatically."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"This also ensures that repeated warnings are only possible after %d days have passed."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -97,11 +97,11 @@
 
     <!-- Srs Submission Truncated Warning Dialog -->
     <!-- XHED: Submission truncated warning dialog title -->
-    <string name="srs_submission_truncated_warning_dialog_title">Hinweis</string>
+    <string name="srs_submission_truncated_warning_dialog_title">"Note"</string>
     <!-- XTXT: Submission truncated warning message -->
-    <string name="srs_submission_truncated_warning_dialog_message">Aufgrund des aktuell erhöhten Aufkommens von Warnungen über die App wurden nur Kontakte der letzen %s Tage gewarnt.</string>
+    <string name="srs_submission_truncated_warning_dialog_message">"Due to the high number of warnings currently being sent via the app, only your contacts from the last %s days have been warned."</string>
     <!-- XBUT: Submission truncated warning ok button -->
-    <string name="srs_submission_truncated_warning_dialog_button">Ok</string>
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
 
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->

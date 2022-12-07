@@ -1432,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Пандемічний радар"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"з Інституту Роберта Коха"</string>
+    <string name="pandemic_radar_card_subtitle">"З Федерального міністерства охорони здоров’я Німеччини"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Перегляньте додаткову статистику щодо пандемії."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1521,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Пандемічний радар"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Різноманітна статистика щодо пандемії коронавірусу, яка представлена на сайті Інституту Роберта Коха. Зауважте, що плату за будь-які дані, використовувані під час відкриття веб-сайту, буде вираховано відповідно до вашого тарифного плану та що веб-сайт не є безбар’єрним і доступний лише німецькою мовою."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Федеральне міністерство охорони здоров’я Німеччини надає різноманітну статистику щодо пандемії коронавірусу. Зауважте, що плату за будь-які дані, використовувані під час відкриття вебсайту, буде вираховано відповідно до вашого тарифного плану та що вебсайт не є безбар’єрним. Ця сторінка доступна англійською, німецькою, турецькою та російською мовами."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Середня статистика за 7 днів"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
