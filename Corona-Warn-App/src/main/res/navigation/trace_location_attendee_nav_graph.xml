@@ -33,12 +33,15 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-
         <argument
             android:name="locationId"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="checkSkipOnboarding"
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/checkInPrivacyFragment"

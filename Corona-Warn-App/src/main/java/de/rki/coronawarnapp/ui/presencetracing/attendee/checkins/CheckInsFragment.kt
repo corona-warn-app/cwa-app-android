@@ -116,7 +116,10 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ShowInformation -> {
                 setupAxisTransition()
                 findNavController().navigate(
-                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false)
+                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(
+                        showBottomNav = false,
+                        checkSkipOnboarding = false
+                    )
                 )
             }
 
