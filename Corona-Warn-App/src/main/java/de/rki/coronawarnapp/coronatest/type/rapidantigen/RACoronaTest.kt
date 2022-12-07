@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -72,8 +73,8 @@ data class RACoronaTest(
     @JsonProperty("sampleCollectedAt")
     val sampleCollectedAt: Instant? = null,
 
-    @Transient override val isProcessing: Boolean = false,
-    @Transient override val lastError: Throwable? = null,
+    @JsonIgnore override val isProcessing: Boolean = false,
+    @JsonIgnore override val lastError: Throwable? = null,
 
     @JsonProperty("isDccSupportedByPoc")
     override val isDccSupportedByPoc: Boolean = false,

@@ -46,7 +46,7 @@ data class CoronaTest(
     @JsonProperty("additionalInfo")
     val additionalInfo: AdditionalInfo? = null,
 
-    @Transient
+    @JsonIgnore
     override var recycledAt: Instant? = null,
 ) :
     BaseCoronaTest,

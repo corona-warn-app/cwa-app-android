@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerCoronaTestResultSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerLocalDateSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerPrivateSerialization
@@ -52,12 +53,14 @@ class SerializationModule {
                 .registerLocalDateSerialization()
                 .registerPublicSerialization()
                 .registerPrivateSerialization()
+                .registerCoronaTestResultSerialization()
 
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
         }
 
         val baseGson: Gson by lazy {
