@@ -50,8 +50,8 @@ data class PCRCoronaTest(
     @JsonProperty("lastUpdatedAt")
     override val lastUpdatedAt: Instant,
 
-    @Transient override val isProcessing: Boolean = false,
-    @Transient override val lastError: Throwable? = null,
+    @JsonIgnore override val isProcessing: Boolean = false,
+    @JsonIgnore override val lastError: Throwable? = null,
 
     @JsonProperty("isDccSupportedByPoc")
     private val _isDccSupportedByPoc: Boolean? = true,

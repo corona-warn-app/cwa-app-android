@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import android.content.res.AssetManager
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
@@ -30,7 +29,7 @@ class TestCertificateDccParserTest {
             JsonSchemaValidator(SerializationModule().jacksonObjectMapper())
         )
     }
-    private val bodyParser = DccV1Parser(Gson(), ObjectMapper(), schemaValidator)
+    private val bodyParser = DccV1Parser(ObjectMapper(), schemaValidator)
 
     @Test
     fun `happy path cose decryption with Ellen Cheng`() {
