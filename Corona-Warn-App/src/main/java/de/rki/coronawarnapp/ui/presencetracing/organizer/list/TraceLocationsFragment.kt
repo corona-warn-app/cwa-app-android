@@ -119,7 +119,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
                 is TraceLocationEvent.SelfCheckIn -> {
                     findNavController().navigate(
-                        CheckInsFragment.createDeepLink(it.traceLocation.locationUrl, true),
+                        CheckInsFragment.createDeepLink(it.traceLocation.locationUrl, true, it.isOnboarded),
                         NavOptions.Builder()
                             .setPopUpTo(R.id.checkInsFragment, true)
                             .build()
