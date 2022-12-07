@@ -77,14 +77,12 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                 }
 
                 CheckInOnboardingNavigation.SkipOnboardingInfo -> {
-                    if (args.uri == null) {
-                        findNavController().navigate(
-                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                                args.uri,
-                                args.cleanHistory
-                            )
+                    findNavController().navigate(
+                        CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                            args.uri,
+                            args.cleanHistory
                         )
-                    }
+                    )
                 }
 
                 CheckInOnboardingNavigation.DataProtectionNavigation -> findNavController().navigate(
