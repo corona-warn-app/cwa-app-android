@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
+import de.rki.coronawarnapp.srs.core.server.errorArgs
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
@@ -31,6 +32,7 @@ import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -65,7 +67,7 @@ class SrsSubmissionRepository @Inject constructor(
             playbook.fakeAuthorize(
                 SrsAuthorizationFakeRequest(
                     safetyNetJws = attestResult.report.jwsResult,
-                    salt = String(attestResult.ourSalt),
+                    salt = attestResult.ourSalt.toByteString().base64(),
                 )
             )
         } else {
@@ -74,7 +76,7 @@ class SrsSubmissionRepository @Inject constructor(
                 SrsAuthorizationRequest(
                     srsOtp = srsOtp,
                     safetyNetJws = attestResult.report.jwsResult,
-                    salt = String(attestResult.ourSalt),
+                    salt = attestResult.ourSalt.toByteString().base64(),
                     androidId = androidIdProvider.getAndroidId()
                 )
             )
@@ -146,7 +148,15 @@ class SrsSubmissionRepository @Inject constructor(
     } catch (e: Exception) {
         Timber.d(e, "attest() failed -> map to SRS error")
         throw when (e) {
-            is SafetyNetException -> SrsSubmissionException(errorCode = e.type.toSrsErrorType(), cause = e)
+            is SafetyNetException -> {
+                val errorCode = e.type.toSrsErrorType()
+                SrsSubmissionException(
+                    errorCode = errorCode,
+                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission),
+                    cause = e
+                )
+            }
+
             else -> e
         }
     }
