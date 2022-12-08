@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
@@ -52,6 +53,7 @@ interface CoronaTestUiState {
 
     // Tells if the test was just scanned in the App
     // or test result has been changed to (NEGATIVE, POSITIVE, INVALID)
+    @get:JsonIgnore
     val hasBadge: Boolean get() = !didShowBadge || hasResultChangeBadge
 }
 

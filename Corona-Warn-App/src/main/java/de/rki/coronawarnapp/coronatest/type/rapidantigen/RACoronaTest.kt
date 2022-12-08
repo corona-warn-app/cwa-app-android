@@ -92,7 +92,7 @@ data class RACoronaTest(
     @JsonProperty("recycledAt")
     override var recycledAt: Instant? = null,
 ) : PersonalCoronaTest {
-
+    @get:JsonIgnore
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
@@ -113,25 +113,25 @@ data class RACoronaTest(
             else -> throw IllegalArgumentException("Invalid RAT test state $testResult")
         }
     }
-
+    @get:JsonIgnore
     val testTakenAt: Instant
         get() = sampleCollectedAt ?: testedAt
-
+    @get:JsonIgnore
     override val isRedeemed: Boolean
         get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
-
+    @get:JsonIgnore
     override val isPositive: Boolean
         get() = testResult == RAT_POSITIVE
-
+    @get:JsonIgnore
     override val isNegative: Boolean
         get() = testResult == RAT_NEGATIVE
-
+    @get:JsonIgnore
     override val isPending: Boolean
         get() = setOf(PCR_OR_RAT_PENDING, RAT_PENDING).contains(testResult)
-
+    @get:JsonIgnore
     override val isInvalid: Boolean
         get() = testResult == RAT_INVALID
-
+    @get:JsonIgnore
     override val isSubmissionAllowed: Boolean
         get() = isPositive && !isSubmitted
 

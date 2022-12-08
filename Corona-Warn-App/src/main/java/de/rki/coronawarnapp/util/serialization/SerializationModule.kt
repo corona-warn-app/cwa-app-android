@@ -58,9 +58,7 @@ class SerializationModule {
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            }
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .setSerializationInclusion(JsonInclude.Include.NON_DEFAULT)
+            }.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         }
 
         val baseGson: Gson by lazy {
