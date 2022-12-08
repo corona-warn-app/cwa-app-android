@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.MissingNode
+import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -124,6 +125,7 @@ class DccV1Parser @Inject constructor(
             is ObjectNode -> {
                 fields().asSequence().fold(JsonNodeFactory.instance.objectNode()) { acc, (key, jsonNode) ->
                     when (jsonNode) {
+                        is NullNode -> acc
                         is MissingNode -> acc
                         else -> acc.apply { set<JsonNode>(key, jsonNode.filterExceptions()) }
                     }
@@ -132,6 +134,7 @@ class DccV1Parser @Inject constructor(
             is ArrayNode -> {
                 fold(JsonNodeFactory.instance.arrayNode()) { acc, jsonNode ->
                     when (jsonNode) {
+                        is NullNode -> acc
                         is MissingNode -> acc
                         else -> acc.apply { add(jsonNode.filterExceptions()) }
                     }
