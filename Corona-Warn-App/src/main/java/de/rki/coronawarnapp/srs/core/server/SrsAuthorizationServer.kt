@@ -7,6 +7,7 @@ import javax.inject.Inject
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfig
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
@@ -113,12 +114,15 @@ class SrsAuthorizationServer @Inject constructor(
         }
         val bodyResponse = api.authenticate(headers, srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
+        val serverErrorCode = bodyResponse.errorBody()?.charStream()?.use {
+            mapper.readValue<SrsAuthorizationResponse>(it)
+        }?.errorCode
         return when {
-            response?.errorCode != null -> {
-                val errorCode = ErrorCode.fromAuthErrorCode(response.errorCode)
+            serverErrorCode != null -> {
+                val errorCode = ErrorCode.fromAuthErrorCode(serverErrorCode)
                 throw SrsSubmissionException(
                     errorCode = errorCode,
-                    errorArgs = errorArgs(errorCode)
+                    errorArgs = errorCode.errorArgs(appConfigProvider.getAppConfig().selfReportSubmission)
                 )
             }
 
@@ -134,33 +138,27 @@ class SrsAuthorizationServer @Inject constructor(
         }
     }
 
-    private suspend fun errorArgs(errorCode: ErrorCode): Array<Any> = when (errorCode) {
-        ErrorCode.SUBMISSION_TOO_EARLY -> arrayOf(
-            appConfigProvider
-                .currentConfig
-                .first()
-                .selfReportSubmission
-                .common
-                .timeBetweenSubmissionsInDays
-                .toDays()
-        )
-
-        ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
-        ErrorCode.MIN_TIME_SINCE_ONBOARDING -> {
-            val hours = appConfigProvider
-                .currentConfig
-                .first()
-                .selfReportSubmission
-                .common
-                .timeSinceOnboardingInHours
-                .toHours()
-            arrayOf(hours, hours)
-        }
-
-        else -> emptyArray()
-    }
-
     companion object {
         val TAG = tag<SrsAuthorizationServer>()
     }
+}
+
+fun ErrorCode.errorArgs(selfReportSubmission: SelfReportSubmissionConfig): Array<Any> = when (this) {
+    ErrorCode.SUBMISSION_TOO_EARLY -> arrayOf(
+        selfReportSubmission
+            .common
+            .timeBetweenSubmissionsInDays
+            .toDays()
+    )
+
+    ErrorCode.TIME_SINCE_ONBOARDING_UNVERIFIED,
+    ErrorCode.MIN_TIME_SINCE_ONBOARDING -> {
+        val hours = selfReportSubmission
+            .common
+            .timeSinceOnboardingInHours
+            .toHours()
+        arrayOf(hours, hours)
+    }
+
+    else -> emptyArray()
 }
