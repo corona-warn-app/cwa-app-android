@@ -67,9 +67,9 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1.604381716E9,
-                "localOffset": 3600.0,
-                "cacheValidity": 123.0
+                "serverTime": 1604381716000,
+                "localOffset": 3600000,
+                "cacheValidity": 123000
             }
         """.toComparableJsonPretty1()
 
@@ -84,9 +84,9 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1.604381716E9,
-                "localOffset": 3600.0,
-                "cacheValidity": 123.0
+                "serverTime": 1604381716000,
+                "localOffset": 3600000,
+                "cacheValidity": 123000
             }
             """.trimIndent()
         )
@@ -112,9 +112,9 @@ class AppConfigStorageTest : BaseIOTest() {
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
-                "serverTime": 1.604381716E9,
-                "localOffset": 3600.0,
-                "cacheValidity": 123.0
+                "serverTime": 1604381716000,
+                "localOffset": 3600000,
+                "cacheValidity": 123000
             }
         """.toComparableJsonPretty1()
 
