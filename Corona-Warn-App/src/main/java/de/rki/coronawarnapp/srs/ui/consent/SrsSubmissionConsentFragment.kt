@@ -77,7 +77,8 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
             when (it) {
                 SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy ->
                     findNavController().navigate(
-                        SrsSubmissionConsentFragmentDirections.actionSrsSubmissionConsentFragmentToSrsConsentDetailFragment()
+                        SrsSubmissionConsentFragmentDirections
+                            .actionSrsSubmissionConsentFragmentToSrsConsentDetailFragment()
                     )
 
                 SrsSubmissionConsentNavigationEvents.NavigateToMainScreen ->
