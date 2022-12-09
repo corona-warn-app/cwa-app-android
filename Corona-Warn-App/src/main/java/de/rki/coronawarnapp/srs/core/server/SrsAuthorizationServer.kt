@@ -114,15 +114,13 @@ class SrsAuthorizationServer @Inject constructor(
         }
         val bodyResponse = api.authenticate(headers, srsOtpRequest)
         val response = bodyResponse.body()?.charStream()?.use { mapper.readValue<SrsAuthorizationResponse>(it) }
-        val serverErrorCode = bodyResponse.errorBody()?.charStream()?.use {
-            mapper.readValue<SrsAuthorizationResponse>(it)
-        }?.errorCode
+        val serverErrorCode = getServerErrorCode(bodyResponse)
         return when {
             serverErrorCode != null -> {
                 val errorCode = ErrorCode.fromAuthErrorCode(serverErrorCode)
                 throw SrsSubmissionException(
                     errorCode = errorCode,
-                    errorArgs = errorCode.errorArgs(appConfigProvider.getAppConfig().selfReportSubmission)
+                    errorArgs = errorCode.errorArgs(appConfigProvider.currentConfig.first().selfReportSubmission)
                 )
             }
 
@@ -137,6 +135,14 @@ class SrsAuthorizationServer @Inject constructor(
             }
         }
     }
+
+    private fun getServerErrorCode(bodyResponse: Response<ResponseBody>): String? = runCatching {
+        bodyResponse.errorBody()?.charStream()?.use {
+            mapper.readValue<SrsAuthorizationResponse>(it)
+        }?.errorCode
+    }.onFailure {
+        Timber.d(it, "getServerErrorCode()")
+    }.getOrNull()
 
     companion object {
         val TAG = tag<SrsAuthorizationServer>()
