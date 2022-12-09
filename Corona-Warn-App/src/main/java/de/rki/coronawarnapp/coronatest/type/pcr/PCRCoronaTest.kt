@@ -54,7 +54,7 @@ data class PCRCoronaTest(
     @JsonIgnore override val lastError: Throwable? = null,
 
     @JsonProperty("isDccSupportedByPoc")
-    private val _isDccSupportedByPoc: Boolean? = true,
+    override val isDccSupportedByPoc: Boolean = true,
     @JsonProperty("isDccConsentGiven")
     override val isDccConsentGiven: Boolean = false,
 
@@ -91,11 +91,6 @@ data class PCRCoronaTest(
     @get:JsonIgnore
     override val isSubmissionAllowed: Boolean
         get() = isPositive && !isSubmitted
-
-    // Set to true for old records
-    @get:JsonIgnore
-    override val isDccSupportedByPoc: Boolean
-        get() = _isDccSupportedByPoc ?: true
 
     @get:JsonIgnore
     val state: State

@@ -30,11 +30,11 @@ class UploadHistorySerializerTest : BaseTest() {
           "logs": [
             {
               "id": "id1",
-              "uploadedAt": 1612191600.000000000
+              "uploadedAt": 1612191600000
             },
             {
               "id": "id2",
-              "uploadedAt": 1612278000.000000000
+              "uploadedAt": 1612278000000
             }
           ]
         }

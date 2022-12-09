@@ -93,7 +93,7 @@ class PCRTestProcessor @Inject constructor(
             registrationToken = registrationData.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
-            _isDccSupportedByPoc = request.isDccSupportedByPoc,
+            isDccSupportedByPoc = request.isDccSupportedByPoc,
             isDccConsentGiven = request.isDccConsentGiven,
             labId = registrationData.testResultResponse.labId,
             qrCodeHash = request.rawQrCode.toSHA256()
@@ -176,7 +176,7 @@ class PCRTestProcessor @Inject constructor(
             registrationToken = response.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
-            _isDccSupportedByPoc = true,
+            isDccSupportedByPoc = true,
             isDccConsentGiven = request.isDccConsentGiven,
             labId = response.testResultResponse.labId,
             qrCodeHash = qrCodeHash
