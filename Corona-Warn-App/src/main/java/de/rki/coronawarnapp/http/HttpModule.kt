@@ -29,7 +29,7 @@ class HttpModule {
         val interceptors: List<Interceptor> = listOf(
             WebSecurityVerificationInterceptor(),
             HttpLoggingInterceptor { message -> Timber.tag("OkHttp").v(message) }.apply {
-                if (BuildConfig.DEBUG) setLevel(HttpLoggingInterceptor.Level.BODY)
+                setLevel(HttpLoggingInterceptor.Level.BODY)
             },
             RetryInterceptor(),
             HttpErrorParser()
