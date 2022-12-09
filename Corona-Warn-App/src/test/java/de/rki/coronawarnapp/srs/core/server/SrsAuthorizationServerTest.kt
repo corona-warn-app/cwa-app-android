@@ -228,7 +228,8 @@ internal class SrsAuthorizationServerTest : BaseTest() {
             // iOS error that does not map to Android Error :D
             "API_TOKEN_ALREADY_ISSUED" to ErrorCode.SRS_OTP_SERVER_ERROR,
         ).forEach { (serverErrorCode, errorCode) ->
-            coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.success(
+            coEvery { srsAuthorizationApi.authenticate(any(), any()) } returns Response.error(
+                400,
                 """
                   {
                      "errorCode": "$serverErrorCode"
