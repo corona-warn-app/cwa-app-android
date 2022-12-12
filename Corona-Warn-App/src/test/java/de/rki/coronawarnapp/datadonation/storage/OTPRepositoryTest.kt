@@ -49,7 +49,8 @@ class OTPRepositoryTest : BaseTest() {
         val settings = SurveySettings(dataStore, objectMapper)
         settings.oneTimePassword.first() shouldBe null
         val generated = OTPRepository(settings).generateOTP()
-        generated shouldBe settings.oneTimePassword.first()
+        generated.uuid shouldBe settings.oneTimePassword.first()!!.uuid
+        generated.time.epochSecond shouldBe settings.oneTimePassword.first()!!.time.epochSecond
     }
 
     @Test
