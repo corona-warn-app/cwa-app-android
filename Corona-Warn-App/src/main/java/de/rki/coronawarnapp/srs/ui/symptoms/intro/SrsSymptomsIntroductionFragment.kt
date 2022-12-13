@@ -57,7 +57,10 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
             updateButtons(it)
         }
 
-        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) { binding.symptomButtonNext.isLoading = it }
+        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) {
+            binding.symptomButtonNext.isLoading = it.first
+            if (!it.first) updateButtons(it.second)
+        }
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
