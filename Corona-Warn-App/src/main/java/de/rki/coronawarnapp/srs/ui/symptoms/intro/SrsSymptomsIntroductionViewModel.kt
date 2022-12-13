@@ -78,6 +78,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
+            Timber.e(e, "submitSrs()")
             when (e) {
                 is SrsSubmissionTruncatedException -> events.postValue(
                     SrsSymptomsIntroductionNavigation.TruncatedSubmission(e.message)
