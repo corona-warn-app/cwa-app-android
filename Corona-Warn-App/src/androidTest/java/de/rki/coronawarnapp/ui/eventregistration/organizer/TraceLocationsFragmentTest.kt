@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.ui.presencetracing.organizer.list.TraceLocationsFragment
@@ -35,6 +36,7 @@ class TraceLocationsFragmentTest : BaseUITest() {
 
     @MockK private lateinit var checkInsRepository: CheckInRepository
     @MockK private lateinit var traceLocationRepository: TraceLocationRepository
+    @MockK lateinit var traceLocationSettings: TraceLocationSettings
 
     private val timeZone = TimeZone.getTimeZone("Europe/Berlin")
 
@@ -44,6 +46,8 @@ class TraceLocationsFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { checkInsRepository.allCheckIns } returns flowOf(listOf())
+        every { traceLocationSettings.onboardingStatus } returns
+            flowOf(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
 
         setupMockViewModel(
             object : TraceLocationsViewModel.Factory {
@@ -94,10 +98,11 @@ class TraceLocationsFragmentTest : BaseUITest() {
     }
 
     private fun createViewModel() = TraceLocationsViewModel(
+        appScope = TestScope(),
+        dispatcherProvider = TestDispatcherProvider(),
         checkInsRepository = checkInsRepository,
         traceLocationRepository = traceLocationRepository,
-        dispatcherProvider = TestDispatcherProvider(),
-        appScope = TestScope()
+        settings = traceLocationSettings
     )
 }
 

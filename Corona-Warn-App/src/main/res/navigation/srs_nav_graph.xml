@@ -24,6 +24,9 @@
             android:id="@+id/action_srsSubmissionConsentFragment_to_srsSymptomsFragment"
             app:destination="@id/srsSymptomsIntroductionFragment" />
         <action
+            android:id="@+id/action_srsSubmissionConsentFragment_to_srsConsentDetailFragment"
+            app:destination="@id/srsConsentDetailFragment" />
+        <action
             android:id="@+id/action_srsSubmissionConsentFragment_to_mainFragment"
             app:destination="@id/status_nav_graph"
             app:popUpTo="@id/nav_graph"
@@ -140,4 +143,10 @@
             android:name="submissionType"
             app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
     </fragment>
+    <fragment
+        android:id="@+id/srsConsentDetailFragment"
+        android:name="de.rki.coronawarnapp.srs.ui.consent.SrsConsentDetailFragment"
+        android:label="SrsConsentDetailFragment"
+        tools:layout="@layout/fragment_submission_done" />
+
 </navigation>
