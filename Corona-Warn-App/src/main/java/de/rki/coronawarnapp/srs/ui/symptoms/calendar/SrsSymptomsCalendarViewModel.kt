@@ -70,6 +70,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
+            Timber.e(e, "submitSrs()")
             when (e) {
                 is SrsSubmissionTruncatedException -> events.postValue(
                     SrsSymptomsCalendarNavigation.TruncatedSubmission(e.message)
