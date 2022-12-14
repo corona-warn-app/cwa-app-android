@@ -117,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"Geçmiş %d gün içinde zaten pozitif bir test sonucu bildirdiğiniz için şu anda diğer kullanıcıları uyaramazsınız. Bunun amacı, uyarı özelliğinin kötüye kullanımını önlemektir. Resmi bir test kaydedip bu testi, dilediğiniz zaman diğer kullanıcıları uyarmak için kullanabilirsiniz."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"Güvenlik nedenleriyle uygulamayı yüklemenizin üzerinden %d geçene kadar bu türde uyarı gönderemezsiniz. Lütfen %d saat içinde yeniden deneyin."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"Güvenlik nedenleriyle uygulamayı yüklemenizin veya güncellemenizin üzerinden %d saat geçene kadar bu türde uyarı gönderemezsiniz. Lütfen %d saat içinde yeniden deneyin."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"Bir hata oluştu. Lütfen yeniden uyarı göndermeyi deneyin."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
