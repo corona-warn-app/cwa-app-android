@@ -36,6 +36,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.runs
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -97,6 +98,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { tekStorage.reset() } just Runs
         coEvery { deviceAttestation.attest(any()) } returns attestationContainer
         coEvery { srsSubmissionSettings.getOtp() } returns null
+        coEvery { srsSubmissionSettings.resetOtp() } just Runs
         coEvery { srsSubmissionSettings.setOtp(any()) } just Runs
         coEvery { srsSubmissionSettings.setMostRecentSubmissionTime(any()) } just Runs
         coEvery { appConfigProvider.getAppConfig() } returns configData
@@ -126,6 +128,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
+            srsSubmissionSettings.resetOtp()
         }
 
         coVerify(exactly = 0) {
@@ -156,6 +159,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
+            srsSubmissionSettings.resetOtp()
         }
 
         coVerify(exactly = 0) {
@@ -181,6 +185,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
+            srsSubmissionSettings.resetOtp()
         }
 
         coVerify(exactly = 0) {
