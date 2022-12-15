@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -23,6 +24,7 @@ import javax.inject.Inject
 class SrsSubmissionServer @Inject constructor(
     srsSubmissionApi: Lazy<SrsSubmissionApi>,
     private val paddingTool: PaddingTool,
+    private val srsSubmissionSettings: SrsSubmissionSettings,
     private val appConfigProvider: AppConfigProvider,
     private val dispatcherProvider: DispatcherProvider
 ) {
@@ -82,6 +84,7 @@ class SrsSubmissionServer @Inject constructor(
             if (truncatedHeaderException != null) {
                 throw SrsSubmissionTruncatedException(truncatedHeaderException)
             }
+            srsSubmissionSettings.resetOtp()
             Timber.i("SRS submission is successful!")
             return
         }
