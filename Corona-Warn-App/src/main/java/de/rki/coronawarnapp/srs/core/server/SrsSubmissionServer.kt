@@ -84,7 +84,6 @@ class SrsSubmissionServer @Inject constructor(
             if (truncatedHeaderException != null) {
                 throw SrsSubmissionTruncatedException(truncatedHeaderException)
             }
-            srsSubmissionSettings.resetOtp()
             Timber.i("SRS submission is successful!")
             return
         }

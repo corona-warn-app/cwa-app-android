@@ -123,6 +123,8 @@ class SrsSubmissionRepository @Inject constructor(
         checkInsRepo.updatePostSubmissionFlags(checkIns)
 
         submissionReporter.reportAt(timeStamper.nowUTC)
+
+        srsSubmissionSettings.resetOtp()
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
