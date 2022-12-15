@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Change of Your Risk Status"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been ranked as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
+    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been classified as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 

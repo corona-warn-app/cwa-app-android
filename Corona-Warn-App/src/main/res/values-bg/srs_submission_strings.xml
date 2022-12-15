@@ -117,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"В момента не може да предупредите другите потребители, защото вече сте регистрирали положителен резултат от тест в приложението  през последните %d дни. Това е с цел да се предотврати злоупотреба с тази функция. \nМоже да регистрирате официален тест и да го използвате, за да предупредите другите потребители по всяко време."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"От съображения за сигурност не може да изпращате този вид предупреждение до %d след като сте инсталирали или актуализирали приложението. Моля, опитайте пак след %d часа."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"От съображения за сигурност не може да изпращате този вид предупреждение до %d часа след като сте инсталирали или актуализирали приложението. Моля, опитайте пак след %d часа."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"Възникна грешка. Моля, опитайте да изпратите предупреждението отново."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

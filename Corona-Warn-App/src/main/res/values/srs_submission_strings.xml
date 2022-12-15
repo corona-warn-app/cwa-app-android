@@ -117,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"You cannot warn others right now because you already reported a positive test result within the last %d days. This is intended to prevent misuse of the warn feature. You can register an official test and use it to warn others at any time."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"For security reasons, you cannot send this type of warning until %d after you install or update the app. Please try again in %d hours."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"For security reasons, you cannot send this type of warning until %d hours after you install or update the app. Please try again in %d hours."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"An error occurred. Please try to send the warning again."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

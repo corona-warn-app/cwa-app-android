@@ -12,7 +12,7 @@ import retrofit2.http.POST
 interface SrsSubmissionApi {
     @Throws(CwaWebException::class)
     @POST("version/v1/diagnosis-keys")
-    @Headers("Content-Type: application/x-protobuf")
+    @Headers("Content-Type: application/x-protobuf", "cwa-fake: 0")
     suspend fun submitPayload(
         @Header("cwa-otp") otp: String,
         @Body requestBody: SubmissionPayloadOuterClass.SubmissionPayload

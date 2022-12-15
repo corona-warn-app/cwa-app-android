@@ -117,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"În acest moment nu-i puteți avertiza pe ceilalți, deoarece ați raportat deja un rezultat de test pozitiv în ultimele %d de zile. Această funcție este destinată prevenirii utilizării greșite a caracteristicii de avertizare. Puteți înregistra un test oficial și îl puteți utiliza pentru a-i avertiza pe ceilalți oricând."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"Din motive de securitate, nu puteți trimite acest tip de avertizare până la %d, după ce instalați sau actualizați aplicația. Încercați din nou în %d ore."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"Din motive de securitate, nu puteți trimite acest tip de avertizare până la %d (de) ore după ce instalați sau actualizați aplicația. Încercați din nou în %d (de) ore."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"A apărut o eroare. Încercați să trimiteți din nou avertizarea."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

@@ -92,11 +92,11 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
             srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
+            Timber.e(e, "submit()")
             when (e) {
                 is SrsSubmissionTruncatedException -> srsSubmissionResult.postValue(TruncatedSubmission(e.message))
                 else -> srsSubmissionResult.postValue(Error(e))
             }
-            Timber.e(e, "submit()")
         }
     }
 
