@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Change of Your Risk Status"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been ranked as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
+    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been classified as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -1432,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Pandemic Radar"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"from the Robert Koch Institute"</string>
+    <string name="pandemic_radar_card_subtitle">"From the German Federal Ministry of Health"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Explore additional pandemic-related statistics."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1521,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Pandemic Radar"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"A variety of statistics on the coronavirus pandemic, which is provided on a Robert Koch Institute website. Please note that any data used when opening the website will be deducted from your data plan and that the website is not designed to be barrier-free and is only available in German."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"The German Federal Ministry of Health provides a variety of statistics on the coronavirus pandemic. Please note that any data used when opening the website will be deducted from your data plan and that the website is not designed to be barrier-free. This page is available in English, German, Turkish, and Russian."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7-Day Average"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

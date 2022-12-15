@@ -64,11 +64,18 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                             .setPopUpTo(R.id.checkInOnboardingFragment, true)
                             .build()
                         findNavController().navigate(ConfirmCheckInFragment.uri(locationId), navOption)
+                    } else {
+                        findNavController().navigate(
+                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                                uri = args.uri,
+                                cleanHistory = true
+                            )
+                        )
                     }
                 }
 
                 CheckInOnboardingNavigation.SkipOnboardingInfo -> {
-                    if (args.uri == null) {
+                    if (args.showBottomNav || args.isOrganizerOnboarded) {
                         findNavController().navigate(
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
                                 args.uri,

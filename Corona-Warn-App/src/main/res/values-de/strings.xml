@@ -1034,7 +1034,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for test result  -->
     <string name="submission_test_result_headline">"Testergebnis"</string>
     <!-- XHED: Page subheadline for test result  -->
-    <string name="submission_test_result_subtitle">"Info zum Ablauf:"</string>
+    <string name="submission_test_result_subtitle">"Infos zum Ablauf:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt"</string>
     <!-- YTXT: Body text for for results next steps pcr -->
@@ -1284,7 +1284,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page title for contact page in submission flow -->
     <string name="submission_contact_title">"TAN für PCR-Test anfragen"</string>
     <!-- XHED: Page headline for contact page in submission flow -->
-    <string name="submission_contact_headline">"Info zum Ablauf:"</string>
+    <string name="submission_contact_headline">"Infos zum Ablauf:"</string>
     <!-- YTXT: Body text for contact page in submission flow-->
     <string name="submission_contact_body">"Bitte halten Sie zur TAN-Abfrage Ihren Befundbrief (sofern vorhanden) und Ihre Telefonnummer bereit.\n\nGehörlose, schwerhörige und spätertaubte Menschen können zur telefonischen Kontaktaufnahme die Tess-Relay-Dienste (Dolmetschen in Gebärdensprache und deutscher Schriftsprache) nutzen. Die Software können Sie im Google Play Store herunterladen."</string>
     <!-- XBUT: submission contact enter tan button -->
@@ -1435,7 +1435,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Pandemieradar"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"des Robert Koch-Instituts"</string>
+    <string name="pandemic_radar_card_subtitle">"des Bundesministeriums für Gesundheit"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Entdecken Sie weitere Statistiken zur Pandemie."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1524,7 +1524,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">Pandemieradar</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">Diverse Statistiken zur Corona-Pandemie, die auf einer Webseite des Robert Koch-Instituts bereitgestellt werden. Bitte beachten Sie, dass die anfallenden Daten auf Ihr Datenvolumen angerechnet werden, die Webseite nicht barrierefrei und nur in deutscher Sprache verfügbar ist.</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">Das Bundesministerium für Gesundheit stellt verschiedene Statistiken zur Corona-Pandemie bereit. Bitte beachten Sie, dass die anfallenden Daten auf Ihr Datenvolumen angerechnet werden und die Website nicht barrierefrei ist. Die Seite ist verfügbar in deutscher, englischer, türkischer und russischer Sprache.</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">7-Tage-Mittelwert</string>
     <!-- XTXT: Statistics screen seven day mean text -->

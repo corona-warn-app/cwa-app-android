@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/covid_certificates_graph"
-    app:startDestination="@id/personOverviewFragment">
+    app:startDestination="@id/covidCertificateOnboardingFragment">
     <fragment
         android:id="@+id/personOverviewFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragment"

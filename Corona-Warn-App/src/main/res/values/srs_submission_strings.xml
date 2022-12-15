@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Your consent is required before you can warn others."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"If you test positive for coronavirus, you can warn others through the app.\nTo send a warning after a positive self-test or with a test result that is not in the app, the authenticity of the app must be verified."</string>
+    <string name="srs_section_warn_consent_text">"If you test positive for coronavirus, you can warn others through the app.\nTo send a warning after a positive self-test or with a test result that is not in the app, the authenticity of the app must be verified automatically."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"This also ensures that repeated warnings are only possible after %d days have passed."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Warn Others"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"Cancel"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Note"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Due to the high number of warnings currently being sent via the app, only your contacts from the last %s days have been warned."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"You Cannot Warn Others"</string>
@@ -108,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"You cannot warn others right now because you already reported a positive test result within the last %d days. This is intended to prevent misuse of the warn feature. You can register an official test and use it to warn others at any time."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"For security reasons, you cannot send this type of warning until %d after you install or update the app. Please try again in %d hours."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"For security reasons, you cannot send this type of warning until %d hours after you install or update the app. Please try again in %d hours."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"An error occurred. Please try to send the warning again."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

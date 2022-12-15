@@ -36,7 +36,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">Bevor Sie andere warnen können, ist Ihr Einverständnis erforderlich.</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">Wenn Sie positiv getestet wurden, können Sie Ihre Mitmenschen über die App warnen.\nDie Warnung nach einem positiven Selbsttest oder mit einem Testergebnis, das nicht in der App vorliegt, erfordert die Prüfung der Echtheit der App.</string>
+    <string name="srs_section_warn_consent_text">Wenn Sie positiv getestet wurden, können Sie Ihre Mitmenschen über die App warnen.\nDie Warnung nach einem positiven Selbsttest oder mit einem Testergebnis, das nicht in der App vorliegt, erfordert die automatische Prüfung der Echtheit der App.</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">So kann zugleich sichergestellt werden, dass eine solche Warnung nur nach Ablauf von %d Tagen erneut möglich ist.</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -95,6 +95,15 @@
     <string name="srs_submission_warning_dialog_positive_button">Andere Warnen</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">Abbrechen</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">Hinweis</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">Aufgrund des aktuell erhöhten Aufkommens von Warnungen über die App wurden nur Kontakte der letzen %s Tage gewarnt.</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">Ok</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">Andere warnen nicht möglich</string>

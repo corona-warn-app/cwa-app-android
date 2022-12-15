@@ -156,7 +156,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, den Sie bei jeder teilnehmenden Teststelle vorlegen können.</string>
+    <string name="rat_profile_onboarding_title">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">Mit Ihrem eigenen Schnelltest-Profil müssen Sie Ihre persönlichen Daten nicht bei jedem neuen Schnelltest erneut ausfüllen.\nSie können mehrere Schnelltest-Profile erstellen, z.B. eins für Sie selbst und weitere für Ihre Familie.</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

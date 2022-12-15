@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Промяна на Вашия статус на риск"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
+    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е класифициран като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -1432,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Радар на пандемия"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"от института „Роберт Кох“"</string>
+    <string name="pandemic_radar_card_subtitle">"От Федералното министерство на здравеопазването"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Разгледайте допълнителни статистики свързани с пандемията."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1521,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Радар на пандемия"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Различни статистики относно  пандемията с коронавируса SARS-CoV-2, които могат да се намерят на уебсайта на института „Роберт Кох“. Моля, обърнете внимание, че всички мобилни данни използвани при отварянето на уебсайта на института ще бъдат приспаднати от Вашия мобилен план и, че уебсайтът не е проектиран да бъде с улеснена достъпност и е наличен само на немски език."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Федералното министерство на здравеопазването на Германия  предоставя различни статистики относно пандемията с коронавируса SARS-CoV-2. Моля, обърнете внимание, че всички мобилни данни използвани при отварянето на уебсайта на института ще бъдат приспаднати от Вашия мобилен план и, че уебсайтът не е проектиран да бъде с улеснена достъпност. Тази страница е налична на английски, немски, турски и руски език."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Средно за последните 7 дни"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

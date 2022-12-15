@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Do ostrzegania innych potrzebna jest Twoja zgoda."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"Jeśli Twój wynik testu na obecność koronawirusa był pozytywny, możesz ostrzec innych poprzez aplikację.\nW celu wysłania ostrzeżenia po pozytywnym wyniku samodzielnie wykonanego testu lub z wynikiem testu nieobecnym w aplikacji niezbędna jest weryfikacja autentyczności aplikacji."</string>
+    <string name="srs_section_warn_consent_text">"Jeśli Twój wynik testu na obecność koronawirusa był pozytywny, możesz ostrzec innych poprzez aplikację.\nW celu wysłania ostrzeżenia po pozytywnym wyniku samodzielnie wykonanego testu lub w przypadku wyniku testu nieobecnego w aplikacji niezbędna jest automatyczna weryfikacja autentyczności aplikacji."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"Weryfikacja zapewnia również, że powtórne wysyłanie ostrzeżeń jest możliwe dopiero po upływie %d dni."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Ostrzegaj innych"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"Anuluj"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Uwaga"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Ze względu na dużą liczbę ostrzeżeń wysyłanych obecnie za pośrednictwem aplikacji, ostrzeżono tylko osoby, z którymi miałeś(-aś) kontakt w ciągu ostatnich %s dni."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"Nie możesz ostrzec innych"</string>
@@ -108,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"W tej chwili nie możesz ostrzec innych, ponieważ w ciągu ostatnich %d dni został już zgłoszony przez Ciebie pozytywny wynik testu. Ma to na celu zabezpieczenie przed niewłaściwym użyciem funkcji ostrzegania.\nMożesz zarejestrować oficjalny test i użyć go do ostrzegania innych w dowolnym czasie."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"Ze względów bezpieczeństwa nie możesz wysłać tego typu ostrzeżenia do %d po instalacji lub aktualizacji aplikacji. Spróbuj ponownie za %d godz."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"Ze względów bezpieczeństwa nie możesz wysłać tego typu ostrzeżenia do %d godz. po instalacji lub aktualizacji aplikacji. Spróbuj ponownie za %d godz."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"Wystąpił błąd. Spróbuj wysłać ostrzeżenie ponownie."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

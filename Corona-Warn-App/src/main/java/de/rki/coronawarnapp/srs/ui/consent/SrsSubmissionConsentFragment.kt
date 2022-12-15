@@ -50,6 +50,10 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
             viewModel.submissionConsentAcceptButtonClicked()
         }
 
+        binding.srsSubmissionConsentCancelButton.setOnClickListener {
+            viewModel.onConsentCancel()
+        }
+
         with(binding) {
             viewModel.timeBetweenSubmissionsInDays.observe2(this@SrsSubmissionConsentFragment) {
                 srsSectionWarnInterval.text = getString(R.string.srs_section_warn_interval_text, it.toDays())
@@ -76,7 +80,10 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
         viewModel.event.observe2(this) {
             when (it) {
                 SrsSubmissionConsentNavigationEvents.NavigateToDataPrivacy ->
-                    findNavController().navigate(R.id.surveyConsentDetailFragment)
+                    findNavController().navigate(
+                        SrsSubmissionConsentFragmentDirections
+                            .actionSrsSubmissionConsentFragmentToSrsConsentDetailFragment()
+                    )
 
                 SrsSubmissionConsentNavigationEvents.NavigateToMainScreen ->
                     findNavController().navigate(

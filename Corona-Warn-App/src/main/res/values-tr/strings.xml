@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak sınıflandırıldı.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
@@ -1432,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Pandemi Radarı"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"Robert Koch Institute tarafından sunulur"</string>
+    <string name="pandemic_radar_card_subtitle">"Almanya Federal Sağlık Bakanlığı tarafından sunulur"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Pandemi ile ilgili ilave istatistikleri keşfedin."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1521,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Pandemi Radarı"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Robert Koch Institute web sitesinde sunulan çeşitli koronavirüs pandemisi istatistikleri. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini, web sitesinin engellilere uygun şekilde tasarlanmadığını ve yalnızca Almanca dilinde kullanılabildiğini unutmayın."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Almanya Federal Sağlık Bakanlığı, koronavirüs pandemisine ilişkin çeşitli istatistikler sağlar. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini ve web sitesinin engellilere uygun şekilde tasarlanmadığını unutmayın. Bu sayfa İngilizce, Almanca, Türkçe ve Rusça dilinde kullanılabilir."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7 Günlük Ortalama"</string>
     <!-- XTXT: Statistics screen seven day mean text -->

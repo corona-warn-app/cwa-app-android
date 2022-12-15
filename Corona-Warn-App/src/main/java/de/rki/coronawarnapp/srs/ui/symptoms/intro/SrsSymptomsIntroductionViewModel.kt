@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -26,7 +27,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<SrsSymptomsIntroductionNavigation>()
-    val showLoadingIndicator = SingleLiveEvent<Boolean>()
+    val showLoadingIndicator = SingleLiveEvent<Pair<Boolean, Symptoms.Indication?>>()
 
     private val symptomIndicationInternal = MutableStateFlow<Symptoms.Indication?>(null)
     val symptomIndication = symptomIndicationInternal.asLiveData(context = dispatcherProvider.Default)
@@ -48,7 +49,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     }
 
     fun onWarningClicked() {
-        showLoadingIndicator.postValue(true)
+        showLoadingIndicator.postValue(Pair(true, symptomIndicationInternal.value))
         when (symptomIndicationInternal.value) {
             Symptoms.Indication.NEGATIVE -> {
                 submitSRS(Symptoms.Indication.NEGATIVE)
@@ -77,9 +78,16 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
             )
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
-            events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+            Timber.e(e, "submitSrs()")
+            when (e) {
+                is SrsSubmissionTruncatedException -> events.postValue(
+                    SrsSymptomsIntroductionNavigation.TruncatedSubmission(e.message)
+                )
+
+                else -> events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
+            }
         } finally {
-            showLoadingIndicator.postValue(false)
+            showLoadingIndicator.postValue(Pair(false, symptomsIndication))
         }
     }
 
@@ -95,6 +103,9 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     }
 
     fun goHome() = events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
+
+    fun onTruncatedDialogClick() =
+        events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
 
     private fun resetPreviousSubmissionConsents() = launch {
         try {

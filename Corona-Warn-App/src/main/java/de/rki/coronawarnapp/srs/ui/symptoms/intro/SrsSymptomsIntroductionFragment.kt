@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
+import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -56,7 +57,10 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
             updateButtons(it)
         }
 
-        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) { binding.symptomButtonNext.isLoading = it }
+        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) {
+            binding.symptomButtonNext.isLoading = it.first
+            if (!it.first) updateButtons(it.second)
+        }
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
@@ -82,6 +86,12 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
                             selectedCheckIns = it.selectedCheckins
                         )
                 )
+
+                is SrsSymptomsIntroductionNavigation.TruncatedSubmission -> {
+                    showTruncatedSubmissionDialog(it.numberOfDays) {
+                        viewModel.onTruncatedDialogClick()
+                    }
+                }
 
                 is SrsSymptomsIntroductionNavigation.Error -> displayDialog {
                     setError(it.cause)

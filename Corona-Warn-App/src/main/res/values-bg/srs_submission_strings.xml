@@ -35,7 +35,7 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">"Вашето съгласие е необходимо преди да може да изпратите предупреждение на другите."</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">"Ако имате положителен резултат от тест за коронавирус може да изпратите предупреждение на другите потребители чрез приложението.\nЗа да изпратите предупреждение след положителен резултат от самотестуване или нерегистриран тест трябва да се провери автентичността на приложението."</string>
+    <string name="srs_section_warn_consent_text">"Ако имате положителен резултат от тест за коронавирус може да изпратите предупреждение на другите потребители чрез приложението.\nЗа да изпратите предупреждение след положителен резултат от самотестуване или нерегистриран тест трябва автоматично да се провери автентичността на приложението."</string>
     <!-- XTXT: Submission consent section warn interval -->
     <string name="srs_section_warn_interval_text">"Това подсигурява, че повторно предупреждение е възможно само след като са минали %d дни."</string>
     <!-- XTXT: Submission consent first bulletpoint -->
@@ -94,6 +94,15 @@
     <string name="srs_submission_warning_dialog_positive_button">"Предупредете другите"</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">"Отказ"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Бележка"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Поради високия брой предупреждения изпращани от приложението в момента само контактите Ви от последните %s дни са били предупредени."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"ОК"</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">"Не може да предупреждавате другите"</string>
@@ -108,7 +117,7 @@
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
     <string name="srs_error_submission_too_early">"В момента не може да предупредите другите потребители, защото вече сте регистрирали положителен резултат от тест в приложението  през последните %d дни. Това е с цел да се предотврати злоупотреба с тази функция. \nМоже да регистрирате официален тест и да го използвате, за да предупредите другите потребители по всяко време."</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
-    <string name="srs_error_time_since_onboarding_unverified">"От съображения за сигурност не може да изпращате този вид предупреждение до %d след като сте инсталирали или актуализирали приложението. Моля, опитайте пак след %d часа."</string>
+    <string name="srs_error_time_since_onboarding_unverified">"От съображения за сигурност не може да изпращате този вид предупреждение до %d часа след като сте инсталирали или актуализирали приложението. Моля, опитайте пак след %d часа."</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
     <string name="srs_error_try_again_later">"Възникна грешка. Моля, опитайте да изпратите предупреждението отново."</string>
     <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->

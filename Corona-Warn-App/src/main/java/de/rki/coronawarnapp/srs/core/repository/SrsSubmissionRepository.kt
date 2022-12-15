@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.srs.core.repository
 
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
+import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
@@ -12,7 +13,7 @@ import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtp.SRSOneTimePassword
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.SrsOtpRequestAndroid.SRSOneTimePasswordRequestAndroid
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
@@ -23,6 +24,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
+import de.rki.coronawarnapp.srs.core.server.errorArgs
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
@@ -31,6 +33,7 @@ import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -58,14 +61,20 @@ class SrsSubmissionRepository @Inject constructor(
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
         var srsOtp = currentOtp(nowUtc).also { OtpCensor.otp = it }
-        val attestResult = attest(appConfig, srsOtp, srsDevSettings.checkLocalPrerequisites())
+        val androidId = androidIdProvider.getAndroidId()
+        val attestResult = attest(
+            appConfig = appConfig,
+            srsOtp = srsOtp,
+            androidId = androidId,
+            checkDeviceTime = srsDevSettings.checkLocalPrerequisites()
+        )
 
         if (srsOtp.isValid(nowUtc)) {
             Timber.d("Otp is still valid -> fakePlaybookAuthorization")
             playbook.fakeAuthorize(
                 SrsAuthorizationFakeRequest(
                     safetyNetJws = attestResult.report.jwsResult,
-                    salt = String(attestResult.ourSalt),
+                    salt = attestResult.ourSalt.toByteString().base64(),
                 )
             )
         } else {
@@ -74,8 +83,8 @@ class SrsSubmissionRepository @Inject constructor(
                 SrsAuthorizationRequest(
                     srsOtp = srsOtp,
                     safetyNetJws = attestResult.report.jwsResult,
-                    salt = String(attestResult.ourSalt),
-                    androidId = androidIdProvider.getAndroidId()
+                    salt = attestResult.ourSalt.toByteString().base64(),
+                    androidId = androidId
                 )
             )
             srsOtp = srsOtp.copy(expiresAt = expiresAt)
@@ -114,6 +123,8 @@ class SrsSubmissionRepository @Inject constructor(
         checkInsRepo.updatePostSubmissionFlags(checkIns)
 
         submissionReporter.reportAt(timeStamper.nowUTC)
+
+        srsSubmissionSettings.resetOtp()
         Timber.tag(TAG).d("SRS submission finished successfully!")
     }
 
@@ -133,12 +144,17 @@ class SrsSubmissionRepository @Inject constructor(
     internal suspend fun attest(
         appConfig: ConfigData,
         srsOtp: SrsOtp,
+        androidId: ByteString,
         checkDeviceTime: Boolean = true
     ): AttestationContainer = try {
         val attestRequest = SrsDeviceAttestationRequest(
             configData = appConfig,
             checkDeviceTime = checkDeviceTime,
-            scenarioPayload = SRSOneTimePassword.newBuilder().setOtp(srsOtp.uuid.toString()).build().toByteArray()
+            scenarioPayload = SRSOneTimePasswordRequestAndroid.SRSOneTimePassword.newBuilder()
+                .setOtp(srsOtp.uuid.toString())
+                .setAndroidId(androidId)
+                .build()
+                .toByteArray()
         )
         val attestResult = deviceAttestation.attest(attestRequest) as AttestationContainer
         attestResult.requirePass(appConfig.selfReportSubmission.ppac)
@@ -146,7 +162,15 @@ class SrsSubmissionRepository @Inject constructor(
     } catch (e: Exception) {
         Timber.d(e, "attest() failed -> map to SRS error")
         throw when (e) {
-            is SafetyNetException -> SrsSubmissionException(errorCode = e.type.toSrsErrorType(), cause = e)
+            is SafetyNetException -> {
+                val errorCode = e.type.toSrsErrorType()
+                SrsSubmissionException(
+                    errorCode = errorCode,
+                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission),
+                    cause = e
+                )
+            }
+
             else -> e
         }
     }

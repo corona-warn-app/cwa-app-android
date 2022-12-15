@@ -78,9 +78,9 @@
 </h2>
 <p>
     Using the app is voluntary. It is entirely up to you whether you install the app, which of the
-    app’s features you use, and whether you share data with others. As a matter of principle, all of
-    the app’s main features that require the transfer of your personal data to the RKI or to other
-    users will obtain your express consent in advance.
+    app’s features you use, and whether you share data with others. As a matter of principle, all
+    of the app’s main features that require the transfer of your personal data will obtain your
+    express consent in advance.
 </p>
 <p>
     In the context of the official digital COVID certificates (COVID test certificate, COVID
@@ -568,6 +568,9 @@
         the end (for example, because you did not wait for confirmation that your data had been
         successfully transmitted)
     </li>
+    <li>
+        The test type that was the basis for the warning
+    </li>
     <li>How many hours it took before you received your test result after registering your test</li>
     <li>How many days passed since the last notification of an elevated risk before the warning
         feature was used
@@ -578,16 +581,6 @@
     In addition, you can provide further optional information about your region and age group, which
     will be transmitted to the RKI together with the usage data.
 </p>
-<p>
-    The RKI will compile the usage data and any optional information into anonymised statistics and
-    analyse it to assess the effectiveness and functioning of the app, and draw conclusions
-    regarding the pandemic.
-</p>
-<p>
-    Participation in data sharing is voluntary. To enable the data sharing feature, the authenticity
-    of your app first needs to be confirmed (please note the further information about this under
-    Sections 5&nbsp;n. and 11).
-</p>
 <h3>
     m. Participation in a survey
 </h3>
@@ -597,14 +590,6 @@
     risk being displayed). By taking part in the survey, you will help the RKI to assess the
     effectiveness of the app, to improve the app and, for example, to understand whether and how
     warnings sent via the app help to prevent further infections.
-</p>
-<p>
-    Participation in the surveys is voluntary. You decide yourself whether you want to participate
-    in a survey and whether data should be transmitted to the RKI for this purpose. The surveys take
-    place on a website outside of the app, which you will be redirected to. To enable participation
-    in a survey, the authenticity of your app first needs to be confirmed (please note the further
-    information about this in Sections 5&nbsp;n. and 11).
-
 </p>
 <h3>
     n. Contents of the error reports
@@ -654,29 +639,20 @@
     technical support team, it may be possible to establish a link to you based on this further
     information.
 </p>
-<p>
-    Creating and sending an error report to the RKI is voluntary. You decide yourself whether you
-    want to record an error report and send it to the app’s technical support team. To send the
-    error report, the authenticity of your app first needs to be confirmed (please note the further
-    information about this in Sections 5 n. and 11).
-</p>
 <h3>
-    o. Confirmation of the authenticity of your app
+    o. Authentication by the operating system
 </h3>
 <p>
-    Before you can use some of the app’s features, the authenticity of your app first needs to be
-    checked and confirmed to the RKI. Specifically, this authentication serves to determine whether
-    you are using a manipulated or counterfeit (“fake”) version of the app. The authentication uses
-    a feature of your operating system. Your smartphone generates a unique identifier and sends it
-    to your operating system provider (if you use an Android smartphone, data is transmitted to
-    Google; if you use an iPhone, data is transmitted to Apple). The identifier contains information
-    about the version of your smartphone and the version of the app. It is possible for your
-    operating system provider to infer your identity from the identifier and learn that your
-    smartphone has been authenticated. Your operating system provider does not receive any other
-    information, such as exposure data, from the app. Your operating system provider will use the
-    identifier to confirm the authenticity of your app to the RKI. Using the feature for confirming
-    the authenticity of your app is voluntary. However, if you do not agree to having the
-    authenticity of your app confirmed, other features of the app may not be available to you.
+    Before you can use some of the app’s features, the authenticity of your app first needs to
+    be checked and confirmed to the RKI. Specifically, this authentication by the operating system
+    serves to determine whether you are using a manipulated or counterfeit (“fake”) version of the
+    app. Your smartphone generates a unique identifier and sends it to your operating system
+    provider (if you use an Android smartphone, data is transmitted to Google; if you use an
+    iPhone, data is transmitted to Apple). The identifier contains information about the version
+    of your smartphone and the version of the app. If this feature of the operating system is
+    available, your operating system provider can infer your identity from the identifier and
+    learn that the app has requested authentication. The RKI does not provide your operating
+    system provider with any information from the app, such as exposure data.
 </p>
 
 <h2>
@@ -754,9 +730,10 @@
 
 </h3>
 <p>
-    If you have taken a coronavirus test (PCR test or rapid antigen test), you can retrieve your
-    test result via the app. The app will notify you as soon as your test result is available. For
-    this to work, the testing facility (e.g. testing laboratory or testing point) needs to be
+    If you have taken a coronavirus test (PCR test or rapid antigen test) and registered this test
+    in the app using the QR code, you can retrieve your test result via the app.
+    The app will notify you as soon as your test result is available. For this to work, the testing
+    facility (e.g. testing laboratory or testing point) needs to be
     connected to the server system and, as part of the testing procedure, you must have given
     separate consent to your test result being sent. It is not possible to display test results from
     testing facilities that are not connected to the app’s server system. If you have not received a
@@ -921,8 +898,10 @@
 
 </p>
 <p>
-    In the event of a positive rapid antigen test result, you can only warn other people if you
-    retrieved the test result in the app.
+    You can also warn others if you have not retrieved the positive test result in the app, e.g.
+    because you did a self-test at home or because you did not receive a QR code from the testing
+    facility.<br>
+    To do this, select the procedure “Positive self-test?” or “Positive test and no result in the app?”.
 </p>
 
 <p>
@@ -1163,9 +1142,9 @@
     j. Data sharing
 </h3>
 <p>
-    Data sharing is an additional feature of the app. The usage data and other voluntary information
-    transmitted to the RKI by the data sharing feature are used to assess the effectiveness of the
-    app and enable the following improvements:
+    Data sharing is a voluntary additional feature of the app. The usage data and other voluntary
+    information transmitted to the RKI by the data sharing feature are used to assess the
+    effectiveness of the app and enable the following improvements:
 </p>
 <ul>
     <li>
@@ -1198,7 +1177,8 @@
 <p>
     The usage data and other voluntary information will be stored and analysed without any
     connection to your name or identity. This means the RKI will not find out who you are or who you
-    have met.
+    have met. To enable the data sharing feature, the authenticity of your app first needs to be
+    confirmed (please note the further information about this under Sections 5 n. and 11).
 
 </p>
 <h3>
@@ -1238,7 +1218,7 @@
 <p>
     The RKI strives to offer a bug-free app. However, due to the large number of different systems
     involved, this cannot always be guaranteed. To assist the app’s technical support team with
-    error analysis, you can send the error report that has been recorded in your app to the RKI. The
+    error analysis, you can send an error report that has been recorded in your app to the RKI. The
     RKI will analyse the error report in order to be able to identify and eliminate the cause of the
     errors that occur in your app.
 </p>
@@ -1248,13 +1228,22 @@
     have met. Please note that if you provide your error report ID to the technical support team
     (e.g. by email), this may reveal information about your identity.
 </p>
+<p>
+    Creating and sending an error report to the RKI is voluntary. You decide yourself whether you
+    want to record an error report and send it to the app’s technical support team. To send the
+    error report, the authenticity of your app first needs to be confirmed (please note the further
+    information about this under Sections 5 n. and 11).
+</p>
 <h3>
     m. Surveys
 </h3>
 <p>
-    The surveys take place on a website outside of the app, which you will be redirected to. The app
-    will not transmit any data to the RKI in connection with the surveys. The purposes of an RKI
-    survey are described in the information about the survey on the survey website.
+    Participation in surveys is voluntary. You decide yourself whether you want to participate in
+    a survey and whether data should be transmitted to the RKI for this purpose. The surveys take
+    place on a website outside of the app, which you will be redirected to. The purposes of an RKI
+    survey are described in the information about the survey on the survey website. To enable
+    participation in a survey, the authenticity of your app first needs to be confirmed (please
+    note the further information about this under Sections 5 n. and 11).
 
 </p>
 <h3>
@@ -1262,15 +1251,27 @@
 
 </h3>
 <p>
-    A feature of your smartphone’s operating system is used to confirm the authenticity of your app.
-    This ensures that only app users whose app is functioning properly can share their data or
-    participate in surveys. This prevents the statistics and survey results from being distorted.
+    A feature of your smartphone’s operating system is used to confirm the authenticity of your
+    app. This ensures that only app users whose app is functioning properly can share their data
+    or participate in surveys. This prevents the statistics and survey results from being distorted.
+    The authentication is also used in the context of sending error reports to ensure that only
+    records from a genuine app can be sent and to prevent misuse of this feature. In addition, the
+    authentication is also used in the event of a warning triggered using a positive test result
+    that was not retrieved in the app. Here, using the confirmation, it is ensured that such a
+    warning can only be triggered once in a three-month period. This serves to protect the
+    technical infrastructure and other users of the app from being flooded with fake warnings.
 </p>
 
 <p>
-    Please note that your operating system provider may be able to tell that your smartphone has
-    been authenticated and may therefore be able to infer your identity. However, your operating
-    system provider will not receive any further information about your use of the Corona-Warn-App.
+    Please note that your operating system provider can learn that your smartphone has performed
+    the authentication and can thereby infer your identity or the context of the check
+    (e.g. warning other users).<br>
+    Whatever the context, using the feature for confirming the authenticity of your app is
+    voluntary. If you do not agree to the confirmation of the authenticity of your app and the
+    possible transfer of data from your operating system to countries outside the EU, you will
+    not be able to participate in data sharing or surveys, or send error reports. However, you can
+    also warn other users without confirming the authenticity of your app, if you have an official
+    test carried out at a testing facility and use the QR code to register that test in the app.
 </p>
 <h3>
     o. Update feature for COVID certificates
@@ -1338,8 +1339,8 @@
     transmit their own positive lists to the exchange servers and receive the positive lists of the
     other countries. Transnational warnings can only be transmitted based on a positive PCR test and
     only based on encounters recorded in the COVID-19 exposure notification system. Event IDs and
-    random IDs based on positive rapid antigen tests are therefore not transmitted to the exchange
-    servers.
+    random IDs based on positive rapid antigen tests or test results that are not retrieved via
+    the app are therefore not transmitted to the exchange servers.
 </p>
 <p>
     Each server system merges the positive lists received in this way with its
@@ -1553,7 +1554,7 @@
     have sent to the technical support team will be deleted after 14 days at the latest.
 </p>
 <h3>
-    e. Confirmation of the authenticity of your app
+    e. Authentication by the operating system
 </h3>
 <p>
     The identifier generated by your smartphone to confirm the authenticity of your app will be
@@ -1632,8 +1633,13 @@
 <p>
     If you activate the warning feature based on a positive PCR test, your random IDs will also be
     transmitted to Switzerland to the exchange server that is operated by the RKI together with the
-    Federal Office of Public Health of the Swiss Confederation. In the event of a warning based on a
-    positive rapid antigen test, no such transmission of your data will take place.
+    Federal Office of Public Health of the Swiss Confederation. In the event of a warning based on
+    a positive rapid antigen test or test results that were not retrieved via the app, no such
+    transmission of your data will take place.<br>
+    The EU has issued an adequacy decision for Switzerland, which determines the adequacy of the
+    level of data protection in the country (Art. 45 GDPR). In addition, please note that users
+    can retrieve the latest positive lists regardless of where they are (even if they are abroad
+    on holiday or on a business trip, for example).
 </p>
 
 <p>
@@ -1645,9 +1651,8 @@
     not be considered equivalent under European law and it may not be possible to enforce your
     European data protection rights. In particular, there is a possibility that once the transmitted
     data reaches the operating system provider, it may be accessed and analysed by security
-    authorities in the third country, for example by linking the data with other information.
-    However, this only concerns the submitted identifier. It does not concern other information from
-    the app, such as exposure data.
+    authorities in the third country, for example by linking the data with other information from
+    other sources.
 </p>
 
 <p>
@@ -1774,8 +1779,9 @@
 <p>
     If you withdraw your consent to the confirmation of your app’s authenticity, this will not
     directly affect the related data processing. The transmission of the identifier generated by
-    your smartphone to the operating system provider, and the verification and confirmation of the
-    authenticity of your app, take place immediately after you have given your consent.
+    your smartphone to the provider of your smartphone’s operating system, and the verification
+    and confirmation of the authenticity of your app, take place immediately after you have given
+    your consent.
 
 </p>
 <h3>
@@ -1855,5 +1861,5 @@
     13353 Berlin, or by emailing <a href="mailto:datenschutz@rki.de">datenschutz@rki.de</a>.
 </p>
 <p>
-    Last amended: 26 October 2022
+    Last amended: 18 January 2023
 </p>
