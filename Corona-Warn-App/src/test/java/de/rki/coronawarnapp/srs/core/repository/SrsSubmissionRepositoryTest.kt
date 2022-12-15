@@ -232,7 +232,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `attest pass`() = runTest {
-        instance().attest(configData, srsOtp) shouldBe attestationContainer
+        instance().attest(configData, srsOtp, ByteString.EMPTY) shouldBe attestationContainer
     }
 
     @Test
@@ -241,7 +241,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.PLAY_SERVICES_VERSION_MISMATCH
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.PLAY_SERVICES_VERSION_MISMATCH
     }
 
@@ -251,7 +251,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.EVALUATION_TYPE_HARDWARE_BACKED_REQUIRED
     }
 
@@ -261,7 +261,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.EVALUATION_TYPE_BASIC_REQUIRED
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.EVALUATION_TYPE_BASIC_REQUIRED
     }
 
@@ -271,7 +271,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.APK_PACKAGE_NAME_MISMATCH
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.APK_PACKAGE_NAME_MISMATCH
     }
 
@@ -281,7 +281,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.ATTESTATION_FAILED
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.ATTESTATION_FAILED
     }
 
@@ -291,7 +291,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.INTERNAL_ERROR
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.ATTESTATION_FAILED
     }
 
@@ -301,7 +301,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
         )
         shouldThrow<SrsSubmissionException> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.errorCode shouldBe SrsSubmissionException.ErrorCode.ATTESTATION_REQUEST_FAILED
     }
 
@@ -309,7 +309,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     fun `attest - other error`() = runTest {
         coEvery { deviceAttestation.attest(any()) } throws Exception("Surprise!")
         shouldThrow<Exception> {
-            instance().attest(configData, srsOtp)
+            instance().attest(configData, srsOtp, ByteString.EMPTY)
         }.message shouldBe "Surprise!"
     }
 
