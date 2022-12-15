@@ -26,7 +26,7 @@
             android:id="@+id/content_scrollcontainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/guideline_action"
+            app:layout_constraintBottom_toTopOf="@id/srs_submission_consent_accept_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -174,18 +174,25 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/submission_accept_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/srs_submission_consent_cancel_button"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_action"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/srs_submission_consent_cancel_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
+            android:layout_marginBottom="16dp"
+            android:text="@string/generic_action_abort"
+            app:layout_constraintTop_toBottomOf="@+id/srs_submission_consent_accept_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <include layout="@layout/merge_guidelines_side" />
 
