@@ -1258,7 +1258,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Sind bei Ihnen in den letzten Tagen eines oder mehrere der folgenden Symptome aufgetreten?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen App-Nutzern genauer berechnet werden. Sie müssen keine Angabe machen, wählen Sie dazu „Keine Angabe“."</string>
+    <string name="submission_symptom_initial_explanation">"Wenn Sie angeben, ob und wann eventuelle Corona-Symptome bei Ihnen aufgetreten sind, kann das Infektionsrisiko von anderen Personen genauer berechnet werden. Die Angabe von Symptomen ist freiwillig. Wenn Sie keine Symptome mitteilen wollen, wählen Sie „Keine Angabe“.
+"</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Erhöhte Temperatur oder Fieber"</item>
@@ -1311,9 +1312,9 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Symptom-Beginn"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen aufgetreten? "</string>
+    <string name="submission_symptom_calendar_headline">"Wann sind die Symptome bei Ihnen zum ersten Mal aufgetreten? "</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Machen Sie Ihre Angaben so genau wie möglich."</string>
+    <string name="submission_symptom_calendar_body">"Bitte geben Sie das Datum so genau wie möglich an."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"In den letzten 7 Tagen"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
