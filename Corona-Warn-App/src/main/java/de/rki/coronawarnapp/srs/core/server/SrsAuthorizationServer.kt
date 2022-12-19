@@ -150,6 +150,7 @@ class SrsAuthorizationServer @Inject constructor(
 }
 
 fun ErrorCode.errorArgs(selfReportSubmission: SelfReportSubmissionConfig): Array<Any> = when (this) {
+    ErrorCode.DEVICE_QUOTA_EXCEEDED,
     ErrorCode.SUBMISSION_TOO_EARLY -> arrayOf(
         selfReportSubmission
             .common

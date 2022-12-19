@@ -50,6 +50,10 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
             viewModel.submissionConsentAcceptButtonClicked()
         }
 
+        binding.srsSubmissionConsentCancelButton.setOnClickListener {
+            viewModel.onConsentCancel()
+        }
+
         with(binding) {
             viewModel.timeBetweenSubmissionsInDays.observe2(this@SrsSubmissionConsentFragment) {
                 srsSectionWarnInterval.text = getString(R.string.srs_section_warn_interval_text, it.toDays())
