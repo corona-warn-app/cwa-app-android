@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarNavigation
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarViewModel
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
@@ -37,6 +38,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
     @MockK lateinit var submissionType: SrsSubmissionType
     @MockK lateinit var symptomsIndication: Symptoms.Indication
     @MockK lateinit var currentSymptoms: FlowPreference<Symptoms?>
+    @MockK lateinit var teksSharedViewModel: TeksSharedViewModel
     private val selectedCheckIns = longArrayOf()
 
     private val checkIn1 = CheckIn(
@@ -102,6 +104,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
+        coEvery { teksSharedViewModel.osTeks() } returns emptyList()
     }
 
     private fun createViewModel() = SrsSymptomsCalendarViewModel(
@@ -110,7 +113,8 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         submissionType = submissionType,
         selectedCheckIns = selectedCheckIns,
         checkInRepository = checkInRepository,
-        symptomsIndication = symptomsIndication
+        symptomsIndication = symptomsIndication,
+        teksSharedViewModel = teksSharedViewModel
     )
 
     @Test
@@ -133,7 +137,8 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
                 checkInRepository.updateSubmissionConsents(any(), true)
                 srsSubmissionRepository.submit(
                     submissionType,
-                    Symptoms(Symptoms.StartOf.LastSevenDays, symptomsIndication)
+                    Symptoms(Symptoms.StartOf.LastSevenDays, symptomsIndication),
+                    emptyList()
                 )
             }
         }
