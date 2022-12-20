@@ -163,6 +163,17 @@
                 app:layout_constraintTop_toBottomOf="@id/tek_history_description" />
 
             <Button
+                android:id="@+id/tek_clear_cache"
+                style="@style/buttonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Clear TEK cache"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tek_retrieval" />
+
+            <Button
                 android:id="@+id/tek_email"
                 style="@style/buttonPrimary"
                 android:layout_width="0dp"
@@ -170,7 +181,7 @@
                 android:text="Email TEKs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tek_retrieval" />
+                app:layout_constraintTop_toBottomOf="@id/tek_clear_cache" />
 
             <TextView
                 android:id="@+id/tek_storage_count"
