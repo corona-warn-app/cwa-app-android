@@ -88,6 +88,17 @@ class TEKHistoryUpdater @AssistedInject constructor(
         }
     }
 
+    fun getTeksOrRequestPermissionFromOS() {
+        scope.launch {
+            if (!enfClient.isTracingEnabled.first()) {
+                Timber.tag(TAG).w("Tracing is disabled, enabling...")
+                tracingPermissionHelper.startTracing()
+            } else {
+                getTekHistoryOrRequestPermission(updateCache = false)
+            }
+        }
+    }
+
     private suspend fun getTekHistoryOrRequestPermission(updateCache: Boolean) {
         enfClient.getTEKHistoryOrRequestPermission(
             onTEKHistoryAvailable = {
