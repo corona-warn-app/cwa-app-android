@@ -105,7 +105,12 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         showKeysRetrievalProgress.value = true
-        tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
+        tekHistoryUpdater.handleActivityResult(
+            requestCode = requestCode,
+            resultCode = resultCode,
+            data = data,
+            updateCache = false
+        )
     }
 
     fun onConsentCancel() {
