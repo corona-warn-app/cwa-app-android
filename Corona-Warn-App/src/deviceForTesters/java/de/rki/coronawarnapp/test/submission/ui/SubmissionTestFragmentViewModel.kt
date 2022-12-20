@@ -145,6 +145,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    fun clearTekCache() = launch {
+        tekHistoryUpdater.clearTekCache()
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTestFragmentViewModel>
 }

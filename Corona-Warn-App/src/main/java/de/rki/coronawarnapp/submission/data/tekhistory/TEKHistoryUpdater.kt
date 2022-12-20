@@ -52,6 +52,10 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
+    suspend fun clearTekCache() {
+        tekCache.reset()
+    }
+
     fun getTeksForTesting() {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
