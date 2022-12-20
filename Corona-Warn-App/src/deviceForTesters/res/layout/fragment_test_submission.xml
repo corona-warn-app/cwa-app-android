@@ -107,6 +107,13 @@
                 android:gravity="center"
                 android:text="_________ For DEVs _________" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Click 'Get TEKs' button before submitting " />
+
             <Button
                 android:id="@+id/submit"
                 style="@style/buttonPrimary"
