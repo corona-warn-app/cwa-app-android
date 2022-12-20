@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.srs.core.model.TekPatch
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -74,6 +75,8 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     suspend fun onTekAvailable(teks: List<TemporaryExposureKey>) {
         Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
         showKeysRetrievalProgress.postValue(false)
+        // Pass to shared vm
+        TekPatch.patchFrom(teks)
 
         if (openTypeSelection) {
             Timber.tag(TAG).d("Navigate to TestType")
@@ -96,7 +99,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     }
 
     fun submissionConsentAcceptButtonClicked() {
-        tekHistoryUpdater.getTeksOrRequestPermission()
+        tekHistoryUpdater.getTeksOrRequestPermissionFromOS()
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
