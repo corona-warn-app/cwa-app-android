@@ -62,6 +62,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         binding.apply {
             tekRetrieval.setOnClickListener { vm.updateStorage() }
             tekEmail.setOnClickListener { vm.emailTEKs() }
+            tekClearCache.setOnClickListener { vm.clearTekCache() }
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
