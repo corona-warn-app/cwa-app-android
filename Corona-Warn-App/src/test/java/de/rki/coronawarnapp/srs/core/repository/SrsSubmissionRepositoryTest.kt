@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
@@ -49,7 +48,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var playbook: SrsPlaybook
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var tekCalculations: ExposureKeyHistoryCalculations
-    @MockK lateinit var tekStorage: TEKHistoryStorage
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var checkInsRepo: CheckInRepository
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
@@ -83,7 +81,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         every { configData.supportedCountries } returns listOf()
 
         every { timeStamper.nowUTC } returns Instant.parse("2022-11-07T12:10:10Z")
-        every { tekStorage.tekData } returns flowOf(listOf())
         every { tekCalculations.transformToKeyHistoryInExternalFormat(any(), any()) } returns emptyList()
         every { checkInsRepo.completedCheckIns } returns flowOf(emptyList())
         every { androidIdProvider.getAndroidId() } returns ByteString.EMPTY
@@ -93,7 +90,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             encryptedCheckIns = emptyList()
         )
         coEvery { checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>()) } just Runs
-        coEvery { tekStorage.reset() } just Runs
         coEvery { deviceAttestation.attest(any()) } returns attestationContainer
         coEvery { srsSubmissionSettings.getOtp() } returns null
         coEvery { srsSubmissionSettings.resetOtp() } just Runs
@@ -109,7 +105,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `submit sequence - no prev otp`() = runTest {
-        instance().submit(SrsSubmissionType.SRS_SELF_TEST)
+        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
         coVerifySequence {
             appConfigProvider.getAppConfig()
             timeStamper.nowUTC
@@ -117,12 +113,10 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             androidIdProvider.getAndroidId()
             playbook.authorize(any())
             srsSubmissionSettings.setOtp(any())
-            tekStorage.tekData
             tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
             checkInsRepo.completedCheckIns
             checkInsTransformer.transform(any(), any())
             playbook.submit(any())
-            tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
@@ -140,7 +134,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
             expiresAt = Instant.parse("2021-11-07T12:10:10Z")
         )
-        instance().submit(SrsSubmissionType.SRS_SELF_TEST)
+        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
         coVerifySequence {
             appConfigProvider.getAppConfig()
             timeStamper.nowUTC
@@ -148,12 +142,10 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             androidIdProvider.getAndroidId()
             playbook.authorize(any())
             srsSubmissionSettings.setOtp(any())
-            tekStorage.tekData
             tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
             checkInsRepo.completedCheckIns
             checkInsTransformer.transform(any(), any())
             playbook.submit(any())
-            tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
@@ -168,18 +160,16 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     @Test
     fun `submit sequence - valid otp`() = runTest {
         coEvery { srsSubmissionSettings.getOtp() } returns srsOtp
-        instance().submit(SrsSubmissionType.SRS_SELF_TEST)
+        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
         coVerifySequence {
             appConfigProvider.getAppConfig()
             timeStamper.nowUTC
             srsSubmissionSettings.getOtp()
             playbook.fakeAuthorize(any())
-            tekStorage.tekData
             tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
             checkInsRepo.completedCheckIns
             checkInsTransformer.transform(any(), any())
             playbook.submit(any())
-            tekStorage.reset()
             checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
@@ -320,7 +310,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         playbook = playbook,
         appConfigProvider = appConfigProvider,
         tekCalculations = tekCalculations,
-        tekStorage = tekStorage,
         checkInsRepo = checkInsRepo,
         checkInsTransformer = checkInsTransformer,
         deviceAttestation = deviceAttestation,

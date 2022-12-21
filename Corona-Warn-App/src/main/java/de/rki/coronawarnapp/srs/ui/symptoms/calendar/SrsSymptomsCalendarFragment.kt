@@ -8,11 +8,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomCalendarBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -30,6 +32,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
     private val navArgs by navArgs<SrsSymptomsCalendarFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
     private val viewModel: SrsSymptomsCalendarViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -37,7 +40,8 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
             factory.create(
                 submissionType = navArgs.submissionType,
                 selectedCheckIns = navArgs.selectedCheckIns,
-                symptomsIndication = navArgs.symptomIndication
+                symptomsIndication = navArgs.symptomIndication,
+                teksSharedViewModel = teksSharedViewModel
             )
         }
     )

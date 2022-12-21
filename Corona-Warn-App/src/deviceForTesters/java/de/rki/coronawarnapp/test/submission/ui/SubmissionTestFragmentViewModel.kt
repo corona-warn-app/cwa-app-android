@@ -89,7 +89,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun submit() = launch {
         try {
-            srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
+            srsSubmissionRepository.submit(
+                type = SrsSubmissionType.SRS_SELF_TEST,
+                keys = tekHistory.value.orEmpty().map { it.key }
+            )
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             Timber.e(e, "submit()")

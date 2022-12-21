@@ -79,6 +79,24 @@ class TEKHistoryUpdaterTest : BaseTest() {
     }
 
     @Test
+    fun `request is forwarded to enf client directly`() = runTest(UnconfinedTestDispatcher()) {
+        val callback = mockk<TEKHistoryUpdater.Callback>()
+        val instance = createInstance(scope = this, callback = callback)
+
+        instance.getTeksOrRequestPermissionFromOS()
+        coVerify {
+            enfClient.getTEKHistoryOrRequestPermission(
+                any(),
+                any()
+            )
+        }
+
+        coVerify(exactly = 0) {
+            tekHistoryStorage.tekData
+        }
+    }
+
+    @Test
     fun `request checks if there are cached keys`() = runTest(UnconfinedTestDispatcher()) {
         every { tekHistoryStorage.tekData } returns flowOf(listOf())
         val callback = mockk<TEKHistoryUpdater.Callback>()
