@@ -136,28 +136,6 @@
                 app:layout_constraintStart_toEndOf="@id/trace_location_qr_time_sheet_icon"
                 app:layout_constraintTop_toTopOf="@id/trace_location_qr_time_sheet_icon" />
 
-            <ImageView
-                android:id="@+id/trace_location_qr_people_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="@id/trace_location_qr_time_sheet_icon"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text"
-                app:srcCompat="@drawable/ic_two_people_icon" />
-
-            <TextView
-                android:id="@+id/trace_location_qr_people_text"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_small"
-                android:layout_marginEnd="@dimen/spacing_normal"
-                android:text="@string/trace_location_qr_info_warn_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/trace_location_qr_people_icon"
-                app:layout_constraintTop_toTopOf="@id/trace_location_qr_people_icon" />
-
             <include
                 android:id="@+id/privacy_card"
                 layout="@layout/trace_location_privacy_card"
@@ -168,7 +146,7 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_people_text" />
+                app:layout_constraintTop_toBottomOf="@id/trace_location_qr_time_sheet_text" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/privacy_information"

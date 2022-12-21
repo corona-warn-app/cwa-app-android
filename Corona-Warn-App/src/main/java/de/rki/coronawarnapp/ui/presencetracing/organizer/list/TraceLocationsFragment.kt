@@ -168,14 +168,6 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     true
                 }
 
-                R.id.menu_warn_guests -> {
-                    setupAxisTransition()
-                    findNavController().navigate(
-                        R.id.action_traceLocationsFragment_to_traceLocationWarnInfoFragment
-                    )
-                    true
-                }
-
                 R.id.menu_remove_all -> {
                     showDeleteAllDialog()
                     true
