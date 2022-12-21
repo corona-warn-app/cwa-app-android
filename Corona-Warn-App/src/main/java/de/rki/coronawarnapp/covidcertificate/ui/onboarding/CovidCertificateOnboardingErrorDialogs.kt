@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 
-fun Fragment.showCovidCertificateOnboardingErrorDialog(error: Throwable) = displayDialog {
+fun Fragment.showCertificateQrErrorDialog(error: Throwable, dismissAction: () -> Unit = { }) = displayDialog {
     if (error is InvalidHealthCertificateException) {
         when {
             error.isCertificateInvalid ->
@@ -20,6 +20,7 @@ fun Fragment.showCovidCertificateOnboardingErrorDialog(error: Throwable) = displ
                     openUrl(R.string.dcc_signature_validation_dialog_faq_link)
                 }
             }
+
             error.isAlreadyRegistered -> {
                 neutralButton(R.string.error_button_dcc_faq) {
                     openUrl(R.string.error_dcc_already_registered_faq_link)
@@ -27,5 +28,6 @@ fun Fragment.showCovidCertificateOnboardingErrorDialog(error: Throwable) = displ
             }
         }
     }
+    dismissAction { dismissAction() }
     setError(error)
 }

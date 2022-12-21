@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
+import de.rki.coronawarnapp.covidcertificate.ui.onboarding.showCertificateQrErrorDialog
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.tag
@@ -102,17 +103,22 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccTicketingError -> when {
                     scannerResult.isDccTicketingMinVersionError ->
                         showValidationServiceMinVersionDialog(errorMsg = scannerResult.errorMsg)
+
                     else -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
                 }
+
                 is Error -> when {
                     scannerResult.isDccTicketingError || scannerResult.isAllowListError -> showDccTicketingErrorDialog(
                         humanReadableError = scannerResult.error.tryHumanReadableError(requireContext())
                     )
-                    else -> showScannerResultErrorDialog(scannerResult.error)
+
+                    else -> showCertificateQrErrorDialog(scannerResult.error) { startDecode() }
                 }
+
                 InfoScreen -> findNavController().navigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
+
                 InProgress -> Unit
             }
         }
@@ -199,11 +205,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
     }
 
-    private fun showScannerResultErrorDialog(error: Throwable) = displayDialog {
-        dismissAction { startDecode() }
-        setError(error)
-    }
-
     private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) = displayDialog {
         title(R.string.errors_generic_headline_short)
         message(errorMsg.get(requireContext()))
@@ -233,32 +234,38 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
                 null
             }
+
             is CoronaTestResult.RestoreDuplicateTest ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.restoreRecycledTestRequest,
                     comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
+
             is CoronaTestResult.TestPending ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
                     testIdentifier = scannerResult.test.identifier,
                     forceTestResultUpdate = true,
                     comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
+
             is CoronaTestResult.TestInvalid ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
                     testIdentifier = scannerResult.test.identifier,
                     comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
+
             is CoronaTestResult.TestNegative ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
                     testIdentifier = scannerResult.test.identifier,
                     comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
+
             is CoronaTestResult.TestPositive ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
                     testIdentifier = scannerResult.test.identifier,
                     comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                 )
+
             is CoronaTestResult.WarnOthers ->
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
@@ -285,10 +292,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     navOptions
                 )
             }
+
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
             is DccResult.MaxPersonsBlock -> {
                 showMaxPersonExceedsMaxResult(scannerResult.max)
             }
+
             is DccResult.MaxPersonsWarning -> {
                 showMaxPersonExceedsThresholdResult(scannerResult.max, scannerResult.uri, navOptions)
             }
@@ -311,6 +320,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                         .build()
                 )
             }
+
             is CheckInResult.Error -> showCheckInQrCodeError(scannerResult.lazyMessage)
         }
     }
