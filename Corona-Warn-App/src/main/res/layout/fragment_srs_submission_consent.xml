@@ -188,7 +188,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/generic_action_abort"
+            android:text="@string/srs_submission_warning_dialog_negative_button"
             app:layout_constraintTop_toBottomOf="@+id/srs_submission_consent_accept_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"

@@ -240,7 +240,7 @@
     <!-- XHED: Submission consent privacy card title -->
     <string name="srs_privacy_card_title_text" translatable="false">Rıza beyanınız</string>
     <!-- XTXT: Submission consent privacy card subtitle -->
-    <string name="srs_privacy_card_subtitle_text" translatable="false">Kabul Ediyorum’a dokunarak aşağıdaki adımları kabul etmiş olursunuz:</string>
+    <string name="srs_privacy_card_subtitle_text" translatable="false">“Kabul et” dokunarak aşağıdaki adımları kabul etmiş olursunuz:</string>
     <!-- XTXT: Submission consent privacy card first bulletpoint -->
     <string name="srs_privacy_card_first_bulletpoint_text" translatable="false"><b>Uygulama, karşılaştığınız veya sizinle aynı anda aynı etkinlikte veya yerde check-in yapmış olan diğer Corona Warn uygulaması kullanıcılarını uyarmak için pozitif test sonucunuzu paylaşır.</b></string>
     <!-- XTXT: Submission consent privacy card second bulletpoint -->
