@@ -99,7 +99,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                 }
 
                 is CovidCertificateOnboardingViewModel.Event.Error ->
-                    showCovidCertificateOnboardingErrorDialog(event.throwable)
+                    showCertificateQrErrorDialog(event.throwable)
 
                 is CovidCertificateOnboardingViewModel.Event.SkipOnboarding ->
                     if (args.showBottomNav) {
