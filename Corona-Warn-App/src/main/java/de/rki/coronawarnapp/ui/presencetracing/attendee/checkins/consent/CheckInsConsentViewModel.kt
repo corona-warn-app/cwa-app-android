@@ -145,16 +145,16 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     private fun initialSet(): Set<Long> = savedState.get(SET_KEY) ?: emptySet()
 
     private suspend fun resetPreviousSubmissionConsents() = try {
-            Timber.d("Trying to reset submission consents")
-            checkInRepository.apply {
-                val ids = completedCheckIns.first().filter { it.hasSubmissionConsent }.map { it.id }
-                updateSubmissionConsents(ids, consent = false)
-            }
-
-            Timber.d("Resetting submission consents was successful")
-        } catch (error: Exception) {
-            Timber.e(error, "Failed to reset SubmissionConsents")
+        Timber.d("Trying to reset submission consents")
+        checkInRepository.apply {
+            val ids = completedCheckIns.first().filter { it.hasSubmissionConsent }.map { it.id }
+            updateSubmissionConsents(ids, consent = false)
         }
+
+        Timber.d("Resetting submission consents was successful")
+    } catch (error: Exception) {
+        Timber.e(error, "Failed to reset SubmissionConsents")
+    }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {
