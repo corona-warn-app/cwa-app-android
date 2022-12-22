@@ -4,11 +4,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -55,22 +54,22 @@ class TestCertificateStorage @Inject constructor(
         })
     }
 
-    private val typeTokenPCR: TypeToken<Set<PCRCertificateData>> by lazy {
-        object : TypeToken<Set<PCRCertificateData>>() {}
+    private val typeReferencePCR: TypeReference<Set<PCRCertificateData>> by lazy {
+        object : TypeReference<Set<PCRCertificateData>>() {}
     }
-    private val typeTokenRA: TypeToken<Set<RACertificateData>> by lazy {
-        object : TypeToken<Set<RACertificateData>>() {}
+    private val typeReferenceRA: TypeReference<Set<RACertificateData>> by lazy {
+        object : TypeReference<Set<RACertificateData>>() {}
     }
-    private val typeTokenGeneric: TypeToken<Set<GenericTestCertificateData>> by lazy {
-        object : TypeToken<Set<GenericTestCertificateData>>() {}
+    private val typeReferenceGeneric: TypeReference<Set<GenericTestCertificateData>> by lazy {
+        object : TypeReference<Set<GenericTestCertificateData>>() {}
     }
 
     suspend fun load(): Collection<BaseTestCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
 
-        val pcrCertContainers: Set<PCRCertificateData> = loadCerts(typeTokenPCR, PKEY_DATA_PCR)
-        val raCerts: Set<RACertificateData> = loadCerts(typeTokenRA, PKEY_DATA_RA)
-        val scannedCerts: Set<GenericTestCertificateData> = loadCerts(typeTokenGeneric, PKEY_DATA_SCANNED)
+        val pcrCertContainers: Set<PCRCertificateData> = loadCerts(PKEY_DATA_PCR, typeReferencePCR)
+        val raCerts: Set<RACertificateData> = loadCerts(PKEY_DATA_RA, typeReferenceRA)
+        val scannedCerts: Set<GenericTestCertificateData> = loadCerts(PKEY_DATA_SCANNED, typeReferenceGeneric)
 
         return (pcrCertContainers + raCerts + scannedCerts).also {
             Timber.tag(TAG).v("Loaded %d certificates.", it.size)
@@ -80,40 +79,35 @@ class TestCertificateStorage @Inject constructor(
     suspend fun save(certs: Collection<BaseTestCertificateData>) = mutex.withLock {
         Timber.tag(TAG).d("save(testCertificates=%s)", certs.size)
 
-        storeCerts(certs.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
-        storeCerts(certs.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
-        storeCerts(certs.filterIsInstance<GenericTestCertificateData>(), typeTokenGeneric, PKEY_DATA_SCANNED)
+        storeCerts(certs.filterIsInstance<PCRCertificateData>(), PKEY_DATA_PCR)
+        storeCerts(certs.filterIsInstance<RACertificateData>(), PKEY_DATA_RA)
+        storeCerts(certs.filterIsInstance<GenericTestCertificateData>(), PKEY_DATA_SCANNED)
     }
 
-    private suspend fun <T : BaseTestCertificateData> storeCerts(
+    private suspend fun storeCerts(
         certs: Collection<BaseTestCertificateData>,
-        typeToken: TypeToken<Set<T>>,
         storageKey: Preferences.Key<String>
     ) {
-        val type = typeToken.type
         if (certs.isNotEmpty()) {
             val raw = mapper.writeValueAsString(certs)
-            Timber.tag(TAG).v("Storing scanned certs ($type): %s", certs.size)
+            Timber.tag(TAG).v("Storing scanned certs (${certs.first()::class}): %s", certs.size)
             dataStore.trySetValue(storageKey, raw)
         } else {
-            Timber.tag(TAG).v("No stored certificates ($type) available, clearing.")
+            Timber.tag(TAG).v("No stored certificates available, clearing.")
             dataStore.edit { it.remove(storageKey) }
         }
     }
 
     private suspend fun <T : BaseTestCertificateData> loadCerts(
-        typeToken: TypeToken<Set<T>>,
-        storageKey: Preferences.Key<String>
+        storageKey: Preferences.Key<String>,
+        typeReference: TypeReference<Set<T>>
     ): Set<T> {
-        object : TypeToken<Set<PCRCertificateData>>() {}
-        val type = typeToken.type
-
         return dataStore.dataRecovering.distinctUntilChanged(storageKey, "").map { value ->
             if (value.isEmpty()) {
                 emptySet()
             } else {
-                mapper.readValue<Set<T>>(value).onEach {
-                    Timber.tag(TAG).v("Certificates ($type) loaded: %s", it.identifier)
+                mapper.readValue(value, typeReference).onEach {
+                    Timber.tag(TAG).v("Certificates ($typeReference) loaded: %s", it.identifier)
                     requireNotNull(it.identifier)
                 }
             }
