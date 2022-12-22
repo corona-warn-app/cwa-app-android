@@ -10,6 +10,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import java.time.Instant
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @BaseGson baseGson: Gson,
@@ -35,6 +37,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
+    private val cwaSettings: CWASettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
@@ -46,6 +49,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
     val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
     val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
+    val firstReliableTime = cwaSettings.firstReliableDeviceTime.asLiveData2()
 
     private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
 
@@ -150,6 +154,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun clearTekCache() = launch {
         tekHistoryUpdater.clearTekCache()
+    }
+
+    fun updateFirstReliableTime(time: Long) = launch {
+        cwaSettings.updateFirstReliableDeviceTime(Instant.ofEpochMilli(time))
     }
 
     @AssistedFactory
