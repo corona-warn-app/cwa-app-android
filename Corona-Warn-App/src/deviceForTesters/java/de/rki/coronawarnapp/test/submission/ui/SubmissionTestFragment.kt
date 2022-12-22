@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
-import de.rki.coronawarnapp.ui.presencetracing.organizer.warn.duration.TraceLocationWarnDurationFragment
 import de.rki.coronawarnapp.util.HashExtensions.toHexString
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -25,7 +24,6 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.time.Instant
-import java.time.ZoneId
 import javax.inject.Inject
 
 @SuppressLint("SetTextI18n")
@@ -141,7 +139,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
                 .setSelection(Instant.now().toEpochMilli())
                 .build()
                 .apply {
-                    addOnPositiveButtonClickListener{
+                    addOnPositiveButtonClickListener {
                         vm.updateFirstReliableTime(it)
                     }
                 }
