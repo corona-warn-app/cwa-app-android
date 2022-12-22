@@ -98,8 +98,8 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
 
                 is SrsSymptomsCalendarNavigation.Error -> displayDialog {
                     setError(it.cause)
-                    positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
-                    negativeButton(android.R.string.ok)
+                    positiveButton(android.R.string.ok)
+                    negativeButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
                 }
             }
         }
