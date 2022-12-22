@@ -24,6 +24,39 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="First Reliable Time"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/first_reliable_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time: No time"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/date_picker"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Date Picker" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+            <TextView
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="SRS Submission"
                 app:layout_constraintTop_toTopOf="parent" />
 
