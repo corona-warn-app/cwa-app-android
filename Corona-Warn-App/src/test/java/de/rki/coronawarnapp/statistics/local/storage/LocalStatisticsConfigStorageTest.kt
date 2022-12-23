@@ -76,7 +76,6 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
 
     private fun createInstance() = LocalStatisticsConfigStorage(
         dataStore = dataStore,
-        baseGson = SerializationModule().baseGson(),
         objectMapper = SerializationModule.jacksonBaseMapper
     )
 

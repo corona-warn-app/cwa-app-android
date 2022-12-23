@@ -44,8 +44,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
 
     private fun createInstance() = RecoveryCertificateStorage(
         dataStore = dataStore,
-        baseGson = SerializationModule().baseGson(),
-        objectMapper = SerializationModule.jacksonBaseMapper
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

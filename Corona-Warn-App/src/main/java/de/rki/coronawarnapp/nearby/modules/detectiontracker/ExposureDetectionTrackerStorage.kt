@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -10,15 +9,11 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import de.rki.coronawarnapp.util.serialization.adapter.LegacyInstantDeserializer
-import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
 import de.rki.coronawarnapp.util.serialization.toJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
-import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,21 +23,6 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     @BaseGson private val baseGson: Gson,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
-    private val gson by lazy {
-        baseGson.newBuilder()
-            .registerTypeAdapter(Instant::class.java, LegacyInstantDeserializer())
-            .create()
-    }
-
-    private val mapper by lazy {
-        objectMapper.registerModule(object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                this.registerInstantSerialization()
-            }
-        })
-    }
-
     private val mutex = Mutex()
     private val storageDir by lazy {
         File(context.filesDir, "calcuation_tracker").apply {
@@ -61,7 +41,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadTrackingData() = runCatching {
-        objectMapper.parseTracking()?.also {
+        objectMapper.parseTracking().also {
             lastCalculationData = it
         }
     }.onFailure {
@@ -69,20 +49,14 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadLegacyTrackingData() = runCatching {
-        mapper.parseTracking()
+        objectMapper.parseTracking()
     }.onFailure {
         if (storageFile.delete()) Timber.w("Storage file was deleted.")
         Timber.d(it, "loadLegacyTrackingData() failed to load tracked detections.")
     }
 
-    private fun Gson.parseTracking() =
-        fromJson<Map<String, TrackedExposureDetection>>(storageFile)?.also {
-            require(it.size >= 0)
-            Timber.v("Loaded detection data: %s", it)
-        }
-
     private fun ObjectMapper.parseTracking() =
-        readValue<Map<String, TrackedExposureDetection>>(storageFile)?.also {
+        readValue<Map<String, TrackedExposureDetection>>(storageFile).also {
             require(it.size >= 0)
             Timber.v("Loaded detection data: %s", it)
         }

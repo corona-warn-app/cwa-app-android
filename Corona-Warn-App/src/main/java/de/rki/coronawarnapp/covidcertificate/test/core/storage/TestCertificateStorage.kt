@@ -7,9 +7,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.google.gson.Gson
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -17,9 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertifica
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import de.rki.coronawarnapp.util.serialization.jackson.StateJsonSerializerFactory
 import de.rki.coronawarnapp.util.serialization.jackson.registerCoronaTestResultSerialization
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -32,26 +27,12 @@ import javax.inject.Singleton
 @Singleton
 class TestCertificateStorage @Inject constructor(
     @TestCertificateStorageDataStore private val dataStore: DataStore<Preferences>,
-    @BaseGson val baseGson: Gson,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
     private val mutex = Mutex()
 
-    private val gson by lazy {
-        baseGson.newBuilder().apply {
-            registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
-            registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
-        }.create()
-    }
-
     private val mapper by lazy {
-        objectMapper.registerModule(object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                context.addBeanSerializerModifier(StateJsonSerializerFactory())
-                this.registerCoronaTestResultSerialization()
-            }
-        })
+        objectMapper.registerModule(SimpleModule().registerCoronaTestResultSerialization())
     }
 
     private val typeReferencePCR: TypeReference<Set<PCRCertificateData>> by lazy {

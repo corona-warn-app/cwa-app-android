@@ -7,10 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.CoronaTestStorageDataStore
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -20,7 +17,6 @@ import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.flow.shareLatest
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.jackson.registerCoronaTestResultSerialization
 import kotlinx.coroutines.CoroutineScope
@@ -35,31 +31,11 @@ import javax.inject.Singleton
 class CoronaTestStorage @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     @CoronaTestStorageDataStore private val dataStore: DataStore<Preferences>,
-    @BaseGson val baseGson: Gson,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
-    private val gson by lazy {
-        baseGson.newBuilder().apply {
-            registerTypeAdapter(CoronaTestResult::class.java, CoronaTestResult.GsonAdapter())
-        }.create()
-    }
-
     private val mapper by lazy {
-        objectMapper.registerModule(object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                this.registerCoronaTestResultSerialization()
-            }
-        })
-    }
-
-    private val typeTokenPCR by lazy {
-        object : TypeToken<Set<PCRCoronaTest>>() {}.type
-    }
-
-    private val typeTokenRA by lazy {
-        object : TypeToken<Set<RACoronaTest>>() {}.type
+        objectMapper.registerModule(SimpleModule().registerCoronaTestResultSerialization())
     }
 
     suspend fun getCoronaTests(): Collection<PersonalCoronaTest> {

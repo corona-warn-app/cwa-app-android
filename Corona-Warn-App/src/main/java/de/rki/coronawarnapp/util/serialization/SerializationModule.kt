@@ -14,7 +14,6 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
 import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
@@ -22,10 +21,10 @@ import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
-import de.rki.coronawarnapp.util.serialization.jackson.registerCoronaTestResultSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerDurationSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerLocalDateSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPPADataSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerPrivateSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerPublicSerialization
 import okio.ByteString
@@ -54,8 +53,8 @@ class SerializationModule {
                 .registerLocalDateSerialization()
                 .registerPublicSerialization()
                 .registerPrivateSerialization()
-                .registerCoronaTestResultSerialization()
                 .registerDurationSerialization()
+                .registerPPADataSerialization()
 
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
@@ -72,8 +71,6 @@ class SerializationModule {
                 // Others
                 .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
                 .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
-                .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
-                .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
                 .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(jacksonObjectMapper()))
                 .create()
         }

@@ -40,7 +40,7 @@ class VaccinationStorageTest : BaseTest() {
 
     private fun createInstance() = VaccinationStorage(
         dataStore = dataStore,
-        objectMapper = SerializationModule.jacksonBaseMapper
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

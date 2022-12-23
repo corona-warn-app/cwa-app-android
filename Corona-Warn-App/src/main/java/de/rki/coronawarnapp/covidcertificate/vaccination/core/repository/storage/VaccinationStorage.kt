@@ -5,15 +5,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.reflect.TypeToken
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import de.rki.coronawarnapp.util.serialization.SerializationModule.Companion.baseGson
-import de.rki.coronawarnapp.util.serialization.jackson.StateJsonSerializerFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
@@ -25,24 +20,9 @@ import javax.inject.Singleton
 @Singleton
 class VaccinationStorage @Inject constructor(
     @VaccinationStorageDataStore private val dataStore: DataStore<Preferences>,
-    @BaseJackson private val objectMapper: ObjectMapper,
+    @BaseJackson private val mapper: ObjectMapper,
 ) {
     private val mutex = Mutex()
-
-    private val gson by lazy {
-        baseGson.newBuilder().apply {
-            registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
-        }.create()
-    }
-
-    private val mapper by lazy {
-        objectMapper.registerModule(object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                context.addBeanSerializerModifier(StateJsonSerializerFactory())
-            }
-        })
-    }
 
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
@@ -105,6 +85,5 @@ class VaccinationStorage @Inject constructor(
     companion object {
         private const val TAG = "VaccinationStorage"
         val PKEY_VACCINATION_CERT = stringPreferencesKey("vaccination.certificate")
-        val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
 }
