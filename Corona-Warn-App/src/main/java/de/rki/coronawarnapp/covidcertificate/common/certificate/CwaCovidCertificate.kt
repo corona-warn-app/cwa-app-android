@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
@@ -84,6 +86,16 @@ interface CwaCovidCertificate : Recyclable {
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
      */
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true)
+    @JsonSubTypes(
+        JsonSubTypes.Type(name = "Valid", value = State.Valid::class),
+        JsonSubTypes.Type(name = "ExpiringSoon", value = ExpiringSoon::class),
+        JsonSubTypes.Type(name = "Expired", value = State.Expired::class),
+        JsonSubTypes.Type(name = "Invalid", value = Invalid::class),
+        JsonSubTypes.Type(name = "Blocked", value = Blocked::class),
+        JsonSubTypes.Type(name = "Recycled", value = State.Recycled::class),
+        JsonSubTypes.Type(name = "Revoked", value = Revoked::class)
+    )
     sealed class State(val type: String) {
         data class Valid(
             @JsonProperty("expiresAt") val expiresAt: Instant,
