@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
-import testhelpers.extensions.toComparableJsonPretty1
+import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
 class ValueSetsStorageTest : BaseTest() {
@@ -56,7 +56,7 @@ class ValueSetsStorageTest : BaseTest() {
     @Test
     fun `storage format`() = runTest2 {
         createInstance(this).save(valueSetsContainerDe)
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty1() shouldBe
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe
             """
             {
               "vaccinationValueSets" : {
@@ -114,7 +114,7 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
     }
 
     @Test
@@ -125,7 +125,7 @@ class ValueSetsStorageTest : BaseTest() {
             save(emptyValueSetsContainer)
         }
 
-        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_VALUE_SETS_CONTAINER_PREFIX] as String).toComparableJsonPretty() shouldBe """
             {
              "vaccinationValueSets" : {
                 "languageCode" : "en",
@@ -158,7 +158,7 @@ class ValueSetsStorageTest : BaseTest() {
                 }
               }
             }
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         createInstance(this).load() shouldBe emptyValueSetsContainer
     }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.extensions.toComparableJson1
+import testhelpers.extensions.toComparableJson
 import testhelpers.extensions.toJsonResponse1
 import java.io.File
 import java.time.LocalDate
@@ -103,7 +103,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "dateOfBirthKey": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson1()
+            """.toComparableJson()
         }
 
         httpCacheDir.exists() shouldBe true
@@ -143,7 +143,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "key": "testKey",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson1()
+            """.toComparableJson()
         }
 
         httpCacheDir.exists() shouldBe true
@@ -183,7 +183,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "registrationToken": "testRegistrationToken",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson1()
+            """.toComparableJson()
         }
     }
 
@@ -219,7 +219,7 @@ class VerificationApiV1Test : BaseIOTest() {
                     "registrationToken": "testRegistrationToken",
                     "requestPadding": "testRequestPadding"
                 }
-            """.toComparableJson1()
+            """.toComparableJson()
         }
     }
 }

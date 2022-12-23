@@ -86,7 +86,9 @@ interface CwaCovidCertificate : Recyclable {
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
      */
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true)
+    @JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true
+    )
     @JsonSubTypes(
         JsonSubTypes.Type(name = "Valid", value = State.Valid::class),
         JsonSubTypes.Type(name = "ExpiringSoon", value = ExpiringSoon::class),

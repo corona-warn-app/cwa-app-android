@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.extensions.toComparableJsonPretty1
+import testhelpers.extensions.toComparableJsonPretty
 import java.io.File
 
 class AppConfigStorageTest : BaseIOTest() {
@@ -63,7 +63,7 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.setStoredConfig(testConfigDownload)
 
         configPath.exists() shouldBe true
-        configPath.readText().toComparableJsonPretty1() shouldBe """
+        configPath.readText().toComparableJsonPretty() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
@@ -71,7 +71,7 @@ class AppConfigStorageTest : BaseIOTest() {
                 "localOffset": 3600000,
                 "cacheValidity": 123000
             }
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         storage.getStoredConfig() shouldBe testConfigDownload
     }
@@ -108,7 +108,7 @@ class AppConfigStorageTest : BaseIOTest() {
         storage.getStoredConfig() shouldBe testConfigDownload
 
         configPath.exists() shouldBe true
-        configPath.readText().toComparableJsonPretty1() shouldBe """
+        configPath.readText().toComparableJsonPretty() shouldBe """
             {
                 "rawData": "$APPCONFIG_BASE64",
                 "etag": "I am an ETag :)!",
@@ -116,7 +116,7 @@ class AppConfigStorageTest : BaseIOTest() {
                 "localOffset": 3600000,
                 "cacheValidity": 123000
             }
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         storage.setStoredConfig(null)
         storage.getStoredConfig() shouldBe null

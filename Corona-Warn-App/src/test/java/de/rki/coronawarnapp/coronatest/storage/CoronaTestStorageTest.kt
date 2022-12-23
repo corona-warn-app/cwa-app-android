@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runTest2
-import testhelpers.extensions.toComparableJsonPretty1
+import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.io.IOException
 import java.time.Instant
@@ -111,7 +111,7 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr",
@@ -131,7 +131,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "isDccDataSetCreated": true
                 }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         instance.getCoronaTests().single().apply {
             this shouldBe pcrTest.copy(
@@ -147,7 +147,7 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(pcrTest1))
 
-        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr1",
@@ -168,7 +168,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "pcrQrCodeHash"
                 }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         instance.getCoronaTests().single().apply {
             this shouldBe pcrTest1.copy(
@@ -185,7 +185,7 @@ class CoronaTestStorageTest : BaseTest() {
         val pcrTest = pcrTest1.copy(isDccSupportedByPoc = false)
         instance.updateCoronaTests(setOf(pcrTest))
 
-        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-pcr1",
@@ -206,7 +206,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "pcrQrCodeHash"
                 }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         instance.getCoronaTests().single().apply {
             this shouldBe pcrTest.copy(
@@ -229,7 +229,7 @@ class CoronaTestStorageTest : BaseTest() {
             )
         )
 
-        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-ra",
@@ -253,7 +253,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "isDccDataSetCreated": true
                 }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         instance.getCoronaTests().single().apply {
             this shouldBe raTest.copy(
@@ -269,7 +269,7 @@ class CoronaTestStorageTest : BaseTest() {
         val instance = createInstance(this)
         instance.updateCoronaTests(setOf(raTest1))
 
-        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
                 {
                     "identifier": "identifier-ra1",
@@ -294,7 +294,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "qrCodeHash": "raQrCodeHash"
                 }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         instance.getCoronaTests().single().apply {
             this shouldBe raTest1

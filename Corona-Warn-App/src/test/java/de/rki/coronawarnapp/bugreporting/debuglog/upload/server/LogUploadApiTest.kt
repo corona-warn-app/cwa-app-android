@@ -19,7 +19,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
-import testhelpers.extensions.toJsonResponse
+import testhelpers.extensions.toJsonResponse1
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -76,10 +76,10 @@ class LogUploadApiTest : BaseIOTest() {
     fun `happy upload`(): Unit = runTest {
         """
             {
-                id :  "$expectedId",
-                hash: "$expectedHash"
+                "id" :  "$expectedId",
+                "hash" : "$expectedHash"
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val api = createAPI()
         api.uploadLog(
@@ -111,10 +111,10 @@ class LogUploadApiTest : BaseIOTest() {
     fun `server returns 500`(): Unit = runTest {
         """
             {
-                id :  "$expectedId",
-                hash: "$expectedHash"
+                "id" :  "$expectedId",
+                "hash" : "$expectedHash"
             }
-        """.toJsonResponse().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
+        """.toJsonResponse1().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
 
         val api = createAPI()
 

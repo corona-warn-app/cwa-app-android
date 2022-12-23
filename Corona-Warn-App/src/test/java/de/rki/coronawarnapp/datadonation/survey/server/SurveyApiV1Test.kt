@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJsonResponse
+import testhelpers.extensions.toJsonResponse1
 import java.util.concurrent.TimeUnit
 
 class SurveyApiV1Test : BaseTest() {
@@ -60,7 +60,7 @@ class SurveyApiV1Test : BaseTest() {
             {
             
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val surveyPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(
@@ -96,7 +96,7 @@ class SurveyApiV1Test : BaseTest() {
             {
             
             }
-        """.toJsonResponse().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
+        """.toJsonResponse1().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
 
         val surveyPayload = EdusOtpRequestAndroid.EDUSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(

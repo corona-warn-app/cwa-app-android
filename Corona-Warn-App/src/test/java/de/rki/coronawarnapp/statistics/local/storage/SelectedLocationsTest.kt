@@ -12,7 +12,6 @@ import java.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.extensions.toComparableJsonPretty1
 
 class SelectedLocationsTest : BaseTest() {
     private val baseGson = SerializationModule().baseGson()
@@ -85,7 +84,7 @@ class SelectedLocationsTest : BaseTest() {
                 )
             )
 
-        val json = mapper.writeValueAsString(locations).toComparableJsonPretty1()
+        val json = mapper.writeValueAsString(locations).toComparableJsonPretty()
 
         json shouldBe expectedJson
     }

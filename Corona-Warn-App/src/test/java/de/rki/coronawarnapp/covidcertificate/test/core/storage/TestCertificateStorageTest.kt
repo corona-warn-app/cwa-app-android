@@ -15,7 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toComparableJsonPretty1
+import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 import javax.inject.Inject
@@ -71,7 +71,7 @@ class TestCertificateStorageTest : BaseTest() {
             )
         )
 
-        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier",
@@ -86,9 +86,9 @@ class TestCertificateStorageTest : BaseTest() {
                 "certificateSeenByUser": false
               }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
-        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier2",
@@ -103,9 +103,9 @@ class TestCertificateStorageTest : BaseTest() {
                 "certificateSeenByUser": true
               }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
-        (dataStore[PKEY_DATA_SCANNED] as String).toComparableJsonPretty1() shouldBe """
+        (dataStore[PKEY_DATA_SCANNED] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier2",
@@ -117,7 +117,7 @@ class TestCertificateStorageTest : BaseTest() {
                 "recycledAt": 123000
               }
             ]
-        """.toComparableJsonPretty1()
+        """.toComparableJsonPretty()
 
         createInstance().load() shouldBe setOf(
             certificateTestData.personATest1StoredData,

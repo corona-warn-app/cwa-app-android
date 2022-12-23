@@ -18,7 +18,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toJsonResponse
+import testhelpers.extensions.toJsonResponse1
 import java.util.concurrent.TimeUnit
 
 class LogUploadAuthApiTest : BaseTest() {
@@ -64,9 +64,9 @@ class LogUploadAuthApiTest : BaseTest() {
     fun `test auth`(): Unit = runTest {
         """
             {
-                expirationDate : "2020-08-20T14:00:00.000Z"
+                "expirationDate" : "2020-08-20T14:00:00.000Z"
             }
-        """.toJsonResponse().apply { webServer.enqueue(this) }
+        """.toJsonResponse1().apply { webServer.enqueue(this) }
 
         val elsPayload = ElsOtpRequestAndroid.ELSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(ElsOtp.ELSOneTimePassword.newBuilder().setOtp("15cff19f-af26-41bc-94f2-c1a65075e894"))
@@ -86,9 +86,9 @@ class LogUploadAuthApiTest : BaseTest() {
     fun `server returns 500`(): Unit = runTest {
         """
             {
-                errorCode: "Nope"
+                "errorCode" : "Nope"
             }
-        """.toJsonResponse().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
+        """.toJsonResponse1().apply { webServer.enqueue(MockResponse().setResponseCode(500)) }
 
         val elsPayload = ElsOtpRequestAndroid.ELSOneTimePasswordRequestAndroid.newBuilder()
             .setPayload(ElsOtp.ELSOneTimePassword.newBuilder().setOtp("15cff19f-af26-41bc-94f2-c1a65075e894"))

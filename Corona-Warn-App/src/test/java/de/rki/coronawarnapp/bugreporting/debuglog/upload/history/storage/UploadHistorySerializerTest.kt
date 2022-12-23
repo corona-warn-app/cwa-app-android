@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.shouldMatchJson
+import testhelpers.extensions.shouldMatchJson1
 import java.io.ByteArrayOutputStream
 import java.time.Instant
 
@@ -56,7 +56,7 @@ class UploadHistorySerializerTest : BaseTest() {
     fun `write UploadHistory`() = runTest {
         ByteArrayOutputStream()
             .apply { use { serializer.writeTo(testUploadHistory, it) } }
-            .toString() shouldMatchJson testUploadHistoryJson
+            .toString() shouldMatchJson1 testUploadHistoryJson
     }
 
     @Test
