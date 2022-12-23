@@ -15,14 +15,14 @@ import java.time.Instant
     JsonSubTypes.Type(name = "SelectedDistrict", value = SelectedStatisticsLocation.SelectedDistrict::class),
     JsonSubTypes.Type(name = "SelectedFederalState", value = SelectedStatisticsLocation.SelectedFederalState::class)
 )
-sealed class SelectedStatisticsLocation {
+sealed class SelectedStatisticsLocation(val type: String) {
     abstract val addedAt: Instant
     abstract val uniqueID: Long
 
     data class SelectedDistrict(
         @JsonProperty("district") val district: Districts.District,
         @JsonProperty("addedAt") override val addedAt: Instant,
-    ) : SelectedStatisticsLocation() {
+    ) : SelectedStatisticsLocation("SelectedDistrict") {
         @get:JsonIgnore
         override val uniqueID: Long
             get() = 1000000L + district.districtId
@@ -31,7 +31,7 @@ sealed class SelectedStatisticsLocation {
     data class SelectedFederalState(
         @JsonProperty("federalState") val federalState: PpaData.PPAFederalState,
         @JsonProperty("addedAt") override val addedAt: Instant,
-    ) : SelectedStatisticsLocation() {
+    ) : SelectedStatisticsLocation("SelectedFederalState") {
         @get:JsonIgnore
         override val uniqueID: Long
             get() = 2000000L + federalState.number

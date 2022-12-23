@@ -1,11 +1,8 @@
 package de.rki.coronawarnapp.util.serialization.adapter
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParseException
-import de.rki.coronawarnapp.util.serialization.jackson.registerByteArraySerialization
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeHex
@@ -14,18 +11,7 @@ import testhelpers.BaseTest
 
 class ByteArrayAdapterTest : BaseTest() {
 
-    private val mapper = ObjectMapper().registerModule(
-        object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                this.registerByteArraySerialization()
-            }
-        }
-    )
-
-    private val gson = GsonBuilder()
-        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-        .create()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     // This is actually an app config, some cases like did not trigger a few serialization issues in the server test.
     private val goodByteArray = (
@@ -46,7 +32,7 @@ class ByteArrayAdapterTest : BaseTest() {
 
     @Test
     fun `malformed base64 should throw specific exception`() {
-        shouldThrow<JsonParseException> {
+        shouldThrow<JsonMappingException> {
             """
                 {
                     "byteArray": "Don't feed this to your base 64 decoder :("

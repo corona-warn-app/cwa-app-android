@@ -15,25 +15,22 @@ class SelectedLocationsTest : BaseTest() {
 
     private val expectedJson = """
             {
-              "locations": [
-                {
-                  "type": "SelectedDistrict",
-                  "district": {
-                    "districtName": "Hogwarts",
-                    "districtShortName": "HG",
-                    "districtId": 1,
-                    "federalStateName": "Scotland",
-                    "federalStateShortName": "SL",
-                    "federalStateId": 1
-                  },
-                  "addedAt": 6969420000
+              "locations" : [ {
+                "district" : {
+                  "districtName" : "Hogwarts",
+                  "districtShortName" : "HG",
+                  "districtId" : 1,
+                  "federalStateName" : "Scotland",
+                  "federalStateShortName" : "SL",
+                  "federalStateId" : 1
                 },
-                {
-                  "type": "SelectedFederalState",
-                  "federalState": "FEDERAL_STATE_BB",
-                  "addedAt": 4206969000
-                }
-              ]
+                "addedAt" : 6969420000,
+                "type" : "SelectedDistrict"
+              }, {
+                "federalState" : "FEDERAL_STATE_BB",
+                "addedAt" : 4206969000,
+                "type" : "SelectedFederalState"
+              } ]
             }
         """.toComparableJsonPretty()
 

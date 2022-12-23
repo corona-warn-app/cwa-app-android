@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
+import de.rki.coronawarnapp.util.serialization.jackson.registerByteArraySerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerDurationSerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
@@ -55,6 +56,7 @@ class SerializationModule {
                 .registerPrivateSerialization()
                 .registerDurationSerialization()
                 .registerPPADataSerialization()
+                .registerByteArraySerialization()
 
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)

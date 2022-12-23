@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import java.time.Instant
@@ -147,6 +148,7 @@ data class DccV1(
             get() = vaccinatedOnFormatted.parseLocalDate()
     }
 
+    @JsonIgnoreProperties("dr")
     data class TestCertificateData(
         // Disease or agent targeted, e.g. "tg": "840539006"
         @JsonProperty("tg") override val targetId: String,
