@@ -21,7 +21,7 @@ platform :android do
      firebase_app_distribution(
            app: ENV["firebase_app_id"],
            apk_path: ENV["apk_path"],
-           release_notes: "ithub.com/corona-warn-app/cwa-app-android/releases/tag/#{ENV["release_tag"]}",
+           release_notes: "https://github.com/corona-warn-app/cwa-app-android/releases/tag/#{ENV["release_tag"]}",
            groups_file: "fastlane/groups.txt",
            service_credentials_file: "fastlane/service_credentials.json"
      )
