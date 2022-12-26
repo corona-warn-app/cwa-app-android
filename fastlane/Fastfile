@@ -16,23 +16,14 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Submit APK through Firebase App Distribution"
+  lane :firebaseAppDistribution do
+     firebase_app_distribution(
+           app: ENV["firebase_app_id"],
+           apk_path: ENV["apk_path"],
+           release_notes: "ithub.com/corona-warn-app/cwa-app-android/releases/tag/#{ENV["release_tag"]}",
+           groups_file: "fastlane/groups.txt",
+           service_credentials_file: "fastlane/service_credentials.json"
+     )
   end
 end
