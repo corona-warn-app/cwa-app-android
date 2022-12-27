@@ -9,9 +9,9 @@
     <TextView
         android:id="@+id/calendar_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/calendar_header_height"
-        android:padding="@dimen/spacing_normal"
-        android:textSize="@dimen/font_title"
+        android:layout_height="@dimen/height_72"
+        android:padding="@dimen/padding_24"
+        android:textSize="@dimen/font_20"
         android:textColor="@color/calendar_header"
         android:text="@string/symptoms_calendar_exact_date_button"
         android:background="@drawable/calendar_header_background"
@@ -23,9 +23,9 @@
         style="@style/calendarMonthText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
         android:focusable="true"
         android:focusableInTouchMode="true" />
 
@@ -33,8 +33,8 @@
         android:id="@+id/calendar_day_legend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         android:gravity="center"
         android:orientation="horizontal" />
 
@@ -42,9 +42,9 @@
         android:id="@+id/calendar_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
         android:importantForAccessibility="no"
         android:scrollbars="vertical" />
 

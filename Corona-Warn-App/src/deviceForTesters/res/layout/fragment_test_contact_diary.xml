@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
@@ -18,7 +18,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:backgroundTint="@color/colorContactDiaryListItem">
 
             <TextView
@@ -32,18 +32,15 @@
             <TextView
                 android:id="@+id/duration_value"
                 style="@style/bodyNeutral"
-                android:layout_width="70dp"
+                android:layout_width="@dimen/width_70"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:background="@drawable/contact_diary_duration_background_default"
-                android:paddingLeft="13dp"
-                android:paddingTop="11dp"
-                android:paddingRight="13dp"
-                android:paddingBottom="11dp"
+                android:padding="@dimen/padding_12"
                 android:text="@string/duration_dialog_default_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/duration_picker" />
+                app:layout_constraintTop_toBottomOf="@id/duration_picker" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -51,7 +48,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:backgroundTint="@color/colorContactDiaryListItem">
 
             <TextView
@@ -116,14 +113,11 @@
             <TextView
                 android:id="@+id/duration_value_2"
                 style="@style/bodyNeutral"
-                android:layout_width="70dp"
+                android:layout_width="@dimen/width_70"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:background="@drawable/contact_diary_duration_background_default"
-                android:paddingLeft="13dp"
-                android:paddingTop="11dp"
-                android:paddingRight="13dp"
-                android:paddingBottom="11dp"
+                android:padding="@dimen/padding_12"
                 android:text="@string/duration_dialog_default_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -135,9 +129,9 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/generate_title"
@@ -152,42 +146,42 @@
                 android:id="@+id/outdated_location_visits_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="1"
                 android:text="Outdated\nLocation Visits"
-                app:layout_constraintEnd_toStartOf="@+id/normal_location_visits_button"
+                app:layout_constraintEnd_toStartOf="@id/normal_location_visits_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/generate_title" />
+                app:layout_constraintTop_toBottomOf="@id/generate_title" />
             <Button
                 android:id="@+id/normal_location_visits_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="1"
                 android:text="Normal\nLocation Visits"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/outdated_location_visits_button"
-                app:layout_constraintTop_toBottomOf="@+id/generate_title" />
+                app:layout_constraintStart_toEndOf="@id/outdated_location_visits_button"
+                app:layout_constraintTop_toBottomOf="@id/generate_title" />
             <Button
                 android:id="@+id/outdated_person_encounters_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="1"
                 android:text="Outdated Person Encounters"
-                app:layout_constraintEnd_toStartOf="@+id/normal_person_encounters_button"
+                app:layout_constraintEnd_toStartOf="@id/normal_person_encounters_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outdated_location_visits_button" />
+                app:layout_constraintTop_toBottomOf="@id/outdated_location_visits_button" />
             <Button
                 android:id="@+id/normal_person_encounters_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="1"
                 android:text="Normal Person Encounters"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/outdated_person_encounters_button"
-                app:layout_constraintTop_toBottomOf="@+id/normal_location_visits_button" />
+                app:layout_constraintStart_toEndOf="@id/outdated_person_encounters_button"
+                app:layout_constraintTop_toBottomOf="@id/normal_location_visits_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -196,7 +190,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/clean_title"
@@ -211,112 +205,112 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Location Visits:"
-                app:layout_constraintEnd_toStartOf="@+id/location_visits_status"
+                app:layout_constraintEnd_toStartOf="@id/location_visits_status"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clean_title" />
+                app:layout_constraintTop_toBottomOf="@id/clean_title" />
 
             <TextView
                 android:id="@+id/location_visits_status"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Outdated: X Normal: Y"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/location_visits_title"
-                app:layout_constraintTop_toBottomOf="@+id/clean_title" />
+                app:layout_constraintStart_toEndOf="@id/location_visits_title"
+                app:layout_constraintTop_toBottomOf="@id/clean_title" />
 
             <TextView
                 android:id="@+id/location_visits_fancy"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="- none -"
                 app:layout_constraintTop_toBottomOf="@id/location_visits_status" />
 
             <View
                 android:id="@+id/divider_top"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_height="@dimen/height_1"
+                android:layout_marginTop="@dimen/margin_16"
                 android:background="@color/dividerColor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/location_visits_fancy" />
+                app:layout_constraintTop_toBottomOf="@id/location_visits_fancy" />
 
             <TextView
                 android:id="@+id/person_encounters_title"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Person Encounters:"
-                app:layout_constraintEnd_toStartOf="@+id/person_encounters_status"
+                app:layout_constraintEnd_toStartOf="@id/person_encounters_status"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+                app:layout_constraintTop_toBottomOf="@id/divider_top" />
 
             <TextView
                 android:id="@+id/person_encounters_status"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Outdated: X Normal: Y"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/person_encounters_title"
-                app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+                app:layout_constraintStart_toEndOf="@id/person_encounters_title"
+                app:layout_constraintTop_toBottomOf="@id/divider_top" />
 
             <TextView
                 android:id="@+id/person_encounters_fancy"
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="- none -"
                 app:layout_constraintTop_toBottomOf="@id/person_encounters_status" />
 
             <View
                 android:id="@+id/divider_bottom"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_height="@dimen/height_1"
+                android:layout_marginTop="@dimen/margin_16"
                 android:background="@color/dividerColor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/person_encounters_fancy" />
+                app:layout_constraintTop_toBottomOf="@id/person_encounters_fancy" />
 
             <Button
                 android:id="@+id/location_visits_clean_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Clean Location Visits"
-                app:layout_constraintEnd_toStartOf="@+id/person_encounters_clean_button"
+                app:layout_constraintEnd_toStartOf="@id/person_encounters_clean_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider_bottom" />
+                app:layout_constraintTop_toBottomOf="@id/divider_bottom" />
             <Button
                 android:id="@+id/person_encounters_clean_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_weight="1"
                 android:text="Clean Person Encounters"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/location_visits_clean_button"
-                app:layout_constraintTop_toBottomOf="@+id/divider_bottom" />
+                app:layout_constraintStart_toEndOf="@id/location_visits_clean_button"
+                app:layout_constraintTop_toBottomOf="@id/divider_bottom" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/wipe_all"
@@ -330,12 +324,12 @@
                 android:id="@+id/wipe_all_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_weight="1"
                 android:text="Delete all"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wipe_all" />
+                app:layout_constraintTop_toBottomOf="@id/wipe_all" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

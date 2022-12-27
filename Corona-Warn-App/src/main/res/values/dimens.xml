@@ -1,147 +1,199 @@
 <resources>
-    <!-- spacing, used as reference for everything else -->
-    <dimen name="spacing_huge">56dp</dimen>
-    <dimen name="spacing_large">48dp</dimen>
-    <dimen name="spacing_medium">32dp</dimen>
-    <dimen name="spacing_normal">24dp</dimen>
-    <dimen name="spacing_small">16dp</dimen>
-    <dimen name="spacing_tiny">8dp</dimen>
-    <dimen name="spacing_mega_tiny">4dp</dimen>
+    <!-- standard dimensions for CWA -->
+    <dimen name="standard_0">0dp</dimen>
+    <dimen name="standard_1">1dp</dimen>
+    <dimen name="standard_2">2dp</dimen>
+    <dimen name="standard_4">4dp</dimen>
+    <dimen name="standard_6">6dp</dimen>
+    <dimen name="standard_8">8dp</dimen>
+    <dimen name="standard_10">10dp</dimen>
+    <dimen name="standard_12">12dp</dimen>
+    <dimen name="standard_14">14dp</dimen>
+    <dimen name="standard_16">16dp</dimen>
+    <dimen name="standard_18">18dp</dimen>
+    <dimen name="standard_20">20dp</dimen>
+    <dimen name="standard_22">22dp</dimen>
+    <dimen name="standard_24">24dp</dimen>
+    <dimen name="standard_26">26dp</dimen>
+    <dimen name="standard_28">28dp</dimen>
+    <dimen name="standard_32">32dp</dimen>
+    <dimen name="standard_36">36dp</dimen>
+    <dimen name="standard_40">40dp</dimen>
+    <dimen name="standard_46">46dp</dimen>
+    <dimen name="standard_48">48dp</dimen>
+    <dimen name="standard_50">50dp</dimen>
+    <dimen name="standard_56">56dp</dimen>
+    <dimen name="standard_60">60dp</dimen>
+    <dimen name="standard_64">64dp</dimen>
+    <dimen name="standard_68">68dp</dimen>
+    <dimen name="standard_70">70dp</dimen>
+    <dimen name="standard_72">72dp</dimen>
+    <dimen name="standard_78">78dp</dimen>
+    <dimen name="standard_80">80dp</dimen>
+    <dimen name="standard_88">88dp</dimen>
+    <dimen name="standard_90">90dp</dimen>
+    <dimen name="standard_94">94dp</dimen>
+    <dimen name="standard_100">100dp</dimen>
+    <dimen name="standard_110">110dp</dimen>
+    <dimen name="standard_120">120dp</dimen>
+    <dimen name="standard_140">140dp</dimen>
+    <dimen name="standard_150">150dp</dimen>
+    <dimen name="standard_160">160dp</dimen>
+    <dimen name="standard_200">200dp</dimen>
+    <dimen name="standard_250">250dp</dimen>
+    <dimen name="standard_270">270dp</dimen>
+    <dimen name="standard_276">276dp</dimen>
+    <dimen name="standard_300">300dp</dimen>
+    <dimen name="standard_328">328dp</dimen>
+    <dimen name="standard_390">390dp</dimen>
+
+    <!-- margins -->
+    <dimen name="margin_2">@dimen/standard_2</dimen>
+    <dimen name="margin_4">@dimen/standard_4</dimen>
+    <dimen name="margin_6">@dimen/standard_6</dimen>
+    <dimen name="margin_8">@dimen/standard_8</dimen>
+    <dimen name="margin_10">@dimen/standard_10</dimen>
+    <dimen name="margin_12">@dimen/standard_12</dimen>
+    <dimen name="margin_14">@dimen/standard_14</dimen>
+    <dimen name="margin_16">@dimen/standard_16</dimen>
+    <dimen name="margin_24">@dimen/standard_24</dimen>
+    <dimen name="margin_28">@dimen/standard_28</dimen>
+    <dimen name="margin_32">@dimen/standard_32</dimen>
+    <dimen name="margin_36">@dimen/standard_36</dimen>
+    <dimen name="margin_48">@dimen/standard_48</dimen>
+    <dimen name="margin_46">@dimen/standard_46</dimen>
+    <dimen name="margin_40">@dimen/standard_40</dimen>
+    <dimen name="margin_50">@dimen/standard_50</dimen>
+    <dimen name="margin_56">@dimen/standard_56</dimen>
+    <dimen name="margin_64">@dimen/standard_64</dimen>
+    <dimen name="margin_68">@dimen/standard_68</dimen>
+    <dimen name="margin_72">@dimen/standard_72</dimen>
+    <dimen name="margin_78">@dimen/standard_78</dimen>
+    <dimen name="margin_90">@dimen/standard_90</dimen>
+    <dimen name="margin_100">@dimen/standard_100</dimen>
+    <dimen name="margin_110">@dimen/standard_110</dimen>
+    <dimen name="margin_160">@dimen/standard_160</dimen>
+
+    <!-- padding -->
+    <dimen name="padding_0">@dimen/standard_0</dimen>
+    <dimen name="padding_1">@dimen/standard_1</dimen>
+    <dimen name="padding_2">@dimen/standard_2</dimen>
+    <dimen name="padding_4">@dimen/standard_4</dimen>
+    <dimen name="padding_6">@dimen/standard_6</dimen>
+    <dimen name="padding_8">@dimen/standard_8</dimen>
+    <dimen name="padding_10">@dimen/standard_10</dimen>
+    <dimen name="padding_12">@dimen/standard_12</dimen>
+    <dimen name="padding_14">@dimen/standard_14</dimen>
+    <dimen name="padding_16">@dimen/standard_16</dimen>
+    <dimen name="padding_24">@dimen/standard_24</dimen>
+    <dimen name="padding_32">@dimen/standard_32</dimen>
+    <dimen name="padding_60">@dimen/standard_60</dimen>
+    <dimen name="padding_80">@dimen/standard_80</dimen>
+
+    <!-- widths -->
+    <dimen name="width_0">@dimen/standard_0</dimen>
+    <dimen name="width_1">@dimen/standard_1</dimen>
+    <dimen name="width_2">@dimen/standard_2</dimen>
+    <dimen name="width_6">@dimen/standard_6</dimen>
+    <dimen name="width_8">@dimen/standard_8</dimen>
+    <dimen name="width_14">@dimen/standard_14</dimen>
+    <dimen name="width_16">@dimen/standard_16</dimen>
+    <dimen name="width_18">@dimen/standard_18</dimen>
+    <dimen name="width_20">@dimen/standard_20</dimen>
+    <dimen name="width_24">@dimen/standard_24</dimen>
+    <dimen name="width_26">@dimen/standard_26</dimen>
+    <dimen name="width_32">@dimen/standard_32</dimen>
+    <dimen name="width_36">@dimen/standard_36</dimen>
+    <dimen name="width_40">@dimen/standard_40</dimen>
+    <dimen name="width_48">@dimen/standard_48</dimen>
+    <dimen name="width_56">@dimen/standard_56</dimen>
+    <dimen name="width_70">@dimen/standard_70</dimen>
+    <dimen name="width_88">@dimen/standard_88</dimen>
+    <dimen name="width_100">@dimen/standard_100</dimen>
+    <dimen name="width_120">@dimen/standard_120</dimen>
+    <dimen name="width_150">@dimen/standard_150</dimen>
+    <dimen name="width_250">@dimen/standard_250</dimen>
+    <dimen name="width_276">@dimen/standard_276</dimen>
+    <dimen name="width_300">@dimen/standard_300</dimen>
+    <dimen name="width_390">@dimen/standard_390</dimen>
+
+    <!-- heights -->
+    <dimen name="height_1">@dimen/standard_1</dimen>
+    <dimen name="height_2">@dimen/standard_2</dimen>
+    <dimen name="height_8">@dimen/standard_8</dimen>
+    <dimen name="height_14">@dimen/standard_14</dimen>
+    <dimen name="height_18">@dimen/standard_18</dimen>
+    <dimen name="height_20">@dimen/standard_20</dimen>
+    <dimen name="height_22">@dimen/standard_22</dimen>
+    <dimen name="height_24">@dimen/standard_24</dimen>
+    <dimen name="height_26">@dimen/standard_26</dimen>
+    <dimen name="height_28">@dimen/standard_28</dimen>
+    <dimen name="height_32">@dimen/standard_32</dimen>
+    <dimen name="height_36">@dimen/standard_36</dimen>
+    <dimen name="height_40">@dimen/standard_40</dimen>
+    <dimen name="height_48">@dimen/standard_48</dimen>
+    <dimen name="height_56">@dimen/standard_56</dimen>
+    <dimen name="height_64">@dimen/standard_64</dimen>
+    <dimen name="height_72">@dimen/standard_72</dimen>
+    <dimen name="height_94">@dimen/standard_94</dimen>
+    <dimen name="height_200">@dimen/standard_200</dimen>
+    <dimen name="height_250">@dimen/standard_250</dimen>
+    <dimen name="height_270">@dimen/standard_270</dimen>
+    <dimen name="height_300">@dimen/standard_300</dimen>
+    <dimen name="height_328">@dimen/standard_328</dimen>
+
+    <!-- radii -->
+    <dimen name="radius_1">@dimen/standard_1</dimen>
+    <dimen name="radius_2">@dimen/standard_2</dimen>
+    <dimen name="radius_4">@dimen/standard_4</dimen>
+    <dimen name="radius_8">@dimen/standard_8</dimen>
+
+    <!-- line spacings -->
+    <dimen name="line_spacing_4">@dimen/standard_4</dimen>
+    <dimen name="line_spacing_8">@dimen/standard_8</dimen>
 
     <!-- font sizes -->
-    <dimen name="font_huge">34sp</dimen>
-    <dimen name="font_normal">16sp</dimen>
-    <dimen name="font_small">12sp</dimen>
-    <dimen name="font_button">14sp</dimen>
-    <dimen name="font_title">20sp</dimen>
+    <dimen name="font_0">0sp</dimen>
+    <dimen name="font_11">11sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_30">30sp</dimen>
+    <dimen name="font_34">34sp</dimen>
 
     <!-- line heights -->
-    <dimen name="line_height_large">28sp</dimen>
-    <dimen name="line_height_normal">24sp</dimen>
-    <dimen name="line_height_small">20sp</dimen>
-    <dimen name="line_height_tiny">16sp</dimen>
+    <dimen name="line_height_28">28sp</dimen>
+    <dimen name="line_height_24">24sp</dimen>
+    <dimen name="line_height_20">20sp</dimen>
+    <dimen name="line_height_16">16sp</dimen>
 
-    <!-- header height -->
-    <dimen name="header">56dp</dimen>
+    <!-- ui thickness -->
+    <dimen name="ui_thickness_2">@dimen/standard_2</dimen>
 
     <!-- elevation -->
-    <dimen name="elevation_strong">10dp</dimen>
-    <dimen name="elevation_weak">4dp</dimen>
-    <dimen name="elevation_none">0dp</dimen>
+    <dimen name="elevation_0">@dimen/standard_0</dimen>
+    <dimen name="elevation_1">@dimen/standard_1</dimen>
+    <dimen name="elevation_2">@dimen/standard_2</dimen>
+    <dimen name="elevation_4">@dimen/standard_4</dimen>
+    <dimen name="elevation_8">@dimen/standard_8</dimen>
+    <dimen name="elevation_10">@dimen/standard_10</dimen>
 
-    <!-- default spacing for guidelines -->
-    <dimen name="guideline_card">12dp</dimen>
-    <dimen name="guideline_start">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_end">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_top">@dimen/spacing_normal</dimen>
-    <dimen name="guideline_bottom">@dimen/spacing_small</dimen>
-    <dimen name="guideline_action">72dp</dimen>
-    <dimen name="guideline_action_large">150dp</dimen>
-    <dimen name="guideline_body_title">45dp</dimen>
-    <dimen name="guideline_body_title_padding">69dp</dimen>
-    <dimen name="guideline_back">14dp</dimen> <!-- guideline_start - button_icon_padding -->
-    <dimen name="guideline_top_onboarding">64dp</dimen>
-    <!-- guideline_top + button_icon_padding + icon_size  only for first onboarding screen-->
-    <dimen name="guideline_start_divider">69dp</dimen>
-    <!-- guideline_body_title + guideline start -->
+    <!-- Overlaps -->
+    <dimen name="overlap_140">@dimen/standard_140</dimen>
 
-    <!-- button -->
-    <dimen name="button_padding_start_end">@dimen/spacing_normal</dimen>
-    <dimen name="button_padding_top_bottom">@dimen/spacing_small</dimen>
-    <dimen name="button_icon_margin">8dp</dimen>
-
-    <!-- card -->
-    <dimen name="card_padding">@dimen/spacing_normal</dimen>
-    <dimen name="card_divider">1dp</dimen>
-
-    <!-- general -->
-    <dimen name="radius_card">4dp</dimen>
-    <dimen name="icon_size">20dp</dimen>
-    <dimen name="icon_size_risk_card">40dp</dimen>
-    <dimen name="icon_size_main_card">40dp</dimen>
-    <dimen name="icon_size_main_card_end">40dp</dimen>
-    <dimen name="icon_size_button">40dp</dimen>
-    <dimen name="icon_size_settings">40dp</dimen>
-    <dimen name="icon_size_risk_details_behavior">25dp</dimen>
-    <dimen name="icon_size_external_link">18dp</dimen>
-    <dimen name="icon_margin_risk_details_behavior">8dp</dimen>
-    <dimen name="list_item_decoration_card_margins">16dp</dimen>
-
-    <!-- Circle sizes -->
-    <dimen name="circle_icon">32dp</dimen>
-    <dimen name="circle_icon_padding">6dp</dimen>
-    <dimen name="circle_icon_big">40dp</dimen>
-    <dimen name="circle_icon_big_padding">8dp</dimen>
-
-    <dimen name="button_icon">48dp</dimen>
-    <dimen name="button_icon_padding">12dp</dimen>
-
-    <!-- todo illustration sizes -->
-
-    <!-- Submission -->
-
-    <!-- Submission Test Result -->
-
-    <!-- Test Result Card -->
-
-    <!-- Test Result Steps -->
-    <dimen name="test_result_step_progress_line_width">1dp</dimen>
-
-    <!-- Submission Tan Input -->
-    <dimen name="submission_tan_input_edittext_size">1dp</dimen>
-    <dimen name="submission_tan_input_digit_radius">2dp</dimen>
-    <dimen name="submission_tan_input_digit_spacing">3dp</dimen>
-    <dimen name="submission_tan_input_digit_stroke">2dp</dimen>
-    <dimen name="submission_tan_dash_width">6dp</dimen>
-    <dimen name="submission_tan_dash_height">2dp</dimen>
-    <dimen name="submission_tan_dash_spacing_start">2dp</dimen>
-    <dimen name="submission_tan_dash_spacing_end">5dp</dimen>
-    <dimen name="submission_tan_line_spacing">16dp</dimen>
-    <dimen name="submission_tan_input_digit_min_width">20dp</dimen>
-    <dimen name="submission_tan_input_digit_max_width">48dp</dimen>
-    <dimen name="submission_tan_total_digit_spacing">6dp</dimen>
-    <dimen name="submission_tan_total_group_spacing">16dp</dimen>
-
-    <!-- QR Code Scan -->
-    <dimen name="scan_qr_code_viewfinder_size">300dp</dimen>
-    <dimen name="scan_qr_code_viewfinder_center_offset">160dp</dimen>
-    <dimen name="scan_qr_code_text_length">250dp</dimen>
-
-    <!-- Submission Country Select -->
+    <!-- Guidelines -->
+    <dimen name="guideline_12">@dimen/standard_12</dimen>
+    <dimen name="guideline_14">@dimen/standard_14</dimen>
+    <dimen name="guideline_16">@dimen/standard_16</dimen>
+    <dimen name="guideline_24">@dimen/standard_24</dimen>
+    <dimen name="guideline_46">@dimen/standard_46</dimen>
+    <dimen name="guideline_64">@dimen/standard_64</dimen>
+    <dimen name="guideline_72">@dimen/standard_72</dimen>
 
     <!-- Bullet Points -->
-    <dimen name="bullet_point_size">6dp</dimen>
+    <dimen name="bullet_point_6">@dimen/standard_6</dimen>
     <dimen name="bullet_point_baseline_offset">8sp</dimen>
-    <dimen name="bullet_point_spacing_between">@dimen/spacing_small</dimen>
-    <dimen name="bullet_point_spacing_before">@dimen/spacing_tiny</dimen>
-    <dimen name="bullet_point_spacing_after">@dimen/spacing_normal</dimen>
-
-    <dimen name="bullet_point_size_contact_diary">8dp</dimen>
-    <dimen name="bullet_point_spacing_after_contact_diary">10dp</dimen>
-    <dimen name="bullet_point_baseline_offset_contact_diary">9dp</dimen>
-
-    <dimen name="bullet_point_padding_srs">12dp</dimen>
-
-    <dimen name="no_padding">0dp</dimen>
-
-    <!-- Calendar -->
-    <dimen name="calendar_header_height">72dp</dimen>
-    <dimen name="calendar_header_initial_radius">1dp</dimen>
-    <dimen name="calendar_header_top_radius">4dp</dimen>
-    <dimen name="calendar_header_bottom_radius">4dp</dimen>
-    <dimen name="calendar_layout_stroke">2dp</dimen>
-    <dimen name="calendar_day_size">40dp</dimen>
-    <dimen name="calendar_day_spacing">4dp</dimen>
-
-    <!-- Contact Diary -->
-    <dimen name="statistics_card_height">328dp</dimen>
-    <dimen name="statistics_card_width">300dp</dimen>
-
-    <!-- Swipe to delete icons left or right margin from the edge-->
-    <dimen name="swipe_icon_margin">33dp</dimen>
-
-    <!-- Padding for the collapsed floating action button -->
-    <dimen name="spacing_fab_padding">80dp</dimen>
-    <dimen name="spacing_toolbar_padding">60dp</dimen>
 
 </resources>

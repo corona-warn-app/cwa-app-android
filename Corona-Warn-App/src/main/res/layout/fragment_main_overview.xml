@@ -49,12 +49,12 @@
                     layout="@layout/include_main_overview_segment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:body="@{@string/main_overview_body_tracing}"
                     app:icon="@{@drawable/ic_main_overview_1}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_overview_header_details"
+                    app:layout_constraintTop_toBottomOf="@id/main_overview_header_details"
                     app:subtitle="@{@string/main_overview_subtitle_tracing}" />
 
                 <include
@@ -62,31 +62,31 @@
                     layout="@layout/include_main_overview_segment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:body="@{@string/main_overview_body_risk}"
                     app:icon="@{@drawable/ic_main_overview_2}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_overview_tracing"
+                    app:layout_constraintTop_toBottomOf="@id/main_overview_tracing"
                     app:subtitle="@{@string/main_overview_subtitle_risk}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/main_overview_risk_subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_overview_risk">
+                    app:layout_constraintTop_toBottomOf="@id/main_overview_risk">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/main_overview_risk_headline"
                         style="@style/row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingTop="@dimen/padding_16"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -95,7 +95,7 @@
                             style="@style/headline6"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/guideline_body_title"
+                            android:layout_marginStart="@dimen/margin_48"
                             android:accessibilityHeading="true"
                             android:text="@string/main_overview_subtitle_risk_levels"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +126,7 @@
                         app:iconTint="@{@color/colorSemanticLowRisk}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_increased_risk"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_risk_increased_risk"
                         app:subtitle="@{@string/main_overview_subtitle_low_risk}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -136,18 +136,18 @@
                     layout="@layout/include_main_overview_segment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:body="@{@string/main_overview_body_test}"
                     app:icon="@{@drawable/ic_main_overview_3}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/main_overview_risk_subtitle"
+                    app:layout_constraintTop_toBottomOf="@id/main_overview_risk_subtitle"
                     app:subtitle="@{@string/main_overview_headline_test}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:background="@color/colorSurface2"
                     app:layout_constraintTop_toBottomOf="@+id/main_overview_test">
 
@@ -156,7 +156,7 @@
                         style="@style/row"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/spacing_small"
+                        android:paddingTop="@dimen/padding_16"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -165,7 +165,7 @@
                             style="@style/headline5"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/guideline_body_title"
+                            android:layout_marginStart="@dimen/margin_48"
                             android:accessibilityHeading="true"
                             android:text="@string/main_overview_headline_glossary"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -182,7 +182,7 @@
                         app:body="@{@string/main_overview_body_glossary_tracing}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_glossary_headline"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_glossary_headline"
                         app:subtitle="@{@string/main_overview_subtitle_glossary_tracing}" />
 
                     <include
@@ -193,7 +193,7 @@
                         app:body="@{@string/main_overview_body_glossary_calculation}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_glossary_tracing"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_glossary_tracing"
                         app:subtitle="@{@string/main_overview_subtitle_glossary_calculation}" />
 
                     <include
@@ -204,7 +204,7 @@
                         app:body="@{@string/main_overview_body_glossary_contact}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_glossary_calculation"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_glossary_calculation"
                         app:subtitle="@{@string/main_overview_subtitle_glossary_contact}" />
 
                     <include
@@ -215,7 +215,7 @@
                         app:body="@{@string/main_overview_body_glossary_notification}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_glossary_contact"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_glossary_contact"
                         app:subtitle="@{@string/main_overview_subtitle_glossary_notification}" />
 
                     <include
@@ -224,10 +224,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:body="@{@string/main_overview_body_glossary_keys}"
-                        app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+                        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/main_overview_glossary_notification"
+                        app:layout_constraintTop_toBottomOf="@id/main_overview_glossary_notification"
                         app:subtitle="@{@string/main_overview_subtitle_glossary_keys}" />
 
                     <androidx.constraintlayout.widget.Guideline
@@ -235,7 +235,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+                        app:layout_constraintGuide_end="@dimen/guideline_16" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

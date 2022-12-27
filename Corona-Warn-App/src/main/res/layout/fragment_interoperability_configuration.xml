@@ -35,13 +35,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_normal">
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
                     android:id="@+id/interoperability_illustration"
@@ -60,7 +60,7 @@
                     style="@style/headline4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:accessibilityHeading="true"
                     android:text="@string/interoperability_configuration_title"
                     android:hyphenationFrequency="full"
@@ -73,7 +73,7 @@
                     style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/interoperability_configuration_first_section"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +84,8 @@
                     style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginBottom="@dimen/margin_16"
                     android:text="@string/interoperability_configuration_second_section"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
                     layout="@layout/include_interop_riskdetails_no_countries_infoview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
                     style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/interoperability_configuration_information"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

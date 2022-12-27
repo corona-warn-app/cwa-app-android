@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:id="@+id/bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
         android:baseline="@dimen/bullet_point_baseline_offset"
         app:srcCompat="@drawable/bullet_point"
         android:importantForAccessibility="no"

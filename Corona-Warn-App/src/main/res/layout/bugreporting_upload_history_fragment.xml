@@ -27,18 +27,18 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_16"
                 android:text="@string/debugging_debuglog_uploadhistory_description" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upload_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/bugreporting_upload_history_item" />

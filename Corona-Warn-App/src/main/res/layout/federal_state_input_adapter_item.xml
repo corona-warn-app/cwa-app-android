@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="@dimen/spacing_normal"
-        android:layout_marginVertical="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginVertical="@dimen/margin_16"
         tools:text="Baden-Würtemberg" />
 
     <View
         android:layout_gravity="bottom"
-        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/margin_24"
         android:background="?android:attr/listDivider"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="@dimen/height_1" />
 
 </FrameLayout>

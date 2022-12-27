@@ -44,12 +44,12 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/margin_24"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     layout="@layout/include_setting_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:body="@{@string/settings_tracing_body_description}"
                     app:color="@{tracingState.getTracingIconColor(context)}"
                     app:icon="@{tracingState.getTracingIcon(context)}"
@@ -81,7 +81,7 @@
                     app:icon="@{notificationState.getNotificationIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_tracing"
+                    app:layout_constraintTop_toBottomOf="@id/settings_tracing"
                     app:showDivider="@{true}"
                     app:statusText="@{notificationState.getNotificationStatusText(context)}"
                     app:subtitle="@{@string/settings_notifications_title}" />
@@ -97,7 +97,7 @@
                     app:icon="@{backgroundState.getBackgroundPriorityIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_notifications"
+                    app:layout_constraintTop_toBottomOf="@id/settings_notifications"
                     app:showDivider="@{true}"
                     app:statusText="@{backgroundState.getBackgroundPriorityText(context)}"
                     app:subtitle="@{@string/settings_background_priority_title}" />
@@ -112,7 +112,7 @@
                     app:icon="@{analyticsState.getPrivacyPreservingAnalyticsIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
+                    app:layout_constraintTop_toBottomOf="@id/settings_background_priority"
                     app:showDivider="@{true}"
                     app:statusText="@{analyticsState.getPrivacyPreservingAnalyticsText(context)}"
                     app:subtitle="@{@string/settings_privacy_preserving_analytics_title}" />
@@ -124,12 +124,12 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_privacy_preserving_analytics">
+                    app:layout_constraintTop_toBottomOf="@id/settings_privacy_preserving_analytics">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/guideline_body_title"
+                        android:layout_marginStart="@dimen/margin_46"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -152,7 +152,7 @@
                             android:text="@string/settings_reset_body_description"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/settings_reset_subtitle" />
+                            app:layout_constraintTop_toBottomOf="@id/settings_reset_subtitle" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -34,7 +34,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/margin_12"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -51,7 +51,7 @@
                     style="@style/headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +62,7 @@
                     android:id="@+id/submission_test_result_section"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:focusable="true"
                     android:importantForAccessibility="yes"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/margin_32"
                     android:accessibilityHeading="true"
                     android:text="@string/submission_test_result_consent_given_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
                     style="@style/body1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/margin_32"
                     android:accessibilityHeading="true"
                     android:text="@string/submission_test_result_consent_given_body"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -100,8 +100,8 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
             app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue_without_symptoms"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
@@ -112,7 +112,7 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/submission_test_result_consent_given_breakup_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
@@ -120,18 +120,5 @@
 
         <include layout="@layout/merge_guidelines_side" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_action_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action_large" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

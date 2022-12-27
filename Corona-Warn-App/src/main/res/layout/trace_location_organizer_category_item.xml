@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:paddingStart="@dimen/spacing_normal"
-    android:paddingEnd="@dimen/spacing_normal"
+    android:paddingTop="@dimen/padding_10"
+    android:paddingBottom="@dimen/padding_10"
+    android:paddingStart="@dimen/padding_24"
+    android:paddingEnd="@dimen/padding_24"
     android:background="?android:selectableItemBackground"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/category_item_title"
         style="@style/body1"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Einzelhandel" />

@@ -10,15 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical"
-        android:paddingBottom="32dp">
+        android:paddingBottom="@dimen/padding_32">
 
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
             <TextView
                 style="@style/body1"
@@ -32,7 +32,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 tools:text="No OTP" />
 
             <TextView
@@ -40,7 +40,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 tools:text="SubmissionTime" />
 
             <TextView
@@ -48,14 +48,14 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 tools:text="Android ID" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/check_device_time_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Check Local prerequisites" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
@@ -76,8 +76,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_6"
                 android:gravity="center"
                 android:text="_________ Device Time State _________" />
 
@@ -86,7 +86,7 @@
                 style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:hint="Device Time State"
                 android:textColorHint="@color/colorTextPrimary3"
                 app:boxBackgroundColor="@color/colorContactDiaryListItem">
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/margin_24"
                 android:gravity="center"
                 android:text="_________ For DEVs _________" />
 
@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Run submission" />
 
             <Button
@@ -122,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Clear OTP" />
 
         </LinearLayout>
@@ -132,7 +132,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/tek_history_title"
@@ -147,7 +147,7 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="The currently available keys from cache or ENF are shown below. If the cache has entries from the last submission, these are used. If not, the current TEKs from ENF are used. Does NOT update cache.\n Tracing must be activated in advance."
                 app:layout_constraintTop_toBottomOf="@id/tek_history_title" />
 
@@ -156,7 +156,7 @@
                 style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="Get TEKs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -176,17 +176,17 @@
                 android:id="@+id/tek_storage_count"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tek_email"
+                app:layout_constraintTop_toBottomOf="@id/tek_email"
                 tools:text="99 TEKs" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tek_history_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tek_storage_count" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
     android:orientation="vertical">
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_divider"
+        android:layout_height="@dimen/height_1"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,9 @@
         style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawablePadding="16dp"
+        android:drawablePadding="@dimen/padding_16"
         android:gravity="center_vertical"
-        android:padding="16dp"
+        android:padding="@dimen/padding_16"
         android:text="@string/srs_contact_diary_submission_item_title"
         app:drawableStartCompat="@drawable/ic_submission" />
 </LinearLayout>

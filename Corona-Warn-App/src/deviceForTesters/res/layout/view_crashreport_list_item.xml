@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="crashReportTitle"
             type="String" />
@@ -20,15 +19,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical"
-        android:paddingBottom="2dp">
+        android:paddingBottom="@dimen/padding_2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/Card"
-            android:layout_width="390dp"
+            android:layout_width="@dimen/width_390"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -47,27 +46,27 @@
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_4"
                 android:text="@{crashReportDateFormatted}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportTitle" />
+                app:layout_constraintTop_toBottomOf="@id/textViewCrashReportTitle" />
 
             <TextView
                 android:id="@+id/textViewCrashReportShortMessage"
                 style="@style/bodySmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_4"
                 android:ellipsize="end"
                 android:inputType="none"
                 android:maxLines="4"
                 android:text="@{message}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCrashReportDate" />
+                app:layout_constraintTop_toBottomOf="@id/textViewCrashReportDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

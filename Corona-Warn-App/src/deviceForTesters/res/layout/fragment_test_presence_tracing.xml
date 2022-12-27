@@ -16,8 +16,8 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_tiny"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -29,21 +29,21 @@
                 android:id="@+id/reset_processed_warning_packages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="Reset processed packages" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/run_pt_warning_task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Run task (download+matching)" />
 
             <TextView
                 android:id="@+id/task_run_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Matching runtime:" />
 
             <TextView
@@ -56,14 +56,14 @@
                 android:id="@+id/calculateRisk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Calculate risk" />
 
             <TextView
                 android:id="@+id/riskCalculationRuntimeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Risk calculation runtime:" />
 
             <TextView
@@ -79,8 +79,8 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_tiny"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_10"
             android:orientation="vertical">
 
             <TextView
@@ -93,7 +93,7 @@
                 android:id="@+id/lastOrganiserLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:textIsSelectable="true"
                 tools:text="Location" />
 
@@ -101,7 +101,7 @@
                 android:id="@+id/lastOrganiserLocationUrl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:autoLink="web"
                 android:textIsSelectable="true"
                 tools:text="URL" />
@@ -110,7 +110,7 @@
                 android:id="@+id/lastOrganiserLocationId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:textIsSelectable="true"
                 tools:text="ID" />
 
@@ -129,14 +129,14 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Organiser Submission" />
 
             <EditText
                 android:id="@+id/organizerStartDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:autoLink="web"
                 android:hint="Start Date: dd.MM.yy HH:mm"
                 android:inputType="text"
@@ -147,7 +147,7 @@
                 android:id="@+id/organizerDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:hint="Duration"
                 android:inputType="time"
                 android:text="02:00"
@@ -157,7 +157,7 @@
                 android:id="@+id/organizerTan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:hint="TAN"
                 android:inputType="number"
                 android:text="222-222-2223"
@@ -180,8 +180,8 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_tiny"
-            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_10"
 
             android:orientation="vertical">
 
@@ -195,7 +195,7 @@
                 android:id="@+id/lastAttendeeLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:textIsSelectable="true"
                 tools:text="Location" />
 
@@ -203,7 +203,7 @@
                 android:id="@+id/lastAttendeeLocationUrl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:autoLink="web"
                 android:textIsSelectable="true"
                 tools:text="URL" />
@@ -212,7 +212,7 @@
                 android:id="@+id/lastAttendeeLocationId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_10"
                 android:textIsSelectable="true"
                 tools:text="ID" />
         </LinearLayout>
@@ -223,7 +223,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="Consent" />
 
     </LinearLayout>

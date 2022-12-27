@@ -60,7 +60,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     navigationContentDescription = getString(R.string.accessibility_close)
                 }
             } else {
-                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.padding_80))
             }
             toolbar.setNavigationOnClickListener { popBackStack() }
             privacyInformation.setOnClickListener { viewModel.onDataPrivacyClick() }
@@ -73,6 +73,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     findNavController().navigate(
                         R.id.action_covidCertificateOnboardingFragment_to_privacyFragment
                     )
+
                 CovidCertificateOnboardingViewModel.Event.NavigateToPersonOverview ->
                     findNavController().navigate(
                         R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
@@ -82,8 +83,10 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     val uri = when (event.containerId) {
                         is VaccinationCertificateContainerId ->
                             VaccinationDetailsFragment.uri(event.containerId.qrCodeHash)
+
                         is TestCertificateContainerId ->
                             TestCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
+
                         is RecoveryCertificateContainerId ->
                             RecoveryCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
                     }
@@ -92,6 +95,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                         .build()
                     findNavController().navigate(uri, navOption)
                 }
+
                 is CovidCertificateOnboardingViewModel.Event.Error ->
                     showCovidCertificateOnboardingErrorDialog(event.throwable)
             }

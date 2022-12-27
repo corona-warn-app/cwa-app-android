@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_tiny"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/delta_onboarding_title"
@@ -35,7 +35,7 @@
                 style="@style/body2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="By changing the last changelog version you may invoke the 'New release' screen in the home screen."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
                 android:id="@+id/last_changelog_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:hint="Last chnagelog version"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,31 +63,31 @@
                 android:id="@+id/button_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="Update"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/last_changelog_layout" />
+                app:layout_constraintTop_toBottomOf="@id/last_changelog_layout" />
 
             <Button
                 android:id="@+id/button_clear"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="Clear"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_set" />
+                app:layout_constraintTop_toBottomOf="@id/button_set" />
 
             <Button
                 android:id="@+id/button_reset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:text="Reset"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_clear" />
+                app:layout_constraintTop_toBottomOf="@id/button_clear" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,7 +97,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/contact_journal_onboarding_title"
@@ -113,7 +113,7 @@
                 android:id="@+id/switch_contact_journal_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/contact_journal_onboarding_title" />
 
@@ -124,7 +124,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/cdelta_onboarding_title"
@@ -140,7 +140,7 @@
                 android:id="@+id/switch_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/cdelta_onboarding_title" />
 
@@ -151,7 +151,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/event_creation_title"
@@ -167,7 +167,7 @@
                 android:id="@+id/switch_attendee_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Attendee onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/event_creation_title" />
 
@@ -178,7 +178,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/vaccination_registration_title"
@@ -194,7 +194,7 @@
                 android:id="@+id/switch_vaccination_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Vaccination registration onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/vaccination_registration_title" />
 
@@ -205,7 +205,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
 
             <TextView
                 android:id="@+id/notifications_delta_onboarding_title"
@@ -221,7 +221,7 @@
                 android:id="@+id/switch_notifications_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Notifications onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/notifications_delta_onboarding_title" />
 
@@ -229,7 +229,7 @@
                 android:id="@+id/switch_analytics_delta_onboarding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="Analytics onboarding finished"
                 app:layout_constraintTop_toBottomOf="@id/switch_notifications_delta_onboarding" />
 

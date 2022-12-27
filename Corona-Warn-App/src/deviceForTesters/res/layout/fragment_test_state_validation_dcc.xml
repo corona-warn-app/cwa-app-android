@@ -10,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical">
 
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -49,7 +49,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
             <TextView
                 android:id="@+id/revocation_title"
                 style="@style/headline6"
@@ -80,7 +80,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny">
+            android:layout_margin="@dimen/margin_8">
             <TextView
                 android:id="@+id/container_title"
                 style="@style/headline6"
@@ -108,13 +108,13 @@
                 android:id="@+id/info_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_16"
                 android:hint="Filter"
                 app:layout_constraintTop_toBottomOf="@id/clear_cache" />
 

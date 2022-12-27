@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -19,9 +18,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/margin_6"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/buttonCrashReportShare"
+            app:layout_constraintBottom_toTopOf="@id/buttonCrashReportShare"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,7 +37,7 @@
             android:id="@+id/buttonCrashReportShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/margin_10"
             android:text="Share"
             android:background="@color/colorCrashReporter"
             android:visibility="invisible"

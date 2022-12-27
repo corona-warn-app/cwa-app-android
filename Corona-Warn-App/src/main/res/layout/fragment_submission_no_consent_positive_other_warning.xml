@@ -41,7 +41,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/spacing_normal">
+                android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
                     android:id="@+id/submission_positive_other_warning_hero_illustration"
@@ -61,7 +61,7 @@
                     style="@style/headline5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/submission_positive_other_warning_headline"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -73,7 +73,7 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/submission_positive_other_warning_no_consent_body_first_part"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -84,8 +84,8 @@
                     android:id="@+id/countryList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    android:layout_marginTop="@dimen/margin_24"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_positive_other_warning_text_first_part" />
 
@@ -94,7 +94,7 @@
                     layout="@layout/include_privacy_card_no_consent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@id/countryList" />
@@ -104,7 +104,7 @@
                     layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     app:itemText="@{@string/submission_no_consent_first_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -115,7 +115,7 @@
                     layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     app:itemText="@{@string/submission_no_consent_second_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -126,7 +126,7 @@
                     layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     app:itemText="@{@string/submission_no_consent_third_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -137,7 +137,7 @@
                     layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     app:itemText="@{@string/submission_no_consent_fourth_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -148,7 +148,7 @@
                     layout="@layout/view_bullet_point_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     app:itemText="@{@string/submission_no_consent_fifth_point}"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -158,7 +158,7 @@
                     android:id="@+id/submission_consent_more_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
+            app:layout_constraintGuide_end="@dimen/guideline_72" />
 
         <include layout="@layout/merge_guidelines_side" />
 

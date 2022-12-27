@@ -21,7 +21,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/margin_16"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/button_submit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,15 +32,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/spacing_normal">
+            android:paddingBottom="@dimen/padding_24">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/description_input_layout"
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
                 android:hint="@string/tracelocation_organizer_add_event_description"
                 app:endIconMode="clear_text">
 
@@ -58,9 +58,9 @@
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_tiny"
-                android:layout_marginBottom="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_24"
                 android:hint="@string/tracelocation_organizer_add_event_location"
                 app:endIconMode="clear_text">
 
@@ -78,12 +78,12 @@
                 style="@style/ContactDiaryExpandableListItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="@dimen/spacing_small">
+                android:padding="@dimen/padding_16">
 
                 <TextView
                     android:id="@+id/label_start"
@@ -113,13 +113,12 @@
                 style="@style/ContactDiaryExpandableListItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="@dimen/spacing_small">
-
+                android:padding="@dimen/padding_16">
                 <TextView
                     android:id="@+id/label_end"
                     style="@style/subtitle"
@@ -148,11 +147,11 @@
                 style="@style/ContactDiaryExpandableListItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:backgroundTint="@color/colorContactDiaryListItem"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="@dimen/spacing_small">
+                android:padding="@dimen/padding_16">
 
                 <TextView
                     android:id="@+id/label_length_of_stay"
@@ -178,7 +177,7 @@
                     style="@style/subtitleMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/spacing_small"
+                    android:paddingTop="@dimen/padding_16"
                     android:text="@string/tracelocation_organizer_add_event_length_of_stay_description"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

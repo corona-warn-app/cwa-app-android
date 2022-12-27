@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/spacing_fab_padding"
+        android:paddingBottom="@dimen/padding_80"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,8 +26,8 @@
         android:id="@+id/empty_list_info_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="@dimen/spacing_toolbar_padding"
-        android:paddingBottom="@dimen/spacing_fab_padding"
+        android:paddingTop="@dimen/padding_60"
+        android:paddingBottom="@dimen/padding_80"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_16"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -54,7 +54,7 @@
                 style="@style/subtitleMediumBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="@dimen/margin_36"
                 android:gravity="center"
                 android:text="@string/trace_location_checkins_empty_label" />
 
@@ -62,7 +62,7 @@
                 style="@style/body2Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_16"
                 android:gravity="center"
                 android:text="@string/trace_location_checkins_empty_description_1"
                 app:autoSizeTextType="uniform" />
@@ -71,8 +71,8 @@
                 style="@style/body2Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_16"
                 android:gravity="center"
                 android:text="@string/trace_location_checkins_empty_description_2"
                 app:autoSizeTextType="uniform" />

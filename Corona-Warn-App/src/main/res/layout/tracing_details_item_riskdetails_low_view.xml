@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface2"
-        android:padding="@dimen/card_padding">
+        android:padding="@dimen/padding_24">
 
         <TextView
             android:id="@+id/risk_details_information_headline"
@@ -32,31 +32,31 @@
             style="@style/body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             android:focusable="true"
             android:text="@string/risk_details_subtitle_infection_risk"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_headline" />
+            app:layout_constraintTop_toBottomOf="@id/risk_details_information_headline" />
 
         <TextView
             android:id="@+id/risk_details_information_body"
             style="@style/body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:focusable="true"
             android:text="@{info.getRiskDetailsRiskLevelBody(context)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_subtitle"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_information_subtitle"
             tools:text="@string/risk_details_information_body_low_risk_with_encounter" />
 
         <TextView
             android:id="@+id/risk_details_information_lowrisk_body_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:clickable="true"
             android:focusable="true"
             android:linksClickable="true"
@@ -65,7 +65,7 @@
             android:text="@string/risk_details_explanation_dialog_faq_body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/risk_details_information_body" />
+            app:layout_constraintTop_toBottomOf="@id/risk_details_information_body" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
