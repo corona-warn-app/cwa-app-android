@@ -118,3 +118,4 @@ jobs:
       - name: Notify Teams
         run: |
           curl -H 'Content-Type: application/json' -d '{"text": "Release [$release_tag](https://github.com/corona-warn-app/cwa-app-android/releases/tag/$release_tag) is ready for testing"}' ${{ secrets.TEAMS_WEBHOOK_URL }}
+          
