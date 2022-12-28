@@ -52,7 +52,9 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
         vm.userInfoItems.observe2(this) {
             itemAdapter.data = it
         }
-        itemAdapter.onItemClickListener = { vm.selectUserInfoItem(it) }
+        itemAdapter.onItemClickListener = {
+            vm.selectUserInfoItem(it)
+        }
         vm.finishEvent.observe2(this) { popBackStack() }
     }
 

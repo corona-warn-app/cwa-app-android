@@ -18,16 +18,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Warnung mit Selbsttests</item>
-        <item>Warnung mit unregistrierten Tests</item>
-        <item>TAN-Hotline entfällt</item>
+        <item>"Warning with Self-Tests"</item>
+        <item>"Warning with Unregistered Tests"</item>
+        <item>"TAN Hotline Discontinued Soon"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können jetzt mit positiven Ergebnissen von alleine durchgeführten Selbsttests eine Warnung an andere Nutzer der Corona-Warn-App schicken.</item>
-        <item>Sollten Sie bei einer Teststelle mit einem nicht in der Corona-Warn-App registrierten Schnell- oder PCR-Test positiv getestet worden sein, können Sie jetzt auch mit diesen Testergebnissen andere Nutzer der App warnen.</item>
-        <item>Die Möglichkeit, eine TAN über die TAN-Hotline zu erhalten, entfällt in einigen Wochen. Sie können nun ohne TAN andere Nutzer der Corona-Warn-App warnen.</item>
+        <item>"You can now send a warning to other users of the Corona-Warn-App if a self-test indicates that you have a coronavirus infection."</item>
+        <item>"If a rapid test or PCR test from a testing point indicates you have a coronavirus infection, but this test is not registered in the Corona-Warn-App, you can now still warn other app users."</item>
+        <item>"The option of getting a TAN from the TAN hotline will be discontinued within the next few weeks. Therefore, you no longer need a TAN to warn other users of the Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

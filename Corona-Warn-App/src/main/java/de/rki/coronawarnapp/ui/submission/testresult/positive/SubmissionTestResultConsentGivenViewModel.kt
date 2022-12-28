@@ -76,9 +76,11 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     }
 
     fun onNewUserActivity() {
-        Timber.d("onNewUserActivity()")
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, testType)
-        autoSubmission.updateLastSubmissionUserActivity()
+        launch {
+            Timber.d("onNewUserActivity()")
+            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, testType)
+            autoSubmission.updateLastSubmissionUserActivity()
+        }
     }
 
     @AssistedFactory

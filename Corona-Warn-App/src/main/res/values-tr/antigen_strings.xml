@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-        Homescreen cards - register test card
-    ###################################### -->
-    <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Devam Et"</string>
-    <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Diğer kullanıcıları daha hızlı uyarmak veya dijital COVID test sertifikanızı talep etmek için yakınınızdaki test merkezlerini bulun ve bir testi kaydedin."</string>
-
-    <!-- ####################################
         Homescreen cards - common status
     ###################################### -->
     <!-- XTXT: Homescreen card: status subtitle - no result -->
@@ -124,7 +116,7 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Hızlı Test Profilleri"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"QR kod ile dilediğiniz katılımcı test noktasına gönderebileceğiniz, kişisel verilerinizi içeren hızlı test profili."</string>
+    <string name="rat_profile_open_card_subtitle">"QR kod ile dilediğiniz katılımcı test noktasına sunabileceğiniz, kişisel verilerinizi içeren hızlı test profili."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Hızlı Test Profili"</string>
     <!-- XHED: Profiles List screen title -->
@@ -158,12 +150,12 @@
     <!-- XTXT: RAT profile list no profiles title -->
     <string name="rat_profile_list_no_profiles_title">"Henüz hiçbir hızlı test profili oluşturulmadı"</string>
     <!-- XTXT: RAT profile list no profiles subtitle -->
-    <string name="rat_profile_list_no_profiles_subtitle">"Kişisel verilerinizle bir hızlı test profili oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
+    <string name="rat_profile_list_no_profiles_subtitle">"Kişisel verilerinizle bir hızlı test profili oluşturabilir ve her katılan test noktasına QR kod aracılığıyla sunabilirsiniz."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Kişisel verilerinizi, dilediğiniz katılımcı test noktasına gönderebileceğiniz bir QR kod olarak kaydedin."</string>
+    <string name="rat_profile_onboarding_title">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez.\nBirden fazla hızlı test profili oluşturabilirsiniz, ör. bir tane kendiniz için ve birer tane her aile üyeniz için."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

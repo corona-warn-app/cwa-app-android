@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
 
     <!-- ####################################
-        Homescreen cards - register test card
-    ###################################### -->
-    <!-- XHED: Register test homescreen card: title -->
-    <string name="ag_homescreen_card_test_register_title">"Продовжити"</string>
-    <!-- XTXT: Register test homescreen card: body -->
-    <string name="ag_homescreen_card_test_register_body">"Знайдіть центри тестування поблизу вас і зареєструйте тест, щоб ви могли швидше попередити інших або запитати ваш цифровий сертифікат тесту на COVID."</string>
-
-    <!-- ####################################
         Homescreen cards - common status
     ###################################### -->
     <!-- XTXT: Homescreen card: status subtitle - no result -->
@@ -124,7 +116,7 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надіслати до будь-якого пункту тестування, що приймає участь, за допомогою QR-коду."</string>
+    <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надати будь-якому пункту тестування, що приймає участь, за допомогою QR-коду."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профіль експрес-тесту"</string>
     <!-- XHED: Profiles List screen title -->
@@ -158,12 +150,12 @@
     <!-- XTXT: RAT profile list no profiles title -->
     <string name="rat_profile_list_no_profiles_title">"Профілі експрес-тестів ще не створені"</string>
     <!-- XTXT: RAT profile list no profiles subtitle -->
-    <string name="rat_profile_list_no_profiles_subtitle">"Ви можете створити профіль експрес-тесту зі своїми особистими даними, які ви можете надіслати за допомогою QR-коду до кожного залученого пункту тестування."</string>
+    <string name="rat_profile_list_no_profiles_subtitle">"Ви можете створити профіль експрес-тесту зі своїми особистими даними, які ви можете надати за допомогою QR-коду кожному залученому пункту тестування."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жінка зі смартфоном у руці стоїть перед будівлею. QR-код символізує профіль експрес-тесту, який потрібно сканувати."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб ви мали змогу надіслати до будь-якого пункту тестування, що приймає участь."</string>
+    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом.\nВи можете створити декілька профілів експрес-тесту, наприклад, один для себе і по одному для кожного члена вашої родини."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

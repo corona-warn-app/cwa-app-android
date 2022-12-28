@@ -12,6 +12,8 @@ sealed class SrsSymptomsIntroductionNavigation {
     data class GoToThankYouScreen(val submissionType: SrsSubmissionType) : SrsSymptomsIntroductionNavigation()
 
     object ShowSubmissionWarning : SrsSymptomsIntroductionNavigation()
+
+    data class TruncatedSubmission(val numberOfDays: String?) : SrsSymptomsIntroductionNavigation()
     data class Error(val cause: Exception) : SrsSymptomsIntroductionNavigation()
 
     data class GoToSymptomCalendar(

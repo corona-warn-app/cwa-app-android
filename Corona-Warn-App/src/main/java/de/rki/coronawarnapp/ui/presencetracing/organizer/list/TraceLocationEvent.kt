@@ -6,7 +6,7 @@ sealed class TraceLocationEvent {
 
     data class DuplicateItem(val traceLocation: TraceLocation) : TraceLocationEvent()
 
-    data class SelfCheckIn(val traceLocation: TraceLocation) : TraceLocationEvent()
+    data class SelfCheckIn(val traceLocation: TraceLocation, val isOnboarded: Boolean) : TraceLocationEvent()
 
     data class ConfirmDeleteItem(val traceLocation: TraceLocation) : TraceLocationEvent()
 

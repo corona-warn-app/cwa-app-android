@@ -116,7 +116,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
             is CheckInEvent.ShowInformation -> {
                 setupAxisTransition()
                 findNavController().navigate(
-                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(false)
+                    CheckInsFragmentDirections.actionCheckInsFragmentToCheckInOnboardingFragment(showBottomNav = false)
                 )
             }
 
@@ -194,14 +194,17 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     }
 
     companion object {
-        fun createDeepLink(rootUri: String, cleanHistory: Boolean = false): Uri {
+        fun createDeepLink(rootUri: String, cleanHistory: Boolean = false, isOrganizerOnboarded: Boolean = false): Uri {
             val encodedUrl = try {
                 URLEncoder.encode(rootUri, Charsets.UTF_8.name())
             } catch (e: Exception) {
                 Timber.d(e, "URL Encoding failed url($rootUri)")
                 rootUri // Pass original
             }
-            return "cwa://check-in-onboarding/$encodedUrl/?cleanHistory=$cleanHistory&showBottomNav=false".toUri()
+            return (
+                "cwa://check-in-onboarding/$encodedUrl/?cleanHistory=$cleanHistory&showBottomNav=false" +
+                    "&isOrganizerOnboarded=$isOrganizerOnboarded"
+                ).toUri()
         }
 
         fun canHandle(rootUri: String): Boolean = rootUri.startsWith("https://e.coronawarn.app")

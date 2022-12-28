@@ -87,7 +87,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             val trackedExposureDetections = enfClient.latestTrackedExposureDetection().first()
-            val isUpdateToEnfV2 = settings.isUpdateToEnfV2
+            val isUpdateToEnfV2 = settings.isUpdateToEnfV2()
 
             Timber.tag(TAG).d("isUpdateToEnfV2: %b", isUpdateToEnfV2)
             if (!isUpdateToEnfV2 && wasLastDetectionPerformedRecently(now, exposureConfig, trackedExposureDetections)) {

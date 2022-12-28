@@ -53,6 +53,8 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.checkOnboardingStatus()
+
         with(binding) {
             if (!args.showBottomNav) {
                 toolbar.apply {
@@ -97,7 +99,14 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                 }
 
                 is CovidCertificateOnboardingViewModel.Event.Error ->
-                    showCovidCertificateOnboardingErrorDialog(event.throwable)
+                    showCertificateQrErrorDialog(event.throwable)
+
+                is CovidCertificateOnboardingViewModel.Event.SkipOnboarding ->
+                    if (args.showBottomNav) {
+                        findNavController().navigate(
+                            R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
+                        )
+                    }
             }
         }
     }

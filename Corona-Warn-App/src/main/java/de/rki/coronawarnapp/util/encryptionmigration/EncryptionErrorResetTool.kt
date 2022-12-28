@@ -1,27 +1,28 @@
 package de.rki.coronawarnapp.util.encryptionmigration
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import de.rki.coronawarnapp.util.di.AppContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EncryptionErrorResetTool @Inject constructor(
-    @AppContext private val context: Context
+    @EncryptionErrorResetToolDataStore private val dataStore: DataStore<Preferences>
 ) {
-    private val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences("encryption_error_reset_tool", Context.MODE_PRIVATE)
-    }
 
-    var isResetNoticeToBeShown: Boolean
-        get() = prefs.getBoolean(PKEY_EA2850_SHOW_RESET_NOTICE, false)
-        set(value) = prefs.edit {
-            putBoolean(PKEY_EA2850_SHOW_RESET_NOTICE, value)
-        }
+    val isResetNoticeToBeShown = dataStore.dataRecovering.distinctUntilChanged(
+        key = PKEY_EA2850_SHOW_RESET_NOTICE, defaultValue = false
+    )
+
+    suspend fun updateIsResetNoticeToBeShown(value: Boolean) = dataStore.trySetValue(
+        preferencesKey = PKEY_EA2850_SHOW_RESET_NOTICE, value = value
+    )
 
     companion object {
-        private const val PKEY_EA2850_SHOW_RESET_NOTICE = "ea2850.reset.shownotice"
+        private val PKEY_EA2850_SHOW_RESET_NOTICE = booleanPreferencesKey("ea2850.reset.shownotice")
     }
 }

@@ -26,7 +26,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     @Assisted private val savedState: SavedStateHandle,
     dispatcherProvider: DispatcherProvider,
     private val checkInRepository: CheckInRepository,
-    private val submissionRepository: SubmissionRepository,
+    submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
     @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider) {
@@ -83,7 +83,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
         events.postValue(event)
     }
 
-    fun setAutoSubmission() {
+    fun setAutoSubmission() = launch {
         Timber.d("setAutoSubmission")
         autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
     }
@@ -144,18 +144,16 @@ class CheckInsConsentViewModel @AssistedInject constructor(
 
     private fun initialSet(): Set<Long> = savedState.get(SET_KEY) ?: emptySet()
 
-    private fun resetPreviousSubmissionConsents() = launch {
-        try {
-            Timber.d("Trying to reset submission consents")
-            checkInRepository.apply {
-                val ids = completedCheckIns.first().filter { it.hasSubmissionConsent }.map { it.id }
-                updateSubmissionConsents(ids, consent = false)
-            }
-
-            Timber.d("Resetting submission consents was successful")
-        } catch (error: Exception) {
-            Timber.e(error, "Failed to reset SubmissionConsents")
+    private suspend fun resetPreviousSubmissionConsents() = try {
+        Timber.d("Trying to reset submission consents")
+        checkInRepository.apply {
+            val ids = completedCheckIns.first().filter { it.hasSubmissionConsent }.map { it.id }
+            updateSubmissionConsents(ids, consent = false)
         }
+
+        Timber.d("Resetting submission consents was successful")
+    } catch (error: Exception) {
+        Timber.e(error, "Failed to reset SubmissionConsents")
     }
 
     @AssistedFactory

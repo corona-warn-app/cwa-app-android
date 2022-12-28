@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak sınıflandırıldı.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
@@ -1047,7 +1047,7 @@
     <!-- XHED: Page headline for pendin family test result next steps -->
     <string name="submission_family_test_result_pending_steps_waiting_heading">"Test Sonucu Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için TAN Talebi başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
     <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Test sonucu çıkar çıkmaz uygulamada görüntülenecektir.\nTest sonucu uygulama dışından da tarafınıza iletilecektir. Testin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir."</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -1213,7 +1213,9 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Lütfen unutmayın:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Bu test sonucunu doğrulamak için PCR testi yapın."</string>
+    <string name="submission_done_pcr_validation">"Henüz yapmadıysanız bu test sonucunu doğrulamak için PCR testi yapın."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Uyarınız temas güncenize eklenecektir."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1253,7 +1255,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Son birkaç günde aşağıdaki belirtilerden birini veya daha fazlasını yaşadınız mı?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Uygulamanın, diğer kullanıcılar açısından enfeksiyon riskini daha doğru bir biçimde hesaplayabilmesi için herhangi bir koronavirüs belirtisi fark edip etmediğinizi ve ne zaman fark ettiğinizi belirtebilirsiniz. Bu adım gönüllülük esasına dayanır. Belirtilerinizle ilgili bilgi vermek istemiyorsanız \"Bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
+    <string name="submission_symptom_initial_explanation">"Uygulamanın, diğer kullanıcılar açısından enfeksiyon riskini daha doğru bir biçimde hesaplayabilmesi için herhangi bir korona belirtisi fark edip etmediğinizi ve ne zaman fark ettiğinizi belirtebilirsiniz. Bu bilgileri sağlamak istemiyorsanız \"Bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Artan vücut sıcaklığı veya ateş"</item>
@@ -1306,9 +1308,9 @@
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Belirtilerin Başlangıcı"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Belirtileri ilk kez ne zaman fark ettiniz?"</string>
+    <string name="submission_symptom_calendar_headline">"Bu belirtileri ilk kez ne zaman yaşamaya başladınız?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Lütfen mümkün olduğunca doğru şekilde tarih belirtin."</string>
+    <string name="submission_symptom_calendar_body">"Soruya mümkün olduğunca doğru yanıt verin."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"Son 7 gün içinde"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
@@ -1430,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Pandemi Radarı"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"Robert Koch Institute tarafından sunulur"</string>
+    <string name="pandemic_radar_card_subtitle">"Almanya Federal Sağlık Bakanlığı tarafından sunulur"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Pandemi ile ilgili ilave istatistikleri keşfedin."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1491,7 +1493,7 @@
     <!-- XHED: New infections title -->
     <string name="statistics_explanation_new_infections">"yeni enfeksiyon sayısı"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı. 7 günlük ortalamanın %1 eşiğinin altındaki sayılar görüntülenmez; Açıklama &gt; Dönem bölümündeki açıklamaya da bakın."</string>
     <!-- XHED: Explanation screen warned persons title -->
@@ -1503,7 +1505,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1519,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Pandemi Radarı"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Robert Koch Institute web sitesinde sunulan çeşitli koronavirüs pandemisi istatistikleri. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini, web sitesinin engellilere uygun şekilde tasarlanmadığını ve yalnızca Almanca dilinde kullanılabildiğini unutmayın."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Almanya Federal Sağlık Bakanlığı, koronavirüs pandemisine ilişkin çeşitli istatistikler sağlar. Web sitesini açarken kullanılan tüm verilerin veri planınızdan düşüleceğini ve web sitesinin engellilere uygun şekilde tasarlanmadığını unutmayın. Bu sayfa İngilizce, Almanca, Türkçe ve Rusça dilinde kullanılabilir."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7 Günlük Ortalama"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
@@ -1547,7 +1549,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
+    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için "<div>"blogumuzu"</div>" okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogumuzu"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1608,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\nİstatistikler için SSS"</string>
+    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:\n"<div>"İstatistikler için SSS"</div></string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"İstatistikler için SSS"</string>
 
@@ -1873,7 +1875,7 @@
     <string name="datadonation_details_survey_consent_top_body"><b>"Uygulama deneyiminize ilişkin bir anketi yanıtlayarak Corona-Warn-App’i iyileştirmemize yardımcı olun. Bu, RKI’nin uygulamanın etkinliğini değerlendirmesine, uygulamayı iyileştirmesine ve uygulama üzerinden iletilen uyarıların yüksek risk altındaki kişilerin davranışlarını nasıl etkilediğini anlamasına yardımcı olacaktır.."</b>"\n\nAnket yalnızca uygulamasında yüksek maruz kalma riskine sahip olduğu belirtilen kişiler için tasarlanmıştır. Anket, RKI web sitesinde yanıtlanır. Sizi web sitesine yönlendirmek üzere sonraki adımda bir anket bağlantısı görüntülenecektir. Bu bağlantı görüntülenmeden önce uygulamanızın orijinalliği teyit edilmelidir. Bunun için izin vermeniz gereklidir.\n\nAnket bağlantısına dokunduğunuzda anket hakkında ek bilgi alacaksınız. Ayrıca anketi yanıtlamaya başlamadan önce yeniden açıkça izin vermeniz istenecektir."</string>
 
     <!-- XHED: Title of the survey consent detail screen -->
-    <string name="datadonation_details_survey_consent_details_title">"Anketi Yanıtlamaya İlişkin Veri İşleme Hakkında Ayrıntılı Bilgiler"</string>
+    <string name="datadonation_details_survey_consent_details_title">"ABD’de ve Diğer Üçüncü Ülkelerde Orijinallik Kontrolü ve Veri Koruma Riskleri Hakkında Ayrıntılı Bilgiler"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Akıllı telefonunuzun saati, geçerli saat ile eşleşmiyor. Lütfen akıllı telefonunuzun saatini düzeltin (hata kodu: %1$s)."</string>

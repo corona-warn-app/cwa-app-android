@@ -8,9 +8,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.databinding.FragmentTestSubmissionBinding
+import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.dialog.displayDialog
@@ -61,6 +63,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         binding.apply {
             tekRetrieval.setOnClickListener { vm.updateStorage() }
             tekEmail.setOnClickListener { vm.emailTEKs() }
+            tekClearCache.setOnClickListener { vm.clearTekCache() }
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->
             permissionRequest.invoke(requireActivity())
@@ -85,6 +88,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         vm.srsSubmissionResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Error -> displayDialog { setError(result.cause) }
+                is TruncatedSubmission -> showTruncatedSubmissionDialog(result.numberOfDays) { }
                 Success -> Toast.makeText(requireContext(), "SRS submission is successful", Toast.LENGTH_LONG).show()
             }
         }
@@ -122,6 +126,24 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
 
         vm.deviceTimeState.observe(viewLifecycleOwner) { state ->
             binding.deviceTimeState.setText(state?.key ?: "RESET", false)
+        }
+
+        vm.firstReliableTime.observe(viewLifecycleOwner) {
+            binding.firstReliableTime.text = it.toString()
+        }
+
+        binding.datePicker.setOnClickListener {
+            MaterialDatePicker
+                .Builder
+                .datePicker()
+                .setSelection(Instant.now().toEpochMilli())
+                .build()
+                .apply {
+                    addOnPositiveButtonClickListener {
+                        vm.updateFirstReliableTime(it)
+                    }
+                }
+                .show(childFragmentManager, "firstReliableTime.picker")
         }
     }
 

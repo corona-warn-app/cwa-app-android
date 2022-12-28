@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.test.deltaonboarding.ui
 
-import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.storage.settings.ContactDiarySettings
@@ -23,12 +22,12 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val changelogVersion: LiveData<Long> = settings.lastChangelogVersion.asLiveData2()
-
-    val isContactJournalOnboardingDone: LiveData<Boolean> = contactDiaryUiSettings.isOnboardingDone
-        .asLiveData2()
-
-    val lastNotificationsOnboardingVersionCode: LiveData<Long> = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
+    val changelogVersion = settings.lastChangelogVersion.asLiveData2()
+    val isContactJournalOnboardingDone = contactDiaryUiSettings.isOnboardingDone.asLiveData2()
+    val lastNotificationsOnboardingVersionCode = settings.lastNotificationsOnboardingVersionCode.asLiveData2()
+    val isAnalyticsOnboardingDone = analyticsSettings.lastOnboardingVersionCode.asLiveData2()
+    val isVaccinationRegistrationOnboardingDone = covidCertificateSettings.isOnboarded.asLiveData2()
+    val isAttendeeOnboardingDone = traceLocationSettings.onboardingStatus.asLiveData2()
 
     fun updateChangelogVersion(value: Long) {
         launch { settings.updateLastChangelogVersion(value) }
@@ -55,33 +54,24 @@ class DeltaOnboardingFragmentViewModel @AssistedInject constructor(
         launch { settings.updateWasInteroperabilityShownAtLeastOnce(value) }
     }
 
-    fun isAttendeeOnboardingDone() =
-        traceLocationSettings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
-
-    fun setAttendeeOnboardingDone(value: Boolean) {
-        traceLocationSettings.onboardingStatus.update {
+    fun setAttendeeOnboardingDone(value: Boolean) = launch {
+        traceLocationSettings.updateOnboardingStatus(
             if (value) TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
             else TraceLocationSettings.OnboardingStatus.NOT_ONBOARDED
-        }
+        )
     }
 
-    fun isVaccinationRegistrationOnboardingDone() = covidCertificateSettings.isOnboarded.value
-
-    fun setVaccinationRegistrationOnboardingDone(value: Boolean) {
-        covidCertificateSettings.isOnboarded.update { value }
+    fun setVaccinationRegistrationOnboardingDone(value: Boolean) = launch {
+        covidCertificateSettings.updateIsOnboarded(value)
     }
 
-    fun setNotificationsOnboardingDone(value: Boolean) {
-        launch {
-            val version = if (value) BuildConfigWrap.VERSION_CODE else 0L
-            settings.updateLastNotificationsOnboardingVersionCode(version)
-        }
+    fun setNotificationsOnboardingDone(value: Boolean) = launch {
+        val version = if (value) BuildConfigWrap.VERSION_CODE else 0L
+        settings.updateLastNotificationsOnboardingVersionCode(version)
     }
 
-    fun isAnalyticsOnboardingDone() = analyticsSettings.lastOnboardingVersionCode.value != 0L
-
-    fun setAnalyticsOnboardingDone(value: Boolean) {
-        analyticsSettings.lastOnboardingVersionCode.update { if (value) BuildConfigWrap.VERSION_CODE else 0L }
+    fun setAnalyticsOnboardingDone(value: Boolean) = launch {
+        analyticsSettings.updateLastOnboardingVersionCode(if (value) BuildConfigWrap.VERSION_CODE else 0L)
     }
 
     @AssistedFactory

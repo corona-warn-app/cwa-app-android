@@ -10,6 +10,8 @@ import dagger.Provides
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNHttpClient
 import de.rki.coronawarnapp.environment.datadonation.DataDonationCDNServerUrl
 import de.rki.coronawarnapp.environment.submission.SubmissionCDNServerUrl
+import de.rki.coronawarnapp.http.HttpErrorParser
+import de.rki.coronawarnapp.http.interceptor.RetryInterceptor
 import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationApi
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionApi
 import de.rki.coronawarnapp.submission.DEFAULT_CACHE_SIZE
@@ -37,7 +39,11 @@ object SrsSubmissionModule {
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory
     ): SrsAuthorizationApi = Retrofit.Builder()
-        .client(client.newBuilder().build())
+        .client(
+            client.newBuilder().apply {
+                interceptors().removeAll { it is HttpErrorParser }
+            }.build()
+        )
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
         .build()
@@ -52,7 +58,10 @@ object SrsSubmissionModule {
         protoConverterFactory: ProtoConverterFactory,
     ): SrsSubmissionApi {
         val cache = Cache(File(context.cacheDir, "http_submission"), DEFAULT_CACHE_SIZE)
-        val cachingClient = client.newBuilder().apply { cache(cache) }.build()
+        val cachingClient = client.newBuilder().apply {
+            interceptors().removeAll { it is HttpErrorParser || it is RetryInterceptor }
+            cache(cache)
+        }.build()
 
         return Retrofit.Builder()
             .client(cachingClient)

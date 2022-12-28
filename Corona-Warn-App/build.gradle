@@ -479,8 +479,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.guava:guava:31.1-android'
 
-    // Jackson
-    def jackson = '2.14.0'
+    // Jackson //Don't update to version 2.14 because it only supports android SDK 26+
+    def jackson = '2.13.4'
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
     implementation 'com.networknt:json-schema-validator:1.0.73'

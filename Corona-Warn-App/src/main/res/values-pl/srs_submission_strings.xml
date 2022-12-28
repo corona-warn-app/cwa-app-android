@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title">"Zarządzaj swoimi testami i ostrzegaj innych"</string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle">"Samodzielnie wykonywany test, test PCR i szybki test"</string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description">"Znajdź ośrodki testujące w pobliżu i zarejestruj test, aby móc szybciej ostrzegać innych, lub poproś o wydanie cyfrowego certyfikatu testu na COVID."</string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button">"Kontynuuj"</string>
+
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title">"Zarejestruj test"</string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title">"Samodzielnie wykonany test ma wynik pozytywny?"</string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body">"Ostrzeż innych, jeśli wynik Twojego samodzielnie wykonanego testu jest pozytywny."</string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title">"Pozytywny wynik testu i brak wyniku w aplikacji?"</string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body">"Ostrzeż innych o swoim pozytywnym wyniku szybkiego testu lub testu PCR, nawet jeśli Twój test nie był zarejestrowany lub wynik testu nie został zarejestrowany w aplikacji."</string>
+
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header">"Twoja zgoda"</string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text">"Ostrzegaj innych"</string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text">"Do ostrzegania innych potrzebna jest Twoja zgoda."</string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text">"Jeśli Twój wynik testu na obecność koronawirusa był pozytywny, możesz ostrzec innych poprzez aplikację.\nW celu wysłania ostrzeżenia po pozytywnym wyniku samodzielnie wykonanego testu lub w przypadku wyniku testu nieobecnego w aplikacji niezbędna jest automatyczna weryfikacja autentyczności aplikacji."</string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text">"Weryfikacja zapewnia również, że powtórne wysyłanie ostrzeżeń jest możliwe dopiero po upływie %d dni."</string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text">"Ostrzeganie innych jest opcjonalne, jednak jeśli udostępnisz wyniki swojego testu innym, pomożesz im uniknąć zarażenia się."</string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text">"W sekcji „Moje zameldowania” znajdują się wydarzenia i miejsca, których zameldowani goście zostaną ostrzeżeni. Możesz usunąć pojedyncze zameldowania z listy, aby wykluczyć je z procesu ostrzegania."</string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text">"Aby wyrazić zgodę, musisz mieć ukończone 16 lat."</string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text">"Możesz także ostrzec innych bez weryfikacji autentyczności. W tym celu zarejestruj test PCR lub szybki test w aplikacji i pobierz wynik w aplikacji."</string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text">"W kolejnym kroku wyraź zgodę na dostęp do losowych identyfikatorów."</string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title">"Ostrzegłeś(-aś) innych"</string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text">"Szczegółowe informacje o ryzyku związanym z kontrolą autentyczności i przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header">"Rodzaj testu"</string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text">"Wybierz typ testu, który jest podstawą dla ostrzeżenia."</string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="srs_rat_registered_no_result_text">"Szybki test antygenowy zarejestrowany w aplikacji, ale nie otrzymano wyniku"</string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="srs_rat_not_registered_text">"Szybki test antygenowy niezarejestrowany w aplikacji"</string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="srs_pcr_registered_no_result_text">"Test PCR zarejestrowany w aplikacji, ale nie otrzymano wyniku"</string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="srs_pcr_not_registered_text">"Test PCR niezarejestrowany w aplikacji"</string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="srs_rapid_pcr_text">"Szybki test PCR (test PoC NAT)"</string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="srs_other_text">"Brak odpowiedzi"</string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text">"Kontynuuj"</string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title">"Anulować proces ostrzegania?"</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">"Czy na pewno chcesz anulować proces ostrzegania?\n\nW przypadku zdiagnozowania u Ciebie koronawirusa będziesz mieć możliwość powiadomienia innych i przerwania łańcucha zakażeń."</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">"Kontynuuj ostrzeganie"</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">"Nie ostrzegaj innych"</string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">"Ważny"</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">"Czy na pewno chcesz ostrzegać inne osoby, z którymi miałeś(-aś) kontakt ostatnio?"</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">"Ostrzegaj innych"</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">"Anuluj"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Uwaga"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Ze względu na dużą liczbę ostrzeżeń wysyłanych obecnie za pośrednictwem aplikacji, ostrzeżono tylko osoby, z którymi miałeś(-aś) kontakt w ciągu ostatnich %s dni."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title">"Nie możesz ostrzec innych"</string>
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline">"Wystąpił błąd. Spróbuj ponownie później wysłać ostrzeżenie lub skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time">"Czas na Twoim smartfonie jest niezgodny z bieżącym czasem. Popraw czas w ustawieniach swojego smartfona. Po tej korekcie może upłynąć kilka minut, zanim aplikacja ponownie sprawdzi czas. Kiedy to nastąpi, możesz spróbować znowu ostrzec innych."</string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted">"Twoje urządzenie nie spełnia wymogów bezpieczeństwa dla tego typu ostrzeżenia. Możesz zarejestrować oficjalny test i użyć go do ostrzegania innych w dowolnym czasie."</string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network">"Połączenie internetowe mogło zostać utracone. Sprawdź połączenie i spróbuj ponownie."</string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early">"W tej chwili nie możesz ostrzec innych, ponieważ w ciągu ostatnich %d dni został już zgłoszony przez Ciebie pozytywny wynik testu. Ma to na celu zabezpieczenie przed niewłaściwym użyciem funkcji ostrzegania.\nMożesz zarejestrować oficjalny test i użyć go do ostrzegania innych w dowolnym czasie."</string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified">"Ze względów bezpieczeństwa nie możesz wysłać tego typu ostrzeżenia do %d godz. po instalacji lub aktualizacji aplikacji. Spróbuj ponownie za %d godz."</string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later">"Wystąpił błąd. Spróbuj wysłać ostrzeżenie ponownie."</string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services">"W tej chwili nie można wysłać ostrzeżenia. Zaktualizuj usługi Google Play."</string>
+</resources>

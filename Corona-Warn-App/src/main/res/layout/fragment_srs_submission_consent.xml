@@ -26,7 +26,7 @@
             android:id="@+id/content_scrollcontainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/guideline_action"
+            app:layout_constraintBottom_toTopOf="@id/srs_submission_consent_accept_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -112,65 +112,8 @@
                     android:text="@string/srs_section_warn_interval_text"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toEndOf="@id/srs_section_warn_interval_image"
-                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image" />
-
-                <ImageView
-                    android:id="@+id/srs_section_not_official_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:importantForAccessibility="no"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_section_warn_interval"
-                    app:srcCompat="@drawable/ic_srs_not_official" />
-
-                <TextView
-                    android:id="@+id/srs_section_not_official"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_10"
-                    android:text="@string/srs_section_not_official_text"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/srs_section_not_official_image"
-                    app:layout_constraintTop_toTopOf="@id/srs_section_not_official_image" />
-
-                <TextView
-                    android:id="@+id/srs_help_others_headline"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/srs_help_others_headline_text"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_section_not_official" />
-
-                <TextView
-                    android:id="@+id/srs_help_others_positive_test"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/srs_help_others_positive_test_text"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_headline" />
-
-                <TextView
-                    android:id="@+id/srs_help_others_warn_other_users"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:text="@string/srs_help_others_warn_other_users_text"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_positive_test" />
-
+                    app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image"
+                    tools:text="@string/srs_section_warn_interval_text"/>
 
                 <include
                     android:id="@+id/srs_privacy_card"
@@ -180,7 +123,7 @@
                     android:layout_marginTop="@dimen/margin_24"
                     app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@id/srs_help_others_warn_other_users" />
+                    app:layout_constraintTop_toBottomOf="@id/srs_section_warn_interval" />
 
                 <TextView
                     android:id="@+id/srs_next_step_submission"
@@ -205,7 +148,7 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/srs_next_step_submission"
-                    app:titleText="@string/srs_submission_consent_survey_button" />
+                    app:titleText="@string/srs_submission_consent_legal_link_text" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
@@ -231,18 +174,25 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/submission_accept_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/srs_submission_consent_cancel_button"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_action"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/srs_submission_consent_cancel_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_72" />
+            android:layout_marginBottom="@dimen/margin_16"
+            android:text="@string/srs_submission_warning_dialog_negative_button"
+            app:layout_constraintTop_toBottomOf="@id/srs_submission_consent_accept_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
         <include layout="@layout/merge_guidelines_side" />
 

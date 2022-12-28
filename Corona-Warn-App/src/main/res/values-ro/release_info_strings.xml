@@ -18,16 +18,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Avertizare cu autotestare"</item>
+        <item>"Avertizare cu teste neînregistrate"</item>
+        <item>"Hotline-ul TAN va fi eliminat în curând"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Acum puteți trimite o avertizare altor utilizatori ai aplicației Corona-Warn dacă un test făcut de dvs. indică o infectare cu coronavirus."</item>
+        <item>"Dacă un test rapid sau un test PCR dintr-un centru de testare indică o infectare cu coronavirus, dar acest test nu este înregistrat în aplicația Corona-Warn, puteți totuși să-i avertizați pe ceilalți utilizatori ai aplicației Corona-Warn."</item>
+        <item>"Opțiunea de a obține un TAN de la un hotline TAN va fi eliminată în următoarele săptămâni. În consecință, nu veți mai avea nevoie de un TAN pentru a-i avertiza pe ceilalți utilizatori ai aplicației Corona-Warn."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

@@ -18,16 +18,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Попередження із самотестуванням"</item>
+        <item>"Попередження з незареєстрованими тестами"</item>
+        <item>"Роботу гарячої лінії TAN скоро буде припинено"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Тепер ви можете надіслати попередження іншим користувачам застосунку Corona-Warn-App, якщо самотестування покаже, що у вас коронавірусна інфекція."</item>
+        <item>"Якщо експрес-тест або ПЛР-тест із пункту тестування вказуватиме на наявність у вас коронавірусної інфекції, але цей тест не зареєстровано в застосунку Corona-Warn-App, ви однаково зможете попередити інших користувачів застосунку."</item>
+        <item>"Можливість отримати TAN через гарячу лінію TAN буде припинено протягом наступних кількох тижнів. Тому вам більше не потрібен номер TAN, щоб попереджати інших користувачів застосунку Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

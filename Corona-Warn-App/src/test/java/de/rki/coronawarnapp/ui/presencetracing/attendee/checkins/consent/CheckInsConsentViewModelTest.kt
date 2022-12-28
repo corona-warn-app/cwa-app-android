@@ -16,7 +16,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import okio.ByteString.Companion.decodeBase64
@@ -26,6 +25,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import java.time.Instant
@@ -105,7 +105,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         every { savedState.set(any(), any<Set<Long>>()) } just Runs
-        every { autoSubmission.updateMode(any()) } just Runs
+        coEvery { autoSubmission.updateMode(any()) } just Runs
         every { submissionRepository.testForType(any()) } returns coronaTestFlow
         every { savedState.get<Set<Long>>(any()) } returns emptySet()
     }
@@ -335,9 +335,9 @@ class CheckInsConsentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun setAutoSubmission() {
+    fun setAutoSubmission() = runTest2 {
         createViewModel().setAutoSubmission()
-        verify { autoSubmission.updateMode(AutoSubmission.Mode.MONITOR) }
+        coVerify { autoSubmission.updateMode(AutoSubmission.Mode.MONITOR) }
     }
 
     private fun createViewModel() = CheckInsConsentViewModel(

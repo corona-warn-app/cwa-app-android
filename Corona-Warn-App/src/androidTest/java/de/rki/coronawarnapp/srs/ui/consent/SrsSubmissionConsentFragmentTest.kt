@@ -11,6 +11,7 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -55,7 +56,8 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : SrsSubmissionConsentFragmentViewModel.Factory {
                 override fun create(
-                    openTypeSelection: Boolean
+                    openTypeSelection: Boolean,
+                    teksSharedViewModel: TeksSharedViewModel
                 ): SrsSubmissionConsentFragmentViewModel = viewModel
             }
         )

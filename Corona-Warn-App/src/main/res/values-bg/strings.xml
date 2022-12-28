@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Промяна на Вашия статус на риск"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
+    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е класифициран като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -1047,7 +1047,7 @@
     <!-- XHED: Page headline for pendin family test result next steps -->
     <string name="submission_family_test_result_pending_steps_waiting_heading">"Все още няма резултат от теста"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Резултатът от Вашия тест ще се покаже в приложението веднага щом бъде готов.\n\nТой ще Ви бъде изпратен също и извън приложението. Службата за обществено здравеопазване ще Ви уведоми, ако е положителен.\n\nАко получите такова уведомление, моля изтрийте теста, който в момента е регистриран в приложението. Позвънете на номера, показан под „Заявка за ТАН код“, за да получите ТАН. Използвайте кода, за да регистрирате своя резултат в приложението и да предупредите останалите потребители."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Веднага щом резултатът от теста Ви е наличен, той ще се покаже в приложението.\nЩе получите резултата от теста и извън приложението. Службата за обществено здравеопазване ще се свърже с Вас, ако тестът Ви е положителен."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
     <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Веднага щом резултатът от теста е наличен, той ще се покаже в приложението.\nЩе получите резултата от теста и извън приложението. Службата за обществено здравеопазване ще се свърже с Вас, ако тестът е положителен."</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -1213,7 +1213,9 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Моля, не забравяйте:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Направете PCR тест, за да потвърдите този резултат от тест."</string>
+    <string name="submission_done_pcr_validation">"Ако все още не сте, направете си PCR тест, за да потвърдите този резултат от тест."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Вашето предупреждение ще бъде добавено и във Вашия дневник на контактите."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"От службата за обществено здравеопазване (Gesundheitsamt) може да се свържат с Вас през следващите няколко дни."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1253,7 +1255,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Имали ли сте един или повече от следните симптоми през последните няколко дни?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Може да посочите дали и кога сте проявили симптоми на коронавирус, за да позволите на приложението да оцени по-точно риска от заразяване за останалите потребители. Тази стъпка не е задължителна. Ако не желаете да предоставите такава информация, просто изберете „Без отговор“."</string>
+    <string name="submission_symptom_initial_explanation">"Можете да посочвате дали и кога сте проявили симптоми на COVID-19, за да позволите на приложението да оцени по-точно риска от заразяване за останалите потребители. Ако не желаете да предоставите тази информация, просто изберете \"Без отговор\"."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Повишена температура или треска"</item>
@@ -1306,9 +1308,9 @@
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Начало на симптомите"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Кога забелязахте симптомите за първи път?"</string>
+    <string name="submission_symptom_calendar_headline">"Кога се появиха за първи път тези симптоми?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Моля, посочете датата възможно най-точно."</string>
+    <string name="submission_symptom_calendar_body">"Отговорете на въпроса възможно най-точно."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"През последните 7 дни"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
@@ -1430,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Радар на пандемия"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"от института „Роберт Кох“"</string>
+    <string name="pandemic_radar_card_subtitle">"От Федералното министерство на здравеопазването"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Разгледайте допълнителни статистики свързани с пандемията."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1503,7 +1505,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Брой диагностицирани с коронавирус лица, регистрирани в института „Роберт Кох“."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1519,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Радар на пандемия"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Различни статистики относно  пандемията с коронавируса SARS-CoV-2, които могат да се намерят на уебсайта на института „Роберт Кох“. Моля, обърнете внимание, че всички мобилни данни използвани при отварянето на уебсайта на института ще бъдат приспаднати от Вашия мобилен план и, че уебсайтът не е проектиран да бъде с улеснена достъпност и е наличен само на немски език."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Федералното министерство на здравеопазването на Германия  предоставя различни статистики относно пандемията с коронавируса SARS-CoV-2. Моля, обърнете внимание, че всички мобилни данни използвани при отварянето на уебсайта на института ще бъдат приспаднати от Вашия мобилен план и, че уебсайтът не е проектиран да бъде с улеснена достъпност. Тази страница е налична на английски, немски, турски и руски език."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Средно за последните 7 дни"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
@@ -1547,7 +1549,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактно изображение на смартфон с 4 контейнера за данни"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"За повече подробности относно отделните показатели прочетете нашия блог."</string>
+    <string name="statistics_explanation_blog">"За повече подробности относно отделните показатели прочетете нашия "<div>"блог"</div>"."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1608,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили първа доза ваксина."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"За повече информация моля разгледайте нашата страница с ЧЗВ:\nЧЗВ за статистика"</string>
+    <string name="statistics_faq_text">"За повече информация моля разгледайте нашата страница с ЧЗВ:\n"<div>"ЧЗВ за статистика"</div></string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"ЧЗВ за статистика"</string>
 
@@ -1873,7 +1875,7 @@
     <string name="datadonation_details_survey_consent_top_body"><b>"Помогнете ни да подобрим Corona-Warn-App, като попълните анкетата относно работата Ви с приложението. По този начин екипът от института „Роберт Кох“ ще може да оцени ефективността на приложението, да го подобри, както и да разбере какво влияние оказват предупрежденията от приложението върху поведението на хората с повишено ниво на риск от заразяване."</b>"\n\nАнкетата е предназначена единствено за тези, чието приложение е отчело излагане с повишен риск. Можете да я попълните на уебсайта на института „Роберт Кох“ – в следващата стъпка ще видите връзка към него. Преди това обаче трябва да потвърдим автентичността на приложението Ви, за което ни е необходимо Вашето съгласие.\n\nКогато опитате да отворите връзката, ще получите допълнителна информация за анкетата. Освен това отново ще поискаме Вашето изрично съгласие, преди да започнете да я попълвате."</string>
 
     <!-- XHED: Title of the survey consent detail screen -->
-    <string name="datadonation_details_survey_consent_details_title">"Подробна информация относно обработката на данни при участие в анкетата"</string>
+    <string name="datadonation_details_survey_consent_details_title">"Подробна информация относно проверката на автентичността и рисковете относно защитата на данните в САЩ и други държави."</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Часът, показван от Вашия смартфон, не съответства на текущия час. Моля, коригирайте това в настройките на устройството. Код на грешката: %1$s."</string>

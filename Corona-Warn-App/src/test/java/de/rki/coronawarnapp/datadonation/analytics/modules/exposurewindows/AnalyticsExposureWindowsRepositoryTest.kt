@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsScanInstance
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

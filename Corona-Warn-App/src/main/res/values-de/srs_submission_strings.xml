@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -36,33 +36,25 @@
     <!-- XHED: Submission consent disclaimer sub headline -->
     <string name="srs_submission_consent_disclaimer_subheadline_text">Bevor Sie andere warnen können, ist Ihr Einverständnis erforderlich.</string>
     <!-- XTXT: Submission consent section warn consent -->
-    <string name="srs_section_warn_consent_text">Sie bestätigen hiermit, dass Sie persönlich durch einen Selbsttest oder von einer Teststelle positiv getestet wurden. Sie können hier nicht in Vertretung von Familienmitgliedern warnen.</string>
+    <string name="srs_section_warn_consent_text">Wenn Sie positiv getestet wurden, können Sie Ihre Mitmenschen über die App warnen.\nDie Warnung nach einem positiven Selbsttest oder mit einem Testergebnis, das nicht in der App vorliegt, erfordert die automatische Prüfung der Echtheit der App.</string>
     <!-- XTXT: Submission consent section warn interval -->
-    <string name="srs_section_warn_interval_text">Sie können andere nur ein Mal innerhalb von 3 Monaten warnen, es sei denn, Sie haben Ihr Testergebnis in der App erhalten. Dies dient der Vermeidung von Missbrauch.</string>
-    <!-- XTXT: Submission consent section not official -->
-    <string name="srs_section_not_official_text">Sie können für einen Selbsttest kein offizielles COVID-Testzertifikat erhalten.</string>
-    <!-- XTXT: Submission consent help others headline -->
-    <string name="srs_help_others_headline_text">Helfen Sie mit, indem Sie andere warnen, denen Sie begegnet sind!</string>
-    <!-- XTXT: Submission consent help others positive test -->
-    <string name="srs_help_others_positive_test_text">Wenn Ihr Corona-Test positiv ist, können Sie Nutzer über die App warnen. Es wird nur innerhalb Deutschlands gewarnt.</string>
-    <!-- XTXT: Submission consent help others warn other users -->
-    <string name="srs_help_others_warn_other_users_text">Es werden auch Nutzer gewarnt, die zeitgleich mit Ihnen an denselben Events oder Orten eingecheckt waren.</string>
+    <string name="srs_section_warn_interval_text">So kann zugleich sichergestellt werden, dass eine solche Warnung nur nach Ablauf von %d Tagen erneut möglich ist.</string>
     <!-- XTXT: Submission consent first bulletpoint -->
     <string name="srs_submission_consent_first_bulletpoint_text">Die Warnung anderer ist freiwillig. Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen.</string>
     <!-- XTXT: Submission consent second bulletpoint -->
     <string name="srs_submission_consent_second_bulletpoint_text">Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat.</string>
     <!-- XTXT: Submission consent third bulletpoint -->
-    <string name="srs_submission_consent_third_bulletpoint_text">Unter „Meine Check-ins" können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen.</string>
+    <string name="srs_submission_consent_third_bulletpoint_text">Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-Ins auch entfernen und so von der Warnung ausschließen.</string>
     <!-- XTXT: Submission consent fourth bulletpoint -->
     <string name="srs_submission_consent_fourth_bulletpoint_text">Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind.</string>
     <!-- XTXT: Submission consent fifth bulletpoint -->
     <string name="srs_submission_consent_fifth_bulletpoint_text">Sie können andere auch ohne Echtheitsprüfung warnen. Hierfür müssen Sie einen PCR- oder Schnelltest in der App registrieren und das Ergebnis in der App abrufen.</string>
     <!-- XTXT: Submission consent next step submission -->
     <string name="srs_next_step_submission_text">Erteilen Sie im nächsten Schritt Ihre Erlaubnis zum Zugriff auf die Zufalls-IDs.</string>
-    <!-- XTXT: Submission consent survey consent button -->
-    <string name="srs_submission_consent_survey_button">Ausführliche Informationen zur Echtheitsprüfung und den Datenschutzrisiken in den USA und anderen Drittländern</string>
     <!-- XTXT: Contact journal submission entry title -->
     <string name="srs_contact_diary_submission_item_title">Andere gewarnt</string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text">Ausführliche Informationen zur Echtheitsprüfung und den Datenschutzrisiken in den USA und anderen Drittländern</string>
 
     <!-- Type Selection Screen -->
     <!-- XHED: Type selection header -->
@@ -80,7 +72,7 @@
     <!-- XTXT: Type selection button rapid pcr text -->
     <string name="srs_rapid_pcr_text">PCR-Schnelltest (PoC-NAT-Test)</string>
     <!-- XTXT: Type selection button other text -->
-    <string name="srs_other_text">Sonstige / keine Angabe</string>
+    <string name="srs_other_text">Keine Angabe</string>
     <!-- XTXT: Type selection next button text -->
     <string name="type_selection_next_button_text">Weiter</string>
 
@@ -103,6 +95,15 @@
     <string name="srs_submission_warning_dialog_positive_button">Andere Warnen</string>
     <!-- XBUT: Submission warning negative button -->
     <string name="srs_submission_warning_dialog_negative_button">Abbrechen</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">Hinweis</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">Aufgrund des aktuell erhöhten Aufkommens von Warnungen über die App wurden nur Kontakte der letzen %s Tage gewarnt.</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">Ok</string>
+
     <!-- Srs Errors-->
     <!-- XTXT: SRS error title -->
     <string name="srs_error_title">Andere warnen nicht möglich</string>
@@ -115,7 +116,7 @@
     <!-- XTXT: SRS NO_NETWORK error message -->
     <string name="srs_error_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
     <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
-    <string name="srs_error_submission_too_early">Sie können momentan andere nicht warnen, da Sie innerhalb der vergangenen %d Tage bereits ein positives Testergebnis gemeldet haben. Dies dient der Vermeidung von Missbrauch. Einen offiziellen Test können Sie jederzeit in der App registrieren und andere damit warnen.</string>
+    <string name="srs_error_submission_too_early">Sie können momentan andere nicht warnen, da Sie innerhalb der vergangenen %d Tage bereits ein positives Testergebnis gemeldet haben. Dies dient der Vermeidung von Missbrauch. Einen offiziellen Test können Sie jederzeit registrieren und andere damit warnen.</string>
     <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
     <string name="srs_error_time_since_onboarding_unverified">Aus Sicherheitsgründen können Sie erst %d Stunden, nachdem Sie die App installiert oder aktualisiert haben, diese Art von Warnung senden. Bitte versuchen Sie es in %d Stunden erneut.</string>
     <!-- XTXT: SRS TRY_AGAIN_LATER error message -->

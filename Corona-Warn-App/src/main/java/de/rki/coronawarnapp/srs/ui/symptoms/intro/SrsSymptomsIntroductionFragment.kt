@@ -8,10 +8,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionSymptomIntroBinding
 import de.rki.coronawarnapp.srs.ui.dialogs.showCloseDialog
 import de.rki.coronawarnapp.srs.ui.dialogs.showSubmissionWarningDialog
+import de.rki.coronawarnapp.srs.ui.dialogs.showTruncatedSubmissionDialog
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -29,13 +32,16 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
     private val navArgs by navArgs<SrsSymptomsIntroductionFragmentArgs>()
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
+    private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
     private val viewModel: SrsSymptomsIntroductionViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SrsSymptomsIntroductionViewModel.Factory
             factory.create(
                 submissionType = navArgs.submissionType,
-                selectedCheckIns = navArgs.selectedCheckIns
+                selectedCheckIns = navArgs.selectedCheckIns,
+                teksSharedViewModel = teksSharedViewModel
             )
         }
     )
@@ -56,7 +62,10 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
             updateButtons(it)
         }
 
-        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) { binding.symptomButtonNext.isLoading = it }
+        viewModel.showLoadingIndicator.observe(viewLifecycleOwner) {
+            binding.symptomButtonNext.isLoading = it.first
+            if (!it.first) updateButtons(it.second)
+        }
 
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
@@ -83,10 +92,16 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
                         )
                 )
 
+                is SrsSymptomsIntroductionNavigation.TruncatedSubmission -> {
+                    showTruncatedSubmissionDialog(it.numberOfDays) {
+                        viewModel.onTruncatedDialogClick()
+                    }
+                }
+
                 is SrsSymptomsIntroductionNavigation.Error -> displayDialog {
                     setError(it.cause)
-                    positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
-                    negativeButton(android.R.string.ok)
+                    positiveButton(android.R.string.ok)
+                    negativeButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
                 }
             }
         }

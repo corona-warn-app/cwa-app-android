@@ -3,9 +3,6 @@
         android:id="@+id/menu_information"
         android:title="@string/trace_location_organizer_list_menu_information_btn" />
     <item
-        android:id="@+id/menu_warn_guests"
-        android:title="@string/trace_location_organizer_list_menu_warn_guests_btn" />
-    <item
         android:id="@+id/menu_remove_all"
         android:title="@string/trace_location_organizer_list_menu_remove_all_btn" />
 </menu>

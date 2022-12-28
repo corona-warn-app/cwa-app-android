@@ -18,16 +18,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Ostrzeżenie z samodzielnie wykonanymi testami"</item>
+        <item>"Ostrzeżenie z niezarejestrowanymi testami"</item>
+        <item>"Infolinia TAN wkrótce zostanie wycofana"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>"Możesz teraz wysłać ostrzeżenie do innych użytkowników aplikacji Corona-Warn-App, jeśli samodzielnie wykonany test wskazuje na zakażenie koronawirusem."</item>
+        <item>"Jeśli szybki test lub test PCR z punktu testowania wskazuje na zarażenie koronawirusem, ale ten test nie jest zarejestrowany w aplikacji Corona-Warn-App, nadal możesz ostrzegać innych użytkowników aplikacji."</item>
+        <item>"Opcja uzyskania numeru TAN z infolinii TAN zostanie wycofana w ciągu kilku następnych tygodni. Dlatego nie potrzebujesz już numeru TAN do ostrzegania innych użytkowników aplikacji Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

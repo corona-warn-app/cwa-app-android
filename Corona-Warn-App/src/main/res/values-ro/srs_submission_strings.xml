@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title">"Gestionarea testelor dvs. și avertizarea celorlalți"</string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle">"Test făcut acasă, test PCR și test rapid"</string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description">"Găsiți centre de testare în aproprierea dvs. și înregistrați un test pentru a-i putea avertiza pe ceilalți mai rapid sau pentru a solicita certificatul dvs. de test COVID."</string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button">"Continuare"</string>
+
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title">"Înregistrare test"</string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title">"Testare acasă pozitivă?"</string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body">"Avertizați-i pe ceilalți dacă aveți un test făcut acasă pozitiv."</string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title">"Test pozitiv și niciun rezultat în aplicație?"</string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body">"Avertizați-i pe ceilalți în legătură cu propriul test rapid sau test PCR pozitiv, chiar dacă testul nu a fost înregistrat sau chiar dacă rezultatul testului dvs. nu a fost trimis la aplicație."</string>
+
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header">"Consimțământul dvs."</string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text">"Avertizați-i pe ceilalți"</string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text">"Consimțământul dvs. este obligatoriu înainte de a-i avertiza pe ceilalți."</string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text">"Dacă ați fost testat pozitiv la coronavirus, puteți să îi avertizați pe ceilalți prin intermediul aplicației.\nPentru a trimite o avertizare după un test făcut acasă pozitiv sau cu un rezultat de test care nu este în aplicație, trebuie verificată automat autenticitatea aplicației."</string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text">"Această funcție asigură, de asemenea, că avertizările repetate sunt posibile doar după ce au trecut %d de zile."</string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text">"Avertizarea celorlalți este opțională, însă, dacă împărtășiți rezultatul testului dvs. cu ceilalți, veți ajuta la prevenirea infectării acestora."</string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text">"Identitatea dvs. va rămâne secretă. Alți utilizatori nu vor afla cine a partajat rezultatul testului."</string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text">"La „Check-inurile mele”, puteți vedea evenimentele și locurile ale căror invitați cu check-inul făcut vor fi avertizați. Puteți elimina check-inuri individuale din listă pentru a le exclude din procesul de avertizare."</string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text">"Trebuie să aveți cel puțin 16 ani pentru a vă acorda consimțământul."</string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text">"De asemenea, îi puteți avertiza pe ceilalți fără verificarea autenticității. În acest scop, înregistrați un test PCR sau un test rapid în aplicație și aflați rezultatul în aplicație."</string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text">"În etapa următoare, acordați consimțământul pentru a accesa ID-urile aleatorii."</string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title">"I-ați avertizat pe ceilalți"</string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text">"Informații detaliate despre verificarea autenticității și riscurile privind prelucrarea datelor în SUA și în alte țări terțe"</string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header">"Tip de test"</string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text">"Selectați tipul de test care este baza avertizării."</string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="srs_rat_registered_no_result_text">"Testul antigen rapid este înregistrat în aplicație, dar nu s-a primit niciun răspuns"</string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="srs_rat_not_registered_text">"Testul antigen rapid nu este înregistrat în aplicație"</string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="srs_pcr_registered_no_result_text">"Testul PCR de laborator este înregistrat în aplicație, dar nu s-a primit niciun răspuns"</string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="srs_pcr_not_registered_text">"Testul PCR de laborator nu este înregistrat în aplicație"</string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="srs_rapid_pcr_text">"Test PCR rapid (test PoC NAT)"</string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="srs_other_text">"Nu răspund"</string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text">"Continuare"</string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title">"Anulați procesul de avertizare?"</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">"Sigur doriți să anulați procesul de avertizare?\n\nDacă ați fost diagnosticat cu coronavirus, îi puteți notifica pe ceilalți și puteți întrerupe lanțul de infectare."</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">"Continuarea avertizării"</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">"Nu îi avertizez pe ceilalți"</string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">"Important"</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">"Sigur doriți să îi avertizați pe ceilalți ce care ați avut contact recent?"</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">"Îi avertizez pe ceilalți"</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">"Anulare"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Notă"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Ca urmare a numărului mare de avertizări care sunt trimise în prezent prin aplicație, doar contactele dvs. din ultimele %s zile au fost avertizate."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title">"Nu-i puteți avertiza pe ceilalți"</string>
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline">"A apărut o eroare. Încercați din nou mai târziu să trimiteți avertizarea sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time">"Ora de pe smartphone-ul dvs. nu corespunde cu ora curentă. Vă rugăm să corectați ora în setările smartphone-ului dvs. După această corecție, poate dura câteva minute până când aplicația verifică din nou ora. După verificare, puteți încerca din nou să îi avertizați pe ceilalți."</string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted">"Dispozitivul dvs. nu îndeplinește cerințele de securitate pentru acest tip de avertizare. Puteți înregistra un test oficial și îl puteți utiliza pentru a-i avertiza pe ceilalți oricând."</string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network">"Conexiunea dvs. la internet se poate să fi fost pierdută. Verificați conexiunea și încercați din nou."</string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early">"În acest moment nu-i puteți avertiza pe ceilalți, deoarece ați raportat deja un rezultat de test pozitiv în ultimele %d de zile. Această funcție este destinată prevenirii utilizării greșite a caracteristicii de avertizare. Puteți înregistra un test oficial și îl puteți utiliza pentru a-i avertiza pe ceilalți oricând."</string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified">"Din motive de securitate, nu puteți trimite acest tip de avertizare până la %d (de) ore după ce instalați sau actualizați aplicația. Încercați din nou în %d (de) ore."</string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later">"A apărut o eroare. Încercați să trimiteți din nou avertizarea."</string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services">"Nu se poate trimite avertizarea în acest moment. Actualizați serviciile Google Play."</string>
+</resources>

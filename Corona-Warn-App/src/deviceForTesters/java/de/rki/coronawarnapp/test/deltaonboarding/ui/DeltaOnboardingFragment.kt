@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDeltaonboardingBinding
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -24,9 +25,17 @@ class DeltaOnboardingFragment : Fragment(R.layout.fragment_test_deltaonboarding)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.switchAttendeeOnboarding.isChecked = viewModel.isAttendeeOnboardingDone()
-        binding.switchVaccinationOnboarding.isChecked = viewModel.isVaccinationRegistrationOnboardingDone()
-        binding.switchAnalyticsDeltaOnboarding.isChecked = viewModel.isAnalyticsOnboardingDone()
+        viewModel.isAttendeeOnboardingDone.observe(viewLifecycleOwner) {
+            binding.switchAttendeeOnboarding.isChecked = it == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+        }
+
+        viewModel.isVaccinationRegistrationOnboardingDone.observe(viewLifecycleOwner) {
+            binding.switchVaccinationOnboarding.isChecked = it
+        }
+
+        viewModel.isAnalyticsOnboardingDone.observe(viewLifecycleOwner) {
+            binding.switchAnalyticsDeltaOnboarding.isChecked = it != 0L
+        }
 
         viewModel.isDeltaOnboardingDone.observe(viewLifecycleOwner) {
             binding.switchDeltaOnboarding.isChecked = it

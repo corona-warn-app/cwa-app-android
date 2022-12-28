@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title">"Керуйте своїми тестами та попереджайте інших"</string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle">"Самостійне тестування, ПЛР-тести та експрес-тести"</string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description">"Знайдіть центри тестування поблизу вас і зареєструйте тест, щоб ви могли швидше попередити інших або запитати ваш цифровий сертифікат тесту на COVID."</string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button">"Продовжити"</string>
+
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title">"Зареєструвати тест"</string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title">"Самостійне тестування з позитивним результатом?"</string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body">"Попередьте інших, якщо ви отримали позитивний результат під час самостійного тестування."</string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title">"Позитивний тест і немає результату в застосунку?"</string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body">"Попередьте інших за допомогою власного позитивного експрес-тесту або ПЛР-тесту, навіть якщо ваш тест не зареєстровано або результат тесту не надійшов у застосунок."</string>
+
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header">"Ваша згода"</string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text">"Попереджайте інших"</string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text">"Щоб попередити інших, потрібна ваша згода."</string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text">"Якщо у вас позитивний тест на коронавірус, ви можете попередити інших через застосунок.\nЩоб надіслати попередження після отримання позитивного результату під час самостійного тестування або отримання результату тесту, якого немає в застосунку, автентичність застосунку має бути перевірено автоматично."</string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text">"Це також гарантуватиме надсилання повторних попереджень лише після того, як мине %d днів."</string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text">"Попереджати інших необов’язково, однак, якщо ви поділитеся своїми результатами тесту з іншими, ви допоможете запобігти їх зараженню."</string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text">"Ваша особистість залишиться в таємниці. Інші користувачі не дізнаються, хто поділився результатом тесту."</string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text">"У розділі «Мої реєстрації» ви можете побачити події та місця, зареєстровані гості яких будуть попереджені. Ви можете вилучити окремі реєстрації зі списку, щоб виключити їх із процесу попередження."</string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text">"Щоб надати згоду, вам має бути не менше 16 років."</string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text">"Ви також можете попередити інших без перевірки автентичності. Для цього зареєструйте ПЛР-тест або експрес-тест у застосунку й отримайте там результат."</string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text">"На наступному кроці надайте свою згоду на доступ до випадкових ідентифікаторів."</string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title">"Ви попередили інших"</string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text">"Докладна інформація про перевірку автентичності та ризики захисту даних у США та інших третіх країнах"</string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header">"Тип тесту"</string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text">"Виберіть тип тесту, який є основою для попередження."</string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="srs_rat_registered_no_result_text">"Експрес-тест на антиген зареєстровано в застосунку, але результат не отримано"</string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="srs_rat_not_registered_text">"Експрес-тест на антиген не зареєстровано в застосунку"</string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="srs_pcr_registered_no_result_text">"Лабораторний ПЛР-тест зареєстровано в застосунку, але результат не отримано"</string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="srs_pcr_not_registered_text">"Лабораторний ПЛР-тест не зареєстровано в застосунку"</string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="srs_rapid_pcr_text">"Експрес ПЛР-тест (тест PoC NAT)"</string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="srs_other_text">"Нема відповіді"</string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text">"Продовжити"</string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title">"Скасувати процес попередження?"</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">"Дійсно скасувати процес попередження?\n\nЯкщо у вас виявлено коронавірус, ви можете повідомити про це інших і перервати ланцюг зараження."</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">"Продовжити попередження"</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">"Не попереджати інших"</string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">"Важливо"</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">"Дійсно попередити людей, з якими ви нещодавно спілкувалися?"</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">"Попередити інших"</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">"Скасувати"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Нотатка"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Через велику кількість попереджень, які зараз надсилаються через застосунок, попереджено буде лише ваші контакти за останні %s дн."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title">"Ви не може попередити інших"</string>
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline">"Сталася помилка. Спробуйте надіслати попередження ще раз пізніше або зв’яжіться з технічною гарячою лінією через «Інформація про застосунок» -&gt; «Технічна гаряча лінія»."</string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time">"Час на вашому смартфоні не збігається з поточним часом. Виправте час у настройках смартфона. Після цього виправлення застосунок може знову перевірити час через кілька хвилин. Потім ви можете знову спробувати попередити інших."</string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted">"Ваш пристрій не відповідає вимогам безпеки для цього типу попередження. Ви можете зареєструвати офіційний тест і використовувати його для попередження інших у будь-який час."</string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network">"Можливо, ваше з’єднання з Інтернетом було втрачено. Перевірте з’єднання та спробуйте ще раз."</string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early">"Ви не можете попередити інших зараз, оскільки ви вже повідомляли про позитивний результат тесту протягом останніх %d днів. Це необхідно для запобігання неправильному використанню функції попередження. Ви можете зареєструвати офіційний тест і використовувати його для попередження інших у будь-який час."</string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified">"З міркувань безпеки ви не можете надіслати цей тип попередження до %d год. після встановлення або оновлення застосунку. Повторіть спробу через %d год."</string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later">"Сталася помилка. Спробуйте надіслати попередження ще раз."</string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services">"Попередження зараз неможливо надіслати. Оновіть сервіси Google Play."</string>
+</resources>

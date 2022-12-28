@@ -105,9 +105,9 @@
                     android:layout_marginStart="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_12"
                     android:layout_marginEnd="@dimen/margin_24"
-                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_text"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_confirmed_new_infection_text" />
+                    android:text="@string/statistics_explanation_seven_day_incidence_text" />
 
                 <TextView
                     style="@style/headline6"
@@ -217,9 +217,9 @@
                     android:layout_marginStart="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginEnd="@dimen/margin_24"
-                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:contentDescription="@string/statistics_explanation_confirmed_new_infection_text"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_seven_day_incidence_text" />
+                    android:text="@string/statistics_explanation_confirmed_new_infection_text" />
 
                 <TextView
                     style="@style/headline5"
@@ -297,6 +297,7 @@
                     android:contentDescription="@string/statistics_fully_vaccinated_people_title"
                     android:focusable="true"
                     android:text="@string/statistics_fully_vaccinated_people_title" />
+
                 <TextView
                     style="@style/body2"
                     android:layout_width="match_parent"

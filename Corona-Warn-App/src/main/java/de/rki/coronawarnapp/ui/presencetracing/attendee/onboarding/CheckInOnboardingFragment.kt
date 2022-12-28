@@ -38,15 +38,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (viewModel.isOnboardingComplete && args.uri != null) {
-            findNavController().navigate(
-                CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
-                    args.uri,
-                    args.cleanHistory
-                )
-            )
-        }
+        viewModel.checkOnboarding()
 
         with(binding) {
             checkInOnboardingAcknowledge.setOnClickListener { viewModel.onAcknowledged() }
@@ -77,6 +69,17 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                             CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
                                 uri = args.uri,
                                 cleanHistory = true
+                            )
+                        )
+                    }
+                }
+
+                CheckInOnboardingNavigation.SkipOnboardingInfo -> {
+                    if (args.showBottomNav || args.isOrganizerOnboarded) {
+                        findNavController().navigate(
+                            CheckInOnboardingFragmentDirections.actionCheckInOnboardingFragmentToCheckInsFragment(
+                                args.uri,
+                                args.cleanHistory
                             )
                         )
                     }

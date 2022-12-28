@@ -25,6 +25,15 @@ import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.SharedPreferencesMigration
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
 
 @Module(includes = [StatisticsModule.ResetModule::class])
 object StatisticsModule {
@@ -91,6 +100,24 @@ object StatisticsModule {
             .create(LocalStatisticsApiV1::class.java)
     }
 
+    @Singleton
+    @LocalStatisticsConfigDataStore
+    @Provides
+    fun provideLocalStatisticsConfigDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_LOCAL_STATISTICS_CONFIG_SETTINGS_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                LEGACY_SHARED_PREFS_LOCAL_STATISTICS_CONFIG_SETTINGS_NAME
+            )
+        )
+    )
+
     @Module
     internal interface ResetModule {
 
@@ -115,6 +142,14 @@ object StatisticsModule {
         fun bindResettableLocalStatisticsCache(resettable: LocalStatisticsCache): Resettable
     }
 }
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class LocalStatisticsConfigDataStore
+
+private const val LEGACY_SHARED_PREFS_LOCAL_STATISTICS_CONFIG_SETTINGS_NAME = "statistics_local_config"
+private const val STORAGE_DATASTORE_LOCAL_STATISTICS_CONFIG_SETTINGS_NAME = "local_statistics_config_storage"
 
 private const val DEFAULT_CACHE_SIZE = 5 * 1024 * 1024L // 5MB
 private val HTTP_TIMEOUT = Duration.ofSeconds(10)

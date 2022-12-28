@@ -352,7 +352,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Зміна вашого статусу ризику зараження"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Останній ризик зараження, який призвів до підвищення ризику, був більше %d днів тому. Таким чином, ваш ризик зараження знову був оцінений як низький.\n\nТе, що ви повинні зробити:\nЯкщо у вас немає жодних симптомів COVID-19, продовжуйте дотримуватись переважних правил щодо дистанціювання та гігієни.\nЯкщо у вас є симптоми COVID-19, ми рекомендуємо вам відвідати лікаря та пройти обстеження."</string>
+    <string name="risk_lowered_dialog_body">"Останній ризик зараження, який призвів до підвищення ризику, був більше %d днів тому. Таким чином, ваш ризик зараження знову було класифіковано як низький.\n\nТе, що ви повинні зробити:\nЯкщо у вас немає жодних симптомів COVID-19, продовжуйте дотримуватися переважних правил щодо дистанціювання та гігієни.\nЯкщо у вас є симптоми COVID-19, ми рекомендуємо вам відвідати лікаря та пройти обстеження."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -1047,7 +1047,7 @@
     <!-- XHED: Page headline for pendin family test result next steps -->
     <string name="submission_family_test_result_pending_steps_waiting_heading">"Результат тесту ще недоступний"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку.\n\nВи також отримаєте результат тесту поза межами застосунку. Державні органи охорони здоров’я повідомлять вас, якщо ваш тест буде позитивним.\n\nЯкщо ви отримаєте сповіщення про позитивний результат тесту поза межами застосунку, видаліть тест, наразі зареєстрований у застосунку. Щоб отримати TAN, зателефонуйте за номером, вказаним у розділі Запитати TAN. Потім ви можете використовувати цей TAN, щоб зареєструвати свій результат у застосунку та попередити інших."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку.\n\nВи також отримаєте результат тесту поза межами застосунку. Державні органи охорони здоров’я повідомлять вас, якщо ваш тест буде позитивним."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
     <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку.\nВи також отримаєте результат тесту поза межами застосунку. Державні органи охорони здоров’я повідомлять вас, якщо тест буде позитивним."</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -1213,7 +1213,9 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Майте на увазі:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Пройдіть ПЛР-тест, щоб перевірити цей результат."</string>
+    <string name="submission_done_pcr_validation">"Пройдіть ПЛР-тест, щоб перевірити цей результат, якщо ви цього ще не зробили."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Ваше попередження буде додано до вашого журналу контактів."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Державний орган охорони здоров’я може зв’язатися з вами протягом наступних декількох днів."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1253,7 +1255,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Чи відчули у вас один або декілька з наведених нижче симптомів протягом останніх декількох днів?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Ви можете вказати, чи і коли ви помітили симптоми коронавірусу, щоб застосунок міг точніше обчислити ризик зараження інших користувачів застосунку. Цей крок є добровільним. Якщо ви не хочете надавати інформацію про свої симптоми, виберіть «Немає відповіді»."</string>
+    <string name="submission_symptom_initial_explanation">"Ви можете вказати, як і коли ви помітили симптоми коронавірусу, щоб застосунок міг точніше обчислити ризик зараження інших користувачів застосунку. Якщо ви не хочете надавати цю інформацію, просто виберіть «Немає відповіді»."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Підвищення температури або лихоманка"</item>
@@ -1306,9 +1308,9 @@
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Поява симптомів"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Коли ви вперше помітили симптоми?"</string>
+    <string name="submission_symptom_calendar_headline">"Коли у вас вперше з’явилися ці симптоми?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Вкажіть дату якомога точніше."</string>
+    <string name="submission_symptom_calendar_body">"Дайте якомога точнішу відповідь на це запитання."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"За останні 7 днів"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
@@ -1430,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Пандемічний радар"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"з Інституту Роберта Коха"</string>
+    <string name="pandemic_radar_card_subtitle">"З Федерального міністерства охорони здоров’я Німеччини"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Перегляньте додаткову статистику щодо пандемії."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1491,7 +1493,7 @@
     <!-- XHED: New infections title -->
     <string name="statistics_explanation_new_infections">"нові інфекції"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"підтверджені нові інфекції"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"Підтверджені нові інфекції"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI. Кількість, яка нижча за порогове значення в 1 % від середнього значення за 7 днів, не відображається; також перегляньте пояснення в розділі «Легенда» &gt; «Період часу»."</string>
     <!-- XHED: Explanation screen warned persons title -->
@@ -1503,7 +1505,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-денна захворюваність"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Кількість осіб, у яких виявили коронавірус і повідомили в RKI."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Загальна кількість підтверджених нових випадків зараження за останні 7 днів (за датою звітування) на 100 000 жителів."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-денне значення R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1519,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Пандемічний радар"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Різноманітна статистика щодо пандемії коронавірусу, яка представлена на сайті Інституту Роберта Коха. Зауважте, що плату за будь-які дані, використовувані під час відкриття веб-сайту, буде вираховано відповідно до вашого тарифного плану та що веб-сайт не є безбар’єрним і доступний лише німецькою мовою."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Федеральне міністерство охорони здоров’я Німеччини надає різноманітну статистику щодо пандемії коронавірусу. Зауважте, що плату за будь-які дані, використовувані під час відкриття вебсайту, буде вираховано відповідно до вашого тарифного плану та що вебсайт не є безбар’єрним. Ця сторінка доступна англійською, німецькою, турецькою та російською мовами."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"Середня статистика за 7 днів"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
@@ -1547,7 +1549,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактне зображення смартфона з чотирма мітками-заповнювачами для інформації"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш блог."</string>
+    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш "<div>"блог"</div>"."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1606,7 +1608,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Кількість осіб, повідомлених до РКІ, які отримали першу дозу вакцини."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Щоб отримати додаткову інформацію, перегляньте нашу сторінку ЗіВ: ЗіВ для статистики"</string>
+    <string name="statistics_faq_text">"Щоб отримати додаткову інформацію, перегляньте нашу сторінку ЗіВ:\n"<div>"ЗіВ для статистики"</div></string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"ЗіВ для статистики"</string>
 
@@ -1873,7 +1875,7 @@
     <string name="datadonation_details_survey_consent_top_body"><b>"Допоможіть нам покращити застосунок Corona-Warn-App, пройшовши опитування щодо вашого досвіду роботи із застоснком. Це допоможе RKI оцінити ефективність застосунку, покращити застосунок та зрозуміти, як попередження, які надходять через застосунок, впливають на поведінку людей із підвищеним ступенем ризиком."</b>"\n\nОпитування призначене лише для людей, у застосунку яких виявлено ризик зараження. Опитування проводиться на веб-сайті RKI. Щоб перенаправити вас на веб-сайт, на наступному кроці відобразиться посилання на опитування. Однак перед його відображенням необхідно підтвердити автентичність вашого застосунку. Для цього потрібна ваша згода.\n\nНатиснувши посилання на опитування, ви отримаєте додаткову інформацію про опитування. Перед початком опитування вас також попросять знову надати свою згоду."</string>
 
     <!-- XHED: Title of the survey consent detail screen -->
-    <string name="datadonation_details_survey_consent_details_title">"Докладна інформація про обробку даних, залучених під час опитування"</string>
+    <string name="datadonation_details_survey_consent_details_title">"Докладна інформація про перевірку автентичності та ризики захисту даних у США та інших третіх країнах"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Час на вашому смартфоні не відповідає поточному часу. Виправте час у настройках вашого смартфона (код помилки %1$s)."</string>

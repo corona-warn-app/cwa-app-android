@@ -7,17 +7,16 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.verify
-import kotlinx.coroutines.test.runTest
 import java.time.Duration
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 
 class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
     @MockK lateinit var repository: AnalyticsPCRKeySubmissionRepository
@@ -34,72 +33,68 @@ class AnalyticsPCRKeySubmissionDonorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { timeStamper.nowUTC } returns now
-        every { configData.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata } returns 6
+        coEvery { timeStamper.nowUTC } returns now
+        coEvery { configData.analytics.hoursSinceTestResultToSubmitKeySubmissionMetadata } returns 6
     }
 
     @Test
-    fun `no contribution without test result`() {
-        every { repository.testResultReceivedAt } returns -1
-        every { repository.submitted } returns false
-        runTest {
-            val donor = createInstance()
-            donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
-        }
+    fun `no contribution without test result`() = runTest2 {
+        coEvery { repository.testResultReceivedAt() } returns -1
+        coEvery { repository.submitted() } returns false
+
+        val donor = createInstance()
+        donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
     }
 
     @Test
-    fun `no contribution when neither submitted nor enough time passed`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
-        every { repository.submitted } returns false
-        runTest {
-            val donor = createInstance()
-            donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
-        }
+    fun `no contribution when neither submitted nor enough time passed`() = runTest2 {
+        coEvery { repository.testResultReceivedAt() } returns now.minus(Duration.ofHours(4)).toEpochMilli()
+        coEvery { repository.submitted() } returns false
+
+        val donor = createInstance()
+        donor.beginDonation(request) shouldBe AnalyticsKeySubmissionNoContribution
     }
 
     @Test
-    fun `regular contribution when keys submitted`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
-        every { repository.advancedConsentGiven } returns true
-        every { repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
-        every { repository.ewHoursSinceHighRiskWarningAtTestRegistration } returns 1
-        every { repository.hoursSinceTestResult } returns 1
-        every { repository.hoursSinceTestRegistration } returns 1
-        every { repository.lastSubmissionFlowScreen } returns 1
-        every { repository.submittedAfterCancel } returns true
-        every { repository.submittedAfterSymptomFlow } returns true
-        every { repository.submittedInBackground } returns true
-        every { repository.submittedWithTeleTAN } returns false
-        every { repository.submitted } returns true
-        every { repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns 1
-        every { repository.ptHoursSinceHighRiskWarningAtTestRegistration } returns 1
-        every { repository.submittedAfterRAT } returns false
-        every { repository.submittedWithCheckIns } returns false
-        every { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
-        every { repository.reset() } just Runs
-        runTest {
-            val donor = createInstance()
-            val contribution = donor.beginDonation(request)
-            contribution.injectData(ppaData)
-            coVerify { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) }
-            contribution.finishDonation(false)
-            verify(exactly = 0) { repository.reset() }
-            contribution.finishDonation(true)
-            verify(exactly = 1) { repository.reset() }
-        }
+    fun `regular contribution when keys submitted`() = runTest2 {
+        coEvery { repository.testResultReceivedAt() } returns now.minus(Duration.ofHours(4)).toEpochMilli()
+        coEvery { repository.advancedConsentGiven() } returns true
+        coEvery { repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration() } returns 1
+        coEvery { repository.ewHoursSinceHighRiskWarningAtTestRegistration() } returns 1
+        coEvery { repository.hoursSinceTestResult() } returns 1
+        coEvery { repository.hoursSinceTestRegistration() } returns 1
+        coEvery { repository.lastSubmissionFlowScreen() } returns 1
+        coEvery { repository.submittedAfterCancel() } returns true
+        coEvery { repository.submittedAfterSymptomFlow() } returns true
+        coEvery { repository.submittedInBackground() } returns true
+        coEvery { repository.submittedWithTeleTAN() } returns false
+        coEvery { repository.submitted() } returns true
+        coEvery { repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration() } returns 1
+        coEvery { repository.ptHoursSinceHighRiskWarningAtTestRegistration() } returns 1
+        coEvery { repository.submittedAfterRAT } returns false
+        coEvery { repository.submittedWithCheckIns() } returns false
+        coEvery { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) } returns ppaData
+        coEvery { repository.reset() } just Runs
+
+        val donor = createInstance()
+        val contribution = donor.beginDonation(request)
+        contribution.injectData(ppaData)
+        coVerify { ppaData.addKeySubmissionMetadataSet(any<PpaData.PPAKeySubmissionMetadata.Builder>()) }
+        contribution.finishDonation(false)
+        coVerify(exactly = 0) { repository.reset() }
+        contribution.finishDonation(true)
+        coVerify(exactly = 1) { repository.reset() }
     }
 
     @Test
-    fun `submit contribution after enough time has passed`() {
-        every { repository.testResultReceivedAt } returns now.minus(Duration.ofHours(4)).toEpochMilli()
-        every { repository.submitted } returns true
+    fun `submit contribution after enough time has passed`() = runTest2 {
+        coEvery { repository.testResultReceivedAt() } returns now.minus(Duration.ofHours(4)).toEpochMilli()
+        coEvery { repository.submitted() } returns true
         val minTimePassedToSubmit = Duration.ofHours(3)
-        runTest {
-            val donor = createInstance()
-            donor.enoughTimeHasPassedSinceResult(Duration.ofHours(3)) shouldBe true
-            donor.shouldSubmitData(minTimePassedToSubmit) shouldBe true
-        }
+
+        val donor = createInstance()
+        donor.enoughTimeHasPassedSinceResult(Duration.ofHours(3)) shouldBe true
+        donor.shouldSubmitData(minTimePassedToSubmit) shouldBe true
     }
 
     fun createInstance() = AnalyticsPCRKeySubmissionDonor(repository, timeStamper)

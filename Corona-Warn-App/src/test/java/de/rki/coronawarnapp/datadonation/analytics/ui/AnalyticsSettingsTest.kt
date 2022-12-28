@@ -1,82 +1,80 @@
 package de.rki.coronawarnapp.datadonation.analytics.ui
 
-import android.content.Context
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.coroutines.runTest2
+import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 
 class AnalyticsSettingsTest : BaseTest() {
-    @MockK lateinit var context: Context
-    lateinit var preferences: MockSharedPreferences
+
+    lateinit var dataStore: FakeDataStore
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        preferences = MockSharedPreferences()
-        every { context.getSharedPreferences("analytics_localdata", Context.MODE_PRIVATE) } returns preferences
+        dataStore = FakeDataStore()
     }
 
     fun createInstance() = AnalyticsSettings(
-        context = context
+        dataStore = dataStore
     )
 
     @Test
-    fun `userinfo agegroup`() {
+    fun `userinfo agegroup`() = runTest2 {
         createInstance().apply {
-            preferences.dataMapPeek.isEmpty() shouldBe true
+            dataStore[AnalyticsSettings.PKEY_USERINFO_AGEGROUP] shouldBe null
 
-            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
-            userInfoAgeGroup.update { PpaData.PPAAgeGroup.AGE_GROUP_FROM_60 }
-            preferences.dataMapPeek["userinfo.agegroup"] shouldBe 3
-            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_FROM_60
+            userInfoAgeGroup.first() shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            updateUserInfoAgeGroup(PpaData.PPAAgeGroup.AGE_GROUP_FROM_60)
+            dataStore[AnalyticsSettings.PKEY_USERINFO_AGEGROUP] shouldBe 3
+            userInfoAgeGroup.first() shouldBe PpaData.PPAAgeGroup.AGE_GROUP_FROM_60
 
-            userInfoAgeGroup.update { PpaData.PPAAgeGroup.UNRECOGNIZED }
-            userInfoAgeGroup.value shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+            updateUserInfoAgeGroup(PpaData.PPAAgeGroup.UNRECOGNIZED)
+            userInfoAgeGroup.first() shouldBe PpaData.PPAAgeGroup.AGE_GROUP_UNSPECIFIED
         }
     }
 
     @Test
-    fun `userinfo federal state`() {
+    fun `userinfo federal state`() = runTest2 {
         createInstance().apply {
-            preferences.dataMapPeek.isEmpty() shouldBe true
+            dataStore[AnalyticsSettings.PKEY_USERINFO_FEDERALSTATE] shouldBe null
 
-            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-            userInfoFederalState.update { PpaData.PPAFederalState.FEDERAL_STATE_NRW }
-            preferences.dataMapPeek["userinfo.federalstate"] shouldBe 10
-            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_NRW
+            userInfoFederalState.first() shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+            updateUserInfoFederalState(PpaData.PPAFederalState.FEDERAL_STATE_NRW)
+            dataStore[AnalyticsSettings.PKEY_USERINFO_FEDERALSTATE] shouldBe 10
+            userInfoFederalState.first() shouldBe PpaData.PPAFederalState.FEDERAL_STATE_NRW
 
-            userInfoFederalState.update { PpaData.PPAFederalState.UNRECOGNIZED }
-            userInfoFederalState.value shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+            updateUserInfoFederalState(PpaData.PPAFederalState.UNRECOGNIZED)
+            userInfoFederalState.first() shouldBe PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED
         }
     }
 
     @Test
-    fun `userinfo district`() {
+    fun `userinfo district`() = runTest2 {
         createInstance().apply {
-            preferences.dataMapPeek.isEmpty() shouldBe true
+            dataStore[AnalyticsSettings.PKEY_USERINFO_DISTRICT] shouldBe null
 
-            userInfoDistrict.value shouldBe 0
-            userInfoDistrict.update { 123 }
-            preferences.dataMapPeek["userinfo.district"] shouldBe 123
+            userInfoDistrict.first() shouldBe 0
+            updateUserInfoDistrict(123)
+            dataStore[AnalyticsSettings.PKEY_USERINFO_DISTRICT] shouldBe 123
 
-            userInfoDistrict.value shouldBe 123
+            userInfoDistrict.first() shouldBe 123
         }
     }
 
     @Test
-    fun `exposure risk metadata serialisation`() {
+    fun `exposure risk metadata serialisation`() = runTest2 {
         createInstance().apply {
-            preferences.dataMapPeek.isEmpty() shouldBe true
+            dataStore[AnalyticsSettings.PREVIOUS_EXPOSURE_RISK_METADATA] shouldBe null
 
-            previousExposureRiskMetadata.value shouldBe null
+            previousExposureRiskMetadata.first() shouldBe null
 
             val metadata = PpaData.ExposureRiskMetadata.newBuilder()
                 .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
@@ -85,27 +83,25 @@ class AnalyticsSettingsTest : BaseTest() {
                 .setRiskLevelChangedComparedToPreviousSubmission(true)
                 .build()
 
-            previousExposureRiskMetadata.update {
-                metadata
-            }
+            updatePreviousExposureRiskMetadata(metadata)
 
-            preferences.dataMapPeek["exposurerisk.metadata.previous"] shouldBe "CAMQARjQlJUwIAE="
+            dataStore[AnalyticsSettings.PREVIOUS_EXPOSURE_RISK_METADATA] shouldBe "CAMQARjQlJUwIAE="
 
-            previousExposureRiskMetadata.value shouldBe metadata
+            previousExposureRiskMetadata.first() shouldBe metadata
         }
     }
 
     @Test
-    fun `exposure risk metadata invalid proto handling`() {
+    fun `exposure risk metadata invalid proto handling`() = runTest2 {
         createInstance().apply {
-            preferences.dataMapPeek.isEmpty() shouldBe true
+            dataStore[AnalyticsSettings.PREVIOUS_EXPOSURE_RISK_METADATA] shouldBe null
 
-            previousExposureRiskMetadata.value shouldBe null
+            previousExposureRiskMetadata.first() shouldBe null
 
             // If ExposureRiskMetadata is changed this test will fail, we need some kind of migration strategy then
             val validProto = "CAMQARjQlJUwIAE="
 
-            preferences.edit().putString("exposurerisk.metadata.previous", validProto).commit()
+            dataStore[AnalyticsSettings.PREVIOUS_EXPOSURE_RISK_METADATA] = validProto
 
             val metadata = PpaData.ExposureRiskMetadata.newBuilder()
                 .setRiskLevel(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
@@ -114,7 +110,7 @@ class AnalyticsSettingsTest : BaseTest() {
                 .setRiskLevelChangedComparedToPreviousSubmission(true)
                 .build()
 
-            previousExposureRiskMetadata.value shouldBe metadata
+            previousExposureRiskMetadata.first() shouldBe metadata
         }
     }
 }
