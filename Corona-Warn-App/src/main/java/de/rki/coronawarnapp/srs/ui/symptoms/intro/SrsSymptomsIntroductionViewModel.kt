@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -23,6 +24,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     private val srsSubmissionRepository: SrsSubmissionRepository,
     @Assisted private val submissionType: SrsSubmissionType,
     @Assisted private val selectedCheckIns: LongArray,
+    @Assisted private val teksSharedViewModel: TeksSharedViewModel,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -73,8 +75,9 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
 
         try {
             srsSubmissionRepository.submit(
-                submissionType,
-                Symptoms(startOfSymptoms = null, symptomIndication = symptomsIndication)
+                type = submissionType,
+                symptoms = Symptoms(startOfSymptoms = null, symptomIndication = symptomsIndication),
+                keys = teksSharedViewModel.osTeks()
             )
             events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
@@ -131,7 +134,8 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
 
         fun create(
             submissionType: SrsSubmissionType,
-            selectedCheckIns: LongArray?
+            selectedCheckIns: LongArray?,
+            teksSharedViewModel: TeksSharedViewModel
         ): SrsSymptomsIntroductionViewModel
     }
 }

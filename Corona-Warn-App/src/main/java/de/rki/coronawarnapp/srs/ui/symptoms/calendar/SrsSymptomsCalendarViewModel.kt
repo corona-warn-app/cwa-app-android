@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -26,6 +27,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
     @Assisted private val submissionType: SrsSubmissionType,
     @Assisted private val selectedCheckIns: LongArray,
     @Assisted private val symptomsIndication: Symptoms.Indication,
+    @Assisted private val teksSharedViewModel: TeksSharedViewModel,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -65,8 +67,12 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
 
         try {
             srsSubmissionRepository.submit(
-                submissionType,
-                Symptoms(startOfSymptoms = symptomStartInternal.value, symptomIndication = symptomsIndication)
+                type = submissionType,
+                symptoms = Symptoms(
+                    startOfSymptoms = symptomStartInternal.value,
+                    symptomIndication = symptomsIndication
+                ),
+                keys = teksSharedViewModel.osTeks()
             )
             events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
         } catch (e: Exception) {
@@ -135,7 +141,8 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
         fun create(
             submissionType: SrsSubmissionType,
             selectedCheckIns: LongArray?,
-            symptomsIndication: Symptoms.Indication
+            symptomsIndication: Symptoms.Indication,
+            teksSharedViewModel: TeksSharedViewModel
         ): SrsSymptomsCalendarViewModel
     }
 

@@ -36,6 +36,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
             when (it) {
                 is SubmissionNavigationEvents.NavigateToMainActivity ->
                     findNavController().popBackStack()
+
                 is SubmissionNavigationEvents.NavigateToTAN ->
                     findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
@@ -43,13 +44,16 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                                 comesFromDispatcherFragment = true
                             )
                     )
+
                 is SubmissionNavigationEvents.OpenTestCenterUrl ->
                     openUrl(getString(R.string.submission_dispatcher_card_test_center_link))
+
                 is SubmissionNavigationEvents.NavigateToContact ->
                     findNavController().navigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToSubmissionContactFragment()
                     )
+
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> openUniversalScanner()
 
                 is SubmissionNavigationEvents.NavigateToProfileList -> {
@@ -63,6 +67,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
                 }
+
                 is SubmissionNavigationEvents.NavigateToSelfTestConsentScreen -> {
                     findNavController().navigate(
                         R.id.srs_nav_graph,
@@ -77,8 +82,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         viewModel.srsError.observe2(this) {
             displayDialog {
                 setError(it)
-                positiveButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
-                negativeButton(android.R.string.ok)
+                positiveButton(android.R.string.ok)
+                negativeButton(R.string.nm_faq_label) { openUrl(R.string.srs_faq_url) }
             }
         }
     }

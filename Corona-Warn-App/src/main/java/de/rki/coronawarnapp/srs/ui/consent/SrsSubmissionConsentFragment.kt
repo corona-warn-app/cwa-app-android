@@ -6,9 +6,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSrsSubmissionConsentBinding
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.tracing.ui.tracingConsentDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -23,11 +25,15 @@ class SrsSubmissionConsentFragment : Fragment(R.layout.fragment_srs_submission_c
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val navArgs by navArgs<SrsSubmissionConsentFragmentArgs>()
+    private val teksSharedViewModel by navGraphViewModels<TeksSharedViewModel>(R.id.srs_nav_graph)
     private val viewModel: SrsSubmissionConsentFragmentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SrsSubmissionConsentFragmentViewModel.Factory
-            factory.create(navArgs.openTypeSelection)
+            factory.create(
+                navArgs.openTypeSelection,
+                teksSharedViewModel
+            )
         }
     )
     private val binding by viewBinding<FragmentSrsSubmissionConsentBinding>()

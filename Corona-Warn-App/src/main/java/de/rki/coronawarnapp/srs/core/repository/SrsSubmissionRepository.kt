@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.srs.core.server.errorArgs
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
 import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
 import de.rki.coronawarnapp.submission.task.ExposureKeyHistoryCalculations
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
@@ -43,7 +42,6 @@ class SrsSubmissionRepository @Inject constructor(
     private val playbook: SrsPlaybook,
     private val appConfigProvider: AppConfigProvider,
     private val tekCalculations: ExposureKeyHistoryCalculations,
-    private val tekStorage: TEKHistoryStorage,
     private val timeStamper: TimeStamper,
     private val checkInsRepo: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
@@ -55,7 +53,8 @@ class SrsSubmissionRepository @Inject constructor(
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
-        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN
+        symptoms: Symptoms = Symptoms.NO_INFO_GIVEN,
+        keys: List<TemporaryExposureKey>
     ) {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
@@ -91,12 +90,6 @@ class SrsSubmissionRepository @Inject constructor(
             srsSubmissionSettings.setOtp(srsOtp)
         }
 
-        val keys: List<TemporaryExposureKey> = runCatching {
-            tekStorage.tekData.first().flatMap { it.keys }
-        }.onFailure {
-            Timber.w(it, "No temporary exposure keys")
-        }.getOrDefault(emptyList())
-
         val transformedKeys = tekCalculations.transformToKeyHistoryInExternalFormat(keys, symptoms)
         Timber.tag(TAG).d("Transformed keys with symptoms %s from %s to %s", symptoms, keys, transformedKeys)
 
@@ -115,9 +108,6 @@ class SrsSubmissionRepository @Inject constructor(
 
         Timber.tag(TAG).d("Submitting %s", payload)
         playbook.submit(payload)
-
-        Timber.tag(TAG).d("Submission successful, deleting submission data.")
-        tekStorage.reset()
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)

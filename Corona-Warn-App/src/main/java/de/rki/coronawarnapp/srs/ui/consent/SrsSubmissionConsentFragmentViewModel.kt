@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
+import de.rki.coronawarnapp.srs.core.model.TekPatch
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,6 +24,7 @@ import timber.log.Timber
 
 class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     @Assisted private val openTypeSelection: Boolean,
+    @Assisted private val teksSharedViewModel: TeksSharedViewModel,
     private val checkInRepository: CheckInRepository,
     appConfigProvider: AppConfigProvider,
     dispatcherProvider: DispatcherProvider,
@@ -74,6 +77,7 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     suspend fun onTekAvailable(teks: List<TemporaryExposureKey>) {
         Timber.tag(TAG).d("onTEKAvailable(teks.size=%d)", teks.size)
         showKeysRetrievalProgress.postValue(false)
+        teksSharedViewModel.setTekPatch(TekPatch.patchFrom(teks))
 
         if (openTypeSelection) {
             Timber.tag(TAG).d("Navigate to TestType")
@@ -96,12 +100,17 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     }
 
     fun submissionConsentAcceptButtonClicked() {
-        tekHistoryUpdater.getTeksOrRequestPermission()
+        tekHistoryUpdater.getTeksOrRequestPermissionFromOS()
     }
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         showKeysRetrievalProgress.value = true
-        tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
+        tekHistoryUpdater.handleActivityResult(
+            requestCode = requestCode,
+            resultCode = resultCode,
+            data = data,
+            updateCache = false
+        )
     }
 
     fun onConsentCancel() {
@@ -111,7 +120,8 @@ class SrsSubmissionConsentFragmentViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SrsSubmissionConsentFragmentViewModel> {
         fun create(
-            openTypeSelection: Boolean
+            openTypeSelection: Boolean,
+            teksSharedViewModel: TeksSharedViewModel
         ): SrsSubmissionConsentFragmentViewModel
     }
 

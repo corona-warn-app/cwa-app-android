@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionNavigation
 import de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionViewModel
+import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -33,6 +34,7 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
     @MockK lateinit var srsSubmissionRepository: SrsSubmissionRepository
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionType: SrsSubmissionType
+    @MockK lateinit var teksSharedViewModel: TeksSharedViewModel
     private val selectedCheckIns = longArrayOf()
 
     private val checkIn1 = CheckIn(
@@ -96,6 +98,7 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
+        coEvery { teksSharedViewModel.osTeks() } returns emptyList()
     }
 
     private fun createViewModel() = SrsSymptomsIntroductionViewModel(
@@ -103,7 +106,8 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
         srsSubmissionRepository = srsSubmissionRepository,
         submissionType = submissionType,
         selectedCheckIns = selectedCheckIns,
-        checkInRepository = checkInRepository
+        checkInRepository = checkInRepository,
+        teksSharedViewModel = teksSharedViewModel
     )
 
     @Test
@@ -146,7 +150,11 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
 
             coVerify {
                 checkInRepository.updateSubmissionConsents(any(), true)
-                srsSubmissionRepository.submit(submissionType, Symptoms(null, Symptoms.Indication.NEGATIVE))
+                srsSubmissionRepository.submit(
+                    submissionType,
+                    Symptoms(null, Symptoms.Indication.NEGATIVE),
+                    emptyList()
+                )
             }
         }
     }

@@ -10,6 +10,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import timber.log.Timber
+import java.time.Instant
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
     @BaseJackson private val mapper: ObjectMapper,
@@ -35,6 +37,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val srsSubmissionSettings: SrsSubmissionSettings,
     private val srsSubmissionRepository: SrsSubmissionRepository,
+    private val cwaSettings: CWASettings,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val srsSubmissionResult = SingleLiveEvent<SrsSubmissionResult>()
@@ -46,6 +49,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val deviceTimeState = srsDevSettings.deviceTimeState.asLiveData2()
     val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
     val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
+    val firstReliableTime = cwaSettings.firstReliableDeviceTime.asLiveData2()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -87,7 +91,10 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun submit() = launch {
         try {
-            srsSubmissionRepository.submit(type = SrsSubmissionType.SRS_SELF_TEST)
+            srsSubmissionRepository.submit(
+                type = SrsSubmissionType.SRS_SELF_TEST,
+                keys = tekHistory.value.orEmpty().map { it.key }
+            )
             srsSubmissionResult.postValue(Success)
         } catch (e: Exception) {
             Timber.e(e, "submit()")
@@ -141,6 +148,14 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         return tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data).also {
             Timber.d("tekHistoryUpdater.handleActivityResult(): %s", it)
         }
+    }
+
+    fun clearTekCache() = launch {
+        tekHistoryUpdater.clearTekCache()
+    }
+
+    fun updateFirstReliableTime(time: Long) = launch {
+        cwaSettings.updateFirstReliableDeviceTime(Instant.ofEpochMilli(time))
     }
 
     @AssistedFactory
