@@ -71,6 +71,7 @@
             android:id="@+id/onboarding_button_next"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
+            android:layout_marginVertical="@dimen/standard_16"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_tracing_button_next"
             app:layout_constraintBottom_toTopOf="@id/onboarding_button_disable"

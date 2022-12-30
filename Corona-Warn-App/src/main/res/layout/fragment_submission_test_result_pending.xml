@@ -181,7 +181,7 @@
                 style="@style/buttonLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="@string/submission_test_result_pending_remove_test_button" />
 
         </LinearLayout>
