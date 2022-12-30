@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="@dimen/margin_16">
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/flow"
@@ -23,7 +23,7 @@
         style="@style/body1Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/font_14"
         tools:text="@string/validation_rules_failed_vh_test_center_title" />
 
     <TextView
@@ -31,7 +31,7 @@
         style="@style/body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/font_14"
         tools:text="P01 Potsdam" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

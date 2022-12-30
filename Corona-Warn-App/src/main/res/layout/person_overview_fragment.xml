@@ -15,8 +15,8 @@
             android:id="@+id/empty_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="@dimen/spacing_toolbar_padding"
-            android:paddingBottom="@dimen/spacing_fab_padding"
+            android:paddingTop="@dimen/padding_60"
+            android:paddingBottom="@dimen/padding_80"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="wrap"
@@ -27,7 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -43,7 +43,7 @@
                     style="@style/subtitleMediumBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="@dimen/margin_36"
                     android:gravity="center"
                     android:text="@string/person_overview_no_certificates_title" />
 
@@ -51,7 +51,7 @@
                     style="@style/body2Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/person_overview_no_certificates_subtitle"
                     app:autoSizeTextType="uniform" />
@@ -60,8 +60,8 @@
                     style="@style/body2Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/person_overview_no_certificates_subtitle_2"
                     app:autoSizeTextType="uniform" />
@@ -70,8 +70,8 @@
 
         <ProgressBar
             android:id="@+id/loading_progress_bar"
-            android:layout_width="@dimen/spacing_normal"
-            android:layout_height="@dimen/spacing_normal"
+            android:layout_width="@dimen/width_26"
+            android:layout_height="@dimen/height_26"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/margin_32"
             android:text="@string/certificate_loading_text"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/loading_progress_bar" />
@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/spacing_fab_padding"
+            android:paddingBottom="@dimen/padding_80"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -140,9 +140,9 @@
             layout="@layout/export_tooltip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_46"
+            android:layout_marginEnd="@dimen/margin_16"
             android:visibility="gone"
             tools:visibility="visible" />
 

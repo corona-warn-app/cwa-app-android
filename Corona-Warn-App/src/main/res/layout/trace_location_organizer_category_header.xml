@@ -3,7 +3,7 @@
     android:id="@+id/category_header"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_normal"
-    android:layout_marginTop="@dimen/spacing_tiny"
-    android:layout_marginBottom="@dimen/spacing_tiny"
+    android:layout_marginStart="@dimen/margin_24"
+    android:layout_marginTop="@dimen/margin_8"
+    android:layout_marginBottom="@dimen/margin_8"
     android:text="@string/tracelocation_organizer_category_type_location_header" />

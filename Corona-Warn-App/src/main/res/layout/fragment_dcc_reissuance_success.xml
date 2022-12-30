@@ -22,7 +22,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/margin_16"
         app:layout_constraintBottom_toTopOf="@id/dcc_reissuance_success_complete_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                 style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@string/dcc_reissuance_success_screen_headline"
@@ -61,7 +61,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/dcc_reissuance_success_screen_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -74,14 +74,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,8 +92,8 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
         android:text="@string/dcc_reissuance_success_screen_complete_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,4 +101,3 @@
         tools:text="@string/dcc_reissuance_success_screen_complete_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

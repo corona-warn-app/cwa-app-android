@@ -3,7 +3,7 @@
 
     <style name="subtitle" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="android:lineHeight">@dimen/line_height_normal</item>
+        <item name="android:lineHeight">@dimen/line_height_24</item>
         <item name="fontStyle">normal</item>
         <item name="android:textFontWeight">400</item>
     </style>
@@ -14,12 +14,12 @@
 
     <style name="subtitleSemanticRed" parent="@style/subtitle">
         <item name="android:textColor">@color/colorTextSemanticRed</item>
-        <item name="android:lineHeight">@dimen/line_height_normal</item>
+        <item name="android:lineHeight">@dimen/line_height_24</item>
     </style>
 
     <style name="subtitleMedium" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
-        <item name="android:lineHeight">@dimen/line_height_normal</item>
+        <item name="android:lineHeight">@dimen/line_height_24</item>
         <item name="android:textFontWeight">400</item>
     </style>
 
@@ -29,22 +29,22 @@
 
     <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="android:lineHeight">@dimen/line_height_large</item>
+        <item name="android:lineHeight">@dimen/line_height_28</item>
     </style>
 
     <style name="body2" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="android:lineHeight">@dimen/line_height_small</item>
+        <item name="android:lineHeight">@dimen/line_height_20</item>
     </style>
 
     <style name="body2Medium" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
-        <item name="android:lineHeight">@dimen/line_height_small</item>
+        <item name="android:lineHeight">@dimen/line_height_20</item>
     </style>
 
     <style name="StatisticsCardValueLabel" parent="subtitle">
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
-        <item name="android:lineHeight">@dimen/line_height_tiny</item>
+        <item name="android:lineHeight">@dimen/line_height_16</item>
     </style>
 
     <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">

@@ -23,15 +23,15 @@
         android:layout_height="match_parent"
         app:maskColor="@color/colorQrCodeScanMask"
         app:maskPosition="0.38"
-        app:maskSize="@dimen/scan_qr_code_viewfinder_size" />
+        app:maskSize="@dimen/width_300" />
 
     <TextView
         android:id="@+id/qr_code_scan_title"
         style="@style/boldSubtitle"
-        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+        android:layout_width="@dimen/width_300"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
-        android:paddingTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_160"
+        android:paddingTop="@dimen/padding_24"
         android:text="@string/qr_code_scan_body_title"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@id/scanner_preview"
@@ -41,9 +41,9 @@
     <TextView
         android:id="@+id/qr_code_scan_subtitle"
         style="@style/body2Medium"
-        android:layout_width="@dimen/scan_qr_code_text_length"
+        android:layout_width="@dimen/width_250"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_16"
         android:text="@string/qr_code_scan_body_subtitle"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@id/scanner_preview"
@@ -55,21 +55,21 @@
         style="@style/UniversalScannerInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginTop="@dimen/margin_4"
         android:contentDescription="@string/statistics_info_button"
         app:layout_constraintStart_toEndOf="@id/qr_code_scan_subtitle"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_title" />
 
     <View
         android:id="@+id/qr_code_scan_background"
-        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
-        android:layout_height="@dimen/scan_qr_code_viewfinder_size"
+        android:layout_width="@dimen/width_300"
+        android:layout_height="@dimen/height_300"
         android:background="@color/dim_color"
         app:layout_constraintBottom_toBottomOf="@id/scanner_preview"
         app:layout_constraintEnd_toEndOf="@id/scanner_preview"
         app:layout_constraintStart_toStartOf="@id/scanner_preview"
         app:layout_constraintTop_toTopOf="@id/scanner_preview"
-        app:layout_constraintVertical_bias="0.29" />
+        app:layout_constraintVertical_bias="0.30" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/qr_code_scan_spinner"
@@ -89,7 +89,7 @@
         android:id="@+id/qr_code_processing_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_16"
         android:text="@string/qr_code_processing_message"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,23 +109,23 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_medium"
+        android:layout_margin="@dimen/margin_32"
         android:text="@string/qr_code_open_file"
         android:textAllCaps="false"
         android:textColor="@color/colorQrCodeScanToolbar"
         app:icon="@drawable/ic_image"
-        app:iconPadding="11dp"
+        app:iconPadding="@dimen/padding_12"
         app:iconTint="@color/colorQrCodeScanToolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ToggleButton
         android:id="@+id/qr_code_scan_torch"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/width_48"
+        android:layout_height="@dimen/width_48"
         android:layout_gravity="end"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_32"
         android:background="@drawable/ic_torch_toggle"
         android:backgroundTint="@color/colorQrCodeScanToolbar"
         android:contentDescription="@string/qr_code_torch_accessibility_description"

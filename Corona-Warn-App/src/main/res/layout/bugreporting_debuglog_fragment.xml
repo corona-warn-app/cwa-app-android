@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/padding_24"
         app:layout_constraintBottom_toTopOf="@id/log_control_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,8 +40,8 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/debugging_debuglog_intro_explanation_section_one" />
 
             <TextView
@@ -49,8 +49,8 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="@string/debugging_debuglog_intro_explanation_section_two" />
 
             <include
@@ -58,15 +58,15 @@
                 layout="@layout/include_debuglog_privacy_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/guideline_card"
-                android:layout_marginVertical="24dp"
+                android:layout_marginHorizontal="@dimen/margin_12"
+                android:layout_marginVertical="@dimen/margin_24"
                 android:focusable="true" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/debug_log_history_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:focusable="true"
                 android:visibility="gone"
                 app:isBottomDividerVisible="false"
@@ -78,7 +78,7 @@
                 android:id="@+id/debug_log_privacy_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:focusable="true"
                 app:titleText="@string/contact_diary_onboarding_legal_information" />
 
@@ -91,12 +91,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface1"
-        android:elevation="8dp"
+        android:elevation="@dimen/elevation_8"
         android:orientation="vertical"
-        android:paddingStart="24dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
+        android:paddingStart="@dimen/padding_24"
+        android:paddingTop="@dimen/padding_8"
+        android:paddingEnd="@dimen/padding_24"
+        android:paddingBottom="@dimen/padding_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -106,7 +106,7 @@
             style="@style/headline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_8"
             android:accessibilityHeading="true"
             android:focusable="true"
             android:text="@string/debugging_debuglog_current_status_title" />
@@ -115,18 +115,18 @@
             android:id="@+id/debug_log_current_status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_8"
             android:background="@drawable/card"
             android:backgroundTint="@color/colorSurface2"
             android:focusable="true"
-            android:minHeight="64dp">
+            android:minHeight="@dimen/height_64">
 
             <ImageView
                 android:id="@+id/debuglog_activity_indicator"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginVertical="8dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="@dimen/width_36"
+                android:layout_height="@dimen/height_36"
+                android:layout_marginVertical="@dimen/margin_8"
+                android:layout_marginStart="@dimen/margin_16"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,9 +139,9 @@
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_16"
                 app:layout_constraintBottom_toTopOf="@id/debuglog_status_secondary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/debuglog_activity_indicator"
@@ -154,9 +154,9 @@
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/debuglog_activity_indicator"
@@ -170,7 +170,7 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/debugging_debuglog_action_share_log" />
 
         <Button
@@ -178,7 +178,7 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/debugging_debuglog_action_local_log_export"
             tools:text="@string/debugging_debuglog_action_local_log_export" />
 
@@ -187,7 +187,7 @@
             style="@style/buttonBarAlertRed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/debugging_debuglog_action_start_recording" />
     </LinearLayout>
 

@@ -7,7 +7,7 @@
         style="@style/GreyCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_normal"
+        android:padding="@dimen/padding_24"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -27,50 +27,49 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@string/submission_no_consent_your_consent_subsection_body_first_part"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/privacy_card_title" />
+            app:layout_constraintTop_toBottomOf="@id/privacy_card_title" />
 
         <TextView
             android:id="@+id/privacy_card_text_part_second"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@string/submission_no_consent_your_consent_subsection_body_second_part"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_first" />
+            app:layout_constraintTop_toBottomOf="@id/privacy_card_text_part_first" />
 
         <TextView
             android:id="@+id/privacy_card_text_part_third"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@string/submission_no_consent_your_consent_subsection_body_third_part"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_second" />
+            app:layout_constraintTop_toBottomOf="@id/privacy_card_text_part_second" />
 
         <TextView
             android:id="@+id/privacy_card_text_part_fourth"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@string/submission_no_consent_your_consent_subsection_body_fourth_part"
             android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/privacy_card_text_part_third" />
+            app:layout_constraintTop_toBottomOf="@id/privacy_card_text_part_third" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

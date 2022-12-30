@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/bullet_point_spacing_between">
+    android:paddingBottom="@dimen/padding_16">
 
     <ImageView
         android:id="@+id/bullet_point"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:layout_marginStart="@dimen/bullet_point_spacing_before"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
+        android:layout_marginStart="@dimen/margin_8"
         android:baseline="@dimen/bullet_point_baseline_offset"
         app:srcCompat="@drawable/bullet_point"
         android:importantForAccessibility="no"
-        app:layout_constraintBaseline_toBaselineOf="@+id/bullet_point_content"
+        app:layout_constraintBaseline_toBaselineOf="@id/bullet_point_content"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -22,7 +22,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bullet_point_spacing_after"
+        android:layout_marginStart="@dimen/margin_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bullet_point"
         app:layout_constraintTop_toTopOf="parent"

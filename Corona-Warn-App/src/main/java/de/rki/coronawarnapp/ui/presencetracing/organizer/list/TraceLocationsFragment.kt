@@ -53,7 +53,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
         binding.recyclerView.apply {
             adapter = traceLocationsAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             onScroll {
                 onScrollChange(it)
             }

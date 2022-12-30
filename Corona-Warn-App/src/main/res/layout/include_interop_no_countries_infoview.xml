@@ -13,7 +13,7 @@
         android:id="@+id/participating_countries_notfetch_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginTop="@dimen/margin_8"
         android:focusable="true">
 
         <TextView
@@ -21,7 +21,7 @@
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:focusable="false"
             android:text="@string/interoperability_onboarding_list_title_failrequest"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
             style="@style/body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:focusable="true"
             android:text="@string/interoperability_onboarding_list_subtitle_failrequest"
             app:layout_constraintBottom_toBottomOf="parent"

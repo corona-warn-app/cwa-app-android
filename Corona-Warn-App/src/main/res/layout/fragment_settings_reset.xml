@@ -23,7 +23,7 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,27 +52,27 @@
                     layout="@layout/include_tracing_status_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/margin_32"
                     app:body="@{@string/settings_reset_body_keys}"
                     app:headline="@{@string/settings_reset_headline_keys}"
                     app:icon="@{@drawable/ic_settings_reset_circle}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_reset_header_details" />
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/settings_reset_header_details" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                    app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+                    app:layout_constraintGuide_end="@dimen/guideline_24" />
 
                 <include layout="@layout/merge_guidelines_card" />
 
@@ -85,11 +85,11 @@
             style="@style/buttonReset"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/settings_reset_button_positive"
-            app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_cancel"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer" />
+            app:layout_constraintBottom_toTopOf="@id/settings_reset_button_cancel"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end_outer"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_outer" />
 
         <Button
             android:id="@+id/settings_reset_button_cancel"
@@ -97,30 +97,30 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/settings_reset_button_negative"
-            app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start_outer" />
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+            app:layout_constraintEnd_toStartOf="@id/guideline_end_outer"
+            app:layout_constraintStart_toStartOf="@id/guideline_start_outer" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start_outer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start" />
+            app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end_outer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_end" />
+            app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/spacing_small" />
+            app:layout_constraintGuide_end="@dimen/guideline_16" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

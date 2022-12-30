@@ -4,31 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/spacing_normal"
+    android:layout_marginHorizontal="@dimen/margin_24"
     android:background="@drawable/ic_certificate_background_border"
-    android:paddingBottom="@dimen/spacing_small">
+    android:paddingBottom="@dimen/padding_16">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/spacing_small" />
+        app:layout_constraintGuide_begin="@dimen/guideline_16" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/spacing_small" />
+        app:layout_constraintGuide_end="@dimen/guideline_16" />
 
     <TextView
         android:id="@+id/covpass_info_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingBottom="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_12"
+        android:paddingBottom="@dimen/padding_16"
         android:text="@string/person_details_certificate_covpass_info_title"
         app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -39,7 +39,7 @@
         style="@style/CertificateCardInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/margin_2"
         android:contentDescription="@string/statistics_info_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
         app:layout_constraintLeft_toLeftOf="@id/guideline_start"
         app:layout_constraintRight_toRightOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
-        app:layout_goneMarginTop="@dimen/spacing_small"
+        app:layout_goneMarginTop="@dimen/margin_16"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
         tools:tint="@android:color/black" />
@@ -96,8 +96,8 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="140dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/width_150"
+        android:layout_height="@dimen/height_26"
         android:indeterminate="true"
         app:hideAnimationBehavior="inward"
         app:layout_constraintBottom_toBottomOf="@id/image"
@@ -110,7 +110,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginTop="@dimen/margin_8"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/image"
@@ -123,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin_8"
         android:src="@drawable/ic_badge"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/qr_title"
@@ -148,11 +148,11 @@
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_tiny"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_10"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toEndOf="@id/status_icon"
-        app:layout_constraintTop_toBottomOf="@+id/qr_title"
+        app:layout_constraintTop_toBottomOf="@id/qr_title"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="visible" />
 
@@ -161,7 +161,7 @@
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_10"
         android:text="@string/expiration_info"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/status_icon"

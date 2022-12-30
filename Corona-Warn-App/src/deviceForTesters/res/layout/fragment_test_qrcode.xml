@@ -10,7 +10,7 @@
         style="@style/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical">
 
         <TextView
@@ -18,10 +18,10 @@
             style="@style/body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/margin_8"
             android:text="QR Code Scanner"
-            app:layout_constraintBottom_toBottomOf="@+id/test_qrcode_file_select"
-            app:layout_constraintEnd_toStartOf="@+id/test_qrcode_file_select"
+            app:layout_constraintBottom_toBottomOf="@id/test_qrcode_file_select"
+            app:layout_constraintEnd_toStartOf="@id/test_qrcode_file_select"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,6 @@
             android:text="Open Scanner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </LinearLayout>
 

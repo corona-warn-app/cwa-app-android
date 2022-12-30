@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<!--This asset is only used below Android 6. These Android versions do not support the `android:height` and `android:width` attributes, making tricks necessary.-->
+    <!--This asset is only used below Android 6. These Android versions do not support the `android:height` and `android:width` attributes, making tricks necessary.-->
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/submission_tan_input_digit_radius"/>
-            <solid android:color="@color/colorSurface2"/>
+            <corners android:radius="@dimen/radius_2" />
+            <solid android:color="@color/colorSurface2" />
         </shape>
     </item>
-    <item android:top="-4dp" android:right="-4dp" android:left="-4dp">
+    <item
+        android:top="-4dp"
+        android:right="-4dp"
+        android:left="-4dp">
         <shape android:shape="rectangle">
-            <stroke android:width="@dimen/submission_tan_input_digit_stroke" android:color="@color/colorTextSemanticNeutral"/>
+            <stroke
+                android:width="@dimen/width_2"
+                android:color="@color/colorTextSemanticNeutral" />
         </shape>
     </item>
 </layer-list>

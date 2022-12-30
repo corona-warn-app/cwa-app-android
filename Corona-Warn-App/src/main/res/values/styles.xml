@@ -2,7 +2,7 @@
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorSecondary</item>
-        <item name="actionBarSize">56dp</item>
+        <item name="actionBarSize">@dimen/width_56</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
@@ -96,12 +96,12 @@
                     Button
     ###################################### -->
     <style name="button" parent="Widget.Material3.Button">
-        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
-        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingStart">@dimen/padding_24</item>
+        <item name="android:paddingEnd">@dimen/padding_24</item>
+        <item name="android:paddingBottom">@dimen/padding_12</item>
+        <item name="android:paddingTop">@dimen/padding_12</item>
         <item name="android:textColor">@color/button_text_color</item>
-        <item name="android:textSize">@dimen/font_button</item>
+        <item name="android:textSize">@dimen/font_14</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="android:stateListAnimator">@null</item>
@@ -113,9 +113,8 @@
     </style>
 
     <style name="checkValidityButton" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:maxWidth">6000dp</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingStart">@dimen/padding_0</item>
+        <item name="android:paddingEnd">@dimen/padding_0</item>
         <item name="android:textColor">@color/text_button_color</item>
         <item name="strokeColor">@color/text_button_color</item>
     </style>
@@ -127,8 +126,8 @@
 
     <style name="contactDiaryPersonButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/button_contact_diary_person</item>
-        <item name="strokeWidth">2dp</item>
-        <item name="cornerRadius">5dp</item>
+        <item name="strokeWidth">@dimen/width_2</item>
+        <item name="cornerRadius">@dimen/radius_4</item>
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -138,9 +137,9 @@
 
     <style name="certificateSelectionToggleButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/certificate_selector_button_stroke</item>
-        <item name="strokeWidth">2dp</item>
+        <item name="strokeWidth">@dimen/width_2</item>
         <item name="android:letterSpacing">0</item>
-        <item name="cornerRadius">5dp</item>
+        <item name="cornerRadius">@dimen/radius_4</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/certificate_selector_button_text_color</item>
@@ -190,10 +189,10 @@
                   Row
   ###################################### -->
     <style name="row">
-        <item name="android:paddingStart">@dimen/button_padding_start_end</item>
-        <item name="android:paddingTop">@dimen/button_padding_top_bottom</item>
-        <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
-        <item name="android:paddingBottom">@dimen/button_padding_top_bottom</item>
+        <item name="android:paddingStart">@dimen/padding_24</item>
+        <item name="android:paddingTop">@dimen/padding_16</item>
+        <item name="android:paddingEnd">@dimen/padding_24</item>
+        <item name="android:paddingBottom">@dimen/padding_16</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
@@ -210,21 +209,21 @@
 
     <style name="rowOverview" parent="@style/row">
         <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingTop">@dimen/spacing_tiny</item>
-        <item name="android:paddingBottom">@dimen/spacing_tiny</item>
+        <item name="android:paddingTop">@dimen/standard_8</item>
+        <item name="android:paddingBottom">@dimen/standard_8</item>
     </style>
 
     <!-- ####################################
                     Card
     ###################################### -->
     <style name="Card">
-        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:padding">@dimen/padding_24</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:elevation">@dimen/elevation_strong</item>
+        <item name="android:elevation">@dimen/elevation_10</item>
     </style>
 
     <style name="Card.NoElevation">
-        <item name="android:elevation">@dimen/elevation_none</item>
+        <item name="android:elevation">@dimen/elevation_0</item>
     </style>
 
     <style name="Card.Vaccination" parent="Card.NoElevation">
@@ -240,16 +239,16 @@
     </style>
 
     <style name="Card.Vaccination.Ripple.NoPadding">
-        <item name="android:padding">@dimen/no_padding</item>
+        <item name="android:padding">@dimen/padding_0</item>
     </style>
 
     <style name="Card.NoPadding">
-        <item name="android:padding">@dimen/no_padding</item>
+        <item name="android:padding">@dimen/padding_0</item>
     </style>
 
     <style name="GreyCard" parent="Card.NoPadding">
         <item name="android:tint">@color/card_dark</item>
-        <item name="android:elevation">0dp</item>
+        <item name="android:elevation">@dimen/elevation_0</item>
         <item name="android:backgroundTint">@color/colorSurface2</item>
     </style>
 
@@ -259,23 +258,23 @@
 
     <style name="dispatcherImageStyle">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeBottomRight">@dimen/radius_card</item>
+        <item name="cornerSizeBottomRight">@dimen/radius_4</item>
     </style>
 
     <style name="cardTracing">
-        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:padding">@dimen/padding_24</item>
         <item name="android:background">@drawable/card_dark</item>
     </style>
 
     <style name="selectionButton">
-        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:padding">@dimen/padding_24</item>
         <item name="android:gravity">left</item>
         <item name="android:background">@drawable/card</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/font_20</item>
         <item name="android:letterSpacing">0.0125</item>
     </style>
 
@@ -283,12 +282,12 @@
             Grey Body Background
     ###################################### -->
     <style name="greyBodyBackground">
-        <item name="android:layout_marginTop">@dimen/spacing_large</item>
+        <item name="android:layout_marginTop">@dimen/margin_48</item>
         <item name="android:background">@color/colorSurface2</item>
-        <item name="android:paddingStart">@dimen/guideline_start</item>
-        <item name="android:paddingTop">@dimen/spacing_medium</item>
-        <item name="android:paddingEnd">@dimen/guideline_end</item>
-        <item name="android:paddingBottom">@dimen/spacing_normal</item>
+        <item name="android:paddingStart">@dimen/padding_24</item>
+        <item name="android:paddingTop">@dimen/padding_32</item>
+        <item name="android:paddingEnd">@dimen/padding_24</item>
+        <item name="android:paddingBottom">@dimen/padding_24</item>
     </style>
 
     <!-- ####################################
@@ -296,11 +295,11 @@
     ###################################### -->
 
     <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/font_20</item>
     </style>
 
     <style name="subtitleTextTopAppBar" parent="TextAppearance.Material3.HeadlineSmall">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/font_14</item>
     </style>
 
     <style name="headline4" parent="@style/TextAppearance.Material3.HeadlineLarge">
@@ -324,7 +323,7 @@
     </style>
 
     <style name="headline6" parent="@style/TextAppearance.Material3.HeadlineSmall">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/font_20</item>
         <item name="fontWeight">500</item>
         <item name="android:textFontWeight" tools:targetApi="p">500</item>
         <item name="android:fontWeight" tools:targetApi="o">500</item>
@@ -333,7 +332,7 @@
 
     <style name="subtitle" parent="@style/TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/font_16</item>
         <item name="fontStyle">normal</item>
         <item name="fontWeight">400</item>
     </style>
@@ -344,7 +343,7 @@
 
     <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/font_16</item>
     </style>
 
     <style name="subtitleBoldSixteen" parent="materialSubtitleSixteen">
@@ -356,7 +355,7 @@
     </style>
 
     <style name="subtitleMedium" parent="@style/TextAppearance.Material3.BodyLarge">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/font_16</item>
         <item name="android:textColor">@color/colorTextPrimary2</item>
         <item name="android:textStyle">normal</item>
         <item name="fontWeight">400</item>
@@ -430,22 +429,22 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/tan_input_digit</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginStart">@dimen/submission_tan_input_digit_spacing</item>
-        <item name="android:layout_marginEnd">@dimen/submission_tan_input_digit_spacing</item>
+        <item name="android:layout_marginStart">@dimen/margin_2</item>
+        <item name="android:layout_marginEnd">@dimen/margin_2</item>
     </style>
 
     <style name="tanInputDash" parent="headline6">
-        <item name="android:layout_width">@dimen/submission_tan_dash_width</item>
-        <item name="android:layout_height">@dimen/submission_tan_dash_height</item>
+        <item name="android:layout_width">@dimen/width_6</item>
+        <item name="android:layout_height">@dimen/height_2</item>
         <item name="android:background">@color/colorTextSemanticNeutral</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginStart">@dimen/submission_tan_dash_spacing_start</item>
-        <item name="android:layout_marginEnd">@dimen/submission_tan_dash_spacing_end</item>
+        <item name="android:layout_marginStart">@dimen/margin_2</item>
+        <item name="android:layout_marginEnd">@dimen/margin_6</item>
     </style>
 
     <style name="tanInputEdittext">
-        <item name="android:layout_width">@dimen/submission_tan_input_edittext_size</item>
-        <item name="android:layout_height">@dimen/submission_tan_input_edittext_size</item>
+        <item name="android:layout_width">@dimen/width_1</item>
+        <item name="android:layout_height">@dimen/height_1</item>
         <item name="android:alpha">0</item>
         <item name="android:background">@null</item>
         <item name="android:inputType">textPassword</item>
@@ -453,29 +452,25 @@
     </style>
 
     <!-- ####################################
-            QR Code Scan
-    ###################################### -->
-
-    <!-- ####################################
             Calendar
     ###################################### -->
     <style name="calendarMonthText">
         <item name="android:textColor">@color/colorCalendarMonthText</item>
-        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textSize">@dimen/font_16</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.1</item>
     </style>
 
     <style name="calendarWeekDayNormal">
         <item name="android:textColor">@color/colorTextPrimary2</item>
-        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textSize">@dimen/font_12</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:letterSpacing">0.4</item>
     </style>
 
     <style name="calendarWeekDaySelected">
         <item name="android:textColor">@color/colorCalendarTodayText</item>
-        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textSize">@dimen/font_12</item>
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:letterSpacing">2</item>
     </style>
@@ -503,24 +498,21 @@
     <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="boxBackgroundColor">@color/colorSurface</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
-        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textSize">@dimen/font_12</item>
         <item name="hintTextColor">@color/colorTextPrimary2</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_4</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_4</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_4</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_4</item>
+        <item name="boxStrokeWidth">@dimen/width_0</item>
+        <item name="boxStrokeWidthFocused">@dimen/width_0</item>
     </style>
 
     <style name="ContactDiaryInfoButton" parent="buttonIcon">
-        <item name="android:height">@dimen/button_icon</item>
-        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:height">@dimen/height_48</item>
+        <item name="android:width">@dimen/width_48</item>
         <item name="android:src">@drawable/ic_info</item>
-        <item name="android:paddingStart">7dp</item>
-        <item name="android:paddingEnd">7dp</item>
-        <item name="android:paddingTop">7dp</item>
-        <item name="android:paddingBottom">7dp</item>
+        <item name="android:padding">@dimen/padding_8</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>
         <item name="android:tint">@color/colorSecondary</item>
     </style>
@@ -530,9 +522,9 @@
     ###################################### -->
 
     <style name="UniversalScannerInfoButton" parent="buttonIcon">
-        <item name="android:height">@dimen/button_icon</item>
-        <item name="android:width">@dimen/button_icon</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:height">@dimen/height_48</item>
+        <item name="android:width">@dimen/width_48</item>
+        <item name="android:padding">@dimen/padding_14</item>
         <item name="android:src">@drawable/ic_info</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>
         <item name="android:tint">@color/colorSecondary</item>
@@ -543,10 +535,10 @@
     ###################################### -->
 
     <style name="StatisticsCardInfoButton" parent="buttonIcon">
-        <item name="android:height">@dimen/button_icon</item>
-        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:height">@dimen/height_48</item>
+        <item name="android:width">@dimen/width_48</item>
         <item name="android:src">@drawable/ic_info</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:padding">@dimen/padding_14</item>
         <item name="android:contentDescription">@string/statistics_info_button</item>
     </style>
 
@@ -560,16 +552,16 @@
 
     <style name="StatisticsCardTitleCaption">
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
-        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:textSize">@dimen/font_12</item>
     </style>
 
     <style name="StatisticsCardPrimaryValue">
         <item name="android:textColor">@color/colorStatisticsPrimaryValue</item>
-        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:textSize">@dimen/font_34</item>
     </style>
 
     <style name="StatisticsCardSecondaryValue" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textSize">@dimen/font_20</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -578,9 +570,9 @@
     ###################################### -->
 
     <style name="CertificateCardInfoButton" parent="buttonIcon">
-        <item name="android:height">@dimen/button_icon</item>
-        <item name="android:width">@dimen/button_icon</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:height">@dimen/height_48</item>
+        <item name="android:width">@dimen/width_48</item>
+        <item name="android:padding">@dimen/padding_14</item>
         <item name="android:src">@drawable/ic_info</item>
         <item name="android:contentDescription">@string/cov_pass_info_title</item>
     </style>
@@ -592,12 +584,12 @@
     <style name="TextInputLayoutTheme" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
         <item name="android:textColorHint">@color/colorInputText</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusTopEnd">@dimen/spacing_mega_tiny</item>
-        <item name="boxCornerRadiusTopStart">@dimen/spacing_mega_tiny</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_4</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_4</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_4</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_4</item>
+        <item name="boxStrokeWidth">@dimen/width_0</item>
+        <item name="boxStrokeWidthFocused">@dimen/width_0</item>
         <item name="textColor">@color/colorInputText</item>
     </style>
 
@@ -607,8 +599,8 @@
     </style>
 
     <style name="CardOverFlowButton">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">@dimen/width_48</item>
+        <item name="android:layout_height">@dimen/height_48</item>
         <item name="android:contentDescription">@string/button_menu</item>
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:src">@drawable/ic_baseline_more_vert_24</item>
@@ -619,30 +611,30 @@
     </style>
 
     <style name="ShapeAppearanceOverlay">
-        <item name="cornerSize">3dp</item>
+        <item name="cornerSize">@dimen/radius_4</item>
     </style>
 
     <style name="SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
+        <item name="cornerSize">@dimen/radius_8</item>
     </style>
 
     <style name="MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
+        <item name="cornerSize">@dimen/radius_8</item>
     </style>
 
     <style name="LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">4dp</item>
+        <item name="cornerSize">@dimen/radius_4</item>
     </style>
 
     <style name="vanishedErrorAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textSize">0sp</item>
+        <item name="android:textSize">@dimen/font_0</item>
     </style>
 
     <style name="titleTooltip" parent="@style/TextAppearance.Material3.HeadlineSmall">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/font_14</item>
         <item name="fontWeight">700</item>
         <item name="android:textFontWeight" tools:targetApi="p">700</item>
         <item name="android:fontWeight" tools:targetApi="o">700</item>
@@ -650,17 +642,17 @@
     </style>
 
     <style name="closeTooltip">
-        <item name="android:layout_width">56dp</item>
-        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">@dimen/width_56</item>
+        <item name="android:layout_height">@dimen/height_56</item>
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
     <style name="statusBadge">
-        <item name="android:textSize">14sp</item>
-        <item name="android:paddingStart">6dp</item>
-        <item name="android:paddingEnd">6dp</item>
-        <item name="android:minHeight">26dp</item>
-        <item name="android:minWidth">40dp</item>
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:paddingStart">@dimen/padding_6</item>
+        <item name="android:paddingEnd">@dimen/padding_6</item>
+        <item name="android:minHeight">@dimen/height_26</item>
+        <item name="android:minWidth">@dimen/width_40</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>

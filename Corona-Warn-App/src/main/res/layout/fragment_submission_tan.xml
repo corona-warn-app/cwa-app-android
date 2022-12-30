@@ -43,10 +43,10 @@
             android:id="@+id/submission_tan_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/margin_24"
             android:indeterminate="true"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/submission_tan_button_enter"
+            app:layout_constraintBottom_toTopOf="@id/submission_tan_button_enter"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
@@ -55,7 +55,7 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:enabled="@{uiState.tanValid}"
             android:text="@string/submission_tan_button_text"
             app:layout_constraintBottom_toBottomOf="parent"

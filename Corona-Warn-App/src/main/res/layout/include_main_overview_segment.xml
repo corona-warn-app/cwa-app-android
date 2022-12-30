@@ -33,12 +33,12 @@
 
             <ImageView
                 android:id="@+id/main_overview_segment_icon"
-                android:layout_width="@dimen/icon_size_settings"
-                android:layout_height="@dimen/icon_size_settings"
+                android:layout_width="@dimen/width_40"
+                android:layout_height="@dimen/height_40"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 app:layout_constraintBottom_toBottomOf="@id/main_overview_segment_subtitle"
-                app:layout_constraintStart_toStartOf="@+id/guideline_icon"
+                app:layout_constraintStart_toStartOf="@id/guideline_icon"
                 app:layout_constraintTop_toTopOf="@id/main_overview_segment_subtitle" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:focusable="false"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline_body"
+                app:layout_constraintStart_toStartOf="@id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -58,27 +58,27 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="false"
                 android:text="@{body}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/main_overview_segment_subtitle"
-                app:layout_constraintTop_toBottomOf="@+id/main_overview_segment_subtitle" />
+                app:layout_constraintStart_toStartOf="@id/main_overview_segment_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/main_overview_segment_subtitle" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+                app:layout_constraintGuide_begin="@dimen/guideline_72" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_back" />
+                app:layout_constraintGuide_begin="@dimen/guideline_14" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

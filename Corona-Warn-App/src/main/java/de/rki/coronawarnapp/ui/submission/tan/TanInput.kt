@@ -57,7 +57,7 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
         inflate(context, R.layout.view_tan_input_group_3, this)
         inflate(context, R.layout.view_tan_input_group_4, this)
 
-        lineSpacing = getDimension(R.dimen.submission_tan_line_spacing).toInt()
+        lineSpacing = getDimension(R.dimen.margin_16).toInt()
 
         tanInputEditText = findViewById<EditText>(R.id.tan_input_edittext).apply {
             filters = arrayOf(whitespaceFilter, alphaNumericFilter, lengthFilter)
@@ -205,14 +205,14 @@ class TanInput(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs
     // digits are displayed in xxx - xxx - xxxx pattern
     private fun calculateDigitDimension(availableWith: Int, textSize: Int): Pair<Int, Int> {
         val widthRequiredForSpacing =
-            (DIGIT_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_digit_spacing)) +
-                (GROUP_SPACING_COUNT * getDimension(R.dimen.submission_tan_total_group_spacing))
+            (DIGIT_SPACING_COUNT * getDimension(R.dimen.width_6)) +
+                (GROUP_SPACING_COUNT * getDimension(R.dimen.width_16))
 
         val remainingWidthForDigits = availableWith - widthRequiredForSpacing
 
         val digitWidth = (remainingWidthForDigits / DIGIT_COUNT).coerceIn(
-            getDimension(R.dimen.submission_tan_input_digit_min_width),
-            getDimension(R.dimen.submission_tan_input_digit_max_width)
+            getDimension(R.dimen.width_20),
+            getDimension(R.dimen.width_48)
         ).toInt()
 
         // digit should have fixed width/height ratio
