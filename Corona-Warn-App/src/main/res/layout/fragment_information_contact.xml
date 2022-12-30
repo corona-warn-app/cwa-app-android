@@ -25,12 +25,12 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/padding_24"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/margin_32"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/information_contact_header_details" />
@@ -64,7 +64,7 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/information_contact_subtitle_phone"
@@ -77,8 +77,8 @@
                     layout="@layout/include_navigation_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
                     app:icon="@{@drawable/ic_phone}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/information_contact_subtitle_phone"
@@ -91,8 +91,8 @@
                     layout="@layout/include_navigation_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
                     app:icon="@{@drawable/ic_international_phone}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/information_contact_subtitle_phone"
@@ -105,7 +105,7 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/information_contact_body_phone"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -117,7 +117,7 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/information_contact_body_open"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -129,7 +129,7 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/information_contact_body_other"
                     android:textColorLink="@color/colorTextTint"
@@ -137,19 +137,7 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/information_contact_body_open" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+                <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

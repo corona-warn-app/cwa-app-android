@@ -25,7 +25,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             app:layout_constraintBottom_toTopOf="@id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +40,9 @@
                     style="@style/headline4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:layout_marginEnd="@dimen/margin_24"
                     android:contentDescription="@string/onboarding_ppa_headline"
                     android:focusable="true"
                     android:text="@string/onboarding_ppa_headline"
@@ -55,9 +55,9 @@
                     style="@style/body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginTop="34dp"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_32"
+                    android:layout_marginEnd="@dimen/margin_24"
                     android:contentDescription="@string/onboarding_ppa_body_short"
                     android:focusable="true"
                     android:text="@string/onboarding_ppa_body_short"
@@ -70,10 +70,10 @@
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="@dimen/margin_28"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onboarding_body_short">
+                    app:layout_constraintTop_toBottomOf="@id/onboarding_body_short">
 
                     <TextView
                         android:id="@+id/federal_state_row_subtitle"
@@ -91,14 +91,14 @@
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:layout_marginTop="@dimen/margin_4"
                         android:accessibilityLiveRegion="assertive"
                         android:focusable="true"
                         android:text="@string/onboarding_ppa_state_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/federal_state_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/federal_state_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -106,10 +106,10 @@
                     android:id="@+id/divider1"
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
+                    android:layout_height="@dimen/height_1"
                     app:layout_constraintEnd_toEndOf="@id/onboarding_body_short"
                     app:layout_constraintStart_toStartOf="@id/onboarding_body_short"
-                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row" />
+                    app:layout_constraintTop_toBottomOf="@id/federal_state_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/district_row"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/federal_state_row">
+                    app:layout_constraintTop_toBottomOf="@id/federal_state_row">
 
                     <TextView
                         android:id="@+id/district_row_subtitle"
@@ -136,14 +136,14 @@
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:layout_marginTop="@dimen/margin_4"
                         android:accessibilityLiveRegion="assertive"
                         android:focusable="true"
                         android:text="@string/onboarding_ppa_district_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/district_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/district_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -151,10 +151,10 @@
                     android:id="@+id/divider2"
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
+                    android:layout_height="@dimen/height_1"
                     app:layout_constraintEnd_toEndOf="@id/onboarding_body_short"
                     app:layout_constraintStart_toStartOf="@id/onboarding_body_short"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row" />
+                    app:layout_constraintTop_toBottomOf="@id/district_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/age_group_row"
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/district_row">
+                    app:layout_constraintTop_toBottomOf="@id/district_row">
 
                     <TextView
                         android:id="@+id/age_group_row_subtitle"
@@ -181,14 +181,14 @@
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:layout_marginTop="@dimen/margin_4"
                         android:accessibilityLiveRegion="assertive"
                         android:focusable="true"
                         android:text="@string/onboarding_ppa_age_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/age_group_row_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/age_group_row_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -196,17 +196,17 @@
                     android:id="@+id/divider3"
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
+                    android:layout_height="@dimen/height_1"
                     app:layout_constraintEnd_toEndOf="@id/onboarding_body_short"
                     app:layout_constraintStart_toStartOf="@id/onboarding_body_short"
-                    app:layout_constraintTop_toBottomOf="@+id/age_group_row" />
+                    app:layout_constraintTop_toBottomOf="@id/age_group_row" />
 
                 <TextView
                     android:id="@+id/onboarding_body_long"
                     style="@style/body1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="46dp"
+                    android:layout_marginTop="@dimen/margin_48"
                     android:contentDescription="@string/onboarding_ppa_body"
                     android:focusable="true"
                     android:text="@string/onboarding_ppa_body"
@@ -219,7 +219,7 @@
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="34dp"
+                    android:layout_marginTop="@dimen/margin_36"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="@id/onboarding_body_long"
                     app:layout_constraintStart_toStartOf="@id/onboarding_body_long"
@@ -230,7 +230,7 @@
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:contentDescription="@string/ppa_onboarding_consent_title"
                         android:focusable="true"
                         android:text="@string/ppa_onboarding_consent_title"
@@ -243,7 +243,7 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="26dp"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:focusable="true"
                         android:text="@string/ppa_onboarding_privacy_information_body"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -255,8 +255,8 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:focusable="true"
                         android:text="@string/ppa_onboarding_privacy_information_point_consent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -265,9 +265,9 @@
 
                     <ImageView
                         android:id="@+id/bullet_point_consent"
-                        android:layout_width="@dimen/bullet_point_size"
-                        android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
                         android:importantForAccessibility="no"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_consent"
@@ -278,8 +278,8 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:focusable="true"
                         android:text="@string/ppa_onboarding_privacy_information_point_identity"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -288,9 +288,9 @@
 
                     <ImageView
                         android:id="@+id/bullet_point_identity"
-                        android:layout_width="@dimen/bullet_point_size"
-                        android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
                         android:importantForAccessibility="no"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_identity"
@@ -301,8 +301,8 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="@dimen/margin_12"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:focusable="true"
                         android:text="@string/ppa_onboarding_privacy_information_point_sixteen"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -311,9 +311,9 @@
 
                     <ImageView
                         android:id="@+id/bullet_point_sixteen"
-                        android:layout_width="@dimen/bullet_point_size"
-                        android:layout_height="@dimen/bullet_point_size"
-                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:layout_width="@dimen/bullet_point_6"
+                        android:layout_height="@dimen/bullet_point_6"
+                        android:layout_marginTop="@dimen/margin_8"
                         android:importantForAccessibility="no"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/legal_point_sixteen"
@@ -325,8 +325,8 @@
                     android:id="@+id/privacy_information"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginBottom="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginBottom="@dimen/margin_16"
                     android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/onboarding_body_long"
@@ -343,8 +343,8 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/onboarding_ppa_consent_donate_button"
             app:layout_constraintBottom_toTopOf="@id/onboarding_button_disable"
             app:layout_constraintEnd_toEndOf="parent"
@@ -355,8 +355,8 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/onboarding_ppa_consent_not_donate_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

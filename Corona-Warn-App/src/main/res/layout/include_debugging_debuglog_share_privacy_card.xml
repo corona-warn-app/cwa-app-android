@@ -7,7 +7,7 @@
         style="@style/GreyCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_normal"
+        android:padding="@dimen/padding_24"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -27,29 +27,29 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:accessibilityHeading="true"
             android:focusable="true"
             android:text="@string/debugging_debuglog_share_privacy_card_body_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debug_log_share_privacy_card_title" />
+            app:layout_constraintTop_toBottomOf="@id/debug_log_share_privacy_card_title" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/debug_log_share_privacy_card_bullet_point_container_one"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debug_log_share_privacy_card_section_one">
+            app:layout_constraintTop_toBottomOf="@id/debug_log_share_privacy_card_section_one">
 
             <include
                 android:id="@+id/debug_log_share_privacy_card_bulletpoint_one"
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
                 app:layout_constraintBaseline_toBaselineOf="@id/debug_log_share_privacy_card_bullet_point_text_one" />
 
             <TextView
@@ -57,12 +57,12 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_share_privacy_card_bullet_point_1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/debug_log_share_privacy_card_bulletpoint_one"
+                app:layout_constraintStart_toEndOf="@id/debug_log_share_privacy_card_bulletpoint_one"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,16 +71,16 @@
             android:id="@+id/debug_log_share_privacy_card_bullet_point_container_two"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debug_log_share_privacy_card_bullet_point_container_one">
+            app:layout_constraintTop_toBottomOf="@id/debug_log_share_privacy_card_bullet_point_container_one">
 
             <include
                 android:id="@+id/debug_log_share_privacy_card_bulletpoint_two"
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
                 app:layout_constraintBaseline_toBaselineOf="@id/debug_log_share_privacy_card_bullet_point_text_two" />
 
             <TextView
@@ -88,12 +88,12 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_share_privacy_card_bullet_point_2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/debug_log_share_privacy_card_bulletpoint_two"
+                app:layout_constraintStart_toEndOf="@id/debug_log_share_privacy_card_bulletpoint_two"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,13 +103,13 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:accessibilityHeading="true"
             android:focusable="true"
             android:text="@string/debugging_debuglog_share_privacy_card_body_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/debug_log_share_privacy_card_bullet_point_container_two" />
+            app:layout_constraintTop_toBottomOf="@id/debug_log_share_privacy_card_bullet_point_container_two" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

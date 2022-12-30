@@ -5,7 +5,7 @@
     style="@style/GreyCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/spacing_normal"
+    android:padding="@dimen/padding_24"
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView
@@ -25,7 +25,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_24"
         android:accessibilityHeading="true"
         android:focusable="true"
         android:text="@string/debugging_debuglog_legal_privacy_card_first_section"
@@ -38,7 +38,7 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_24"
         android:accessibilityHeading="true"
         android:focusable="true"
         android:text="@string/debugging_debuglog_legal_privacy_card_second_section"

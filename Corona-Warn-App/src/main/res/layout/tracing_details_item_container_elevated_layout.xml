@@ -6,4 +6,4 @@
     android:clipToPadding="false"
     android:id="@+id/box_container"
     android:focusable="true"
-    android:paddingBottom="@dimen/spacing_small" />
+    android:paddingBottom="@dimen/padding_16" />

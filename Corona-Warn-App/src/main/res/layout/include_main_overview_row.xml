@@ -39,14 +39,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="@dimen/icon_size_main_card"
-                android:layout_height="@dimen/icon_size_main_card"
+                android:layout_width="@dimen/width_40"
+                android:layout_height="@dimen/height_40"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
-                app:layout_constraintBottom_toBottomOf="@+id/main_overview_row_subtitle"
-                app:layout_constraintStart_toStartOf="@+id/guideline_icon"
-                app:layout_constraintTop_toTopOf="@+id/main_overview_row_subtitle"
+                app:layout_constraintBottom_toBottomOf="@id/main_overview_row_subtitle"
+                app:layout_constraintStart_toStartOf="@id/guideline_icon"
+                app:layout_constraintTop_toTopOf="@id/main_overview_row_subtitle"
                 app:tint="@{(iconTint != 0) ? iconTint : @color/colorAccentTintIcon}" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{subtitle}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/guideline_body"
+                app:layout_constraintStart_toEndOf="@id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -64,14 +64,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+                app:layout_constraintGuide_begin="@dimen/guideline_72" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_back" />
+                app:layout_constraintGuide_begin="@dimen/guideline_14" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

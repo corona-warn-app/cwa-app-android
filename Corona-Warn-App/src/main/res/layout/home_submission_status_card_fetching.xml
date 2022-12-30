@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/card_padding"
+        android:padding="@dimen/padding_24"
         tools:showIn="@layout/home_card_container_layout">
 
         <TextView
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:accessibilityHeading="true"
             android:text="@string/submission_status_card_title_fetching"
-            app:layout_constraintBottom_toTopOf="@+id/header_barrier"
+            app:layout_constraintBottom_toTopOf="@id/header_barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,22 +32,22 @@
             android:id="@+id/submission_status_card_fetching_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/margin_24"
             android:indeterminate="true"
-            app:layout_constraintStart_toStartOf="@+id/submission_status_card_fetching_title"
-            app:layout_constraintTop_toBottomOf="@+id/header_barrier" />
+            app:layout_constraintStart_toStartOf="@id/submission_status_card_fetching_title"
+            app:layout_constraintTop_toBottomOf="@id/header_barrier" />
 
         <TextView
             android:id="@+id/submission_status_card_fetching_body"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/margin_24"
             android:text="@string/submission_status_card_body_fetching"
-            app:layout_constraintBottom_toBottomOf="@+id/submission_status_card_fetching_spinner"
+            app:layout_constraintBottom_toBottomOf="@id/submission_status_card_fetching_spinner"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/submission_status_card_fetching_spinner"
-            app:layout_constraintTop_toTopOf="@+id/submission_status_card_fetching_spinner" />
+            app:layout_constraintStart_toEndOf="@id/submission_status_card_fetching_spinner"
+            app:layout_constraintTop_toTopOf="@id/submission_status_card_fetching_spinner" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/button_barrier"
@@ -61,12 +61,12 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:enabled="false"
             android:text="@string/submission_status_card_button_show_results"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
+            app:layout_constraintTop_toBottomOf="@id/button_barrier" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

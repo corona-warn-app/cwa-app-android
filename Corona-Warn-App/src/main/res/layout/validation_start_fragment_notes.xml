@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/validation_start_note_subtitle"
-        android:textSize="@dimen/font_normal"
+        android:textSize="@dimen/font_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,8 +18,8 @@
     <include
         android:id="@+id/note_bulletpoint_one"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
         app:layout_constraintBaseline_toBaselineOf="@id/note_text_one"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,8 +28,8 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_8"
         android:text="@string/validation_start_note_point_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/note_bulletpoint_one"
@@ -38,8 +38,8 @@
     <include
         android:id="@+id/note_bulletpoint_two"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
         app:layout_constraintBaseline_toBaselineOf="@id/note_text_two"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,8 +48,8 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_4"
         android:text="@string/validation_start_note_point_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/note_bulletpoint_two"
@@ -58,8 +58,8 @@
     <include
         android:id="@+id/note_bulletpoint_four"
         layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
         app:layout_constraintBaseline_toBaselineOf="@id/note_text_four"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,8 +68,8 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_4"
         android:text="@string/validation_start_note_point_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/note_bulletpoint_four"

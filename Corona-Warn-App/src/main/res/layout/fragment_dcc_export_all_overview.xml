@@ -39,9 +39,9 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/grey_card_ripple"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="@dimen/margin_32"
             android:orientation="vertical"
-            android:padding="24dp"
+            android:padding="@dimen/padding_24"
             android:layout_height="wrap_content">
 
             <TextView
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 style="@style/subtitleMedium"
-                android:layout_marginVertical="24dp"
+                android:layout_marginVertical="@dimen/margin_24"
                 android:text="@string/export_all_progress_text"
                 android:layout_height="wrap_content" />
 
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="@dimen/margin_16"
                 android:indeterminate="true"
                 app:hideAnimationBehavior="inward" />
 

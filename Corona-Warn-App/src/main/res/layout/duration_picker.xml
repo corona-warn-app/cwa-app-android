@@ -12,10 +12,10 @@
         style="@style/headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/spacing_normal"
-        android:paddingTop="@dimen/spacing_small"
-        android:paddingEnd="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingStart="@dimen/margin_24"
+        android:paddingTop="@dimen/padding_16"
+        android:paddingEnd="@dimen/padding_24"
+        android:paddingBottom="@dimen/padding_24"
         android:text="@string/duration_dialog_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         android:text="@string/duration_hours"
         app:layout_constraintEnd_toEndOf="@id/hours"
         app:layout_constraintStart_toStartOf="@id/hours"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
         android:id="@+id/labelMinutes"
@@ -37,33 +37,33 @@
         android:text="@string/duration_minutes"
         app:layout_constraintEnd_toEndOf="@id/minutes"
         app:layout_constraintStart_toStartOf="@id/minutes"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <NumberPicker
         android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
+        android:layout_marginStart="@dimen/margin_68"
         android:theme="@style/DefaultNumberPickerTheme"
         android:contentDescription="@string/accessibility_datepicker_hour_description"
-        app:layout_constraintBottom_toBottomOf="@+id/divider"
-        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintBottom_toBottomOf="@id/divider"
+        app:layout_constraintEnd_toStartOf="@id/divider"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/divider" />
+        app:layout_constraintTop_toTopOf="@id/divider" />
 
     <TextView
         android:id="@+id/divider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginStart="@dimen/margin_6"
+        android:layout_marginEnd="@dimen/margin_6"
         android:text=":"
-        app:layout_constraintBottom_toBottomOf="@+id/minutes"
-        app:layout_constraintEnd_toStartOf="@+id/minutes"
-        app:layout_constraintStart_toEndOf="@+id/hours"
-        app:layout_constraintTop_toTopOf="@+id/minutes"
+        app:layout_constraintBottom_toBottomOf="@id/minutes"
+        app:layout_constraintEnd_toStartOf="@id/minutes"
+        app:layout_constraintStart_toEndOf="@id/hours"
+        app:layout_constraintTop_toTopOf="@id/minutes"
         tools:ignore="HardcodedText"
         tools:text=":" />
 
@@ -71,37 +71,37 @@
         android:id="@+id/minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="67dp"
+        android:layout_marginEnd="@dimen/margin_68"
         android:theme="@style/DefaultNumberPickerTheme"
         android:contentDescription="@string/accessibility_datepicker_minutes_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/labelMinutes" />
+        app:layout_constraintStart_toEndOf="@id/divider"
+        app:layout_constraintTop_toBottomOf="@id/labelMinutes" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_button"
         style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/margin_8"
         android:text="@string/duration_dialog_cancel_button"
         android:textColor="@color/colorSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/ok_button"
+        app:layout_constraintBottom_toBottomOf="@id/ok_button"
         app:layout_constraintEnd_toStartOf="@id/ok_button"
-        app:layout_constraintTop_toTopOf="@+id/ok_button" />
+        app:layout_constraintTop_toTopOf="@id/ok_button" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ok_button"
         style="@style/Widget.Material3.Button.TextButton.Dialog.Flush"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         android:text="@string/duration_dialog_ok_button"
         android:textColor="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minutes" />
+        app:layout_constraintTop_toBottomOf="@id/minutes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

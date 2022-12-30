@@ -45,7 +45,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
             this.adapter = adapter
             addItemDecoration(
                 MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
+                    resources.getDimensionPixelSize(R.dimen.margin_16)
                 )
             )
         }
@@ -121,10 +121,12 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     )
                     true
                 }
+
                 R.id.menu_contact_diary_export_entries -> {
                     vm.onExportPress()
                     true
                 }
+
                 R.id.menu_contact_diary_edit_persons -> {
                     findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
@@ -132,6 +134,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     )
                     true
                 }
+
                 R.id.menu_contact_diary_edit_locations -> {
                     findNavController().navigate(
                         ContactDiaryOverviewFragmentDirections
@@ -139,6 +142,7 @@ class ContactDiaryOverviewFragment : Fragment(R.layout.contact_diary_overview_fr
                     )
                     true
                 }
+
                 else -> false
             }
         }

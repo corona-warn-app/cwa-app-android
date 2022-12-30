@@ -67,7 +67,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             adapter = homeAdapter
         }
 

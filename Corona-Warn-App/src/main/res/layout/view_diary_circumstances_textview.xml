@@ -24,14 +24,14 @@
             android:hint="@string/contact_diary_person_encounter_circumstances_hint"
             android:inputType="textMultiLine"
             android:maxLength="250"
-            android:padding="@dimen/spacing_tiny"
+            android:padding="@dimen/padding_8"
             tools:text="This was a triumph. I'm making a note here; 'Huge success'. It's hard to overstate my satisfaction. We do what we must, because we can." />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Space
         android:id="@+id/spacer_info_start"
-        android:layout_width="5dp"
+        android:layout_width="@dimen/width_6"
         android:layout_height="0dp"
         app:layout_constraintEnd_toStartOf="@id/info_button" />
 

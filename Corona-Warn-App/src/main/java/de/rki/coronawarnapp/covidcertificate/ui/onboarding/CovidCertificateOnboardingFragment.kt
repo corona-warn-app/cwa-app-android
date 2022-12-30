@@ -62,7 +62,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     navigationContentDescription = getString(R.string.accessibility_close)
                 }
             } else {
-                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.padding_80))
             }
             toolbar.setNavigationOnClickListener { popBackStack() }
             privacyInformation.setOnClickListener { viewModel.onDataPrivacyClick() }

@@ -32,7 +32,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
 
         binding.recyclerView.apply {
             adapter = profilesListAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             onScroll {
                 onScrollChange(it)
             }
@@ -68,6 +68,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
                         FragmentNavigatorExtras(binding.profileFab to binding.profileFab.transitionName)
                     )
                 }
+
                 is ProfileListEvent.OpenProfile -> {
                     setupHoldTransition()
                     findNavController().navigate(

@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"
+        android:paddingBottom="@dimen/padding_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
                 style="@style/headline4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_dialog_title"
@@ -50,8 +50,8 @@
                 layout="@layout/include_debuglog_legal_privacy_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/guideline_card"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_12"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
                 style="@style/subtitleBoldSixteen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_section_title"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -75,7 +75,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_section_body"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -88,14 +88,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="47dp" />
+                app:layout_constraintGuide_begin="@dimen/guideline_46" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

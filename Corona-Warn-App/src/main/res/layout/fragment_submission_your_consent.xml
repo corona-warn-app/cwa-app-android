@@ -41,7 +41,7 @@
                     android:id="@+id/submission_your_consent_switch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -51,8 +51,8 @@
                 <View
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_height="@dimen/height_1"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:background="@color/dividerColor"
                     app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
 
@@ -61,7 +61,7 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/submission_your_consent_about_agreement"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -72,7 +72,7 @@
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_marginTop="@dimen/margin_32"
                     android:focusable="true"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
@@ -84,7 +84,7 @@
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:accessibilityHeading="true"
                         android:contentDescription="@string/submission_your_consent_agreement_title"
                         android:text="@string/submission_your_consent_agreement_title" />
@@ -94,21 +94,21 @@
                         style="@style/subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:text="@string/submission_your_consent_agreement_share_test_results" />
 
                     <de.rki.coronawarnapp.ui.view.CountryListView
                         android:id="@+id/submission_your_consent_agreement_country_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small" />
+                        android:layout_marginTop="@dimen/margin_16" />
 
                     <TextView
                         android:id="@+id/submission_your_consent_agreement_share_symptoms_text"
                         style="@style/subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/margin_24"
                         android:text="@string/submission_your_consent_agreement_share_symptoms" />
 
                 </LinearLayout>
@@ -117,9 +117,9 @@
                     android:id="@+id/submission_consent_more_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_card"
                     app:titleText="@string/submission_your_consent_agreement_details" />
@@ -136,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+            app:layout_constraintGuide_end="@dimen/guideline_16" />
 
         <include layout="@layout/merge_guidelines_side" />
 

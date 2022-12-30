@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface2"
-        android:padding="@dimen/spacing_normal"
+        android:padding="@dimen/padding_24"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:entries="@array/submission_done_further_info_bullet_points"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,14 +20,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/safetynet_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="SafetyNet Report"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -37,20 +37,20 @@
                     android:id="@+id/safetynet_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/safetynet_title"
+                    app:layout_constraintTop_toBottomOf="@id/safetynet_title"
                     tools:text="Body" />
 
                 <Button
                     android:id="@+id/safetynet_copy_jws"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Copy JWS"
-                    app:layout_constraintEnd_toStartOf="@+id/safetynet_create_report"
+                    app:layout_constraintEnd_toStartOf="@id/safetynet_create_report"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/safetynet_body" />
 
@@ -58,7 +58,7 @@
                     android:id="@+id/safetynet_create_report"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Create"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/safetynet_copy_jws"
@@ -70,14 +70,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/safetynet_requirements_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="SafetyNet Requirements"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -87,20 +87,20 @@
                     android:id="@+id/safetynet_requirements_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/safetynet_requirements_title"
+                    app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_title"
                     tools:text="Body" />
 
                 <Button
                     android:id="@+id/safetynet_requirements_strict"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Strict"
-                    app:layout_constraintEnd_toStartOf="@+id/safetynet_requirements_casually"
+                    app:layout_constraintEnd_toStartOf="@id/safetynet_requirements_casually"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/safetynet_requirements_body" />
 
@@ -108,7 +108,7 @@
                     android:id="@+id/safetynet_requirements_casually"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Casually"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/safetynet_requirements_strict"
@@ -120,14 +120,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/one_time_password_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="One Time Password"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@
                     android:id="@+id/one_time_password_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -151,14 +151,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/survey_config_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="Survey Config"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +168,7 @@
                     android:id="@+id/survey_config_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -182,14 +182,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/safetynet_exception_simulation_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="SafetyNet Exception Simulation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -199,7 +199,7 @@
                     android:id="@+id/safetynet_exception_simulation_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +209,7 @@
                     android:id="@+id/safetynet_exception_simulation_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Show Error Dialog"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -222,14 +222,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/survey_exception_simulation_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="Survey Exception Simulation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +239,7 @@
                     android:id="@+id/survey_exception_simulation_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -249,7 +249,7 @@
                     android:id="@+id/survey_exception_simulation_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Show Error Dialog"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -261,14 +261,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny"
+                android:layout_margin="@dimen/margin_8"
                 android:orientation="vertical">
 
                 <com.google.android.material.materialswitch.MaterialSwitch
                     android:id="@+id/disable_safetynet_toggle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:layout_weight="1"
                     android:text="Skip 24H SafetyNet Check" />
 
@@ -276,7 +276,7 @@
                     style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="This disables the 24H time since valid time check for SafetyNet attestation" />
             </LinearLayout>
 
@@ -285,14 +285,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/analytics_last_submit_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="Last Analytics Submission"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -302,11 +302,11 @@
                     android:id="@+id/analytics_last_submit_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/analytics_last_submit_title"
+                    app:layout_constraintTop_toBottomOf="@id/analytics_last_submit_title"
                     tools:text="Body" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -316,14 +316,14 @@
                 style="@style/Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_tiny">
+                android:layout_margin="@dimen/margin_8">
 
                 <TextView
                     android:id="@+id/analytics_title"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="Current Analytics"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -333,20 +333,20 @@
                     android:id="@+id/analytics_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/analytics_title"
+                    app:layout_constraintTop_toBottomOf="@id/analytics_title"
                     tools:text="Body" />
 
                 <Button
                     android:id="@+id/analytics_copy"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Copy Analytics"
-                    app:layout_constraintEnd_toStartOf="@+id/analytics_collect"
+                    app:layout_constraintEnd_toStartOf="@id/analytics_collect"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/analytics_body" />
 
@@ -354,7 +354,7 @@
                     android:id="@+id/analytics_collect"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Create"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/analytics_copy"
@@ -364,7 +364,7 @@
                     android:id="@+id/analytics_submit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="Submit to Server"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

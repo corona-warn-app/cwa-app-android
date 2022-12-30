@@ -27,7 +27,7 @@
             android:backgroundTint="@color/colorSemanticHighRisk"
             android:focusable="false"
             android:importantForAccessibility="no"
-            android:padding="10dp"
+            android:padding="@dimen/padding_10"
             android:src="@{icon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,11 +38,11 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/margin_16"
             android:text="@{body}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/submissionicon"
+            app:layout_constraintStart_toEndOf="@id/submissionicon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_status_card_positive_result_contagious" />
     </androidx.constraintlayout.widget.ConstraintLayout>

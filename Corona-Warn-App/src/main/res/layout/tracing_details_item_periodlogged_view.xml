@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:padding="@dimen/card_padding">
+        android:padding="@dimen/padding_24">
 
         <TextView
             android:id="@+id/risk_details_period_logged_headline"
@@ -31,7 +31,7 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             android:focusable="false"
             android:text="@string/risk_details_subtitle_period_logged"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +43,7 @@
             style="@style/subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:focusable="true"
             android:text="@{loggedPeriod.getPeriodLoggedText(context)}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
             style="@style/subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

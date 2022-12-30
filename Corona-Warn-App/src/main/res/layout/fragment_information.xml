@@ -25,8 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/spacing_normal"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingTop="@dimen/padding_24"
+            android:paddingBottom="@dimen/padding_24"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -107,8 +107,8 @@
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_body_title_padding"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/margin_72"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:focusable="true"
                     tools:text="v1.8.0-RC1" />
 
@@ -117,8 +117,8 @@
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_body_title_padding"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginStart="@dimen/margin_72"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:background="?selectableItemBackground"
                     android:focusable="true"
                     tools:text="16000000"
@@ -129,8 +129,8 @@
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/guideline_body_title_padding"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginStart="@dimen/margin_72"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:focusable="true"
                     tools:text="1.0.0" />
 
@@ -138,7 +138,7 @@
                 approximately as high as available space-->
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/spacing_huge" />
+                    android:layout_height="@dimen/height_56" />
             </LinearLayout>
 
         </ScrollView>

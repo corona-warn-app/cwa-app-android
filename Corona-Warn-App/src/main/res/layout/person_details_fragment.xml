@@ -42,7 +42,7 @@
                     android:id="@+id/europa_image"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="@dimen/margin_50"
                     android:importantForAccessibility="no"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/ic_eu_stars_blue" />
@@ -58,22 +58,22 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="78dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginHorizontal="@dimen/margin_24"
+                        android:layout_marginTop="@dimen/margin_78"
+                        android:layout_marginBottom="@dimen/margin_4"
                         android:gravity="center"
                         android:text="@string/person_details_certificate_title"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/font_20" />
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginHorizontal="@dimen/margin_24"
                         android:gravity="center"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/font_20"
                         android:textStyle="bold"
                         tools:text="Andrea Schneider" />
 
@@ -97,7 +97,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="72dp"
+                            android:layout_marginEnd="@dimen/margin_72"
                             android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
                     </LinearLayout>
@@ -113,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="14dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="@dimen/padding_14"
+            android:paddingBottom="@dimen/padding_8"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/include_certificate_qrcode_card" />

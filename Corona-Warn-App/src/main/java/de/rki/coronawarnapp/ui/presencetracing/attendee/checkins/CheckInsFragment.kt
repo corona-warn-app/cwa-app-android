@@ -154,7 +154,7 @@ class CheckInsFragment : Fragment(R.layout.trace_location_attendee_checkins_frag
     private fun bindRecycler() {
         binding.checkInsList.apply {
             adapter = checkInsAdapter
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             itemAnimator = DefaultItemAnimator()
             setupSwipe(context = requireContext())
         }

@@ -24,12 +24,12 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/padding_24"
         android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/settings_notifications_illustration_description_active"
                 android:focusable="true"
-                android:paddingBottom="@dimen/spacing_small"
+                android:paddingBottom="@dimen/padding_16"
                 android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_illustration_stay_at_home" />
@@ -51,16 +51,16 @@
                 style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_16"
                 android:focusable="true"
                 android:text="@string/risk_details_minimize_risk_body" />
 
             <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:backgroundTint="@color/colorSemanticHighRisk"
                 android:icon="@drawable/ic_risk_details_meetings"
                 android:text="@string/risk_details_behavior_body_meetings" />
@@ -68,7 +68,7 @@
             <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:backgroundTint="@color/colorSemanticHighRisk"
                 android:icon="@drawable/ic_risk_details_home_office"
                 android:text="@string/risk_details_behavior_body_home_office" />
@@ -76,7 +76,7 @@
             <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
                 android:backgroundTint="@color/colorSemanticHighRisk"
                 android:icon="@drawable/ic_risk_details_public_transport"
                 android:text="@string/risk_details_behavior_body_public_transport" />
@@ -86,8 +86,8 @@
                 style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/risk_details_minimize_risk_faq" />
 

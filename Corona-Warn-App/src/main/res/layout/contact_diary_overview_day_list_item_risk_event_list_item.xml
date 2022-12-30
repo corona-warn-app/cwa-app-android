@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/spacing_mega_tiny"
+    android:layout_marginVertical="@dimen/margin_4"
     android:focusable="true">
 
     <ImageView
         android:id="@+id/bullet_point_image"
-        android:layout_width="@dimen/bullet_point_size_contact_diary"
-        android:layout_height="@dimen/bullet_point_size_contact_diary"
-        android:baseline="@dimen/bullet_point_baseline_offset_contact_diary"
+        android:layout_width="@dimen/bullet_point_6"
+        android:layout_height="@dimen/bullet_point_6"
+        android:baseline="@dimen/bullet_point_baseline_offset"
         android:importantForAccessibility="no"
         app:layout_constraintBaseline_toBaselineOf="@id/event_name"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bullet_point_spacing_after_contact_diary"
+        android:layout_marginStart="@dimen/margin_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bullet_point_image"

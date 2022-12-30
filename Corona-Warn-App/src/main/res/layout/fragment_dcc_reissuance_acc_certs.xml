@@ -24,8 +24,8 @@
             android:gravity="top"
             android:maxLines="2"
             android:ellipsize="end"
-            android:paddingVertical="4dp"
-            android:layout_marginEnd="@dimen/spacing_normal"
+            android:paddingVertical="@dimen/padding_4"
+            android:layout_marginEnd="@dimen/margin_24"
             android:textColor="@color/colorQrCodeScanToolbar" />
 
     </com.google.android.material.appbar.MaterialToolbar>
@@ -50,8 +50,8 @@
                 style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@string/dcc_reissuance_acc_certs_content" />
@@ -60,8 +60,8 @@
                 android:id="@+id/certificate_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
                 android:clipToPadding="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"

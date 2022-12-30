@@ -10,17 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:paddingBottom="32dp"
+        android:layout_margin="@dimen/margin_8"
+        android:paddingBottom="@dimen/padding_32"
         android:orientation="vertical">
 
         <LinearLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -30,7 +30,7 @@
                 android:text="Task factories" />
 
             <TextView
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/taskfactories_values"
@@ -43,7 +43,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -51,10 +51,10 @@
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/margin_8"
                 android:text="Running tasks"
-                app:layout_constraintBottom_toBottomOf="@+id/test_task_launch"
-                app:layout_constraintEnd_toStartOf="@+id/test_task_launch"
+                app:layout_constraintBottom_toBottomOf="@id/test_task_launch"
+                app:layout_constraintEnd_toStartOf="@id/test_task_launch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,17 +76,17 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/test_task_launch"
+                app:layout_constraintTop_toBottomOf="@id/test_task_launch"
                 tools:text="TASK ABC" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"
             style="@style/TextAppearance.AppCompat.Caption"
             android:text="Note:\nThe task controller lives in the apps memory, i.e. it is not persisting to storage. It will hold results until the app process dies."
             android:layout_height="wrap_content" />
@@ -95,7 +95,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
+            android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -105,7 +105,7 @@
                 android:text="Last task results" />
 
             <TextView
-                android:layout_marginTop="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tasks_last_results"
