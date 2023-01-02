@@ -100,6 +100,8 @@
         <item name="android:paddingEnd">@dimen/padding_24</item>
         <item name="android:paddingBottom">@dimen/padding_12</item>
         <item name="android:paddingTop">@dimen/padding_12</item>
+        <item name="android:insetTop">@dimen/standard_0</item>
+        <item name="android:insetBottom">@dimen/standard_0</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/font_14</item>
         <item name="android:fontFamily">sans-serif-medium</item>
