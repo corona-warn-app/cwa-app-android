@@ -61,13 +61,4 @@ data class PCRCertificateData internal constructor(
 
     @JsonProperty("recycledAt")
     override val recycledAt: Instant? = null,
-) : RetrievedTestCertificate() {
-
-    // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
-    @Suppress("unused")
-    constructor() : this(
-        identifier = "",
-        registrationToken = "",
-        registeredAt = Instant.EPOCH
-    )
-}
+) : RetrievedTestCertificate()

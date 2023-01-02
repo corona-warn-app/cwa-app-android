@@ -98,7 +98,6 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
 
     private fun createStorage() = ExposureDetectionTrackerStorage(
         context = context,
-        baseGson = SerializationModule.baseGson,
         objectMapper = SerializationModule.jacksonBaseMapper
     )
 
@@ -148,15 +147,15 @@ class ExposureDetectionTrackerStorageTest : BaseIOTest() {
     fun `saving data creates a json file`() = runTest {
         createStorage().save(demoData)
         storageFile.exists() shouldBe true
-        val json = SerializationModule.baseGson.toJson(demoData)
+        val json = SerializationModule.jacksonBaseMapper.writeValueAsString(demoData)
         json shouldBe storageFile.readText()
         json.toComparableJsonPretty() shouldBe demoJsonStringAfterMigration
     }
 
     @Test
-    fun `gson does weird things to property initialization - 2`() = runTest {
+    fun `jackson does weird things to property initialization - 2`() = runTest {
         every { context.filesDir } returns Paths.get("src/test/resources", "detectionJavaTime").toFile()
-        // This makes sure we are using val-getters, otherwise gson inits our @Ŧransient properties to false
+        // This makes sure we are using val-getters, otherwise jackson inits our @Ŧransient properties to false
         val storedData: Map<String, TrackedExposureDetection> = createStorage().load()
         storedData.getValue("b2b98400-058d-43e6-b952-529a5255248b").apply {
             isCalculating shouldBe true

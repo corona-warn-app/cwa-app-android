@@ -476,7 +476,6 @@ dependencies {
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
-    implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.guava:guava:31.1-android'
 
     // Jackson //Don't update to version 2.14 because it only supports android SDK 26+

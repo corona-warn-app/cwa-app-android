@@ -3,13 +3,11 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.google.gson.Gson
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import de.rki.coronawarnapp.util.serialization.toJson
+import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -20,7 +18,6 @@ import javax.inject.Singleton
 @Singleton
 class ExposureDetectionTrackerStorage @Inject constructor(
     @AppContext private val context: Context,
-    @BaseGson private val baseGson: Gson,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
     private val mutex = Mutex()
@@ -68,7 +65,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
         }
         Timber.v("Storing detection data: %s", data)
         try {
-            baseGson.toJson(data, storageFile)
+            objectMapper.writeValue(data, storageFile)
         } catch (e: Exception) {
             Timber.e(e, "Failed to save tracked detections.")
             e.report(ExceptionCategory.INTERNAL)

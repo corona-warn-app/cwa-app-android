@@ -42,12 +42,4 @@ data class GenericTestCertificateData(
 
     @JsonProperty("recycledAt")
     override val recycledAt: Instant? = null,
-) : ScannedTestCertificate() {
-
-    // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
-    @Suppress("unused")
-    constructor() : this(
-        identifier = "",
-        registeredAt = Instant.EPOCH
-    )
-}
+) : ScannedTestCertificate()

@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarNavigati
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarViewModel
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -28,7 +27,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -37,7 +35,6 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionType: SrsSubmissionType
     @MockK lateinit var symptomsIndication: Symptoms.Indication
-    @MockK lateinit var currentSymptoms: FlowPreference<Symptoms?>
     @MockK lateinit var teksSharedViewModel: TeksSharedViewModel
     private val selectedCheckIns = longArrayOf()
 
@@ -98,8 +95,6 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
-
-        currentSymptoms = mockFlowPreference(null)
 
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs

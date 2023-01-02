@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp
 
-import com.google.gson.JsonParser
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -23,11 +23,9 @@ class TranslationsAssertTest : BaseTest() {
             "translation_v2.json"
         ).readBytes().toString(Charsets.UTF_8)
 
-        val fileNames = JsonParser.parseString(json)
-            .asJsonObject.getAsJsonArray("collections").get(0)
-            .asJsonObject.getAsJsonArray("folders").get(0)
-            .asJsonObject.getAsJsonArray("sourceFilters")
-            .map { it.asString }
+        val fileNames = ObjectMapper().readTree(json)["collections"]
+            .get(0)["folders"].get(0)["sourceFilters"]
+            .map { it.asText() }
             .sortedBy { it.toString() }
             .toList()
 

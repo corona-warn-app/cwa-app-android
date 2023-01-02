@@ -11,8 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
 import java.time.Instant
 
 /**
@@ -83,9 +81,6 @@ interface CwaCovidCertificate : Recyclable {
 
     val isNotScreened get() = state !in setOf(Blocked, Revoked)
 
-    /**
-     * Requires RuntimeAdapterFactory, see [SerializationModule]
-     */
     @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true
     )
@@ -123,17 +118,6 @@ interface CwaCovidCertificate : Recyclable {
         object Blocked : State("Blocked")
         object Recycled : State("Recycled")
         object Revoked : State("Revoked")
-
-        companion object {
-            val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
-                .of(State::class.java, "type", true)
-                .registerSubtype(Valid::class.java, "Valid")
-                .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
-                .registerSubtype(Expired::class.java, "Expired")
-                .registerSubtype(Invalid::class.java, "Invalid")
-                .registerSubtype(Blocked::class.java, "Blocked")
-                .registerSubtype(Revoked::class.java, "Revoked")
-        }
 
         override fun equals(other: Any?): Boolean {
             if (this is Blocked && other is Blocked) return true

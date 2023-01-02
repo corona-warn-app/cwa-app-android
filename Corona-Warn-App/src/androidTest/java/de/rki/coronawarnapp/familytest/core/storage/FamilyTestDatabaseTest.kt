@@ -113,7 +113,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.getAllActive().first().size shouldBe 1
         val entries = dao.getAllInRecycleBin().first()
         entries.size shouldBe 1
-        entries[0]!!.test.coronaTest.state shouldBe CoronaTest.State.RECYCLED
+        entries[0]!!.test.coronaTest.state shouldBe CoronaTest.State.NEGATIVE
     }
 
     @Test

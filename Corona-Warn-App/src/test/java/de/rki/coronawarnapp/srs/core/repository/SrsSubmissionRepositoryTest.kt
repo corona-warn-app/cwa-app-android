@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.srs.core.repository
 
-import com.google.gson.JsonObject
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
@@ -71,8 +71,8 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         every { attestationContainer.requirePass(any()) } just Runs
         every { attestationContainer.report } returns SafetyNetClientWrapper.Report(
             jwsResult = "",
-            header = JsonObject(),
-            body = JsonObject(),
+            header = ObjectMapper().createObjectNode(),
+            body = ObjectMapper().createObjectNode(),
             signature = byteArrayOf()
         )
         every { attestationContainer.ourSalt } returns byteArrayOf()

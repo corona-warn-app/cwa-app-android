@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import androidx.annotation.Keep
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Instant
 
@@ -12,9 +13,10 @@ data class TrackedExposureDetection(
     @JsonProperty("finishedAt") val finishedAt: Instant? = null,
     @JsonProperty("enfVersion") val enfVersion: EnfVersion? = null
 ) {
-
+    @get:JsonIgnore
     val isCalculating: Boolean
         get() = finishedAt == null
+    @get:JsonIgnore
     val isSuccessful: Boolean
         get() = (result == Result.NO_MATCHES || result == Result.UPDATED_STATE)
 

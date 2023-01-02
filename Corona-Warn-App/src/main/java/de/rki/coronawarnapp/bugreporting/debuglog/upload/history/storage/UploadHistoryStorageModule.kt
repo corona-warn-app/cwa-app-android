@@ -6,7 +6,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.datastore.migrations.SharedPreferencesMigration
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,8 +17,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import timber.log.Timber
@@ -45,7 +45,7 @@ object UploadHistoryStorageModule {
     @Provides
     fun provideMigration(
         @AppContext context: Context,
-        @BaseGson gson: Gson
+        @BaseJackson mapper: ObjectMapper
     ) = SharedPreferencesMigration<UploadHistory>(
         context = context,
         sharedPreferencesName = LEGACY_SHARED_PREFS
@@ -53,7 +53,7 @@ object UploadHistoryStorageModule {
         val migratedUploadHistory = runCatching {
             // Data was converted with Gson before so use Gson to restore data to avoid corrupted data
             // Gson and Jackson store Instants differently
-            sharedPreferencesView.getString(LEGACY_UPLOAD_HISTORY_KEY)?.let { gson.fromJson<UploadHistory>(it) }
+            sharedPreferencesView.getString(LEGACY_UPLOAD_HISTORY_KEY)?.let { mapper.readValue<UploadHistory>(it) }
         }
             .onFailure { Timber.tag("SharedPreferencesMigration<UploadHistory>").e(it, "Migration failed") }
             .getOrNull()
