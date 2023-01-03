@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.srs.ui.symptoms.calendar
 
-import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
-
 sealed class SrsSymptomsCalendarNavigation {
 
     object ShowCloseDialog : SrsSymptomsCalendarNavigation()

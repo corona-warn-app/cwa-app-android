@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
