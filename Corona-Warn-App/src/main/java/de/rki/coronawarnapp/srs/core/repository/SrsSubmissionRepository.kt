@@ -116,7 +116,7 @@ class SrsSubmissionRepository @Inject constructor(
         submissionReporter.reportAt(timeStamper.nowUTC)
 
         srsSubmissionSettings.resetOtp()
-        Timber.tag(TAG).d("SRS submission finished successfully with result=%s!",result)
+        Timber.tag(TAG).d("SRS submission finished successfully with result=%s!", result)
         return result
     }
 

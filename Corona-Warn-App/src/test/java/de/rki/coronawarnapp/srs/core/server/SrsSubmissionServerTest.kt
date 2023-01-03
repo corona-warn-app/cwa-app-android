@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClas
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.util.PaddingTool
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -21,6 +22,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import okhttp3.Headers
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -59,7 +61,18 @@ internal class SrsSubmissionServerTest : BaseTest() {
     @Test
     fun `submit pass`() = runTest {
         shouldNotThrowAny {
-            instance().submit(payload)
+            instance().submit(payload) shouldBe SrsSubmissionResponse.Success
+        }
+    }
+
+    @Test
+    fun `submit pass - truncated keys`() = runTest {
+        coEvery { srsSubmissionApi.submitPayload(any(), any()) } returns Response.success(
+            "".toResponseBody(),
+            Headers.headersOf("cwa-keys-truncated", "1")
+        )
+        shouldNotThrowAny {
+            instance().submit(payload) shouldBe SrsSubmissionResponse.TruncatedKeys("1")
         }
     }
 

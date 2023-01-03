@@ -146,7 +146,7 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
         createViewModel().apply {
             onNegativeSymptomIndication()
             onWarningClicked()
-            events.getOrAwaitValue() shouldBe SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType)
+            events.getOrAwaitValue() shouldBe SrsSymptomsIntroductionNavigation.GoToThankYouScreen
 
             coVerify {
                 checkInRepository.updateSubmissionConsents(any(), true)

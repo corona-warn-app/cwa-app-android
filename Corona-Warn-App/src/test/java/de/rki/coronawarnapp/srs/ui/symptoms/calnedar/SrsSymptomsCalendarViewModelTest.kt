@@ -131,7 +131,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         createViewModel().apply {
             onLastSevenDaysStart()
             startSubmission()
-            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType)
+            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen
 
             coVerify {
                 checkInRepository.updateSubmissionConsents(any(), true)
