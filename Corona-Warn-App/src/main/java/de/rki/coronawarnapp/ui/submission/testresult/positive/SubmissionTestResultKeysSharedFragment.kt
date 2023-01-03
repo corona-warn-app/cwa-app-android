@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -47,8 +48,12 @@ class SubmissionTestResultKeysSharedFragment :
         viewModel.onTestOpened()
 
         binding.toolbar.setNavigationOnClickListener {
-            popBackStack()
+            navigateBackToFlowStart()
         }
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = navigateBackToFlowStart()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
         binding.deleteTest.setOnClickListener {
             viewModel.onShowDeleteTestDialog()
@@ -75,13 +80,17 @@ class SubmissionTestResultKeysSharedFragment :
         }
 
         viewModel.routeToScreen.observe2(this) {
-            if (navArgs.comesFromDispatcherFragment) {
-                findNavController().navigate(
-                    SubmissionTestResultKeysSharedFragmentDirections
-                        .actionSubmissionTestResultKeysSharedFragmentToMainFragment()
-                )
-            } else popBackStack()
+            navigateBackToFlowStart()
         }
+    }
+
+    private fun navigateBackToFlowStart() {
+        if (navArgs.comesFromDispatcherFragment) {
+            findNavController().navigate(
+                SubmissionTestResultKeysSharedFragmentDirections
+                    .actionSubmissionTestResultKeysSharedFragmentToMainFragment()
+            )
+        } else popBackStack()
     }
 
     override fun onResume() {
