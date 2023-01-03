@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.srs.ui.symptoms.introduction
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.symptoms.intro.SrsSymptomsIntroductionNavigation
@@ -99,6 +100,7 @@ class SrsSymptomsIntroductionViewModelTest : BaseTest() {
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         coEvery { teksSharedViewModel.osTeks() } returns emptyList()
+        coEvery { srsSubmissionRepository.submit(any(), any(), any()) } returns SrsSubmissionResponse.Success
     }
 
     private fun createViewModel() = SrsSymptomsIntroductionViewModel(
