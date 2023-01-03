@@ -181,7 +181,7 @@ class CoronaTestStorageTest : BaseTest() {
     @Test
     fun `Store PCRT with isDccSupportedByPoc = false`() = runTest2 {
         val instance = createInstance(this)
-        val pcrTest = pcrTest1.copy(isDccSupportedByPoc = false)
+        val pcrTest = pcrTest1.copy(_isDccSupportedByPoc = false)
         instance.updateCoronaTests(setOf(pcrTest))
 
         (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """

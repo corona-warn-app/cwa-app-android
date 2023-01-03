@@ -54,7 +54,8 @@ data class PCRCoronaTest(
     @JsonIgnore override val lastError: Throwable? = null,
 
     @JsonProperty("isDccSupportedByPoc")
-    override val isDccSupportedByPoc: Boolean = true,
+    private val _isDccSupportedByPoc: Boolean? = true,
+
     @JsonProperty("isDccConsentGiven")
     override val isDccConsentGiven: Boolean = false,
 
@@ -70,6 +71,11 @@ data class PCRCoronaTest(
     @JsonProperty("recycledAt")
     override var recycledAt: Instant? = null,
 ) : PersonalCoronaTest {
+    // Set to true for old records
+
+    @get:JsonProperty("isDccSupportedByPoc")
+    override val isDccSupportedByPoc: Boolean
+        get() = _isDccSupportedByPoc ?: true
     @get:JsonIgnore
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.PCR

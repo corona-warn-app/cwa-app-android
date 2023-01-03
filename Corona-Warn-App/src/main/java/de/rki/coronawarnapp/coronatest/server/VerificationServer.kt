@@ -54,7 +54,7 @@ class VerificationServer @Inject constructor(
 
             size -= when (request.dateOfBirthKey) {
                 null -> 0
-                else -> 76 // `"dateOfBirthKey":"x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",`
+                else -> 76 // `"keyDob":"x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",`
             }
             size
         }

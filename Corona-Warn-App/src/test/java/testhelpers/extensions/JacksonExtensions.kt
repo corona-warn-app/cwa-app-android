@@ -19,7 +19,7 @@ fun String.toComparableJson() = try {
     throw IllegalArgumentException("'$this' wasn't valid JSON")
 }
 
-fun String.toJsonResponse1(): MockResponse = MockResponse().setBody(this.toComparableJson())
+fun String.toJsonResponse(): MockResponse = MockResponse().setBody(this.toComparableJson())
 
 infix fun String.shouldMatchJson1(expected: String) {
     val actualPretty = this.toComparableJsonPretty()

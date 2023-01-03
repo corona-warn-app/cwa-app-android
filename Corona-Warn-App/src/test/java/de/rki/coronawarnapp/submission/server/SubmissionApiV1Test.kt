@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.BaseTest
-import testhelpers.extensions.toJsonResponse1
+import testhelpers.extensions.toJsonResponse
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -75,7 +75,7 @@ class SubmissionApiV1Test : BaseTest() {
             {
                 "tan": "testTan"
             }
-        """.toJsonResponse1().apply { webServer.enqueue(this) }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val submissionPayload = SubmissionPayloadOuterClass.SubmissionPayload.newBuilder()
             .setRequestPadding(ByteString.copyFromUtf8("fakeKeyPadding"))

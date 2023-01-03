@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import testhelpers.extensions.toComparableJson
-import testhelpers.extensions.toJsonResponse1
+import testhelpers.extensions.toJsonResponse
 import java.io.File
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
@@ -74,7 +74,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "registrationToken": "testRegistrationToken"
             }
-        """.toJsonResponse1().apply { webServer.enqueue(this) }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationTokenRequest(
             keyType = VerificationKeyType.GUID,
@@ -100,7 +100,7 @@ class VerificationApiV1Test : BaseIOTest() {
                 {
                     "keyType": "GUID",
                     "key": "testKey",
-                    "dateOfBirthKey": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
+                    "keyDob": "x9acafb78b330522e32b4bf4c90a3ebb7a4d20d8af8cc32018c550ea86a38cc1",
                     "requestPadding": "testRequestPadding"
                 }
             """.toComparableJson()
@@ -117,7 +117,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "registrationToken": "testRegistrationToken"
             }
-        """.toJsonResponse1().apply { webServer.enqueue(this) }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationTokenRequest(
             keyType = VerificationKeyType.TELETAN,
@@ -157,7 +157,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "testResult": 1
             }
-        """.toJsonResponse1().apply { webServer.enqueue(this) }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.RegistrationRequest(
             registrationToken = "testRegistrationToken",
@@ -195,7 +195,7 @@ class VerificationApiV1Test : BaseIOTest() {
             {
                 "tan": "testTan"
             }
-        """.toJsonResponse1().apply { webServer.enqueue(this) }
+        """.toJsonResponse().apply { webServer.enqueue(this) }
 
         val requestBody = VerificationApiV1.TanRequestBody(
             registrationToken = "testRegistrationToken",
