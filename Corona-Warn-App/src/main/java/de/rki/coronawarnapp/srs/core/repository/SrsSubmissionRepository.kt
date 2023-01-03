@@ -22,6 +22,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
 import de.rki.coronawarnapp.srs.core.server.errorArgs
@@ -55,7 +56,7 @@ class SrsSubmissionRepository @Inject constructor(
         type: SrsSubmissionType,
         symptoms: Symptoms = Symptoms.NO_INFO_GIVEN,
         keys: List<TemporaryExposureKey>
-    ) {
+    ): SrsSubmissionResponse {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
@@ -107,7 +108,7 @@ class SrsSubmissionRepository @Inject constructor(
         )
 
         Timber.tag(TAG).d("Submitting %s", payload)
-        playbook.submit(payload)
+        val result = playbook.submit(payload)
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
@@ -115,7 +116,8 @@ class SrsSubmissionRepository @Inject constructor(
         submissionReporter.reportAt(timeStamper.nowUTC)
 
         srsSubmissionSettings.resetOtp()
-        Timber.tag(TAG).d("SRS submission finished successfully!")
+        Timber.tag(TAG).d("SRS submission finished successfully with result=%s!", result)
+        return result
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

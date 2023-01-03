@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.srs.core.AndroidIdProvider
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
@@ -93,17 +93,19 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
 
     fun submit() = launch {
         try {
-            srsSubmissionRepository.submit(
+            val result = srsSubmissionRepository.submit(
                 type = SrsSubmissionType.SRS_SELF_TEST,
                 keys = tekHistory.value.orEmpty().map { it.key }
             )
-            srsSubmissionResult.postValue(Success)
+
+            val event = when (result) {
+                SrsSubmissionResponse.Success -> Success
+                is SrsSubmissionResponse.TruncatedKeys -> TruncatedSubmission(result.days)
+            }
+            srsSubmissionResult.postValue(event)
         } catch (e: Exception) {
             Timber.e(e, "submit()")
-            when (e) {
-                is SrsSubmissionTruncatedException -> srsSubmissionResult.postValue(TruncatedSubmission(e.message))
-                else -> srsSubmissionResult.postValue(Error(e))
-            }
+            srsSubmissionResult.postValue(Error(e))
         }
     }
 
