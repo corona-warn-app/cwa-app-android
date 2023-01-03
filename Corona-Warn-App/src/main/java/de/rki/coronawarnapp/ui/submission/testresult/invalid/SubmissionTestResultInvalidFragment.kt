@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.testresult.invalid
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -44,6 +45,11 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             }
             toolbar.setNavigationOnClickListener { goBack() }
         }
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = goBack()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         viewModel.testResult.observe2(this) { uiState ->
             when (uiState.coronaTest.type) {
                 BaseCoronaTest.Type.PCR -> {
@@ -62,6 +68,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
                         }
                     }
                 }
+
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                     binding.apply {
                         testResultInvalidStepsPcrAdded.isVisible = false
