@@ -24,8 +24,8 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
 
-    private val mapper by lazy {
-        objectMapper.registerModule(SimpleModule().addDeserializer(Instant::class.java, LegacyInstantDeserializer()))
+    private val legacyMapper by lazy {
+        ObjectMapper().registerModule(SimpleModule().addDeserializer(Instant::class.java, LegacyInstantDeserializer()))
     }
 
     private val mutex = Mutex()
@@ -46,7 +46,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadTrackingData() = runCatching {
-        mapper.parseTracking().also {
+        objectMapper.parseTracking().also {
             lastCalculationData = it
         }
     }.onFailure {
@@ -54,7 +54,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadLegacyTrackingData() = runCatching {
-        mapper.parseTracking()
+        legacyMapper.parseTracking()
     }.onFailure {
         if (storageFile.delete()) Timber.w("Storage file was deleted.")
         Timber.d(it, "loadLegacyTrackingData() failed to load tracked detections.")
@@ -73,7 +73,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
         }
         Timber.v("Storing detection data: %s", data)
         try {
-            mapper.writeValue(data, storageFile)
+            objectMapper.writeValue(data, storageFile)
         } catch (e: Exception) {
             Timber.e(e, "Failed to save tracked detections.")
             e.report(ExceptionCategory.INTERNAL)
