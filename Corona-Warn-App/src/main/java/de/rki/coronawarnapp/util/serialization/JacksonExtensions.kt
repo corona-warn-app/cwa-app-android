@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.util.serialization
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.readValue
 import timber.log.Timber
 import java.io.File
 
 inline fun <reified T> ObjectMapper.writeValue(data: T, file: File) = file.bufferedWriter().use { writer ->
     writeValue(writer, data)
-    writer.flush()
 }
 
 /**
@@ -22,11 +22,11 @@ inline fun <reified T : Any> ObjectMapper.readValue(file: File): T? {
     }
 
     return file.bufferedReader().use {
-        val value: T? = readValue(it)
-        if (value != null) {
+        try {
+            val value: T? = readValue(it)
             Timber.v("Json read from %s", file)
             value
-        } else {
+        } catch (e: MismatchedInputException) {
             Timber.w("Tried to parse json from file that exists, but was empty: %s", file)
             if (file.delete()) Timber.w("Deleted empty json file: %s", file)
             null

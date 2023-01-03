@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.io.JsonEOFException
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
@@ -28,6 +29,7 @@ class JacksonExtensionsTest : BaseIOTest() {
     }
 
     data class TestData(
+        @JsonProperty("value")
         val value: String
     )
 
@@ -35,7 +37,6 @@ class JacksonExtensionsTest : BaseIOTest() {
     fun `serialize and deserialize`() {
         val testData = TestData(value = UUID.randomUUID().toString())
         mapper.writeValue(testData, testFile)
-
         mapper.readValue<TestData>(testFile) shouldBe testData
     }
 
@@ -45,9 +46,7 @@ class JacksonExtensionsTest : BaseIOTest() {
         testFile.exists() shouldBe true
 
         val testData: TestData? = mapper.readValue(testFile)
-
         testData shouldBe null
-
         testFile.exists() shouldBe false
     }
 
