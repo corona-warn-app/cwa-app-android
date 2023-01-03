@@ -139,9 +139,6 @@
         android:name="de.rki.coronawarnapp.srs.ui.done.SrsSubmissionDoneFragment"
         android:label="SrsSubmissionDoneFragment"
         tools:layout="@layout/fragment_submission_done">
-        <argument
-            android:name="submissionType"
-            app:argType="de.rki.coronawarnapp.srs.core.model.SrsSubmissionType" />
     </fragment>
     <fragment
         android:id="@+id/srsConsentDetailFragment"

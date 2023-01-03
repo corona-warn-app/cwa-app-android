@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.srs.core.playbook
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationFakeRequest
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationServer
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionServer
 import java.time.Instant
@@ -23,7 +24,7 @@ class SrsPlaybook @Inject constructor(
         srsAuthorizationServer.fakeAuthorize(request)
     }
 
-    suspend fun submit(payLoad: SrsSubmissionPayload) {
-        srsSubmissionServer.submit(payLoad)
+    suspend fun submit(payLoad: SrsSubmissionPayload): SrsSubmissionResponse {
+        return srsSubmissionServer.submit(payLoad)
     }
 }
