@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +61,8 @@
     <string name="srs_type_selection_header">"Test Type"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Please select the type of the test that is the basis for the warning."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">Die Angabe der Art des Tests dient nur der statistischen Auswertung. Die Angabe ist freiwillig. Sie wird nicht mit der Warnung oder Ihrer Identität verbunden. Wenn Sie keine Angabe machen wollen, wählen Sie „Keine Angabe“.</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Rapid antigen test registered in the app, but no result received"</string>
     <!-- XTXT: Type selection button rat not registered text -->
