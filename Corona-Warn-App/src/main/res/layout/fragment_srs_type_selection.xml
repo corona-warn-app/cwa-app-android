@@ -17,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/srs_type_selection_header" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/srs_type_selection_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/type_selection_next_button"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/srs_type_selection_scrollview_constraint"
@@ -53,17 +53,18 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                app:layout_constraintTop_toBottomOf="@id/srs_type_selection_introduction"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:focusable="true"
-                android:text="@string/srs_type_selection_subtitle_text" />
+                android:text="@string/srs_type_selection_subtitle_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/srs_type_selection_introduction" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/typeList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:nestedScrollingEnabled="false"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +75,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/type_selection_next_button"
