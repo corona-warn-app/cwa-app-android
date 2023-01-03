@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.srs.ui.symptoms.calnedar
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarNavigation
@@ -105,6 +106,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         coEvery { teksSharedViewModel.osTeks() } returns emptyList()
+        coEvery { srsSubmissionRepository.submit(any(), any(), any()) } returns SrsSubmissionResponse.Success
     }
 
     private fun createViewModel() = SrsSymptomsCalendarViewModel(
@@ -131,7 +133,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         createViewModel().apply {
             onLastSevenDaysStart()
             startSubmission()
-            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType)
+            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen
 
             coVerify {
                 checkInRepository.updateSubmissionConsents(any(), true)
