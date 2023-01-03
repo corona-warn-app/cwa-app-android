@@ -4,7 +4,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.datadonation.analytics.common.federalStateShortName
 import de.rki.coronawarnapp.statistics.LocalStatisticsConfigDataStore
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import de.rki.coronawarnapp.util.serialization.jackson.SelectedStatisticsLocationFactory
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,27 +24,21 @@ class LocalStatisticsConfigStorage @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper,
 ) : Resettable {
 
-    private val mapper by lazy {
-        objectMapper.registerModule(object : SimpleModule() {
-            override fun setupModule(context: SetupContext) {
-                super.setupModule(context)
-                context.addBeanSerializerModifier(SelectedStatisticsLocationFactory())
-            }
-        })
-    }
-
     val activeSelections = dataStore.dataRecovering.distinctUntilChanged(
         key = PKEY_ACTIVE_SELECTIONS, defaultValue = ""
     ).map { value ->
         if (value.isEmpty()) {
             SelectedLocations()
         } else {
-            mapper.readValue(value)
+            objectMapper.readValue(value)
         }
     }
 
     suspend fun updateActiveSelections(locations: SelectedLocations) =
-        dataStore.trySetValue(preferencesKey = PKEY_ACTIVE_SELECTIONS, value = mapper.writeValueAsString(locations))
+        dataStore.trySetValue(
+            preferencesKey = PKEY_ACTIVE_SELECTIONS,
+            value = objectMapper.writeValueAsString(locations)
+        )
 
     val activePackages = activeSelections.map { selections ->
         selections.locations.mapNotNull { selection ->

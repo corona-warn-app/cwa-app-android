@@ -2,16 +2,19 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.jackson.LegacyInstantDeserializer
 import de.rki.coronawarnapp.util.serialization.readValue
 import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.io.File
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,6 +23,11 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     @AppContext private val context: Context,
     @BaseJackson private val objectMapper: ObjectMapper,
 ) {
+
+    private val mapper by lazy {
+        objectMapper.registerModule(SimpleModule().addDeserializer(Instant::class.java, LegacyInstantDeserializer()))
+    }
+
     private val mutex = Mutex()
     private val storageDir by lazy {
         File(context.filesDir, "calcuation_tracker").apply {
@@ -38,7 +46,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadTrackingData() = runCatching {
-        objectMapper.parseTracking().also {
+        mapper.parseTracking().also {
             lastCalculationData = it
         }
     }.onFailure {
@@ -46,7 +54,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun loadLegacyTrackingData() = runCatching {
-        objectMapper.parseTracking()
+        mapper.parseTracking()
     }.onFailure {
         if (storageFile.delete()) Timber.w("Storage file was deleted.")
         Timber.d(it, "loadLegacyTrackingData() failed to load tracked detections.")
@@ -65,7 +73,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
         }
         Timber.v("Storing detection data: %s", data)
         try {
-            objectMapper.writeValue(data, storageFile)
+            mapper.writeValue(data, storageFile)
         } catch (e: Exception) {
             Timber.e(e, "Failed to save tracked detections.")
             e.report(ExceptionCategory.INTERNAL)
