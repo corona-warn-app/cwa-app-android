@@ -85,9 +85,7 @@ class SrsSymptomsCalendarFragment : Fragment(R.layout.fragment_submission_sympto
                 )
 
                 is SrsSymptomsCalendarNavigation.GoToThankYouScreen -> findNavController().navigate(
-                    SrsSymptomsCalendarFragmentDirections.actionSrsSymptomsCalendarFragmentToSrsSubmissionDoneFragment(
-                        it.submissionType
-                    )
+                    SrsSymptomsCalendarFragmentDirections.actionSrsSymptomsCalendarFragmentToSrsSubmissionDoneFragment()
                 )
 
                 is SrsSymptomsCalendarNavigation.TruncatedSubmission -> {

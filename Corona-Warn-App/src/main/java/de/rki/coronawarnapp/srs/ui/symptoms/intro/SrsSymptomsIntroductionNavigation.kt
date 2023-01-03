@@ -9,7 +9,7 @@ sealed class SrsSymptomsIntroductionNavigation {
 
     object GoToHome : SrsSymptomsIntroductionNavigation()
 
-    data class GoToThankYouScreen(val submissionType: SrsSubmissionType) : SrsSymptomsIntroductionNavigation()
+    object GoToThankYouScreen : SrsSymptomsIntroductionNavigation()
 
     object ShowSubmissionWarning : SrsSymptomsIntroductionNavigation()
 

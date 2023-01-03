@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.PaddingTool
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -29,15 +30,13 @@ class SrsSubmissionServer @Inject constructor(
 
     private val api = srsSubmissionApi.get()
 
-    suspend fun submit(payload: SrsSubmissionPayload) = withContext(dispatcherProvider.IO) {
+    suspend fun submit(payload: SrsSubmissionPayload): SrsSubmissionResponse = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).d("submit(payload=%s)", payload)
             submitPayload(payload)
         } catch (e: Exception) {
             throw when (e) {
-                is SrsSubmissionException,
-                is SrsSubmissionTruncatedException -> e
-
+                is SrsSubmissionException -> e
                 is CwaUnknownHostException,
                 is NetworkReadTimeoutException,
                 is NetworkConnectTimeoutException -> SrsSubmissionException(ErrorCode.SRS_SUB_NO_NETWORK, cause = e)
@@ -47,7 +46,7 @@ class SrsSubmissionServer @Inject constructor(
         }
     }
 
-    private suspend fun submitPayload(payload: SrsSubmissionPayload) {
+    private suspend fun submitPayload(payload: SrsSubmissionPayload): SrsSubmissionResponse {
         val plausibleParameters = appConfigProvider
             .getAppConfig()
             .presenceTracing
@@ -78,12 +77,18 @@ class SrsSubmissionServer @Inject constructor(
 
         val bodyResponse = api.submitPayload(payload.srsOtp.uuid.toString(), submissionPayload)
         if (bodyResponse.isSuccessful) {
-            val truncatedHeaderException = bodyResponse.headers()[CWA_KEYS_TRUNCATED]
-            if (truncatedHeaderException != null) {
-                throw SrsSubmissionTruncatedException(truncatedHeaderException)
+            val days = bodyResponse.headers()[CWA_KEYS_TRUNCATED]
+            return when {
+                days != null -> {
+                    Timber.i("SRS submission is successful with truncated days=%s", days)
+                    SrsSubmissionResponse.TruncatedKeys(days)
+                }
+
+                else -> {
+                    Timber.i("SRS submission is successful!")
+                    SrsSubmissionResponse.Success
+                }
             }
-            Timber.i("SRS submission is successful!")
-            return
         }
 
         throw when (bodyResponse.code()) {

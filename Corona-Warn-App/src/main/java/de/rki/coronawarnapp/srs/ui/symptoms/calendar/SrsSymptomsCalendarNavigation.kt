@@ -8,7 +8,7 @@ sealed class SrsSymptomsCalendarNavigation {
 
     object GoToHome : SrsSymptomsCalendarNavigation()
 
-    data class GoToThankYouScreen(val submissionType: SrsSubmissionType) : SrsSymptomsCalendarNavigation()
+    object GoToThankYouScreen : SrsSymptomsCalendarNavigation()
 
     data class TruncatedSubmission(val numberOfDays: String?) : SrsSymptomsCalendarNavigation()
     data class Error(val cause: Exception) : SrsSymptomsCalendarNavigation()
