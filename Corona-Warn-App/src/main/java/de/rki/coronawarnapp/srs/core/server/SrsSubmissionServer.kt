@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException.ErrorCode
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.tag
