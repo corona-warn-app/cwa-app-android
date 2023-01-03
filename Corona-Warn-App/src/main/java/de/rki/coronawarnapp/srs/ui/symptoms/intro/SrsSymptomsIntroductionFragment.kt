@@ -80,7 +80,7 @@ class SrsSymptomsIntroductionFragment : Fragment(R.layout.fragment_submission_sy
 
                 is SrsSymptomsIntroductionNavigation.GoToThankYouScreen -> findNavController().navigate(
                     SrsSymptomsIntroductionFragmentDirections
-                        .actionSrsSymptomsIntroductionFragmentToSrsSubmissionDoneFragment(it.submissionType)
+                        .actionSrsSymptomsIntroductionFragmentToSrsSubmissionDoneFragment()
                 )
 
                 is SrsSymptomsIntroductionNavigation.GoToSymptomCalendar -> findNavController().navigate(
