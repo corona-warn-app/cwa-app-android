@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.nearby.modules.detectiontracker
 
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.readValue
 import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -53,7 +53,7 @@ class ExposureDetectionTrackerStorage @Inject constructor(
     }
 
     private fun ObjectMapper.parseTracking() =
-        readValue<Map<String, TrackedExposureDetection>>(storageFile).also {
+        readValue<Map<String, TrackedExposureDetection>>(storageFile)?.also {
             require(it.size >= 0)
             Timber.v("Loaded detection data: %s", it)
         }
