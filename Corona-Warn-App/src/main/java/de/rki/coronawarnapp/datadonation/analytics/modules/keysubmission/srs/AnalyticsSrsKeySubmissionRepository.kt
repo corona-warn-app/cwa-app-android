@@ -114,5 +114,3 @@ class AnalyticsSrsKeySubmissionRepository @Inject constructor(
         storage.reset()
     }
 }
-
-
