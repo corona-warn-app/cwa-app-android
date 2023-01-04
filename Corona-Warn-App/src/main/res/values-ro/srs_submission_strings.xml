@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +60,8 @@
     <string name="srs_type_selection_header">"Tip de test"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Selectați tipul de test care este baza avertizării."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"Valoarea pentru tipul de test este utilizată doar pentru analiză statistică. Nu este legată de nicio avertizare sau de identitatea dvs. Dacă nu doriți să specificați o valoare, selectați „Nu răspund”."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Testul antigen rapid este înregistrat în aplicație, dar nu s-a primit niciun răspuns"</string>
     <!-- XTXT: Type selection button rat not registered text -->

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +60,8 @@
     <string name="srs_type_selection_header">"Rodzaj testu"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Wybierz typ testu, który jest podstawą dla ostrzeżenia."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"Wartość dla typu testu jest używana tylko do analizy statystycznej. Nie jest powiązywana z ostrzeżeniem ani z Twoją tożsamością. Jeśli nie chcesz określać wartości, wybierz \"Brak odpowiedzi\"."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Szybki test antygenowy zarejestrowany w aplikacji, ale nie otrzymano wyniku"</string>
     <!-- XTXT: Type selection button rat not registered text -->

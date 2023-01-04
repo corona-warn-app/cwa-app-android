@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +60,8 @@
     <string name="srs_type_selection_header">"Вид тест"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Моля, изберете вид на теста, на който се базира предупреждението."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"Стойността на този вид тест се използва само за статистически анализ. Не е свързан с предупреждение или с Вашата самоличност. Ако не желаете да посочвате стойност, просто изберете „Без отговор“."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Бързият антигенен тест е регистриран в приложението, но не е получен резултат"</string>
     <!-- XTXT: Type selection button rat not registered text -->
