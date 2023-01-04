@@ -96,7 +96,7 @@ object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
     override suspend fun finishDonation(successful: Boolean) = Unit
 }
 
-private fun Boolean?.toTriStateBoolean() =
+fun Boolean?.toTriStateBoolean() =
     when (this) {
         true -> TriStateBooleanOuterClass.TriStateBoolean.TSB_TRUE
         false -> TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE

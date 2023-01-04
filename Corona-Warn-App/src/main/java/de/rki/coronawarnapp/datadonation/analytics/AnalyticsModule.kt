@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.Analy
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs.AnalyticsSrsKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
@@ -117,6 +118,10 @@ object AnalyticsModule {
         @IntoSet
         @Binds
         fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun srsKeySubmission(module: AnalyticsSrsKeySubmissionDonor): DonorModule
 
         @IntoSet
         @Binds
