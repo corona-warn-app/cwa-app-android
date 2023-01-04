@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +60,8 @@
     <string name="srs_type_selection_header">"Test Türü"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Lütfen uyarının temeli olan test türünü seçin."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"Test türü değeri yalnızca istatistiksel analiz amaçları doğrultusunda kullanılır. Uyarıyla veya kimliğinizde ilişkilendirilmez. Değer belirtmen istemiyorsanız \"Bilgi yok\" seçeneğini belirlemeniz yeterlidir."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Uygulamada kaydedilen ancak sonuç alınmayan hızlı antijen testi"</string>
     <!-- XTXT: Type selection button rat not registered text -->
