@@ -29,7 +29,8 @@
             app:layout_constraintBottom_toTopOf="@id/srs_submission_consent_accept_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -113,7 +114,7 @@
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toEndOf="@id/srs_section_warn_interval_image"
                     app:layout_constraintTop_toTopOf="@id/srs_section_warn_interval_image"
-                    tools:text="@string/srs_section_warn_interval_text"/>
+                    tools:text="@string/srs_section_warn_interval_text" />
 
                 <include
                     android:id="@+id/srs_privacy_card"

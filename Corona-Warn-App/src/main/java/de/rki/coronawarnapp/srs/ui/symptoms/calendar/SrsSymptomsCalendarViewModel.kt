@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
@@ -44,8 +44,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
 
     fun goHome() = events.postValue(SrsSymptomsCalendarNavigation.GoToHome)
 
-    fun onTruncatedDialogClick() =
-        events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
+    fun onTruncatedDialogClick() = events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen)
 
     fun startSubmission() {
         if (symptomStartInternal.value == null) {
@@ -66,7 +65,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
         )
 
         try {
-            srsSubmissionRepository.submit(
+            val result = srsSubmissionRepository.submit(
                 type = submissionType,
                 symptoms = Symptoms(
                     startOfSymptoms = symptomStartInternal.value,
@@ -74,16 +73,14 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
                 ),
                 keys = teksSharedViewModel.osTeks()
             )
-            events.postValue(SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType))
+            val event = when (result) {
+                SrsSubmissionResponse.Success -> SrsSymptomsCalendarNavigation.GoToThankYouScreen
+                is SrsSubmissionResponse.TruncatedKeys -> SrsSymptomsCalendarNavigation.TruncatedSubmission(result.days)
+            }
+            events.postValue(event)
         } catch (e: Exception) {
             Timber.e(e, "submitSrs()")
-            when (e) {
-                is SrsSubmissionTruncatedException -> events.postValue(
-                    SrsSymptomsCalendarNavigation.TruncatedSubmission(e.message)
-                )
-
-                else -> events.postValue(SrsSymptomsCalendarNavigation.Error(e))
-            }
+            events.postValue(SrsSymptomsCalendarNavigation.Error(e))
         } finally {
             showLoadingIndicator.postValue(false)
         }

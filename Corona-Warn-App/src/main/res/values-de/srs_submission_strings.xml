@@ -61,6 +61,8 @@
     <string name="srs_type_selection_header">"Art des Tests"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">Bitte wählen Sie die Art des Tests aus, auf dessen Grundlage Sie warnen.</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">Die Angabe der Art des Tests dient nur der statistischen Auswertung. Die Angabe ist freiwillig. Sie wird nicht mit der Warnung oder Ihrer Identität verbunden. Wenn Sie keine Angabe machen wollen, wählen Sie „Keine Angabe“.</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">Antigen-Schnelltest in der App registriert, aber kein Ergebnis erhalten</string>
     <!-- XTXT: Type selection button rat not registered text -->

@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.srs.core.AndroidIdProvider
 import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
 import de.rki.coronawarnapp.srs.core.storage.SrsDevSettings
@@ -97,7 +98,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { srsSubmissionSettings.setMostRecentSubmissionTime(any()) } just Runs
         coEvery { appConfigProvider.getAppConfig() } returns configData
         coEvery { playbook.authorize(any()) } returns Instant.parse("2023-11-07T12:10:10Z")
-        coEvery { playbook.submit(any()) } just Runs
+        coEvery { playbook.submit(any()) } returns SrsSubmissionResponse.Success
         coEvery { playbook.fakeAuthorize(any()) } just Runs
         coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
         coEvery { submissionReporter.reportAt(any()) } just Runs
@@ -105,6 +106,35 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `submit sequence - no prev otp`() = runTest {
+        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList()) shouldBe SrsSubmissionResponse.Success
+        coVerifySequence {
+            appConfigProvider.getAppConfig()
+            timeStamper.nowUTC
+            srsSubmissionSettings.getOtp()
+            androidIdProvider.getAndroidId()
+            playbook.authorize(any())
+            srsSubmissionSettings.setOtp(any())
+            tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
+            checkInsRepo.completedCheckIns
+            checkInsTransformer.transform(any(), any())
+            playbook.submit(any())
+            checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
+            timeStamper.nowUTC
+            submissionReporter.reportAt(any())
+            srsSubmissionSettings.resetOtp()
+        }
+
+        coVerify(exactly = 0) {
+            playbook.fakeAuthorize(any())
+        }
+    }
+
+    @Test
+    fun `submit sequence - no valid otp - 1`() = runTest {
+        coEvery { srsSubmissionSettings.getOtp() } returns SrsOtp(
+            uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
+            expiresAt = Instant.parse("2021-11-07T12:10:10Z")
+        )
         instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
         coVerifySequence {
             appConfigProvider.getAppConfig()
@@ -129,12 +159,14 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `submit sequence - no valid otp`() = runTest {
+    fun `submit sequence - no valid otp - 2`() = runTest {
+        coEvery { playbook.submit(any()) } returns SrsSubmissionResponse.TruncatedKeys("2")
         coEvery { srsSubmissionSettings.getOtp() } returns SrsOtp(
             uuid = UUID.fromString("73a373fd-3a7b-49b9-b71c-2ae7a2824760"),
             expiresAt = Instant.parse("2021-11-07T12:10:10Z")
         )
-        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
+        instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList()) shouldBe
+            SrsSubmissionResponse.TruncatedKeys("2")
         coVerifySequence {
             appConfigProvider.getAppConfig()
             timeStamper.nowUTC

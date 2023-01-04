@@ -3,18 +3,15 @@ package de.rki.coronawarnapp.srs.core.playbook
 import de.rki.coronawarnapp.srs.core.error.SrsSubmissionException
 import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.server.SrsAuthorizationServer
 import de.rki.coronawarnapp.srs.core.server.SrsSubmissionServer
-import io.kotest.assertions.any
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.inspectors.runTest
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -31,7 +28,7 @@ internal class SrsPlaybookTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        coEvery { srsSubmissionServer.submit(any()) } just Runs
+        coEvery { srsSubmissionServer.submit(any()) } returns SrsSubmissionResponse.Success
         coEvery { srsAuthorizationServer.authorize(any()) } returns Instant.now()
     }
 
@@ -45,7 +42,7 @@ internal class SrsPlaybookTest : BaseTest() {
     @Test
     fun submit() = runTest {
         val payload = mockk<SrsSubmissionPayload>()
-        instance().submit(payload)
+        instance().submit(payload) shouldBe SrsSubmissionResponse.Success
         coVerify { srsSubmissionServer.submit(payload) }
     }
 
