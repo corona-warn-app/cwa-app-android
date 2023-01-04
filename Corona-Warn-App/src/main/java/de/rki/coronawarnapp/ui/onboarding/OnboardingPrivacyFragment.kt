@@ -28,7 +28,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+            onboardingPrivacyToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
         }
         vm.routeToScreen.observe2(this) {
             when (it) {
@@ -37,6 +37,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
                         OnboardingPrivacyFragmentDirections
                             .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
                     )
+
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment -> popBackStack()
                 else -> Unit
             }

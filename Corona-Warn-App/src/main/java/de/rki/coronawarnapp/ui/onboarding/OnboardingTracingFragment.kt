@@ -36,7 +36,7 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onActivateTracingClicked() }
             onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
+            onboardingTracingToolbar.setNavigationOnClickListener { vm.onBackButtonPress() }
         }
         vm.routeToScreen.observe2(this) {
             when (it) {

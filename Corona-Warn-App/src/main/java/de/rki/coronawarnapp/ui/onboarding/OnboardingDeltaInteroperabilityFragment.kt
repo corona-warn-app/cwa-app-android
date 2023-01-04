@@ -43,12 +43,8 @@ class OnboardingDeltaInteroperabilityFragment :
             )
         }
 
-        binding.onboardingButtonBack.buttonIcon.setOnClickListener {
-            vm.onBackPressed()
-        }
-        binding.onboardingButtonNext.setOnClickListener {
-            vm.onBackPressed()
-        }
+        binding.onboardingDeltaToolbar.setNavigationOnClickListener { vm.onBackPressed() }
+        binding.onboardingButtonNext.setOnClickListener { vm.onBackPressed() }
 
         vm.navigateBack.observe2(this) {
             if (it) {
