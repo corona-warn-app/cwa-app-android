@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.addDeserializer
 import com.fasterxml.jackson.module.kotlin.addSerializer
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import timber.log.Timber
 
 class CoronaTestResultSerializer : JsonSerializer<CoronaTestResult>() {
     override fun serialize(value: CoronaTestResult?, gen: JsonGenerator?, serializers: SerializerProvider?) {
