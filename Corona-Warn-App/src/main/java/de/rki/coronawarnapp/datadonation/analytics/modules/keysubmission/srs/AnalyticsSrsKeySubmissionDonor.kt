@@ -3,11 +3,12 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import timber.log.Timber
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AnalyticsSrsKeySubmissionDonor(
-    private val repository: AnalyticsKeySubmissionRepository
+class AnalyticsSrsKeySubmissionDonor @Inject constructor(
+    private val repository: AnalyticsSrsKeySubmissionRepository
 ) : DonorModule {
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val srsPpaData = repository.srsPpaData()
