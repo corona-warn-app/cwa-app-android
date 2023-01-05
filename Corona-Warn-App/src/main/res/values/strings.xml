@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"How this works:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Your PCR Test Was Added"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"The test result is displayed here for 48 hours. The app also creates an entry in your contact journal."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
