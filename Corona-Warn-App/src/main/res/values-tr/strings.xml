@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için "<div>"blogumuzu"</div>" okuyun."</string>
+    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogumuzu"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактне зображення смартфона з чотирма мітками-заповнювачами для інформації"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш "<div>"блог"</div>"."</string>
+    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш блог."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

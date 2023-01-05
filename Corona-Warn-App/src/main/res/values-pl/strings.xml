@@ -1547,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz "<div>"blog"</div>"."</string>
+    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
