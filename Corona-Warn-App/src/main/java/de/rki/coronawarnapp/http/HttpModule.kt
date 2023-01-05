@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.http
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Module
 import dagger.Provides
@@ -51,6 +52,7 @@ class HttpModule {
     @Provides
     fun provideJacksonConverter(): JacksonConverterFactory = JacksonConverterFactory.create(
         ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     )
 
     @Reusable
