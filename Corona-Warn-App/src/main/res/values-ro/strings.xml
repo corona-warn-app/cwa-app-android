@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -1253,7 +1253,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Ați resimțit unul sau mai multe dintre următoarele simptome în ultimele zile?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Puteți indica momentul când și dacă ați observat simptomele specifice coronavirusului pentru a-i permite aplicației să calculeze mai exact riscul de infectare al altor utilizatori ai aplicației. Dacă nu doriți să furnizați aceste informații, selectați „Nu răspund”."</string>
+    <string name="submission_symptom_initial_explanation">"Puteți indica momentul când și dacă ați observat simptome specifice coronavirusului pentru a-i permite aplicației să calculeze mai exact riscul de infectare al altor persoane. Acest pas este voluntar. Dacă nu doriți să furnizați informații despre simptomele dvs., selectați „Nu răspund”.\n"</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Temperatură crescută sau febră"</item>
@@ -1306,9 +1306,9 @@
     <!-- XHED: Page title for calendar page in submission symptom flow -->
     <string name="submission_symptom_calendar_title">"Începutul simptomelor"</string>
     <!-- XHED: Page headline for calendar page in symptom submission flow -->
-    <string name="submission_symptom_calendar_headline">"Când ați început să resimțiți aceste simptome?"</string>
+    <string name="submission_symptom_calendar_headline">"Când ați observat pentru prima dată simptomele?"</string>
     <!-- YTXT: Body text for calendar page in symptom submission flow-->
-    <string name="submission_symptom_calendar_body">"Răspundeți la întrebare cât mai precis cu putință."</string>
+    <string name="submission_symptom_calendar_body">"Specificați data cât mai exact posibil."</string>
     <!-- XBUT: symptom calendar screen less than 7 days button -->
     <string name="submission_symptom_less_seven">"În ultimele 7 zile"</string>
     <!-- XBUT: symptom calendar screen 1-2 weeks button -->
