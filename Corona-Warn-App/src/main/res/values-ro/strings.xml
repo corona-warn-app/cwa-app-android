@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"Cum funcționează:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"Rezultatul testului dvs. este afișat aici timp de 48 de ore. De asemenea, aplicația creează o intrare în jurnalul dvs. de contacte."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
