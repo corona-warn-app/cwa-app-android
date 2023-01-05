@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
 
     <!-- Home screen register test card -->
     <!-- XHED: Register test card title -->
@@ -60,6 +60,8 @@
     <string name="srs_type_selection_header">"Тип тесту"</string>
     <!-- XTXT: Type selection introduction -->
     <string name="srs_type_selection_introduction_text">"Виберіть тип тесту, який є основою для попередження."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"Значення для типу тесту використовується виключно для статистичного аналізу. Воно не пов’язане з попередженням або з вашою особою. Якщо ви не хочете вказувати значення, просто виберіть «Немає відповіді»."</string>
     <!-- XTXT: Type selection button rat registered no result text -->
     <string name="srs_rat_registered_no_result_text">"Експрес-тест на антиген зареєстровано в застосунку, але результат не отримано"</string>
     <!-- XTXT: Type selection button rat not registered text -->
