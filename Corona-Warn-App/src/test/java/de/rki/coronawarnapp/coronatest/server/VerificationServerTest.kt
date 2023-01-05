@@ -230,38 +230,50 @@ class VerificationServerTest : BaseIOTest() {
 
         val api = createServer(createRealApi())
 
+        val json = """
+            {
+              "registrationToken": "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
+            }
+        """.trimIndent()
+
+        val tan = """
+            {
+              "tan": "63B4D3FF-E0DE-4BD4-90C1-17C2BB683A2F"
+            }
+        """.trimIndent()
+
         // Default happy path
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(json))
         api.retrieveRegistrationToken(requestGuid)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // No dobHash
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(json))
         api.retrieveRegistrationToken(requestGuid)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // Second happy path try
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(json))
         api.retrieveRegistrationToken(requestGuid.copy(key = "3BF1D4-1C6003DD-733D-41F1-9F30-F85FA7406BF7"))
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // Via tan
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(json))
         api.retrieveRegistrationToken(requestTan.copy(key = "9A3B578UMG"))
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // Polling for test result
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(json))
         api.pollTestResult(registrationTokenExample)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // Submission TAN
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(tan))
         api.retrieveTan(registrationTokenExample)
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
         // Playbook dummy request
-        webServer.enqueue(MockResponse().setBody("{}"))
+        webServer.enqueue(MockResponse().setBody(tan))
         api.retrieveTanFake()
         webServer.takeRequest().also { requests.add(it) }.bodySize shouldBe 250L
 
