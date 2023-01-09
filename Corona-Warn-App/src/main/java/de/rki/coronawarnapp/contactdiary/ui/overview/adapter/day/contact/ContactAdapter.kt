@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact
 
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.italic
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.clearAndAddAll
 import de.rki.coronawarnapp.databinding.ContactDiaryOverviewNestedListItemBinding
@@ -49,16 +51,29 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
             } else contactDiaryOverviewElementAttributes.visibility = View.GONE
         }
 
-        private fun getAttributes(duration: Duration?, resources: List<Int>?, circumstances: String?): String =
-            mutableListOf<String>().apply {
+        private fun getAttributes(
+            duration: Duration?,
+            resources: List<Int>?,
+            circumstances: String?,
+            separator: String = ", "
+        ): SpannableStringBuilder =
+            SpannableStringBuilder().apply {
                 duration?.run {
                     if (duration != Duration.ZERO) {
                         val durationSuffix = context.getString(R.string.contact_diary_location_visit_duration_hour)
-                        add(toReadableDuration(suffix = durationSuffix))
+                        append(toReadableDuration(suffix = durationSuffix))
+                        append(separator)
                     }
                 }
-                resources?.run { forEach { add(context.getString(it)) } }
-                circumstances?.run { add(this) }
-            }.filter { it.isNotEmpty() }.joinToString()
+                resources?.run {
+                    forEach {
+                        append(context.getString(it))
+                        append(separator)
+                    }
+                }
+                circumstances?.run {
+                    italic { append(this@run) }
+                }
+            }
     }
 }
