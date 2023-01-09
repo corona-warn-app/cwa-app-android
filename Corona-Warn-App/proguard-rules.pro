@@ -110,3 +110,5 @@
 -keep class de.rki.coronawarnapp.covidcertificate.valueset.valuesets.** { *; }
 -keep class de.rki.coronawarnapp.submission.** { *; }
 -keep class de.rki.coronawarnapp.presencetracing.warning.download.server.** { *; }
+-keep class de.rki.coronawarnapp.coronatest.type.** { *; }
+-keep class de.rki.coronawarnapp.diagnosiskeys.download.** { *; }
