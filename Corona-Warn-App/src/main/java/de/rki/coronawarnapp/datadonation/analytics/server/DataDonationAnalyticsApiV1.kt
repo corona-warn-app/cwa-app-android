@@ -12,7 +12,7 @@ interface DataDonationAnalyticsApiV1 {
         @JsonProperty("errorCode") val errorCode: String?
     )
 
-    @POST("/version/v1/android/dat")
+    @POST("version/v1/android/dat")
     suspend fun submitAndroidAnalytics(
         @Body requestBody: PpaDataRequestAndroid.PPADataRequestAndroid
     ): Response<DataDonationAnalyticsResponse>
