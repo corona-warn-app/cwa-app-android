@@ -111,6 +111,7 @@
 -keep class de.rki.coronawarnapp.covidcertificate.validation.core.rule.** { *; }
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
 -keep class de.rki.coronawarnapp.diagnosiskeys.download.** { *; }
+-keep class de.rki.coronawarnapp.familytest.core.model.** { *; }
 -keep class de.rki.coronawarnapp.nearby.modules.detectiontracker.** { *; }
 -keep class de.rki.coronawarnapp.presencetracing.warning.download.server.** { *; }
 -keep class de.rki.coronawarnapp.srs.core.model.** { *; }
