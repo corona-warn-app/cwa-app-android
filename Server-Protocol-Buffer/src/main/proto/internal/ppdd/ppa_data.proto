@@ -96,6 +96,8 @@ message PPAKeySubmissionMetadata {
   int32 ptHoursSinceHighRiskWarningAtTestRegistration = 14;
 
   TriStateBoolean submittedWithCheckIns = 15;
+
+  PPAKeySubmissionType submissionType = 16;
 }
 
 enum PPARiskLevel {
@@ -183,6 +185,16 @@ enum PPALastSubmissionFlowScreen {
   SUBMISSION_FLOW_SCREEN_WARN_OTHERS = 3;
   SUBMISSION_FLOW_SCREEN_SYMPTOMS = 4;
   SUBMISSION_FLOW_SCREEN_SYMPTOM_ONSET = 5;
+}
+
+enum PPAKeySubmissionType {
+  SUBMISSION_TYPE_REGISTERED_TEST = 0;
+  SUBMISSION_TYPE_SRS_SELF_TEST = 1;
+  SUBMISSION_TYPE_SRS_RAT = 2;
+  SUBMISSION_TYPE_SRS_REGISTERED_PCR = 3;
+  SUBMISSION_TYPE_SRS_UNREGISTERED_PCR = 4;
+  SUBMISSION_TYPE_SRS_RAPID_PCR = 5;
+  SUBMISSION_TYPE_SRS_OTHER = 6;
 }
 
 enum PPAFederalState {
