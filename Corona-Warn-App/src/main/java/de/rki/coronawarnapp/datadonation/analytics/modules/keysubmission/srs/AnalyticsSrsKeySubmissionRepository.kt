@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAKeySubmissionType
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPALastSubmissionFlowScreen.UNRECOGNIZED
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.util.TimeStamper
@@ -72,7 +73,7 @@ class AnalyticsSrsKeySubmissionRepository @Inject constructor(
                     now.toLocalDateUtc()
                 )
             submittedWithCheckIns = hasCheckIns.toTriStateBoolean()
-            // TODO  submissionType  = srsSubmissionType.toSubmissionType()
+            submissionType = srsSubmissionType.toPpaSubmissionType()
         }.build()
 
         val srsPpaDataBase64 = srsPpaData.toByteString().toOkioByteString().base64()
@@ -113,4 +114,14 @@ class AnalyticsSrsKeySubmissionRepository @Inject constructor(
     suspend fun reset() {
         storage.reset()
     }
+}
+
+private fun SrsSubmissionType.toPpaSubmissionType(): PPAKeySubmissionType = when (this) {
+    SrsSubmissionType.SRS_SELF_TEST -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_SELF_TEST
+    SrsSubmissionType.SRS_REGISTERED_RAT -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_RAT
+    SrsSubmissionType.SRS_UNREGISTERED_RAT -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_RAT
+    SrsSubmissionType.SRS_REGISTERED_PCR -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_PCR
+    SrsSubmissionType.SRS_UNREGISTERED_PCR -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_PCR
+    SrsSubmissionType.SRS_RAPID_PCR -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_RAPID_PCR
+    SrsSubmissionType.SRS_OTHER -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_OTHER
 }
