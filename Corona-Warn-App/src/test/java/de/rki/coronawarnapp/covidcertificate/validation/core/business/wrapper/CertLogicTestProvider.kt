@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldNotBe
 import okio.ByteString.Companion.decodeBase64
@@ -24,7 +24,7 @@ class CertLogicTestProvider : ArgumentsProvider {
         jsonFile shouldNotBe null
         val jsonString = FileReader(jsonFile).readText()
         jsonString.length shouldBeGreaterThan 0
-        val json = SerializationModule.baseGson.fromJson<CertLogicTestCases>(jsonString)
+        val json = SerializationModule.jacksonBaseMapper.readValue<CertLogicTestCases>(jsonString)
         json shouldNotBe null
 
         val valueSets = ValueSetsOuterClass.ValueSets.parseFrom(

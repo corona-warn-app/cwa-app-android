@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccreissuance.core.server
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
@@ -12,8 +13,7 @@ import de.rki.coronawarnapp.exception.CwaWebSecurityException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApiLazy: Lazy<DccReissuanceApi>,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseGson private val gson: Gson
+    @BaseJackson private val mapper: ObjectMapper
 ) {
 
     private val dccReissuanceApi
@@ -47,10 +47,12 @@ class DccReissuanceServer @Inject constructor(
                 is UnknownHostException,
                 is SocketTimeoutException,
                 is NetworkReadTimeoutException -> ErrorCode.DCC_RI_NO_NETWORK
+
                 is CwaWebSecurityException ->
                     if (e.cause is javax.net.ssl.SSLPeerUnverifiedException)
                         ErrorCode.DCC_RI_PIN_MISMATCH
                     else ErrorCode.DCC_RI_SERVER_ERR
+
                 else -> ErrorCode.DCC_RI_SERVER_ERR
             }.let { DccReissuanceException(errorCode = it, cause = e) }
         }
@@ -79,7 +81,7 @@ class DccReissuanceServer @Inject constructor(
     }
 
     private fun Response<ResponseBody>.tryGetServerError(): DccReissuanceErrorResponse? = try {
-        errorBody()?.charStream()?.use { gson.fromJson(it) }
+        errorBody()?.charStream()?.use { mapper.readValue(it) }
     } catch (e: Exception) {
         null
     }
@@ -90,7 +92,8 @@ class DccReissuanceServer @Inject constructor(
 
         return try {
             val body = checkNotNull(body()) { "Response body was null" }
-            val dccReissuances: List<DccReissuanceResponse.DccReissuance> = body.charStream().use { gson.fromJson(it) }
+            val dccReissuances: List<DccReissuanceResponse.DccReissuance> =
+                body.charStream().use { mapper.readValue(it) }
             DccReissuanceResponse(dccReissuances = dccReissuances)
         } catch (e: Exception) {
             throw DccReissuanceException(errorCode = ErrorCode.DCC_RI_PARSE_ERR, cause = e)

@@ -7,15 +7,15 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.profile.legacy.RATProfile
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -28,7 +28,7 @@ import javax.inject.Inject
 @Reusable
 class ProfileSettingsDataStore @Inject constructor(
     @ProfileDataStore private val dataStoreLazy: Lazy<DataStore<Preferences>>,
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     @AppScope private val appScope: CoroutineScope
 ) : Resettable {
 
@@ -48,7 +48,7 @@ class ProfileSettingsDataStore @Inject constructor(
     }
 
     val profileFlow: Flow<RATProfile?> = dataStoreFlow.map { preferences ->
-        preferences[PROFILE_KEY]?.let { gson.fromJson(it) }
+        preferences[PROFILE_KEY]?.let { mapper.readValue(it) }
     }
 
     fun setOnboarded() = appScope.launch {
@@ -62,7 +62,7 @@ class ProfileSettingsDataStore @Inject constructor(
     fun updateProfile(profile: RATProfile) = appScope.launch {
         Timber.d("Updating RATProfile - new value: %s", profile)
         dataStore.edit { preferences ->
-            preferences[PROFILE_KEY] = gson.toJson(profile)
+            preferences[PROFILE_KEY] = mapper.writeValueAsString(profile)
         }
     }
 

@@ -25,14 +25,14 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
     @MockK lateinit var analyticsScanInstance: AnalyticsScanInstance
 
     private val dataStore = FakeDataStore()
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
-        pcrStorage = AnalyticsPCRTestResultSettings(gson, dataStore)
-        raStorage = AnalyticsRATestResultSettings(gson, dataStore)
+        pcrStorage = AnalyticsPCRTestResultSettings(mapper, dataStore)
+        raStorage = AnalyticsRATestResultSettings(mapper, dataStore)
 
         with(analyticsScanInstance) {
             every { minAttenuation } returns 1

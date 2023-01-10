@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.submission.data
 
-import com.google.gson.Gson
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.SubmissionSettings.Companion.SUBMISSION_SYMPTOMS_LATEST
 import de.rki.coronawarnapp.submission.Symptoms
@@ -17,21 +16,16 @@ import testhelpers.preferences.FakeDataStore
 
 class SubmissionSettingsTest {
     private lateinit var dataStore: FakeDataStore
-    private lateinit var baseGson: Gson
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         dataStore = FakeDataStore()
-
-        baseGson = SerializationModule().baseGson().newBuilder().apply {
-            setPrettyPrinting()
-        }.create()
     }
 
     fun createInstance() = SubmissionSettings(
         dataStore = dataStore,
-        baseGson = baseGson
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test
@@ -46,12 +40,7 @@ class SubmissionSettingsTest {
                 updateSymptoms(value)
                 symptoms.first() shouldBe value
                 dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
-                    {
-                      "startOfSymptoms": {
-                        "type": "NoInformation"
-                      },
-                      "symptomIndication": "POSITIVE"
-                    }
+                    {"startOfSymptoms":{"type":"NoInformation"},"symptomIndication":"POSITIVE"}
                 """.trimIndent()
             }
 
@@ -59,12 +48,7 @@ class SubmissionSettingsTest {
                 updateSymptoms(value)
                 symptoms.first() shouldBe value
                 dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
-                    {
-                      "startOfSymptoms": {
-                        "type": "OneToTwoWeeksAgo"
-                      },
-                      "symptomIndication": "NEGATIVE"
-                    }
+                    {"startOfSymptoms":{"type":"OneToTwoWeeksAgo"},"symptomIndication":"NEGATIVE"}
                 """.trimIndent()
             }
 
@@ -75,12 +59,7 @@ class SubmissionSettingsTest {
                 updateSymptoms(value)
                 symptoms.first() shouldBe value
                 dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
-                    {
-                      "startOfSymptoms": {
-                        "type": "MoreThanTwoWeeks"
-                      },
-                      "symptomIndication": "NO_INFORMATION"
-                    }
+                    {"startOfSymptoms":{"type":"MoreThanTwoWeeks"},"symptomIndication":"NO_INFORMATION"}
                 """.trimIndent()
             }
 
@@ -91,12 +70,7 @@ class SubmissionSettingsTest {
                 updateSymptoms(value)
                 symptoms.first() shouldBe value
                 dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
-                    {
-                      "startOfSymptoms": {
-                        "type": "LastSevenDays"
-                      },
-                      "symptomIndication": "NO_INFORMATION"
-                    }
+                    {"startOfSymptoms":{"type":"LastSevenDays"},"symptomIndication":"NO_INFORMATION"}
                 """.trimIndent()
             }
 
@@ -107,13 +81,7 @@ class SubmissionSettingsTest {
                 updateSymptoms(value)
                 symptoms.first() shouldBe value
                 dataStore[SUBMISSION_SYMPTOMS_LATEST] shouldBe """
-                    {
-                      "startOfSymptoms": {
-                        "type": "Date",
-                        "date": "2020-12-24"
-                      },
-                      "symptomIndication": "NO_INFORMATION"
-                    }
+                    {"startOfSymptoms":{"date":"2020-12-24","type":"Date"},"symptomIndication":"NO_INFORMATION"}
                 """.trimIndent()
             }
         }

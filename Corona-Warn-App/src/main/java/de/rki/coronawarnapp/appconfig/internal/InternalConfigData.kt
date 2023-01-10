@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.appconfig.internal
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.Duration
 import java.time.Instant
 
 data class InternalConfigData(
-    @SerializedName("rawData") val rawData: ByteArray,
-    @SerializedName("etag") val etag: String,
-    @SerializedName("serverTime") val serverTime: Instant,
-    @SerializedName("localOffset") val localOffset: Duration,
-    @SerializedName("cacheValidity") val cacheValidity: Duration
+    @JsonProperty("rawData") val rawData: ByteArray,
+    @JsonProperty("etag") val etag: String,
+    @JsonProperty("serverTime") val serverTime: Instant,
+    @JsonProperty("localOffset") val localOffset: Duration,
+    @JsonProperty("cacheValidity") val cacheValidity: Duration
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

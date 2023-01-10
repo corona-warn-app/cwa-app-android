@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 @Module
 class DscServerModule {
@@ -20,7 +20,7 @@ class DscServerModule {
         @DownloadCDNHttpClient httpClient: OkHttpClient,
         @DownloadCDNServerUrl url: String,
         @CertificateValidation cache: Cache,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): DscApiV1 = Retrofit.Builder()
         .client(
             httpClient.newBuilder()
@@ -28,7 +28,7 @@ class DscServerModule {
                 .build()
         )
         .baseUrl(url)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .build()
         .create(DscApiV1::class.java)
 }

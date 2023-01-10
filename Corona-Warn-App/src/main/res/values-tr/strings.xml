@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"Nasıl çalışır?"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"PCR Testiniz Eklendi"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"Test sonucu 48 saat süreyle burada görüntülenir. Uygulama ayrıca temas güncenizde bir giriş oluşturur."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
@@ -1549,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için "<div>"blogumuzu"</div>" okuyun."</string>
+    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogumuzu"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

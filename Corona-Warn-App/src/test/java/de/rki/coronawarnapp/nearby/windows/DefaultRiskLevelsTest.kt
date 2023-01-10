@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.nearby.windows
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
-import com.google.gson.Gson
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.internal.ConfigDataContainer
@@ -27,7 +28,6 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TransmissionRiskValueMapping
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass.TrlFilter
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -94,7 +94,7 @@ class DefaultRiskLevelsTest : BaseTest() {
             FileReader(jsonFile).readText()
         }
         jsonString.length shouldBeGreaterThan 0
-        val json = Gson().fromJson<ExposureWindowsJsonInput>(jsonString)
+        val json = ObjectMapper().readValue<ExposureWindowsJsonInput>(jsonString)
         json shouldNotBe null
 
         // 2 - Check test cases

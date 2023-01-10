@@ -28,7 +28,7 @@ class DccReissuanceServerTest : BaseTest() {
 
     @MockK lateinit var dccReissuanceApi: DccReissuanceApi
 
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val testAction = "renew"
     private val testCerts = listOf("HC1:1235....", "HC1:ABCD...", "HC1:6789...")
@@ -67,7 +67,7 @@ class DccReissuanceServerTest : BaseTest() {
         get() = DccReissuanceServer(
             dccReissuanceApiLazy = { dccReissuanceApi },
             dispatcherProvider = TestDispatcherProvider(),
-            gson = gson
+            mapper = mapper
         )
 
     @BeforeEach
@@ -158,7 +158,7 @@ class DccReissuanceServerTest : BaseTest() {
             error = "RI400-1200",
             message = "certificates not acceptable for action"
         )
-        val errorResponseJson = gson.toJson(dccReissuanceErrorResponse)
+        val errorResponseJson = mapper.writeValueAsString(dccReissuanceErrorResponse)
         val errorResponse = Response.error<ResponseBody>(400, errorResponseJson.toResponseBody())
         coEvery { dccReissuanceApi.requestReissuance(any()) } returns errorResponse
 

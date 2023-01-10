@@ -24,7 +24,7 @@ class UploadHistoryStorageModuleTest : BaseTest() {
 
     private lateinit var migration: SharedPreferencesMigration<UploadHistory>
     private lateinit var sharedPrefs: SharedPreferences
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val defaultUploadHistory = UploadHistory()
     private val testUploadHistory = UploadHistory(
@@ -41,7 +41,7 @@ class UploadHistoryStorageModuleTest : BaseTest() {
         sharedPrefs = MockSharedPreferences()
         every { context.getSharedPreferences(any(), any()) } returns sharedPrefs
 
-        migration = UploadHistoryStorageModule.provideMigration(context, gson)
+        migration = UploadHistoryStorageModule.provideMigration(context, mapper)
     }
 
     @Test

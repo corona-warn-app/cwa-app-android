@@ -1,20 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DccRevocationCalculationTestCase(
-    @SerializedName("description")
+    @JsonProperty("description")
     val description: String,
 
-    @SerializedName("barcodeData")
+    @JsonProperty("barcodeData")
     val barcodeData: String,
 
-    @SerializedName("expUCI")
+    @JsonProperty("expUCI")
     val expUCI: String,
 
-    @SerializedName("expCOUNTRYCODEUCI")
+    @JsonProperty("expCOUNTRYCODEUCI")
     val expCOUNTRYCODEUCI: String,
 
-    @SerializedName("expSIGNATURE")
+    @JsonProperty("expSIGNATURE")
     val expSIGNATURE: String,
 )

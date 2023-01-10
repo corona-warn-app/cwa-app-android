@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.work.ListenableWorker
-import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -41,7 +40,6 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.di.AppInstallTime
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
@@ -159,10 +157,6 @@ class MockProvider {
     @Provides
     @AppInstallTime
     fun installTime(@AppContext context: Context): Instant = Instant.EPOCH
-
-    @Provides
-    @BaseGson
-    fun baseGson(): Gson = mockk()
 
     @Provides
     fun autoCheckOut(): AutoCheckOut = mockk()

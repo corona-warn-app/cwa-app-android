@@ -27,7 +27,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import timber.log.Timber
 import java.io.File
 import javax.inject.Qualifier
@@ -66,10 +66,10 @@ object DccTicketingCoreModule {
     @Provides
     fun provideDccTicketingValidationApiV1(
         @DccTicketingHttpClient client: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): DccTicketingApiV1 = Retrofit.Builder()
         .client(client)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .baseUrl(BASE_URL)
         .build()
         .create(DccTicketingApiV1::class.java)

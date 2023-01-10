@@ -59,21 +59,17 @@ class DccRevocationRepositoryTest : BaseTest() {
     @Test
     fun `saves revocation list as json`() = runTest2 {
         val revocationListJson = """
-            [
-              {
-                "coordinates": {
-                  "kid": "XHfX/Y9R7QwqkT5GMm/20uoulcjs8WZ8cutyzMP8K0Y\u003d",
-                  "type": "SIGNATURE",
-                  "x": "LXEWQrcmsEQBYnyp+6wy9chTD7GQPMTbAiWHF5IaSIE\u003d",
-                  "y": "ofzkNjhU/4iM/0uOeHXWAMJoI5BBKoz3mzfQsRFIsPo\u003d"
-                },
-                "revocationChunk": {
-                  "hashes": [
-                    "OkJ4+D7Oo4FfBo/34BTdZxvH15BmHxOTFbKVKIg1anI\u003d"
-                  ]
-                }
+            [ {
+              "coordinates" : {
+                "kid" : "XHfX/Y9R7QwqkT5GMm/20uoulcjs8WZ8cutyzMP8K0Y=",
+                "type" : "SIGNATURE",
+                "x" : "LXEWQrcmsEQBYnyp+6wy9chTD7GQPMTbAiWHF5IaSIE=",
+                "y" : "ofzkNjhU/4iM/0uOeHXWAMJoI5BBKoz3mzfQsRFIsPo="
+              },
+              "revocationChunk" : {
+                "hashes" : [ "OkJ4+D7Oo4FfBo/34BTdZxvH15BmHxOTFbKVKIg1anI=" ]
               }
-            ]
+            } ]
         """.trimIndent()
 
         with(createInstance(scope = this)) {
@@ -90,7 +86,7 @@ class DccRevocationRepositoryTest : BaseTest() {
 
             dataStore.data
                 .map { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] }
-                .first()!!.toComparableJsonPretty() shouldBe "[]"
+                .first()!!.toComparableJsonPretty() shouldBe "[ ]"
         }
     }
 

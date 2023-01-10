@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.familytest.core.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import java.time.Instant
 
 data class FamilyCoronaTest(
-    @SerializedName("personName")
+    @JsonProperty("personName")
     val personName: String,
-    @SerializedName("coronaTest")
+    @JsonProperty("coronaTest")
     val coronaTest: CoronaTest
 ) : BaseCoronaTest by coronaTest
 
