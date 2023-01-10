@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
-import com.google.gson.Gson
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.srs.core.storage.SrsSubmissionSettings
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -28,7 +28,7 @@ import timber.log.Timber
 import java.time.Instant
 
 class SubmissionTestFragmentViewModel @AssistedInject constructor(
-    @BaseGson baseGson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     timeStamper: TimeStamper,
     androidIdProvider: AndroidIdProvider,
     dispatcherProvider: DispatcherProvider,
@@ -50,8 +50,6 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
     val checkLocalPrerequisites = srsDevSettings.checkLocalPrerequisites.asLiveData2()
     val forceAndroidIdAcceptance = srsDevSettings.forceAndroidIdAcceptance.asLiveData2()
     val firstReliableTime = cwaSettings.firstReliableDeviceTime.asLiveData2()
-
-    private val exportJson = baseGson.newBuilder().apply { setPrettyPrinting() }.create()
 
     private val tekHistoryUpdater = tekHistoryUpdaterFactory.create(
         object : TEKHistoryUpdater.Callback {
@@ -141,7 +139,7 @@ class SubmissionTestFragmentViewModel @AssistedInject constructor(
         tekHistory.value?.toExportedKeys()?.let {
             launch {
                 val tekExport = TEKExport(
-                    exportText = exportJson.toJson(it)
+                    exportText = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(it)
                 )
                 shareTEKsEvent.postValue(tekExport)
             }

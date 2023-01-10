@@ -1,37 +1,37 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DccTicketingValidationCondition(
-    @SerializedName("hash")
+    @JsonProperty("hash")
     val hash: String?, // (optional)	Hash of the DCC
-    @SerializedName("lang")
+    @JsonProperty("lang")
     val lang: String?, // (optional)	Selected language
-    @SerializedName("fnt")
+    @JsonProperty("fnt")
     val fnt: String?, // (optional)	Transliterated family name
-    @SerializedName("gnt")
+    @JsonProperty("gnt")
     val gnt: String?, // (optional)	Transliterated given name
-    @SerializedName("dob")
+    @JsonProperty("dob")
     val dob: String?, // (optional)	Date of birth
-    @SerializedName("type")
+    @JsonProperty("type")
     val type: List<String>?, // (optional)	The acceptable type of DCC
-    @SerializedName("coa")
+    @JsonProperty("coa")
     val coa: String?, // (optional)	Country of arrival
-    @SerializedName("roa")
+    @JsonProperty("roa")
     val roa: String?, // (optional)	Region of arrival
-    @SerializedName("cod")
+    @JsonProperty("cod")
     val cod: String?, // (optional)	Country of departure
-    @SerializedName("rod")
+    @JsonProperty("rod")
     val rod: String?, // (optional)	Region of departure
-    @SerializedName("category")
+    @JsonProperty("category")
     val category: List<String>?, // (optional)	Category for validation
-    @SerializedName("validationClock")
+    @JsonProperty("validationClock")
     val validationClock: String?, // (optional)	ISO8601 date where the DCC must be validatable
-    @SerializedName("validFrom")
+    @JsonProperty("validFrom")
     val validFrom: String?, // (optional)	ISO8601 date where the DCC must be valid from
-    @SerializedName("validTo")
+    @JsonProperty("validTo")
     val validTo: String?, // (optional)	ISO8601 date where the DCC must be valid to
 ) : Parcelable

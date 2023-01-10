@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
-import com.google.gson.Gson
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -14,7 +13,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.ValueSetsContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.UTC_ZONE_ID
 import dgca.verifier.app.engine.data.RuleCertificateType
@@ -46,7 +44,6 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var engine: Lazy<DefaultCertLogicEngine>
-    @Inject @BaseGson lateinit var gson: Gson
 
     private val valueSet = VaccinationValueSets(
         languageCode = Locale.ENGLISH,

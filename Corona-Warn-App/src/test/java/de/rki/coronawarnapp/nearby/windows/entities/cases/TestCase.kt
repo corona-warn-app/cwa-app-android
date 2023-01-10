@@ -1,24 +1,24 @@
 package de.rki.coronawarnapp.nearby.windows.entities.cases
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class TestCase(
-    @SerializedName("description")
+    @JsonProperty("description")
     val description: String,
-    @SerializedName("expAgeOfMostRecentDateWithHighRisk")
+    @JsonProperty("expAgeOfMostRecentDateWithHighRisk")
     val expAgeOfMostRecentDateWithHighRiskInDays: Long?,
-    @SerializedName("expAgeOfMostRecentDateWithLowRisk")
+    @JsonProperty("expAgeOfMostRecentDateWithLowRisk")
     val expAgeOfMostRecentDateWithLowRiskInDays: Long?,
-    @SerializedName("expTotalMinimumDistinctEncountersWithHighRisk")
+    @JsonProperty("expTotalMinimumDistinctEncountersWithHighRisk")
     val expTotalMinimumDistinctEncountersWithHighRisk: Int,
-    @SerializedName("expTotalMinimumDistinctEncountersWithLowRisk")
+    @JsonProperty("expTotalMinimumDistinctEncountersWithLowRisk")
     val expTotalMinimumDistinctEncountersWithLowRisk: Int,
-    @SerializedName("expTotalRiskLevel")
+    @JsonProperty("expTotalRiskLevel")
     val expTotalRiskLevel: Int,
-    @SerializedName("expNumberOfDaysWithLowRisk")
+    @JsonProperty("expNumberOfDaysWithLowRisk")
     val expNumberOfDaysWithLowRisk: Int,
-    @SerializedName("expNumberOfDaysWithHighRisk")
+    @JsonProperty("expNumberOfDaysWithHighRisk")
     val expNumberOfDaysWithHighRisk: Int,
-    @SerializedName("exposureWindows")
+    @JsonProperty("exposureWindows")
     val exposureWindows: List<JsonWindow>
 )

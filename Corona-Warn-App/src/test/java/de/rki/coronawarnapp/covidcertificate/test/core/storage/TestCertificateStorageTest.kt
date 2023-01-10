@@ -35,7 +35,7 @@ class TestCertificateStorageTest : BaseTest() {
 
     private fun createInstance() = TestCertificateStorage(
         dataStore = dataStore,
-        baseGson = SerializationModule().baseGson()
+        objectMapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

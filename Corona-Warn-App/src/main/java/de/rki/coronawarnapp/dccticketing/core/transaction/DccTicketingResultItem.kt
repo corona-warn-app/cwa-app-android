@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DccTicketingResultItem(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     val identifier: String, // Identifier of the check
-    @SerializedName("result")
+    @JsonProperty("result")
     val result: DccTicketingResultToken.DccResult, // The result of the validation (OK = pass, CHK = open, NOK = fail)
-    @SerializedName("type")
+    @JsonProperty("type")
     val type: String, // the type of check
-    @SerializedName("details")
+    @JsonProperty("details")
     val details: String, // Description of the check
 ) : Parcelable

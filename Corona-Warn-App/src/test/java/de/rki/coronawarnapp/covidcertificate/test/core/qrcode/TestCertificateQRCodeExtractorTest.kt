@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import android.content.res.AssetManager
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
@@ -47,7 +47,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
 
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
-    private val bodyParser = DccV1Parser(Gson(), schemaValidator)
+    private val bodyParser = DccV1Parser(ObjectMapper(), schemaValidator)
     @MockK lateinit var censor: DccQrCodeCensor
     lateinit var extractor: DccQrCodeExtractor
 

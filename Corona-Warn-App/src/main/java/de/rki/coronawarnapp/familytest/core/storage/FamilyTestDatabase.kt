@@ -15,12 +15,12 @@ import androidx.room.RoomDatabase
 import androidx.room.Transaction
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,11 +48,11 @@ abstract class FamilyTestDatabase : RoomDatabase() {
 
 class FamilyCoronaTestConverter {
 
-    private val gson: Gson = SerializationModule.baseGson
+    private val mapper: ObjectMapper = SerializationModule.jacksonBaseMapper
 
     @TypeConverter
     fun toFamilyCoronaTest(value: String): FamilyCoronaTest? = try {
-        gson.fromJson(value)
+        mapper.readValue(value)
     } catch (e: Exception) {
         Timber.e(e, "Can't create FamilyCoronaTest from value=%s", value)
         null
@@ -60,7 +60,7 @@ class FamilyCoronaTestConverter {
 
     @TypeConverter
     fun fromFamilyCoronaTest(test: FamilyCoronaTest): String {
-        return gson.toJson(test)
+        return mapper.writeValueAsString(test)
     }
 }
 

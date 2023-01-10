@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
@@ -8,66 +8,57 @@ import okio.ByteString
 import java.time.Instant
 
 data class PCRCertificateData internal constructor(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     override val identifier: String,
 
-    @SerializedName("registrationToken")
+    @JsonProperty("registrationToken")
     override val registrationToken: RegistrationToken,
 
-    @SerializedName("registeredAt")
+    @JsonProperty("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("notifiedInvalidAt")
+    @JsonProperty("notifiedInvalidAt")
     override val notifiedInvalidAt: Instant? = null,
 
-    @SerializedName("notifiedBlockedAt")
+    @JsonProperty("notifiedBlockedAt")
     override val notifiedBlockedAt: Instant? = null,
 
-    @SerializedName("notifiedRevokedAt")
+    @JsonProperty("notifiedRevokedAt")
     override val notifiedRevokedAt: Instant? = null,
 
-    @SerializedName("lastSeenStateChange")
+    @JsonProperty("lastSeenStateChange")
     override val lastSeenStateChange: State? = null,
 
-    @SerializedName("lastSeenStateChangeAt")
+    @JsonProperty("lastSeenStateChangeAt")
     override val lastSeenStateChangeAt: Instant? = null,
 
-    @SerializedName("publicKeyRegisteredAt")
+    @JsonProperty("publicKeyRegisteredAt")
     override val publicKeyRegisteredAt: Instant? = null,
 
-    @SerializedName("rsaPublicKey")
+    @JsonProperty("rsaPublicKey")
     override val rsaPublicKey: RSAKey.Public? = null,
 
-    @SerializedName("rsaPrivateKey")
+    @JsonProperty("rsaPrivateKey")
     override val rsaPrivateKey: RSAKey.Private? = null,
 
-    @SerializedName("certificateReceivedAt")
+    @JsonProperty("certificateReceivedAt")
     override val certificateReceivedAt: Instant? = null,
 
-    @SerializedName("encryptedDataEncryptionkey")
+    @JsonProperty("encryptedDataEncryptionkey")
     override val encryptedDataEncryptionkey: ByteString? = null,
 
-    @SerializedName("encryptedDccCose")
+    @JsonProperty("encryptedDccCose")
     override val encryptedDccCose: ByteString? = null,
 
-    @SerializedName("testCertificateQrCode")
+    @JsonProperty("testCertificateQrCode")
     override val testCertificateQrCode: String? = null,
 
-    @SerializedName("labId")
+    @JsonProperty("labId")
     override val labId: String? = null,
 
-    @SerializedName("certificateSeenByUser")
+    @JsonProperty("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = false,
 
-    @SerializedName("recycledAt")
+    @JsonProperty("recycledAt")
     override val recycledAt: Instant? = null,
-) : RetrievedTestCertificate() {
-
-    // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null
-    @Suppress("unused")
-    constructor() : this(
-        identifier = "",
-        registrationToken = "",
-        registeredAt = Instant.EPOCH
-    )
-}
+) : RetrievedTestCertificate()

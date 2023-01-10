@@ -47,7 +47,7 @@ class SurveyApiV1Test : BaseTest() {
             it.provideSurveyApi(
                 client = downloadHttpClient,
                 url = serverAddress,
-                gsonConverterFactory = httpModule.provideGSONConverter(),
+                jacksonConverterFactory = httpModule.provideJacksonConverter(),
                 protoConverterFactory = httpModule.provideProtoConverter()
             )
         }

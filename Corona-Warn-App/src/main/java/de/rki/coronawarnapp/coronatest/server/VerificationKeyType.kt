@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.coronatest.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class VerificationKeyType {
-    @SerializedName("GUID")
+    @JsonProperty("GUID")
     GUID,
 
-    @SerializedName("TELETAN")
+    @JsonProperty("TELETAN")
     TELETAN;
 }

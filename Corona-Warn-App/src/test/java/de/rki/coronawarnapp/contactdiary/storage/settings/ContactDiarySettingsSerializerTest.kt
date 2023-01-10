@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.shouldMatchJson
+import testhelpers.extensions.shouldMatchJson1
 import java.io.ByteArrayOutputStream
 
 class ContactDiarySettingsSerializerTest : BaseTest() {
@@ -36,7 +36,7 @@ class ContactDiarySettingsSerializerTest : BaseTest() {
     fun `write value`() = runTest {
         ByteArrayOutputStream()
             .apply { use { serializer.writeTo(testContactDiarySettings, it) } }
-            .toString() shouldMatchJson testContactDiarySettingsJson
+            .toString() shouldMatchJson1 testContactDiarySettingsJson
     }
 
     @Test

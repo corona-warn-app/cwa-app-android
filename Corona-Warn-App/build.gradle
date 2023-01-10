@@ -458,7 +458,7 @@ dependencies {
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.9.0'
     implementation('com.squareup.retrofit2:converter-protobuf:2.9.0') {
         exclude group: 'com.google.protobuf', module: 'protobuf-java'
     }
@@ -476,7 +476,6 @@ dependencies {
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
-    implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.guava:guava:31.1-android'
 
     // Jackson //Don't update to version 2.14 because it only supports android SDK 26+

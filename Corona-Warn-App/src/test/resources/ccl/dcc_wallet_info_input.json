@@ -125,5 +125,6 @@
       }
     }
   ],
-  "scenarioIdentifier": ""
+  "scenarioIdentifier": "",
+  "invalidationRules" : null
 }
