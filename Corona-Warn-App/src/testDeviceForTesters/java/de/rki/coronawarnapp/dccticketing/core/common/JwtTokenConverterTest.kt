@@ -13,8 +13,8 @@ import testhelpers.BaseTest
 class JwtTokenConverterTest : BaseTest() {
 
     private val serializationModule = SerializationModule()
-    private val baseGson = serializationModule.baseGson()
-    private val converter = JwtTokenConverter(baseGson)
+    private val mapper = serializationModule.jacksonObjectMapper()
+    private val converter = JwtTokenConverter(mapper)
 
     private val validJson = """
             {

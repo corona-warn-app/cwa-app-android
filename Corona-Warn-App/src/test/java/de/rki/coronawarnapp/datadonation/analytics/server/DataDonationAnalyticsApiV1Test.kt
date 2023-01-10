@@ -42,7 +42,7 @@ class DataDonationAnalyticsApiV1Test : BaseTest() {
         return AnalyticsModule.provideAnalyticsSubmissionApi(
             client = defaultHttpClient,
             url = serverAddress,
-            gsonConverterFactory = httpModule.provideGSONConverter(),
+            jacksonConverterFactory = httpModule.provideJacksonConverter(),
             protoConverterFactory = httpModule.provideProtoConverter()
         )
     }

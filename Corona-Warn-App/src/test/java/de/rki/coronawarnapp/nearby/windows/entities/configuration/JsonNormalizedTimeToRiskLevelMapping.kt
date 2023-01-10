@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonNormalizedTimeToRiskLevelMapping(
-    @SerializedName("normalizedTimeRange")
+    @JsonProperty("normalizedTimeRange")
     val normalizedTimeRange: Range,
-    @SerializedName("riskLevel")
+    @JsonProperty("riskLevel")
     val riskLevel: Int
 )

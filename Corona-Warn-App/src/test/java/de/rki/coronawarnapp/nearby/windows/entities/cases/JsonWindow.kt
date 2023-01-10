@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.nearby.windows.entities.cases
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonWindow(
-    @SerializedName("ageInDays")
+    @JsonProperty("ageInDays")
     val ageInDays: Int,
-    @SerializedName("calibrationConfidence")
+    @JsonProperty("calibrationConfidence")
     val calibrationConfidence: Int,
-    @SerializedName("infectiousness")
+    @JsonProperty("infectiousness")
     val infectiousness: Int,
-    @SerializedName("reportType")
+    @JsonProperty("reportType")
     val reportType: Int,
-    @SerializedName("scanInstances")
+    @JsonProperty("scanInstances")
     val scanInstances: List<JsonScanInstance>
 )

@@ -27,7 +27,7 @@ class VaccinationStorageTest : BaseTest() {
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
     private lateinit var dataStore: FakeDataStore
 
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
     fun setup() {
@@ -39,7 +39,8 @@ class VaccinationStorageTest : BaseTest() {
     }
 
     private fun createInstance() = VaccinationStorage(
-        dataStore = dataStore
+        dataStore = dataStore,
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test
@@ -50,7 +51,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `legacy data is correctly loaded`() = runTest2 {
         val storage = createInstance()
-        val json = gson.toJson(personAData2Vac)
+        val json = mapper.writeValueAsString(personAData2Vac)
         dataStore[stringPreferencesKey("vaccination.person.person1")] = json
 
         val legacyData = storage.loadLegacyData()
@@ -61,7 +62,7 @@ class VaccinationStorageTest : BaseTest() {
     @Test
     fun `legacy data is empty when key doesn't match`() = runTest2 {
         val storage = createInstance()
-        val json = gson.toJson(personAData2Vac)
+        val json = mapper.writeValueAsString(personAData2Vac)
         dataStore[stringPreferencesKey("vaccination.animal")] = json
 
         storage.loadLegacyData() shouldBe emptySet<VaccinatedPersonData>()

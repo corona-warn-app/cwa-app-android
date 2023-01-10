@@ -64,7 +64,7 @@ internal class ProfileSettingsTest : BaseTest() {
 
     private fun TestScope.profileSettingsDataStore() = ProfileSettingsDataStore(
         dataStoreLazy = { fakeDataStore },
-        gson = SerializationModule().baseGson(),
+        mapper = SerializationModule().jacksonObjectMapper(),
         appScope = this
     )
 }

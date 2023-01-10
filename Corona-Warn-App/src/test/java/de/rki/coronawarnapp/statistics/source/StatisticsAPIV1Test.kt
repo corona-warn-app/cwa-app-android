@@ -42,7 +42,7 @@ class StatisticsAPIV1Test : BaseIOTest() {
     private fun createAPI(): StatisticsApiV1 {
         val httpModule = HttpModule()
         val defaultHttpClient = httpModule.defaultHttpClient()
-        val gsonConverterFactory = httpModule.provideGSONConverter()
+        val jacksonConverterFactory = httpModule.provideJacksonConverter()
 
         val cdnHttpClient = DownloadCDNModule()
             .cdnHttpClient(defaultHttpClient)
@@ -55,7 +55,7 @@ class StatisticsAPIV1Test : BaseIOTest() {
         return StatisticsModule.api(
             client = cdnHttpClient,
             url = serverAddress,
-            gsonConverterFactory = gsonConverterFactory,
+            jacksonConverterFactory = jacksonConverterFactory,
             cache = cache
         )
     }

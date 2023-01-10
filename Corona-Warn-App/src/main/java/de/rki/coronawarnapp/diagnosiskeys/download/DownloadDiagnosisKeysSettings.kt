@@ -4,7 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsDataStore
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.util.datastore.clear
@@ -12,8 +14,6 @@ import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -23,30 +23,30 @@ import javax.inject.Singleton
 
 @Singleton
 class DownloadDiagnosisKeysSettings @Inject constructor(
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     @AnalyticsExposureWindowsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
 
     val lastDownloadDays = dataStore.dataRecovering.distinctUntilChanged(
         key = KEY_LAST_DOWNLOAD_DAYS, defaultValue = ""
     ).map { value ->
-        if (value.isNotEmpty()) gson.fromJson<LastDownload>(value) else null
+        if (value.isNotEmpty()) mapper.readValue<LastDownload>(value) else null
     }
 
     suspend fun updateLastDownloadDays(value: LastDownload?) = dataStore.trySetValue(
         preferencesKey = KEY_LAST_DOWNLOAD_DAYS,
-        value = value?.let { gson.toJson(it) } ?: ""
+        value = value?.let { mapper.writeValueAsString(it) } ?: ""
     )
 
     val lastDownloadHours = dataStore.dataRecovering.distinctUntilChanged(
         key = KEY_LAST_DOWNLOAD_HOURS, defaultValue = ""
     ).map { value ->
-        if (value.isNotEmpty()) gson.fromJson<LastDownload>(value) else null
+        if (value.isNotEmpty()) mapper.readValue<LastDownload>(value) else null
     }
 
     suspend fun updateLastDownloadHours(value: LastDownload?) = dataStore.trySetValue(
         preferencesKey = KEY_LAST_DOWNLOAD_HOURS,
-        value = value?.let { gson.toJson(it) } ?: ""
+        value = value?.let { mapper.writeValueAsString(it) } ?: ""
     )
 
     val lastVersionCode = dataStore.dataRecovering.distinctUntilChanged(

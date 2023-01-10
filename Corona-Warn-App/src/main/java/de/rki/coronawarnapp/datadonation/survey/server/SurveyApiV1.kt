@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.datadonation.survey.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.EdusOtpRequestAndroid
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface SurveyApiV1 {
 
     data class DataDonationResponse(
-        @SerializedName("errorCode") val errorCode: String?
+        @JsonProperty("errorCode") val errorCode: String?
     )
 
     @POST("version/v1/android/otp")

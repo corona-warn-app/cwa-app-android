@@ -4,12 +4,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.reflect.TypeToken
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
-import de.rki.coronawarnapp.util.serialization.SerializationModule.Companion.baseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
@@ -20,15 +19,10 @@ import javax.inject.Singleton
 
 @Singleton
 class VaccinationStorage @Inject constructor(
-    @VaccinationStorageDataStore private val dataStore: DataStore<Preferences>
+    @VaccinationStorageDataStore private val dataStore: DataStore<Preferences>,
+    @BaseJackson private val mapper: ObjectMapper,
 ) {
     private val mutex = Mutex()
-
-    private val gson by lazy {
-        baseGson.newBuilder().apply {
-            registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
-        }.create()
-    }
 
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
@@ -39,7 +33,7 @@ class VaccinationStorage @Inject constructor(
             if (value.isEmpty()) {
                 emptySet()
             } else {
-                gson.fromJson<Set<StoredVaccinationCertificateData>>(value, TYPE_TOKEN)
+                mapper.readValue<Set<StoredVaccinationCertificateData>>(value)
             }
         }.first()
     }
@@ -51,7 +45,7 @@ class VaccinationStorage @Inject constructor(
             if (certificates.isEmpty()) {
                 it.remove(PKEY_VACCINATION_CERT)
             } else {
-                it[PKEY_VACCINATION_CERT] = gson.toJson(certificates, TYPE_TOKEN)
+                it[PKEY_VACCINATION_CERT] = mapper.writeValueAsString(certificates)
             }
         }
     }
@@ -65,7 +59,7 @@ class VaccinationStorage @Inject constructor(
         dataStore.data.first().asMap().forEach { (key, value) ->
             if (key.name.startsWith("vaccination.person.")) {
                 persons.add(
-                    gson.fromJson<VaccinatedPersonData>(value as String).also {
+                    mapper.readValue<VaccinatedPersonData>(value as String).also {
                         Timber.tag(TAG).v("Person loaded: %s", key.name)
                     }
                 )
@@ -91,6 +85,5 @@ class VaccinationStorage @Inject constructor(
     companion object {
         private const val TAG = "VaccinationStorage"
         val PKEY_VACCINATION_CERT = stringPreferencesKey("vaccination.certificate")
-        val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
 }

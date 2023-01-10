@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Range(
-    @SerializedName("min")
+    @JsonProperty("min")
     val min: Double,
-    @SerializedName("minExclusive")
+    @JsonProperty("minExclusive")
     val minExclusive: Boolean,
-    @SerializedName("max")
+    @JsonProperty("max")
     val max: Double,
-    @SerializedName("maxExclusive")
+    @JsonProperty("maxExclusive")
     val maxExclusive: Boolean
 )

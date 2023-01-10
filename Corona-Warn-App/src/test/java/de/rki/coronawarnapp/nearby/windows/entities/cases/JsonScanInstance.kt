@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.nearby.windows.entities.cases
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonScanInstance(
-    @SerializedName("minAttenuation")
+    @JsonProperty("minAttenuation")
     val minAttenuation: Int,
-    @SerializedName("secondsSinceLastScan")
+    @JsonProperty("secondsSinceLastScan")
     val secondsSinceLastScan: Int,
-    @SerializedName("typicalAttenuation")
+    @JsonProperty("typicalAttenuation")
     val typicalAttenuation: Int
 )
