@@ -116,7 +116,7 @@ class AnalyticsSrsKeySubmissionRepository @Inject constructor(
     }
 }
 
-private fun SrsSubmissionType.toPpaSubmissionType(): PPAKeySubmissionType = when (this) {
+fun SrsSubmissionType.toPpaSubmissionType(): PPAKeySubmissionType = when (this) {
     SrsSubmissionType.SRS_SELF_TEST -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_SELF_TEST
     SrsSubmissionType.SRS_REGISTERED_RAT -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_REGISTERED_RAT
     SrsSubmissionType.SRS_UNREGISTERED_RAT -> PPAKeySubmissionType.SUBMISSION_TYPE_SRS_UNREGISTERED_RAT
