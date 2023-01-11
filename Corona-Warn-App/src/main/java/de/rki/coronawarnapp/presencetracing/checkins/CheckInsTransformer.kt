@@ -111,4 +111,6 @@ fun CheckIn.determineRiskTransmission(now: Instant, transmissionVector: Transmis
 data class CheckInsReport(
     val unencryptedCheckIns: List<CheckInOuterClass.CheckIn>,
     val encryptedCheckIns: List<CheckInOuterClass.CheckInProtectedReport>,
-)
+) {
+    fun isNotEmpty(): Boolean = unencryptedCheckIns.isNotEmpty() || encryptedCheckIns.isNotEmpty()
+}
