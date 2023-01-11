@@ -84,6 +84,10 @@
     <item name="trace_location_create_fragment_title_id" type="id" />
     <item name="trace_location_create_fragment_subtitle_id" type="id" />
     <item name="trace_location_organizer_trace_locations_list_fragment_title_id" type="id" />
+    <item name="submission_dispatcher_fragment_title" type="id" />
+    <item name="profile_onboarding_fragment_title" type="id" />
+    <item name="profile_list_fragment_title" type="id" />
+    <item name="profile_create_fragment_title" type="id" />
 
     <declare-styleable name="ProgressLoadingButton">
         <attr name="buttonText" format="string" />
