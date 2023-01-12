@@ -50,7 +50,7 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
         binding.apply {
             appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 val alpha = 1.0f - abs(verticalOffset / (appBarLayout.totalScrollRange.toFloat() * 0.5f))
-                title.alpha = alpha
+                profileQrCodeFragmentTitle.alpha = alpha
             }
 
             nextButton.setOnClickListener { viewModel.onNext() }
@@ -137,9 +137,9 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
         val params: CoordinatorLayout.LayoutParams = binding.nestedScrollView.layoutParams
             as (CoordinatorLayout.LayoutParams)
 
-        val textParams = binding.title.layoutParams as (LinearLayout.LayoutParams)
+        val textParams = binding.profileQrCodeFragmentTitle.layoutParams as (LinearLayout.LayoutParams)
         textParams.bottomMargin = (width / 2) - 24 /* 24 is space between screen border and QrCode */
-        binding.title.requestLayout() /* 24 is space between screen border and QrCode */
+        binding.profileQrCodeFragmentTitle.requestLayout() /* 24 is space between screen border and QrCode */
 
         val behavior: AppBarLayout.ScrollingViewBehavior = params.behavior as (AppBarLayout.ScrollingViewBehavior)
         behavior.overlayTop = (width / 2) - 24

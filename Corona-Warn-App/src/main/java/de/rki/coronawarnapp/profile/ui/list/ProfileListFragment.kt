@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -37,14 +38,17 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
                 onScrollChange(it)
             }
         }
-        binding.toolbar.setNavigationOnClickListener { popBackStack() }
-        binding.toolbar.setOnMenuItemClickListener {
-            findNavController().navigate(
-                ProfileListFragmentDirections.actionProfileListFragmentToProfileOnboardingFragment(
-                    showButton = false
+        binding.toolbar.apply {
+            addTitleId(R.id.profile_list_fragment_title)
+            setNavigationOnClickListener { popBackStack() }
+            setOnMenuItemClickListener {
+                findNavController().navigate(
+                    ProfileListFragmentDirections.actionProfileListFragmentToProfileOnboardingFragment(
+                        showButton = false
+                    )
                 )
-            )
-            true
+                true
+            }
         }
         binding.profileFab.setOnClickListener {
             viewModel.onCreateProfileClicked()
