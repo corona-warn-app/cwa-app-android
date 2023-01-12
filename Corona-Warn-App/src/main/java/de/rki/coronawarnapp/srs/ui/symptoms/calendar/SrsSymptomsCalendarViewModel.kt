@@ -118,7 +118,7 @@ class SrsSymptomsCalendarViewModel @AssistedInject constructor(
         symptomStartInternal.value = startOf
     }
 
-    private fun resetPreviousSubmissionConsents() = launch {
+    private suspend fun resetPreviousSubmissionConsents() {
         try {
             Timber.d("Trying to reset submission consents")
             checkInRepository.apply {
