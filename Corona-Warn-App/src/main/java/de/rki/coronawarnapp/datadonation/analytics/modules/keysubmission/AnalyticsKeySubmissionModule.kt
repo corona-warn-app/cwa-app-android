@@ -41,12 +41,26 @@ class AnalyticsKeySubmissionModule {
             )
         )
     )
+
+    @Singleton
+    @AnalyticsSrsKeySubmissionDataStore
+    @Provides
+    fun provideAnalyticsSrsKeySubmissionDataStore(
+        @AppContext context: Context
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create {
+        context.preferencesDataStoreFile("analytics_srs_key_submission_datastore")
+    }
 }
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class AnalyticsKeySubmissionDataStore
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AnalyticsSrsKeySubmissionDataStore
 
 private const val LEGACY_SHARED_PREFS_ANALYTICS_KEY_SUBMISSION_SETTINGS_NAME =
     "analytics_key_submission_localdata${PCR.sharedPrefKeySuffix}"

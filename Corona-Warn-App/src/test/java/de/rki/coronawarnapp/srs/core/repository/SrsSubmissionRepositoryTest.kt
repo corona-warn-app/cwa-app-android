@@ -5,6 +5,7 @@ import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs.AnalyticsSrsKeySubmissionRepository
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetClientWrapper
@@ -57,6 +58,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var androidIdProvider: AndroidIdProvider
     @MockK lateinit var submissionReporter: SubmissionReporter
     @MockK lateinit var srsDevSettings: SrsDevSettings
+    @MockK lateinit var analyticsSrsKeySubmissionRepository: AnalyticsSrsKeySubmissionRepository
 
     @MockK lateinit var attestationContainer: AttestationContainer
     @MockK lateinit var configData: ConfigData
@@ -102,27 +104,13 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         coEvery { playbook.fakeAuthorize(any()) } just Runs
         coEvery { srsDevSettings.checkLocalPrerequisites() } returns true
         coEvery { submissionReporter.reportAt(any()) } just Runs
+        coEvery { analyticsSrsKeySubmissionRepository.collectSrsSubmissionAnalytics(any(), any()) } just Runs
     }
 
     @Test
     fun `submit sequence - no prev otp`() = runTest {
         instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList()) shouldBe SrsSubmissionResponse.Success
-        coVerifySequence {
-            appConfigProvider.getAppConfig()
-            timeStamper.nowUTC
-            srsSubmissionSettings.getOtp()
-            androidIdProvider.getAndroidId()
-            playbook.authorize(any())
-            srsSubmissionSettings.setOtp(any())
-            tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
-            checkInsRepo.completedCheckIns
-            checkInsTransformer.transform(any(), any())
-            playbook.submit(any())
-            checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
-            timeStamper.nowUTC
-            submissionReporter.reportAt(any())
-            srsSubmissionSettings.resetOtp()
-        }
+        verifySequence()
 
         coVerify(exactly = 0) {
             playbook.fakeAuthorize(any())
@@ -136,22 +124,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             expiresAt = Instant.parse("2021-11-07T12:10:10Z")
         )
         instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList())
-        coVerifySequence {
-            appConfigProvider.getAppConfig()
-            timeStamper.nowUTC
-            srsSubmissionSettings.getOtp()
-            androidIdProvider.getAndroidId()
-            playbook.authorize(any())
-            srsSubmissionSettings.setOtp(any())
-            tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
-            checkInsRepo.completedCheckIns
-            checkInsTransformer.transform(any(), any())
-            playbook.submit(any())
-            checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
-            timeStamper.nowUTC
-            submissionReporter.reportAt(any())
-            srsSubmissionSettings.resetOtp()
-        }
+        verifySequence()
 
         coVerify(exactly = 0) {
             playbook.fakeAuthorize(any())
@@ -167,22 +140,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         )
         instance().submit(SrsSubmissionType.SRS_SELF_TEST, keys = emptyList()) shouldBe
             SrsSubmissionResponse.TruncatedKeys("2")
-        coVerifySequence {
-            appConfigProvider.getAppConfig()
-            timeStamper.nowUTC
-            srsSubmissionSettings.getOtp()
-            androidIdProvider.getAndroidId()
-            playbook.authorize(any())
-            srsSubmissionSettings.setOtp(any())
-            tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
-            checkInsRepo.completedCheckIns
-            checkInsTransformer.transform(any(), any())
-            playbook.submit(any())
-            checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
-            timeStamper.nowUTC
-            submissionReporter.reportAt(any())
-            srsSubmissionSettings.resetOtp()
-        }
+        verifySequence()
 
         coVerify(exactly = 0) {
             playbook.fakeAuthorize(any())
@@ -206,6 +164,7 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
             timeStamper.nowUTC
             submissionReporter.reportAt(any())
             srsSubmissionSettings.resetOtp()
+            analyticsSrsKeySubmissionRepository.collectSrsSubmissionAnalytics(any(), any())
         }
 
         coVerify(exactly = 0) {
@@ -338,6 +297,24 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         }.message shouldBe "Surprise!"
     }
 
+    private fun verifySequence() = coVerifySequence {
+        appConfigProvider.getAppConfig()
+        timeStamper.nowUTC
+        srsSubmissionSettings.getOtp()
+        androidIdProvider.getAndroidId()
+        playbook.authorize(any())
+        srsSubmissionSettings.setOtp(any())
+        tekCalculations.transformToKeyHistoryInExternalFormat(any(), any())
+        checkInsRepo.completedCheckIns
+        checkInsTransformer.transform(any(), any())
+        playbook.submit(any())
+        checkInsRepo.updatePostSubmissionFlags(any<List<CheckIn>>())
+        timeStamper.nowUTC
+        submissionReporter.reportAt(any())
+        srsSubmissionSettings.resetOtp()
+        analyticsSrsKeySubmissionRepository.collectSrsSubmissionAnalytics(any(), any())
+    }
+
     private fun instance() = SrsSubmissionRepository(
         playbook = playbook,
         appConfigProvider = appConfigProvider,
@@ -350,5 +327,6 @@ internal class SrsSubmissionRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         submissionReporter = submissionReporter,
         srsDevSettings = srsDevSettings,
+        analyticsSrsKeySubmissionRepository = analyticsSrsKeySubmissionRepository
     )
 }

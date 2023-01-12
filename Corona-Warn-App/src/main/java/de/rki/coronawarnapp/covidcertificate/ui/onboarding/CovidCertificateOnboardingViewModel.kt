@@ -3,10 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -16,7 +16,7 @@ import timber.log.Timber
 
 class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
-    @Assisted private val dccQrCode: DccQrCode?,
+    @Assisted private val certIdentifier: String?,
     private val dccQrCodeHandler: DccQrCodeHandler,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -25,6 +25,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
 
     fun onContinueClick() = launch {
         covidCertificateSettings.updateIsOnboarded(true)
+        val dccQrCode = certIdentifier?.let { QrcodeSharedViewModel().dccQrCode(it) }
         val event = if (dccQrCode != null) {
             try {
                 val containerId = dccQrCodeHandler.validateAndRegister(dccQrCode = dccQrCode)
@@ -50,7 +51,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateOnboardingViewModel> {
         fun create(
-            @Assisted dccQrCode: DccQrCode?,
+            @Assisted certIdentifier: String?
         ): CovidCertificateOnboardingViewModel
     }
 
