@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:paddingBottom="@dimen/spacing_normal">
+                android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
                     android:id="@+id/submission_done_hero_illustration"
@@ -58,39 +58,39 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/submission_test_result_consent_given_subtitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_done_hero_illustration" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_done_hero_illustration" />
 
                 <TextView
                     android:id="@+id/submission_done_subtitle"
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/submission_done_no_consent_body_title"
                     app:layout_constraintEnd_toEndOf="@id/submission_done_text"
                     app:layout_constraintStart_toStartOf="@id/submission_done_text"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_done_text" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_done_text" />
 
                 <TextView
                     android:id="@+id/submission_done_no_consent_body"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/submission_done_no_consent_body"
                     app:layout_constraintEnd_toEndOf="@id/submission_done_text"
                     app:layout_constraintStart_toStartOf="@id/submission_done_text"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_done_subtitle" />
+                    app:layout_constraintTop_toBottomOf="@id/submission_done_subtitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
@@ -99,10 +99,10 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginVertical="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginVertical="@dimen/margin_16"
             android:text="@string/submission_done_no_consent_continue_with_symptom_recording"
-            app:layout_constraintBottom_toTopOf="@+id/submission_done_contact_button_finish_flow"
+            app:layout_constraintBottom_toTopOf="@id/submission_done_contact_button_finish_flow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content_scrollcontainer" />
@@ -112,12 +112,12 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/submission_done_no_consent_break_flow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/submission_done_button_continue_with_symptom_recording"
             app:layout_constraintStart_toStartOf="@id/submission_done_button_continue_with_symptom_recording"
-            app:layout_constraintTop_toBottomOf="@+id/submission_done_button_continue_with_symptom_recording" />
+            app:layout_constraintTop_toBottomOf="@id/submission_done_button_continue_with_symptom_recording" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

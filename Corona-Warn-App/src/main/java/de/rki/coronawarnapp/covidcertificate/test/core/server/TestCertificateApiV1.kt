@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -8,8 +8,8 @@ import retrofit2.http.POST
 interface TestCertificateApiV1 {
 
     data class PublicKeyUploadRequest(
-        @SerializedName("registrationToken") val registrationToken: String,
-        @SerializedName("publicKey") val publicKey: String
+        @JsonProperty("registrationToken") val registrationToken: String,
+        @JsonProperty("publicKey") val publicKey: String
     )
 
     @POST("/version/v1/publicKey")
@@ -18,13 +18,13 @@ interface TestCertificateApiV1 {
     ): Response<Unit>
 
     data class ComponentsRequest(
-        @SerializedName("registrationToken") val registrationToken: String,
+        @JsonProperty("registrationToken") val registrationToken: String,
     )
 
     data class ComponentsResponse(
-        @SerializedName("dek") val dek: String? = null,
-        @SerializedName("dcc") val dcc: String? = null,
-        @SerializedName("reason") val errorReason: String? = null
+        @JsonProperty("dek") val dek: String? = null,
+        @JsonProperty("dcc") val dcc: String? = null,
+        @JsonProperty("reason") val errorReason: String? = null
     ) {
         enum class Reason(val errorString: String) {
             SIGNING_CLIENT_ERROR("SIGNING_CLIENT_ERROR"),

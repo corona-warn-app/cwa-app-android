@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.statistics.local.storage
 
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import de.rki.coronawarnapp.util.serialization.fromJson
 import io.kotest.matchers.shouldBe
 import java.time.Instant
 import org.junit.jupiter.api.Test
@@ -12,40 +11,26 @@ import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 
 class SelectedLocationsTest : BaseTest() {
-    private val baseGson = SerializationModule().baseGson()
-
-    private val gson by lazy {
-        baseGson
-            .newBuilder()
-            .registerTypeAdapterFactory(
-                RuntimeTypeAdapterFactory.of(SelectedStatisticsLocation::class.java)
-                    .registerSubtype(SelectedStatisticsLocation.SelectedDistrict::class.java)
-                    .registerSubtype(SelectedStatisticsLocation.SelectedFederalState::class.java)
-            )
-            .create()
-    }
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     private val expectedJson = """
             {
-              "locations": [
-                {
-                  "type": "SelectedDistrict",
-                  "district": {
-                    "districtName": "Hogwarts",
-                    "districtShortName": "HG",
-                    "districtId": 1,
-                    "federalStateName": "Scotland",
-                    "federalStateShortName": "SL",
-                    "federalStateId": 1
-                  },
-                  "addedAt": 6969420000
+              "locations" : [ {
+                "district" : {
+                  "districtName" : "Hogwarts",
+                  "districtShortName" : "HG",
+                  "districtId" : 1,
+                  "federalStateName" : "Scotland",
+                  "federalStateShortName" : "SL",
+                  "federalStateId" : 1
                 },
-                {
-                  "type": "SelectedFederalState",
-                  "federalState": "FEDERAL_STATE_BB",
-                  "addedAt": 4206969000
-                }
-              ]
+                "addedAt" : 6969420000,
+                "type" : "SelectedDistrict"
+              }, {
+                "federalState" : "FEDERAL_STATE_BB",
+                "addedAt" : 4206969000,
+                "type" : "SelectedFederalState"
+              } ]
             }
         """.toComparableJsonPretty()
 
@@ -72,7 +57,7 @@ class SelectedLocationsTest : BaseTest() {
                 )
             )
 
-        val json = gson.toJson(locations).toComparableJsonPretty()
+        val json = mapper.writeValueAsString(locations).toComparableJsonPretty()
 
         json shouldBe expectedJson
     }
@@ -100,9 +85,9 @@ class SelectedLocationsTest : BaseTest() {
                 )
             )
 
-        val json = gson.toJson(initialLocations)
+        val json = mapper.writeValueAsString(initialLocations)
 
-        val resultLocations = gson.fromJson<SelectedLocations>(json)
+        val resultLocations = mapper.readValue<SelectedLocations>(json)
 
         initialLocations shouldBe resultLocations
     }

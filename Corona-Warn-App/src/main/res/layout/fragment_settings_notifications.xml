@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/padding_24"
         android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/settings_notifications_illustration_description_active"
                 android:focusable="true"
-                android:paddingTop="@dimen/spacing_small"
-                android:paddingBottom="@dimen/spacing_small"
+                android:paddingTop="@dimen/padding_16"
+                android:paddingBottom="@dimen/padding_16"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_illustration_notification_on"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,8 +52,8 @@
                 style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/settings_notifications_title" />
 
             <TextView
@@ -61,17 +61,17 @@
                 style="@style/body2Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_mega_tiny"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_4"
                 android:accessibilityLiveRegion="assertive"
                 tools:text="Active" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_height="@dimen/height_1"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
                 android:background="@color/dividerColor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,8 +79,8 @@
                 style="@style/cardTracing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacing_small"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true">
 
                 <TextView
@@ -88,21 +88,21 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_small"
-                    app:layout_constraintEnd_toStartOf="@+id/notification_icon"
+                    android:layout_marginEnd="@dimen/margin_16"
+                    app:layout_constraintEnd_toStartOf="@id/notification_icon"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/nm_notification_enabled" />
 
                 <ImageView
                     android:id="@+id/notification_icon"
-                    android:layout_width="@dimen/icon_size_main_card_end"
-                    android:layout_height="@dimen/icon_size_main_card_end"
+                    android:layout_width="@dimen/width_40"
+                    android:layout_height="@dimen/height_40"
                     android:focusable="false"
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_settings_notification_circle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/notification_state_header"
+                    app:layout_constraintStart_toEndOf="@id/notification_state_header"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -110,18 +110,18 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:text="@string/settings_notifications_body_inactive"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/header_barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/header_barrier" />
 
                 <TextView
                     android:id="@+id/notification_enabled_description"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/nm_notifications_body_active_beginning"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -131,9 +131,9 @@
                 <include
                     android:id="@+id/bulletpoint_1"
                     layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="@dimen/bullet_point_6"
+                    android:layout_height="@dimen/bullet_point_6"
+                    android:layout_marginStart="@dimen/margin_10"
                     app:layout_constraintBaseline_toBaselineOf="@id/point_1"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -142,8 +142,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:focusable="true"
                     android:text="@string/nm_point_overall"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -153,9 +153,9 @@
                 <include
                     android:id="@+id/bulletpoint_2"
                     layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="@dimen/bullet_point_6"
+                    android:layout_height="@dimen/bullet_point_6"
+                    android:layout_marginStart="@dimen/margin_10"
                     app:layout_constraintBaseline_toBaselineOf="@id/point_2"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -164,8 +164,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_4"
                     android:focusable="true"
                     android:text="@string/nm_point_block_screen"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -175,9 +175,9 @@
                 <include
                     android:id="@+id/bulletpoint_3"
                     layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_size"
-                    android:layout_height="@dimen/bullet_point_size"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="@dimen/bullet_point_6"
+                    android:layout_height="@dimen/bullet_point_6"
+                    android:layout_marginStart="@dimen/margin_10"
                     app:layout_constraintBaseline_toBaselineOf="@id/point_3"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -186,8 +186,8 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_4"
                     android:focusable="true"
                     android:text="@string/nm_point_unclock_screen"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -199,7 +199,7 @@
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/nm_faq"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -211,12 +211,12 @@
                     style="@style/buttonPrimary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:text="@string/nm_delta_onboarding_device_settings_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bottom_barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/header_barrier"

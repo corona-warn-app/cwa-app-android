@@ -32,7 +32,7 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/padding_24"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_background_priority_header_details">
+                    app:layout_constraintTop_toBottomOf="@id/settings_background_priority_header_details">
 
                     <TextView
                         android:id="@+id/settings_row_background_priority_header_subtitle"
@@ -82,37 +82,37 @@
                         style="@style/body2Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_mega_tiny"
+                        android:layout_marginTop="@dimen/margin_4"
                         android:accessibilityLiveRegion="assertive"
                         android:text="@{state.getButtonStateLabel(context)}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority_header_subtitle" />
+                        app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority_header_subtitle" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <include
                     layout="@layout/include_divider"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginStart="@dimen/guideline_start"
-                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:layout_height="@dimen/height_1"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginEnd="@dimen/margin_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_row_background_priority" />
+                    app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority" />
 
                 <include
                     android:id="@+id/settings_tracing_status_connection"
                     layout="@layout/include_tracing_status_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     app:body="@{@string/settings_background_priority_card_body}"
                     app:buttonText="@{@string/settings_background_priority_card_button}"
                     app:headline="@{@string/settings_background_priority_card_headline}"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
                     app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority" />
 
                 <include layout="@layout/merge_guidelines_side" />

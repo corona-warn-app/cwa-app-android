@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="@dimen/card_divider"
+        android:layout_height="@dimen/height_1"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        android:paddingVertical="@dimen/spacing_tiny"
+        android:paddingVertical="@dimen/padding_8"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

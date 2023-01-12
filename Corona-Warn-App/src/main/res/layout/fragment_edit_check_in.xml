@@ -11,7 +11,7 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/margin_16"
         android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/edit_checkin_confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
                 <ImageView
                     android:id="@+id/expandedImage"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
+                    android:layout_height="@dimen/height_270"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/trace_location_view_cardhighlight_gradient" />
 
@@ -51,18 +51,16 @@
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="110dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_marginHorizontal="@dimen/margin_24"
+                        android:layout_marginTop="@dimen/margin_110"
+                        android:layout_marginBottom="@dimen/margin_12"
                         android:gravity="start"
                         android:text="@string/edit_checkin_title_text"
                         android:textColor="@color/colorStableLight"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/font_20"
                         tools:text="Aufenthaltsdauer anpassen für:" />
 
-
                 </LinearLayout>
-
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -83,7 +81,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="72dp"
+                            android:layout_marginEnd="@dimen/margin_72"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
 
                     </LinearLayout>
@@ -96,7 +94,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:behavior_overlapTop="140dp"
+            app:behavior_overlapTop="@dimen/overlap_140"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <LinearLayout
@@ -109,9 +107,9 @@
                     style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="@dimen/spacing_tiny"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginBottom="@dimen/margin_8"
                     android:orientation="vertical">
 
                     <TextView
@@ -124,9 +122,9 @@
                     <TextView
                         android:id="@+id/edit_checkin_info_card_title"
                         style="@style/headline5Bold"
-                        android:layout_width="276dp"
+                        android:layout_width="@dimen/width_276"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:hyphenationFrequency="full"
                         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
@@ -135,7 +133,7 @@
                         style="@style/subtitleMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/margin_16"
                         tools:text="Hauptstr 3, 69115 Heidelberg" />
                 </LinearLayout>
 
@@ -144,7 +142,7 @@
                     style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -175,14 +173,14 @@
                             style="@style/body2Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_tiny"
+                            android:layout_marginStart="@dimen/margin_8"
                             tools:text="18:00" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="@dimen/spacing_small"
+                        android:layout_height="@dimen/height_1"
+                        android:layout_marginVertical="@dimen/margin_16"
                         android:background="?android:attr/listDivider" />
 
                     <LinearLayout
@@ -213,7 +211,7 @@
                             style="@style/body2Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/spacing_tiny"
+                            android:layout_marginStart="@dimen/margin_8"
                             tools:text="18:00" />
                     </LinearLayout>
                 </LinearLayout>
@@ -223,8 +221,8 @@
                     style="@style/Card.NoElevation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:layout_marginTop="@dimen/spacing_tiny">
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_8">
 
                     <TextView
                         style="@style/body2"
@@ -238,8 +236,8 @@
                     style="@style/body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:text="@string/edit_checkin_wrong_input_warning_text"
                     android:textColor="@color/colorTextSemanticRed"
                     android:visibility="gone" />
@@ -255,8 +253,8 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_normal"
-        android:layout_marginVertical="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginVertical="@dimen/margin_16"
         android:text="@string/edit_checkin_confirm_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

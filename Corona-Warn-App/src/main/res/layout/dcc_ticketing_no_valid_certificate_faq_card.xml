@@ -3,7 +3,7 @@
     style="@style/materialSubtitleSixteen"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="24dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="24dp"
+    android:layout_marginStart="@dimen/margin_24"
+    android:layout_marginTop="@dimen/margin_16"
+    android:layout_marginEnd="@dimen/margin_24"
     android:text="@string/dcc_ticketing_certificate_selection_more_information_text" />

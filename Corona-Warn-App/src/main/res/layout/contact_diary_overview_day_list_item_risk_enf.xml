@@ -8,11 +8,11 @@
     android:background="@color/contactDiaryOverviewUnClickableColor"
     android:clickable="true"
     android:focusable="true"
-    android:paddingBottom="@dimen/spacing_small">
+    android:paddingBottom="@dimen/padding_16">
 
     <View
         android:layout_width="0dp"
-        android:layout_height="@dimen/card_divider"
+        android:layout_height="@dimen/height_1"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +22,8 @@
         android:id="@+id/contact_diary_overview_risk_item_image"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
         android:importantForAccessibility="no"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toStartOf="@id/contact_diary_overview_item_risk_title"
@@ -36,11 +36,11 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contact_diary_overview_risk_item_image"
+        app:layout_constraintStart_toEndOf="@id/contact_diary_overview_risk_item_image"
         app:layout_constraintTop_toTopOf="@id/contact_diary_overview_risk_item_image"
         tools:text="Erhöhtes Risiko" />
 
@@ -49,11 +49,11 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginTop="@dimen/margin_4"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/contact_diary_overview_item_risk_title"
-        app:layout_constraintStart_toStartOf="@+id/contact_diary_overview_item_risk_title"
+        app:layout_constraintStart_toStartOf="@id/contact_diary_overview_item_risk_title"
         app:layout_constraintTop_toBottomOf="@id/contact_diary_overview_item_risk_title"
         tools:text="aufgrund der von der App ausgewerteten Begegnungen. Diese müssen nicht in Zusammenhang mit den von Ihnen erfassten Personen und Orten stehen." />
 </androidx.constraintlayout.widget.ConstraintLayout>

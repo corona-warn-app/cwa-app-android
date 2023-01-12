@@ -51,9 +51,9 @@ class StatisticsHomeCard(
                 itemAnimator = DefaultItemAnimator()
                 addItemDecoration(
                     StatisticsCardPaddingDecorator(
-                        startPadding = R.dimen.spacing_small,
-                        cardDistance = R.dimen.spacing_tiny,
-                        verticalPadding = R.dimen.spacing_tiny
+                        startPadding = R.dimen.standard_16,
+                        cardDistance = R.dimen.standard_8,
+                        verticalPadding = R.dimen.standard_8
                     )
                 )
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -113,7 +113,7 @@ class StatisticsHomeCard(
     private fun scrollToCard(position: Int = 1) {
         with(viewBinding.value.root.context.resources) {
             val screenWidth = displayMetrics.widthPixels
-            val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
+            val cardWidth = getDimensionPixelSize(R.dimen.width_300)
             statisticsLayoutManager.scrollToPositionWithOffset(position, (screenWidth - cardWidth) / 2)
         }
     }

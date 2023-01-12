@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.util.serialization
 
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.io.JsonEOFException
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
@@ -11,11 +12,11 @@ import testhelpers.BaseIOTest
 import java.io.File
 import java.util.UUID
 
-class GsonExtensionsTest : BaseIOTest() {
+class JacksonExtensionsTest : BaseIOTest() {
 
     private val testDir = File(IO_TEST_BASEDIR, this::class.java.simpleName)
     private val testFile = File(testDir, "testfile")
-    private val gson = Gson()
+    private val mapper = ObjectMapper()
 
     @BeforeEach
     fun setup() {
@@ -28,15 +29,15 @@ class GsonExtensionsTest : BaseIOTest() {
     }
 
     data class TestData(
+        @JsonProperty("value")
         val value: String
     )
 
     @Test
     fun `serialize and deserialize`() {
         val testData = TestData(value = UUID.randomUUID().toString())
-        gson.toJson(testData, testFile)
-
-        gson.fromJson<TestData>(testFile) shouldBe testData
+        mapper.writeValue(testData, testFile)
+        mapper.readValue<TestData>(testFile) shouldBe testData
     }
 
     @Test
@@ -44,10 +45,8 @@ class GsonExtensionsTest : BaseIOTest() {
         testFile.createNewFile()
         testFile.exists() shouldBe true
 
-        val testData: TestData? = gson.fromJson(testFile)
-
+        val testData: TestData? = mapper.readValue(testFile)
         testData shouldBe null
-
         testFile.exists() shouldBe false
     }
 
@@ -55,8 +54,8 @@ class GsonExtensionsTest : BaseIOTest() {
     fun `deserialize a malformed file`() {
         testFile.writeText("{")
 
-        shouldThrow<JsonSyntaxException> {
-            gson.fromJson(testFile)
+        shouldThrow<JsonEOFException> {
+            mapper.readValue(testFile)
         }
     }
 }

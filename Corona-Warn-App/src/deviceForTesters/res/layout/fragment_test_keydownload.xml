@@ -10,17 +10,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_8"
         android:orientation="vertical"
-        android:paddingBottom="32dp">
+        android:paddingBottom="@dimen/padding_32">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_tiny"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_margin="@dimen/margin_8"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
             android:orientation="vertical">
 
             <TextView
@@ -39,7 +39,7 @@
                 android:text="Fake metered connection status"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/info_metered_network" />
+                app:layout_constraintTop_toBottomOf="@id/info_metered_network" />
 
             <Button
                 android:id="@+id/clear_action"
@@ -47,9 +47,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Clear"
-                app:layout_constraintEnd_toStartOf="@+id/download_action"
+                app:layout_constraintEnd_toStartOf="@id/download_action"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fake_metered_connection_toggle" />
+                app:layout_constraintTop_toBottomOf="@id/fake_metered_connection_toggle" />
 
             <Button
                 android:id="@+id/download_action"
@@ -58,8 +58,8 @@
                 android:layout_weight="1"
                 android:text="Download"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/clear_action"
-                app:layout_constraintTop_toBottomOf="@+id/fake_metered_connection_toggle" />
+                app:layout_constraintStart_toEndOf="@id/clear_action"
+                app:layout_constraintTop_toBottomOf="@id/fake_metered_connection_toggle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,7 +67,7 @@
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             android:gravity="center"
             android:text="Long press entries to delete them." />
         <TextView
@@ -75,7 +75,7 @@
             style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/margin_8"
             android:gravity="center"
             tools:text="17 files, 14 days, 3 hours." />
 

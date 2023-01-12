@@ -2,15 +2,17 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/submission_tan_input_digit_radius"/>
-            <solid android:color="@color/colorSurface2"/>
+            <corners android:radius="@dimen/radius_2" />
+            <solid android:color="@color/colorSurface2" />
         </shape>
     </item>
-    <item android:height="@dimen/submission_tan_input_digit_stroke" android:gravity="bottom">
+    <item
+        android:height="@dimen/width_2"
+        android:gravity="bottom">
         <shape android:shape="rectangle">
-            <corners android:bottomLeftRadius="@dimen/submission_tan_input_digit_radius"/>
-            <corners android:bottomRightRadius="@dimen/submission_tan_input_digit_radius"/>
-            <solid android:color="@color/colorTextSemanticRed"/>
+            <corners android:bottomLeftRadius="@dimen/radius_2" />
+            <corners android:bottomRightRadius="@dimen/radius_2" />
+            <solid android:color="@color/colorTextSemanticRed" />
         </shape>
     </item>
 </layer-list>

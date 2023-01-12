@@ -8,9 +8,9 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    android:minHeight="@dimen/statistics_card_height"
+    android:minHeight="@dimen/height_328"
     tools:layout_height="wrap_content"
-    tools:layout_width="@dimen/statistics_card_width">
+    tools:layout_width="@dimen/width_300">
 
     <TextView
         android:id="@+id/warning_text"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
-        android:padding="@dimen/spacing_tiny"
+        android:padding="@dimen/padding_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         style="@style/StatisticsCardValueLabelBold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:text="@string/statistics_add_card_title"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

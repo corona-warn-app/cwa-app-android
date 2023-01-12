@@ -46,8 +46,8 @@ private class SwipeCallback(
     private val swipeDirs: Int = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
 ) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
     private val icon = context.getDrawableCompat(R.drawable.ic_delete)!!
-    private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.swipe_icon_margin)
-    private val radius = context.resources.getDimensionPixelSize(R.dimen.radius_card).toFloat()
+    private val iconMargin = context.resources.getDimensionPixelSize(R.dimen.margin_32)
+    private val radius = context.resources.getDimensionPixelSize(R.dimen.radius_4).toFloat()
     private val backgroundPaint = Paint().apply {
         color = context.getColorCompat(R.color.swipeDeleteBackgroundColor)
     }

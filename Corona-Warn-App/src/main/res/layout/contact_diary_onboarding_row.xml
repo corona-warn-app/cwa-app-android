@@ -21,9 +21,9 @@
 
         <ImageView
             android:id="@+id/contact_diary_row_icon"
-            android:layout_width="@dimen/icon_size_risk_card"
-            android:layout_height="@dimen/icon_size_risk_card"
-            android:layout_marginTop="@dimen/spacing_mega_tiny"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginTop="@dimen/margin_4"
             android:importantForAccessibility="no"
             android:src="@{icon}"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/margin_16"
             android:text="@{body}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/contact_diary_row_icon"

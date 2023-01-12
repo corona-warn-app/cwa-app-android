@@ -181,7 +181,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {
         adapter = personOverviewAdapter
-        addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+        addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
         itemAnimator = DefaultItemAnimator()
     }
 

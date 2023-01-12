@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import timber.log.Timber
 import java.net.URL
 
@@ -24,7 +24,7 @@ object DccReissuanceServerModule {
         @DccReissuanceServerURL url: String,
         @HttpClientDefault defaultClient: OkHttpClient,
         appConfigProvider: AppConfigProvider,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): DccReissuanceApi = runBlocking {
 
         val reissueServicePublicKeyDigest = appConfigProvider.currentConfig.first()
@@ -49,7 +49,7 @@ object DccReissuanceServerModule {
         Retrofit.Builder()
             .baseUrl(url)
             .client(client)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(DccReissuanceApi::class.java)
     }

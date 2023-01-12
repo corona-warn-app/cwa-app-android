@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
@@ -22,6 +23,7 @@ sealed class RetrievedTestCertificate : BaseTestCertificateData() {
 
     abstract val labId: String?
 
+    @get:JsonIgnore
     val isPublicKeyRegistered: Boolean
         get() = publicKeyRegisteredAt != null
 }

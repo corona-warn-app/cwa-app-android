@@ -25,9 +25,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/root_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -47,48 +47,48 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:layout_marginEnd="@dimen/margin_8"
                 android:text="@{subtitle}"
-                app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
-                app:layout_constraintStart_toEndOf="@+id/guideline_body"
+                app:layout_constraintEnd_toStartOf="@id/main_row_item_icon"
+                app:layout_constraintStart_toEndOf="@id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/main_row_item_icon"
                 style="@style/icon"
-                android:layout_width="@dimen/icon_size_external_link"
-                android:layout_height="@dimen/icon_size_external_link"
+                android:layout_width="@dimen/width_18"
+                android:layout_height="@dimen/height_18"
                 android:importantForAccessibility="no"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
-                app:layout_constraintBottom_toBottomOf="@+id/main_row_item_subtitle"
+                app:layout_constraintBottom_toBottomOf="@id/main_row_item_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/main_row_item_subtitle" />
+                app:layout_constraintTop_toTopOf="@id/main_row_item_subtitle" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_body_title" />
+                app:layout_constraintGuide_begin="@dimen/guideline_46" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
             layout="@layout/include_divider"
             android:layout_width="0dp"
-            android:layout_height="@dimen/card_divider"
+            android:layout_height="@dimen/height_1"
             android:visibility="@{FormatterHelper.formatVisibilityInverted(hideDivider)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/settings_guideline_divider"
-            app:layout_constraintTop_toBottomOf="@+id/main_row" />
+            app:layout_constraintTop_toBottomOf="@id/main_row" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/settings_guideline_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_start_divider" />
+            app:layout_constraintGuide_begin="@dimen/guideline_72" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

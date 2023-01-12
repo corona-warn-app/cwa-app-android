@@ -18,7 +18,7 @@ import java.time.Instant
 
 class DownloadDiagnosisKeysSettingsTest : BaseTest() {
     lateinit var dataStore: FakeDataStore
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val lastDownload = DownloadDiagnosisKeysSettings.LastDownload(
         startedAt = Instant.EPOCH,
@@ -36,7 +36,7 @@ class DownloadDiagnosisKeysSettingsTest : BaseTest() {
     }
 
     fun createInstance() = DownloadDiagnosisKeysSettings(
-        gson = gson,
+        mapper = mapper,
         dataStore = dataStore
     )
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/spacing_normal">
+    android:padding="@dimen/padding_24">
 
     <TextView
         android:id="@+id/create_trace_location_card_headline"
@@ -23,22 +23,22 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         android:text="@string/create_trace_location_card_subtitle"
         app:layout_constraintEnd_toStartOf="@id/create_trace_location_card_icon"
         app:layout_constraintStart_toStartOf="@id/create_trace_location_card_headline"
         app:layout_constraintTop_toBottomOf="@id/create_trace_location_card_headline"
         tools:text="@string/create_trace_location_card_subtitle" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/create_trace_location_card_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toTopOf="@+id/create_trace_location_card_button"
+        app:layout_constraintBottom_toTopOf="@id/create_trace_location_card_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/create_trace_location_card_headline"
+        app:layout_constraintTop_toTopOf="@id/create_trace_location_card_headline"
         app:srcCompat="@drawable/ic_event_organizer"
         tools:src="@drawable/ic_event_organizer" />
 
@@ -54,7 +54,7 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_16"
         android:text="@string/create_trace_location_card_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

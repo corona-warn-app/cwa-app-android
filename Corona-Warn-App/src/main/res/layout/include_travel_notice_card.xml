@@ -20,6 +20,6 @@
         style="@style/body2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_24"
         android:text="@string/covid_certificate_attribute_travel_notice_english" />
 </LinearLayout>

@@ -86,13 +86,13 @@
                 style="@style/headline4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@{headline}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_illustration"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_illustration"
                 tools:text="@string/onboarding_headline" />
 
             <TextView
@@ -100,60 +100,60 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@{subtitle}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(subtitle)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_headline"
-                tools:text="@string/onboarding_subtitle" />
+                app:layout_constraintTop_toBottomOf="@id/onboarding_headline"
+                tools:text="Onboarding Subtitle" />
 
             <TextView
                 android:id="@+id/onboarding_body"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:autoLink="web|email"
                 android:focusable="true"
                 android:text="@{body}"
                 android:textColorLink="@color/colorTextTint"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_subtitle"
-                tools:text="@string/onboarding_body" />
+                app:layout_constraintTop_toBottomOf="@id/onboarding_subtitle"
+                tools:text="Onboarding Body" />
 
             <TextView
                 android:id="@+id/onboarding_body_emphasized"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@{bodyEmphasized}"
                 android:visibility="@{FormatterHelper.formatVisibilityText(bodyEmphasized)}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body"
-                tools:text="@string/onboarding_body_emphasized" />
+                tools:text="Onboarding Body EMPHASIZED" />
 
             <include
                 android:id="@+id/onboarding_interoperability"
                 layout="@layout/include_interoperability"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_24"
                 android:visibility="@{FormatterHelper.formatVisibility(countryData != null)}"
                 app:countryData="@{countryData}"
                 app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
                 app:firstSection="@{@string/interoperability_onboarding_first_section}"
                 app:isOnboarding="@{true}"
                 app:isRiskdetection="@{false}"
-                app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
+                app:layout_constraintBottom_toTopOf="@id/onboarding_location_card"
+                app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
                 app:secondSection="@{@string/interoperability_onboarding_second_section}"
                 app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
@@ -164,27 +164,27 @@
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/margin_48"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
                 app:body="@{locationBodyCard}"
                 app:headline="@{locationHeadlineCard}"
                 app:icon="@{locationIconCard}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_interoperability" />
+                app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_interoperability" />
 
             <include
                 android:id="@+id/onboarding_location_card_16_years"
                 layout="@layout/include_16_years"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card"
+                app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_location_card"
                 tools:visibility="visible" />
 
             <include
@@ -192,29 +192,29 @@
                 layout="@layout/include_tracing_status_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/margin_16"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
                 app:body="@{bodyCard}"
                 app:headline="@{headlineCard}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card_16_years" />
+                app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                app:layout_constraintTop_toBottomOf="@id/onboarding_location_card_16_years" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
             <include layout="@layout/merge_guidelines_card" />
 

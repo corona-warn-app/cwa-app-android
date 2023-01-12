@@ -107,13 +107,13 @@
                 tools:ignore="SmallSp"
                 tools:text="Vereinsaktivität: Jahrestreffen der deutschen SAP Anwendergruppe\nHauptstr 3, 69115 Heidelberg"
                 tools:textColor="#000000"
-                tools:textSize="10sp" />
+                tools:textSize="@dimen/font_11" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
-            android:layout_width="150dp"
+            android:layout_width="@dimen/width_150"
             android:layout_height="wrap_content"
             android:indeterminate="true"
             app:hideAnimationBehavior="inward"
@@ -130,7 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:behavior_peekHeight="60dp"
+        app:behavior_peekHeight="@dimen/height_64"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <LinearLayout
@@ -142,9 +142,9 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/margin_10"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp">
+                android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
                     android:id="@+id/tooltip"
@@ -155,8 +155,8 @@
                     app:srcCompat="@drawable/ic_info" />
 
                 <View
-                    android:layout_width="100dp"
-                    android:layout_height="5dp"
+                    android:layout_width="@dimen/width_100"
+                    android:layout_height="@dimen/height_1"
                     android:layout_gravity="center"
                     android:background="@color/colorPrimary" />
 
@@ -173,7 +173,7 @@
                 android:id="@+id/qrOffsetXSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="1000"
@@ -183,7 +183,7 @@
                 android:id="@+id/qrOffsetYSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="1000"
@@ -194,14 +194,14 @@
                 style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Qr Code length" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/qrLengthSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="100"
                 android:valueFrom="500"
                 android:valueTo="2000"
@@ -209,8 +209,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginVertical="10dp"
+                android:layout_height="@dimen/height_1"
+                android:layout_marginVertical="@dimen/margin_10"
                 android:background="#BE818181" />
 
             <TextView
@@ -218,14 +218,14 @@
                 style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Text offsets" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/txtOffsetXSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="1000"
@@ -235,7 +235,7 @@
                 android:id="@+id/txtOffsetYSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="1"
                 android:valueFrom="0"
                 android:valueTo="1000"
@@ -246,14 +246,14 @@
                 style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Font size" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/infoTextSizeSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:stepSize="1"
                 android:valueFrom="10"
                 android:valueTo="30"
@@ -263,14 +263,14 @@
                 style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_10"
                 android:text="Font Color" />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/info_text_color_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="@dimen/margin_6"
                 android:hint="#000000 - FallbackColor=#000000" />
         </LinearLayout>
     </ScrollView>

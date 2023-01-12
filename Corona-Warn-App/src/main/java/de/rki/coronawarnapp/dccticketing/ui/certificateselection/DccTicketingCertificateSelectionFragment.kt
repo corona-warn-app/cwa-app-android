@@ -45,7 +45,7 @@ class DccTicketingCertificateSelectionFragment :
             toolbar.setNavigationOnClickListener { viewModel.onUserCancel() }
             recyclerView.apply {
                 adapter = certificatesAdapter
-                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             }
         }
         viewModel.apply {

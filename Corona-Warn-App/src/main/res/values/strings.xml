@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"How this works:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Your PCR Test Was Added"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"The test result is displayed here for 48 hours. The app also creates an entry in your contact journal."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
@@ -1549,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our "<div>"blog"</div>"."</string>
+    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

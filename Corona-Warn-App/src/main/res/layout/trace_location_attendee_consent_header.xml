@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="24dp"
-    android:paddingTop="18dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="8dp">
+    android:paddingStart="@dimen/padding_24"
+    android:paddingTop="@dimen/padding_16"
+    android:paddingEnd="@dimen/padding_24"
+    android:paddingBottom="@dimen/padding_8">
 
     <TextView
         style="@style/subtitleMedium"
@@ -20,6 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margin_8"
         android:text="@string/trace_location_attendee_consent_header_button" />
 </LinearLayout>

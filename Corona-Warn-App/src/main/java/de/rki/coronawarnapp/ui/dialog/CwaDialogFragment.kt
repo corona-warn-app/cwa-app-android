@@ -48,6 +48,7 @@ class CwaDialogFragment : DialogFragment() {
                     setAction(Action.PositiveButtonClicked)
                     dismiss()
                 }
+
                 is IntOrString.StringResource -> setPositiveButton(texts.positiveButtonText.stringResource) { _, _ ->
                     setAction(Action.PositiveButtonClicked)
                     dismiss()
@@ -58,6 +59,7 @@ class CwaDialogFragment : DialogFragment() {
                     setAction(Action.NegativeButtonClicked)
                     dismiss()
                 }
+
                 is IntOrString.StringResource -> setNegativeButton(texts.negativeButtonText.stringResource) { _, _ ->
                     setAction(Action.NegativeButtonClicked)
                     dismiss()
@@ -68,6 +70,7 @@ class CwaDialogFragment : DialogFragment() {
                     setAction(Action.NeutralButtonClicked)
                     dismiss()
                 }
+
                 is IntOrString.StringResource -> setNeutralButton(texts.neutralButtonText.stringResource) { _, _ ->
                     setAction(Action.NeutralButtonClicked)
                     dismiss()
@@ -121,8 +124,8 @@ class CwaDialogFragment : DialogFragment() {
         val httpPattern: Pattern = Pattern.compile("[a-z]+://[^ \\n]*")
         Linkify.addLinks(spannable, httpPattern, "")
 
-        val paddingStartEnd = context.resources.getDimension(R.dimen.spacing_normal).toInt()
-        val paddingLeftRight = context.resources.getDimension(R.dimen.spacing_small).toInt()
+        val paddingStartEnd = context.resources.getDimension(R.dimen.standard_24).toInt()
+        val paddingLeftRight = context.resources.getDimension(R.dimen.standard_16).toInt()
 
         val textView = TextView(context, null, R.style.TextAppearance_AppCompat_Subhead).apply {
             text = spannable

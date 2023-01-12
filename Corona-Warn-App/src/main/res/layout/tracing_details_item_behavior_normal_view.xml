@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/card_padding">
+        android:padding="@dimen/padding_24">
 
         <TextView
             style="@style/headline5"
@@ -32,7 +32,7 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:backgroundTint="@{state.getBackgroundColor(context)}"
             android:focusable="true"
             android:foregroundTint="@{state.getIconColor(context)}"

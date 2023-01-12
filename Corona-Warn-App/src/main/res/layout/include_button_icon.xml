@@ -28,8 +28,8 @@
 
         <ImageView
             style="@style/icon"
-            android:layout_width="@dimen/icon_size_button"
-            android:layout_height="@dimen/icon_size_button"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
             android:src="@{icon}"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="parent"

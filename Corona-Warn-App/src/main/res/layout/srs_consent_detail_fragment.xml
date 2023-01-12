@@ -22,7 +22,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingBottom="29dp"
+            android:paddingBottom="@dimen/padding_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -36,7 +36,7 @@
                     style="@style/headline6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/srs_details_survey_consent_details_title"
@@ -49,12 +49,12 @@
                     style="@style/cardTracing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    android:layout_marginBottom="45dp"
+                    android:layout_marginTop="@dimen/margin_46"
+                    android:layout_marginBottom="@dimen/margin_46"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@+id/survey_details_headline"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
+                    app:layout_constraintTop_toBottomOf="@id/survey_details_headline"
                     app:layout_constraintBottom_toBottomOf="parent">
 
                     <TextView
@@ -62,7 +62,7 @@
                         style="@style/headline6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:focusable="true"
                         android:text="@string/srs_survey_consent_details_title"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -74,12 +74,12 @@
                         style="@style/body1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="@dimen/margin_32"
                         android:focusable="true"
                         android:text="@string/srs_survey_consent_details_text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/legal_title" />
+                        app:layout_constraintTop_toBottomOf="@id/legal_title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,14 +88,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                    app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+                    app:layout_constraintGuide_end="@dimen/guideline_24" />
 
                 <include layout="@layout/merge_guidelines_card" />
 

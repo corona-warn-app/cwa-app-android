@@ -1,12 +1,7 @@
 package de.rki.coronawarnapp.util.encryption.rsa
 
-import com.google.gson.TypeAdapter
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonToken
-import com.google.gson.stream.JsonWriter
 import de.rki.coronawarnapp.util.trimToLength
 import okio.ByteString
-import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import java.security.Key
 import java.security.KeyFactory
@@ -34,18 +29,6 @@ interface RSAKey {
             get() = KEY_FACTORY.generatePrivate(PKCS8EncodedKeySpec(rawKey.toByteArray()))
 
         override fun toString(): String = base64.trimToLength(16)
-
-        class GsonAdapter : TypeAdapter<Private>() {
-            override fun write(out: JsonWriter, value: Private?) {
-                if (value == null) out.nullValue()
-                else out.value(value.rawKey.base64())
-            }
-
-            override fun read(reader: JsonReader): Private? = when (reader.peek()) {
-                JsonToken.NULL -> reader.nextNull().let { null }
-                else -> Private(reader.nextString().decodeBase64()!!)
-            }
-        }
     }
 
     data class Public(override val rawKey: ByteString) : RSAKey {
@@ -56,17 +39,5 @@ interface RSAKey {
             get() = KEY_FACTORY.generatePublic(X509EncodedKeySpec(rawKey.toByteArray()))
 
         override fun toString(): String = base64.trimToLength(16)
-
-        class GsonAdapter : TypeAdapter<Public>() {
-            override fun write(out: JsonWriter, value: Public?) {
-                if (value == null) out.nullValue()
-                else out.value(value.rawKey.base64())
-            }
-
-            override fun read(reader: JsonReader): Public? = when (reader.peek()) {
-                JsonToken.NULL -> reader.nextNull().let { null }
-                else -> Public(reader.nextString().decodeBase64()!!)
-            }
-        }
     }
 }

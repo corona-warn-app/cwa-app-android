@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.common
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.Duration
 import java.time.Instant
 
@@ -13,12 +14,14 @@ interface Recyclable {
     /**
      * Indicates if the user has moved this item into the recycle bin
      */
+    @get:JsonIgnore
     val isRecycled: Boolean
         get() = isRecycled(recycledAt)
 
     /**
      * Indicates if the user has not moved this item into the recycle bin
      */
+    @get:JsonIgnore
     val isNotRecycled: Boolean
         get() = !isRecycled(recycledAt)
 

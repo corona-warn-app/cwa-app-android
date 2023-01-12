@@ -47,7 +47,7 @@ class ContactDiaryLocationListFragment :
             adapter = locationListAdapter
             addItemDecoration(
                 MarginRecyclerViewDecoration(
-                    resources.getDimensionPixelSize(R.dimen.list_item_decoration_card_margins)
+                    resources.getDimensionPixelSize(R.dimen.margin_16)
                 )
             )
             onScroll {

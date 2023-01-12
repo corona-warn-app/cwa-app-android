@@ -46,7 +46,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/spacing_normal">
+                android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
                     android:id="@+id/illustration"
@@ -54,8 +54,8 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@{settingsTracingState.getTracingIllustrationText(context)}"
                     android:focusable="true"
-                    android:paddingTop="@dimen/spacing_small"
-                    android:paddingBottom="@dimen/spacing_small"
+                    android:paddingTop="@dimen/padding_16"
+                    android:paddingBottom="@dimen/padding_16"
                     android:scaleType="centerCrop"
                     android:src="@{settingsTracingState.getTracingStatusImage(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,9 +68,9 @@
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginTop="@dimen/spacing_small"
-                    android:layout_marginEnd="@dimen/spacing_normal"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginEnd="@dimen/margin_16"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/settings_tracing_headline"
@@ -93,26 +93,26 @@
                 <View
                     android:id="@+id/divider"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_height="@dimen/height_1"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:background="@color/dividerColor"
-                    app:layout_constraintTop_toBottomOf="@+id/switch_row" />
+                    app:layout_constraintTop_toBottomOf="@id/switch_row" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settingsInteroperabilityRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-                    android:paddingTop="@dimen/spacing_tiny"
-                    android:paddingBottom="@dimen/spacing_tiny"
+                    android:paddingTop="@dimen/padding_8"
+                    android:paddingBottom="@dimen/padding_8"
                     app:layout_constraintEnd_toStartOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/switch_row">
 
                     <ImageView
                         android:id="@+id/flag_eu"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
+                        android:layout_width="@dimen/width_26"
+                        android:layout_height="@dimen/height_26"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_country_eu" />
@@ -122,16 +122,16 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_tiny"
+                        android:layout_marginStart="@dimen/margin_8"
                         android:text="@string/settings_interoperability_title"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/flag_eu"
-                        app:layout_constraintTop_toTopOf="@id/flag_eu"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintTop_toTopOf="@id/flag_eu" />
 
                     <ImageView
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
-                        android:layout_height="22dp"
+                        android:layout_height="@dimen/height_22"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/interoperability_title"
                         app:srcCompat="@drawable/ic_country_ch" />
@@ -142,7 +142,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_interoperability_subtitle"
-                        app:layout_constraintBottom_toBottomOf="@+id/flag_ch"
+                        app:layout_constraintBottom_toBottomOf="@id/flag_ch"
                         app:layout_constraintStart_toStartOf="@id/interoperability_title"
                         app:layout_constraintTop_toTopOf="@+id/flag_ch" />
 
@@ -150,8 +150,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_height="@dimen/height_1"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:background="@color/dividerColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -162,7 +162,7 @@
                     android:id="@+id/settings_tracing_status"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:orientation="horizontal"
                     app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
                     app:flow_maxElementsWrap="1"
@@ -201,7 +201,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:paddingTop="@dimen/spacing_small"
+                    android:paddingTop="@dimen/padding_16"
                     android:text="@string/risk_details_headline_period_logged"
                     tools:ignore="MissingConstraints" />
 
@@ -211,9 +211,9 @@
                     gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:focusable="false"
-                    android:paddingTop="@dimen/spacing_tiny"
+                    android:paddingTop="@dimen/padding_8"
                     android:text="@string/risk_details_subtitle_period_logged"
                     tools:ignore="MissingConstraints" />
 
@@ -223,9 +223,9 @@
                     gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:focusable="true"
-                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingTop="@dimen/standard_24"
                     android:text="@{loggedPeriod.getExposureLoggingPeriod(context)}"
                     tools:ignore="MissingConstraints" />
 
@@ -235,9 +235,9 @@
                     gone="@{!settingsTracingState.isTracingStatusTextVisible()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:focusable="true"
-                    android:paddingTop="@dimen/spacing_normal"
+                    android:paddingTop="@dimen/padding_24"
                     android:text="@{loggedPeriod.getInstallTimePeriodLogged(context)}"
                     tools:ignore="MissingConstraints" />
 
@@ -268,7 +268,7 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="27dp"
+                        android:layout_marginTop="@dimen/margin_28"
                         android:focusable="true"
                         android:text="@string/settings_tracing_body_text"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -284,14 +284,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                    app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_end" />
+                    app:layout_constraintGuide_end="@dimen/guideline_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

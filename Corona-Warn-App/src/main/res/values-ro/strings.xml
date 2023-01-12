@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"Cum funcționează:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"Rezultatul testului dvs. este afișat aici timp de 48 de ore. De asemenea, aplicația creează o intrare în jurnalul dvs. de contacte."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
@@ -1549,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"O imagine abstractă a unui smartphone cu patru substituenți pentru informații"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți "<div>"blogul"</div>" nostru."</string>
+    <string name="statistics_explanation_blog">"Pentru mai multe detalii despre indicatorii individuali, citiți blogul nostru."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"blogul"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
