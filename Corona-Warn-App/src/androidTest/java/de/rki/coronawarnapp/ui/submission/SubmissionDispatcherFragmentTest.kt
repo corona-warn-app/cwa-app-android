@@ -120,8 +120,10 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionDispatcherFragment>()
         takeScreenshot<SubmissionDispatcherFragment>()
 
-        onView(withId(R.id.profile_card))
-            .perform(scrollTo())
+        onView(withId(R.id.submission_dispatcher_qr)).perform(scrollTo())
+        takeScreenshot<SubmissionDispatcherFragment>("1")
+
+        onView(withId(R.id.profile_card)).perform(scrollTo())
         takeScreenshot<SubmissionDispatcherFragment>("2")
     }
 }

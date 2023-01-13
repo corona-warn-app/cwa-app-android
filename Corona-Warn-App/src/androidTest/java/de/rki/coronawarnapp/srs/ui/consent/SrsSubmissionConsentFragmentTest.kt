@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.swipeUp
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
@@ -77,8 +77,14 @@ class SrsSubmissionConsentFragmentTest : BaseUITest() {
         )
         takeScreenshot<SrsSubmissionConsentFragment>("1")
 
-        onView(withId(R.id.content_scrollcontainer)).perform(swipeUp())
+        onView(withId(R.id.first_bulletpoint)).perform(scrollTo())
         takeScreenshot<SrsSubmissionConsentFragment>("2")
+
+        onView(withId(R.id.third_bulletpoint)).perform(scrollTo())
+        takeScreenshot<SrsSubmissionConsentFragment>("3")
+
+        onView(withId(R.id.srs_submission_consent_more_info)).perform(scrollTo())
+        takeScreenshot<SrsSubmissionConsentFragment>("4")
     }
 }
 

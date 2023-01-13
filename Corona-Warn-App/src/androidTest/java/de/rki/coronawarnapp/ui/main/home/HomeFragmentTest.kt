@@ -302,6 +302,16 @@ class HomeFragmentTest : BaseUITest() {
         takeScreenshot<HomeFragment>("vaccination_none")
     }
 
+    @Screenshot
+    @Test
+    fun captureSubmissionTestCard() {
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -300))
+        takeScreenshot<HomeFragment>("submission_test_card")
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
