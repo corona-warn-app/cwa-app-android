@@ -24,6 +24,8 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
+import de.rki.coronawarnapp.rampdown.ui.StatusTabNotice
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
@@ -77,6 +79,7 @@ import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
@@ -206,7 +209,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
             if (rampDownNotice?.visible == true) {
-                // TODO addEolCard(rampDownNotice)
+                addEolCard(rampDownNotice)
             }
             addRiskLevelCard(tracingItem)
             addIncompatibleCard()
@@ -261,6 +264,20 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun tracingExplanationWasShown() = launch {
         cwaSettings.updateWasTracingExplanationDialogShown(true)
+    }
+
+    private fun MutableList<HomeItem>.addEolCard(rampDownNotice: RampDownNotice) {
+        add(FAQCard.Item(onClickAction = { events.postValue(HomeFragmentEvents.OpenFAQUrl) }))
+        add(
+            RampDownNoticeCard.Item(
+                onClickAction = { events.postValue(HomeFragmentEvents.OpenEolNotice) },
+                statusTabNotice = rampDownNotice.toStatusTabNotice()
+            )
+        )
+    }
+
+    private fun RampDownNotice.toStatusTabNotice(): StatusTabNotice {
+        return StatusTabNotice(title, subtitle, description, faqUrl)
     }
 
     private fun MutableList<HomeItem>.addFaqCard() {

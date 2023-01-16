@@ -28,6 +28,7 @@
     <color name="colorCertificateSelectorButtonStroke">#B9BABA</color>
     <color name="colorCertificateCards">#FFFFFF</color>
     <color name="colorCertificateUserSwitch">#F5F5F5</color>
+    <color name="colorRampDownCard">#FFF7CB</color>
 
     <!-- Text -->
     <color name="colorOnPrimary">#17191A</color>
