@@ -9,6 +9,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -35,14 +37,14 @@ internal class RampDownDataProviderTest : BaseTest() {
     }
 
     @Test
-    fun `getRampDownNotice - success`() {
+    fun `getRampDownNotice - success`() = runTest {
         RampDownDataProvider(
             format = CclTextFormatter(
                 cclJsonFunctions = mockk(),
                 mapper = SerializationModule.jacksonBaseMapper
             ),
             rampDownCalculation = rampDownCalculation
-        ).rampDownNotice shouldBe RampDownNotice(
+        ).rampDownNotice.first() shouldBe RampDownNotice(
             visible = false,
             title = "",
             subtitle = "",
@@ -52,7 +54,7 @@ internal class RampDownDataProviderTest : BaseTest() {
     }
 
     @Test
-    fun `getRampDownNotice - error`() {
+    fun `getRampDownNotice - error`() = runTest {
         coEvery {
             rampDownCalculation.getStatusTabNotice(any())
         } throws Exception("")
@@ -63,6 +65,6 @@ internal class RampDownDataProviderTest : BaseTest() {
                 mapper = SerializationModule.jacksonBaseMapper
             ),
             rampDownCalculation = rampDownCalculation
-        ).rampDownNotice shouldBe null
+        ).rampDownNotice.first() shouldBe null
     }
 }
