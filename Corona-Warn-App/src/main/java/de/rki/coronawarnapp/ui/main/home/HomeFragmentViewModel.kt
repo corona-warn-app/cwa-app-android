@@ -206,7 +206,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
             if (rampDownNotice?.visible == true) {
-                // TODO addEolCard(rampDownNotice)
+                // TODO addRampDownCard(rampDownNotice)
             }
             addRiskLevelCard(tracingItem)
             addIncompatibleCard()
