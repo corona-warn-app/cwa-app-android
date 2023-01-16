@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.latestOf
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -71,6 +72,7 @@ import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -114,6 +116,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val riskCardDisplayInfo: RiskCardDisplayInfo,
     private val familyTestRepository: FamilyTestRepository,
+    private val eolDataProvider: RampDownDataProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -182,21 +185,36 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings.updateShowRiskLevelBadge(show = false)
     }
 
-    val homeItems: LiveData<List<HomeItem>> = combine(
-        tracingCardItems,
+    private val testsData = combine(
         coronaTestRepository.coronaTests,
-        combinedStatisticsProvider.statistics,
+        familyTestRepository.familyTests,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
-        familyTestRepository.familyTests
-    ) { tracingItem, coronaTests, statsData, coronaTestParameters, familyTests ->
+    ) { coronaTests, familyTests, coronaTestParameters ->
+        TestsData(
+            coronaTests = coronaTests,
+            familyTests = familyTests,
+            coronaTestParameters = coronaTestParameters
+        )
+    }
+
+    val homeItems: LiveData<List<HomeItem>> = combine(
+        testsData,
+        tracingCardItems,
+        combinedStatisticsProvider.statistics,
+        eolDataProvider.rampDownNotice,
+    ) { testsData, tracingItem, statsData, rampDownNotice ->
         mutableListOf<HomeItem>().apply {
+            Timber.d("rampDownNotice=%s", rampDownNotice)
+            if (rampDownNotice?.visible == true) {
+                // TODO addEolCard(rampDownNotice)
+            }
             addRiskLevelCard(tracingItem)
             addIncompatibleCard()
             addTestCards(
-                coronaTests.latestOf<PCRCoronaTest>(),
-                coronaTests.latestOf<RACoronaTest>(),
-                coronaTestParameters,
-                familyTests
+                testsData.coronaTests.latestOf<PCRCoronaTest>(),
+                testsData.coronaTests.latestOf<RACoronaTest>(),
+                testsData.coronaTestParameters,
+                testsData.familyTests
             )
             addStatisticsCard(statsData)
             addTraceLocationCard()
@@ -521,3 +539,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val TAG = tag<HomeFragmentViewModel>()
     }
 }
+
+data class TestsData(
+    val coronaTests: Set<PersonalCoronaTest>,
+    val familyTests: Set<FamilyCoronaTest>,
+    val coronaTestParameters: CoronaTestConfig
+)
