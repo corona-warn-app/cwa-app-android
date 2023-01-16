@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileOnboardingFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -26,7 +27,10 @@ class ProfileOnboardingFragment : Fragment(R.layout.profile_onboarding_fragment)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.apply {
+                setNavigationOnClickListener { popBackStack() }
+                addTitleId(R.id.profile_onboarding_fragment_title)
+            }
             nextButton.apply {
                 setOnClickListener {
                     viewModel.onNext()

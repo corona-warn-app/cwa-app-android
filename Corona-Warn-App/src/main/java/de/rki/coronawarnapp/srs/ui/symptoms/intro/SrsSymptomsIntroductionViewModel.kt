@@ -110,7 +110,7 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     fun onTruncatedDialogClick() =
         events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
 
-    private fun resetPreviousSubmissionConsents() = launch {
+    private suspend fun resetPreviousSubmissionConsents() {
         try {
             Timber.d("Trying to reset submission consents")
             checkInRepository.apply {

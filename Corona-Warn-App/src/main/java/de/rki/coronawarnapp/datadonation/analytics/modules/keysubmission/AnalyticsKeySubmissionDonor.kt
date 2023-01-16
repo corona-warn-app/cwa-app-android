@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAKeySubmissionMetadata
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.TriStateBooleanOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import java.time.Duration
@@ -45,7 +46,7 @@ abstract class AnalyticsKeySubmissionDonor(
         }
     }
 
-    private suspend fun createContribution() = PpaData.PPAKeySubmissionMetadata.newBuilder()
+    private suspend fun createContribution() = PPAKeySubmissionMetadata.newBuilder()
         .setAdvancedConsentGiven(repository.advancedConsentGiven())
         .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
             repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration()
@@ -69,6 +70,7 @@ abstract class AnalyticsKeySubmissionDonor(
         .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN())
         .setSubmittedAfterRapidAntigenTest(repository.submittedAfterRAT)
         .setSubmittedWithCheckIns(repository.submittedWithCheckIns().toTriStateBoolean())
+        .setSubmissionType(PpaData.PPAKeySubmissionType.SUBMISSION_TYPE_REGISTERED_TEST)
 
     suspend fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
         return positiveTestResultReceived() &&
@@ -96,7 +98,7 @@ object AnalyticsKeySubmissionNoContribution : DonorModule.Contribution {
     override suspend fun finishDonation(successful: Boolean) = Unit
 }
 
-private fun Boolean?.toTriStateBoolean() =
+fun Boolean?.toTriStateBoolean() =
     when (this) {
         true -> TriStateBooleanOuterClass.TriStateBoolean.TSB_TRUE
         false -> TriStateBooleanOuterClass.TriStateBoolean.TSB_FALSE
