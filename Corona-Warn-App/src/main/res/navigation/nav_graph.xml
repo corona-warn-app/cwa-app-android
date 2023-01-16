@@ -651,6 +651,15 @@
         android:label="@layout/fragment_information_privacy"
         tools:layout="@layout/fragment_information_privacy" />
 
+    <fragment
+        android:id="@+id/rampdownNoticeFragment"
+        android:name="de.rki.coronawarnapp.rampdown.ui.RampdownNoticeFragment"
+        android:label="RampdownNoticeFragment"
+        tools:layout="@layout/fragment_rampdown_notice">
+        <argument
+            android:name="StatusTabNotice"
+            app:argType="de.rki.coronawarnapp.rampdown.model.StatusTabNotice" />
+    </fragment>
 
     <!--    ok let's put it here everythibg-->
 

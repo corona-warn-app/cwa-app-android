@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_mainFragment_to_familyTestListFragment"
             app:destination="@id/familyTestListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rampdownNoticeFragment"
+            app:destination="@id/rampdownNoticeFragment" />
     </fragment>
 
     <fragment

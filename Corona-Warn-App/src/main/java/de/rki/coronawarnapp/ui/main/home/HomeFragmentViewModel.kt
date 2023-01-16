@@ -24,8 +24,8 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.rampdown.model.StatusTabNotice
 import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
-import de.rki.coronawarnapp.rampdown.ui.StatusTabNotice
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
@@ -267,11 +267,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     private fun MutableList<HomeItem>.addEolCard(rampDownNotice: RampDownNotice) {
-        add(FAQCard.Item(onClickAction = { events.postValue(HomeFragmentEvents.OpenFAQUrl) }))
+        val statusTabNotice = rampDownNotice.toStatusTabNotice()
         add(
             RampDownNoticeCard.Item(
-                onClickAction = { events.postValue(HomeFragmentEvents.OpenEolNotice) },
-                statusTabNotice = rampDownNotice.toStatusTabNotice()
+                onClickAction = { events.postValue(HomeFragmentEvents.OpenEolNotice(statusTabNotice)) },
+                statusTabNotice = statusTabNotice
             )
         )
     }

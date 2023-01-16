@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.rampdown.ui
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeRampDownNoticeCardBinding
+import de.rki.coronawarnapp.rampdown.model.StatusTabNotice
 import de.rki.coronawarnapp.ui.main.home.HomeAdapter
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
@@ -35,10 +36,3 @@ class RampDownNoticeCard(
         val statusTabNotice: StatusTabNotice
     ) : HomeItem
 }
-
-data class StatusTabNotice(
-    val titleText: String,
-    val subTitleText: String,
-    val longText: String,
-    val faqAnchor: String?
-)
