@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownDataProvider
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
@@ -72,6 +74,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
     @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
     @MockK lateinit var combinedStatisticsProvider: CombinedStatisticsProvider
+    @MockK lateinit var rampDownDataProvider: RampDownDataProvider
 
     private val dataStore = FakeDataStore()
     private val tracingSettings = TracingSettings(dataStore)
@@ -97,6 +100,16 @@ class HomeFragmentViewModelTest : BaseTest() {
             every { isAdvertisingSupported } returns true
             every { isScanningSupported } returns true
         }
+
+        every { rampDownDataProvider.rampDownNotice } returns flowOf(
+            RampDownNotice(
+                visible = false,
+                title = "",
+                subtitle = "",
+                description = "",
+                faqUrl = null
+            )
+        )
     }
 
     @AfterEach
@@ -124,6 +137,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         riskCardDisplayInfo = riskCardDisplayInfo,
         familyTestRepository = familyTestRepository,
         combinedStatisticsProvider = combinedStatisticsProvider,
+        rampDownDataProvider = rampDownDataProvider,
     )
 
     @Test
