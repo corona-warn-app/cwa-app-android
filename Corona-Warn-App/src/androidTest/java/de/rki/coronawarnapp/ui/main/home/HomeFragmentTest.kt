@@ -308,7 +308,7 @@ class HomeFragmentTest : BaseUITest() {
         launchInMainActivity<HomeFragment>(
             testNavHostController = navController
         )
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -700))
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -900))
         takeScreenshot<HomeFragment>("submission_test_card")
     }
 
