@@ -10,25 +10,13 @@
         android:background="@color/colorSurface"
         tools:context="rampdown.ui.RampdownNoticeFragment">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/submission_consent_header"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIconTint="@color/colorQrCodeScanToolbar"
-            app:title="@string/submission_consent_main_headline"
-            app:titleTextColor="@color/colorQrCodeScanToolbar" />
-
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/submission_consent_header">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -36,55 +24,67 @@
                 android:paddingBottom="@dimen/padding_24">
 
                 <ImageView
-                    android:id="@+id/submission_consent_illustration"
+                    android:id="@+id/rampdown_notice_illustration"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/submission_consent_main_illustration_description"
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_submission_consent" />
-
+                    app:srcCompat="@drawable/ic_rampdown_notice" />
 
                 <TextView
-                    android:id="@+id/submission_consent_hint"
+                    android:id="@+id/rampdown_notice_subtitle"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_18"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@id/rampdown_notice_illustration"
+                    tools:text="Der Betrieb wird am xx.xx.xxxx eingestellt" />
+
+                <TextView
+                    android:id="@+id/rampdown_notice_longtext"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:text="@string/submission_consent_help_by_warning_others_body_event"
+                    android:layout_marginTop="@dimen/margin_12"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/countryList" />
+                    app:layout_constraintTop_toBottomOf="@id/rampdown_notice_subtitle"
+                    tools:text="Sie erhalten dann keine Warnungen mehr"/>
 
-                <include
-                    android:id="@+id/include_submission_consent_body"
-                    layout="@layout/include_submission_consent_body"
+                <TextView
+                    android:id="@+id/rampdown_notice_faqanchor"
+                    style="@style/subtitle"
+                    android:visibility="gone"
+                    android:text="@string/confirmed_status_faq_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_12"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_hint" />
-
-                <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@+id/submission_consent_more_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:focusable="true"
+                    android:layout_marginTop="@dimen/margin_12"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body"
-                    app:titleText="@string/submission_consent_main_bottom_body" />
+                    app:layout_constraintTop_toBottomOf="@id/rampdown_notice_longtext"
+                    tools:visibility="visible"/>
 
                 <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIconTint="@color/colorQrCodeScanToolbar"
+            app:titleTextColor="@color/colorQrCodeScanToolbar"
+            tools:title="Betriebsende"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
