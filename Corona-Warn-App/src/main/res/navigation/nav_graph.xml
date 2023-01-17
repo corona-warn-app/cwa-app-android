@@ -656,11 +656,11 @@
 
     <fragment
         android:id="@+id/rampdownNoticeFragment"
-        android:name="de.rki.coronawarnapp.rampdown.ui.RampdownNoticeFragment"
+        android:name="de.rki.coronawarnapp.rampdown.ui.RampDownNoticeFragment"
         android:label="RampdownNoticeFragment"
         tools:layout="@layout/fragment_rampdown_notice">
         <argument
-            android:name="RampDownNotice"
+            android:name="rampDownNotice"
             app:argType="de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice" />
     </fragment>
 

@@ -29,6 +29,9 @@
     <color name="colorCertificateCards">#FFFFFF</color>
     <color name="colorCertificateUserSwitch">#F5F5F5</color>
     <color name="colorRampDownCard">#FFF7CB</color>
+    <color name="colorTitleRampDownCard">#17191A</color>
+    <color name="colorTextRampDownCard">#17191AA6</color>
+    <color name="colorArrowRampDownCard">#17191A4D</color>
 
     <!-- Text -->
     <color name="colorOnPrimary">#17191A</color>

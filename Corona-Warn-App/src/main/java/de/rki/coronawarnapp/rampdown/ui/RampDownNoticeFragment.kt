@@ -11,24 +11,24 @@ import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 
-class RampdownNoticeFragment : Fragment(R.layout.fragment_rampdown_notice) {
+class RampDownNoticeFragment : Fragment(R.layout.fragment_rampdown_notice) {
 
     private val binding: FragmentRampdownNoticeBinding by viewBinding()
-    private val navArgs by navArgs<RampdownNoticeFragmentArgs>()
+    private val navArgs by navArgs<RampDownNoticeFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val data = navArgs.RampDownNotice
+        val data = navArgs.rampDownNotice
 
         binding.apply {
             toolbar.title = data.title
             toolbar.setNavigationOnClickListener { popBackStack() }
-            rampdownNoticeSubtitle.text = data.subtitle
-            rampdownNoticeLongtext.text = data.description
+            rampDownNoticeSubtitle.text = data.subtitle
+            rampDownNoticeLongtext.text = data.description
             data.faqUrl?.let {
-                rampdownNoticeFaqanchor.convertToHyperlink(it)
-                rampdownNoticeFaqanchor.isVisible = true
+                rampDownNoticeFaqanchor.convertToHyperlink(it)
+                rampDownNoticeFaqanchor.isVisible = true
             }
         }
     }

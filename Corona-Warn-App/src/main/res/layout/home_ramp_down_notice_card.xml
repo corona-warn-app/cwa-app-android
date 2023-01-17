@@ -29,6 +29,7 @@
             android:layout_marginStart="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin_16"
             android:accessibilityHeading="true"
+            android:textColor="@color/colorTitleRampDownCard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/rampdown_card_header_icon"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,6 +43,7 @@
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorArrowRampDownCard"
             app:srcCompat="@drawable/ic_contact_diary_right_arrow" />
 
 
@@ -51,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
+            android:textColor="@color/colorTextRampDownCard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/rampdown_card_header_headline"

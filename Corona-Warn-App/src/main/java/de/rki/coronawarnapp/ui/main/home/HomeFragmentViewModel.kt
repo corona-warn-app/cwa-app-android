@@ -268,7 +268,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private fun MutableList<HomeItem>.addRampDownCard(rampDownNotice: RampDownNotice) {
         add(
             RampDownNoticeCard.Item(
-                onClickAction = { events.postValue(HomeFragmentEvents.OpenEolNotice(rampDownNotice)) },
+                onClickAction = { events.postValue(HomeFragmentEvents.OpenRampDownNotice(rampDownNotice)) },
                 rampDownNotice = rampDownNotice
             )
         )

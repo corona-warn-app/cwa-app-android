@@ -21,7 +21,7 @@ sealed class HomeFragmentEvents {
     object GoToFamilyTests : HomeFragmentEvents()
     data class GoToTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
     data class GoToTestResultKeysSharedFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
-    data class OpenEolNotice(val rampDownNotice: RampDownNotice) : HomeFragmentEvents()
+    data class OpenRampDownNotice(val rampDownNotice: RampDownNotice) : HomeFragmentEvents()
 
     data class OpenIncompatibleUrl(val scanningSupported: Boolean) : HomeFragmentEvents() {
         @get:StringRes

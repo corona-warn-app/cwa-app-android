@@ -33,6 +33,8 @@
     <color name="colorPersonOverviewQrCardGrey">#1E1E1F</color>
     <color name="colorCertificateCards">#434445</color>
     <color name="colorPersonOverviewQrCardBorder">#434445</color>
+    <color name="colorRampDownCard">#F9E996</color>
+    <color name="colorTextRampDownCard">#17191AD9</color>
 
     <!-- Semantic -->
     <color name="colorSemanticHighRisk">#C4314A</color>
