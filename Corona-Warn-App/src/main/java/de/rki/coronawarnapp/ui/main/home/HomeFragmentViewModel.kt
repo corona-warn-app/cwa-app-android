@@ -208,7 +208,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
             if (rampDownNotice?.visible == true) {
-                addEolCard(rampDownNotice)
+                addRampDownCard(rampDownNotice)
             }
             addRiskLevelCard(tracingItem)
             addIncompatibleCard()
@@ -265,7 +265,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.updateWasTracingExplanationDialogShown(true)
     }
 
-    private fun MutableList<HomeItem>.addEolCard(rampDownNotice: RampDownNotice) {
+    private fun MutableList<HomeItem>.addRampDownCard(rampDownNotice: RampDownNotice) {
         add(
             RampDownNoticeCard.Item(
                 onClickAction = { events.postValue(HomeFragmentEvents.OpenEolNotice(rampDownNotice)) },
