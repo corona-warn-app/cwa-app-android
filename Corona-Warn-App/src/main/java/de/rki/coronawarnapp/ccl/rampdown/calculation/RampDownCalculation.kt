@@ -15,7 +15,9 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RampDownCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     private val cclJsonFunctions: CclJsonFunctions,
