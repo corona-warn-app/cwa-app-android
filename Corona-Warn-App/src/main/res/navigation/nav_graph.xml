@@ -50,9 +50,6 @@
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
     <action
-        android:id="@+id/action_global_to_rampdownNoticeFragment"
-        app:destination="@id/rampdownNoticeFragment" />
-    <action
         android:id="@+id/action_submissionTestResultPendingFragment"
         app:destination="@id/submissionTestResultPendingFragment"
         app:popUpTo="@id/mainFragment"
@@ -653,17 +650,6 @@
         android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
         android:label="@layout/fragment_information_privacy"
         tools:layout="@layout/fragment_information_privacy" />
-
-    <fragment
-        android:id="@+id/rampdownNoticeFragment"
-        android:name="de.rki.coronawarnapp.rampdown.ui.RampDownNoticeFragment"
-        android:label="RampdownNoticeFragment"
-        tools:layout="@layout/fragment_rampdown_notice">
-        <argument
-            android:name="rampDownNotice"
-            app:argType="de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice" />
-    </fragment>
-
     <!--    ok let's put it here everythibg-->
 
     <fragment

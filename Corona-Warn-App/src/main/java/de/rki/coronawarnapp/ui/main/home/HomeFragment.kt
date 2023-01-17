@@ -285,7 +285,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
             is HomeFragmentEvents.OpenRampDownNotice -> {
                 findNavController().navigate(
-                    NavGraphDirections.actionGlobalToRampdownNoticeFragment(event.rampDownNotice)
+                    HomeFragmentDirections.actionMainFragmentToRampdownNoticeFragment(event.rampDownNotice)
                 )
             }
         }

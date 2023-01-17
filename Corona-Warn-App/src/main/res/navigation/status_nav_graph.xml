@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_mainFragment_to_familyTestListFragment"
             app:destination="@id/familyTestListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rampdownNoticeFragment"
+            app:destination="@id/rampdownNoticeFragment" />
     </fragment>
 
     <fragment
@@ -63,5 +66,15 @@
         android:name="de.rki.coronawarnapp.statistics.ui.StatisticsExplanationFragment"
         android:label="@layout/fragment_statistics_explanation"
         tools:layout="@layout/fragment_statistics_explanation" />
+
+    <fragment
+        android:id="@+id/rampdownNoticeFragment"
+        android:name="de.rki.coronawarnapp.rampdown.ui.RampDownNoticeFragment"
+        android:label="RampdownNoticeFragment"
+        tools:layout="@layout/fragment_rampdown_notice">
+        <argument
+            android:name="rampDownNotice"
+            app:argType="de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice" />
+    </fragment>
 
 </navigation>
