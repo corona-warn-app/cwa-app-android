@@ -104,6 +104,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     tracingStateProviderFactory: TracingStateProvider.Factory,
     coronaTestRepository: CoronaTestRepository,
     combinedStatisticsProvider: CombinedStatisticsProvider,
+    rampDownDataProvider: RampDownDataProvider,
     private val errorResetTool: EncryptionErrorResetTool,
     private val tracingRepository: TracingRepository,
     private val submissionRepository: SubmissionRepository,
@@ -117,8 +118,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val riskCardDisplayInfo: RiskCardDisplayInfo,
-    private val familyTestRepository: FamilyTestRepository,
-    private val eolDataProvider: RampDownDataProvider
+    private val familyTestRepository: FamilyTestRepository
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
@@ -203,7 +203,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         testsData,
         tracingCardItems,
         combinedStatisticsProvider.statistics,
-        eolDataProvider.rampDownNotice,
+        rampDownDataProvider.rampDownNotice,
     ) { testsData, tracingItem, statsData, rampDownNotice ->
         mutableListOf<HomeItem>().apply {
             Timber.d("rampDownNotice=%s", rampDownNotice)
