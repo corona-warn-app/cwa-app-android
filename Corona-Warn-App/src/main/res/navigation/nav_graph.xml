@@ -50,6 +50,9 @@
         app:popUpTo="@id/mainFragment"
         app:popUpToInclusive="false" />
     <action
+        android:id="@+id/action_global_to_rampdownNoticeFragment"
+        app:destination="@id/rampdownNoticeFragment" />
+    <action
         android:id="@+id/action_submissionTestResultPendingFragment"
         app:destination="@id/submissionTestResultPendingFragment"
         app:popUpTo="@id/mainFragment"
@@ -657,8 +660,8 @@
         android:label="RampdownNoticeFragment"
         tools:layout="@layout/fragment_rampdown_notice">
         <argument
-            android:name="StatusTabNotice"
-            app:argType="de.rki.coronawarnapp.rampdown.model.StatusTabNotice" />
+            android:name="RampDownNotice"
+            app:argType="de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice" />
     </fragment>
 
     <!--    ok let's put it here everythibg-->

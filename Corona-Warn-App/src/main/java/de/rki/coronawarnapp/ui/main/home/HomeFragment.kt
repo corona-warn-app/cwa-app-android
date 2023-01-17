@@ -285,7 +285,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
             is HomeFragmentEvents.OpenEolNotice -> {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionMainFragmentToRampdownNoticeFragment(event.statusTabNotice)
+                    NavGraphDirections.actionGlobalToRampdownNoticeFragment(event.rampDownNotice)
                 )
             }
         }
