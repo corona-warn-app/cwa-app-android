@@ -54,7 +54,7 @@
                 tools:text="Sie erhalten dann keine Warnungen mehr" />
 
             <TextView
-                android:id="@+id/ramp_down_notice_faqanchor"
+                android:id="@+id/ramp_down_notice_faq_anchor"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

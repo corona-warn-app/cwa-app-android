@@ -27,8 +27,8 @@ class RampDownNoticeFragment : Fragment(R.layout.fragment_rampdown_notice) {
             rampDownNoticeSubtitle.text = data.subtitle
             rampDownNoticeLongtext.text = data.description
             data.faqUrl?.let {
-                rampDownNoticeFaqanchor.convertToHyperlink(it)
-                rampDownNoticeFaqanchor.isVisible = true
+                rampDownNoticeFaqAnchor.convertToHyperlink(it)
+                rampDownNoticeFaqAnchor.isVisible = true
             }
         }
     }
