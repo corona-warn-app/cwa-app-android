@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ccl.rampdown.model.RampDownOutput
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,8 +30,6 @@ class RampDownCalculation @Inject constructor(
             "getStatusTabNotice",
             getDefaultInputParameters(dateTime).toInput(mapper)
         )
-
-        Timber.d(output.toPrettyString())
         mapper.treeToValue(output, RampDownOutput::class.java)
     }
 }
