@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.tracing.states.TracingStateProvider
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentViewModel
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.encryptionmigration.EncryptionErrorResetTool
@@ -65,7 +65,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var appShortcutsHelper: AppShortcutsHelper
-    @MockK lateinit var traceLocationOrganizerSettings: TraceLocationOrganizerSettings
+    @MockK lateinit var traceLocationPreferences: TraceLocationPreferences
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var bluetoothSupport: BluetoothSupport
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
@@ -86,7 +86,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { coronaTestRepository.coronaTests } returns emptyFlow()
         every { combinedStatisticsProvider.statistics } returns emptyFlow()
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(100101010)
-        every { errorResetTool.isResetNoticeToBeShown } returns false
+        every { errorResetTool.isResetNoticeToBeShown } returns flowOf(false)
         every { familyTestRepository.familyTests } returns flowOf()
 
         coEvery { cwaSettings.wasTracingExplanationDialogShown } returns flowOf(true)
@@ -116,7 +116,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         appShortcutsHelper = appShortcutsHelper,
         tracingSettings = tracingSettings,
-        traceLocationOrganizerSettings = traceLocationOrganizerSettings,
+        traceLocationPreferences = traceLocationPreferences,
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         localStatisticsConfigStorage = localStatisticsConfigStorage,
@@ -180,7 +180,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { BuildConfigWrap.VERSION_CODE } returns 1120004
         coEvery { cwaSettings.lastChangelogVersion } returns flowOf(1L) andThen flowOf(1120004)
 
-        every { errorResetTool.isResetNoticeToBeShown } returns true
+        every { errorResetTool.isResetNoticeToBeShown } returns flowOf(true)
 
         with(createInstance()) {
             showPopUps()

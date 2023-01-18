@@ -6,17 +6,22 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 
 class CheckInOnboardingViewModel @AssistedInject constructor(
     private val settings: TraceLocationSettings
 ) : CWAViewModel() {
     val events = SingleLiveEvent<CheckInOnboardingNavigation>()
 
-    fun onAcknowledged() {
-        settings.onboardingStatus.update {
-            TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
+    fun onAcknowledged() = launch {
+        settings.updateOnboardingStatus(TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0)
+        events.postValue(CheckInOnboardingNavigation.AcknowledgedNavigation)
+    }
+
+    fun checkOnboarding() = launch {
+        if (settings.onboardingStatus.first() == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0) {
+            events.postValue(CheckInOnboardingNavigation.SkipOnboardingInfo)
         }
-        events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
 
     fun onPrivacy() {
@@ -26,8 +31,6 @@ class CheckInOnboardingViewModel @AssistedInject constructor(
     fun onBackButtonPress() {
         events.value = CheckInOnboardingNavigation.AcknowledgedNavigation
     }
-
-    val isOnboardingComplete = settings.onboardingStatus.value == TraceLocationSettings.OnboardingStatus.ONBOARDED_2_0
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<CheckInOnboardingViewModel>

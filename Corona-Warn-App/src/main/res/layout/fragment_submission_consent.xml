@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -100,38 +100,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/submission_consent_hint" />
 
-                <FrameLayout
-                    android:id="@+id/divider"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:layout_marginTop="@dimen/spacing_tiny"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body" />
-
-                <TextView
-                    android:id="@+id/submission_consent_main_bottom_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                <de.rki.coronawarnapp.ui.view.MoreInformationView
+                    android:id="@+id/submission_consent_more_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
+                    android:layout_marginHorizontal="24dp"
                     android:focusable="true"
-                    android:onClick="@{ () -> viewModel.onDataPrivacyClick() }"
-                    android:paddingVertical="@dimen/spacing_tiny"
-                    android:text="@string/submission_consent_main_bottom_body"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/divider" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/card_divider"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_consent_main_bottom_body" />
+                    app:layout_constraintTop_toBottomOf="@id/include_submission_consent_body"
+                    app:titleText="@string/submission_consent_main_bottom_body" />
 
                 <include layout="@layout/merge_guidelines_side" />
 

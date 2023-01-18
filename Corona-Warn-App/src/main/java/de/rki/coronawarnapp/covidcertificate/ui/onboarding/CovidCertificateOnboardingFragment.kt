@@ -20,8 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragment
 import de.rki.coronawarnapp.databinding.CovidCertificateOnboardingFragmentBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
-import de.rki.coronawarnapp.qrcode.ui.toQrCodeErrorDialogBuilder
-import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -55,6 +53,8 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.checkOnboardingStatus()
+
         with(binding) {
             if (!args.showBottomNav) {
                 toolbar.apply {
@@ -75,6 +75,7 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     findNavController().navigate(
                         R.id.action_covidCertificateOnboardingFragment_to_privacyFragment
                     )
+
                 CovidCertificateOnboardingViewModel.Event.NavigateToPersonOverview ->
                     findNavController().navigate(
                         R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
@@ -84,8 +85,10 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                     val uri = when (event.containerId) {
                         is VaccinationCertificateContainerId ->
                             VaccinationDetailsFragment.uri(event.containerId.qrCodeHash)
+
                         is TestCertificateContainerId ->
                             TestCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
+
                         is RecoveryCertificateContainerId ->
                             RecoveryCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
                     }
@@ -94,8 +97,16 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                         .build()
                     findNavController().navigate(uri, navOption)
                 }
+
                 is CovidCertificateOnboardingViewModel.Event.Error ->
-                    displayDialog(dialog = event.throwable.toQrCodeErrorDialogBuilder(requireContext()))
+                    showCertificateQrErrorDialog(event.throwable)
+
+                is CovidCertificateOnboardingViewModel.Event.SkipOnboarding ->
+                    if (args.showBottomNav) {
+                        findNavController().navigate(
+                            R.id.action_covidCertificateOnboardingFragment_to_personOverviewFragment
+                        )
+                    }
             }
         }
     }

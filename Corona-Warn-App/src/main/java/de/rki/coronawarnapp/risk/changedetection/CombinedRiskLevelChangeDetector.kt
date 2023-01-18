@@ -12,8 +12,10 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
@@ -37,7 +39,8 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val notificationManagerCompat: NotificationManagerCompat,
     private val notificationHelper: GeneralNotifications,
     private val tracingSettings: TracingSettings,
-    private val riskCardDisplayInfo: RiskCardDisplayInfo
+    private val riskCardDisplayInfo: RiskCardDisplayInfo,
+    private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) : Initializer {
 
     override fun initialize() {
@@ -159,8 +162,15 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private fun sendNotification() {
         Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
+        val pendingIntent = deepLinkBuilderFactory.create(context)
+            .setGraph(R.navigation.nav_graph)
+            .setComponentName(MainActivity::class.java)
+            .setDestination(R.id.mainFragment)
+            .createPendingIntent()
+
         val notification = notificationHelper.newBaseBuilder()
             .setContentTitle(context.getString(R.string.notification_headline))
+            .setContentIntent(pendingIntent)
             .setContentTextExpandable(context.getString(R.string.notification_body))
             .build()
 

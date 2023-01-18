@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
+import kotlinx.coroutines.flow.first
 import java.time.Duration
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,66 +24,53 @@ abstract class AnalyticsKeySubmissionRepository(
 ) {
     abstract val submittedAfterRAT: Boolean
 
-    val testResultReceivedAt: Long
-        get() = storage.testResultReceivedAt.value
+    suspend fun testResultReceivedAt(): Long = storage.testResultReceivedAt.first()
 
-    private val testRegisteredAt: Long
-        get() = storage.testRegisteredAt.value
+    suspend fun testRegisteredAt(): Long = storage.testRegisteredAt.first()
 
-    val submitted: Boolean
-        get() = storage.submitted.value
+    suspend fun submitted(): Boolean = storage.submitted.first()
 
-    private val submittedAt: Long
-        get() = storage.submittedAt.value
+    suspend fun submittedAt(): Long = storage.submittedAt.first()
 
-    val submittedInBackground: Boolean
-        get() = submitted && storage.submittedInBackground.value
+    suspend fun submittedInBackground(): Boolean = submitted() && storage.submittedInBackground.first()
 
-    val submittedAfterCancel: Boolean
-        get() = submitted && storage.submittedAfterCancel.value
+    suspend fun submittedAfterCancel(): Boolean = submitted() && storage.submittedAfterCancel.first()
 
-    val submittedAfterSymptomFlow: Boolean
-        get() = submitted && storage.submittedAfterSymptomFlow.value
+    suspend fun submittedAfterSymptomFlow(): Boolean = submitted() && storage.submittedAfterSymptomFlow.first()
 
-    val submittedWithTeleTAN: Boolean
-        get() = submitted && storage.registeredWithTeleTAN.value
+    suspend fun submittedWithTeleTAN(): Boolean = submitted() && storage.registeredWithTeleTAN.first()
 
-    val lastSubmissionFlowScreen: Int
-        get() = storage.lastSubmissionFlowScreen.value
+    suspend fun lastSubmissionFlowScreen(): Int = storage.lastSubmissionFlowScreen.first()
 
-    val advancedConsentGiven: Boolean
-        get() = storage.advancedConsentGiven.value
+    suspend fun advancedConsentGiven(): Boolean = storage.advancedConsentGiven.first()
 
-    val hoursSinceTestResult: Int
-        get() {
-            if (submittedAt <= 0) return -1
-            if (testResultReceivedAt <= 0) return -1
-            if (submittedAt < testResultReceivedAt) return -1
-            return Duration.ofMillis(submittedAt - testResultReceivedAt).toHours().toInt()
-        }
+    suspend fun hoursSinceTestResult(): Int {
+        if (submittedAt() <= 0) return -1
+        if (testResultReceivedAt() <= 0) return -1
+        if (submittedAt() < testResultReceivedAt()) return -1
+        return Duration.ofMillis(submittedAt() - testResultReceivedAt()).toHours().toInt()
+    }
 
-    val hoursSinceTestRegistration: Int
-        get() {
-            if (submittedAt <= 0) return -1
-            if (testRegisteredAt <= 0) return -1
-            if (submittedAt < testRegisteredAt) return -1
-            return Duration.ofMillis(submittedAt - testRegisteredAt).toHours().toInt()
-        }
+    suspend fun hoursSinceTestRegistration(): Int {
+        if (submittedAt() <= 0) return -1
+        if (testRegisteredAt() <= 0) return -1
+        if (submittedAt() < testRegisteredAt()) return -1
+        return Duration.ofMillis(submittedAt() - testRegisteredAt()).toHours().toInt()
+    }
 
-    val ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+    suspend fun ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(): Int =
+        storage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first()
 
-    val ewHoursSinceHighRiskWarningAtTestRegistration: Int
-        get() = storage.ewHoursSinceHighRiskWarningAtTestRegistration.value
+    suspend fun ewHoursSinceHighRiskWarningAtTestRegistration(): Int =
+        storage.ewHoursSinceHighRiskWarningAtTestRegistration.first()
 
-    val ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration: Int
-        get() = storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
+    suspend fun ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(): Int =
+        storage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first()
 
-    val ptHoursSinceHighRiskWarningAtTestRegistration: Int
-        get() = storage.ptHoursSinceHighRiskWarningAtTestRegistration.value
+    suspend fun ptHoursSinceHighRiskWarningAtTestRegistration(): Int =
+        storage.ptHoursSinceHighRiskWarningAtTestRegistration.first()
 
-    val submittedWithCheckIns: Boolean
-        get() = storage.submittedWithCheckIns.value
+    suspend fun submittedWithCheckIns(): Boolean = storage.submittedWithCheckIns.first()
 
-    fun reset() = storage.clear()
+    suspend fun reset() = storage.clear()
 }

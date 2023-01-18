@@ -87,9 +87,8 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             State.Working -> {
                 // Handled above
             }
-            is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
-                setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-            }
+
+            is State.Error -> state.showExceptionDialog(this) { popBackStack() }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
                     if (state.test is FamilyCoronaTest) {
@@ -116,16 +115,16 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
     }
 
     private fun showCloseDialog() = displayDialog {
-        setTitle(R.string.request_gc_dialog_title)
-        setMessage(R.string.request_gc_dialog_message)
-        setPositiveButton(R.string.request_gc_dialog_positive_button) { _, _ ->
+        title(R.string.request_gc_dialog_title)
+        message(R.string.request_gc_dialog_message)
+        positiveButton(R.string.request_gc_dialog_positive_button) {
             if (args.comesFromDispatcherFragment) {
                 findNavController().navigate(
                     RequestCovidCertificateFragmentDirections.actionRequestCovidCertificateFragmentToHomeFragment()
                 )
             } else popBackStack()
         }
-        setNegativeButton(R.string.request_gc_dialog_negative_button) { _, _ -> }
+        negativeButton(R.string.request_gc_dialog_negative_button)
     }
 
     private fun openDatePicker() {

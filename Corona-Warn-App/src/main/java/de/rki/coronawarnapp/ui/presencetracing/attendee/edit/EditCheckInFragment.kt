@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.abs
@@ -115,6 +116,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                             EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent(it)
                         )
                     }
+
                 is EditCheckInViewModel.DateTimePickerEvent.TimePickerEvent ->
                     showTimePicker(event.localTime) {
                         viewModel.onStartTimeChanged(
@@ -132,6 +134,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
                             EditCheckInViewModel.DateTimePickerEvent.DatePickerEvent(it)
                         )
                     }
+
                 is EditCheckInViewModel.DateTimePickerEvent.TimePickerEvent ->
                     showTimePicker(event.localTime) {
                         viewModel.onEndTimeChanged(
@@ -153,7 +156,7 @@ class EditCheckInFragment : Fragment(R.layout.fragment_edit_check_in), AutoInjec
             .build()
             .apply {
                 addOnPositiveButtonClickListener {
-                    callback(Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate())
+                    callback(Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate())
                 }
             }
             .show(childFragmentManager, DATE_PICKER_TAG)

@@ -62,22 +62,27 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                             )
                     )
                 }
+
                 is FamilyTestConsentNavigationEvents.NavigateClose -> {
                     binding.root.hideKeyboard()
                     goBack()
                 }
+
                 is FamilyTestConsentNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     FamilyTestConsentFragmentDirections.actionFamilyTestConsentFragmentToInformationPrivacyFragment()
                 )
+
                 is FamilyTestConsentNavigationEvents.NavigateToCertificateRequest -> findNavController().navigate(
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
                         coronaTestConsent = it.consentGiven,
                         allowTestReplacement = it.allowReplacement,
-                        personName = it.personName
+                        personName = it.personName,
+                        comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                     ),
                     navOptions
                 )
+
                 else -> Unit
             }
         }
@@ -90,11 +95,11 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             when (state) {
                 TestRegistrationStateProcessor.State.Idle,
                 TestRegistrationStateProcessor.State.Working -> Unit
+
                 is TestRegistrationStateProcessor.State.Error -> {
-                    val dialog = state.getDialogBuilder(requireContext())
-                    dialog.setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                    dialog.show()
+                    state.showExceptionDialog(this) { popBackStack() }
                 }
+
                 is TestRegistrationStateProcessor.State.TestRegistered -> findNavController().navigate(
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(
                         testIdentifier = state.test.identifier,
@@ -117,6 +122,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                         }
                         false
                     }
+
                     else -> true
                 }
             }
@@ -124,7 +130,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             toolbar.setNavigationOnClickListener {
                 viewModel.onNavigateClose()
             }
-            dataPrivacy.setOnClickListener {
+            dataPrivacyMoreInfo.setOnClickListener {
                 viewModel.onDataPrivacyClick()
             }
             consentButton.setOnClickListener {

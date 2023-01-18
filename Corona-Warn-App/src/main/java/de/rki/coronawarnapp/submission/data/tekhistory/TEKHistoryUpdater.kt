@@ -52,6 +52,10 @@ class TEKHistoryUpdater @AssistedInject constructor(
         )
     }
 
+    suspend fun clearTekCache() {
+        tekCache.reset()
+    }
+
     fun getTeksForTesting() {
         scope.launch {
             if (!enfClient.isTracingEnabled.first()) {
@@ -84,6 +88,17 @@ class TEKHistoryUpdater @AssistedInject constructor(
                     return@launch
                 }
                 getTekHistoryOrRequestPermission(updateCache = true)
+            }
+        }
+    }
+
+    fun getTeksOrRequestPermissionFromOS() {
+        scope.launch {
+            if (!enfClient.isTracingEnabled.first()) {
+                Timber.tag(TAG).w("Tracing is disabled, enabling...")
+                tracingPermissionHelper.startTracing()
+            } else {
+                getTekHistoryOrRequestPermission(updateCache = false)
             }
         }
     }
@@ -144,7 +159,12 @@ class TEKHistoryUpdater @AssistedInject constructor(
         .maxByOrNull { it.obtainedAt }?.keys
         .orEmpty()
 
-    fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+    fun handleActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        updateCache: Boolean = true
+    ): Boolean {
         val isTracingPermissionRequest = tracingPermissionHelper.handleActivityResult(requestCode, resultCode, data)
         if (isTracingPermissionRequest) {
             Timber.tag(TAG).d("Was tracing permission request, will try TEK update if tracing is now enabled.")
@@ -160,7 +180,7 @@ class TEKHistoryUpdater @AssistedInject constructor(
             Timber.tag(TAG).d("We got TEK permission, now updating history.")
             scope.launch {
                 val teks = getTekHistory()
-                if (requestCode == TEK_PERMISSION_REQUEST_WITH_CACHING) updateTekCache(teks)
+                if (requestCode == TEK_PERMISSION_REQUEST_WITH_CACHING && updateCache) updateTekCache(teks)
                 callback.onTEKAvailable(teks)
             }
         } else {

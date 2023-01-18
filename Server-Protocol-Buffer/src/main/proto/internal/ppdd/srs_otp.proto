@@ -1,0 +1,9 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+
+message SRSOneTimePassword {
+
+  string otp = 1;
+}

@@ -8,4 +8,6 @@ message PPACIOS {
   string deviceToken = 1;
 
   string apiToken = 2;
+
+  string previousApiToken = 3;
 }

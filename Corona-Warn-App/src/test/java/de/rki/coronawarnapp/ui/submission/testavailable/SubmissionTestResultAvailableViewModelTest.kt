@@ -15,6 +15,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -131,7 +132,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
             every { identifier } returns ""
             every { type } returns PCR
         }
-        every { analyticsKeySubmissionCollector.reportConsentWithdrawn(any()) } just Runs
+        coEvery { analyticsKeySubmissionCollector.reportConsentWithdrawn(any()) } just Runs
 
         val viewModel = createViewModel()
 
@@ -151,8 +152,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         createViewModel().proceed()
 
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
     }
 
     @Test
@@ -164,7 +165,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
         createViewModel().proceed()
 
-        verify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
+        coVerify(exactly = 0) { analyticsKeySubmissionCollector.reportConsentWithdrawn(PCR) }
+        coVerify(exactly = 1) { analyticsKeySubmissionCollector.reportConsentWithdrawn(RAPID_ANTIGEN) }
     }
 }

@@ -1,0 +1,26 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.v2;
+
+import "internal/v2/ppdd_ppac_parameters.proto";
+
+message PPDDSelfReportSubmissionParametersIOS {
+  PPDDSelfReportSubmissionParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersIOS ppac = 2;
+}
+
+message PPDDSelfReportSubmissionParametersAndroid {
+  PPDDSelfReportSubmissionParametersCommon common = 1;
+  PPDDPrivacyPreservingAccessControlParametersAndroid ppac = 2;
+}
+
+message PPDDSelfReportSubmissionParametersCommon {
+  int32 timeSinceOnboardingInHours = 1;
+  int32 timeBetweenSubmissionsInDays = 2;
+  PPDDSelfReportSubmissionPlausibleDeniabilityParameters plausibleDeniabilityParameters = 3;
+}
+
+message PPDDSelfReportSubmissionPlausibleDeniabilityParameters {
+  int32 minRequestPaddingBytes = 1;
+  int32 maxRequestPaddingBytes = 2;
+}

@@ -137,7 +137,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 onClickAction = { _, position ->
                     person.personIdentifier.let { personIdentifier ->
                         events.postValue(
-                            OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
+                            OpenPersonDetailsFragment(personIdentifier.groupingKey, position, color)
                         )
                     }
                 },

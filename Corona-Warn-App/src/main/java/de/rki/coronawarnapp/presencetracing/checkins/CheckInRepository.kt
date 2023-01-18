@@ -66,8 +66,19 @@ class CheckInRepository @Inject constructor(
         checkInDao.updateEntityById(checkInId, update)
     }
 
+    suspend fun updatePostSubmissionFlags(checkIns: List<CheckIn>) {
+        Timber.d("updatePostSubmissionFlags(checkInId=%s)", checkIns.map { it.id })
+        checkIns.forEach { checkIn ->
+            try {
+                updatePostSubmissionFlags(checkIn.id)
+            } catch (e: Exception) {
+                Timber.d("CheckIn $checkIn could not be marked as submitted")
+            }
+        }
+    }
+
     suspend fun updatePostSubmissionFlags(checkInId: Long) {
-        Timber.d("markCheckInAsSubmitted(checkInId=$checkInId)")
+        Timber.d("updatePostSubmissionFlags(checkInId=$checkInId)")
         checkInDao.updateEntity(
             TraceLocationCheckInEntity.SubmissionUpdate(
                 checkInId = checkInId,

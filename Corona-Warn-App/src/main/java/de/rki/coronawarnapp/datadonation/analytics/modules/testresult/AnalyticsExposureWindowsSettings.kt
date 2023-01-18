@@ -1,35 +1,42 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
-import android.content.Context
-import com.google.gson.Gson
-import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.preferences.FlowPreference
-import de.rki.coronawarnapp.util.preferences.clearAndNotify
-import de.rki.coronawarnapp.util.preferences.createFlowPreference
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.util.datastore.dataRecovering
+import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
+import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
 class AnalyticsExposureWindowsSettings @Inject constructor(
-    @AppContext context: Context,
-    @BaseGson val gson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
+    @AnalyticsExposureWindowsDataStore private val dataStore: DataStore<Preferences>
 ) : Resettable {
-    private val prefs by lazy {
-        context.getSharedPreferences("analytics_exposureWindows", Context.MODE_PRIVATE)
+
+    val currentExposureWindows = dataStore.dataRecovering.distinctUntilChanged(
+        key = PREFS_KEY_CURRENT_EXPOSURE_WINDOWS, defaultValue = ""
+    ).map { value ->
+        if (value.isNotEmpty()) {
+            objectMapper.readValue(value) as List<AnalyticsExposureWindow>
+        } else null
     }
 
-    val currentExposureWindows: FlowPreference<List<AnalyticsExposureWindow>?> = prefs.createFlowPreference(
-        key = PREFS_KEY_CURRENT_EXPOSURE_WINDOWS,
-        reader = FlowPreference.gsonReader<List<AnalyticsExposureWindow>?>(gson, null),
-        writer = FlowPreference.gsonWriter(gson)
+    suspend fun updateCurrentExposureWindows(value: List<AnalyticsExposureWindow>) = dataStore.trySetValue(
+        preferencesKey = PREFS_KEY_CURRENT_EXPOSURE_WINDOWS, value = objectMapper.writeValueAsString(value)
     )
 
     override suspend fun reset() {
         Timber.d("reset()")
-        prefs.clearAndNotify()
+        dataStore.clear()
     }
 }
 
-private const val PREFS_KEY_CURRENT_EXPOSURE_WINDOWS = "analytics_currentExposureWindows"
+private val PREFS_KEY_CURRENT_EXPOSURE_WINDOWS = stringPreferencesKey("analytics_currentExposureWindows")

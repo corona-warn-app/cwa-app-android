@@ -57,7 +57,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
             setQrTitle(certificate, qrTitle, context)
-            notificationBadge.isVisible = certificate.hasNotificationBadge
+            notificationBadge.isVisible = false
             statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
             statusTitle.text = context.getString(
@@ -72,7 +72,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
         is Expired -> {
             setQrTitle(certificate, qrTitle, context)
-            notificationBadge.isVisible = certificate.hasNotificationBadge
+            notificationBadge.isVisible = false
             statusIcon.constraintLayoutParams.verticalBias = 1.0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_expired)

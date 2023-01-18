@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -1047,7 +1047,7 @@
     <!-- XHED: Page headline for pendin family test result next steps -->
     <string name="submission_family_test_result_pending_steps_waiting_heading">"Wynik testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji Poproś o TAN, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
     <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny."</string>
     <!-- XHED: Page headline for results next steps  -->
@@ -1178,14 +1178,6 @@
     <string name="submission_accept_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
-    <!-- XHED: CLose screen popup title for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_title">"Udostępniać losowe identyfikatory za pośrednictwem Corona-Warn-App?"</string>
-    <!-- XHED: Close screen popup body for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_body">"Twoje losowe identyfikatory z ostatnich 14 dni służą do powiadamiania innych osób o przebywaniu w ich pobliżu, a tym samym narażeniu na kontakt z osobą, u której zdiagnozowano COVID-19. Twoja tożsamość nigdy nie będzie udostępniana innym osobom."</string>
-    <!-- XBUT: Close screen pupup negative button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_negative_button">"Nie udostępniaj"</string>
-    <!-- XBUT: Close screen popup positive button for no consent given cancel dialog -->
-    <string name="submission_positive_other_warning_dialog_positive_button">"Udostępnij"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1221,7 +1213,9 @@
     <!-- XHED: Page subtitle for completed submission page -->
     <string name="submission_done_subtitle">"Uwaga:"</string>
     <!-- YTXT: text after submission: pcr validation -->
-    <string name="submission_done_pcr_validation">"Wykonaj test PCR, aby zweryfikować wynik tego testu."</string>
+    <string name="submission_done_pcr_validation">"Jeśli jeszcze tego nie zrobiłeś(-aś), wykonaj test PCR, aby sprawdzić wynik tego testu."</string>
+    <!-- YTXT: text after submission: warning contact entry -->
+    <string name="submission_done_warning_contact_entry_text">"Twoje ostrzeżenie zostanie dodane do dziennika kontaktów."</string>
     <!-- YTXT: text after submission: contagious -->
     <string name="submission_done_contagious">"Organ ds. zdrowia publicznego może skontaktować się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text after submission: isolate -->
@@ -1232,7 +1226,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Obserwuj swoje objawy i monitoruj ich rozwój."</item>
-        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 10 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
+        <item>"Możesz zostać poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 10 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać, dlatego prosimy o przestrzeganie wyznaczonego okresu izolacji."</item>
     </string-array>
@@ -1261,7 +1255,7 @@
     <!-- XTXT: headline text for initial symptom screen -->
     <string name="submission_symptom_initial_headline">"Czy w ciągu ostatnich kilku dni wystąpił u Ciebie jeden lub kilka z wymienionych poniżej objawów?"</string>
     <!-- YTXT: explanation text for initial symptom screen -->
-    <string name="submission_symptom_initial_explanation">"Możesz podać, czy i kiedy zauważyłeś(-łaś) objawy koronawirusa, aby umożliwić aplikacji dokładniejsze obliczenie ryzyka zakażenia innych użytkowników aplikacji. Ten krok jest dobrowolny. Jeśli nie chcesz podawać informacji o objawach, wybierz opcję „Brak odpowiedzi”."</string>
+    <string name="submission_symptom_initial_explanation">"Możesz podać, czy i kiedy zauważyłeś(-łaś) objawy koronawirusa, aby umożliwić aplikacji dokładniejsze obliczenie ryzyka zakażenia innych osób. Ten krok jest dobrowolny. Jeśli nie chcesz podawać informacji o objawach, wybierz opcję „Brak odpowiedzi”."</string>
     <!-- YTXT: Bullet points for symptoms -->
     <string-array name="submission_symptom_symptom_bullets">
         <item>"Podwyższona temperatura lub gorączka"</item>
@@ -1438,7 +1432,7 @@
     <!-- XHED: Pandemic radar title -->
     <string name="pandemic_radar_card_title">"Radar pandemiczny"</string>
     <!-- XTXT: Pandemic radar subtitle -->
-    <string name="pandemic_radar_card_subtitle">"z Instytutu Roberta Kocha"</string>
+    <string name="pandemic_radar_card_subtitle">"Z niemieckiego Federalnego Ministerstwa Zdrowia"</string>
     <!-- XTXT: Pandemic radar message -->
     <string name="pandemic_radar_card_message">"Poznaj dodatkowe statystyki związane z pandemią."</string>
     <!-- XTXT: Pandemic radar button text -->
@@ -1499,7 +1493,7 @@
     <!-- XHED: New infections title -->
     <string name="statistics_explanation_new_infections">"nowe zakażenia"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"potwierdzone nowe zakażenia"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"Potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string formatted="false" name="statistics_explanation_confirmed_new_infection_text">"Liczba osób, u których zdiagnozowano koronawirusa i które zostały zgłoszone do RKI. Liczby poniżej progu wynoszącego 1% średniej z 7 dni nie są wyświetlane; zobacz również wyjaśnienie w opcji menu: Legenda &gt; Okres czasu."</string>
     <!-- XHED: Explanation screen warned persons title -->
@@ -1511,7 +1505,7 @@
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
-    <string name="statistics_explanation_seven_day_incidence_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI."</string>
+    <string name="statistics_explanation_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
@@ -1527,7 +1521,7 @@
     <!-- XTXT: Explanation screen pandemic radar title -->
     <string name="statistics_explanation_pandemic_radar_title">"Radar pandemiczny"</string>
     <!-- XTXT: Explanation screen pandemic radar susbtile -->
-    <string name="statistics_explanation_pandemic_radar_subtitle">"Różnorodne statystyki dotyczące pandemii koronawirusa, które znajdują się na stronie Instytutu Roberta Kocha.\nZwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako pozbawiona barier i jest dostępna tylko w języku niemieckim."</string>
+    <string name="statistics_explanation_pandemic_radar_subtitle">"Niemieckie Federalne Ministerstwo Zdrowia zapewnia różnorodne statystyki dotyczące pandemii koronawirusa. Zwróć uwagę, że wszelkie dane użyte podczas otwierania strony zostaną odjęte od Twojego planu danych oraz że strona nie została zaprojektowana jako wolna od barier i jest dostępna tylko w języku angielskim, niemieckim, tureckim i rosyjskim."</string>
     <!-- XHED: Statistics screen seven day mean title -->
     <string name="statistics_screen_seven_day_mean_title">"7-dniowa średnia"</string>
     <!-- XTXT: Statistics screen seven day mean text -->
@@ -1555,7 +1549,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz blog."</string>
+    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz "<div>"blog"</div>"."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
@@ -1614,7 +1608,7 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Liczba osób zgłoszonych w RKI, które otrzymały pierwszą dawkę szczepionki."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania:\nCzęsto zadawane pytania dotyczące statystyk"</string>
+    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie Często zadawane pytania:\n"<div>"Często zadawane pytania dotyczące statystyk"</div></string>
     <!-- XTXT: Statistics FAQ label -->
     <string name="statistics_faq_label">"Często zadawane pytania dotyczące statystyk"</string>
 
@@ -1881,7 +1875,7 @@
     <string name="datadonation_details_survey_consent_top_body"><b>"Pomóż nam ulepszyć aplikację Corona-Warn-App, wypełniając ankietę na temat swoich doświadczeń z aplikacją. Pomoże to instytutowi RKI ocenić skuteczność aplikacji, ulepszyć aplikację i ustalić wpływ ostrzeżeń wysyłanych przez aplikację na zachowanie osób o podwyższonym ryzyku."</b>"\n\nAnkieta jest przeznaczona wyłącznie dla osób, których aplikacja wskazała na narażenie o podwyższonym ryzyku. Ankieta jest przeprowadzana na stronie internetowej RKI. W następnym kroku zostanie wyświetlony link do ankiety, który przekieruje Cię na tę stronę internetową. Przed jej wyświetleniem musisz potwierdzić autentyczność aplikacji. Będzie to wymagać Twojej zgody.\n\nPo naciśnięciu linku do ankiety otrzymasz dodatkowe informacje o ankiecie. Zostaniesz również poproszony(-a) o ponowne wyrażenie zgody przed rozpoczęciem ankiety."</string>
 
     <!-- XHED: Title of the survey consent detail screen -->
-    <string name="datadonation_details_survey_consent_details_title">"Szczegółowe informacje na temat przetwarzania danych związanego z ankietą"</string>
+    <string name="datadonation_details_survey_consent_details_title">"Szczegółowe informacje o ryzyku związanym z kontrolą autentyczności i przetwarzaniem i ochroną danych w USA i innych krajach trzecich"</string>
 
     <!-- XHED: Dialog error title for survey request error informations 1 -->
     <string name="datadonation_details_survey_consent_error_CHANGE_DEVICE_TIME">"Czas na Twoim smartfonie nie zgadza się z aktualnym czasem. Popraw czas w ustawieniach swojego smartfona (kod błędu %1$s)."</string>

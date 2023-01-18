@@ -50,6 +50,18 @@
             app:layout_constraintTop_toBottomOf="@id/submission_done_subtitle" />
 
         <include
+            android:id="@+id/submission_done_warning_contact_entry"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:body="@{@string/submission_done_warning_contact_entry_text}"
+            app:icon="@{@drawable/ic_diary_white}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/submission_done_isolate" />
+
+        <include
             android:id="@+id/submission_done_pcr_validation"
             layout="@layout/include_submission_behaviour_row"
             android:layout_width="0dp"
@@ -59,7 +71,7 @@
             app:icon="@{@drawable/ic_faq_information}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/submission_done_isolate" />
+            app:layout_constraintTop_toBottomOf="@id/submission_done_warning_contact_entry" />
 
         <include
             android:id="@+id/submission_done_contagious"

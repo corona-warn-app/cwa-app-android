@@ -1,24 +1,25 @@
 package de.rki.coronawarnapp.statistics.local.storage
 
 import android.content.Context
-import androidx.core.content.edit
 import de.rki.coronawarnapp.datadonation.analytics.common.Districts
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage.Companion.PKEY_ACTIVE_SELECTIONS
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
 import java.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runTest2
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 
 class LocalStatisticsConfigStorageTest : BaseTest() {
     @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+    private lateinit var dataStore: FakeDataStore
 
     private val locations = SelectedLocations()
         .withLocation(
@@ -70,31 +71,21 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences(
-                "statistics_local_config",
-                Context.MODE_PRIVATE
-            )
-        } returns mockPreferences
+        dataStore = FakeDataStore()
     }
 
     private fun createInstance() = LocalStatisticsConfigStorage(
-        context = context,
+        dataStore = dataStore,
         baseGson = SerializationModule().baseGson()
     )
 
     @Test
-    fun `storing two selections works`() {
+    fun `storing two selections works`() = runTest2 {
         val instance = createInstance()
 
-        instance.activeSelections.update {
-            locations
-        }
+        instance.updateActiveSelections(locations)
 
-        val json = (mockPreferences.dataMapPeek["statistics.local.selections"] as String)
+        val json = (dataStore[PKEY_ACTIVE_SELECTIONS] as String)
 
         json.toComparableJsonPretty() shouldBe """
             {
@@ -120,17 +111,13 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
             }
         """.toComparableJsonPretty()
 
-        instance.activeSelections.value shouldBe locations
+        instance.activeSelections.first() shouldBe locations
     }
 
     @Test
-    fun `old location format is also parsable`() {
+    fun `old location format is also parsable`() = runTest2 {
         val instance = createInstance()
-
-        mockPreferences.edit {
-            putString("statistics.local.selections", outdatedJSON)
-        }
-
-        instance.activeSelections.value shouldBe locations
+        dataStore[PKEY_ACTIVE_SELECTIONS] = outdatedJSON
+        instance.activeSelections.first() shouldBe locations
     }
 }

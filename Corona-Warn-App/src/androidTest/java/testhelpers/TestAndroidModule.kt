@@ -6,9 +6,16 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
 import dagger.Module
 import dagger.Provides
+import de.rki.coronawarnapp.covidcertificate.CovidCertificateSettingsDataStore
+import de.rki.coronawarnapp.datadonation.analytics.AnalyticsSettingsDataStore
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionDataStore
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsDataStore
 import de.rki.coronawarnapp.datadonation.survey.SurveySettingsDataStore
 import de.rki.coronawarnapp.main.CwaSettingsDataStore
+import de.rki.coronawarnapp.presencetracing.LocationPreferencesDataStore
+import de.rki.coronawarnapp.presencetracing.LocationSettingsDataStore
 import de.rki.coronawarnapp.risk.RiskLevelSettingsDataStore
+import de.rki.coronawarnapp.statistics.LocalStatisticsConfigDataStore
 import de.rki.coronawarnapp.storage.OnboardingSettingsDataStore
 import de.rki.coronawarnapp.storage.TestSettingsDataStore
 import de.rki.coronawarnapp.storage.TracingSettingsDataStore
@@ -52,4 +59,32 @@ class TestAndroidModule {
     @CwaSettingsDataStore
     @Provides
     fun provideCwaSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @AnalyticsSettingsDataStore
+    @Provides
+    fun provideAnalyticsSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @CovidCertificateSettingsDataStore
+    @Provides
+    fun provideCovidCertificateSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @LocationSettingsDataStore
+    @Provides
+    fun provideLocationSettingsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @LocationPreferencesDataStore
+    @Provides
+    fun provideLocationPreferencesDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @AnalyticsKeySubmissionDataStore
+    @Provides
+    fun provideAnalyticsKeySubmissionDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @AnalyticsExposureWindowsDataStore
+    @Provides
+    fun provideAnalyticsExposureWindowsDataStore(): DataStore<Preferences> = mockk(relaxed = true)
+
+    @LocalStatisticsConfigDataStore
+    @Provides
+    fun provideLocalStatisticsConfigDataStore(): DataStore<Preferences> = mockk(relaxed = true)
 }

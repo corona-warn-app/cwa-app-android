@@ -1,0 +1,19 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+import "internal/ppdd/ppac_android.proto";
+
+message SRSOneTimePasswordRequestAndroid {
+
+  PPACAndroid authentication = 1;
+
+  SRSOneTimePassword payload = 2;
+
+  bytes requestPadding = 3;
+
+  message SRSOneTimePassword {
+    string otp = 1;
+    bytes androidId = 2;
+  }
+}

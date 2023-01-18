@@ -83,7 +83,7 @@ internal class DccReissuanceAccCertsViewModelTest : BaseTest() {
     private fun viewModel() = DccReissuanceAccCertsViewModel(
         dispatcherProvider = TestDispatcherProvider(),
         personCertificatesProvider = personCertificatesProvider,
-        personIdentifierCode = "code",
+        groupKey = "code",
         dccQrCodeExtractor = dccQrCodeExtractor,
         timeStamper = timeStamper
     )

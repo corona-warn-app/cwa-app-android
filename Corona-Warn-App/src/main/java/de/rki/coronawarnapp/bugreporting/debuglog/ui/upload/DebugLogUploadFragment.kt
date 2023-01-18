@@ -6,9 +6,9 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.BugreportingDebuglogUploadFragmentBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -48,10 +48,10 @@ class DebugLogUploadFragment : Fragment(R.layout.bugreporting_debuglog_upload_fr
         }
 
         vm.errorEvent.observe2(this) {
-            MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle(getString(R.string.errors_generic_headline))
-                setMessage(R.string.debugging_debuglog_share_try_again_later)
-            }.show()
+            displayDialog {
+                title(getString(R.string.errors_generic_headline))
+                message(R.string.debugging_debuglog_share_try_again_later)
+            }
         }
 
         vm.uploadInProgress.observe2(this) { uploadDialog.setState(it) }

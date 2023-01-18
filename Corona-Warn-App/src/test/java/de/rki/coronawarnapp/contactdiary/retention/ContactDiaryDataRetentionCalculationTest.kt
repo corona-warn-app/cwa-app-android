@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.retention
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.DefaultContactDiaryRepository
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.time.Instant
 import java.time.ZonedDateTime
+import kotlin.random.Random
 
 class ContactDiaryDataRetentionCalculationTest : BaseTest() {
 
@@ -158,6 +160,27 @@ class ContactDiaryDataRetentionCalculationTest : BaseTest() {
             filteredList.size shouldBe 1
             clearObsoleteCoronaTests()
             coVerify { contactDiaryRepository.deleteTests(filteredList) }
+        }
+    }
+
+    @Test
+    fun `test submissions`() = runTest {
+        createInstance().run {
+            val list: List<ContactDiarySubmissionEntity> =
+                testDates.map {
+                    ContactDiarySubmissionEntity(
+                        id = Random.nextLong(),
+                        submittedAt = Instant.parse(it)
+                    )
+                }
+            val filteredList = list.filter { isOutOfRetention(it.submittedAt.toLocalDateUtc()) }
+
+            every { contactDiaryRepository.submissions } returns flowOf(list)
+            coEvery { contactDiaryRepository.deleteSubmissions(any()) } just runs
+
+            filteredList.size shouldBe 1
+            clearObsoleteSubmissions()
+            coVerify { contactDiaryRepository.deleteSubmissions(filteredList) }
         }
     }
 

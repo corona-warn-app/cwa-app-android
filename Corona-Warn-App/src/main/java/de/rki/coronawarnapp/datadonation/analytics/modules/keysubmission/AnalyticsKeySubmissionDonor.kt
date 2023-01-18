@@ -45,49 +45,45 @@ abstract class AnalyticsKeySubmissionDonor(
         }
     }
 
-    private fun createContribution() =
-        PpaData.PPAKeySubmissionMetadata.newBuilder()
-            .setAdvancedConsentGiven(repository.advancedConsentGiven)
-            .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-            )
-            .setHoursSinceHighRiskWarningAtTestRegistration(
-                repository.ewHoursSinceHighRiskWarningAtTestRegistration
-            )
-            .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
-            )
-            .setPtHoursSinceHighRiskWarningAtTestRegistration(
-                repository.ptHoursSinceHighRiskWarningAtTestRegistration
-            )
-            .setHoursSinceTestResult(repository.hoursSinceTestResult)
-            .setHoursSinceTestRegistration(repository.hoursSinceTestRegistration)
-            .setLastSubmissionFlowScreenValue(repository.lastSubmissionFlowScreen)
-            .setSubmitted(repository.submitted)
-            .setSubmittedAfterSymptomFlow(repository.submittedAfterSymptomFlow)
-            .setSubmittedAfterCancel(repository.submittedAfterCancel)
-            .setSubmittedInBackground(repository.submittedInBackground)
-            .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN)
-            .setSubmittedAfterRapidAntigenTest(repository.submittedAfterRAT)
-            .setSubmittedWithCheckIns(repository.submittedWithCheckIns.toTriStateBoolean())
+    private suspend fun createContribution() = PpaData.PPAKeySubmissionMetadata.newBuilder()
+        .setAdvancedConsentGiven(repository.advancedConsentGiven())
+        .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+            repository.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration()
+        )
+        .setHoursSinceHighRiskWarningAtTestRegistration(
+            repository.ewHoursSinceHighRiskWarningAtTestRegistration()
+        )
+        .setPtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
+            repository.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration()
+        )
+        .setPtHoursSinceHighRiskWarningAtTestRegistration(
+            repository.ptHoursSinceHighRiskWarningAtTestRegistration()
+        )
+        .setHoursSinceTestResult(repository.hoursSinceTestResult())
+        .setHoursSinceTestRegistration(repository.hoursSinceTestRegistration())
+        .setLastSubmissionFlowScreenValue(repository.lastSubmissionFlowScreen())
+        .setSubmitted(repository.submitted())
+        .setSubmittedAfterSymptomFlow(repository.submittedAfterSymptomFlow())
+        .setSubmittedAfterCancel(repository.submittedAfterCancel())
+        .setSubmittedInBackground(repository.submittedInBackground())
+        .setSubmittedWithTeleTAN(repository.submittedWithTeleTAN())
+        .setSubmittedAfterRapidAntigenTest(repository.submittedAfterRAT)
+        .setSubmittedWithCheckIns(repository.submittedWithCheckIns().toTriStateBoolean())
 
-    fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
-        return positiveTestResultReceived && (
-            keysSubmitted || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit)
-            )
+    suspend fun shouldSubmitData(timeSinceTestResultToSubmit: Duration): Boolean {
+        return positiveTestResultReceived() &&
+            (keysSubmitted() || enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit))
     }
 
-    private val positiveTestResultReceived: Boolean
-        get() = repository.testResultReceivedAt > 0
+    private suspend fun positiveTestResultReceived(): Boolean = repository.testResultReceivedAt() > 0
 
-    private val keysSubmitted: Boolean
-        get() = repository.submitted
+    private suspend fun keysSubmitted(): Boolean = repository.submitted()
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
+    internal suspend fun enoughTimeHasPassedSinceResult(timeSinceTestResultToSubmit: Duration): Boolean =
         timeStamper
             .nowUTC
-            .minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt)
+            .minus(timeSinceTestResultToSubmit) > Instant.ofEpochMilli(repository.testResultReceivedAt())
 
     override suspend fun deleteData() {
         repository.reset()

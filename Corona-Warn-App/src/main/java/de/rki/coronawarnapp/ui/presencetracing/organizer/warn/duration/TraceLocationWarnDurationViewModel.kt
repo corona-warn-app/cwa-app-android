@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.math.roundToInt
@@ -110,7 +110,7 @@ class TraceLocationWarnDurationViewModel @AssistedInject constructor(
         }
 
         fun getTraceLocationWarnDuration(traceLocation: TraceLocation): TraceLocationWarnDuration {
-            val startDate = localDateTime.toInstant(ZoneOffset.UTC)
+            val startDate = localDateTime.atZone(ZoneId.systemDefault()).toInstant()
             return TraceLocationWarnDuration(
                 traceLocation = traceLocation,
                 startDate = startDate,

@@ -19,21 +19,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Pandemieradar</item>
+        <item>Warnung mit Selbsttests</item>
+        <item>Warnung mit unregistrierten Tests</item>
+        <item>TAN-Hotline entfällt</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Der Corona-Warn-App wurde die Kachel „Pandemieradar“ hinzugefügt, von der Sie direkt auf eine Webseite des Robert Koch-Instituts abspringen können. Der Pandemieradar enthält diverse Statistiken zur Corona-Pandemie, die arbeitstäglich aktualisiert werden. Bitte beachten Sie, dass die beim Öffnen der Webseite anfallenden Daten auf Ihr Datenvolumen angerechnet werden und die Webseite nicht barrierefrei ist.</item>
+        <item>Sie können jetzt mit positiven Ergebnissen von alleine durchgeführten Selbsttests eine Warnung an andere Nutzer der Corona-Warn-App schicken.</item>
+        <item>Sollten Sie bei einer Teststelle mit einem nicht in der Corona-Warn-App registrierten Schnell- oder PCR-Test positiv getestet worden sein, können Sie jetzt auch mit diesen Testergebnissen andere Nutzer der App warnen.</item>
+        <item>Die Möglichkeit, eine TAN über die TAN-Hotline zu erhalten, entfällt in einigen Wochen. Sie können nun ohne TAN andere Nutzer der Corona-Warn-App warnen.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
         <item/>
     </string-array>
 

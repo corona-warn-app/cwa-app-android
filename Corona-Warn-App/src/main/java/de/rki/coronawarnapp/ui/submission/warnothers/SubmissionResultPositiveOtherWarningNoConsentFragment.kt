@@ -79,13 +79,13 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
 
         viewModel.showEnableTracingEvent.observe2(this) {
             displayDialog {
-                setTitle(R.string.submission_test_result_dialog_tracing_required_title)
-                setMessage(R.string.submission_test_result_dialog_tracing_required_message)
-                setPositiveButton(R.string.submission_test_result_dialog_tracing_required_button) { _, _ -> }
+                title(R.string.submission_test_result_dialog_tracing_required_title)
+                message(R.string.submission_test_result_dialog_tracing_required_message)
+                positiveButton(R.string.submission_test_result_dialog_tracing_required_button)
             }
         }
 
-        binding.submissionConsentMainBottomBody.setOnClickListener {
+        binding.submissionConsentMoreInfo.setOnClickListener {
             viewModel.onDataPrivacyClick()
         }
 

@@ -1,0 +1,15 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.ppdd;
+
+import "internal/ppdd/ppac_ios.proto";
+import "internal/ppdd/srs_otp.proto";
+
+message SRSOneTimePasswordRequestIOS {
+
+  PPACIOS authentication = 1;
+
+  SRSOneTimePassword payload = 2;
+
+  bytes requestPadding = 3;
+}

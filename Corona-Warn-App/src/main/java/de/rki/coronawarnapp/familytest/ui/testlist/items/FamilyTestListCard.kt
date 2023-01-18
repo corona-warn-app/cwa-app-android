@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.databinding.FamilyTestListCardBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListAdapter
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListCard.Item
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
@@ -36,16 +38,21 @@ class FamilyTestListCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         latestItem?.let {
-            val userDate = it.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
 
             when (it.familyCoronaTest.type) {
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                     findings.setText(R.string.family_tests_cards_rapid_title)
-                    date.text = resources.getString(R.string.family_tests_cards_rapid_date, userDate)
+                    date.text = resources.getString(
+                        R.string.family_tests_cards_rapid_date,
+                        it.familyCoronaTest.coronaTest.testTakenAt.toDate().toUIFormat(context)
+                    )
                 }
                 BaseCoronaTest.Type.PCR -> {
                     findings.setText(R.string.family_tests_cards_pcr_title)
-                    date.text = resources.getString(R.string.family_tests_cards_pcr_date, userDate)
+                    date.text = resources.getString(
+                        R.string.family_tests_cards_pcr_date,
+                        it.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
+                    )
                 }
             }
 

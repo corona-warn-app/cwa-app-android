@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
 import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinUIModule
+import de.rki.coronawarnapp.srs.ui.SrsSubmissionUiModule
 import de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
@@ -57,6 +58,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         DccTicketingUIModule::class,
         DccReissuanceUiModule::class,
         FamilyTestUiModule::class,
+        SrsSubmissionUiModule::class,
     ]
 )
 abstract class MainActivityModule {

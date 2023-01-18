@@ -16,7 +16,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
 ) : DonorModule {
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
-        val previousMetadata = analyticsSettings.previousExposureRiskMetadata.value
+        val previousMetadata = analyticsSettings.previousExposureRiskMetadata.first()
 
         val erMetadataBuilder = PpaData.ExposureRiskMetadata.newBuilder()
 
@@ -30,9 +30,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
             onContributionFinished = { wasSuccessful ->
                 if (wasSuccessful) {
                     // overwrite data with current metadata
-                    analyticsSettings.previousExposureRiskMetadata.update {
-                        erMetadata
-                    }
+                    analyticsSettings.updatePreviousExposureRiskMetadata(erMetadata)
                 }
             }
         )
@@ -81,9 +79,7 @@ class ExposureRiskMetadataDonor @Inject constructor(
     }
 
     override suspend fun deleteData() {
-        analyticsSettings.previousExposureRiskMetadata.update {
-            null
-        }
+        analyticsSettings.updatePreviousExposureRiskMetadata(null)
     }
 
     data class ExposureRiskMetadataContribution(

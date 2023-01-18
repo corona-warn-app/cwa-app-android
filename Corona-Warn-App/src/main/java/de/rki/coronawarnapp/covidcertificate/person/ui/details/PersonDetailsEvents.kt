@@ -26,8 +26,8 @@ data class OpenRecoveryCertificateDetails(
 
 data class ValidationStart(val containerId: CertificateContainerId) : PersonDetailsEvents()
 data class ShowErrorDialog(val error: Throwable) : PersonDetailsEvents()
-data class OpenBoosterInfoDetails(val personIdentifierCode: String) : PersonDetailsEvents()
-data class OpenCertificateReissuanceConsent(val personIdentifierCode: String) : PersonDetailsEvents()
+data class OpenBoosterInfoDetails(val groupKey: String) : PersonDetailsEvents()
+data class OpenCertificateReissuanceConsent(val groupKey: String) : PersonDetailsEvents()
 data class RecycleCertificate(
     val cwaCovidCertificate: CwaCovidCertificate,
     val position: Int

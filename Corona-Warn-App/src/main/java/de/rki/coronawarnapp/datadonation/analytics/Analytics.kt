@@ -13,11 +13,13 @@ import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.INTERNAL_ERROR
+import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.reset.Resettable
+import de.rki.coronawarnapp.util.security.RandomStrong
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -31,6 +33,7 @@ import javax.inject.Singleton
 import kotlin.random.Random
 
 @Singleton
+@Suppress("LongParameterList")
 class Analytics @Inject constructor(
     private val dataDonationAnalyticsServer: DataDonationAnalyticsServer,
     private val appConfigProvider: AppConfigProvider,
@@ -40,7 +43,9 @@ class Analytics @Inject constructor(
     private val settings: AnalyticsSettings,
     private val logger: LastAnalyticsSubmissionLogger,
     private val timeStamper: TimeStamper,
-    private val onboardingSettings: OnboardingSettings
+    private val onboardingSettings: OnboardingSettings,
+    @RandomStrong private val randomSource: Random,
+    private val playbook: Playbook,
 ) : Resettable {
     private val submissionLockoutMutex = Mutex()
 
@@ -123,9 +128,11 @@ class Analytics @Inject constructor(
         val result = try {
             // 6min, if attestation and/or submission takes longer than that,
             // then we want to give modules still time to cleanup and get into a consistent state.
-            withTimeout(360_000) {
+            val analytics = withTimeout(360_000) {
                 trySubmission(configData.analytics, analyticsProto)
             }
+            tryFakeKeySubmission(configData)
+            analytics
         } catch (e: TimeoutCancellationException) {
             Timber.tag(TAG).e(e, "trySubmission() timed out after 360s.")
             Result(successful = false, shouldRetry = true)
@@ -142,10 +149,7 @@ class Analytics @Inject constructor(
         }
 
         if (result.successful) {
-            settings.lastSubmittedTimestamp.update {
-                timeStamper.nowUTC
-            }
-
+            settings.updateLastSubmittedTimestamp(timeStamper.nowUTC)
             logger.storeAnalyticsData(analyticsProto)
         }
 
@@ -154,13 +158,32 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    suspend fun tryFakeKeySubmission(configData: ConfigData) = runCatching {
+        val probability = configData
+            .analytics
+            .plausibleDeniabilityParameters
+            .probabilityOfFakeKeySubmission
+
+        val randomDouble = randomSource.nextDouble()
+        Timber.tag(TAG).d("randomDouble=%s, probability=%s", randomDouble, probability)
+        if (randomDouble <= probability) {
+            Timber.tag(TAG).d("Send fake key submission")
+            playbook.submitFake()
+        } else {
+            Timber.tag(TAG).d("Skip fake key submission")
+        }
+    }.onFailure {
+        Timber.tag(TAG).d("tryFakeKeySubmission -> ${it.localizedMessage}")
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun stopDueToNoAnalyticsConfig(analyticsConfig: AnalyticsConfig): Boolean {
         return !analyticsConfig.analyticsEnabled
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun stopDueToNoUserConsent(): Boolean {
-        return !settings.analyticsEnabled.value
+    suspend fun stopDueToNoUserConsent(): Boolean {
+        return !settings.analyticsEnabled.first()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -170,8 +193,8 @@ class Analytics @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun stopDueToLastSubmittedTimestamp(): Boolean {
-        val lastSubmit = settings.lastSubmittedTimestamp.value ?: return false
+    suspend fun stopDueToLastSubmittedTimestamp(): Boolean {
+        val lastSubmit = settings.lastSubmittedTimestamp.first() ?: return false
         return lastSubmit.plus(Duration.ofHours(LAST_SUBMISSION_MIN_AGE_HOURS))
             .isAfter(timeStamper.nowUTC)
     }
@@ -221,9 +244,7 @@ class Analytics @Inject constructor(
     }
 
     suspend fun setAnalyticsEnabled(enabled: Boolean) {
-        settings.analyticsEnabled.update {
-            enabled
-        }
+        settings.updateAnalyticsEnabled(enabled)
 
         if (!enabled) {
             deleteAllData()
@@ -236,7 +257,7 @@ class Analytics @Inject constructor(
     }
 
     fun isAnalyticsEnabledFlow(): Flow<Boolean> =
-        settings.analyticsEnabled.flow
+        settings.analyticsEnabled
 
     data class Result(
         val successful: Boolean,

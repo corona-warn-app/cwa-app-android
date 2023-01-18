@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEn
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
@@ -25,6 +26,7 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.contact.Contact
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.CoronaTestItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
+import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.submission.toSubmissionItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -85,10 +87,14 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private val diaryDataFlow = combine(
         contactDiaryRepository.locationVisits,
         contactDiaryRepository.personEncounters,
-        contactDiaryRepository.testResults
-    ) { locationVisits, personEncounters, testResults ->
+        contactDiaryRepository.testResults,
+        contactDiaryRepository.submissions
+    ) { locationVisits, personEncounters, testResults, submissions ->
         DiaryData(
-            locationVisits = locationVisits, personEncounters = personEncounters, testResults = testResults
+            locationVisits = locationVisits,
+            personEncounters = personEncounters,
+            testResults = testResults,
+            submissions = submissions,
         )
     }
 
@@ -115,7 +121,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                     riskLevelPerDateList,
                     traceLocationCheckInRiskList,
                     checkInList,
-                    diaryData.testResults
+                    diaryData.testResults,
+                    diaryData.submissions,
                 )
             )
         }.toList()
@@ -136,7 +143,8 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
         riskLevelPerDateList: List<ExposureWindowDayRisk>,
         traceLocationCheckInRiskList: List<TraceLocationCheckInRisk>,
         checkInList: List<CheckIn>,
-        coronaTests: List<ContactDiaryCoronaTestEntity>
+        coronaTests: List<ContactDiaryCoronaTestEntity>,
+        submissions: List<ContactDiarySubmissionEntity>,
     ): List<DiaryOverviewItem> {
         Timber.v(
             "createListItemList(" +
@@ -146,14 +154,16 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
                 "riskLevelPerDateList=%s, " +
                 "traceLocationCheckInRiskList=%s," +
                 "checkInList=%s" +
-                "coronaTests=%s",
+                "coronaTests=%s" +
+                "submissions=%s",
             this,
             visits,
             encounters,
             riskLevelPerDateList,
             traceLocationCheckInRiskList,
             checkInList,
-            coronaTests
+            coronaTests,
+            submissions,
         )
         return map { date ->
 
@@ -162,6 +172,9 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val traceLocationCheckInRisksForDate =
                 traceLocationCheckInRiskList.filter { it.localDateUtc == date }
             val testResultForDate = coronaTests.filter { it.time.toLocalDateUserTz() == date }
+            val submissionsForDate = submissions.filter {
+                it.submittedAt.toLocalDateUserTz() == date
+            }.maxByOrNull { it.submittedAt }
 
             val coreItemData =
                 encountersForDate.map { it.toContactItemData() } + visitsForDate.map { it.toContactItemData() }
@@ -180,13 +193,15 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             }.toRiskEventItem()
 
             val coronaTestItem = testResultForDate.toCoronaTestItem()
+            val submissionItem = submissionsForDate.toSubmissionItem()
 
             DayOverviewItem(
                 date = date,
                 riskEnfItem = riskEnf,
                 riskEventItem = riskEventItem,
                 contactItem = contactItem,
-                coronaTestItem = coronaTestItem
+                coronaTestItem = coronaTestItem,
+                submissionItem = submissionItem,
             ) { onItemPress(it) }
         }
     }
@@ -375,6 +390,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
     private data class DiaryData(
         val locationVisits: List<ContactDiaryLocationVisit>,
         val personEncounters: List<ContactDiaryPersonEncounter>,
-        val testResults: List<ContactDiaryCoronaTestEntity>
+        val testResults: List<ContactDiaryCoronaTestEntity>,
+        val submissions: List<ContactDiarySubmissionEntity>
     )
 }

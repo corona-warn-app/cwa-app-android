@@ -50,8 +50,8 @@ import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPendingCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestReadyCard
 import de.rki.coronawarnapp.submission.ui.homecards.RapidTestSubmissionDoneCard
+import de.rki.coronawarnapp.submission.ui.homecards.RegisterTestCard
 import de.rki.coronawarnapp.submission.ui.homecards.TestFetchingCard
-import de.rki.coronawarnapp.submission.ui.homecards.TestUnregisteredCard
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -75,7 +75,7 @@ import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
 import de.rki.coronawarnapp.ui.main.home.items.IncompatibleCard
-import de.rki.coronawarnapp.ui.presencetracing.organizer.TraceLocationOrganizerSettings
+import de.rki.coronawarnapp.ui.presencetracing.TraceLocationPreferences
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.bluetooth.BluetoothSupport
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -107,7 +107,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val appShortcutsHelper: AppShortcutsHelper,
     private val tracingSettings: TracingSettings,
-    private val traceLocationOrganizerSettings: TraceLocationOrganizerSettings,
+    private val traceLocationPreferences: TraceLocationPreferences,
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
@@ -204,24 +204,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }.distinctUntilChanged().asLiveData2()
 
-    fun errorResetDialogDismissed() {
-        errorResetTool.isResetNoticeToBeShown = false
+    fun errorResetDialogDismissed() = launch {
+        errorResetTool.updateIsResetNoticeToBeShown(false)
     }
 
-    fun refreshTests() {
-        launch {
-            try {
-                submissionRepository.refreshTest()
-                familyTestRepository.refresh()
-            } catch (e: CoronaTestNotFoundException) {
-                Timber.e(e, "refreshTest failed")
-                errorEvent.postValue(e)
-            }
+    fun refreshTests() = launch {
+        try {
+            submissionRepository.refreshTest()
+            familyTestRepository.refresh()
+        } catch (e: CoronaTestNotFoundException) {
+            Timber.e(e, "refreshTest failed")
+            errorEvent.postValue(e)
         }
     }
 
     fun showPopUps() = launch {
-        if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
+        if (errorResetTool.isResetNoticeToBeShown.first()) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown.first()) events.postValue(
             ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
         )
@@ -255,11 +253,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         add(
             CreateTraceLocationCard.Item(
                 onClickAction = {
-                    events.postValue(
-                        HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
-                            traceLocationOrganizerSettings.qrInfoAcknowledged
+                    launch {
+                        events.postValue(
+                            HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
+                                traceLocationPreferences.qrInfoAcknowledged.first()
+                            )
                         )
-                    )
+                    }
                 }
             )
         )
@@ -278,12 +278,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     },
                     onRemoveListener = { statsItem ->
                         when (statsItem) {
-                            is LocalIncidenceAndHospitalizationStats -> {
-                                localStatisticsConfigStorage.activeSelections.update {
-                                    it.withoutLocation(
+                            is LocalIncidenceAndHospitalizationStats -> launch {
+                                localStatisticsConfigStorage.updateActiveSelections(
+                                    localStatisticsConfigStorage.activeSelections.first().withoutLocation(
                                         statsItem.selectedLocation
                                     )
-                                }
+                                )
                             }
                         }
                     },
@@ -303,13 +303,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
     ) {
         // PCR test card, register test is added below
         val pcrTestCard = testPCR.toTestCardItem(testPCR?.identifier.orEmpty())
-        if (pcrTestCard !is TestUnregisteredCard.Item) {
+        if (pcrTestCard !is RegisterTestCard.Item) {
             add(pcrTestCard)
         }
 
         // RAT test card, register test is added below
         val ratTestCard = testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier.orEmpty())
-        if (ratTestCard !is TestUnregisteredCard.Item) {
+        if (ratTestCard !is RegisterTestCard.Item) {
             add(ratTestCard)
         }
 
@@ -325,7 +325,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
         // Register test card
         add(
-            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+            RegisterTestCard.Item(SubmissionStatePCR.NoTest) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
         )
@@ -360,7 +360,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
-            is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
+            is SubmissionStatePCR.NoTest -> RegisterTestCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
 
@@ -410,7 +410,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig, testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
-            is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
+            is SubmissionStateRAT.NoTest -> RegisterTestCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
 

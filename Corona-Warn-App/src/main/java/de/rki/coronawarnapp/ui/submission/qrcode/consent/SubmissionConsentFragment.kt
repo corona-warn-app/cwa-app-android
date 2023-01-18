@@ -43,6 +43,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.submissionConsentHeader.setNavigationOnClickListener { viewModel.onNavigateClose() }
+        binding.submissionConsentMoreInfo.setOnClickListener {
+            viewModel.onDataPrivacyClick()
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -61,6 +64,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 is SubmissionNavigationEvents.NavigateToDataPrivacy -> findNavController().navigate(
                     SubmissionConsentFragmentDirections.actionSubmissionConsentFragmentToInformationPrivacyFragment()
                 )
+
                 is SubmissionNavigationEvents.ResolvePlayServicesException ->
                     it.exception.status.startResolutionForResult(
                         requireActivity(),
@@ -76,6 +80,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     ),
                     navOptions
                 )
+
                 is SubmissionNavigationEvents.NavigateClose -> {
                     if (navArgs.comesFromDispatcherFragment) {
                         findNavController().navigate(
@@ -83,12 +88,14 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                         )
                     } else popBackStack()
                 }
+
                 is SubmissionNavigationEvents.NavigateBackToTestRegistration -> findNavController().navigate(
                     SubmissionConsentFragmentDirections
                         .actionSubmissionConsentFragmentToTestRegistrationSelectionFragment(
                             navArgs.coronaTestQrCode
                         )
                 )
+
                 else -> Unit
             }
         }
@@ -110,19 +117,20 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 State.Working -> {
                     // Handled above
                 }
-                is State.Error -> displayDialog(dialog = state.getDialogBuilder(requireContext())) {
-                    setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
-                }
+
+                is State.Error -> state.showExceptionDialog(this) { popBackStack() }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
                         NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testIdentifier = state.test.identifier
+                            testIdentifier = state.test.identifier,
+                            comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                             .run { findNavController().navigate(this, navOptions) }
                 }
@@ -144,10 +152,10 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
     }
 
     private fun showInvalidQrCodeDialog() = displayDialog {
-        setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
-        setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
-        setPositiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive) { _, _ -> }
-        setNegativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { _, _ -> popBackStack() }
+        title(R.string.submission_qr_code_scan_invalid_dialog_headline)
+        message(R.string.submission_qr_code_scan_invalid_dialog_body)
+        positiveButton(R.string.submission_qr_code_scan_invalid_dialog_button_positive)
+        negativeButton(R.string.submission_qr_code_scan_invalid_dialog_button_negative) { popBackStack() }
     }
 
     companion object {

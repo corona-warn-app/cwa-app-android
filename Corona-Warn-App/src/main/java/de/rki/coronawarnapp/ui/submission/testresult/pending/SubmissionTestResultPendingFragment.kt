@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
@@ -142,9 +141,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
 
         viewModel.showRedeemedTokenWarning.observe2(this) {
             displayDialog {
-                setTitle(R.string.submission_error_dialog_web_tan_redeemed_title)
-                setMessage(R.string.submission_error_dialog_web_tan_redeemed_body)
-                setPositiveButton(R.string.submission_error_dialog_web_tan_redeemed_button_positive) { _, _ -> }
+                title(R.string.submission_error_dialog_web_tan_redeemed_title)
+                message(R.string.submission_error_dialog_web_tan_redeemed_body)
+                positiveButton(R.string.submission_error_dialog_web_tan_redeemed_button_positive)
             }
         }
 
@@ -159,9 +158,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 findNavController().navigate(it)
             } ?: navigateBackToFlowStart()
         }
-        viewModel.errorEvent.observe2(this) {
-            displayDialog(dialog = it.toErrorDialogBuilder(requireContext()))
-        }
+        viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {
@@ -194,18 +191,14 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
     }
 
     private fun showNetworkErrorDialog() = displayDialog {
-        setTitle(R.string.submission_error_dialog_web_generic_error_title)
-        setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
-        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
-            navigateBackToFlowStart()
-        }
+        title(R.string.submission_error_dialog_web_generic_error_title)
+        message(R.string.submission_error_dialog_web_generic_network_error_body)
+        negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { navigateBackToFlowStart() }
     }
 
     private fun showGenericErrorDialog() = displayDialog {
-        setTitle(R.string.submission_error_dialog_web_generic_error_title)
-        setMessage(R.string.submission_error_dialog_web_generic_error_body)
-        setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
-            navigateBackToFlowStart()
-        }
+        title(R.string.submission_error_dialog_web_generic_error_title)
+        message(R.string.submission_error_dialog_web_generic_error_body)
+        negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { navigateBackToFlowStart() }
     }
 }

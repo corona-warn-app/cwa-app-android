@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.submission.task
 
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -14,6 +15,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInsTransformer
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.server.protocols.internal.SubmissionPayloadOuterClass.SubmissionPayload.SubmissionType
+import de.rki.coronawarnapp.srs.core.SubmissionReporter
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.Symptoms
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
@@ -47,6 +49,7 @@ class SubmissionTask @Inject constructor(
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val coronaTestRepository: CoronaTestRepository,
+    private val submissionReporter: SubmissionReporter,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -69,7 +72,8 @@ class SubmissionTask @Inject constructor(
                     inBackground = true
                 }
             }
-            val hasGivenConsent = coronaTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
+            val tests = coronaTestRepository.coronaTests.first()
+            val hasGivenConsent = tests.any { it.isAdvancedConsentGiven }
             if (!hasGivenConsent) {
                 Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
                 autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
@@ -91,9 +95,9 @@ class SubmissionTask @Inject constructor(
         }
     }
 
-    private fun hasRecentUserActivity(): Boolean {
+    private suspend fun hasRecentUserActivity(): Boolean {
         val nowUTC = timeStamper.nowUTC
-        val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.value
+        val lastUserActivity = submissionSettings.lastSubmissionUserActivityUTC.first()
         val userInactivity = Duration.between(lastUserActivity, nowUTC)
         Timber.tag(TAG).d(
             "now=%s, lastUserActivity=%s, userInactivity=%dmin",
@@ -105,9 +109,9 @@ class SubmissionTask @Inject constructor(
         return userInactivity.toMillis() >= 0 && userInactivity < USER_INACTIVITY_TIMEOUT
     }
 
-    private fun hasExceededRetryAttempts(): Boolean {
-        val currentAttempt = submissionSettings.autoSubmissionAttemptsCount.value
-        val lastAttemptAt = submissionSettings.autoSubmissionAttemptsLast.value
+    private suspend fun hasExceededRetryAttempts(): Boolean {
+        val currentAttempt = submissionSettings.autoSubmissionAttemptsCount.first()
+        val lastAttemptAt = submissionSettings.autoSubmissionAttemptsLast.first()
         Timber.tag(TAG).i(
             "checkRetryAttempts(): submissionAttemptsCount=%d, lastAttemptAt=%s",
             currentAttempt,
@@ -120,8 +124,10 @@ class SubmissionTask @Inject constructor(
             true
         } else {
             Timber.tag(TAG).d("Within the attempts limit, continuing.")
-            submissionSettings.autoSubmissionAttemptsCount.update { it + 1 }
-            submissionSettings.autoSubmissionAttemptsLast.update { timeStamper.nowUTC }
+            submissionSettings.apply {
+                updateAutoSubmissionAttemptsCount(autoSubmissionAttemptsCount.first() + 1)
+                updateAutoSubmissionAttemptsLast(timeStamper.nowUTC)
+            }
             false
         }
     }
@@ -151,7 +157,7 @@ class SubmissionTask @Inject constructor(
             throw e
         }
 
-        val symptoms: Symptoms = submissionSettings.symptoms.value ?: Symptoms.NO_INFO_GIVEN
+        val symptoms: Symptoms = submissionSettings.symptoms.first() ?: Symptoms.NO_INFO_GIVEN
 
         val transformedKeys = tekHistoryCalculations.transformToKeyHistoryInExternalFormat(
             keys,
@@ -186,7 +192,7 @@ class SubmissionTask @Inject constructor(
             authCode = authCode,
             temporaryExposureKeys = transformedKeys,
             consentToFederation = true,
-            visitedCountries = getSupportedCountries(),
+            visitedCountries = appConfigProvider.getAppConfig().getSupportedCountries(),
             unencryptedCheckIns = checkInsReport.unencryptedCheckIns,
             encryptedCheckIns = checkInsReport.encryptedCheckIns,
             submissionType = coronaTest.type.toSubmissionType()
@@ -205,7 +211,7 @@ class SubmissionTask @Inject constructor(
 
         Timber.tag(TAG).d("Submission successful, deleting submission data.")
         tekHistoryStorage.reset()
-        submissionSettings.symptoms.update { null }
+        submissionSettings.updateSymptoms(null)
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkIns.forEach { checkIn ->
@@ -218,6 +224,7 @@ class SubmissionTask @Inject constructor(
 
         autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
         setSubmissionFinished(coronaTest.identifier)
+        submissionReporter.reportAt(timeStamper.nowUTC)
 
         return Result(state = Result.State.SUCCESSFUL)
     }
@@ -241,17 +248,6 @@ class SubmissionTask @Inject constructor(
             SUCCESSFUL,
             SKIPPED
         }
-    }
-
-    private suspend fun getSupportedCountries(): List<String> {
-        val countries = appConfigProvider.getAppConfig().supportedCountries
-        return when {
-            countries.isEmpty() -> {
-                Timber.w("Country list was empty, corrected")
-                listOf(FALLBACK_COUNTRY)
-            }
-            else -> countries
-        }.also { Timber.i("Supported countries = $it") }
     }
 
     private fun checkCancel() {
@@ -282,7 +278,6 @@ class SubmissionTask @Inject constructor(
     }
 
     companion object {
-        private const val FALLBACK_COUNTRY = "DE"
         private const val RETRY_ATTEMPTS = Int.MAX_VALUE
         private val USER_INACTIVITY_TIMEOUT = Duration.ofMinutes(30)
         private const val TAG: String = "SubmissionTask"

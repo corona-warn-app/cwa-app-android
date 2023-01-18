@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.appconfig.KeyDownloadConfig
 import de.rki.coronawarnapp.appconfig.LogUploadConfig
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
+import de.rki.coronawarnapp.appconfig.SelfReportSubmissionConfig
 import de.rki.coronawarnapp.appconfig.SurveyConfig
 
 interface ConfigMapping :
@@ -23,4 +24,5 @@ interface ConfigMapping :
     val presenceTracing: PresenceTracingConfig
     val coronaTestParameters: CoronaTestConfig
     val covidCertificateParameters: CovidCertificateConfig
+    val selfReportSubmission: SelfReportSubmissionConfig
 }

@@ -70,7 +70,7 @@ class LocalStatisticsProvider @Inject constructor(
         return cacheResults.map { it ?: LocalStatisticsData() }
     }
 
-    private fun fromCache(forState: FederalStateToPackageId): LocalStatisticsData? = try {
+    private suspend fun fromCache(forState: FederalStateToPackageId): LocalStatisticsData? = try {
         Timber.tag(TAG).d("fromCache(%s)", forState)
 
         localStatisticsCache.load(forState)?.let { localStatisticsParser.parse(it) }?.also {

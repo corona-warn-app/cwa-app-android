@@ -93,19 +93,21 @@ class DccExportAllOverviewFragment : Fragment(R.layout.fragment_dcc_export_all_o
         }
     }
 
-    private fun showErrorDialog() = displayDialog(onDismissAction = { navigateToPersonOverview() }) {
-        setTitle(R.string.export_all_error_title)
-        setMessage(R.string.export_all_error_message)
-        setNeutralButton(R.string.export_all_error_faq) { _, _ ->
+    private fun showErrorDialog() = displayDialog {
+        title(R.string.export_all_error_title)
+        message(R.string.export_all_error_message)
+        neutralButton(R.string.export_all_error_faq) {
             openUrl(R.string.certificate_export_all_error_dialog_faq_link)
         }
-        setPositiveButton(android.R.string.ok) { _, _ -> popBackStack() }
+        positiveButton(android.R.string.ok) { popBackStack() }
+        dismissAction { navigateToPersonOverview() }
     }
 
-    private fun showEmptyDialog() = displayDialog(onDismissAction = { navigateToPersonOverview() }) {
-        setTitle(R.string.export_all_no_pages_title)
-        setMessage(R.string.export_all_no_pages_message)
-        setPositiveButton(android.R.string.ok) { _, _ -> }
+    private fun showEmptyDialog() = displayDialog {
+        title(R.string.export_all_no_pages_title)
+        message(R.string.export_all_no_pages_message)
+        positiveButton(android.R.string.ok)
+        dismissAction { navigateToPersonOverview() }
     }
 
     private fun navigateToPersonOverview() = runCatching {

@@ -5,10 +5,12 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiarySubmissionEntity
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.util.reset.Resettable
 import kotlinx.coroutines.flow.Flow
+import java.time.Instant
 import java.time.LocalDate
 
 @Suppress("TooManyFunctions")
@@ -60,4 +62,8 @@ interface ContactDiaryRepository : Resettable {
     val testResults: Flow<List<ContactDiaryCoronaTestEntity>>
     suspend fun updateTests(tests: Map<CoronaTestGUID, BaseCoronaTest>)
     suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>)
+
+    val submissions: Flow<List<ContactDiarySubmissionEntity>>
+    suspend fun insertSubmissionAt(submittedAt: Instant)
+    suspend fun deleteSubmissions(submissions: List<ContactDiarySubmissionEntity>)
 }

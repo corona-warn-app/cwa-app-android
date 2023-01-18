@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><resources>
+
+    <!-- Home screen register test card -->
+    <!-- XHED: Register test card title -->
+    <string name="register_test_card_title">"Manage Your Tests and Warn Others"</string>
+    <!-- XTXT: Register test card subtitle -->
+    <string name="register_test_card_subtitle">"Self-test, PCR test, and rapid test"</string>
+    <!-- XTXT: Register test card description -->
+    <string name="register_test_card_description">"Find testing centers near you and register a test, so you can warn others more quickly, or to request your digital COVID test certificate."</string>
+    <!-- XTXT: Register test card button -->
+    <string name="register_test_card_button">"Continue"</string>
+
+    <!-- Dispatcher screen -->
+    <!-- XHED: Test registration title -->
+    <string name="dispatcher_test_registration_title">"Register Test"</string>
+
+    <!-- SRS self test card -->
+    <!-- XHED: Self test title -->
+    <string name="srs_self_test_title">"Positive self-test?"</string>
+    <!-- XTXT: Self test body -->
+    <string name="srs_self_test_body">"Warn others if you have a positive self-test."</string>
+
+
+    <!-- SRS Positive test no answer card -->
+    <!-- XHED: Positive test no answer title -->
+    <string name="srs_positive_test_no_answer_title">"Positive test and no result in the app?"</string>
+    <!-- XTXT: Positive test no answer body -->
+    <string name="srs_positive_test_no_answer_body">"Warn others with your own positive rapid test or PCR test even if your test was not registered or your test result was not delivered in the app."</string>
+
+    <!-- Submission Consent Screen -->
+    <!-- XHED: Submission consent header -->
+    <string name="srs_submission_consent_header">"Your Consent"</string>
+    <!-- XHED: Submission consent headline -->
+    <string name="srs_submission_consent_headline_text">"Warn Others"</string>
+    <!-- XHED: Submission consent disclaimer sub headline -->
+    <string name="srs_submission_consent_disclaimer_subheadline_text">"Your consent is required before you can warn others."</string>
+    <!-- XTXT: Submission consent section warn consent -->
+    <string name="srs_section_warn_consent_text">"If you test positive for coronavirus, you can warn others through the app.\nTo send a warning after a positive self-test or with a test result that is not in the app, the authenticity of the app must be verified automatically."</string>
+    <!-- XTXT: Submission consent section warn interval -->
+    <string name="srs_section_warn_interval_text">"This also ensures that repeated warnings are only possible after %d days have passed."</string>
+    <!-- XTXT: Submission consent first bulletpoint -->
+    <string name="srs_submission_consent_first_bulletpoint_text">"Warning others is optional, however, if you share your test results with others, you will help prevent them from being infected."</string>
+    <!-- XTXT: Submission consent second bulletpoint -->
+    <string name="srs_submission_consent_second_bulletpoint_text">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
+    <!-- XTXT: Submission consent third bulletpoint -->
+    <string name="srs_submission_consent_third_bulletpoint_text">"Under “My Check-Ins”, you can see the events and places whose checked-in guests will be warned. You can remove individual check-ins from the list to exclude them from the warning process."</string>
+    <!-- XTXT: Submission consent fourth bulletpoint -->
+    <string name="srs_submission_consent_fourth_bulletpoint_text">"You must be at least 16 years old to grant your consent."</string>
+    <!-- XTXT: Submission consent fifth bulletpoint -->
+    <string name="srs_submission_consent_fifth_bulletpoint_text">"You can also warn others without the verification of authenticity. To do so, register a PCR test or rapid test in the app and retrieve the result in the app."</string>
+    <!-- XTXT: Submission consent next step submission -->
+    <string name="srs_next_step_submission_text">"In the next step, grant your consent to access the random IDs."</string>
+    <!-- XTXT: Contact journal submission entry title -->
+    <string name="srs_contact_diary_submission_item_title">"You Have Warned Others"</string>
+    <!-- XTXT: Submission consent legal link text -->
+    <string name="srs_submission_consent_legal_link_text">"Detailed Information about the Authenticity Check and Data Protection Risks in the U.S. and Other Third Countries"</string>
+
+    <!-- Type Selection Screen -->
+    <!-- XHED: Type selection header -->
+    <string name="srs_type_selection_header">"Test Type"</string>
+    <!-- XTXT: Type selection introduction -->
+    <string name="srs_type_selection_introduction_text">"Please select the type of the test that is the basis for the warning."</string>
+    <!-- XTXT: Type selection subtitle -->
+    <string name="srs_type_selection_subtitle_text">"The value for the test type is used solely for statistical analysis. It is not linked with the warning or with your identity. If you do not want to specify a value, just select “No answer”."</string>
+    <!-- XTXT: Type selection button rat registered no result text -->
+    <string name="srs_rat_registered_no_result_text">"Rapid antigen test registered in the app, but no result received"</string>
+    <!-- XTXT: Type selection button rat not registered text -->
+    <string name="srs_rat_not_registered_text">"Rapid antigen test not registered in the app"</string>
+    <!-- XTXT: Type selection button pcr registered no result text -->
+    <string name="srs_pcr_registered_no_result_text">"PCR lab test registered in the app, but no result received"</string>
+    <!-- XTXT: Type selection button pcr not registered text -->
+    <string name="srs_pcr_not_registered_text">"PCR lab test not registered in the app"</string>
+    <!-- XTXT: Type selection button rapid pcr text -->
+    <string name="srs_rapid_pcr_text">"Rapid PCR test (PoC NAT test)"</string>
+    <!-- XTXT: Type selection button other text -->
+    <string name="srs_other_text">"No answer"</string>
+    <!-- XTXT: Type selection next button text -->
+    <string name="type_selection_next_button_text">"Continue"</string>
+
+    <!-- Srs Submission Cancel Dialog -->
+    <!-- XHED: Cancel submission dialog title -->
+    <string name="srs_cancel_dialog_title">"Cancel warning process?"</string>
+    <!-- XTXT: Cancel submission dialog message -->
+    <string name="srs_cancel_dialog_message">"Are you sure that you want to cancel the warning process?\n\nIf you have been diagnosed with coronavirus, you can notify others and break the chain of infection."</string>
+    <!-- XBUT: Continue warning button -->
+    <string name="srs_cancel_dialog_continue">"Continue warning"</string>
+    <!-- XBUT: Don't warn button -->
+    <string name="srs_cancel_dialog_cancel">"Do not warn others"</string>
+
+    <!-- Srs Submission Warning Dialog -->
+    <!-- XHED: Submission warning dialog title -->
+    <string name="srs_submission_warning_dialog_title">"Important"</string>
+    <!-- XTXT: Submission warning dialog message -->
+    <string name="srs_submission_warning_dialog_message">"Are you sure that you want to warn others whom you have had contact with recently?"</string>
+    <!-- XBUT: Submission warning positive button -->
+    <string name="srs_submission_warning_dialog_positive_button">"Warn Others"</string>
+    <!-- XBUT: Submission warning negative button -->
+    <string name="srs_submission_warning_dialog_negative_button">"Cancel"</string>
+
+    <!-- Srs Submission Truncated Warning Dialog -->
+    <!-- XHED: Submission truncated warning dialog title -->
+    <string name="srs_submission_truncated_warning_dialog_title">"Note"</string>
+    <!-- XTXT: Submission truncated warning message -->
+    <string name="srs_submission_truncated_warning_dialog_message">"Due to the high number of warnings currently being sent via the app, only your contacts from the last %s days have been warned."</string>
+    <!-- XBUT: Submission truncated warning ok button -->
+    <string name="srs_submission_truncated_warning_dialog_button">"OK"</string>
+
+    <!-- Srs Errors-->
+    <!-- XTXT: SRS error title -->
+    <string name="srs_error_title">"You Cannot Warn Others"</string>
+    <!-- XTXT: SRS CALL_HOTLINE error message -->
+    <string name="srs_error_call_hotline">"An error occurred. Please try to send the warning again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <!-- XTXT: SRS CHANGE_DEVICE_TIME error message -->
+    <string name="srs_error_device_time">"The time on your smartphone does not match the current time. Please correct the time in your smartphone settings. After this correction, it may take a few minutes until the app checks the time again. Once it does, you can try to warn others again."</string>
+    <!-- XTXT: SRS DEVICE_NOT_TRUSTED error message -->
+    <string name="srs_error_device_not_trusted">"Your device does not meet the security requirements for this type of warning. You can register an official test and use it to warn others at any time."</string>
+    <!-- XTXT: SRS NO_NETWORK error message -->
+    <string name="srs_error_no_network">"Your Internet connection may have been lost. Please check the connection and try again."</string>
+    <!-- XTXT: SRS SUBMISSION_TOO_EARLY error message -->
+    <string name="srs_error_submission_too_early">"You cannot warn others right now because you already reported a positive test result within the last %d days. This is intended to prevent misuse of the warn feature. You can register an official test and use it to warn others at any time."</string>
+    <!-- XTXT: SRS TIME_SINCE_ONBOARDING_UNVERIFIED error message -->
+    <string name="srs_error_time_since_onboarding_unverified">"For security reasons, you cannot send this type of warning until %d hours after you install or update the app. Please try again in %d hours."</string>
+    <!-- XTXT: SRS TRY_AGAIN_LATER error message -->
+    <string name="srs_error_try_again_later">"An error occurred. Please try to send the warning again."</string>
+    <!-- XTXT: SRS UPDATE_PLAY_SERVICES error message -->
+    <string name="srs_error_update_play_services">"The warning cannot be sent right now. Please update the Google Play Services."</string>
+</resources>

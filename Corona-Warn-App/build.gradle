@@ -27,12 +27,12 @@ android {
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "32.0.0"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 32
 
         ndkVersion "21.2.6472646"
 
@@ -330,6 +330,7 @@ dependencies {
     // See https://github.com/corona-warn-app/dgc-certlogic-android
     //noinspection GradleDynamicVersion
     implementation('dgca.verifier.app:dgc-certlogic-android-light:+')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // Required for rdgca.verifier.app:dgc-certlogic-android-light API 26 Time API
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
@@ -347,7 +348,7 @@ dependencies {
     // ANDROID STANDARD
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -425,7 +426,7 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = '5.4.2'
+    def kotest_version = '5.5.4'
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
@@ -475,18 +476,18 @@ dependencies {
 
     // UTILS
     implementation project(":Server-Protocol-Buffer")
-    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.guava:guava:31.1-android'
 
-    // Jackson
-    def jackson = "2.13.4"
+    // Jackson //Don't update to version 2.14 because it only supports android SDK 26+
+    def jackson = '2.13.4'
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson"
 
     implementation 'com.networknt:json-schema-validator:1.0.73'
     implementation 'net.swiftzer.semver:semver:1.2.0'
 
     //JWT
-    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.4'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.6'
 
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0"

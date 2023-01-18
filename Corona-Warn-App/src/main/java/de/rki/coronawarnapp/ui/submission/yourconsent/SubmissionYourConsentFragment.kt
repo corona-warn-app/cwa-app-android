@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentSubmissionYourConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -68,7 +67,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         binding.apply {
             binding.toolbar.setNavigationOnClickListener { vm.goBack() }
             submissionYourConsentSwitch.setOnClickListener { vm.switchConsent() }
-            submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
+            submissionConsentMoreInfo.setOnClickListener { vm.goLegal() }
 
             submissionYourConsentAgreementShareSymptomsText.setText(
                 if (navArgs.isTestResultAvailable) {
@@ -79,7 +78,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
             )
         }
 
-        vm.errorEvent.observe2(this) { displayDialog(dialog = it.toErrorDialogBuilder(requireContext())) }
+        vm.errorEvent.observe2(this) { displayDialog { setError(it) } }
     }
 
     override fun onResume() {

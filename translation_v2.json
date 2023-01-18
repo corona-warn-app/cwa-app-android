@@ -19,7 +19,8 @@
             "dcc_ticketing_strings.xml",
             "risk_details_strings.xml",
             "dcc_reissuance_strings.xml",
-            "family_tests_strings.xml"
+            "family_tests_strings.xml",
+            "srs_submission_strings.xml"
           ],
           "targetFolderPath": "../[langCode]"
         }

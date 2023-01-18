@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import timber.log.Timber
 
 class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() {
@@ -62,26 +63,17 @@ class ErrorReportReceiver(private val activity: Activity) : BroadcastReceiver() 
             Timber.v("Not displaying error dialog, not in foreground.")
             return
         }
-
-        val dialogInstance = DialogHelper.DialogInstance(
-            context = activity,
-            title = dialogTitle,
-            message = message,
-            positiveButton = confirm,
-            negativeButton = details,
-            cancelable = null,
-            positiveButtonFunction = {},
-            negativeButtonFunction = {
-                val stackTraceDialog = DialogHelper.DialogInstance(
-                    activity,
-                    title,
-                    "$detailsTitle:\n$stack",
-                    confirm
-                )
-                DialogHelper.showDialog(stackTraceDialog.copy(isTextSelectable = true))
-                Unit
+        (activity as AppCompatActivity).displayDialog {
+            title(dialogTitle)
+            message(message)
+            positiveButton(confirm)
+            negativeButton(details) {
+                activity.displayDialog {
+                    title(title)
+                    message("$detailsTitle:\n$stack")
+                    positiveButton(confirm)
+                }
             }
-        )
-        DialogHelper.showDialog(dialogInstance)
+        }
     }
 }

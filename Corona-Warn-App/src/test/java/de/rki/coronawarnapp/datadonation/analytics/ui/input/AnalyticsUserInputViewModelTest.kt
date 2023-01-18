@@ -13,6 +13,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -20,29 +21,21 @@ import testhelpers.BaseTest
 import testhelpers.asDispatcherProvider
 import testhelpers.coroutines.runTest2
 import testhelpers.extensions.InstantExecutorExtension
-import testhelpers.preferences.mockFlowPreference
+import testhelpers.preferences.FakeDataStore
 
 @ExtendWith(InstantExecutorExtension::class)
 class AnalyticsUserInputViewModelTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var districtsSource: Districts
-    @MockK lateinit var analyticsSettings: AnalyticsSettings
-
-    private val userInfoAgeGroup = mockFlowPreference(PPAAgeGroup.AGE_GROUP_UNSPECIFIED)
-    private val userInfoFederalState = mockFlowPreference(PPAFederalState.FEDERAL_STATE_UNSPECIFIED)
-    private var userInfoDistrict = mockFlowPreference(0)
+    lateinit var analyticsSettings: AnalyticsSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
+        analyticsSettings = AnalyticsSettings(FakeDataStore())
         every { context.getString(any()) } returns ""
-
-        every { analyticsSettings.userInfoAgeGroup } returns userInfoAgeGroup
-        every { analyticsSettings.userInfoFederalState } returns userInfoFederalState
-        every { analyticsSettings.userInfoDistrict } returns userInfoDistrict
-
         coEvery { districtsSource.loadDistricts() } returns emptyList()
     }
 
@@ -59,7 +52,7 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
 
     @Test
     fun `test agegroup emission`() = runTest2 {
-        userInfoAgeGroup.update { PPAAgeGroup.AGE_GROUP_0_TO_29 }
+        analyticsSettings.updateUserInfoAgeGroup(PPAAgeGroup.AGE_GROUP_0_TO_29)
         val instance = createInstance(inputType = InputType.AGE_GROUP, scope = this)
 
         instance.userInfoItems.observeForever { }
@@ -86,16 +79,17 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
             UserInfoItem(data = PPAAgeGroup.AGE_GROUP_30_TO_59, label = mockk(), isSelected = false)
         )
 
-        userInfoAgeGroup.value shouldBe PPAAgeGroup.AGE_GROUP_30_TO_59
-        userInfoFederalState.value shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-        userInfoDistrict.value shouldBe 0
+        Thread.sleep(1)
+        analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_30_TO_59
+        analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+        analyticsSettings.userInfoDistrict.first() shouldBe 0
 
         instance.finishEvent.value shouldBe Unit
     }
 
     @Test
     fun `test federal state emission`() = runTest2 {
-        userInfoFederalState.update { PPAFederalState.FEDERAL_STATE_HH }
+        analyticsSettings.updateUserInfoFederalState(PPAFederalState.FEDERAL_STATE_HH)
         val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
         instance.userInfoItems.observeForever { }
@@ -122,22 +116,23 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
         val instance = createInstance(inputType = InputType.FEDERAL_STATE, scope = this)
 
         instance.finishEvent.value shouldBe null
-        userInfoDistrict.update { 12345 } // Because federal state selection should reset this
+        analyticsSettings.updateUserInfoDistrict(12345) // Because federal state selection should reset this
 
         instance.selectUserInfoItem(
             UserInfoItem(data = PPAFederalState.FEDERAL_STATE_NRW, label = mockk(), isSelected = false)
         )
 
-        userInfoAgeGroup.value shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
-        userInfoFederalState.value shouldBe PPAFederalState.FEDERAL_STATE_NRW
-        userInfoDistrict.value shouldBe 0
+        Thread.sleep(1)
+        analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+        analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_NRW
+        analyticsSettings.userInfoDistrict.first() shouldBe 0
 
         instance.finishEvent.value shouldBe Unit
     }
 
     @Test
     fun `test district emission`() = runTest2 {
-        userInfoFederalState.update { PPAFederalState.FEDERAL_STATE_NRW }
+        analyticsSettings.updateUserInfoFederalState(PPAFederalState.FEDERAL_STATE_NRW)
 
         val ourDistrict = Districts.District(
             districtId = 1234,
@@ -164,9 +159,11 @@ class AnalyticsUserInputViewModelTest : BaseTest() {
         instance.selectUserInfoItem(
             UserInfoItem(data = Districts.District(districtId = 9000), label = mockk(), isSelected = false)
         )
-        userInfoAgeGroup.value shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
-        userInfoFederalState.value shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
-        userInfoDistrict.value shouldBe 9000
+
+        Thread.sleep(1)
+        analyticsSettings.userInfoAgeGroup.first() shouldBe PPAAgeGroup.AGE_GROUP_UNSPECIFIED
+        analyticsSettings.userInfoFederalState.first() shouldBe PPAFederalState.FEDERAL_STATE_UNSPECIFIED
+        analyticsSettings.userInfoDistrict.first() shouldBe 9000
 
         instance.finishEvent.value shouldBe Unit
     }

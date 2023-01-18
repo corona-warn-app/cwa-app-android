@@ -10,6 +10,7 @@ import "internal/v2/key_download_parameters.proto";
 import "internal/v2/ppdd_edus_parameters.proto";
 import "internal/v2/ppdd_els_parameters.proto";
 import "internal/v2/ppdd_ppa_parameters.proto";
+import "internal/v2/ppdd_srs_parameters.proto";
 import "internal/v2/risk_calculation_parameters.proto";
 import "internal/v2/presence_tracing_parameters.proto";
 import "internal/v2/semantic_version.proto";
@@ -40,6 +41,8 @@ message ApplicationConfigurationIOS {
   CoronaTestParameters coronaTestParameters = 13;
 
   DGCParameters dgcParameters = 14;
+
+  PPDDSelfReportSubmissionParametersIOS selfReportParameters = 15;
 }
 
 message ExposureConfiguration {

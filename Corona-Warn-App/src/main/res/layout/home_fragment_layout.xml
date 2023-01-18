@@ -97,7 +97,7 @@
                 android:paddingBottom="@dimen/spacing_fab_padding"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:itemCount="3"
-                tools:listitem="@layout/home_submission_status_card_unregistered" />
+                tools:listitem="@layout/home_submission_register_test_card" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

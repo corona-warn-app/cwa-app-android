@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dispatcher_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dispatcher_card_background"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dispatcher_card_title"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:accessibilityHeading="true"
+            app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/srs_positive_test_no_answer_title" />
+
+        <ImageView
+            android:id="@+id/dispatcher_card_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_forward"
+            tools:src="@drawable/ic_forward"
+            tools:tint="@color/colorTextPrimary2" />
+
+        <TextView
+            android:id="@+id/submission_dispatcher_card_text"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_title"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="@string/srs_positive_test_no_answer_body" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/dispatcher_card_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/submission_dispatcher_card_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dispatcher_card_icon"
+            app:shapeAppearanceOverlay="@style/dispatcherImageStyle"
+            tools:src="@drawable/ic_positive_self_test_illustration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

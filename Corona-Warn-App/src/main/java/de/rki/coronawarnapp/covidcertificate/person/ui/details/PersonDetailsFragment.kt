@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.dccValidationNoInternetDialog
@@ -46,7 +45,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         constructorCall = { factory, _ ->
             factory as PersonDetailsViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personCode,
+                groupKey = args.groupKey,
                 colorShade = args.colorShade
             )
         }
@@ -65,7 +64,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            root.transitionName = args.personCode
+            root.transitionName = args.groupKey
             toolbar.setNavigationOnClickListener {
                 viewModel.dismissAdmissionStateBadge(true)
             }
@@ -144,18 +143,18 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     dccValidationNoInternetDialog()
                 } else {
-                    displayDialog(dialog = error.toErrorDialogBuilder(requireContext()))
+                    displayDialog { setError(error) }
                 }
             }
 
             is OpenBoosterInfoDetails -> findNavController().navigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personIdentifierCode)
+                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.groupKey)
             ).also { viewModel.dismissAdmissionStateBadge() }
 
             is OpenCertificateReissuanceConsent -> findNavController().navigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
+                    .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.groupKey)
             ).also { viewModel.dismissAdmissionStateBadge() }
 
             Back -> {
@@ -173,16 +172,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun onDeleteCertificateDialog(certificate: CwaCovidCertificate, position: Int) =
-        displayDialog(
-            isDeleteDialog = true,
-            onDismissAction = { personDetailsAdapter.notifyItemChanged(position) }
-        ) {
-            setTitle(R.string.recycle_bin_recycle_certificate_dialog_title)
-            setMessage(R.string.recycle_bin_recycle_certificate_dialog_message)
-            setPositiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) { _, _ ->
+        displayDialog {
+            title(R.string.recycle_bin_recycle_certificate_dialog_title)
+            message(R.string.recycle_bin_recycle_certificate_dialog_message)
+            positiveButton(R.string.recycle_bin_recycle_certificate_dialog_positive_button) {
                 viewModel.recycleCertificate(certificate)
             }
-            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
+            negativeButton(R.string.family_tests_list_deletion_alert_cancel_button)
+            dismissAction { personDetailsAdapter.notifyItemChanged(position) }
+            setDeleteDialog(true)
         }
 
     private val globalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {

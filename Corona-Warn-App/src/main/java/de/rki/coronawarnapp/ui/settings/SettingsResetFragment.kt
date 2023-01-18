@@ -6,8 +6,8 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSettingsResetBinding
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.onboarding.OnboardingActivity
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -35,7 +35,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         }
         vm.clickEvent.observe2(this) {
             when (it) {
-                is SettingsEvents.ResetApp -> confirmReset()
+                is SettingsEvents.ResetApp -> showConfirmResetDialog()
                 is SettingsEvents.GoBack -> popBackStack()
                 is SettingsEvents.GoToOnboarding -> navigateToOnboarding()
             }
@@ -52,18 +52,11 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         activity?.finish()
     }
 
-    private fun confirmReset() {
-        val resetDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.settings_reset_dialog_headline,
-            R.string.settings_reset_dialog_body,
-            R.string.settings_reset_dialog_button_confirm,
-            R.string.settings_reset_dialog_button_cancel,
-            cancelable = true,
-            positiveButtonFunction = vm::deleteAllAppContent,
-            isDeleteDialog = true
-        )
-
-        DialogHelper.showDialog(resetDialog)
+    private fun showConfirmResetDialog() = displayDialog {
+        title(R.string.settings_reset_dialog_headline)
+        message(R.string.settings_reset_dialog_body)
+        positiveButton(R.string.settings_reset_dialog_button_confirm) { vm.deleteAllAppContent() }
+        negativeButton(R.string.settings_reset_dialog_button_cancel)
+        setDeleteDialog(true)
     }
 }

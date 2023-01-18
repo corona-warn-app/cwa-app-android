@@ -72,5 +72,6 @@
     <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XTXT: Home Menu Button - URL to social media section of the community page -->
     <string name="home_menu_social_media_url">"https://www.coronawarn.app/en/community/#socialmedia"</string>
+    <string name="srs_faq_url">https://www.coronawarn.app/en/faq/results/#warn_without_tan</string>
 
 </resources>

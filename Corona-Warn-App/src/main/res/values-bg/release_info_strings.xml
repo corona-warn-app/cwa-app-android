@@ -18,21 +18,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Радар на пандемия"</item>
+        <item>"Предупреждение със самостоятелни тествания"</item>
+        <item>"Предупреждения с нерегистрирани тестове"</item>
+        <item>"Горещата линия с ТАН кодове скоро ще бъде прекратена"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Приложението Corona-Warn-App вече има плочка „Радар на пандемията“, която при натискане Ви отвежда директно до уебсайта на института „Роберт Кох“(на немски език). Този Радар на пандемията съдържа различни статистики относно пандемията с коронавируса SARS-CoV-2, които се актуализират всеки работен ден. Моля, обърнете внимание, че всички мобилни данни използвани при отварянето на уебсайта на института ще бъдат приспаднати от Вашия мобилен план и, че уебсайтът не е проектиран да бъде с улеснена достъпност."</item>
+        <item>"Вече може да изпращате предупреждения на други потребители на приложението Corona-Warn-App, ако самотестуване покаже, че имате коронавирусна инфекция."</item>
+        <item>"Ако бърз тест или PCR тест от пункт за тестване покаже, че имате коронавирусна инфекция, но този тест не е регистриран в приложението Corona-Warn-App, Вие вече може да изпращане предупреждения на другите потребители."</item>
+        <item>"Опцията да получите TAN код от горещата линия с TAN кодове ще бъде прекратена в следващите няколко седмици. Следователно, вече няма да Ви трябва TAN код, за да предупреждавате другите потребители на приложението Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
         <item/>
     </string-array>
 

@@ -81,7 +81,7 @@
             android:layout_margin="@dimen/spacing_tiny"
             android:orientation="vertical">
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/fake_correct_devicetime_toggle"
                 app:thumbTint="@color/colorCertificateUserSwitch"
                 android:layout_width="match_parent"

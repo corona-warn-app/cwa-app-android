@@ -16,7 +16,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import java.time.Instant
 import org.junit.jupiter.api.AfterEach
@@ -120,15 +119,15 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         coEvery { tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(any()) } just Runs
 
         // SubmissionLocalData
-        every { submissionSettings.registrationTokenMigration = any() } just Runs
-        every {
-            submissionSettings.initialTestResultReceivedAtMigration = Instant.ofEpochMilli(10101010L)
+        coEvery { submissionSettings.updateRegistrationTokenMigration(any()) } just Runs
+        coEvery {
+            submissionSettings.updateInitialTestResultReceivedAtMigration(Instant.ofEpochMilli(10101010L))
         } just Runs
-        every {
-            submissionSettings.devicePairingSuccessfulAtMigration = Instant.ofEpochMilli(10101010L)
+        coEvery {
+            submissionSettings.updateDevicePairingSuccessfulAtMigration(Instant.ofEpochMilli(10101010L))
         } just Runs
-        every { submissionSettings.isSubmissionSuccessfulMigration = true } just Runs
-        every { submissionSettings.isAllowedToSubmitKeysMigration = true } just Runs
+        coEvery { submissionSettings.updateIsSubmissionSuccessfulMigration(true) } just Runs
+        coEvery { submissionSettings.updateIsAllowedToSubmitKeysMigration(true) } just Runs
 
         val migrationInstance = createInstance()
 
@@ -137,7 +136,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         coVerify { tracingSettings.updateUserToBeNotifiedOfLoweredRiskLevel(notify = true) }
 
         // SubmissionLocalData
-        verify { submissionSettings.registrationTokenMigration = "super_secret_token" }
+        coVerify { submissionSettings.updateRegistrationTokenMigration("super_secret_token") }
     }
 
     @Test
@@ -155,7 +154,7 @@ class EncryptedPreferencesMigrationTest : BaseIOTest() {
         every { encryptedPreferencesHelper.instance } returns mockPrefs
         every { encryptedPreferencesHelper.clean() } just Runs
 
-        every { encryptedErrorResetTool.isResetNoticeToBeShown = true } just Runs
+        coEvery { encryptedErrorResetTool.updateIsResetNoticeToBeShown(any()) } just Runs
 
         shouldNotThrowAny {
             val instance = createInstance()

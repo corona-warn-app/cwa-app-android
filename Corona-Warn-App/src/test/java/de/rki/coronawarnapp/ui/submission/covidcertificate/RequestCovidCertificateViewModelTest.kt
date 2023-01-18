@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import java.time.Instant
@@ -68,6 +69,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         allowTestReplacement = allowTestReplacement,
         personName = "Lara",
         registrationStateProcessor = testRegistrationStateProcessor,
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test

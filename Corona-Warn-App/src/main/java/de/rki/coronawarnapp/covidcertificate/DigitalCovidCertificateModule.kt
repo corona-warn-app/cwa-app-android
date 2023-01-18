@@ -18,8 +18,6 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonSettingsDataStore
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateDataStore
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -30,12 +28,17 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.covidcertificate.valueset.CertificateValueSetModule
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.reset.Resettable
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dgca.verifier.app.engine.DefaultAffectedFieldsDataRetriever
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.DefaultJsonLogicValidator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module(
@@ -94,6 +97,24 @@ object DigitalCovidCertificateModule {
         )
     )
 
+    @Singleton
+    @CovidCertificateSettingsDataStore
+    @Provides
+    fun provideCovidCertificateSettingsDataStore(
+        @AppContext context: Context,
+        @AppScope appScope: CoroutineScope,
+        dispatcherProvider: DispatcherProvider
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        scope = appScope + dispatcherProvider.IO,
+        produceFile = { context.preferencesDataStoreFile(STORAGE_DATASTORE_COVID_CERTIFICATE_SETTINGS_NAME) },
+        migrations = listOf(
+            SharedPreferencesMigration(
+                context,
+                LEGACY_SHARED_PREFS_COVID_CERTIFICATE_SETTINGS_NAME
+            )
+        )
+    )
+
     @Module
     internal interface ResetModule {
 
@@ -137,6 +158,23 @@ object DigitalCovidCertificateModule {
     }
 }
 
-// Legacy shared prefs name
 private const val PERSON_SETTINGS_NAME = "certificate_person_localdata"
 private const val RECOVERY_CERTIFICATE_STORAGE_NAME = "recovery_localdata"
+
+private const val LEGACY_SHARED_PREFS_COVID_CERTIFICATE_SETTINGS_NAME = "covid_certificate_localdata"
+private const val STORAGE_DATASTORE_COVID_CERTIFICATE_SETTINGS_NAME = "covid_certificate_settings_storage"
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class PersonSettingsDataStore
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class CovidCertificateSettingsDataStore
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RecoveryCertificateDataStore

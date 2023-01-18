@@ -124,23 +124,19 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
     private fun buildErrorDialog(exception: CwaWebException) {
         when (exception) {
             is BadRequestException -> displayDialog {
-                setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
-                setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
-                setNegativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { _, _ -> goBack() }
+                title(R.string.submission_error_dialog_web_test_paired_title_tan)
+                message(R.string.submission_error_dialog_web_test_paired_body_tan)
+                negativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { goBack() }
             }
             is CwaClientError, is CwaServerError -> displayDialog {
-                setTitle(R.string.submission_error_dialog_web_generic_error_title)
-                setMessage(R.string.submission_error_dialog_web_generic_network_error_body)
-                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
-                    goBack()
-                }
+                title(R.string.submission_error_dialog_web_generic_error_title)
+                message(R.string.submission_error_dialog_web_generic_network_error_body)
+                negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }
             }
             else -> displayDialog {
-                setTitle(R.string.submission_error_dialog_web_generic_error_title)
-                setMessage(R.string.submission_error_dialog_web_generic_error_body)
-                setNegativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { _, _ ->
-                    goBack()
-                }
+                title(R.string.submission_error_dialog_web_generic_error_title)
+                message(R.string.submission_error_dialog_web_generic_error_body)
+                negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }
             }
         }
     }

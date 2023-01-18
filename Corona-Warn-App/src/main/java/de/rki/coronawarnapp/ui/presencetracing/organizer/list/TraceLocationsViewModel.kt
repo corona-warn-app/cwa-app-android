@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
@@ -24,6 +25,7 @@ class TraceLocationsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     checkInsRepository: CheckInRepository,
     private val traceLocationRepository: TraceLocationRepository,
+    private val settings: TraceLocationSettings
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<TraceLocationEvent>()
@@ -42,10 +44,11 @@ class TraceLocationsViewModel @AssistedInject constructor(
         }
         .map { traceLocations ->
             traceLocations.map { item ->
+                val isOnboarded = settings.isOnboardingDone()
                 TraceLocationVH.Item(
                     traceLocation = item.first,
                     canCheckIn = item.second,
-                    onCheckIn = { events.postValue(TraceLocationEvent.SelfCheckIn(it)) },
+                    onCheckIn = { events.postValue(TraceLocationEvent.SelfCheckIn(it, isOnboarded)) },
                     onDuplicate = { events.postValue(TraceLocationEvent.DuplicateItem(it)) },
                     onShowPrint = { events.postValue(TraceLocationEvent.StartQrCodePosterFragment(it)) },
                     onDeleteItem = { events.postValue(TraceLocationEvent.ConfirmDeleteItem(it)) },

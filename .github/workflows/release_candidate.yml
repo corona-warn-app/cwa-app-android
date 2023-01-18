@@ -28,13 +28,23 @@ jobs:
       keystore_password: '${{ secrets.KEYSTORE_PASSWORD }}'
       key_alias: '${{ secrets.KEY_ALIAS }}'
       key_password: '${{ secrets.KEY_PASSWORD }}'
+      firebase_login_credentials: '${{ secrets.FIREBASE_LOGIN_CREDENTIALS }}'
+      firebase_app_id: '${{ secrets.FIREBASE_APP_ID }}'
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.1.0
+
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.128.0
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           java-version: '11'
           distribution: 'temurin'
@@ -97,3 +107,16 @@ jobs:
           -H "authorization: Bearer $GITHUB_ACCESS_TOKEN" \
           -d "{\"ref\":\"main\"}" \
           https://api.github.com/repos/corona-warn-app/cwa-app-automation/actions/workflows/32064115/dispatches
+
+      - name: Configure Fastlane
+        run: |
+          apk_path=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+          echo "apk_path=$apk_path" >> $GITHUB_ENV
+          echo "release_tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo $firebase_login_credentials | base64 -di > ./fastlane/service_credentials.json
+
+      - name: Run Fastlane
+        run: bundle exec fastlane firebaseAppDistribution
+      - name: Notify Teams
+        run: |
+          curl -H 'Content-Type: application/json' -d '{"text": "Release [`${{ env.release_tag }}`](https://github.com/corona-warn-app/cwa-app-android/releases/tag/${{ env.release_tag }}) is ready for testing"}' ${{ secrets.TEAMS_WEBHOOK_URL }}

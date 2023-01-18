@@ -14,10 +14,10 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TraceLocationOrganizerTraceLocationsListFragmentBinding
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
+import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.category.traceLocationCategories
 import de.rki.coronawarnapp.ui.presencetracing.organizer.details.QrCodeDetailFragmentArgs
-import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
@@ -82,9 +82,11 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                 is TraceLocationEvent.ConfirmDeleteItem -> {
                     showDeleteSingleDialog(it.traceLocation, null)
                 }
+
                 is TraceLocationEvent.ConfirmSwipeItem -> {
                     showDeleteSingleDialog(it.traceLocation, it.position)
                 }
+
                 is TraceLocationEvent.StartQrCodeDetailFragment -> {
                     setupHoldTransition()
                     val navigatorExtras = binding.recyclerView.findViewHolderForAdapterPosition(it.position)?.itemView
@@ -99,10 +101,12 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                         navigatorExtras
                     )
                 }
+
                 is TraceLocationEvent.DuplicateItem -> {
                     setupAxisTransition()
                     openCreateEventFragment(it.traceLocation)
                 }
+
                 is TraceLocationEvent.StartQrCodePosterFragment -> {
                     setupAxisTransition()
                     findNavController().navigate(
@@ -115,7 +119,7 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
 
                 is TraceLocationEvent.SelfCheckIn -> {
                     findNavController().navigate(
-                        CheckInsFragment.createDeepLink(it.traceLocation.locationUrl, true),
+                        CheckInsFragment.createDeepLink(it.traceLocation.locationUrl, true, it.isOnboarded),
                         NavOptions.Builder()
                             .setPopUpTo(R.id.checkInsFragment, true)
                             .build()
@@ -163,35 +167,25 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
                     )
                     true
                 }
-                R.id.menu_warn_guests -> {
-                    setupAxisTransition()
-                    findNavController().navigate(
-                        R.id.action_traceLocationsFragment_to_traceLocationWarnInfoFragment
-                    )
-                    true
-                }
+
                 R.id.menu_remove_all -> {
                     showDeleteAllDialog()
                     true
                 }
+
                 else -> false
             }
         }
     }
 
-    private fun showDeleteAllDialog() {
-        val deleteAllDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.trace_location_organiser_list_delete_all_popup_title,
-            R.string.trace_location_organiser_list_delete_all_popup_message,
-            R.string.trace_location_organiser_list_delete_all_popup_positive_button,
-            R.string.trace_location_organiser_list_delete_all_popup_negative_button,
-            positiveButtonFunction = {
-                viewModel.deleteAllTraceLocations()
-            },
-            isDeleteDialog = true
-        )
-        DialogHelper.showDialog(deleteAllDialog)
+    private fun showDeleteAllDialog() = displayDialog {
+        title(R.string.trace_location_organiser_list_delete_all_popup_title)
+        message(R.string.trace_location_organiser_list_delete_all_popup_message)
+        positiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) {
+            viewModel.deleteAllTraceLocations()
+        }
+        negativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button)
+        setDeleteDialog(true)
     }
 
     private fun openCreateEventFragment(traceLocation: TraceLocation) {
@@ -208,20 +202,18 @@ class TraceLocationsFragment : Fragment(R.layout.trace_location_organizer_trace_
         }
     }
 
-    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) =
-        DialogHelper.showDialog(
-            DialogHelper.DialogInstance(
-                requireActivity(),
-                R.string.trace_location_organiser_list_delete_single_popup_title,
-                R.string.trace_location_organiser_list_delete_single_popup_message,
-                R.string.trace_location_organiser_list_delete_all_popup_positive_button,
-                R.string.trace_location_organiser_list_delete_all_popup_negative_button,
-                positiveButtonFunction = { viewModel.deleteSingleTraceLocation(traceLocation) },
-                negativeButtonFunction = { position?.let { traceLocationsAdapter.notifyItemChanged(position) } },
-                cancelFunction = { position?.let { traceLocationsAdapter.notifyItemChanged(position) } },
-                isDeleteDialog = true
-            )
-        )
+    private fun showDeleteSingleDialog(traceLocation: TraceLocation, position: Int?) = displayDialog {
+        title(R.string.trace_location_organiser_list_delete_single_popup_title)
+        message(R.string.trace_location_organiser_list_delete_single_popup_message)
+        positiveButton(R.string.trace_location_organiser_list_delete_all_popup_positive_button) {
+            viewModel.deleteSingleTraceLocation(traceLocation)
+        }
+        negativeButton(R.string.trace_location_organiser_list_delete_all_popup_negative_button) {
+            position?.let { traceLocationsAdapter.notifyItemChanged(it) }
+        }
+        dismissAction { position?.let { traceLocationsAdapter.notifyItemChanged(it) } }
+        setDeleteDialog(true)
+    }
 
     private fun onScrollChange(extend: Boolean) =
         with(binding.qrCodeFab) {

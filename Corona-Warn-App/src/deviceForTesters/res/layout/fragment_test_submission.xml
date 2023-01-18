@@ -14,6 +14,159 @@
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+            <TextView
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="First Reliable Time"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/first_reliable_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time: No time"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/date_picker"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Date Picker" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+            <TextView
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SRS Submission"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/srs_otp"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="No OTP" />
+
+            <TextView
+                android:id="@+id/submission_time"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="SubmissionTime" />
+
+            <TextView
+                android:id="@+id/android_id"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="Android ID" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/check_device_time_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Check Local prerequisites" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/android_id_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Force Android ID acceptance" />
+
+            <Button
+                android:id="@+id/clear_srs_settings"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Clear submission date" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="_________ Device Time State _________" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/state_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_tiny"
+                android:hint="Device Time State"
+                android:textColorHint="@color/colorTextPrimary3"
+                app:boxBackgroundColor="@color/colorContactDiaryListItem">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/device_time_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/colorOnPrimary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="_________ For DEVs _________" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="Click 'Get TEKs' button before submitting " />
+
+            <Button
+                android:id="@+id/submit"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Run submission" />
+
+            <Button
+                android:id="@+id/clear_otp"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Clear OTP" />
+
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tek_history"
             style="@style/Card"
@@ -40,6 +193,7 @@
 
             <Button
                 android:id="@+id/tek_retrieval"
+                style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tiny"
@@ -49,13 +203,25 @@
                 app:layout_constraintTop_toBottomOf="@id/tek_history_description" />
 
             <Button
+                android:id="@+id/tek_clear_cache"
+                style="@style/buttonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="Clear TEK cache"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tek_retrieval" />
+
+            <Button
                 android:id="@+id/tek_email"
+                style="@style/buttonPrimary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Email TEKs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tek_retrieval" />
+                app:layout_constraintTop_toBottomOf="@id/tek_clear_cache" />
 
             <TextView
                 android:id="@+id/tek_storage_count"

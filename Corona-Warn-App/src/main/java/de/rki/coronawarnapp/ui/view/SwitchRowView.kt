@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.materialswitch.MaterialSwitch
 import de.rki.coronawarnapp.R
 
 class SwitchRowView @JvmOverloads constructor(
@@ -14,7 +14,7 @@ class SwitchRowView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private val switch by lazy { findViewById<SwitchMaterial>(R.id.switch_view) }
+    private val switch by lazy { findViewById<MaterialSwitch>(R.id.switch_view) }
     private val title by lazy { findViewById<TextView>(R.id.switch_title) }
     private val subtitleView by lazy { findViewById<TextView>(R.id.switch_subtitle) }
 

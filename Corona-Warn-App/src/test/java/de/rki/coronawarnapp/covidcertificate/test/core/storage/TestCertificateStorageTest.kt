@@ -1,44 +1,40 @@
 package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import android.content.Context
-import androidx.core.content.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_PCR
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_RA
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage.Companion.PKEY_DATA_SCANNED
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 import java.time.Instant
 import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class TestCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+    private lateinit var dataStore: FakeDataStore
     @Inject lateinit var certificateTestData: TestCertificateTestData
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
-
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("coronatest_certificate_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        dataStore = FakeDataStore()
     }
 
     private fun createInstance() = TestCertificateStorage(
-        context = context,
+        dataStore = dataStore,
         baseGson = SerializationModule().baseGson()
     )
 
@@ -49,15 +45,14 @@ class TestCertificateStorageTest : BaseTest() {
 
     @Test
     fun `storing empty set deletes data`() = runTest {
-        mockPreferences.edit {
-            putString("dontdeleteme", "test")
-            putString("testcertificate.data.ra", "test")
-            putString("testcertificate.data.pcr", "test")
-            putString("testcertificate.data.scanned", "test")
-        }
+        dataStore[stringPreferencesKey("dontdeleteme")] = "test"
+        dataStore[PKEY_DATA_RA] = "test"
+        dataStore[PKEY_DATA_PCR] = "test"
+        dataStore[PKEY_DATA_SCANNED] = "test"
+
         createInstance().save(emptySet())
 
-        mockPreferences.dataMapPeek.keys.single() shouldBe "dontdeleteme"
+        dataStore[stringPreferencesKey("dontdeleteme")] shouldBe "test"
     }
 
     @Test
@@ -75,7 +70,7 @@ class TestCertificateStorageTest : BaseTest() {
             )
         )
 
-        (mockPreferences.dataMapPeek["testcertificate.data.pcr"] as String).toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_PCR] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier",
@@ -92,7 +87,7 @@ class TestCertificateStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        (mockPreferences.dataMapPeek["testcertificate.data.ra"] as String).toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_RA] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier2",
@@ -109,7 +104,7 @@ class TestCertificateStorageTest : BaseTest() {
             ]
         """.toComparableJsonPretty()
 
-        (mockPreferences.dataMapPeek["testcertificate.data.scanned"] as String).toComparableJsonPretty() shouldBe """
+        (dataStore[PKEY_DATA_SCANNED] as String).toComparableJsonPretty() shouldBe """
             [
               {
                 "identifier": "identifier2",

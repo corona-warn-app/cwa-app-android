@@ -20,6 +20,8 @@
     <include app:graph="@navigation/covid_certificates_graph" />
     <!--    DCC Ticketing graph-->
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
+    <!--    Srs Submission graph-->
+    <include app:graph="@navigation/srs_nav_graph" />
 
     <!-- Global Actions -->
     <action
