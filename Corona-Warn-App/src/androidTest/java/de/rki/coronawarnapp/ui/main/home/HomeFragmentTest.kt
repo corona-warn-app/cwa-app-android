@@ -93,16 +93,6 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
-    fun captureHomeFragmentRampDownNotice() {
-        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
-            HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS,
-            showRampDownNotice = true
-        )
-        captureHomeFragment("ramp_down_notice")
-    }
-
-    @Screenshot
-    @Test
     fun captureHomeFragmentLowRiskNoEncounters_Tooltip() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             HomeData.Tracing.LOW_RISK_ITEM_NO_ENCOUNTERS
