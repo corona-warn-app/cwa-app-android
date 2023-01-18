@@ -37,8 +37,8 @@
                 <ImageView
                     android:id="@+id/europa_image"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_height="@dimen/height_250"
+                    android:layout_marginStart="@dimen/margin_50"
                     android:importantForAccessibility="no"
                     app:layout_collapseMode="parallax"
                     app:srcCompat="@drawable/ic_eu_stars_blue" />
@@ -53,25 +53,25 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginTop="90dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginHorizontal="@dimen/margin_24"
+                        android:layout_marginTop="@dimen/margin_90"
+                        android:layout_marginBottom="@dimen/margin_8"
                         android:gravity="center"
                         android:text="@string/vaccination_certificate_subtitle"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/font_18" />
 
                     <TextView
                         android:id="@+id/subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="24dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginHorizontal="@dimen/margin_24"
+                        android:layout_marginBottom="@dimen/margin_8"
                         android:gravity="center"
                         android:text="@string/test_certificate_name"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/font_20"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -96,7 +96,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="32dp"
+                            android:layout_marginEnd="@dimen/margin_32"
                             android:importantForAccessibility="no"
                             app:srcCompat="@drawable/ic_cwa_logo_white" />
 
@@ -117,7 +117,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
+                android:layout_marginVertical="@dimen/margin_16"
                 android:orientation="vertical">
 
                 <include
@@ -125,16 +125,16 @@
                     layout="@layout/include_certificate_qrcode_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginBottom="6dp" />
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginBottom="@dimen/margin_6" />
 
                 <LinearLayout
                     style="@style/Card.GreenCertificate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/padding_16">
 
                     <TextView
                         style="@style/body2Medium"
@@ -147,14 +147,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="Andrea Schneider" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/covid_certificate_attribute_icao_name" />
 
                     <TextView
@@ -162,14 +162,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="SCHNEIDER, ANDREA" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/covid_certificate_attribute_date_of_birth" />
 
                     <TextView
@@ -177,14 +177,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="18.04.1943" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/covid_certificate_attribute_disease_type" />
 
                     <TextView
@@ -192,14 +192,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="SARS-CoV-2" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_type" />
 
                     <TextView
@@ -207,7 +207,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="Rapid Antigen Test" />
 
                     <TextView
@@ -215,7 +215,7 @@
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_name" />
 
                     <TextView
@@ -223,7 +223,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="Xep" />
 
                     <TextView
@@ -231,7 +231,7 @@
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_manufacturer" />
 
                     <TextView
@@ -239,14 +239,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="Xup" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_date" />
 
                     <TextView
@@ -254,14 +254,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="12.05.21 19:00" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_result" />
 
                     <TextView
@@ -269,7 +269,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="negative" />
 
                     <TextView
@@ -277,7 +277,7 @@
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_test_center" />
 
                     <TextView
@@ -285,14 +285,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="AB123" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/test_certificate_attribute_state_of_testing" />
 
                     <TextView
@@ -300,14 +300,14 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="Germany" />
 
                     <TextView
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/covid_certificate_attribute_certificate_issuer" />
 
                     <TextView
@@ -315,7 +315,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="G05930482748454836478695764787840" />
 
 
@@ -323,7 +323,7 @@
                         style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:text="@string/covid_certificate_attribute_certificate_id" />
 
                     <TextView
@@ -331,7 +331,7 @@
                         style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/margin_2"
                         tools:text="05930482748454836478695764787840" />
                 </LinearLayout>
 
@@ -340,8 +340,8 @@
                     layout="@layout/include_expiration_notice_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_8" />
 
                 <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
                     android:id="@+id/travel_notice"

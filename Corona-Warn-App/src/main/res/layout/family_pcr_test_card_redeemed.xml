@@ -10,28 +10,28 @@
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         app:layout_constrainedWidth="true"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Mohamed Bernd Alexandru Juraj Chilja David Lukas" />
+        tools:text="Alexander Mohamed Bernd Alexandru Juraj Chilja David Lukas" />
 
     <TextView
         android:id="@+id/findings"
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/family_tests_cards_pcr_title"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -40,26 +40,26 @@
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_status_invalid"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findings" />
+        app:layout_constraintTop_toBottomOf="@id/findings" />
 
     <TextView
         android:id="@+id/body"
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_32"
         android:focusable="false"
         android:text="@string/family_tests_cards_redeemed_body"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/target" />
 
@@ -67,8 +67,8 @@
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_24"
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
@@ -86,11 +86,11 @@
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_normal"
+        android:layout_margin="@dimen/margin_24"
         android:text="@string/submission_status_card_button_failed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/button_barrier" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

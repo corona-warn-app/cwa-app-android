@@ -37,7 +37,7 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/standard_16"
             android:text="@string/submission_done_button_done"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_action" />
+            app:layout_constraintGuide_end="@dimen/guideline_72" />
 
         <include layout="@layout/merge_guidelines_side" />
 

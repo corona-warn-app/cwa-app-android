@@ -38,7 +38,7 @@ import de.rki.coronawarnapp.util.CWADebug
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Singleton
 
@@ -57,12 +57,12 @@ object BugReportingSharedModule {
         @LogUploadHttpClient client: OkHttpClient,
         @LogUploadServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): LogUploadApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .build()
         .create(LogUploadApiV1::class.java)
 
@@ -72,12 +72,12 @@ object BugReportingSharedModule {
         @DataDonationCDNHttpClient client: OkHttpClient,
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): LogUploadAuthApiV1 = Retrofit.Builder()
         .client(client)
         .baseUrl(url)
         .addConverterFactory(protoConverterFactory)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(jacksonConverterFactory)
         .build()
         .create(LogUploadAuthApiV1::class.java)
 

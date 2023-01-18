@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:elevation="8dp"
+                    android:elevation="@dimen/margin_8"
                     android:focusable="true"
                     android:foreground="?selectableItemBackground"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
@@ -60,7 +60,7 @@
                         style="@style/bodyButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="72dp"
+                        android:layout_marginEnd="@dimen/margin_72"
                         android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
                         android:focusable="false"
                         android:gravity="start|center_vertical"
@@ -69,10 +69,10 @@
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/main_tracing_icon"
-                        android:layout_width="@dimen/icon_size_main_card"
-                        android:layout_height="@dimen/icon_size_main_card"
+                        android:layout_width="@dimen/width_40"
+                        android:layout_height="@dimen/height_40"
                         android:layout_gravity="end|center_vertical"
-                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:importantForAccessibility="no"
                         app:animation="@{tracingHeader.getTracingAnimation(context)}"
                         app:animation_tint="@{tracingHeader.getTracingTint(context)}" />

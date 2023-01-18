@@ -30,7 +30,7 @@ class SrsTypeSelectionFragmentTest : BaseUITest() {
         viewModel.apply {
             every { navigation } returns SingleLiveEvent()
             every { types } returns MutableLiveData(
-                SrsSubmissionType.values().toList().map {
+                SrsSubmissionType.values().filterNot { it == SrsSubmissionType.SRS_SELF_TEST }.toList().map {
                     SrsTypeSelectionItem(submissionType = it)
                 }
             )

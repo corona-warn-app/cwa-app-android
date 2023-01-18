@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?android:attr/colorControlHighlight">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorSurface2Pressed"/>
-            <corners android:radius="@dimen/radius_card"/>
+            <solid android:color="@color/colorSurface2Pressed" />
+            <corners android:radius="@dimen/radius_4" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/radius_card"/>
-            <gradient android:angle="135" android:endColor="#27699D" android:startColor="#00457C"/>
+            <corners android:radius="@dimen/radius_4" />
+            <gradient
+                android:angle="135"
+                android:endColor="#27699D"
+                android:startColor="#00457C" />
         </shape>
     </item>
 </ripple>

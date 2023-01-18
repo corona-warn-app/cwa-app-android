@@ -1,33 +1,33 @@
 package de.rki.coronawarnapp.datadonation.analytics.common
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 
 // internal data structures used to store data -- do not modify
 data class AnalyticsExposureWindow(
-    @SerializedName("calibrationConfidence")
+    @JsonProperty("calibrationConfidence")
     val calibrationConfidence: Int,
-    @SerializedName("dateMillis")
+    @JsonProperty("dateMillis")
     val dateMillis: Long,
-    @SerializedName("infectiousness")
+    @JsonProperty("infectiousness")
     val infectiousness: Int,
-    @SerializedName("reportType")
+    @JsonProperty("reportType")
     val reportType: Int,
-    @SerializedName("analyticsScanInstances")
+    @JsonProperty("analyticsScanInstances")
     val analyticsScanInstances: List<AnalyticsScanInstance>,
-    @SerializedName("normalizedTime")
+    @JsonProperty("normalizedTime")
     val normalizedTime: Double,
-    @SerializedName("transmissionRiskLevel")
+    @JsonProperty("transmissionRiskLevel")
     val transmissionRiskLevel: Int
 ) {
     fun sha256Hash() = toString().toSHA256()
 }
 
 data class AnalyticsScanInstance(
-    @SerializedName("minAttenuation")
+    @JsonProperty("minAttenuation")
     val minAttenuation: Int,
-    @SerializedName("typicalAttenuation")
+    @JsonProperty("typicalAttenuation")
     val typicalAttenuation: Int,
-    @SerializedName("secondsSinceLastScan")
+    @JsonProperty("secondsSinceLastScan")
     val secondsSinceLastScan: Int
 )

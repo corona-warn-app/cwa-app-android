@@ -61,32 +61,15 @@
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
 
-
-##---------------Begin: proguard configuration for Gson  ----------
-# Gson uses generic type information stored in a class file when working with fields. Proguard
-# removes such information by default, so configure it to keep all of it.
--keepattributes Signature
-
-# For using GSON @Expose annotation
--keepattributes *Annotation*
-
-# Gson specific classes
--dontwarn sun.misc.**
-#-keep class com.google.gson.stream.** { *; }
-
-# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * extends com.google.gson.TypeAdapter
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
+# Prevent proguard from stripping interface information from StdSerializer, JsonDeserializer, JsonSerializer
+-keep class * implements com.fasterxml.jackson.databind.ser.std.StdSerializer
+-keep class * implements com.fasterxml.jackson.databind.JsonDeserializer
+-keep class * implements com.fasterxml.jackson.databind.JsonSerializer
 
 # Prevent R8 from leaving Data object members always null
 -keepclassmembers,allowobfuscation class * {
-  @com.google.gson.annotations.SerializedName <fields>;
+  @com.fasterxml.jackson.annotation.JsonProperty <fields>;
 }
-
-##---------------End: proguard configuration for Gson  ----------
 
 -keep class de.rki.coronawarnapp.server.protocols.internal.** { *; }
 
@@ -113,14 +96,24 @@
 # Jackson Kotlin Module
 -keep class kotlin.Metadata { *; }
 -keep class kotlin.reflect.** { *; }
+-keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.configuration.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }
+-keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
+-keep class de.rki.coronawarnapp.coronatest.server.** { *; }
+-keep class de.rki.coronawarnapp.coronatest.type.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.common.certificate.** { *; }
--keep class de.rki.coronawarnapp.bugreporting.debuglog.upload.history.model.** { *; }
--keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.person.ui.admission.model.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.revocation.model.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.valueset.valuesets.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.validation.core.rule.** { *; }
 -keep class de.rki.coronawarnapp.datadonation.** { *; }
+-keep class de.rki.coronawarnapp.diagnosiskeys.download.** { *; }
+-keep class de.rki.coronawarnapp.familytest.core.model.** { *; }
+-keep class de.rki.coronawarnapp.nearby.modules.detectiontracker.** { *; }
+-keep class de.rki.coronawarnapp.presencetracing.warning.download.server.** { *; }
 -keep class de.rki.coronawarnapp.srs.core.model.** { *; }
+-keep class de.rki.coronawarnapp.submission.** { *; }
+-keep class de.rki.coronawarnapp.ccl.rampdown.model.** { *; }

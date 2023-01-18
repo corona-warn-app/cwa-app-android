@@ -39,7 +39,7 @@ class CovidCertificateApiV1Test : BaseTest() {
             it.apiV1(
                 httpClient = downloadHttpClient,
                 url = serverAddress,
-                gsonConverterFactory = httpModule.provideGSONConverter()
+                jacksonConverterFactory = httpModule.provideJacksonConverter()
             )
         }
     }

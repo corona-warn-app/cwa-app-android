@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/card_padding">
+    android:padding="@dimen/margin_24">
 
     <TextView
         android:id="@+id/title"
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
         android:accessibilityHeading="true"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_rapidtest_title"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,11 +24,11 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_status_findings"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
@@ -37,36 +37,36 @@
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_status_name_of_the_cause_of_this_app"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findings" />
+        app:layout_constraintTop_toBottomOf="@id/findings" />
 
     <TextView
         android:id="@+id/status"
         style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_status_positiv"
         android:textColor="@color/colorTextSemanticRed"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corona_name" />
+        app:layout_constraintTop_toBottomOf="@id/corona_name" />
 
     <TextView
         android:id="@+id/body"
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="@dimen/margin_16"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_body_result_positive"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status" />
 
@@ -75,16 +75,16 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_32"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_rapid_body_result_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/body" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,29 +98,29 @@
         layout="@layout/include_divider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/margin_32"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@id/date" />
 
     <TextView
         android:id="@+id/result_subtitle"
         style="@style/headline5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/margin_24"
         android:accessibilityHeading="true"
         android:text="@string/submission_status_card_positive_result_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@id/divider" />
 
     <ImageView
         android:id="@+id/contagious_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/margin_28"
         android:background="@drawable/circle"
         android:backgroundTint="@color/colorSemanticHighRisk"
         android:focusable="false"
@@ -128,7 +128,7 @@
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_home"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/result_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
@@ -136,28 +136,28 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_12"
         android:text="@string/submission_status_card_positive_result_contagious"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contagious_icon"
-        app:layout_constraintTop_toTopOf="@+id/contagious_icon" />
+        app:layout_constraintStart_toEndOf="@id/contagious_icon"
+        app:layout_constraintTop_toTopOf="@id/contagious_icon" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/prc_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/margin_28"
         android:background="@drawable/circle"
         android:backgroundTint="@color/colorSemanticHighRisk"
         android:focusable="false"
         android:importantForAccessibility="no"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="11dp"
+        android:paddingHorizontal="@dimen/padding_12"
+        android:paddingVertical="@dimen/padding_12"
         android:src="@drawable/ic_risk_details_pcr"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contagious_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/contagious_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
@@ -165,18 +165,18 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="@string/ag_homescreen_card_rapidtest_body_result_positive_pcr_check"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/prc_icon"
-        app:layout_constraintTop_toTopOf="@+id/prc_icon" />
+        app:layout_constraintStart_toEndOf="@id/prc_icon"
+        app:layout_constraintTop_toTopOf="@id/prc_icon" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/contact_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="@dimen/margin_28"
         android:background="@drawable/circle"
         android:backgroundTint="@color/colorSemanticHighRisk"
         android:focusable="false"
@@ -184,7 +184,7 @@
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_contact"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pcr_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/pcr_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
@@ -192,12 +192,10 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/margin_16"
         android:text="@string/submission_status_card_positive_result_contact"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contact_icon"
-        app:layout_constraintTop_toTopOf="@+id/contact_icon" />
-
-
+        app:layout_constraintStart_toEndOf="@id/contact_icon"
+        app:layout_constraintTop_toTopOf="@id/contact_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,24 +48,24 @@
                 android:accessibilityHeading="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:text="@{headline}"
                 android:contentDescription="@{headline}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tracing_status_card_header_icon"
+                app:layout_constraintEnd_toStartOf="@id/tracing_status_card_header_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/tracing_status_card_header_icon"
-                android:layout_width="@dimen/icon_size_main_card_end"
-                android:layout_height="@dimen/icon_size_main_card_end"
+                android:layout_width="@dimen/width_40"
+                android:layout_height="@dimen/height_40"
                 android:importantForAccessibility="no"
                 android:focusable="false"
                 android:src="@{icon}"
                 android:visibility="@{FormatterHelper.formatVisibilityIcon(icon)}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tracing_status_card_header_headline"
+                app:layout_constraintStart_toEndOf="@id/tracing_status_card_header_headline"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -74,23 +74,23 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="@{body}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_header" />
+            app:layout_constraintTop_toBottomOf="@id/tracing_status_card_header" />
 
         <Button
             android:id="@+id/tracing_status_card_button"
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             android:text="@{buttonText}"
             android:visibility="@{FormatterHelper.formatVisibilityText(buttonText)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_status_card_body" />
+            app:layout_constraintTop_toBottomOf="@id/tracing_status_card_body" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccreissuance.core.server.data
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DccReissuanceErrorResponse(
-    @SerializedName("error") val error: String,
-    @SerializedName("message") val message: String
+    @JsonProperty("error") val error: String,
+    @JsonProperty("message") val message: String
 )

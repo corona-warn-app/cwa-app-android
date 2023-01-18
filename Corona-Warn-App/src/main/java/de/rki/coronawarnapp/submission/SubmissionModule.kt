@@ -29,7 +29,7 @@ import okhttp3.Cache
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import java.io.File
 import javax.inject.Qualifier
@@ -54,7 +54,7 @@ object SubmissionModule {
         @SubmissionHttpClient client: OkHttpClient,
         @SubmissionCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): SubmissionApiV1 {
         val cache = Cache(File(context.cacheDir, "http_submission"), DEFAULT_CACHE_SIZE)
 
@@ -66,7 +66,7 @@ object SubmissionModule {
             .client(cachingClient)
             .baseUrl(url)
             .addConverterFactory(protoConverterFactory)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(SubmissionApiV1::class.java)
     }

@@ -34,7 +34,7 @@ class HomeTestCardsFragment : Fragment(R.layout.fragment_test_home_test_cards_la
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.standard_8))
             adapter = homeAdapter
         }
 

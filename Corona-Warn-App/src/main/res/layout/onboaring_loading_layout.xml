@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/width_32"
+        android:layout_height="@dimen/height_32"
         android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

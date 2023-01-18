@@ -27,14 +27,14 @@
             app:layout_constraintBottom_toTopOf="@+id/symptom_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <LinearLayout
                 android:id="@+id/submission_symptom_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
                 android:fillViewport="true"
                 android:orientation="vertical">
 
@@ -43,7 +43,7 @@
                     style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:accessibilityHeading="true"
                     android:text="@string/submission_symptom_initial_headline" />
 
@@ -51,7 +51,7 @@
                     android:id="@+id/further_info_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     app:entries="@array/submission_symptom_symptom_bullets" />
 
@@ -60,7 +60,7 @@
                     style="@style/subtitleMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/margin_24"
                     android:focusable="true"
                     android:text="@string/submission_symptom_initial_explanation" />
 
@@ -70,7 +70,7 @@
                     style="@style/selectionButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:enabled="true"
                     android:text="@string/submission_symptom_positive_button" />
 
@@ -79,7 +79,7 @@
                     style="@style/selectionButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:enabled="true"
                     android:text="@string/submission_symptom_negative_button" />
 
@@ -88,7 +88,7 @@
                     style="@style/selectionButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:enabled="true"
                     android:text="@string/submission_symptom_no_information_button" />
 
@@ -101,7 +101,7 @@
             style="@style/buttonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_small"
+            android:layout_marginVertical="@dimen/margin_16"
             app:buttonText="@string/submission_symptom_further_button"
             app:isLoading="false"
             app:layout_constraintBottom_toBottomOf="parent"

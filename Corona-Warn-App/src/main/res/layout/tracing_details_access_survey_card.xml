@@ -16,9 +16,9 @@
             _toStartOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/card_padding"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginEnd="@dimen/margin_16"
             android:accessibilityHeading="true"
             android:focusable="false"
             android:text="@string/datadonation_details_access_survey_card_title"
@@ -33,23 +33,23 @@
             style="@style/subtitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginEnd="@dimen/margin_16"
             android:focusable="false"
             android:text="@string/datadonation_details_access_survey_card_content"
-            app:layout_constraintEnd_toStartOf="@+id/tracing_details_survey_card_icon"
+            app:layout_constraintEnd_toStartOf="@id/tracing_details_survey_card_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_details_survey_card_title" />
+            app:layout_constraintTop_toBottomOf="@id/tracing_details_survey_card_title" />
 
-         <ImageView
+        <ImageView
             android:id="@+id/tracing_details_survey_card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/contact_diary_homescreen_card_image_content_description"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tracing_details_survey_card_body"
+            app:layout_constraintTop_toTopOf="@id/tracing_details_survey_card_body"
             app:srcCompat="@drawable/ic_tracing_survey_icon" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -64,14 +64,11 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/card_padding"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/card_padding"
-            android:layout_marginBottom="@dimen/card_padding"
+            android:layout_margin="@dimen/margin_24"
             android:text="@string/datadonation_details_access_survey_card_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tracing_details_survey_card_barrier" />
+            app:layout_constraintTop_toBottomOf="@id/tracing_details_survey_card_barrier" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

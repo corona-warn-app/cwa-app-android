@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.debuglog.upload.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import okhttp3.MultipartBody
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -17,8 +17,8 @@ interface LogUploadApiV1 {
     ): UploadResponse
 
     data class UploadResponse(
-        @SerializedName("id") val id: String,
-        @SerializedName("hash") val hash: String?,
-        @SerializedName("errorCode") val errorCode: String?
+        @JsonProperty("id") val id: String,
+        @JsonProperty("hash") val hash: String?,
+        @JsonProperty("errorCode") val errorCode: String?
     )
 }

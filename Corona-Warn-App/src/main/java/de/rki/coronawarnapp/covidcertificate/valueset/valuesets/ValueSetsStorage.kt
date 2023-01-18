@@ -5,15 +5,15 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsDataStore
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @Reusable
 class ValueSetsStorage @Inject constructor(
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     @ValueSetsDataStore private val dataStore: DataStore<Preferences>,
     @AppScope var appScope: CoroutineScope
 ) {
@@ -42,7 +42,7 @@ class ValueSetsStorage @Inject constructor(
             key = PKEY_VALUE_SETS_CONTAINER_PREFIX, defaultValue = ""
         ).first()
         return when (valueSetString.isNotEmpty()) {
-            true -> gson.fromJson(valueSetString)
+            true -> mapper.readValue(valueSetString)
             else -> emptyValueSetsContainer
         }.also { loaded -> Timber.v("Loaded value sets container %s", loaded) }
     }
@@ -52,9 +52,7 @@ class ValueSetsStorage @Inject constructor(
 
         dataStore.trySetValue(
             preferencesKey = PKEY_VALUE_SETS_CONTAINER_PREFIX,
-            value = gson.toJson(
-                value, ValueSetsContainer::class.java
-            )
+            value = mapper.writeValueAsString(value)
         )
     }
 

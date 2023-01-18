@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/calendar_day_size"
-    android:layout_height="@dimen/calendar_day_size"
-    android:layout_marginTop="@dimen/calendar_day_spacing"
-    android:layout_marginBottom="@dimen/calendar_day_spacing" >
+    android:layout_width="@dimen/width_40"
+    android:layout_height="@dimen/height_40"
+    android:layout_marginTop="@dimen/margin_4"
+    android:layout_marginBottom="@dimen/margin_4">
 
     <TextView
         android:id="@+id/dayText"
@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/colorOnPrimary"
-        android:textSize="@dimen/font_button" />
+        android:textSize="@dimen/font_14" />
 
 </LinearLayout>

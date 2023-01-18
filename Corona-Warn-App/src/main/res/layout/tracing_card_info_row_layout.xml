@@ -8,12 +8,12 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="@dimen/icon_size_risk_card"
-        android:layout_height="@dimen/icon_size_risk_card"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@+id/body"
+        app:layout_constraintBottom_toBottomOf="@id/body"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/body"
+        app:layout_constraintTop_toTopOf="@id/body"
         tools:src="@drawable/ic_risk_details_home"
         tools:tint="@color/colorOnPrimary" />
 
@@ -22,12 +22,12 @@
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:layout_marginBottom="@dimen/spacing_tiny"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/lorem_ipsum"
         tools:textColor="@color/colorOnPrimary" />

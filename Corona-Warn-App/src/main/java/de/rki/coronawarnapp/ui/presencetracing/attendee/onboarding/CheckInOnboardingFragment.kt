@@ -51,7 +51,7 @@ class CheckInOnboardingFragment : Fragment(R.layout.fragment_trace_location_onbo
                     setNavigationOnClickListener { popBackStack() }
                 }
             } else {
-                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.padding_80))
             }
         }
 

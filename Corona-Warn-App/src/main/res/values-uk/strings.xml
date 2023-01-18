@@ -1034,8 +1034,6 @@
     <string name="submission_test_result_subtitle">"Як це працює:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Ваш ПЛР-тест додано"</string>
-    <!-- YTXT: Body text for for results next steps pcr -->
-    <string name="submission_test_result_steps_added_body_pcr">"Ваш тест було збережено в Corona-Warn-App."</string>
     <!-- YTXT: Body text for for results next steps rat -->
     <string name="submission_test_result_steps_added_body_rat">"Результат тесту відображається тут протягом 48 годин. Застосунок також створює запис у вашому журналі контактів."</string>
     <!-- XHED: Page headline for family results next steps PCR -->
@@ -1549,7 +1547,7 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактне зображення смартфона з чотирма мітками-заповнювачами для інформації"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш "<div>"блог"</div>"."</string>
+    <string name="statistics_explanation_blog">"Щоб дізнатися більше про окремі показники, читайте наш блог."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->

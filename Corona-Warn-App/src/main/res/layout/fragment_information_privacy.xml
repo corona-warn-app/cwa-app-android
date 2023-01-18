@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/padding_24"
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay">
 

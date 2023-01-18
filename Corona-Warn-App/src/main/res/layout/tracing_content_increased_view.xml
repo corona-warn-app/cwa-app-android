@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSemanticHighRisk"
-        android:padding="@dimen/spacing_normal">
+        android:padding="@dimen/padding_24">
         <TextView
             android:id="@+id/headline"
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_16"
             android:accessibilityHeading="true"
             android:text="@string/risk_card_increased_risk_headline"
             android:textColor="@color/colorTextPrimary1InvertedStable"
@@ -29,11 +29,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginEnd="0dp" />
 
-         <ImageView
+        <ImageView
             android:id="@+id/details_icon"
             gone="@{state.isInDetailsMode}"
-            android:layout_width="@dimen/icon_size_risk_card"
-            android:layout_height="@dimen/icon_size_risk_card"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
             android:importantForAccessibility="no"
             app:srcCompat="@drawable/ic_forward"
             app:tint="@color/colorStableLight"
@@ -45,7 +45,7 @@
             gone="@{state.getRiskContactBody(context) == null}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/margin_16"
             android:contentDescription="@{state.getRiskContactBodyDescription(context)}"
             android:icon="@drawable/ic_risk_card_contact_increased"
             android:text="@{state.getRiskContactBody(context)}"
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_contact_last">
+            app:layout_constraintTop_toBottomOf="@id/row_contact_last">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,7 +100,7 @@
             gone="@{!state.showUpdateButton}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="@string/risk_card_button_update"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

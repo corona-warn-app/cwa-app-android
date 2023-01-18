@@ -12,6 +12,7 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestPositiveCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestSubmissionDoneCard
@@ -22,6 +23,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.ui.main.home.items.FAQCard
 import de.rki.coronawarnapp.ui.main.home.items.HomeItem
+import de.rki.coronawarnapp.ui.main.home.rampdown.RampDownNotice
 import de.rki.coronawarnapp.ui.statistics.Statistics
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
@@ -302,6 +304,16 @@ class HomeFragmentTest : BaseUITest() {
         takeScreenshot<HomeFragment>("vaccination_none")
     }
 
+    @Screenshot
+    @Test
+    fun captureSubmissionTestCard() {
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -900))
+        takeScreenshot<HomeFragment>("submission_test_card")
+    }
+
     @After
     fun teardown() {
         clearAllViewModels()
@@ -326,10 +338,15 @@ class HomeFragmentTest : BaseUITest() {
     // LiveData item for fragments
     private fun homeFragmentItemsLiveData(
         tracingStateItem: TracingStateItem = HomeData.Tracing.LOW_RISK_ITEM_WITH_ENCOUNTERS,
-        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM)
+        submissionTestResultItems: List<TestResultItem> = listOf(HomeData.Submission.TEST_UNREGISTERED_ITEM),
+        showRampDownNotice: Boolean = false
     ): LiveData<List<HomeItem>> =
         MutableLiveData(
             mutableListOf<HomeItem>().apply {
+
+                if (showRampDownNotice) {
+                    add(getRampDownNotice())
+                }
 
                 val hideTracingState = submissionTestResultItems.any {
                     it is PcrTestPositiveCard.Item ||
@@ -349,6 +366,17 @@ class HomeFragmentTest : BaseUITest() {
                 add(FAQCard.Item {})
             }
         )
+
+    private fun getRampDownNotice() = RampDownNoticeCard.Item(
+        onClickAction = {},
+        rampDownNotice = RampDownNotice(
+            visible = true,
+            title = "Betriebsende",
+            subtitle = "Der Betrieb der Corona-Warn-App wird am xx.xx.xxxx eingestellt.",
+            description = "",
+            faqUrl = null
+        )
+    )
 }
 
 @Module

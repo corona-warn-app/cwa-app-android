@@ -13,12 +13,12 @@
         <ImageView
             android:id="@+id/location_close_button"
             style="@style/buttonIcon"
-            android:layout_width="@dimen/button_icon"
-            android:layout_height="@dimen/button_icon"
-            android:layout_marginStart="@dimen/spacing_tiny"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_width="@dimen/width_48"
+            android:layout_height="@dimen/height_48"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_8"
             android:contentDescription="@string/accessibility_close"
-            android:padding="@dimen/spacing_mega_tiny"
+            android:padding="@dimen/padding_4"
             app:srcCompat="@drawable/ic_close"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
             style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/margin_24"
             android:text="@string/contact_diary_add_location_title"
             app:layout_constraintBottom_toBottomOf="@id/location_close_button"
             app:layout_constraintEnd_toStartOf="@id/location_delete_button"
@@ -38,12 +38,12 @@
         <ImageView
             android:id="@+id/location_delete_button"
             style="@style/buttonIcon"
-            android:layout_width="@dimen/button_icon"
-            android:layout_height="@dimen/button_icon"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:layout_width="@dimen/width_48"
+            android:layout_height="@dimen/height_48"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
             android:contentDescription="@string/contact_diary_delete_icon_content_description"
-            android:padding="@dimen/button_icon_padding"
+            android:padding="@dimen/padding_12"
             app:srcCompat="@drawable/ic_baseline_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,8 +53,8 @@
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_16"
             android:hint="@string/contact_diary_add_location_text_input_hint"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
                 android:focusable="true"
                 android:maxLength="250" />
 
-            <requestFocus/>
+            <requestFocus />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,8 +79,8 @@
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_8"
             android:hint="@string/contact_diary_add_text_input_phone_hint"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,8 +102,8 @@
             style="@style/TextInputLayoutTheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginTop="@dimen/margin_8"
             android:hint="@string/contact_diary_add_text_input_email_hint"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,8 +125,8 @@
             style="@style/buttonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_small"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_16"
             android:text="@string/contact_diary_add_location_save_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -23,7 +23,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/margin_16"
         app:layout_constraintBottom_toTopOf="@id/continue_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_16"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@string/submission_deletion_warning_headline_pcr_test"
@@ -62,7 +62,7 @@
                 style="@style/subtitleMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/submission_deletion_warning_body_antigen_test"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
@@ -75,14 +75,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
+                app:layout_constraintGuide_begin="@dimen/guideline_24" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
+                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +93,7 @@
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/margin_24"
         app:buttonText="@string/submission_deletion_warning_continue_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

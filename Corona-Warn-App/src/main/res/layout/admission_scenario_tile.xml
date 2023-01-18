@@ -5,15 +5,15 @@
     android:id="@+id/admission_tile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/spacing_small"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="@dimen/spacing_tiny"
+    android:layout_marginHorizontal="@dimen/margin_16"
+    android:layout_marginTop="@dimen/margin_12"
+    android:layout_marginBottom="@dimen/margin_8"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
     android:transitionName="admission-scenarios-view"
     android:visibility="gone"
-    app:cardCornerRadius="@dimen/radius_card"
-    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/radius_4"
+    app:cardElevation="@dimen/elevation_0"
     app:layout_scrollFlags="scroll|enterAlways"
     tools:visibility="visible">
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/admissionTileBackground"
-        android:padding="12dp">
+        android:padding="@dimen/padding_12">
 
         <TextView
             android:id="@+id/admission_tile_title"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
-            android:lineSpacingExtra="5sp"
+            android:lineSpacingExtra="@dimen/line_spacing_4"
             android:text="@string/ccl_admission_state_tile_subtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
             android:id="@+id/arrow_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="@dimen/margin_10"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

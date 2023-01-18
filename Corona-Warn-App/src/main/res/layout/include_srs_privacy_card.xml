@@ -20,7 +20,7 @@
             style="@style/headline6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/spacing_medium"
+            android:paddingTop="@dimen/padding_32"
             android:text="@string/srs_privacy_card_title_text"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -31,8 +31,8 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginEnd="@dimen/margin_24"
             android:text="@string/srs_privacy_card_subtitle_text"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -42,15 +42,15 @@
             android:id="@+id/first_bulletpoint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/spacing_normal"
+            android:paddingVertical="@dimen/padding_24"
             app:layout_constraintTop_toBottomOf="@id/srs_privacy_card_subtitle"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start">
 
             <include
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
                 app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_title" />
 
             <TextView
@@ -58,7 +58,7 @@
                 style="@style/boldSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                android:layout_marginStart="@dimen/margin_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bullet_point"
                 app:layout_constraintTop_toTopOf="parent"
@@ -70,15 +70,15 @@
             android:id="@+id/second_bulletpoint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/padding_24"
             app:layout_constraintTop_toBottomOf="@id/first_bulletpoint"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start">
 
             <include
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
                 app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_title" />
 
             <TextView
@@ -86,7 +86,7 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                android:layout_marginStart="@dimen/margin_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bullet_point"
                 app:layout_constraintTop_toTopOf="parent"
@@ -98,15 +98,15 @@
             android:id="@+id/third_bulletpoint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/padding_24"
             app:layout_constraintTop_toBottomOf="@id/second_bulletpoint"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start">
 
             <include
                 layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
+                android:layout_width="@dimen/bullet_point_6"
+                android:layout_height="@dimen/bullet_point_6"
                 app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_title" />
 
             <TextView
@@ -114,7 +114,7 @@
                 style="@style/boldSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/bullet_point_spacing_after"
+                android:layout_marginStart="@dimen/margin_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bullet_point"
                 app:layout_constraintTop_toTopOf="parent"
@@ -127,7 +127,7 @@
             layout="@layout/view_bullet_point_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:itemText="@{@string/srs_submission_consent_first_bulletpoint_text}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -138,7 +138,7 @@
             layout="@layout/view_bullet_point_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/margin_24"
             app:itemText="@{@string/srs_submission_consent_second_bulletpoint_text}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -149,7 +149,7 @@
             layout="@layout/view_bullet_point_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             app:itemText="@{@string/srs_submission_consent_third_bulletpoint_text}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -160,7 +160,7 @@
             layout="@layout/view_bullet_point_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             app:itemText="@{@string/srs_submission_consent_fourth_bulletpoint_text}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
@@ -171,7 +171,7 @@
             layout="@layout/view_bullet_point_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginTop="@dimen/margin_8"
             app:itemText="@{@string/srs_submission_consent_fifth_bulletpoint_text}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

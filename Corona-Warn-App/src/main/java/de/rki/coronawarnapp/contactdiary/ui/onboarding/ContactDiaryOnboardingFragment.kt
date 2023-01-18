@@ -47,7 +47,7 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                     setNavigationOnClickListener { vm.onBackButtonPress() }
                 }
             } else {
-                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.padding_80))
             }
 
             contactDiaryOnboardingPrivacyInformation.setOnClickListener {

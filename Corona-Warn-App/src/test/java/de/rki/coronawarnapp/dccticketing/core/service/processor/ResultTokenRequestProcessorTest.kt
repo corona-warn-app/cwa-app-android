@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
@@ -41,7 +41,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @MockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
     @MockK lateinit var jwtVerification: DccJWKVerification
     private lateinit var response: Response<ResponseBody>
-    private val parser = JwtTokenParser(JwtTokenConverter(Gson()))
+    private val parser = JwtTokenParser(JwtTokenConverter(ObjectMapper()))
 
     private val jsonResultToken = """
         eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJzdWIiOiIwNGM4OGE3My04YzZmLTQ5YzktYmE0Mi00NWY0ZmFmODA5YjUiLCJpc3MiOiIiLCJleHAiOjE2MzgzMDk1MjQsImNhdGVnb3J5IjpbIlN0YW5kYXJkIl0sImNvbmZpcm1hdGlvbiI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJa3BYVkNJc0ltdHBaQ0k2SW5CSFYzRjZRamxDZWxkWlBTSjkuZXlKcFlYUWlPakUyTXpneU1qTTNNRFY5LmVCM0gzZ3hsaXA0RFUwTGVzQVRZVEdNM2hpX3JIX2ZVb3k3UWNLT2daYWRfT01SX2NpWU9NblRfVW5TeHFzSThaaTBEdERnRmZWU0Z2LXFpYVVTS1pBIiwicmVzdWx0cyI6W10sInJlc3VsdCI6Ik9LIiwiaWF0IjoxNjM4MjIzNzA1fQ.UcxMoxWkQMTt6Dzz5WbttqOumu3C_d_hdSuu6_ic-dDF6Rys62Y-pC9BFe2D_Oo6s3FSjWwCWFqYBbQQ-w5vKA

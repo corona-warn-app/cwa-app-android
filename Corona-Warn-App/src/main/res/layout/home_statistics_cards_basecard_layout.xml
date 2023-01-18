@@ -2,12 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_container"
-    android:layout_width="@dimen/statistics_card_width"
+    android:layout_width="@dimen/width_300"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/statistics_card_height"
+    android:minHeight="@dimen/height_328"
     android:backgroundTint="@color/colorSurface1"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    app:cardCornerRadius="@dimen/radius_card"
-    android:layout_marginVertical="@dimen/spacing_tiny"
-    app:cardElevation="@dimen/elevation_weak" />
+    app:cardCornerRadius="@dimen/radius_4"
+    android:layout_marginVertical="@dimen/margin_8"
+    app:cardElevation="@dimen/elevation_4" />

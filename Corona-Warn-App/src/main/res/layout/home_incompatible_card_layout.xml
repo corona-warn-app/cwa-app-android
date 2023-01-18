@@ -6,13 +6,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_normal"
+        android:padding="@dimen/padding_24"
         tools:showIn="@layout/home_card_container_layout">
 
         <ImageView
             android:id="@+id/main_card_header_icon"
-            android:layout_width="@dimen/icon_size_button"
-            android:layout_height="@dimen/icon_size_button"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_high_risk_alert"
             app:layout_constraintBottom_toTopOf="@id/top_barrier"
@@ -24,8 +24,8 @@
         <ImageView
             android:id="@+id/main_card_header_icon_end"
             style="@style/icon"
-            android:layout_width="@dimen/icon_size_external_link"
-            android:layout_height="@dimen/icon_size_external_link"
+            android:layout_width="@dimen/width_18"
+            android:layout_height="@dimen/height_18"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/main_card_header_headline"
@@ -36,8 +36,8 @@
             style="@style/headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_small"
-            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
             android:accessibilityHeading="true"
             android:text="@string/incompatible_headline"
             app:layout_constraintBottom_toTopOf="@id/top_barrier"
@@ -58,7 +58,7 @@
             style="@style/subtitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginTop="@dimen/margin_16"
             android:text="@string/incompatible_advertising_not_supported"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

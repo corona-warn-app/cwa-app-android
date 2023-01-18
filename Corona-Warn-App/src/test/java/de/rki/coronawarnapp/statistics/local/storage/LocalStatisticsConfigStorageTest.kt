@@ -76,7 +76,7 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
 
     private fun createInstance() = LocalStatisticsConfigStorage(
         dataStore = dataStore,
-        baseGson = SerializationModule().baseGson()
+        objectMapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test
@@ -89,25 +89,22 @@ class LocalStatisticsConfigStorageTest : BaseTest() {
 
         json.toComparableJsonPretty() shouldBe """
             {
-              "locations": [
-                {
-                  "type": "SelectedDistrict",
-                  "district": {
-                    "districtName": "Hogwarts",
-                    "districtShortName": "HG",
-                    "districtId": 1,
-                    "federalStateName": "Scotland",
-                    "federalStateShortName": "SL",
-                    "federalStateId": 1
-                  },
-                  "addedAt": 6969420000
+              "locations" : [ {
+                "district" : {
+                  "districtName" : "Hogwarts",
+                  "districtShortName" : "HG",
+                  "districtId" : 1,
+                  "federalStateName" : "Scotland",
+                  "federalStateShortName" : "SL",
+                  "federalStateId" : 1
                 },
-                {
-                  "type": "SelectedFederalState",
-                  "federalState": "FEDERAL_STATE_BB",
-                  "addedAt": 4206969000
-                }
-              ]
+                "addedAt" : 6969420000,
+                "type" : "SelectedDistrict"
+              }, {
+                "federalState" : "FEDERAL_STATE_BB",
+                "addedAt" : 4206969000,
+                "type" : "SelectedFederalState"
+              } ]
             }
         """.toComparableJsonPretty()
 

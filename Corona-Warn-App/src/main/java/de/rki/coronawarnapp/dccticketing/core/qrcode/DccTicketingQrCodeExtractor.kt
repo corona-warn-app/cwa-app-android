@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import javax.inject.Inject
 
 class DccTicketingQrCodeExtractor @Inject constructor(
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val mapper: ObjectMapper,
     private val jwtCensor: DccTicketingJwtCensor,
 ) : QrCodeExtractor<DccTicketingQrCode> {
     override suspend fun canHandle(rawString: String): Boolean {
@@ -27,7 +27,7 @@ class DccTicketingQrCodeExtractor @Inject constructor(
 
     private fun String.parse(): DccTicketingQrCodeData {
         return try {
-            gson.fromJson(this)
+            mapper.readValue(this)
         } catch (e: Exception) {
             throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_PARSE_ERR)
         }

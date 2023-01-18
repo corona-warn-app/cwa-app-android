@@ -6,6 +6,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentStatisticsExplanationBinding
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import setTextWithUrl
@@ -42,6 +43,10 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
                 R.string.statistics_explanation_blog_label,
                 R.string.statistics_explanation_blog_url
             )
+
+            blogLink.setOnClickListener {
+                openUrl(R.string.statistics_explanation_blog_url)
+            }
         }
     }
 

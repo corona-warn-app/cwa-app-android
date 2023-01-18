@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class ResultTokenRequest(
-    @SerializedName("kid")
+    @JsonProperty("kid")
     val kid: String,
-    @SerializedName("dcc")
+    @JsonProperty("dcc")
     val dcc: String,
-    @SerializedName("sig")
+    @JsonProperty("sig")
     val sig: String,
-    @SerializedName("encKey")
+    @JsonProperty("encKey")
     val encKey: String,
-    @SerializedName("encScheme")
+    @JsonProperty("encScheme")
     val encScheme: String,
-    @SerializedName("sigAlg")
+    @JsonProperty("sigAlg")
     val sigAlg: String
 )

@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.time.Duration
 import java.util.concurrent.TimeUnit
@@ -34,6 +33,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 @Module(includes = [StatisticsModule.ResetModule::class])
 object StatisticsModule {
@@ -57,7 +57,7 @@ object StatisticsModule {
     fun api(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory,
+        jacksonConverterFactory: JacksonConverterFactory,
         @Statistics cache: Cache
     ): StatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
@@ -71,7 +71,7 @@ object StatisticsModule {
         return Retrofit.Builder()
             .client(configHttpClient)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(StatisticsApiV1::class.java)
     }
@@ -81,7 +81,7 @@ object StatisticsModule {
     fun localApi(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory,
+        jacksonConverterFactory: JacksonConverterFactory,
         @Statistics cache: Cache
     ): LocalStatisticsApiV1 {
         val configHttpClient = client.newBuilder().apply {
@@ -95,7 +95,7 @@ object StatisticsModule {
         return Retrofit.Builder()
             .client(configHttpClient)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(LocalStatisticsApiV1::class.java)
     }

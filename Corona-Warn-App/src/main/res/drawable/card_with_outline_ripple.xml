@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?android:attr/colorControlHighlight">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/radius_card"/>
-            <solid android:color="@color/colorSurface2Pressed"/>
-            <stroke android:width="1dp" android:color="@color/dividerColor"/>
+            <corners android:radius="@dimen/radius_4" />
+            <solid android:color="@color/colorSurface2Pressed" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/dividerColor" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/radius_card"/>
-            <solid android:color="@color/colorSurface1"/>
-            <stroke android:width="1dp" android:color="@color/dividerColor"/>
+            <corners android:radius="@dimen/radius_4" />
+            <solid android:color="@color/colorSurface1" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/dividerColor" />
         </shape>
     </item>
 </ripple>

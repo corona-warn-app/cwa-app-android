@@ -29,9 +29,9 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
                 android:letterSpacing="0.015"
                 android:text="@string/contact_diary_comment_info_screen_description"
                 android:textStyle="bold" />
@@ -40,9 +40,9 @@
                 style="@style/body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_24"
                 android:text="@string/contact_diary_comment_info_screen_body" />
 
         </LinearLayout>

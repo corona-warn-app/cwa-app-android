@@ -23,19 +23,19 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
+        android:textSize="@dimen/font_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:text="Persons count: 10" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/test_menu_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/margin_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/persons_count" />
+        app:layout_constraintTop_toBottomOf="@id/persons_count" />
 </androidx.constraintlayout.widget.ConstraintLayout>

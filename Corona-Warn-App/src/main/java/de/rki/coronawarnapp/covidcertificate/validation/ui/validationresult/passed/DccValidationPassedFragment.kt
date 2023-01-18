@@ -42,7 +42,7 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
                 setHeaderForState(args.validation.state, args.validation.acceptanceRules.size)
                 list.apply {
                     adapter = validationResultAdapter
-                    val padding = R.dimen.spacing_small
+                    val padding = R.dimen.standard_16
                     addItemDecoration(
                         RecylerViewPaddingDecorator(
                             topPadding = padding,
