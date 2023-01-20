@@ -42,8 +42,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_new_release_info_3_0"
-                    tools:src="@drawable/ic_new_release_info_3_0" />
+                    app:srcCompat="@drawable/ic_new_release_info" />
 
                 <TextView
                     android:id="@+id/headline"
@@ -66,7 +65,7 @@
                     android:layout_marginTop="@dimen/margin_24"
                     android:layout_marginEnd="@dimen/margin_24"
                     android:focusable="true"
-                    android:text="@string/release_info_version_body"
+                    android:text="@string/release_info_version_body_no_new_features"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/headline" />
