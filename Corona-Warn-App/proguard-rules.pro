@@ -117,3 +117,4 @@
 -keep class de.rki.coronawarnapp.presencetracing.warning.download.server.** { *; }
 -keep class de.rki.coronawarnapp.srs.core.model.** { *; }
 -keep class de.rki.coronawarnapp.submission.** { *; }
+-keep class de.rki.coronawarnapp.ccl.rampdown.model.** { *; }

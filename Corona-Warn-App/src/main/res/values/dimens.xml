@@ -56,6 +56,7 @@
     <dimen name="margin_12">@dimen/standard_12</dimen>
     <dimen name="margin_14">@dimen/standard_14</dimen>
     <dimen name="margin_16">@dimen/standard_16</dimen>
+    <dimen name="margin_18">@dimen/standard_18</dimen>
     <dimen name="margin_24">@dimen/standard_24</dimen>
     <dimen name="margin_28">@dimen/standard_28</dimen>
     <dimen name="margin_32">@dimen/standard_32</dimen>
