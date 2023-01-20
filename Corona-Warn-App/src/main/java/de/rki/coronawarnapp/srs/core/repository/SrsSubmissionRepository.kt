@@ -164,8 +164,7 @@ class SrsSubmissionRepository @Inject constructor(
                 val errorCode = e.type.toSrsErrorType()
                 SrsSubmissionException(
                     errorCode = errorCode,
-                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission),
-                    cause = e
+                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission)
                 )
             }
 
