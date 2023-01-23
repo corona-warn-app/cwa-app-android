@@ -40,7 +40,8 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
         constructorCall = { factory, _ ->
             factory as CovidCertificateOnboardingViewModel.Factory
             factory.create(
-                certIdentifier = args.certIdentifier
+                certIdentifier = args.certIdentifier,
+                qrcodeSharedViewModel
             )
         }
     )

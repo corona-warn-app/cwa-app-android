@@ -6,6 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingViewModel
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -32,7 +33,8 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : CovidCertificateOnboardingViewModel.Factory {
                 override fun create(
-                    certIdentifier: String?
+                    certIdentifier: String?,
+                    qrcodeSharedViewModel: QrcodeSharedViewModel
                 ): CovidCertificateOnboardingViewModel = viewModel
             }
         )
