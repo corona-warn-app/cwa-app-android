@@ -101,6 +101,7 @@
 -keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }
 -keep class de.rki.coronawarnapp.contactdiary.storage.settings.** { *; }
+-keep class de.rki.coronawarnapp.coronatest.qrcode.rapid.** { *; }
 -keep class de.rki.coronawarnapp.coronatest.server.** { *; }
 -keep class de.rki.coronawarnapp.coronatest.type.** { *; }
 -keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
