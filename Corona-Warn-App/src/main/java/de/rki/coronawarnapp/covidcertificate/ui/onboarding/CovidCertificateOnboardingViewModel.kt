@@ -17,6 +17,7 @@ import timber.log.Timber
 class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     @Assisted private val certIdentifier: String?,
+    @Assisted private val qrcodeSharedViewModel: QrcodeSharedViewModel,
     private val dccQrCodeHandler: DccQrCodeHandler,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
@@ -25,7 +26,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
 
     fun onContinueClick() = launch {
         covidCertificateSettings.updateIsOnboarded(true)
-        val dccQrCode = certIdentifier?.let { QrcodeSharedViewModel().dccQrCode(it) }
+        val dccQrCode = certIdentifier?.let { qrcodeSharedViewModel.dccQrCode(it) }
         val event = if (dccQrCode != null) {
             try {
                 val containerId = dccQrCodeHandler.validateAndRegister(dccQrCode = dccQrCode)
@@ -51,7 +52,8 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<CovidCertificateOnboardingViewModel> {
         fun create(
-            @Assisted certIdentifier: String?
+            certIdentifier: String?,
+            qrcodeSharedViewModel: QrcodeSharedViewModel
         ): CovidCertificateOnboardingViewModel
     }
 
