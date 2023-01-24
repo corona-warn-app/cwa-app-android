@@ -2,8 +2,8 @@ name: Create Release Candidate
 
 on:
   push:
-    #tags:
-      #- 'v[0-9]+.[0-9]+.[0-9]+*'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 env:
   JVM_OPTS: -Xmx4096m
@@ -80,3 +80,43 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: Corona-Warn-App/build/outputs/apk/deviceForTesters/release/*.apk
+
+      - name: Send to T-System
+        env:
+          tsystems_upload_url: '${{ secrets.TSYSTEM_UPLOAD_URL }}'
+          tsystems_upload_bearer: '${{ secrets.TSYSTEM_UPLOAD_BEARER }}'
+        run: |
+          fileName=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+          file=$(basename $fileName)
+          version=$(echo $fileName | sed 's/.*App-//' | sed 's/-device.*//')
+          echo "${file}"
+          echo "${version}"
+          curl --location --request POST $tsystems_upload_url \
+          --header "Authorization: Bearer $tsystems_upload_bearer" \
+          --form "file=@${fileName}" \
+          --form "camera=true" \
+          --form "uniqueName=${version}"
+
+      - name: Trigger App Automation Testing
+        env:
+          GITHUB_ACCESS_TOKEN: '${{ secrets.ACCESS_TOKEN_GITHUB }}'
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "authorization: Bearer $GITHUB_ACCESS_TOKEN" \
+          -d "{\"ref\":\"main\"}" \
+          https://api.github.com/repos/corona-warn-app/cwa-app-automation/actions/workflows/32064115/dispatches
+
+      - name: Configure Fastlane
+        run: |
+          apk_path=$(find Corona-Warn-App/build/outputs/apk/deviceForTesters/release -name '*Corona-Warn-App*.apk')
+          echo "apk_path=$apk_path" >> $GITHUB_ENV
+          echo "release_tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo $firebase_login_credentials | base64 -di > ./fastlane/service_credentials.json
+
+      - name: Run Fastlane
+        run: bundle exec fastlane firebaseAppDistribution
+      - name: Notify Teams
+        run: |
+          curl -H 'Content-Type: application/json' -d '{"text": "Release [`${{ env.release_tag }}`](https://github.com/corona-warn-app/cwa-app-android/releases/tag/${{ env.release_tag }}) is ready for testing"}' ${{ secrets.TEAMS_WEBHOOK_URL }}
