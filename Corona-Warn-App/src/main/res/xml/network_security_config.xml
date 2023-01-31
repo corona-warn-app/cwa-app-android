@@ -8,6 +8,8 @@
             expiration="2024-02-12"
             tools:ignore="MissingBackupPin">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
+            <pin digest="SHA-256">9K4RwKQgzd+IOm+vvVnHkFwvlV12A4LOuuuJ7/2Wo8Q=</pin>
+            <pin digest="SHA-256">EmQ45ScgekmAT8AO52aS5PjZ5yD+6qtqn6tXlb4fA6s=</pin>
         </pin-set>
         <trust-anchors>
             <certificates
