@@ -53,11 +53,22 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
         viewModel.uiState.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
-        viewModel.admissionTile.observe(viewLifecycleOwner) { binding.admissionContainer.bindAdmissionTile(it) }
-        viewModel.isExportAllTooltipVisible.observe(viewLifecycleOwner) { visible ->
-            binding.exportTooltip.root.isVisible = visible
+        viewModel.admissionTile.observe(viewLifecycleOwner) {
+            with(binding) {
+                admissionContainer.apply {
+                    isVisible = it.visible
+                    setOnClickListener { viewModel.openAdmissionScenarioScreen() }
+                }
+
+                admissionTileTitle.text = it.title.ifEmpty { getString(R.string.ccl_admission_state_tile_title) }
+                admissionTileSubtitle.text =
+                    it.subtitle.ifEmpty { getString(R.string.ccl_admission_state_tile_subtitle) }
+            }
         }
-        binding.exportTooltip.close.setOnClickListener { viewModel.dismissExportAllToolTip() }
+        viewModel.isExportAllTooltipVisible.observe(viewLifecycleOwner) { visible ->
+            binding.exportTooltip.isVisible = visible
+        }
+        binding.close.setOnClickListener { viewModel.dismissExportAllToolTip() }
     }
 
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
@@ -111,7 +122,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             OpenAdmissionScenarioScreen -> {
                 setupHoldTransition()
                 val navigatorExtras = FragmentNavigatorExtras(
-                    binding.admissionContainer.root to binding.admissionContainer.root.transitionName
+                    binding.admissionContainer to binding.admissionContainer.transitionName
                 )
                 findNavController().navigate(
                     R.id.action_personOverviewFragment_to_admissionScenariosFragment,

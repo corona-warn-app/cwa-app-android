@@ -32,16 +32,18 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
 
-        binding.includeSubmissionContact.submissionContactBodyOther.linkifyPhoneNumbers()
+        binding.submissionContactBodyOther.linkifyPhoneNumbers()
 
         viewModel.routeToScreen.observe2(this) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToDispatcher ->
                     findNavController().popBackStack()
+
                 is SubmissionNavigationEvents.NavigateToTAN ->
                     findNavController().navigate(
                         SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
                     )
+
                 else -> Unit
             }
         }
@@ -54,14 +56,12 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
 
     private fun setButtonOnClickListener() {
         binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-        binding.includeSubmissionContact.submissionContactNavigationRowPhone.navigationRow
-            .setOnClickListener {
-                callPhone(getString(R.string.submission_contact_number_display))
-            }
-        binding.includeSubmissionContact.submissionContactNavigationRowInternationalPhone.navigationRow
-            .setOnClickListener {
-                callPhone(getString(R.string.submission_contact_button_international_phone))
-            }
+        binding.submissionContactNavigationRowPhone.setOnClickListener {
+            callPhone(getString(R.string.submission_contact_number_display))
+        }
+        binding.submissionContactNavigationRowInternationalPhone.setOnClickListener {
+            callPhone(getString(R.string.submission_contact_button_international_phone))
+        }
         binding.submissionContactButtonEnter.setOnClickListener {
             viewModel.onEnterTanPressed()
         }

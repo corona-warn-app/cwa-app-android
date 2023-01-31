@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tracing_status_card"
+        style="@style/cardTracing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_24">
+
+        <TextView
+            android:id="@+id/tracing_status_title"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:accessibilityHeading="true"
+            app:layout_constraintEnd_toStartOf="@id/tracing_status_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/onboarding_tracing_location_headline" />
+
+        <ImageView
+            android:id="@+id/tracing_status_icon"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
+            android:focusable="false"
+            android:importantForAccessibility="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tracing_status_title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_location" />
+
+        <TextView
+            android:id="@+id/tracing_status_body"
+            style="@style/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tracing_status_title"
+            tools:text="@string/onboarding_tracing_location_body" />
+
+        <Button
+            android:id="@+id/tracing_status_button"
+            style="@style/buttonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tracing_status_body"
+            tools:text="@string/settings_background_priority_card_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

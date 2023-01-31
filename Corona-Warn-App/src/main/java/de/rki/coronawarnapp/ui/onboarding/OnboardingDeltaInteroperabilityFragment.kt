@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.onboarding
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -27,16 +28,20 @@ class OnboardingDeltaInteroperabilityFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm.countryList.observe2(this) {
-            binding.countryData = it
+            binding.deltaInteroperabilityCountryList.setCountryList(it)
+            if (it.isEmpty()) {
+                binding.countryListGroup.isVisible = false
+                binding.noCountriesGroup.isVisible = true
+            }
         }
         vm.saveInteroperabilityUsed()
 
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+        binding.onboardingDeltaExpandedTermsTextLink
             .convertToHyperlink(getString(R.string.information_terms_html_path))
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink
+        binding.onboardingDeltaExpandedTermsTextLink
             .movementMethod = LinkMovementMethod.getInstance()
 
-        binding.onboardingInclude.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
+        binding.onboardingDeltaExpandedTermsTextLink.setOnClickListener {
             findNavController().navigate(
                 OnboardingDeltaInteroperabilityFragmentDirections
                     .actionOnboardingDeltaInteroperabilityFragmentToInformationTermsFragment()

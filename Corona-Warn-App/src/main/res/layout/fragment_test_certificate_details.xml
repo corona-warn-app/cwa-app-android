@@ -120,12 +120,10 @@
                 android:layout_marginVertical="@dimen/margin_16"
                 android:orientation="vertical">
 
-                <include
+                <de.rki.coronawarnapp.ui.view.CertificateDetailsQrCodeView
                     android:id="@+id/qr_code_card"
-                    layout="@layout/include_certificate_qrcode_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginBottom="@dimen/margin_6" />
 
                 <LinearLayout
@@ -335,12 +333,10 @@
                         tools:text="05930482748454836478695764787840" />
                 </LinearLayout>
 
-                <include
+                <de.rki.coronawarnapp.ui.view.ExpirationNoticeCardView
                     android:id="@+id/expiration_notice"
-                    layout="@layout/include_expiration_notice_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_8" />
 
                 <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView

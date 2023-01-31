@@ -21,7 +21,10 @@ class TracingFailedCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
+        item.state.apply {
+            riskCardRowSavedRisk.setText(getLastRiskState(context))
+            riskCardRowTimeFetched.setText(getTimeFetched(context))
+        }
 
         itemView.setOnClickListener { item.onCardClick(item) }
         riskCardButtonUpdate.setOnClickListener { item.onRetryClick(item) }

@@ -1,128 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_background_priority_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:focusable="true">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.ui.settings.backgroundpriority.BackgroundPriorityState" />
-    </data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/settings_background_priority_title"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/settings_background_priority_title" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/settings_background_priority_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:focusable="true">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/settings_background_priority_title"
-            android:focusable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/settings_background_priority_title" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            <de.rki.coronawarnapp.ui.view.InformationDetailsView
+                android:id="@+id/settings_background_priority_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:subtitle="@string/settings_background_priority_body"
+                android:title="@string/settings_background_priority_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/settings_row_background_priority"
+                style="@style/row"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_background_priority_details">
 
-                <include
-                    android:id="@+id/settings_background_priority_header_details"
-                    layout="@layout/include_information_details"
+                <TextView
+                    android:id="@+id/settings_row_background_priority_header_subtitle"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:body="@{@string/settings_background_priority_body}"
-                    app:headline="@{@string/settings_background_priority_headline}"
-                    app:illustration="@{state.getHeaderIllustration(context)}"
-                    app:illustrationDescription="@{state.getHeaderIllustrationDescription(context)}"
+                    android:text="@string/settings_background_priority_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/settings_row_background_priority"
-                    style="@style/row"
+                <TextView
+                    android:id="@+id/settings_row_background_priority_header_body"
+                    style="@style/body2Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:accessibilityLiveRegion="assertive"
+                    android:text="@{state.getButtonStateLabel(context)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_background_priority_header_details">
-
-                    <TextView
-                        android:id="@+id/settings_row_background_priority_header_subtitle"
-                        style="@style/subtitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_background_priority_title"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/settings_row_background_priority_header_body"
-                        style="@style/body2Medium"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_4"
-                        android:accessibilityLiveRegion="assertive"
-                        android:text="@{state.getButtonStateLabel(context)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority_header_subtitle" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <include
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/height_1"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority" />
-
-                <include
-                    android:id="@+id/settings_tracing_status_connection"
-                    layout="@layout/include_tracing_status_card"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    app:body="@{@string/settings_background_priority_card_body}"
-                    app:buttonText="@{@string/settings_background_priority_card_button}"
-                    app:headline="@{@string/settings_background_priority_card_headline}"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority" />
-
-                <include layout="@layout/merge_guidelines_side" />
-
-                <include layout="@layout/merge_guidelines_card" />
+                    app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority_header_subtitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+            <de.rki.coronawarnapp.ui.view.DividerView
+                android:id="@+id/settings_background_priority_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <de.rki.coronawarnapp.ui.view.TracingStatusView
+                android:id="@+id/settings_tracing_status_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_12"
+                android:layout_marginTop="@dimen/margin_16"
+                android:title="@string/settings_background_priority_card_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_row_background_priority"
+                app:tracingStatusBody="@string/settings_background_priority_card_body"
+                app:tracingStatusButton="@string/settings_background_priority_card_button" />
 
-</layout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

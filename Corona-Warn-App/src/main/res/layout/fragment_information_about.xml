@@ -1,100 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_about_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_about_title"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/information_about_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_about_title"
-        android:focusable="true">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/information_about_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/information_about_title" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <de.rki.coronawarnapp.ui.view.InformationDetailsView
+                android:id="@+id/information_about_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/information_about_illustration_description"
+                android:src="@drawable/ic_illustration_together"
+                android:title="@string/information_about_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <include
-                    android:id="@+id/information_about_header_details"
-                    layout="@layout/include_information_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:headline="@{@string/information_about_headline}"
-                    app:illustration="@{@drawable/ic_illustration_together}"
-                    app:illustrationDescription="@{@string/information_about_illustration_description}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/information_about_body_emphasized"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_32"
+                android:focusable="true"
+                android:text="@string/information_about_body_emphasized"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/information_about_details" />
 
-                <TextView
-                    android:id="@+id/information_about_body_emphasized"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:focusable="true"
-                    android:text="@string/information_about_body_emphasized"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_about_header_details" />
+            <TextView
+                android:id="@+id/information_about_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:focusable="true"
+                android:text="@string/information_about_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/information_about_body_emphasized" />
 
-                <TextView
-                    android:id="@+id/information_about_body"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:text="@string/information_about_body"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@+id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@+id/information_about_body_emphasized" />
+            <TextView
+                android:id="@+id/information_about_easy_language"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:text="@string/onboarding_tracing_easy_language_explanation"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_about_body" />
 
-                <TextView
-                    android:id="@+id/information_about_easy_language"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:linksClickable="true"
-                    android:text="@string/onboarding_tracing_easy_language_explanation"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_about_body" />
-
-                <include layout="@layout/merge_guidelines_side" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

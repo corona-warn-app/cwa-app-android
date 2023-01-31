@@ -1,124 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/submission_test_result_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:accessibilityLiveRegion="assertive"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/submission_test_result_headline">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/submission_test_result_consent_given_heading" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterSubmissionHelper" />
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_12"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <variable
-            name="uiState"
-            type="de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_test_result_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:accessibilityLiveRegion="assertive"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_test_result_headline">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/submission_test_result_consent_given_heading" />
+            android:focusable="true">
 
-        <ScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_12"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
-            app:layout_constraintEnd_toEndOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/family_member_name"
+                style="@style/headline5"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusable="true">
+                android:layout_marginTop="@dimen/margin_16"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Lara"
+                tools:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/family_member_name"
-                    style="@style/headline5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Lara"
-                    tools:visibility="visible" />
+            <de.rki.coronawarnapp.ui.view.TestResultSectionView
+                android:id="@+id/submission_test_result_section"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:focusable="true"
+                android:importantForAccessibility="yes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/family_member_name" />
 
-                <de.rki.coronawarnapp.ui.view.TestResultSectionView
-                    android:id="@+id/submission_test_result_section"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:focusable="true"
-                    android:importantForAccessibility="yes"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/family_member_name" />
+            <TextView
+                android:id="@+id/submission_test_result_consent_given_subtitle"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_32"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_test_result_consent_given_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
 
-                <TextView
-                    android:id="@+id/submission_test_result_consent_given_subtitle"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_test_result_consent_given_subtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
+            <TextView
+                android:id="@+id/submission_test_result_consent_given_body"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_32"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_test_result_consent_given_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_subtitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/submission_test_result_consent_given_body"
-                    style="@style/body1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_test_result_consent_given_body"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_subtitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+    <Button
+        android:id="@+id/submission_test_result_button_consent_given_continue"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
+        app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue_without_symptoms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/submission_test_result_button_consent_given_continue"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
-            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue_without_symptoms"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+    <Button
+        android:id="@+id/submission_test_result_button_consent_given_continue_without_symptoms"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_16"
+        android:text="@string/submission_test_result_consent_given_breakup_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/submission_test_result_button_consent_given_continue_without_symptoms"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/submission_test_result_consent_given_breakup_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
-
-        <include layout="@layout/merge_guidelines_side" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

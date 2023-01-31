@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_overview_segment"
+            style="@style/rowSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/main_overview_segment_icon"
+                android:layout_width="@dimen/width_40"
+                android:layout_height="@dimen/height_40"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="@id/main_overview_segment_title"
+                app:layout_constraintStart_toStartOf="@id/guideline_icon"
+                app:layout_constraintTop_toTopOf="@id/main_overview_segment_title"
+                tools:src="@drawable/ic_main_overview_1" />
+
+            <TextView
+                android:id="@+id/main_overview_segment_title"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_body"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/main_overview_subtitle_tracing" />
+
+            <TextView
+                android:id="@+id/main_overview_segment_subtitle"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:focusable="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/main_overview_segment_title"
+                app:layout_constraintTop_toBottomOf="@id/main_overview_segment_title"
+                tools:text="@string/main_overview_body_tracing" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_72" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_14" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

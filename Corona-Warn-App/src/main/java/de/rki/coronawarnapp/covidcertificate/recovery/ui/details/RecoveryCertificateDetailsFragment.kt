@@ -8,10 +8,8 @@ import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
@@ -26,8 +24,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.bindValidityViews
-import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.expendedImageResource
 import de.rki.coronawarnapp.util.getEuropaStarsTint
@@ -114,10 +110,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
         val localDateTime = certificate.headerExpiresAt.toLocalDateTimeUserTz()
-        expirationNotice.expirationDate.text = getString(
-            R.string.expiration_date,
-            localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
-            localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        expirationNotice.setText(
+            getString(
+                R.string.expiration_date,
+                localDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+                localDateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+            )
         )
 
         expandedImage.setImageResource(certificate.expendedImageResource(args.colorShade))
@@ -129,17 +127,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(showBlocked = true)) {
-                crossfade(true)
-                loadingView(image, progressBar)
-            }
-            image.setOnClickListener { viewModel.openFullScreen() }
+            val request = certificate.getValidQrCode(showBlocked = true)
+            setQrImage(request) { viewModel.openFullScreen() }
         }
     }
 
     private fun FragmentRecoveryCertificateDetailsBinding.onError(error: Throwable) {
         startValidationCheck.isLoading = false
-        qrCodeCard.progressBar.hide()
+        qrCodeCard.hideProgressBar()
         if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
             dccValidationNoInternetDialog()
         } else {
@@ -158,12 +153,13 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     )
                 } else popBackStack()
             }
+
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
-                null,
-                FragmentNavigatorExtras(qrCodeCard.image to qrCodeCard.image.transitionName)
+                null
             )
+
             is RecoveryCertificateDetailsNavigation.ValidationStart -> {
                 startValidationCheck.isLoading = false
                 findNavController().navigate(
@@ -171,12 +167,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                         .actionRecoveryCertificateDetailsFragmentToValidationStartFragment(event.containerId)
                 )
             }
+
             is RecoveryCertificateDetailsNavigation.Export -> {
                 findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
                         .actionRecoveryCertificateDetailsFragmentToCertificatePdfExportInfoFragment(event.containerId)
                 )
             }
+
             RecoveryCertificateDetailsNavigation.OpenCovPassInfo ->
                 findNavController().navigate(
                     RecoveryCertificateDetailsFragmentDirections
@@ -195,10 +193,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
                     showCertificateDeletionRequest()
                     true
                 }
+
                 R.id.menu_recovery_certificate_export -> {
                     viewModel.onExport()
                     true
                 }
+
                 else -> false
             }
         }

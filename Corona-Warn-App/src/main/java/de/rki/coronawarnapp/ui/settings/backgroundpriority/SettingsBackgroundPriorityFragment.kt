@@ -31,7 +31,10 @@ class SettingsBackgroundPriorityFragment : Fragment(R.layout.fragment_settings_b
         super.onViewCreated(view, savedInstanceState)
 
         vm.backgroundPriorityState.observe2(this) {
-            binding.state = it
+            binding.settingsBackgroundPriorityDetails.getInformationImageAndDescription(
+                it.getHeaderIllustration(requireContext()),
+                it.getHeaderIllustrationDescription(requireContext())
+            )
         }
 
         setButtonOnClickListener()
@@ -53,7 +56,7 @@ class SettingsBackgroundPriorityFragment : Fragment(R.layout.fragment_settings_b
         }
 
         // explanatory card
-        binding.settingsTracingStatusConnection.tracingStatusCardButton.setOnClickListener {
+        binding.settingsTracingStatusConnection.setOnClickListener {
             (requireActivity() as MainActivity).apply {
                 startActivity(powerManagement.toBatteryOptimizationSettingsIntent)
             }

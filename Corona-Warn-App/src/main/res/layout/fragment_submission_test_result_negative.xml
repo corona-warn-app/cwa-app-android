@@ -1,278 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/submission_test_result_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:accessibilityLiveRegion="assertive"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/submission_test_result_headline"
+    tools:context="ui.submission.testresult.negative.SubmissionTestResultNegativeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_test_result_container"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/submission_test_result_toolbar_text" />
+
+    <ScrollView
+        android:id="@+id/submission_test_result_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
         android:accessibilityLiveRegion="assertive"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_test_result_headline"
-        tools:context="ui.submission.testresult.negative.SubmissionTestResultNegativeFragment">
+        android:importantForAccessibility="yes"
+        app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_negative_remove_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/submission_test_result_toolbar_text" />
-
-        <ScrollView
-            android:id="@+id/submission_test_result_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:accessibilityLiveRegion="assertive"
-            android:importantForAccessibility="yes"
-            app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_negative_remove_test"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/family_member_name"
+                style="@style/headline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Lara"
+                tools:visibility="visible" />
+
+            <de.rki.coronawarnapp.ui.view.TestResultSectionView
+                android:id="@+id/submission_test_result_section"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_16"
+                android:focusable="true"
+                android:importantForAccessibility="yes"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/family_member_name"
+                app:test_result_section_headline="@string/test_result_card_headline" />
+
+            <de.rki.coronawarnapp.ui.view.NegativeRapidTestResultView
+                android:id="@+id/personal_rapid_test_result_negative"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:focusable="true"
+                android:importantForAccessibility="yes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/family_member_name" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/test_certificate_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:background="@drawable/card_with_outline_ripple"
+                android:paddingBottom="@dimen/padding_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier">
 
-                <TextView
-                    android:id="@+id/family_member_name"
-                    style="@style/headline5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
+                <ImageView
+                    android:id="@+id/certificate_bg"
+                    android:layout_width="@dimen/width_88"
+                    android:layout_height="@dimen/height_94"
+                    android:layout_marginStart="@dimen/margin_16"
                     android:layout_marginTop="@dimen/margin_16"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Lara"
-                    tools:visibility="visible" />
+                    app:srcCompat="@drawable/bg_certificate_blue_2" />
 
-                <de.rki.coronawarnapp.ui.view.TestResultSectionView
-                    android:id="@+id/submission_test_result_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/margin_16"
-                    android:focusable="true"
-                    android:importantForAccessibility="yes"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
-                    app:test_result_section_headline="@string/test_result_card_headline" />
-
-                <de.rki.coronawarnapp.ui.view.NegativeRapidTestResultView
-                    android:id="@+id/personal_rapid_test_result_negative"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:focusable="true"
-                    android:importantForAccessibility="yes"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/family_member_name" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/barrier"
+                <ImageView
+                    android:id="@+id/certificate_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="personal_rapid_test_result_negative, submission_test_result_section" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/test_certificate_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:paddingBottom="@dimen/padding_16"
-                    android:background="@drawable/card_with_outline_ripple"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/barrier">
-
-                    <ImageView
-                        android:id="@+id/certificate_bg"
-                        android:layout_width="@dimen/width_88"
-                        android:layout_height="@dimen/height_94"
-                        android:layout_marginStart="@dimen/margin_16"
-                        android:layout_marginTop="@dimen/margin_16"
-                        android:importantForAccessibility="no"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/bg_certificate_blue_2" />
-
-                    <ImageView
-                        android:id="@+id/certificate_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:importantForAccessibility="no"
-                        app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
-                        app:layout_constraintEnd_toEndOf="@id/certificate_bg"
-                        app:layout_constraintStart_toStartOf="@id/certificate_bg"
-                        app:layout_constraintTop_toTopOf="@id/certificate_bg"
-                        app:srcCompat="@drawable/ic_test_certificate" />
-
-                    <TextView
-                        android:id="@+id/test_certificate_name"
-                        style="@style/body2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_16"
-                        android:text="@string/test_certificate_name"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-                        app:layout_constraintTop_toTopOf="@id/certificate_bg" />
-
-                    <TextView
-                        android:id="@+id/test_certificate_type"
-                        style="@style/body2Medium"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_16"
-                        android:layout_marginTop="@dimen/margin_8"
-                        android:text="@string/test_certificate_pcr_test_type"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-                        app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
-                        tools:text="PCR-Test" />
-
-                    <TextView
-                        android:id="@+id/certificate_date"
-                        style="@style/body2Medium"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_16"
-                        android:layout_marginTop="@dimen/margin_4"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/certificate_bg"
-                        app:layout_constraintTop_toBottomOf="@id/test_certificate_type"
-                        tools:text="Probenahme am 31.05.2021" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:importantForAccessibility="no"
+                    app:layout_constraintBottom_toBottomOf="@id/certificate_bg"
+                    app:layout_constraintEnd_toEndOf="@id/certificate_bg"
+                    app:layout_constraintStart_toStartOf="@id/certificate_bg"
+                    app:layout_constraintTop_toTopOf="@id/certificate_bg"
+                    app:srcCompat="@drawable/ic_test_certificate" />
 
                 <TextView
-                    android:id="@+id/negative_test_proof_body"
-                    style="@style/subtitle"
+                    android:id="@+id/test_certificate_name"
+                    style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:text="@string/submission_test_result_antigen_negative_proof_body"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:text="@string/test_certificate_name"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
+                    app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                    app:layout_constraintTop_toTopOf="@id/certificate_bg" />
 
                 <TextView
-                    android:id="@+id/submission_test_result_subtitle"
+                    android:id="@+id/test_certificate_type"
+                    style="@style/body2Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:text="@string/test_certificate_pcr_test_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                    app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
+                    tools:text="PCR-Test" />
+
+                <TextView
+                    android:id="@+id/certificate_date"
+                    style="@style/body2Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/certificate_bg"
+                    app:layout_constraintTop_toBottomOf="@id/test_certificate_type"
+                    tools:text="Probenahme am 31.05.2021" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/negative_test_proof_body"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="@string/submission_test_result_antigen_negative_proof_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
+
+            <TextView
+                android:id="@+id/submission_test_result_subtitle"
+                style="@style/headline5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_32"
+                android:layout_marginBottom="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_test_result_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
+
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/test_result_steps_test_added"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_40"
+                android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
+                app:simple_step_entry_text="@string/submission_test_result_steps_added_body_pcr"
+                app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
+                app:step_entry_final="false"
+                app:step_entry_icon="@drawable/ic_test_result_step_done" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/test_result_steps_negative_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_result_steps_test_added"
+                app:simple_step_entry_text="@string/submission_test_result_negative_steps_negative_body"
+                app:simple_step_entry_title="@string/submission_test_result_negative_steps_negative_heading"
+                app:step_entry_final="false"
+                app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/test_result_steps_remove_test"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_result_steps_negative_result"
+                app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
+                app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
+                app:step_entry_final="true"
+                app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
+
+            <LinearLayout
+                android:id="@+id/further_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSurface2"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_24"
+                app:layout_constraintTop_toBottomOf="@id/test_result_steps_remove_test">
+
+                <TextView
+                    android:id="@+id/further_info_title"
                     style="@style/headline5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginBottom="@dimen/margin_24"
                     android:accessibilityHeading="true"
-                    android:text="@string/submission_test_result_subtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
+                    android:text="@string/test_result_card_negative_further_info_title" />
 
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_steps_test_added"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_40"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
-                    app:simple_step_entry_text="@string/submission_test_result_steps_added_body_pcr"
-                    app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_steps_negative_result"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_test_added"
-                    app:simple_step_entry_text="@string/submission_test_result_negative_steps_negative_body"
-                    app:simple_step_entry_title="@string/submission_test_result_negative_steps_negative_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_invalid" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_steps_remove_test"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_negative_result"
-                    app:simple_step_entry_text="@string/submission_test_result_delete_steps_invalid_body"
-                    app:simple_step_entry_title="@string/submission_test_result_delete_steps_invalid_heading"
-                    app:step_entry_final="true"
-                    app:step_entry_icon="@drawable/ic_test_result_step_deletion" />
-
-                <LinearLayout
-                    android:id="@+id/further_info"
+                <TextView
+                    android:id="@+id/further_info_body"
+                    style="@style/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorSurface2"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_24"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_steps_remove_test">
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:accessibilityHeading="true"
+                    android:text="@string/test_result_card_negative_further_info_body" />
 
-                    <TextView
-                        android:id="@+id/further_info_title"
-                        style="@style/headline5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:accessibilityHeading="true"
-                        android:text="@string/test_result_card_negative_further_info_title" />
+                <de.rki.coronawarnapp.ui.view.BulletPointList
+                    android:id="@+id/further_info_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24"
+                    app:entries="@array/test_result_card_negative_further_info_bullet_points" />
 
-                    <TextView
-                        android:id="@+id/further_info_body"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:accessibilityHeading="true"
-                        android:text="@string/test_result_card_negative_further_info_body" />
+            </LinearLayout>
 
-                    <de.rki.coronawarnapp.ui.view.BulletPointList
-                        android:id="@+id/further_info_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_24"
-                        app:entries="@array/test_result_card_negative_further_info_bullet_points" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-                </LinearLayout>
+    <Button
+        android:id="@+id/submission_test_result_button_negative_remove_test"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/submission_test_result_negative_remove_test_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-        <Button
-            android:id="@+id/submission_test_result_button_negative_remove_test"
-            style="@style/buttonPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/submission_test_result_negative_remove_test_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

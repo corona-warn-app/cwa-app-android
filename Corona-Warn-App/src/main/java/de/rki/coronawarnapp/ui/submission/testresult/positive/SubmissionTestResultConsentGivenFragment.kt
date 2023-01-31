@@ -58,7 +58,6 @@ class SubmissionTestResultConsentGivenFragment :
 
         viewModel.uiState.observe2(this) {
             binding.apply {
-                uiState = it
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
                 if (it.coronaTest is FamilyCoronaTest) {
                     toolbar.title = getText(R.string.submission_test_result_headline)
@@ -82,6 +81,7 @@ class SubmissionTestResultConsentGivenFragment :
                                 comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
+
                 is SubmissionNavigationEvents.NavigateToMainActivity -> {
                     if (navArgs.comesFromDispatcherFragment) {
                         findNavController().navigate(
@@ -90,6 +90,7 @@ class SubmissionTestResultConsentGivenFragment :
                         )
                     } else popBackStack()
                 }
+
                 else -> Unit
             }
         }

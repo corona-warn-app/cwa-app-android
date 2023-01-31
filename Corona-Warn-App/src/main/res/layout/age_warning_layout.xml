@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sixteen_years"
+        style="@style/Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_24"
+        android:backgroundTint="@color/colorCardBackgroundHighlightGray"
+        android:focusable="true"
+        android:textColor="@color/colorStableLight">
+
+        <TextView
+            android:id="@+id/sixteen_years_headline"
+            style="@style/headline6Sixteen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:contentDescription="@string/sixteen_title_text"
+            android:text="@string/sixteen_title_text"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sixteen_years_body"
+            style="@style/subtitleSixteen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:text="@string/sixteen_description_text"
+            android:textColor="@color/colorTextPrimary1InvertedStable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sixteen_years_headline" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

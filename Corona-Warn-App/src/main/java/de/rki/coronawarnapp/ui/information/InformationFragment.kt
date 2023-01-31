@@ -64,40 +64,40 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationAbout.mainRow.setOnClickListener {
+        binding.informationAbout.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationAboutFragment()
             )
         }
-        binding.informationPrivacy.mainRow.setOnClickListener {
+        binding.informationPrivacy.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationPrivacyFragment()
             )
         }
-        binding.informationTerms.mainRow.setOnClickListener {
+        binding.informationTerms.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
-        binding.informationAccessibilityStatement.mainRow.setOnClickListener {
+        binding.informationAccessibilityStatement.setOnClickListener {
             openUrl(getString(R.string.accessibility_statement_link))
         }
-        binding.informationContact.mainRow.setOnClickListener {
+        binding.informationContact.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
             )
         }
-        binding.informationLegal.mainRow.setOnClickListener {
+        binding.informationLegal.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationLegalFragment()
             )
         }
-        binding.informationTechnical.mainRow.setOnClickListener {
+        binding.informationTechnical.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTechnicalFragment()
             )
         }
-        binding.informationDebuglog.mainRow.setOnClickListener {
+        binding.informationDebuglog.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToDebuglogFragment()
             )
@@ -105,7 +105,7 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
         binding.informationHeader.setNavigationOnClickListener {
             popBackStack()
         }
-        binding.informationRelease.mainRow.setOnClickListener {
+        binding.informationRelease.setOnClickListener {
             findNavController().navigate(
                 InformationFragmentDirections.actionInformationFragmentToNewReleaseInfoFragment(true)
             )

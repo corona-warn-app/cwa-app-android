@@ -26,7 +26,7 @@ class SrsSubmissionDoneFragment : Fragment(R.layout.fragment_submission_done) {
 
             submissionDoneButtonDone.setOnClickListener { popBackStack() }
             // Regardless of the test type we show the same screen
-            submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible = false
+            submissionDoneIllness.isVisible = false
         }
     }
 

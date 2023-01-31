@@ -66,6 +66,105 @@
         <attr name="iconTint" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="OnboardingScreensView">
+        <attr name="android:src" format="integer" />
+        <attr name="android:contentDescription" format="string" />
+        <attr name="illustrationDescription" format="string" />
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+        <attr name="bodyNormal" format="string" />
+        <attr name="bodyEmphasized" format="string" />
+        <attr name="bodyHtml" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="InteroperabilityOnboardingView">
+        <attr name="android:title" format="string" />
+        <attr name="firstSection" format="string" />
+        <attr name="secondSection" format="string" />
+        <attr name="thirdSection" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="TracingStatusView">
+        <attr name="android:title" format="string" />
+        <attr name="android:src" format="integer" />
+        <attr name="tracingStatusBody" format="string" />
+        <attr name="tracingStatusUrl" format="string" />
+        <attr name="tracingStatusLabel" format="string" />
+        <attr name="tracingStatusButton" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="InformationDetailsView">
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+        <attr name="android:contentDescription" format="string" />
+        <attr name="android:src" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageAndTextRowView">
+        <attr name="android:src" format="integer" />
+        <attr name="android:description" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="BulletPointTextView">
+        <attr name="android:description" format="string" />
+        <attr name="boldBulletPoint" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BulletPointDataPrivacyView">
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+        <attr name="midSectionParagraph" format="string" />
+        <attr name="secondParagraph" format="string" />
+        <attr name="bulletpointOne" format="string" />
+        <attr name="bulletpointTwo" format="string" />
+        <attr name="bulletpointThree" format="string" />
+        <attr name="bulletpointFour" format="string" />
+        <attr name="bulletpointFive" format="string" />
+        <attr name="bulletpointSix" format="string" />
+        <attr name="bulletpointSeven" format="string" />
+        <attr name="bulletpointEight" format="string" />
+        <attr name="extraPcrBulletpoint" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="InformationRowView">
+        <attr name="android:description" format="string" />
+        <attr name="android:src" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="SettingsRowView">
+        <attr name="settingsBody" format="string" />
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+        <attr name="android:textColor" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="OverviewGlossaryView">
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="MainOverviewRowView">
+        <attr name="android:icon" format="integer" />
+        <attr name="android:iconTint" format="integer" />
+        <attr name="android:subtitle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="MainOverviewSegmentView">
+        <attr name="android:icon" format="integer" />
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="NavigationRowView">
+        <attr name="android:icon" format="integer" />
+        <attr name="android:title" format="string" />
+        <attr name="android:subtitle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchRowView">
+        <attr name="android:title" format="string" />
+    </declare-styleable>
+
     <item name="default_button" type="id" />
     <item name="checkins_fragment_menu_id" type="id" />
     <item name="contact_diary_onboarding_fragment_menu_id" type="id" />

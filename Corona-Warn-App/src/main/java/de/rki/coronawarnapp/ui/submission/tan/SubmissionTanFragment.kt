@@ -42,7 +42,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
         viewModel.state.observe2(this) {
             binding.apply {
-                uiState = it
+                submissionTanButtonEnter.isEnabled = it.isTanValid
 
                 submissionTanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
                 if (it.isCorrectLength) {
@@ -62,6 +62,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                             comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                         )
                     )
+
                 else -> Unit
             }
         }
@@ -96,6 +97,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                                 comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
+
                 is TanApiRequestState.SuccessPendingResult ->
                     findNavController().navigate(
                         SubmissionTanFragmentDirections
@@ -104,6 +106,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                                 comesFromDispatcherFragment = navArgs.comesFromDispatcherFragment
                             )
                     )
+
                 else -> Unit
             }
         }
@@ -128,11 +131,13 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 message(R.string.submission_error_dialog_web_test_paired_body_tan)
                 negativeButton(R.string.submission_error_dialog_web_test_paired_button_positive) { goBack() }
             }
+
             is CwaClientError, is CwaServerError -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_network_error_body)
                 negativeButton(R.string.submission_error_dialog_web_generic_error_button_positive) { goBack() }
             }
+
             else -> displayDialog {
                 title(R.string.submission_error_dialog_web_generic_error_title)
                 message(R.string.submission_error_dialog_web_generic_error_body)

@@ -128,71 +128,38 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/header_barrier" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
                     android:id="@+id/bulletpoint_1"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintBaseline_toBaselineOf="@id/point_1"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/point_1"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:focusable="true"
-                    android:text="@string/nm_point_overall"
+                    android:description="@string/nm_point_overall"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/notification_enabled_description" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
                     android:id="@+id/bulletpoint_2"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintBaseline_toBaselineOf="@id/point_2"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/point_2"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_4"
-                    android:focusable="true"
-                    android:text="@string/nm_point_block_screen"
+                    android:description="@string/nm_point_block_screen"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_1" />
+                    app:layout_constraintTop_toBottomOf="@id/bulletpoint_1" />
 
-                <include
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
                     android:id="@+id/bulletpoint_3"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintBaseline_toBaselineOf="@id/point_3"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/point_3"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_4"
-                    android:focusable="true"
-                    android:text="@string/nm_point_unclock_screen"
+                    android:description="@string/nm_point_unclock_screen"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_2" />
+                    app:layout_constraintTop_toBottomOf="@id/bulletpoint_2" />
 
                 <TextView
                     android:id="@+id/faq"
@@ -204,7 +171,7 @@
                     android:text="@string/nm_faq"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_3" />
+                    app:layout_constraintTop_toBottomOf="@id/bulletpoint_3" />
 
                 <Button
                     android:id="@+id/open_system_settings_button"

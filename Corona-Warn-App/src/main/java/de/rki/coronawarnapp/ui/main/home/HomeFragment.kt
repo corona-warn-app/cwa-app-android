@@ -26,7 +26,10 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.setAnimation
+import de.rki.coronawarnapp.util.setAnimationColor
 import de.rki.coronawarnapp.util.ui.addMenuId
+import de.rki.coronawarnapp.util.ui.bindingadapters.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
@@ -56,6 +59,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     private val homeAdapter = HomeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.mainHeaderLogo.setCWAContentDescription(getString(R.string.accessibility_logo))
         with(binding.toolbar) {
             addMenuId(R.id.home_fragment_menu_id)
             setupMenuIcons(menu)
@@ -92,7 +96,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.events.observe2(this) { event -> navigate(event) }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
         viewModel.errorEvent.observe2(this) { displayDialog { setError(it) } }
-        viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
+        viewModel.tracingHeaderState.observe2(this) {
+            with(binding) {
+                mainTracingHeadline.contentDescription = it.getTracingContentDescription(requireContext())
+                mainTracingHeadline.text = it.getTracingDescription(requireContext())
+                setAnimation(mainTracingIcon, it.getTracingAnimation(requireContext()))
+                setAnimationColor(mainTracingIcon, it.getTracingTint(requireContext()))
+            }
+        }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) displayDialog {
                 title(R.string.device_time_incorrect_dialog_headline)
