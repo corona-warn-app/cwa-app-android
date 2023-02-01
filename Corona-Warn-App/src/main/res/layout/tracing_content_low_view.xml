@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorSemanticLowRisk"
-        android:padding="@dimen/padding_24"
-        android:animateLayoutChanges="true">
+        android:padding="@dimen/padding_24">
 
         <TextView
             android:id="@+id/headline"
@@ -38,9 +37,9 @@
             android:layout_width="@dimen/width_40"
             android:layout_height="@dimen/height_40"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_forward"
             app:tint="@color/colorStableLight"
             tools:tint="@color/colorStableLight" />
 
