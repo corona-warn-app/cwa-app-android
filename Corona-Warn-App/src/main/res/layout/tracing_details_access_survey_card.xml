@@ -5,13 +5,11 @@
     android:id="@+id/tracing_details_survey_card_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
-    tools:showIn="@layout/home_card_container_layout">
+    android:focusable="true">
 
     <TextView
         android:id="@+id/tracing_details_survey_card_title"
         style="@style/headline5"
-        _toStartOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_24"
