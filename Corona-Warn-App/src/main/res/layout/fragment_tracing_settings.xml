@@ -30,8 +30,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_24">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/illustration"
@@ -51,9 +50,8 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
                 android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@string/settings_tracing_headline"
@@ -74,7 +72,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_1"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:background="@color/dividerColor"
                 app:layout_constraintTop_toBottomOf="@id/switch_row" />
 
@@ -83,10 +81,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:paddingTop="@dimen/padding_8"
                 android:paddingBottom="@dimen/padding_8"
-                app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/switch_row">
 
                 <ImageView
@@ -131,7 +130,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_1"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:background="@color/dividerColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -143,14 +142,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:orientation="horizontal"
                 app:constraint_referenced_ids="settings_tracing_status_location,settings_tracing_status_bluetooth,risk_details_period_logged_headline,risk_details_period_logged_subtitle,risk_details_period_logged_body_notice,risk_details_period_logged_days"
                 app:flow_maxElementsWrap="1"
                 app:flow_verticalBias="0"
                 app:flow_verticalStyle="packed"
                 app:flow_wrapMode="chain"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsInteroperabilityRow" />
 
             <de.rki.coronawarnapp.ui.view.TracingStatusView
@@ -251,20 +251,6 @@
                     app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_24" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

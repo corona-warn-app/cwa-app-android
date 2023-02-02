@@ -143,7 +143,7 @@
                 android:id="@+id/check_in_onboarding_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_32"
                 android:focusable="true"
                 app:layout_constraintTop_toBottomOf="@id/check_in_data_privacy"

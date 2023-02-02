@@ -31,7 +31,7 @@ class SettingsCrashReportDetailsFragment :
         }
 
         vm.selectedCrashReportFormattedText.observe2(this) {
-            fragmentSettingsCrashReportDetailsBinding.selectedCrashReportFormattedText = it
+            fragmentSettingsCrashReportDetailsBinding.textViewCrashReportDetails.text = it
         }
     }
 

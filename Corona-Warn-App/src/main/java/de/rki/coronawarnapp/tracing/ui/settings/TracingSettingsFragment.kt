@@ -55,12 +55,12 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
                     setSubtitle(state.getTracingStatusText(requireContext()))
                     setSwitchEnabled(state.isTracingSwitchEnabled())
                 }
-
-                settingsTracingStatusBluetooth.isVisible = !state.isBluetoothCardVisible()
-                riskDetailsPeriodLoggedHeadline.isVisible = !state.isTracingStatusTextVisible()
-                riskDetailsPeriodLoggedSubtitle.isVisible = !state.isTracingStatusTextVisible()
-                riskDetailsPeriodLoggedBodyNotice.isVisible = !state.isTracingStatusTextVisible()
-                riskDetailsPeriodLoggedDays.isVisible = !state.isTracingStatusTextVisible()
+                settingsTracingStatusLocation.isVisible = state.isLocationCardVisible()
+                settingsTracingStatusBluetooth.isVisible = state.isBluetoothCardVisible()
+                riskDetailsPeriodLoggedHeadline.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedSubtitle.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedBodyNotice.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedDays.isVisible = state.isTracingStatusTextVisible()
 
 
 

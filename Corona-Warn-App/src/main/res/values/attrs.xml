@@ -103,6 +103,7 @@
     <declare-styleable name="ImageAndTextRowView">
         <attr name="android:src" format="integer" />
         <attr name="android:description" format="string" />
+        <attr name="rowImage" format="string" />
     </declare-styleable>
 
     <declare-styleable name="BulletPointTextView">

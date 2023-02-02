@@ -83,7 +83,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_first_section"
                 android:focusable="true"
-                android:src="@drawable/ic_contact_diary_person"
+                app:rowImage="@drawable/ic_contact_diary_person"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_body" />
@@ -96,7 +96,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_second_section"
                 android:focusable="true"
-                android:src="@drawable/ic_contact_diary_location"
+                app:rowImage="@drawable/ic_contact_diary_location"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_first_section" />
@@ -109,7 +109,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_third_section"
                 android:focusable="true"
-                android:src="@drawable/ic_contact_diary_lock"
+                app:rowImage="@drawable/ic_contact_diary_lock"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_second_section" />
@@ -122,7 +122,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_fourth_section"
                 android:focusable="true"
-                android:src="@drawable/ic_contact_diary_edit"
+                app:rowImage="@drawable/ic_contact_diary_edit"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_third_section" />
@@ -135,7 +135,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_fifth_section"
                 android:focusable="true"
-                android:src="@drawable/ic_contact_diary_file"
+                app:rowImage="@drawable/ic_contact_diary_file"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_fourth_section" />
@@ -148,7 +148,7 @@
                 android:layout_marginHorizontal="@dimen/margin_16"
                 android:description="@string/contact_diary_onboarding_functionality_sixth_section"
                 android:focusable="true"
-                android:src="@drawable/ic_high_risk_alert"
+                app:rowImage="@drawable/ic_high_risk_alert"
                 app:layout_constraintEnd_toStartOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
                 app:layout_constraintTop_toBottomOf="@id/contact_diary_onboarding_fifth_section" />

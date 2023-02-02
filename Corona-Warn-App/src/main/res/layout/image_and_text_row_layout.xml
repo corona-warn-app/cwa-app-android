@@ -22,15 +22,25 @@
             app:tint="@color/colorStableLight"
             tools:src="@drawable/ic_risk_details_home" />
 
+        <ImageView
+            android:id="@+id/row_image"
+            style="@style/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/ic_contact_diary_person" />
+
         <TextView
             android:id="@+id/row_text"
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_56"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/row_icon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/submission_status_card_positive_result_contagious" />
     </androidx.constraintlayout.widget.ConstraintLayout>

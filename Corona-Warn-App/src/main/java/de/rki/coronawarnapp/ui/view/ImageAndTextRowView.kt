@@ -24,13 +24,20 @@ class ImageAndTextRowView @JvmOverloads constructor(
         context.withStyledAttributes(attrs, R.styleable.ImageAndTextRowView) {
             with(binding) {
 
-                val image = getInteger(R.styleable.ImageAndTextRowView_android_src, 0)
+                val icon = getResourceId(R.styleable.ImageAndTextRowView_android_src, 0)
+                if (icon == 0) {
+                    rowIcon.isVisible = false
+                } else {
+                    val drawable = getDrawable(context, icon)
+                    rowIcon.setImageDrawable(drawable)
+                }
+
+                val image = getResourceId(R.styleable.ImageAndTextRowView_rowImage, 0)
                 if (image == 0) {
-                    rowIcon.isVisible = true
+                    rowImage.isVisible = false
                 } else {
                     val drawable = getDrawable(context, image)
-                    rowIcon.isVisible = true
-                    rowIcon.setImageDrawable(drawable)
+                    rowImage.background = drawable
                 }
 
                 val text = getText(R.styleable.ImageAndTextRowView_android_description) ?: ""

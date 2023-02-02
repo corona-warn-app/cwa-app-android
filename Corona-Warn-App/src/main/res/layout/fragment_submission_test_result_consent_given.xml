@@ -91,7 +91,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_24"
-        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_16"
         android:layout_marginBottom="@dimen/margin_16"
         android:text="@string/submission_test_result_positive_continue_button_with_symptoms"
         app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue_without_symptoms"

@@ -35,6 +35,7 @@ class SettingsBackgroundPriorityFragment : Fragment(R.layout.fragment_settings_b
                 it.getHeaderIllustration(requireContext()),
                 it.getHeaderIllustrationDescription(requireContext())
             )
+            binding.settingsRowBackgroundPriorityHeaderBody.text = it.getButtonStateLabel(requireContext())
         }
 
         setButtonOnClickListener()
