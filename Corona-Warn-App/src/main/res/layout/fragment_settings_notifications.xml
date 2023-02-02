@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="notification_enabled_description, bulletpoint_1, bulletpoint_2, bulletpoint_3, point_1, point_2, point_3, faq" />
+                    app:constraint_referenced_ids="notification_enabled_description, bulletpoint_1, bulletpoint_2, bulletpoint_3, faq" />
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/notification_disabled_views"
