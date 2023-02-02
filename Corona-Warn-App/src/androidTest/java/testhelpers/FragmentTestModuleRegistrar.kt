@@ -39,6 +39,7 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestMo
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.ProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
+import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationCategoryFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentTestModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingAnalyticsFragmentTestModule
@@ -133,6 +134,7 @@ import kotlinx.coroutines.test.TestScope
         TraceLocationSelectionFragmentTestModule::class,
         TraceLocationWarnDurationFragmentTestModule::class,
         TraceLocationWarnTanFragmentTestModule::class,
+        TraceLocationCategoryFragmentTestModule::class,
 
         // -------- Certificates --------
         VaccinationDetailsFragmentTestModule::class,

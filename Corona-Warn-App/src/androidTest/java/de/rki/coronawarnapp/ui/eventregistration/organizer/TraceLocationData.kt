@@ -29,6 +29,19 @@ object TraceLocationData {
         version = TraceLocation.VERSION
     )
 
+    val traceLocationTestData = TraceLocation(
+        id = 1,
+        type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
+        description = "Retail",
+        address = "Planufer 10, Berlin",
+        startDate = Instant.ofEpochSecond(1624291200L),
+        endDate = Instant.ofEpochSecond(1624302000L),
+        defaultCheckInLengthInMinutes = null,
+        cryptographicSeed = CRYPTOGRAPHIC_SEED.decodeBase64()!!,
+        cnPublicKey = PUB_KEY,
+        version = TraceLocation.VERSION
+    )
+
     val traceLocationDifferentDate = TraceLocation(
         id = 2,
         type = TraceLocationOuterClass.TraceLocationType.LOCATION_TYPE_TEMPORARY_OTHER,
