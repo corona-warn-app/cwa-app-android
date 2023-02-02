@@ -49,7 +49,6 @@ class TracingStatusView @JvmOverloads constructor(
                 val buttonText = getText(R.styleable.TracingStatusView_tracingStatusButton) ?: ""
                 tracingStatusButton.isGone = buttonText.isEmpty()
                 tracingStatusButton.text = buttonText
-
             }
         }
     }

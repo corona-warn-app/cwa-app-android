@@ -62,8 +62,6 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
                 riskDetailsPeriodLoggedBodyNotice.isVisible = state.isTracingStatusTextVisible()
                 riskDetailsPeriodLoggedDays.isVisible = state.isTracingStatusTextVisible()
 
-
-
                 switchRow.apply {
                     when (state) {
                         TracingSettingsState.BluetoothDisabled,
