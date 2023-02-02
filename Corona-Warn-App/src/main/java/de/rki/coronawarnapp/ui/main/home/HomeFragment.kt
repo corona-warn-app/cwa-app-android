@@ -26,13 +26,13 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.setAnimation
-import de.rki.coronawarnapp.util.setAnimationColor
 import de.rki.coronawarnapp.util.ui.addMenuId
-import de.rki.coronawarnapp.util.ui.bindingadapters.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.setCWAContentDescription
 import de.rki.coronawarnapp.util.ui.setItemContentDescription
+import de.rki.coronawarnapp.util.ui.setLottieAnimation
+import de.rki.coronawarnapp.util.ui.setLottieAnimationColor
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -100,8 +100,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             with(binding) {
                 mainTracingHeadline.contentDescription = it.getTracingContentDescription(requireContext())
                 mainTracingHeadline.text = it.getTracingDescription(requireContext())
-                setAnimation(mainTracingIcon, it.getTracingAnimation(requireContext()))
-                setAnimationColor(mainTracingIcon, it.getTracingTint(requireContext()))
+                mainTracingIcon.setLottieAnimation(it.getTracingAnimation(requireContext()))
+                mainTracingIcon.setLottieAnimationColor(it.getTracingTint(requireContext()))
             }
         }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.util.ui.setGone
 
 class ExpandingDiaryListItemView @JvmOverloads constructor(
     context: Context,
@@ -52,8 +52,8 @@ class ExpandingDiaryListItemView @JvmOverloads constructor(
         set(expanded) {
             isSelected = expanded
             checkboxView.setImageResource(if (expanded) R.drawable.ic_selected else R.drawable.ic_unselected)
-            container.setGone(!expanded)
-            divider.setGone(!expanded)
+            container.isGone = !expanded
+            divider.isGone = !expanded
         }
 
     companion object {

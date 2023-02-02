@@ -66,7 +66,19 @@
                 app:layout_constraintTop_toBottomOf="@id/ramp_down_notice_longtext"
                 tools:visibility="visible" />
 
-            <include layout="@layout/merge_guidelines_side" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_16" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_16" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

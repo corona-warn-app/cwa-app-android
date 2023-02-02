@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.files.FileSharing
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -108,27 +107,33 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
                 DebugLogViewModel.Event.ShowLogDeletionRequest -> {
                     showLogDeletionRequest()
                 }
+
                 DebugLogViewModel.Event.NavigateToPrivacyFragment -> {
                     findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToInformationPrivacyFragment()
                     )
                 }
+
                 DebugLogViewModel.Event.NavigateToUploadFragment -> {
                     findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToDebugLogUploadFragment()
                     )
                 }
+
                 DebugLogViewModel.Event.NavigateToUploadHistory -> {
                     findNavController().navigate(
                         DebugLogFragmentDirections.actionDebuglogFragmentToLogUploadHistoryFragment()
                     )
                 }
+
                 is DebugLogViewModel.Event.Error -> {
                     Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
                 }
+
                 DebugLogViewModel.Event.ShowLowStorageDialog -> {
                     showLowStorageError()
                 }
+
                 is DebugLogViewModel.Event.Export -> {
                     exportLog(it.snapshot)
                 }
@@ -138,7 +143,7 @@ class DebugLogFragment : Fragment(R.layout.bugreporting_debuglog_fragment), Auto
         vm.logUploads.observe2(this@DebugLogFragment) {
             val lastLog = it.logs.lastOrNull()?.uploadedAt
 
-            binding.debugLogHistoryContainer.setGone(lastLog == null)
+            binding.debugLogHistoryContainer.isGone = lastLog == null
 
             val now = Instant.now()
 

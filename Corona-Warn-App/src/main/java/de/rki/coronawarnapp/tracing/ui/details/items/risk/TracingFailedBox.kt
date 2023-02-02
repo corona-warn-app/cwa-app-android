@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.databinding.TracingContentFailedViewBinding
 import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox.Item
-import de.rki.coronawarnapp.util.ui.setGone
 
 class TracingFailedBox(
     parent: ViewGroup,
@@ -32,8 +31,8 @@ class TracingFailedBox(
         item.state.apply {
             riskCardHeaderIcon.isGone = isInDetailsMode
             riskCardButtonUpdate.isGone = !showRestartButton
-            riskCardButtonUpdate.setGone(isInDetailsMode)
-            riskCardHeaderIcon.setGone(isInDetailsMode)
+            riskCardButtonUpdate.isGone = isInDetailsMode
+            riskCardHeaderIcon.isGone = isInDetailsMode
         }
     }
 

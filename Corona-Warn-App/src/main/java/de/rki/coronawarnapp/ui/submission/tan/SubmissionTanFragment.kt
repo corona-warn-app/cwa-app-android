@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.tan
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -19,7 +20,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -44,11 +44,11 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
             binding.apply {
                 submissionTanButtonEnter.isEnabled = it.isTanValid
 
-                submissionTanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
+                submissionTanContent.submissionTanCharacterError.isGone = it.areCharactersCorrect
                 if (it.isCorrectLength) {
-                    submissionTanContent.submissionTanError.setGone(it.isTanValid)
+                    submissionTanContent.submissionTanError.isGone = it.isTanValid
                 } else {
-                    submissionTanContent.submissionTanError.setGone(true)
+                    submissionTanContent.submissionTanError.isGone = true
                 }
             }
         }

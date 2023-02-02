@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -42,7 +41,7 @@ class TraceLocationWarnTanFragment : Fragment(R.layout.trace_location_organizer_
         viewModel.state.observe2(this) {
             binding.apply {
                 tanButtonEnter.isActive = it.isTanValid
-                tanContent.submissionTanCharacterError.setGone(it.areCharactersCorrect)
+                tanContent.submissionTanCharacterError.isGone = it.areCharactersCorrect
                 if (it.isCorrectLength) {
                     tanContent.submissionTanError.isGone = it.isTanValid
                 } else {
