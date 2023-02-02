@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest.server
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -8,14 +8,14 @@ import retrofit2.http.POST
 interface VerificationApiV1 {
 
     data class RegistrationTokenRequest(
-        @SerializedName("keyType") val keyType: VerificationKeyType,
-        @SerializedName("key") val key: String,
-        @SerializedName("keyDob") val dateOfBirthKey: String? = null,
-        @SerializedName("requestPadding") val requestPadding: String? = null,
+        @JsonProperty("keyType") val keyType: VerificationKeyType,
+        @JsonProperty("key") val key: String,
+        @JsonProperty("keyDob") val dateOfBirthKey: String? = null,
+        @JsonProperty("requestPadding") val requestPadding: String? = null,
     )
 
     data class RegistrationTokenResponse(
-        @SerializedName("registrationToken") val registrationToken: String
+        @JsonProperty("registrationToken") val registrationToken: String
     )
 
     @POST("version/v1/registrationToken")
@@ -26,14 +26,14 @@ interface VerificationApiV1 {
     ): RegistrationTokenResponse
 
     data class RegistrationRequest(
-        @SerializedName("registrationToken") val registrationToken: String,
-        @SerializedName("requestPadding") val requestPadding: String
+        @JsonProperty("registrationToken") val registrationToken: String,
+        @JsonProperty("requestPadding") val requestPadding: String
     )
 
     data class TestResultResponse(
-        @SerializedName("testResult") val testResult: Int,
-        @SerializedName("sc") val sampleCollectedAt: Int?,
-        @SerializedName("labId") val labId: String?
+        @JsonProperty("testResult") val testResult: Int,
+        @JsonProperty("sc") val sampleCollectedAt: Int?,
+        @JsonProperty("labId") val labId: String?
     )
 
     @POST("version/v1/testresult")
@@ -44,12 +44,12 @@ interface VerificationApiV1 {
     ): TestResultResponse
 
     data class TanRequestBody(
-        @SerializedName("registrationToken") val registrationToken: String,
-        @SerializedName("requestPadding") val requestPadding: String
+        @JsonProperty("registrationToken") val registrationToken: String,
+        @JsonProperty("requestPadding") val requestPadding: String
     )
 
     data class TanResponse(
-        @SerializedName("tan") val tan: String
+        @JsonProperty("tan") val tan: String
     )
 
     @POST("version/v1/tan")

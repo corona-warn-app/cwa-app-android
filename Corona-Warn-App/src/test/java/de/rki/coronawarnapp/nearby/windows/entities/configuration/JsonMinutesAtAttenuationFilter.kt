@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.nearby.windows.entities.configuration
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JsonMinutesAtAttenuationFilter(
-    @SerializedName("attenuationRange")
+    @JsonProperty("attenuationRange")
     val attenuationRange: Range,
-    @SerializedName("dropIfMinutesInRange")
+    @JsonProperty("dropIfMinutesInRange")
     val dropIfMinutesInRange: Range
 )

@@ -17,11 +17,11 @@ import testhelpers.BaseTest
 
 class DccTicketingServerParserTest : BaseTest() {
 
-    private val gson = SerializationModule().baseGson()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val instance: DccTicketingServerParser
         get() = DccTicketingServerParser(
-            gson = gson
+            mapper = mapper
         )
 
     @Test
@@ -58,8 +58,8 @@ class DccTicketingServerParserTest : BaseTest() {
             )
         )
 
-        val emptyDocumentResponse = createResponse(gson.toJson(emptyDocument))
-        val filledDocumentResponse = createResponse(gson.toJson(filledDocument))
+        val emptyDocumentResponse = createResponse(mapper.writeValueAsString(emptyDocument))
+        val filledDocumentResponse = createResponse(mapper.writeValueAsString(filledDocument))
 
         with(instance) {
             createServiceIdentityDocument(response = emptyDocumentResponse) shouldBe emptyDocument

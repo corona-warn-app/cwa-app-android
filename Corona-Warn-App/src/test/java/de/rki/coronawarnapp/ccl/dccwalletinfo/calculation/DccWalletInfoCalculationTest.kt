@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -71,7 +70,6 @@ class DccWalletInfoCalculationTest : BaseTest() {
         every { mapper.valueToTree<JsonNode>(any()) } returns NullNode.instance
 
         instance = DccWalletInfoCalculation(
-            gson = SerializationModule().baseGson(),
             mapper = mapper,
             cclJsonFunctions = cclJsonFunctions,
             dispatcherProvider = TestDispatcherProvider()

@@ -25,7 +25,9 @@ import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
+import de.rki.coronawarnapp.srs.ui.checkins.SrsCheckinsFragmentTestModule
 import de.rki.coronawarnapp.srs.ui.consent.SrsSubmissionConsentFragmentTestModule
+import de.rki.coronawarnapp.srs.ui.done.SrsSubmissionDoneFragmentTestModule
 import de.rki.coronawarnapp.srs.ui.typeselection.SrsTypeSelectionFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryEditLocationsFragmentTestModule
@@ -102,6 +104,8 @@ import kotlinx.coroutines.test.TestScope
         SrsSubmissionConsentFragmentTestModule::class,
         SrsTypeSelectionFragmentTestModule::class,
         SubmissionDoneFragmentTestModule::class,
+        SrsCheckinsFragmentTestModule::class,
+        SrsSubmissionDoneFragmentTestModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,

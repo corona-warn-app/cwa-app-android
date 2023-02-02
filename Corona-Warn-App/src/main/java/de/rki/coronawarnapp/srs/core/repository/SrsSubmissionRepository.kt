@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.getSupportedCountries
 import de.rki.coronawarnapp.bugreporting.censors.submission.OtpCensor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs.AnalyticsSrsKeySubmissionRepository
 import de.rki.coronawarnapp.datadonation.safetynet.AttestationContainer
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
@@ -22,6 +23,7 @@ import de.rki.coronawarnapp.srs.core.model.SrsAuthorizationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsDeviceAttestationRequest
 import de.rki.coronawarnapp.srs.core.model.SrsOtp
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionPayload
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.playbook.SrsPlaybook
 import de.rki.coronawarnapp.srs.core.server.errorArgs
@@ -50,12 +52,13 @@ class SrsSubmissionRepository @Inject constructor(
     private val srsDevSettings: SrsDevSettings,
     private val androidIdProvider: AndroidIdProvider,
     private val submissionReporter: SubmissionReporter,
+    private val analyticsSrsKeySubmissionRepository: AnalyticsSrsKeySubmissionRepository
 ) {
     suspend fun submit(
         type: SrsSubmissionType,
         symptoms: Symptoms = Symptoms.NO_INFO_GIVEN,
         keys: List<TemporaryExposureKey>
-    ) {
+    ): SrsSubmissionResponse {
         Timber.tag(TAG).d("submit(type=%s)", type)
         val appConfig = appConfigProvider.getAppConfig()
         val nowUtc = timeStamper.nowUTC
@@ -107,7 +110,7 @@ class SrsSubmissionRepository @Inject constructor(
         )
 
         Timber.tag(TAG).d("Submitting %s", payload)
-        playbook.submit(payload)
+        val result = playbook.submit(payload)
 
         Timber.tag(TAG).d("Marking %d submitted CheckIns.", checkIns.size)
         checkInsRepo.updatePostSubmissionFlags(checkIns)
@@ -115,7 +118,12 @@ class SrsSubmissionRepository @Inject constructor(
         submissionReporter.reportAt(timeStamper.nowUTC)
 
         srsSubmissionSettings.resetOtp()
-        Timber.tag(TAG).d("SRS submission finished successfully!")
+        analyticsSrsKeySubmissionRepository.collectSrsSubmissionAnalytics(
+            srsSubmissionType = type,
+            hasCheckIns = checkInsReport.isNotEmpty()
+        )
+        Timber.tag(TAG).d("SRS submission finished successfully with result=%s!", result)
+        return result
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -156,8 +164,7 @@ class SrsSubmissionRepository @Inject constructor(
                 val errorCode = e.type.toSrsErrorType()
                 SrsSubmissionException(
                     errorCode = errorCode,
-                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission),
-                    cause = e
+                    errorArgs = errorCode.errorArgs(appConfig.selfReportSubmission)
                 )
             }
 

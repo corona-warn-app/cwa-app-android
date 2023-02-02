@@ -30,16 +30,16 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
 
     private val inputJson = """
         {
-          "os": "android",
-          "language": "en",
-          "now": {
-            "timestamp": 1640854800,
-            "localDate": "2021-12-30",
-            "localDateTime": "2021-12-30T10:00:00+01:00",
-            "localDateTimeMidnight": "2021-12-30T00:00:00+01:00",
-            "utcDate": "2021-12-30",
-            "utcDateTime": "2021-12-30T09:00:00Z",
-            "utcDateTimeMidnight": "2021-12-30T00:00:00Z"
+          "os" : "android",
+          "language" : "en",
+          "now" : {
+            "timestamp" : 1640854800,
+            "localDate" : "2021-12-30",
+            "localDateTime" : "2021-12-30T10:00:00+01:00",
+            "localDateTimeMidnight" : "2021-12-30T00:00:00+01:00",
+            "utcDate" : "2021-12-30",
+            "utcDateTime" : "2021-12-30T09:00:00Z",
+            "utcDateTimeMidnight" : "2021-12-30T00:00:00Z"
           }
         }
     """.trimIndent()

@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccreissuance.core.server.data
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class DccReissuanceRequestBody(
-    @SerializedName("action") val action: String,
-    @SerializedName("certificates") val certificates: List<String>
+    @JsonProperty("action") val action: String,
+    @JsonProperty("certificates") val certificates: List<String>
 )

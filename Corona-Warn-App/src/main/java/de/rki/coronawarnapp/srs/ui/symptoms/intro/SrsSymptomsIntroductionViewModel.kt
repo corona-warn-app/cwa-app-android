@@ -6,7 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.srs.core.error.SrsSubmissionTruncatedException
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
@@ -74,21 +74,21 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
         )
 
         try {
-            srsSubmissionRepository.submit(
+            val result = srsSubmissionRepository.submit(
                 type = submissionType,
                 symptoms = Symptoms(startOfSymptoms = null, symptomIndication = symptomsIndication),
                 keys = teksSharedViewModel.osTeks()
             )
-            events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
+            val event = when (result) {
+                SrsSubmissionResponse.Success -> SrsSymptomsIntroductionNavigation.GoToThankYouScreen
+                is SrsSubmissionResponse.TruncatedKeys ->
+                    SrsSymptomsIntroductionNavigation.TruncatedSubmission(result.days)
+            }
+
+            events.postValue(event)
         } catch (e: Exception) {
             Timber.e(e, "submitSrs()")
-            when (e) {
-                is SrsSubmissionTruncatedException -> events.postValue(
-                    SrsSymptomsIntroductionNavigation.TruncatedSubmission(e.message)
-                )
-
-                else -> events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
-            }
+            events.postValue(SrsSymptomsIntroductionNavigation.Error(e))
         } finally {
             showLoadingIndicator.postValue(Pair(false, symptomsIndication))
         }
@@ -108,9 +108,9 @@ class SrsSymptomsIntroductionViewModel @AssistedInject constructor(
     fun goHome() = events.postValue(SrsSymptomsIntroductionNavigation.GoToHome)
 
     fun onTruncatedDialogClick() =
-        events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen(submissionType))
+        events.postValue(SrsSymptomsIntroductionNavigation.GoToThankYouScreen)
 
-    private fun resetPreviousSubmissionConsents() = launch {
+    private suspend fun resetPreviousSubmissionConsents() {
         try {
             Timber.d("Trying to reset submission consents")
             checkInRepository.apply {

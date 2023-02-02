@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.safetynet
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.appconfig.SafetyNetRequirementsContainer
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -22,8 +21,8 @@ class AttestationContainerTest : BaseTest() {
         ourSalt = ByteArray(16),
         report = SafetyNetClientWrapper.Report(
             jwsResult = "jwsResult",
-            header = JsonObject(),
-            body = JsonParser.parseString(rawJson).asJsonObject,
+            header = ObjectMapper().createObjectNode(),
+            body = ObjectMapper().readTree(rawJson),
             signature = ByteArray(128)
         )
     )

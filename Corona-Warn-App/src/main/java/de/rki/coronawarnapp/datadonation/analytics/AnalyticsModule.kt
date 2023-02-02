@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.Analy
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsPCRKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionDonor
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.srs.AnalyticsSrsKeySubmissionDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsPCRTestResultDonor
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsRATestResultDonor
@@ -37,7 +38,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.plus
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -58,13 +59,13 @@ object AnalyticsModule {
         @DataDonationCDNHttpClient client: OkHttpClient,
         @DataDonationCDNServerUrl url: String,
         protoConverterFactory: ProtoConverterFactory,
-        gsonConverterFactory: GsonConverterFactory
+        jacksonConverterFactory: JacksonConverterFactory
     ): DataDonationAnalyticsApiV1 {
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
             .addConverterFactory(protoConverterFactory)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(DataDonationAnalyticsApiV1::class.java)
     }
@@ -117,6 +118,10 @@ object AnalyticsModule {
         @IntoSet
         @Binds
         fun raKeySubmission(module: AnalyticsRAKeySubmissionDonor): DonorModule
+
+        @IntoSet
+        @Binds
+        fun srsKeySubmission(module: AnalyticsSrsKeySubmissionDonor): DonorModule
 
         @IntoSet
         @Binds

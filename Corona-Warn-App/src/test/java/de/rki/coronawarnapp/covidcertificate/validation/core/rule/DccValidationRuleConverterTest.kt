@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
-import com.google.gson.JsonSyntaxException
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.JsonMappingException
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -10,9 +11,8 @@ import testhelpers.BaseTest
 class DccValidationRuleConverterTest : BaseTest() {
 
     private val serializationModule = SerializationModule()
-    private val baseGson = serializationModule.baseGson()
-    private val objectMapper = serializationModule.jacksonObjectMapper()
-    private val converter = DccValidationRuleConverter(baseGson)
+    private val mapper = serializationModule.jacksonObjectMapper()
+    private val converter = DccValidationRuleConverter(mapper)
 
     private val testBoosterNotificationRulesData =
         """
@@ -129,7 +129,7 @@ class DccValidationRuleConverterTest : BaseTest() {
         validFrom = "2021-07-04T15:00:00Z",
         validTo = "2023-07-04T00:00:00Z",
         affectedFields = listOf("v.1"),
-        logic = objectMapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
+        logic = mapper.readTree("{\"!\":[{\"var\":\"payload.v.1\"}]}")
     )
 
     private val testInvalidationRule = testBoosterNotificationRule.copy(typeDcc = DccValidationRule.Type.INVALIDATION)
@@ -167,8 +167,8 @@ class DccValidationRuleConverterTest : BaseTest() {
         """.trimIndent()
 
         converter.run {
-            assertThrows<JsonSyntaxException> { jsonToRuleSet(missingAttributes) }
-            assertThrows<JsonSyntaxException> { jsonToRuleSet("abc123") }
+            assertThrows<JsonMappingException> { jsonToRuleSet(missingAttributes) }
+            assertThrows<JsonParseException> { jsonToRuleSet("abc123") }
         }
     }
 }

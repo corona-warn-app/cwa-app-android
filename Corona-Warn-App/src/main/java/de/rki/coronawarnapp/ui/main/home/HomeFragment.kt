@@ -293,6 +293,12 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 }
                 openUrl(urlToOpen)
             }
+
+            is HomeFragmentEvents.OpenRampDownNotice -> {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionMainFragmentToRampdownNoticeFragment(event.rampDownNotice)
+                )
+            }
         }
     }
 

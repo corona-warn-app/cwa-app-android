@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.task.TaskTypeKey
 import de.rki.coronawarnapp.util.reset.Resettable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [PresenceTracingWarningModule.BindsModule::class, PresenceTracingWarningModule.ResetModule::class])
@@ -28,13 +28,13 @@ object PresenceTracingWarningModule {
     fun apiV1(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory,
+        jacksonConverterFactory: JacksonConverterFactory,
     ): TraceWarningUnencryptedApiV1 {
 
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(TraceWarningUnencryptedApiV1::class.java)
     }
@@ -44,13 +44,13 @@ object PresenceTracingWarningModule {
     fun apiV2(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        gsonConverterFactory: GsonConverterFactory,
+        jacksonConverterFactory: JacksonConverterFactory,
     ): TraceWarningEncryptedApiV2 {
 
         return Retrofit.Builder()
             .client(client)
             .baseUrl(url)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(jacksonConverterFactory)
             .build()
             .create(TraceWarningEncryptedApiV2::class.java)
     }

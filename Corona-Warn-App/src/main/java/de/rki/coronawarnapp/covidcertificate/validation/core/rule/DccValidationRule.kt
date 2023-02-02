@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
@@ -17,54 +18,57 @@ import java.time.ZonedDateTime
 @TypeParceler<JsonNode, LogicParceler>()
 data class DccValidationRule(
     // Unique identifier of the rule "GR-CZ-0001"
-    @SerializedName("Identifier") val identifier: String,
+    @JsonProperty("Identifier") val identifier: String,
 
     // Type of the rule ("Acceptance", "Invalidation")
-    @SerializedName("Type") val typeDcc: Type,
+    @JsonProperty("Type") val typeDcc: Type,
 
     // Country code of the country that created the rule
     // ISO 3166 two-letter country code "Country": "CZ",
-    @SerializedName("Country") val country: String,
+    @JsonProperty("Country") val country: String,
 
     // Version of the rule "Version": "1.0.0",
-    @SerializedName("Version") val version: String,
+    @JsonProperty("Version") val version: String,
 
     // Version of the DCC Schema that this rule applies to "SchemaVersion": "1.0.0",
-    @SerializedName("SchemaVersion") val schemaVersion: String,
+    @JsonProperty("SchemaVersion") val schemaVersion: String,
 
     // Rule engine "CERTLOGIC"
-    @SerializedName("Engine") val engine: String,
+    @JsonProperty("Engine") val engine: String,
 
     // Rule engine version "1.0.0"
-    @SerializedName("EngineVersion") val engineVersion: String,
+    @JsonProperty("EngineVersion") val engineVersion: String,
 
     // DCC type
     // (General, Test, Vaccination, Recovery)
-    @SerializedName("CertificateType") val certificateType: String,
+    @JsonProperty("CertificateType") val certificateType: String,
 
     // Description by language
     // [ {"lang": "en","desc": "The Field “Doses” MUST contain number 2 OR 2/2."} ]
-    @SerializedName("Description") val description: List<Description>,
+    @JsonProperty("Description") val description: List<Description>,
 
     // Start and end of validity period
     // ISO 8106 date-time  "2021-05-27T07:46:40Z"
-    @SerializedName("ValidFrom") val validFrom: String,
-    @SerializedName("ValidTo") val validTo: String,
+    @JsonProperty("ValidFrom") val validFrom: String,
+    @JsonProperty("ValidTo") val validTo: String,
 
     // Fields affected by the rule [ "dn", "sd" ]
-    @SerializedName("AffectedFields") val affectedFields: List<String>,
+    @JsonProperty("AffectedFields") val affectedFields: List<String>,
 
     // CertLogic rule as JSON object
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
-    @SerializedName("Logic") val logic: JsonNode
+    @JsonProperty("Logic") val logic: JsonNode
 ) : Parcelable {
 
+    @get:JsonIgnore
     val validFromDateTime: ZonedDateTime
         get() = ZonedDateTime.parse(validFrom)
 
+    @get:JsonIgnore
     val validToDateTime: ZonedDateTime
         get() = ZonedDateTime.parse(validTo)
 
+    @get:JsonIgnore
     val versionSemVer: SemVer
         get() = try {
             SemVer.parse(version)
@@ -74,13 +78,13 @@ data class DccValidationRule(
         }
 
     enum class Type {
-        @SerializedName("Acceptance")
+        @JsonProperty("Acceptance")
         ACCEPTANCE,
 
-        @SerializedName("Invalidation")
+        @JsonProperty("Invalidation")
         INVALIDATION,
 
-        @SerializedName("BoosterNotification")
+        @JsonProperty("BoosterNotification")
         BOOSTER_NOTIFICATION
     }
 
@@ -92,8 +96,8 @@ data class DccValidationRule(
 
     @Parcelize
     data class Description(
-        @SerializedName("lang") val languageCode: String,
-        @SerializedName("desc") val description: String,
+        @JsonProperty("lang") val languageCode: String,
+        @JsonProperty("desc") val description: String,
     ) : Parcelable
 }
 

@@ -2,13 +2,13 @@ package de.rki.coronawarnapp.srs.ui.symptoms.calnedar
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.srs.core.model.SrsSubmissionResponse
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.srs.core.repository.SrsSubmissionRepository
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarNavigation
 import de.rki.coronawarnapp.srs.ui.symptoms.calendar.SrsSymptomsCalendarViewModel
 import de.rki.coronawarnapp.srs.ui.vm.TeksSharedViewModel
 import de.rki.coronawarnapp.submission.Symptoms
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -28,7 +28,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 import java.time.Instant
 
 @ExtendWith(InstantExecutorExtension::class)
@@ -37,7 +36,6 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionType: SrsSubmissionType
     @MockK lateinit var symptomsIndication: Symptoms.Indication
-    @MockK lateinit var currentSymptoms: FlowPreference<Symptoms?>
     @MockK lateinit var teksSharedViewModel: TeksSharedViewModel
     private val selectedCheckIns = longArrayOf()
 
@@ -99,12 +97,11 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
 
-        currentSymptoms = mockFlowPreference(null)
-
         every { checkInRepository.checkInsWithinRetention } returns flowOf(listOf(checkIn1, checkIn2, checkIn3))
         coEvery { checkInRepository.updateSubmissionConsents(any(), true) } just Runs
         coEvery { checkInRepository.updateSubmissionConsents(any(), false) } just Runs
         coEvery { teksSharedViewModel.osTeks() } returns emptyList()
+        coEvery { srsSubmissionRepository.submit(any(), any(), any()) } returns SrsSubmissionResponse.Success
     }
 
     private fun createViewModel() = SrsSymptomsCalendarViewModel(
@@ -131,7 +128,7 @@ class SrsSymptomsCalendarViewModelTest : BaseTest() {
         createViewModel().apply {
             onLastSevenDaysStart()
             startSubmission()
-            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen(submissionType)
+            events.getOrAwaitValue() shouldBe SrsSymptomsCalendarNavigation.GoToThankYouScreen
 
             coVerify {
                 checkInRepository.updateSubmissionConsents(any(), true)

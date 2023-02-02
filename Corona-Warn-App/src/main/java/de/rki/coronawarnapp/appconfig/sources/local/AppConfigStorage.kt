@@ -1,17 +1,14 @@
 package de.rki.coronawarnapp.appconfig.sources.local
 
 import android.content.Context
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
-import de.rki.coronawarnapp.util.serialization.fromJson
-import de.rki.coronawarnapp.util.serialization.toJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.writeValue
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.time.Duration
@@ -24,16 +21,9 @@ import javax.inject.Singleton
 @Singleton
 class AppConfigStorage @Inject constructor(
     @AppContext context: Context,
-    private val timeStamper: TimeStamper,
-    @BaseGson private val baseGson: Gson
+    @BaseJackson private val mapper: ObjectMapper
 ) {
 
-    private val gson by lazy {
-        baseGson.newBuilder()
-            .registerTypeAdapter(java.time.Instant::class.java, InstantAdapter())
-            .registerTypeAdapter(java.time.Duration::class.java, DurationAdapter())
-            .create()
-    }
     private val configDir = File(context.filesDir, "appconfig_storage")
 
     // This is just the raw protobuf data
@@ -61,7 +51,7 @@ class AppConfigStorage @Inject constructor(
         }
 
         return@withLock try {
-            gson.fromJson<InternalConfigData>(configFile)?.also {
+            mapper.readValue<InternalConfigData>(configFile).also {
                 requireNotNull(it.rawData)
                 Timber.v("Loaded stored config, serverTime=%s", it.serverTime)
             }
@@ -91,7 +81,7 @@ class AppConfigStorage @Inject constructor(
         }
 
         try {
-            gson.toJson(value, configFile)
+            mapper.writeValue(value, configFile)
         } catch (e: Exception) {
             // We'll not rethrow as we could still keep working just with the remote config,
             // but we will notify the user.

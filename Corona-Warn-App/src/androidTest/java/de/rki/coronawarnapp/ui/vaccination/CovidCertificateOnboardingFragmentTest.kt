@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.ui.vaccination
 
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingViewModel
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.After
@@ -15,7 +20,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
@@ -26,6 +30,16 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
 
     private val fragmentArgs = CovidCertificateOnboardingFragmentArgs(showBottomNav = false).toBundle()
 
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        UiThreadStatement.runOnUiThread {
+            setViewModelStore(ViewModelStore())
+            setGraph(R.navigation.nav_graph)
+            setCurrentDestination(R.id.familyTestConsentFragment)
+        }
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -33,7 +47,8 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : CovidCertificateOnboardingViewModel.Factory {
                 override fun create(
-                    dccQrCode: DccQrCode?
+                    certIdentifier: String?,
+                    qrcodeSharedViewModel: QrcodeSharedViewModel
                 ): CovidCertificateOnboardingViewModel = viewModel
             }
         )
@@ -46,13 +61,19 @@ class CovidCertificateOnboardingFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<CovidCertificateOnboardingFragment>(fragmentArgs)
+        launchFragmentInContainer2<CovidCertificateOnboardingFragment>(
+            fragmentArgs = fragmentArgs,
+            testNavHostController = navController
+        )
     }
 
     @Screenshot
     @Test
     fun capture_screenshot() {
-        launchFragmentInContainer2<CovidCertificateOnboardingFragment>(fragmentArgs)
+        launchFragmentInContainer2<CovidCertificateOnboardingFragment>(
+            fragmentArgs = fragmentArgs,
+            testNavHostController = navController
+        )
         takeScreenshot<CovidCertificateOnboardingFragment>()
     }
 }

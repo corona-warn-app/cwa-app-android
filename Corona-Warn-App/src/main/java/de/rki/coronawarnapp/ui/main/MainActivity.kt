@@ -39,6 +39,7 @@ import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
 import de.rki.coronawarnapp.util.ui.findNavController
 import de.rki.coronawarnapp.util.ui.findNestedGraph
+import de.rki.coronawarnapp.util.ui.observeOnce
 import de.rki.coronawarnapp.util.ui.updateCountBadge
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -275,19 +276,22 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun goToContactJournal() {
-        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId = R.id.contact_diary_nav_graph
-        val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
+        viewModel.isContactDiaryOnboardingDone.observeOnce { onboardingDone ->
+            findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
+                R.id.contact_diary_nav_graph
+            val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
-        if (viewModel.isContactDiaryOnboardingDone.value == true) {
-            nestedGraph.setStartDestination(R.id.contactDiaryOverviewFragment)
-            navController.navigate(
-                ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
-                    selectedDay = LocalDate.now().toString()
+            if (onboardingDone) {
+                nestedGraph.setStartDestination(R.id.contactDiaryOverviewFragment)
+                navController.navigate(
+                    ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
+                        selectedDay = LocalDate.now().toString()
+                    )
                 )
-            )
-        } else {
-            nestedGraph.setStartDestination(R.id.contactDiaryOnboardingFragment)
-            navController.navigate("coronawarnapp://contact-journal/oboarding/?goToDay=true".toUri())
+            } else {
+                nestedGraph.setStartDestination(R.id.contactDiaryOnboardingFragment)
+                navController.navigate("coronawarnapp://contact-journal/oboarding/?goToDay=true".toUri())
+            }
         }
     }
 

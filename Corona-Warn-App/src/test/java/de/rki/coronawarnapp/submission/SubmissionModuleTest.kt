@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.protobuf.ProtoConverterFactory
 import testhelpers.BaseIOTest
 import java.io.File
@@ -60,7 +60,7 @@ class SubmissionModuleTest : BaseIOTest() {
             context = context,
             client = client,
             url = "https://testurl",
-            gsonConverterFactory = GsonConverterFactory.create(),
+            jacksonConverterFactory = JacksonConverterFactory.create(),
             protoConverterFactory = ProtoConverterFactory.create()
         )
 

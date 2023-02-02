@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewMode
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.addTitleId
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -108,7 +109,10 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
     private fun setButtonOnClickListener() {
         binding.apply {
-            toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
+            toolbar.apply {
+                setNavigationOnClickListener { viewModel.onBackPressed() }
+                addTitleId(R.id.submission_dispatcher_fragment_title)
+            }
             srsSelfTest.setOnClickListener { viewModel.onSrsTileClicked() }
             positiveSelfTest.setOnClickListener { viewModel.onSrsTileClicked(positiveNoAnswer = true) }
             submissionDispatcherQr.setOnClickListener { viewModel.onQRCodePressed() }

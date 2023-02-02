@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -10,91 +11,94 @@ import java.time.Instant
 
 @Suppress("ConstructorParameterNaming")
 data class PCRCoronaTest(
-    @SerializedName("identifier")
+    @JsonProperty("identifier")
     override val identifier: TestIdentifier,
 
-    @SerializedName("registeredAt")
+    @JsonProperty("registeredAt")
     override val registeredAt: Instant,
 
-    @SerializedName("registrationToken")
+    @JsonProperty("registrationToken")
     override val registrationToken: RegistrationToken,
 
-    @SerializedName("authCode")
+    @JsonProperty("authCode")
     override val authCode: String? = null,
 
-    @SerializedName("isSubmitted")
+    @JsonProperty("isSubmitted")
     override val isSubmitted: Boolean = false,
 
-    @SerializedName("isViewed")
+    @JsonProperty("isViewed")
     override val isViewed: Boolean = false,
 
-    @SerializedName("didShowBadge")
+    @JsonProperty("didShowBadge")
     override val didShowBadge: Boolean = false,
 
-    @SerializedName("hasResultChangeBadge")
+    @JsonProperty("hasResultChangeBadge")
     override val hasResultChangeBadge: Boolean = false,
 
-    @SerializedName("isAdvancedConsentGiven")
+    @JsonProperty("isAdvancedConsentGiven")
     override val isAdvancedConsentGiven: Boolean = false,
 
-    @SerializedName("isResultAvailableNotificationSent")
+    @JsonProperty("isResultAvailableNotificationSent")
     override val isResultAvailableNotificationSent: Boolean = false,
 
-    @SerializedName("testResultReceivedAt")
+    @JsonProperty("testResultReceivedAt")
     override val testResultReceivedAt: Instant? = null,
 
-    @SerializedName("testResult")
+    @JsonProperty("testResult")
     override val testResult: CoronaTestResult,
 
-    @SerializedName("lastUpdatedAt")
+    @JsonProperty("lastUpdatedAt")
     override val lastUpdatedAt: Instant,
 
-    @Transient override val isProcessing: Boolean = false,
-    @Transient override val lastError: Throwable? = null,
+    @JsonIgnore override val isProcessing: Boolean = false,
+    @JsonIgnore override val lastError: Throwable? = null,
 
-    @SerializedName("isDccSupportedByPoc")
+    @JsonProperty("isDccSupportedByPoc")
     private val _isDccSupportedByPoc: Boolean? = true,
-    @SerializedName("isDccConsentGiven")
+
+    @JsonProperty("isDccConsentGiven")
     override val isDccConsentGiven: Boolean = false,
 
-    @SerializedName("isDccDataSetCreated")
+    @JsonProperty("isDccDataSetCreated")
     override val isDccDataSetCreated: Boolean = false,
 
-    @SerializedName("labId")
+    @JsonProperty("labId")
     override val labId: String? = null,
 
-    @SerializedName("qrCodeHash")
+    @JsonProperty("qrCodeHash")
     override val qrCodeHash: String? = null,
 
-    @SerializedName("recycledAt")
+    @JsonProperty("recycledAt")
     override var recycledAt: Instant? = null,
 ) : PersonalCoronaTest {
+    // Set to true for old records
 
+    @get:JsonProperty("isDccSupportedByPoc")
+    override val isDccSupportedByPoc: Boolean
+        get() = _isDccSupportedByPoc ?: true
+    @get:JsonIgnore
     override val type: BaseCoronaTest.Type
         get() = BaseCoronaTest.Type.PCR
-
+    @get:JsonIgnore
     override val isRedeemed: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED
-
+    @get:JsonIgnore
     override val isPositive: Boolean
         get() = testResult == CoronaTestResult.PCR_POSITIVE
-
+    @get:JsonIgnore
     override val isNegative: Boolean
         get() = testResult == CoronaTestResult.PCR_NEGATIVE
-
+    @get:JsonIgnore
     override val isPending: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_PENDING
-
+    @get:JsonIgnore
     override val isInvalid: Boolean
         get() = testResult == CoronaTestResult.PCR_INVALID
-
+    @get:JsonIgnore
     override val isSubmissionAllowed: Boolean
         get() = isPositive && !isSubmitted
 
-    // Set to true for old records
-    override val isDccSupportedByPoc: Boolean
-        get() = _isDccSupportedByPoc ?: true
-
+    @get:JsonIgnore
     val state: State
         get() = when {
             isRecycled -> State.RECYCLED

@@ -1,38 +1,26 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
-import de.rki.coronawarnapp.util.serialization.adapter.ByteArrayAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.ByteStringBase64Adapter
-import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
+import de.rki.coronawarnapp.util.serialization.jackson.registerByteArraySerialization
 import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
-import okio.ByteString
-import java.time.Duration
-import java.time.Instant
-import java.time.LocalDate
+import de.rki.coronawarnapp.util.serialization.jackson.registerDurationSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerInstantSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerLocalDateSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPPADataSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPrivateSerialization
+import de.rki.coronawarnapp.util.serialization.jackson.registerPublicSerialization
 
 @Module
 class SerializationModule {
-
-    @BaseGson
-    @Reusable
-    @Provides
-    fun baseGson(): Gson = baseGson
 
     @Reusable
     @Provides
@@ -43,26 +31,18 @@ class SerializationModule {
         val jacksonBaseMapper: ObjectMapper by lazy {
             val jacksonSerializationModule = SimpleModule()
                 .registerByteStringSerialization()
+                .registerInstantSerialization()
+                .registerLocalDateSerialization()
+                .registerPublicSerialization()
+                .registerPrivateSerialization()
+                .registerDurationSerialization()
+                .registerPPADataSerialization()
+                .registerByteArraySerialization()
 
             jsonMapper {
                 addModules(kotlinModule(), JavaTimeModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            }
-        }
-
-        val baseGson: Gson by lazy {
-            GsonBuilder()
-                // Java time
-                .registerTypeAdapter(Instant::class.java, InstantAdapter())
-                .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-                .registerTypeAdapter(Duration::class.java, DurationAdapter())
-                // Others
-                .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-                .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
-                .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
-                .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
-                .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(jacksonObjectMapper()))
-                .create()
+            }.setSerializationInclusion(JsonInclude.Include.NON_NULL)
         }
     }
 }

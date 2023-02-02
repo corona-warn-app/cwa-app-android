@@ -7,16 +7,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toInstantOrNull
 import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.reset.Resettable
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -27,21 +26,8 @@ import javax.inject.Singleton
 @Singleton
 class SubmissionSettings @Inject constructor(
     @SubmissionSettingsDataStore private val dataStore: DataStore<Preferences>,
-    @BaseGson private val baseGson: Gson
+    @BaseJackson private val mapper: ObjectMapper,
 ) : Resettable {
-
-    private val gson by lazy {
-        baseGson.newBuilder().apply {
-            val rta = RuntimeTypeAdapterFactory.of(Symptoms.StartOf::class.java)
-                .registerSubtype(Symptoms.StartOf.NoInformation::class.java)
-                .registerSubtype(Symptoms.StartOf.LastSevenDays::class.java)
-                .registerSubtype(Symptoms.StartOf.MoreThanTwoWeeks::class.java)
-                .registerSubtype(Symptoms.StartOf.OneToTwoWeeksAgo::class.java)
-                .registerSubtype(Symptoms.StartOf.Date::class.java)
-
-            registerTypeAdapterFactory(rta)
-        }.create()
-    }
 
     //region Needed for migration ONLY. Use CoronaTestRepository
     val registrationTokenMigration = dataStore.dataRecovering.distinctUntilChanged(
@@ -101,12 +87,12 @@ class SubmissionSettings @Inject constructor(
     val symptoms: Flow<Symptoms?> = dataStore.dataRecovering.distinctUntilChanged(
         key = SUBMISSION_SYMPTOMS_LATEST, defaultValue = ""
     ).map { value ->
-        if (value.isNotEmpty()) gson.fromJson(value) else null
+        if (value.isNotEmpty()) mapper.readValue(value) else null
     }
 
     suspend fun updateSymptoms(value: Symptoms?) = dataStore.trySetValue(
         preferencesKey = SUBMISSION_SYMPTOMS_LATEST,
-        value = gson.toJson(value)
+        value = mapper.writeValueAsString(value)
     )
 
     val lastSubmissionUserActivityUTC = dataStore.dataRecovering.distinctUntilChanged(

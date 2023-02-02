@@ -189,7 +189,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
-                app:simple_step_entry_text="@string/submission_test_result_steps_added_body_pcr"
                 app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
                 app:step_entry_final="false"
                 app:step_entry_icon="@drawable/ic_test_result_step_done" />

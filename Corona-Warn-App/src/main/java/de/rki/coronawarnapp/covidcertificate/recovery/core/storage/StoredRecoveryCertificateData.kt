@@ -1,16 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core.storage
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import java.time.Instant
 
 data class StoredRecoveryCertificateData(
-    @SerializedName("recoveryCertificateQrCode") val recoveryCertificateQrCode: String,
-    @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
-    @SerializedName("notifiedBlockedAt") val notifiedBlockedAt: Instant? = null,
-    @SerializedName("notifiedRevokedAt") val notifiedRevokedAt: Instant? = null,
-    @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
-    @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
-    @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
-    @SerializedName("recycledAt") val recycledAt: Instant? = null,
+    @JsonProperty("recoveryCertificateQrCode") val recoveryCertificateQrCode: String,
+    @JsonProperty("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
+    @JsonProperty("notifiedBlockedAt") val notifiedBlockedAt: Instant? = null,
+    @JsonProperty("notifiedRevokedAt") val notifiedRevokedAt: Instant? = null,
+    @JsonProperty("lastSeenStateChange") val lastSeenStateChange: State? = null,
+    @JsonProperty("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
+    @JsonProperty("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
+    @JsonProperty("recycledAt") val recycledAt: Instant? = null,
 )

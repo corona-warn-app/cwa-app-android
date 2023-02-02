@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
+import de.rki.coronawarnapp.rampdown.ui.RampDownNoticeCard
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
@@ -78,6 +79,7 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is RapidTestOutdatedCard.Item }) { RapidTestOutdatedCard(it) },
                 TypedVHCreatorMod({ data[it] is RegisterTestCard.Item }) { RegisterTestCard(it) },
                 TypedVHCreatorMod({ data[it] is StatisticsHomeCard.Item }) { StatisticsHomeCard(it) },
+                TypedVHCreatorMod({ data[it] is RampDownNoticeCard.Item }) { RampDownNoticeCard(it) },
                 SavedStateMod<HomeItemVH<HomeItem, ViewBinding>>() // For statistics card scroll position
             )
         )

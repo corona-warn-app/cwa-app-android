@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
 import okhttp3.ResponseBody
 import retrofit2.Response
 import timber.log.Timber
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @Reusable
 class DccTicketingServerParser @Inject constructor(
-    @BaseGson private val gson: Gson
+    @BaseJackson private val mapper: ObjectMapper
 ) {
 
     @Throws(DccTicketingServerException::class)
@@ -22,7 +22,7 @@ class DccTicketingServerParser @Inject constructor(
 
     private inline fun <reified T> Response<ResponseBody>.parse(): T = try {
         Timber.tag(TAG).d("Parsing response=%s", this)
-        body()!!.charStream().use { gson.fromJson(it) }
+        body()!!.charStream().use { mapper.readValue(it) }
     } catch (e: Exception) {
         Timber.e(e, "Parsing failed")
         throw DccTicketingServerException(errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR, cause = e)

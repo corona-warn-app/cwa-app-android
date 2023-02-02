@@ -1,65 +1,75 @@
 package de.rki.coronawarnapp.submission
 
 import android.os.Parcelable
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
-@Keep
 @Parcelize
 data class Symptoms(
     /**
      * this is null if there are no symptoms or there is no information
      */
-    val startOfSymptoms: StartOf?,
-    val symptomIndication: Indication
+    @JsonProperty("startOfSymptoms") val startOfSymptoms: StartOf?,
+    @JsonProperty("symptomIndication") val symptomIndication: Indication
 ) : Parcelable {
 
-    @Keep
-    sealed class StartOf : Parcelable {
+    @JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true
+    )
+    @JsonSubTypes(
+        JsonSubTypes.Type(name = "Date", value = StartOf.Date::class),
+        JsonSubTypes.Type(name = "LastSevenDays", value = StartOf.LastSevenDays::class),
+        JsonSubTypes.Type(name = "OneToTwoWeeksAgo", value = StartOf.OneToTwoWeeksAgo::class),
+        JsonSubTypes.Type(name = "MoreThanTwoWeeks", value = StartOf.MoreThanTwoWeeks::class),
+        JsonSubTypes.Type(name = "NoInformation", value = StartOf.NoInformation::class)
+    )
+    sealed class StartOf(val type: String) : Parcelable {
         @Parcelize
-        data class Date(val date: LocalDate) : StartOf()
+        data class Date(
+            @JsonProperty("date") val date: LocalDate
+        ) : StartOf("Date")
 
         @Parcelize
-        object LastSevenDays : StartOf() {
+        object LastSevenDays : StartOf("LastSevenDays") {
             override fun equals(other: Any?): Boolean = other is LastSevenDays
 
             override fun hashCode(): Int = System.identityHashCode(this)
         }
 
         @Parcelize
-        object OneToTwoWeeksAgo : StartOf() {
+        object OneToTwoWeeksAgo : StartOf("OneToTwoWeeksAgo") {
             override fun equals(other: Any?): Boolean = other is OneToTwoWeeksAgo
 
             override fun hashCode(): Int = System.identityHashCode(this)
         }
 
         @Parcelize
-        object MoreThanTwoWeeks : StartOf() {
+        object MoreThanTwoWeeks : StartOf("MoreThanTwoWeeks") {
             override fun equals(other: Any?): Boolean = other is MoreThanTwoWeeks
 
             override fun hashCode(): Int = System.identityHashCode(this)
         }
 
         @Parcelize
-        object NoInformation : StartOf() {
+        object NoInformation : StartOf("NoInformation") {
             override fun equals(other: Any?): Boolean = other is NoInformation
 
             override fun hashCode(): Int = System.identityHashCode(this)
         }
     }
 
-    @Keep
     @Parcelize
     enum class Indication : Parcelable {
-        @SerializedName("POSITIVE")
+        @JsonProperty("POSITIVE")
         POSITIVE,
 
-        @SerializedName("NEGATIVE")
+        @JsonProperty("NEGATIVE")
         NEGATIVE,
 
-        @SerializedName("NO_INFORMATION")
+        @JsonProperty("NO_INFORMATION")
         NO_INFORMATION
     }
 
