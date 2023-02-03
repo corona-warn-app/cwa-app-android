@@ -46,9 +46,8 @@
         app:srcCompat="@drawable/ic_nav_qrcode"
         app:tint="@android:color/white" />
 
-    <include
+    <de.rki.coronawarnapp.ui.view.FabTooltipView
         android:id="@+id/fake_fab_tooltip"
-        layout="@layout/fab_tooltip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

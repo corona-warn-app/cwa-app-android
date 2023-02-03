@@ -4,7 +4,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.annotation.MainThread
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -19,9 +18,6 @@ inline fun <reified BindingT : ViewBinding> Fragment.viewBinding() =
         bindingProvider = {
             val bindingMethod = BindingT::class.java.getMethod("bind", View::class.java)
             val binding = bindingMethod(null, requireView()) as BindingT
-            if (binding is ViewDataBinding) {
-                binding.lifecycleOwner = this.viewLifecycleOwner
-            }
             binding
         },
         lifecycleOwnerProvider = { viewLifecycleOwner }

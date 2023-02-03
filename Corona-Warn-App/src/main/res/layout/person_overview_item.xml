@@ -81,14 +81,11 @@
         app:srcCompat="@drawable/ic_person_overview_item_right_arrow"
         app:tint="@color/colorStableLight" />
 
-    <include
+    <de.rki.coronawarnapp.ui.view.CertificateOverviewQrCardView
         android:id="@+id/qr_code_card"
-        layout="@layout/include_certificate_overview_qr_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_28"
-        android:layout_marginEnd="@dimen/margin_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name" />
@@ -128,9 +125,10 @@
         android:background="@drawable/circle_badge_count"
         android:gravity="center"
         android:textColor="@android:color/white"
+        android:layout_marginHorizontal="@dimen/margin_24"
         android:textSize="@dimen/font_12"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/qr_code_card"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/qr_code_card"
         app:layout_constraintVertical_bias="1.0"
         tools:text="1"

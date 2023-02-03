@@ -62,9 +62,9 @@ class SubmissionTestResultKeysSharedFragment :
         viewModel.uiState.observe2(this) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
-                submissionDonePcrValidation.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
+                submissionDonePcrValidation.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
 
-                submissionDoneIllness.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
+                submissionDoneIllness.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
 
                 if (it.coronaTest is FamilyCoronaTest) {
                     toolbar.title = getText(R.string.submission_test_result_headline)

@@ -30,13 +30,13 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vm.countryList.observe2(this) {
-            binding.countryData = it
+            binding.countryList.setCountryList(it)
         }
         vm.saveInteroperabilityUsed()
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onActivateTracingClicked() }
             onboardingButtonDisable.setOnClickListener { vm.showCancelDialog() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonPress() }
+            onboardingTracingToolbar.setNavigationOnClickListener { vm.onBackButtonPress() }
         }
         vm.routeToScreen.observe2(this) {
             when (it) {

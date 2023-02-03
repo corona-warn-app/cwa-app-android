@@ -1,162 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_legal_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_legal_title"
+    android:focusable="true">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/information_legal_title" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <import type="de.rki.coronawarnapp.R" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </data>
+            <de.rki.coronawarnapp.ui.view.InformationDetailsView
+                android:id="@+id/information_legal_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/information_legal_illustration_description"
+                android:src="@drawable/ic_information_illustration_legal"
+                android:subtitle="@string/information_legal_subtitle_publisher"
+                android:title="@string/information_legal_headline_publisher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/information_legal_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_legal_title"
-        android:focusable="true">
+            <TextView
+                android:id="@+id/information_legal_body_publisher"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
+                android:focusable="true"
+                android:text="@string/information_legal_body_publisher"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_details" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/information_legal_title" />
+            <de.rki.coronawarnapp.ui.view.DividerView
+                android:id="@+id/information_legal_divider_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_32"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_body_publisher" />
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <TextView
+                android:id="@+id/information_legal_headline_contact"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/information_legal_headline_contact"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_divider_contact" />
+
+            <TextView
+                android:id="@+id/information_legal_subtitle_contact"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
+                android:autoLink="email"
+                android:focusable="true"
+                android:text="@string/information_legal_subtitle_contact"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_headline_contact" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/information_legal_contact_form_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_subtitle_contact">
 
-                <include
-                    android:id="@+id/information_legal_header_details"
-                    layout="@layout/include_information_details"
+                <TextView
+                    android:id="@+id/information_legal_contact_form"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:body="@{@string/information_legal_subtitle_publisher}"
-                    app:headline="@{@string/information_legal_headline_publisher}"
-                    app:illustration="@{@drawable/ic_information_illustration_legal}"
-                    app:illustrationDescription="@{@string/information_legal_illustration_description}"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:linksClickable="true"
+                    android:text="@string/information_legal_subtitle_contact_label"
+                    android:textColorLink="@color/colorTextTint"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/information_legal_body_publisher"
+                    android:id="@+id/information_legal_contact_form_non_en_de"
                     style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
+                    android:clickable="true"
                     android:focusable="true"
-                    android:text="@string/information_legal_body_publisher"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_header_details" />
-
-                <include
-                    android:id="@+id/information_legal_divider_contact"
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_body_publisher" />
-
-                <TextView
-                    android:id="@+id/information_legal_headline_contact"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:accessibilityHeading="true"
-                    android:focusable="true"
-                    android:text="@string/information_legal_headline_contact"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_divider_contact" />
-
-                <TextView
-                    android:id="@+id/information_legal_subtitle_contact"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:autoLink="email"
-                    android:focusable="true"
-                    android:text="@string/information_legal_subtitle_contact"
+                    android:linksClickable="true"
+                    android:text="@string/information_legal_subtitle_contact_form_non_en_de"
                     android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_headline_contact" />
-
-                <include
-                    android:id="@+id/information_legal_contact_form"
-                    layout="@layout/include_contact_form"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_subtitle_contact" />
-
-                <include
-                    android:id="@+id/information_legal_divider_taxid"
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/information_legal_contact_form" />
-
-                <TextView
-                    android:id="@+id/information_legal_headline_taxid"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:accessibilityHeading="true"
-                    android:focusable="true"
-                    android:text="@string/information_legal_headline_taxid"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_divider_taxid" />
-
-                <TextView
-                    android:id="@+id/information_legal_subtitle_taxid"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:focusable="true"
-                    android:text="@string/information_legal_subtitle_taxid"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_legal_headline_taxid" />
-
-                <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+            <de.rki.coronawarnapp.ui.view.DividerView
+                android:id="@+id/information_legal_divider_taxid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_32"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_contact_form_container" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/information_legal_headline_taxid"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/information_legal_headline_taxid"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_divider_taxid" />
 
-</layout>
+            <TextView
+                android:id="@+id/information_legal_subtitle_taxid"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
+                android:focusable="true"
+                android:text="@string/information_legal_subtitle_taxid"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_legal_headline_taxid" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

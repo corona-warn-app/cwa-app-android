@@ -21,7 +21,7 @@
         android:id="@+id/scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+        app:layout_constraintBottom_toTopOf="@+id/consent_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -47,10 +47,11 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/family_consent_subtitle"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/consent_illustration" />
 
             <TextView
@@ -59,9 +60,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:text="@string/family_consent_person_name_label"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -69,12 +71,12 @@
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
                 android:hint="@string/family_consent_person_name_tooltip"
                 app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subtitle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -91,10 +93,11 @@
                 android:layout_width="@dimen/width_32"
                 android:layout_height="@dimen/height_32"
                 android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginStart="@dimen/margin_16"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/card_dark"
                 android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name_input_layout"
                 app:srcCompat="@drawable/ic_family_item" />
 
@@ -104,9 +107,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/family_consent_test_type"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/test_type_icon"
                 app:layout_constraintTop_toBottomOf="@+id/name_input_layout" />
 
@@ -115,10 +119,11 @@
                 android:layout_width="@dimen/width_32"
                 android:layout_height="@dimen/height_32"
                 android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginStart="@dimen/margin_16"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/card_dark"
                 android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/test_type_text"
                 app:srcCompat="@drawable/ic_family_consent_cert_item" />
 
@@ -128,82 +133,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/family_consent_test_result"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/test_result_icon"
                 app:layout_constraintTop_toBottomOf="@id/test_type_text" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/consent_layout"
-                style="@style/GreyCard"
-                android:layout_width="0dp"
+            <de.rki.coronawarnapp.ui.view.BulletPointDataPrivacyView
+                android:id="@+id/family_test_privacy_consent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:title="@string/family_consent_legal_title"
+                android:subtitle="@string/family_consent_legal_body"
+                app:bulletpointOne="@string/family_consent_legal_point_1"
                 android:layout_marginTop="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/test_result_text">
-
-                <TextView
-                    android:id="@+id/consent_headline"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:paddingTop="@dimen/padding_32"
-                    android:text="@string/family_consent_legal_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/consent_tapping_agree"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:text="@string/family_consent_legal_body"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/consent_headline"
-                    app:layout_constraintTop_toBottomOf="@+id/consent_headline" />
-
-                <include
-                    android:id="@+id/consent_first_point_bullet"
-                    layout="@layout/include_bullet_point"
-                    android:layout_width="@dimen/bullet_point_6"
-                    android:layout_height="@dimen/bullet_point_6"
-                    app:layout_constraintBaseline_toBaselineOf="@id/consent_first_point_text"
-                    app:layout_constraintStart_toStartOf="@id/consent_headline" />
-
-                <TextView
-                    android:id="@+id/consent_first_point_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_24"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:paddingBottom="@dimen/padding_32"
-                    android:text="@string/family_consent_legal_point_1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/consent_first_point_bullet"
-                    app:layout_constraintTop_toBottomOf="@+id/consent_tapping_agree" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/test_result_text" />
 
             <de.rki.coronawarnapp.ui.view.MoreInformationView
                 android:id="@+id/data_privacy_more_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/consent_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/family_test_privacy_consent"
                 app:titleText="@string/family_consent_legal_bottom_link" />
-
-            <include layout="@layout/merge_guidelines_side" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -216,17 +176,7 @@
         android:layout_height="wrap_content"
         app:buttonText="@string/family_consent_cofirm_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/guideline_action" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/guideline_72" />
-
-    <include layout="@layout/merge_guidelines_side" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

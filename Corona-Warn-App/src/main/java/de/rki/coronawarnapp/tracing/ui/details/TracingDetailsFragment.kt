@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -51,8 +52,16 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
         }
 
         vm.buttonStates.observe2(this) {
-            binding.tracingDetailsState = it
-            binding.toolbar.navigationIcon = closeIcon(it)
+            with(binding) {
+                toolbar.setBackgroundColor(it.getRiskColor(requireContext()))
+                toolbar.setTitleTextColor(it.getStableTextColor(requireContext()))
+                riskDetailsButton.isGone = it.isRiskLevelButtonGroupVisible()
+                riskDetailsButtonEnableTracing.isGone = it.isRiskDetailsEnableTracingButtonVisible()
+                riskDetailsButtonUpdate.isGone = it.isRiskDetailsUpdateButtonVisible()
+                riskDetailsButtonUpdate.isEnabled = it.isUpdateButtonEnabled()
+                riskDetailsButtonUpdate.text = it.getUpdateButtonText(requireContext())
+                toolbar.navigationIcon = closeIcon(it)
+            }
         }
 
         vm.routeToScreen.observe2(this) {
@@ -60,10 +69,12 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
                 is TracingDetailsNavigationEvents.NavigateToSurveyConsentFragment -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
+
                 is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
                 TracingDetailsNavigationEvents.NavigateToHomeRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHomeRules()
                 )
+
                 TracingDetailsNavigationEvents.NavigateToHygieneRules -> findNavController().navigate(
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHygieneRules()
                 )

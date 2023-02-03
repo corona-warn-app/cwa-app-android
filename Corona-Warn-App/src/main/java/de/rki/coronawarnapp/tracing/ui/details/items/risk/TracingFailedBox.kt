@@ -2,12 +2,12 @@ package de.rki.coronawarnapp.tracing.ui.details.items.risk
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentFailedViewBinding
 import de.rki.coronawarnapp.tracing.states.RiskCalculationFailed
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.risk.TracingFailedBox.Item
-import de.rki.coronawarnapp.util.ui.setGone
 
 class TracingFailedBox(
     parent: ViewGroup,
@@ -28,9 +28,12 @@ class TracingFailedBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
-        riskCardButtonUpdate.setGone(item.state.isInDetailsMode)
-        riskCardHeaderIcon.setGone(item.state.isInDetailsMode)
+        item.state.apply {
+            riskCardHeaderIcon.isGone = isInDetailsMode
+            riskCardButtonUpdate.isGone = !showRestartButton
+            riskCardButtonUpdate.isGone = isInDetailsMode
+            riskCardHeaderIcon.isGone = isInDetailsMode
+        }
     }
 
     data class Item(

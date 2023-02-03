@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.homecards
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentIncreasedViewBinding
 import de.rki.coronawarnapp.tracing.states.IncreasedRisk
@@ -21,7 +22,14 @@ class IncreasedRiskCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
+        item.state.apply {
+            rowContact.isGone = getRiskContactBody(context) == null
+            rowContact.contentDescription = getRiskContactBodyDescription(context)
+            rowContact.setText(getRiskContactBody(context))
+            rowContactLast.isGone = getRiskContactLast(context) == null
+            rowContactLast.setText(getRiskContactLast(context))
+            rowTimeFetched.setText(getTimeFetched(context))
+        }
         itemView.setOnClickListener { item.onCardClick(item) }
         updateAction.setOnClickListener { item.onUpdateClick(item) }
     }

@@ -53,7 +53,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         with(binding) {
             val isPCR = args.testRegistrationRequest is CoronaTestQRCode.PCR
             birthDateGroup.isVisible = isPCR
-            privacyCard.pcrExtraBullet.isVisible = isPCR
+            requestCertificateDataPrivacy.showExtraBulletPoint(isPCR)
 
             dateInputEdit.doOnTextChanged { text, _, _, _ ->
                 if (text.toString().isEmpty()) viewModel.birthDateChanged(null)

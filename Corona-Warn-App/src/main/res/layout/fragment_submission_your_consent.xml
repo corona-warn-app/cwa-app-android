@@ -1,145 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/submission_your_consent_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/submission_your_consent_title"
+    android:fillViewport="true"
+    tools:context=".ui.submission.yourconsent.SubmissionYourConsentFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_your_consent_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_your_consent_title"
-        android:fillViewport="true"
-        tools:context=".ui.submission.yourconsent.SubmissionYourConsentFragment">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/submission_your_consent_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_bias="1.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/submission_your_consent_title" />
+            android:focusable="true">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintVertical_bias="1.0">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <de.rki.coronawarnapp.ui.view.SwitchRowView
+                android:id="@+id/submission_your_consent_switch"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true">
+                android:layout_marginTop="@dimen/margin_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/submission_your_consent_switch_subtitle" />
 
-                <de.rki.coronawarnapp.ui.view.SwitchRowView
-                    android:id="@+id/submission_your_consent_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:switchEnabled="@{true}"
-                    app:title="@{@string/submission_your_consent_switch_subtitle}" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_1"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:background="@color/dividerColor"
+                app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
 
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_1"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:background="@color/dividerColor"
-                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
+            <TextView
+                android:id="@+id/submission_your_consent_about_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:text="@string/submission_your_consent_about_agreement"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
+
+            <LinearLayout
+                android:id="@+id/submission_your_consent_agreement_card"
+                style="@style/cardTracing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_32"
+                android:focusable="true"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_your_consent_about_text">
 
                 <TextView
-                    android:id="@+id/submission_your_consent_about_text"
-                    style="@style/subtitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:text="@string/submission_your_consent_about_agreement"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_switch" />
-
-                <LinearLayout
-                    android:id="@+id/submission_your_consent_agreement_card"
-                    style="@style/cardTracing"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:focusable="true"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_about_text">
-
-                    <TextView
-                        android:id="@+id/submission_your_consent_agreement_title"
-                        style="@style/headline6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin_16"
-                        android:accessibilityHeading="true"
-                        android:contentDescription="@string/submission_your_consent_agreement_title"
-                        android:text="@string/submission_your_consent_agreement_title" />
-
-                    <TextView
-                        android:id="@+id/submission_your_consent_agreement_share_test_results_text"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:text="@string/submission_your_consent_agreement_share_test_results" />
-
-                    <de.rki.coronawarnapp.ui.view.CountryListView
-                        android:id="@+id/submission_your_consent_agreement_country_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_16" />
-
-                    <TextView
-                        android:id="@+id/submission_your_consent_agreement_share_symptoms_text"
-                        style="@style/subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_24"
-                        android:text="@string/submission_your_consent_agreement_share_symptoms" />
-
-                </LinearLayout>
-
-                <de.rki.coronawarnapp.ui.view.MoreInformationView
-                    android:id="@+id/submission_consent_more_info"
+                    android:id="@+id/submission_your_consent_agreement_title"
+                    style="@style/headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_24"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_card"
-                    app:titleText="@string/submission_your_consent_agreement_details" />
+                    android:layout_marginEnd="@dimen/margin_16"
+                    android:accessibilityHeading="true"
+                    android:contentDescription="@string/submission_your_consent_agreement_title"
+                    android:text="@string/submission_your_consent_agreement_title" />
 
-                <include layout="@layout/merge_guidelines_side" />
-                <include layout="@layout/merge_guidelines_card" />
+                <TextView
+                    android:id="@+id/submission_your_consent_agreement_share_test_results_text"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:text="@string/submission_your_consent_agreement_share_test_results" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <de.rki.coronawarnapp.ui.view.CountryListView
+                    android:id="@+id/submission_your_consent_agreement_country_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16" />
 
-        </ScrollView>
+                <TextView
+                    android:id="@+id/submission_your_consent_agreement_share_symptoms_text"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_24"
+                    android:text="@string/submission_your_consent_agreement_share_symptoms" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_16" />
+            </LinearLayout>
 
-        <include layout="@layout/merge_guidelines_side" />
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/submission_consent_more_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_your_consent_agreement_card"
+                app:titleText="@string/submission_your_consent_agreement_details" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_16" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

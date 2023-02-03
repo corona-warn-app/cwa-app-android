@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.settings.start
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -29,17 +30,38 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         super.onViewCreated(view, savedInstanceState)
 
         vm.tracingState.observe2(this) {
-            binding.tracingState = it
+            binding.settingsTracing.configureSettingsRowIcon(
+                it.getTracingIcon(requireContext()),
+                it.getTracingIconColor(requireContext())
+            )
+            binding.settingsTracing.configureSettingsRowSubtitle(it.getTracingStatusText(requireContext()))
         }
         vm.notificationSettingsState.observe2(this) {
-            binding.notificationState = it
+            binding.settingsNotifications.configureSettingsRowIcon(
+                it.getNotificationIcon(requireContext()),
+                it.getNotificationIconColor(requireContext())
+            )
+            binding.settingsNotifications.configureSettingsRowSubtitle(it.getNotificationStatusText(requireContext()))
         }
         vm.backgroundPriorityState.observe2(this) {
-            binding.backgroundState = it
+            binding.settingsBackgroundPriority.isVisible = it.showBackgroundPrioritySettings()
+            binding.settingsBackgroundPriority.configureSettingsRowIcon(
+                it.getBackgroundPriorityIcon(requireContext()),
+                it.getBackgroundPriorityIconColor(requireContext())
+            )
+            binding.settingsBackgroundPriority.configureSettingsRowSubtitle(
+                it.getBackgroundPriorityText(requireContext())
+            )
         }
 
         vm.analyticsState.observe2(this) {
-            binding.analyticsState = it
+            binding.settingsPrivacyPreservingAnalytics.configureSettingsRowIcon(
+                it.getPrivacyPreservingAnalyticsIcon(requireContext()),
+                it.getPrivacyPreservingAnalyticsIconColor(requireContext())
+            )
+            binding.settingsPrivacyPreservingAnalytics.configureSettingsRowSubtitle(
+                it.getPrivacyPreservingAnalyticsText(requireContext())
+            )
         }
 
         setButtonOnClickListener()
@@ -52,10 +74,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
     }
 
     private fun setButtonOnClickListener() {
-        val tracingRow = binding.settingsTracing.settingsRow
-        val notificationRow = binding.settingsNotifications.settingsRow
-        val backgroundPriorityRow = binding.settingsBackgroundPriority.settingsRow
-        val privacyPreservingAnalyticsRow = binding.settingsPrivacyPreservingAnalytics.settingsRow
+        val tracingRow = binding.settingsTracing
+        val notificationRow = binding.settingsNotifications
+        val backgroundPriorityRow = binding.settingsBackgroundPriority
+        val privacyPreservingAnalyticsRow = binding.settingsPrivacyPreservingAnalytics
         val resetRow = binding.settingsReset
         resetRow.setOnClickListener {
             findNavController().navigate(
