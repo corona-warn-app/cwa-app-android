@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<network-security-config xmlns:tools="http://schemas.android.com/tools">
+<network-security-config>
 
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">coronawarn.app</domain>
         <domain includeSubdomains="true">main.px.t-online.de</domain>
-        <pin-set
-            expiration="2024-02-12"
-            tools:ignore="MissingBackupPin">
+        <pin-set expiration="2024-02-12">
             <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
+            <pin digest="SHA-256">9K4RwKQgzd+IOm+vvVnHkFwvlV12A4LOuuuJ7/2Wo8Q=</pin>
+            <pin digest="SHA-256">EmQ45ScgekmAT8AO52aS5PjZ5yD+6qtqn6tXlb4fA6s=</pin>
         </pin-set>
         <trust-anchors>
             <certificates
