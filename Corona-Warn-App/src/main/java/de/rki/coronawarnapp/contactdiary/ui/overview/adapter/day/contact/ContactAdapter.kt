@@ -45,7 +45,7 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
                 ContactItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
                 ContactItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
             }
-            val attributes = getAttributes(key.duration, key.attributes, key.circumstances)
+            val attributes = getAttributes(key.duration, key.attributes, key.circumstances).dropLast(2)
             if (attributes.isNotEmpty()) {
                 contactDiaryOverviewElementAttributes.text = attributes
             } else contactDiaryOverviewElementAttributes.visibility = View.GONE
