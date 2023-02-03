@@ -234,6 +234,21 @@ class HomeFragmentTest : BaseUITest() {
 
     @Screenshot
     @Test
+    fun captureHomeFragmentTestPositiveRat() {
+        every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
+            submissionTestResultItems = listOf(
+                HomeData.Submission.TEST_POSITIVE_ITEM_RAT
+            )
+        )
+        launchInMainActivity<HomeFragment>(
+            testNavHostController = navController
+        )
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -25))
+        takeScreenshot<HomeFragment>("test_positive_rat")
+    }
+
+    @Screenshot
+    @Test
     fun captureHomeFragmentTestPositive() {
         every { homeFragmentViewModel.homeItems } returns homeFragmentItemsLiveData(
             submissionTestResultItems = listOf(HomeData.Submission.TEST_POSITIVE_ITEM)

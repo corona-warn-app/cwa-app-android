@@ -30,8 +30,6 @@ class ProfileListFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { viewModel.profiles } returns profileCards()
-
         setupMockViewModel(
             object : ProfileListViewModel.Factory {
                 override fun create(): ProfileListViewModel = viewModel
@@ -46,9 +44,18 @@ class ProfileListFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment() {
+    fun capture_profile_cards() {
+        every { viewModel.profiles } returns profileCards()
+        launchFragmentInContainer2<ProfileListFragment>()
+        takeScreenshot<ProfileListFragment>("profile_cards")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_empty_fragment() {
         launchFragmentInContainer2<ProfileListFragment>()
         takeScreenshot<ProfileListFragment>("1")
+        takeScreenshot<ProfileListFragment>("empty")
     }
 
     private fun profileCards(): LiveData<List<ProfileListItem>> =

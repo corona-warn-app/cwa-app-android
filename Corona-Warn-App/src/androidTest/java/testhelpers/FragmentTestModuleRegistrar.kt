@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketin
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
+import de.rki.coronawarnapp.presencetracing.attendee.checkins.CheckInsFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
@@ -62,6 +63,7 @@ import de.rki.coronawarnapp.ui.submission.SubmissionSymptomCalendarFragmentTestM
 import de.rki.coronawarnapp.ui.submission.SubmissionSymptomIntroFragmentTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTanTestModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultConsentGivenTestModule
+import de.rki.coronawarnapp.ui.submission.SubmissionTestResultKeysSharedFragmentModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultNoConsentModel
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestAvailableModule
 import de.rki.coronawarnapp.ui.submission.SubmissionTestResultTestModule
@@ -107,6 +109,7 @@ import kotlinx.coroutines.test.TestScope
         SubmissionDoneFragmentTestModule::class,
         SrsCheckinsFragmentTestModule::class,
         SrsSubmissionDoneFragmentTestModule::class,
+        SubmissionTestResultKeysSharedFragmentModule::class,
 
         // -------- Tracing --------
         TracingDetailsFragmentTestTestModule::class,
@@ -135,6 +138,7 @@ import kotlinx.coroutines.test.TestScope
         TraceLocationWarnDurationFragmentTestModule::class,
         TraceLocationWarnTanFragmentTestModule::class,
         TraceLocationCategoryFragmentTestModule::class,
+        CheckInsFragmentTestModule::class,
 
         // -------- Certificates --------
         VaccinationDetailsFragmentTestModule::class,
