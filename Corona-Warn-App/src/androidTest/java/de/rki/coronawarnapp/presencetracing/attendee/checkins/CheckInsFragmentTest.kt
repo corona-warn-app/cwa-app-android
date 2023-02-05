@@ -91,6 +91,19 @@ class CheckInsFragmentTest : BaseUITest() {
         takeScreenshot<CheckInsFragment>()
     }
 
+    @Test
+    @Screenshot
+    fun capture_empty_fragment() {
+
+        every { viewModel.checkins } returns MutableLiveData(listOf())
+
+        launchFragmentInContainer2<CheckInsFragment>(
+            fragmentArgs = fragmentArgs,
+            testNavHostController = navController
+        )
+        takeScreenshot<CheckInsFragment>("empty")
+    }
+
     private fun mockCheckIn(
         checkInId: Long,
         checkInDescription: String,
