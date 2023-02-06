@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.presencetracing.attendee.confirm
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.ui.presencetracing.attendee.TraceLocationAttendeeSettings
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInNavigation
@@ -29,10 +30,13 @@ import java.time.Instant
 @ExtendWith(InstantExecutorExtension::class)
 class ConfirmCheckInViewModelTest : BaseTest() {
 
-    @MockK lateinit var verifiedTraceLocation: VerifiedTraceLocation
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var traceLocationAttendeeSettings: TraceLocationAttendeeSettings
+    @MockK lateinit var qrcodeSharedViewModel: QrcodeSharedViewModel
+    @MockK lateinit var verifiedTraceLocation: VerifiedTraceLocation
+
+    private val verifiedTraceLocationId = "verifiedTraceLocationId"
 
     private val traceLocation = TraceLocation(
         id = 1,
@@ -51,15 +55,17 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { checkInRepository.addCheckIn(any()) } returns 1L
+        every { qrcodeSharedViewModel.verifiedTraceLocation(any()) } returns verifiedTraceLocation
         every { verifiedTraceLocation.traceLocation } returns traceLocation
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-04T10:30:00Z")
         every { traceLocationAttendeeSettings.createJournalEntryCheckedState } returns flowOf(true)
         coEvery { traceLocationAttendeeSettings.setCreateJournalEntryCheckedState(any()) } just runs
+        coEvery { checkInRepository.addCheckIn(any()) } returns 1L
     }
 
     private fun createInstance() = ConfirmCheckInViewModel(
-        verifiedTraceLocation = verifiedTraceLocation,
+        verifiedTraceLocationId = verifiedTraceLocationId,
+        qrcodeSharedViewModel = qrcodeSharedViewModel,
         checkInRepository = checkInRepository,
         timeStamper = timeStamper,
         traceLocationAttendeeSettings = traceLocationAttendeeSettings
