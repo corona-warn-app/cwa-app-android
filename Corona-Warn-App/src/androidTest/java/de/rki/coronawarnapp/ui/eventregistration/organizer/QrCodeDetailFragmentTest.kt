@@ -59,7 +59,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
         every { viewModel.uiState } returns MutableLiveData(
             QrCodeDetailViewModel.UiState(
                 traceLocation = TraceLocationData.traceLocationSameDate,
-                qrCode = null
+                qrCode = qrCode
             )
         )
         launchFragmentInContainer2<QrCodeDetailFragment>(fragmentArgs = fragmentArgs)
@@ -75,7 +75,7 @@ class QrCodeDetailFragmentTest : BaseUITest() {
         every { viewModel.uiState } returns MutableLiveData(
             QrCodeDetailViewModel.UiState(
                 traceLocation = TraceLocationData.traceLocationDifferentDate,
-                qrCode = null
+                qrCode = qrCode
             )
         )
         launchFragmentInContainer2<QrCodeDetailFragment>(fragmentArgs = fragmentArgs)
