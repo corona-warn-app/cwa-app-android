@@ -3,13 +3,14 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.datastore.clear
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -216,7 +217,17 @@ open class AnalyticsKeySubmissionStorage(
 
     suspend fun clear() {
         Timber.tag(TAG).d("clear()")
-        dataStore.clear()
+        val keys = dataStore.data.first().asMap().keys.filter {
+            if (sharedPrefKeySuffix.isEmpty()) {
+                it.name.endsWith(AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix).not()
+            } else {
+                it.name.endsWith(AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix)
+            }
+        }
+        dataStore.edit { prefs -> keys.forEach { key -> prefs.remove(key) } }
+        Timber.d(
+            dataStore.data.first().asMap().keys.toString()
+        )
     }
 }
 
