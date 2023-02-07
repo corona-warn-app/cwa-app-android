@@ -225,9 +225,6 @@ open class AnalyticsKeySubmissionStorage(
             }
         }
         dataStore.edit { prefs -> keys.forEach { key -> prefs.remove(key) } }
-        Timber.d(
-            dataStore.data.first().asMap().keys.toString()
-        )
     }
 }
 
