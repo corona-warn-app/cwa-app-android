@@ -45,12 +45,13 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
                 ContactItem.Type.LOCATION -> context.getString(R.string.accessibility_location, key.name)
                 ContactItem.Type.PERSON -> context.getString(R.string.accessibility_person, key.name)
             }
-            val attributes = getAttributes(key.duration, key.attributes, key.circumstances).dropLast(2)
+            val attributes = getAttributes(key.duration, key.attributes, key.circumstances)
             if (attributes.isNotEmpty()) {
                 contactDiaryOverviewElementAttributes.text = attributes
             } else contactDiaryOverviewElementAttributes.visibility = View.GONE
         }
 
+        @Suppress("NestedBlockDepth")
         private fun getAttributes(
             duration: Duration?,
             resources: List<Int>?,
@@ -62,17 +63,19 @@ class ContactAdapter : BaseAdapter<ContactAdapter.ContactItemViewHolder>() {
                     if (duration != Duration.ZERO) {
                         val durationSuffix = context.getString(R.string.contact_diary_location_visit_duration_hour)
                         append(toReadableDuration(suffix = durationSuffix))
-                        append(separator)
+                        if (resources != null) append(separator)
                     }
                 }
                 resources?.run {
-                    forEach {
-                        append(context.getString(it))
-                        append(separator)
-                    }
+                    append(
+                        resources.joinToString(separator) {
+                            context.getString(it)
+                        }
+                    )
                 }
-                circumstances?.run {
-                    italic { append(this@run) }
+                if (circumstances?.isNotEmpty() == true) {
+                    if (duration != null || (resources != null && resources.isNotEmpty())) append(separator)
+                    italic { append(circumstances) }
                 }
             }
     }
