@@ -120,6 +120,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         appScope.launch {
             try {
                 autoSubmission.runSubmissionNow(testType)
+                analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
             } catch (e: Exception) {
                 Timber.e(e, "performSubmission() failed.")
             }
