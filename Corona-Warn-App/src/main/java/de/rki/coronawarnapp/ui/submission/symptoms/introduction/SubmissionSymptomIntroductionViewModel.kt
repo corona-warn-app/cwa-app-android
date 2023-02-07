@@ -53,6 +53,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             )
                     )
                 }
+
                 Symptoms.Indication.NEGATIVE -> {
                     submissionRepository.updateCurrentSymptoms(
                         Symptoms(
@@ -66,6 +67,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
+
                 Symptoms.Indication.NO_INFORMATION -> {
                     submissionRepository.updateCurrentSymptoms(
                         Symptoms(
@@ -79,6 +81,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
+
                 else -> Unit
             }
         }
@@ -120,7 +123,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
         appScope.launch {
             try {
                 autoSubmission.runSubmissionNow(testType)
-                analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
+                analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
             } catch (e: Exception) {
                 Timber.e(e, "performSubmission() failed.")
             }
