@@ -22,19 +22,21 @@ internal class RapidQrCodeCensorTest {
 
     @AfterEach
     fun teardown() {
-        RapidQrCodeCensor.dataToCensor = null
+        RapidQrCodeCensor.dataToCensor.clear()
     }
 
     private fun createInstance() = RapidQrCodeCensor()
 
     @Test
     fun `checkLog() should return censored LogLine`() = runTest {
-        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
-            rawString = testRawString,
-            hash = testHash,
-            firstName = "Milhouse",
-            lastName = "Van Houten",
-            dateOfBirth = LocalDate.parse("1980-07-01")
+        RapidQrCodeCensor.dataToCensor.add(
+            RapidQrCodeCensor.CensorData(
+                rawString = testRawString,
+                hash = testHash,
+                firstName = "Milhouse",
+                lastName = "Van Houten",
+                dateOfBirth = LocalDate.parse("1980-07-01")
+            )
         )
 
         val censor = createInstance()
@@ -57,12 +59,14 @@ internal class RapidQrCodeCensorTest {
 
     @Test
     fun `checkLog() should return null if nothing should be censored`() = runTest {
-        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
-            rawString = testRawString,
-            hash = testHash.replace("8", "9"),
-            firstName = null,
-            lastName = null,
-            dateOfBirth = null
+        RapidQrCodeCensor.dataToCensor.add(
+            RapidQrCodeCensor.CensorData(
+                rawString = testRawString,
+                hash = testHash.replace("8", "9"),
+                firstName = null,
+                lastName = null,
+                dateOfBirth = null
+            )
         )
 
         val censor = createInstance()
