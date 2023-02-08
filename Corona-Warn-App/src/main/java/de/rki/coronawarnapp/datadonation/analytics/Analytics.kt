@@ -79,7 +79,11 @@ class Analytics @Inject constructor(
             exception.reportProblem(tag = TAG, info = "An error occurred during analytics submission")
             val retry = exception is SafetyNetException &&
                 exception.type in listOf(ATTESTATION_REQUEST_FAILED, INTERNAL_ERROR)
-            Result(successful = false, shouldRetry = retry)
+            Result(
+                successful = false,
+                shouldRetry = retry,
+                error = exception
+            )
         }
     }
 
@@ -135,7 +139,10 @@ class Analytics @Inject constructor(
             analytics
         } catch (e: TimeoutCancellationException) {
             Timber.tag(TAG).e(e, "trySubmission() timed out after 360s.")
-            Result(successful = false, shouldRetry = true)
+            Result(
+                successful = false,
+                shouldRetry = true, error = e
+            )
         }
 
         contributions.forEach {
@@ -261,7 +268,8 @@ class Analytics @Inject constructor(
 
     data class Result(
         val successful: Boolean,
-        val shouldRetry: Boolean = false
+        val shouldRetry: Boolean = false,
+        val error: Throwable? = null
     )
 
     companion object {

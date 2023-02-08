@@ -143,8 +143,14 @@ class DataDonationTestFragmentViewModel @AssistedInject constructor(
     fun submitAnalytics() = launch {
         infoEvents.postValue("Starting Analytics Submission")
         val configData = appConfigProvider.getAppConfig()
-        analytics.submitAnalyticsData(configData)
-        infoEvents.postValue("Analytics Submission Done")
+        val result = analytics.submitAnalyticsData(configData)
+        infoEvents.postValue(
+            if (result.successful) {
+                "Analytics Submission Done"
+            } else {
+                "Error has happened: %s".format(result.error?.localizedMessage.toString())
+            }
+        )
         checkLastAnalytics()
     }
 
