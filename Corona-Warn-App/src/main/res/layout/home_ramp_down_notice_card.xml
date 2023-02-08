@@ -37,13 +37,13 @@
         <ImageView
             android:id="@+id/rampdown_card_header_icon_end"
             style="@style/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/width_40"
+            android:layout_height="@dimen/height_40"
             android:importantForAccessibility="no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_contact_diary_right_arrow"
-            app:tint="@color/colorArrowRampDownCard" />
+            app:srcCompat="@drawable/ic_forward"
+            app:tint="@color/rampDownArrowColor" />
 
 
         <TextView
