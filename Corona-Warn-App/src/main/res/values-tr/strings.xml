@@ -1153,7 +1153,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Uygulamadaki test sonucunuzu ve aile üyelerinizin test sonuçlarını alın ve COVID test sertifikanızı talep edin."</string>
+    <string name="submission_dispatcher_qr_card_text">"Test sonucunuzu ve aile üyelerinizin test sonuçlarını alın ve COVID test sertifikanızı talep edin."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1330,7 +1330,7 @@
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Testinize ilişkin değerlendirme henüz tamamlanmadı."</string>
     <!-- YTXT: Body text for submission status: invalid -->
-    <string name="submission_status_card_body_invalid">"Testiniz değerlendirilemedi."</string>
+    <string name="submission_status_card_body_invalid">"Testiniz değerlendirilemiyor."</string>
     <!-- YTXT: Body text for submission status: positive -->
     <string name="submission_status_card_body_positive">"SARS-CoV-2 için pozitif tanı kondu."</string>
     <!-- YTXT: Body text for submission status: negative -->
@@ -1489,7 +1489,7 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
     <!-- XHED: New infections title -->
-    <string name="statistics_explanation_new_infections">"yeni enfeksiyon sayısı"</string>
+    <string name="statistics_explanation_new_infections">"Yeni Enfeksiyon Sayısı"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
     <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
