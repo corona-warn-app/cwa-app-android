@@ -25,12 +25,14 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
         Timber.tag(loggingTag).v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 
-        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
-            rawString = rawString,
-            hash = payload.hash,
-            firstName = payload.firstName,
-            lastName = payload.lastName,
-            dateOfBirth = payload.dateOfBirth
+        RapidQrCodeCensor.dataToCensor.add(
+            RapidQrCodeCensor.CensorData(
+                rawString = rawString,
+                hash = payload.hash,
+                firstName = payload.firstName,
+                lastName = payload.lastName,
+                dateOfBirth = payload.dateOfBirth
+            )
         )
 
         payload.requireValidData()
