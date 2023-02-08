@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                  Release Info Screen
      ###################################### -->
@@ -18,30 +18,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Попередження із самотестуванням"</item>
-        <item>"Попередження з незареєстрованими тестами"</item>
-        <item>"Роботу гарячої лінії TAN скоро буде припинено"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Тепер ви можете надіслати попередження іншим користувачам застосунку Corona-Warn-App, якщо самотестування покаже, що у вас коронавірусна інфекція."</item>
-        <item>"Якщо експрес-тест або ПЛР-тест із пункту тестування вказуватиме на наявність у вас коронавірусної інфекції, але цей тест не зареєстровано в застосунку Corona-Warn-App, ви однаково зможете попередити інших користувачів застосунку."</item>
-        <item>"Можливість отримати TAN через гарячу лінію TAN буде припинено протягом наступних кількох тижнів. Тому вам більше не потрібен номер TAN, щоб попереджати інших користувачів застосунку Corona-Warn-App."</item>
-    </string-array>
+     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
 </resources>
