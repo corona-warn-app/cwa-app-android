@@ -41,6 +41,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <include layout="@layout/merge_guidelines_side" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

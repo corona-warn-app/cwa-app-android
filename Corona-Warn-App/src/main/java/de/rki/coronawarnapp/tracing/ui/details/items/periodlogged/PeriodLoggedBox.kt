@@ -29,7 +29,10 @@ class PeriodLoggedBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        loggedPeriod = item
+        item.apply {
+            riskDetailsPeriodLoggedBodyNotice.text = getPeriodLoggedText(context)
+            riskDetailsInstallTimePeriod.text = getInstallTimePeriodLogged(context)
+        }
     }
 
     data class Item(
@@ -48,15 +51,18 @@ class PeriodLoggedBox(
             0 -> context.getString(
                 R.string.risk_details_information_body_period_logged_assessment_under_14_days_today
             )
+
             1 -> context.getString(
                 R.string.risk_details_information_body_period_logged_assessment_under_14_days_yesterday
             ).format(daysSinceInstallation)
+
             in 2..13 -> String.format(
                 context.getString(
                     R.string.risk_details_information_body_period_logged_assessment_under_14_days
                 ),
                 daysSinceInstallation
             )
+
             else -> context.getString(R.string.risk_details_information_body_period_logged_assessment_over_14_days)
         }
 

@@ -1,140 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/interoperability_title" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <variable
-            name="countryData"
-            type="java.util.List&lt;de.rki.coronawarnapp.ui.Country&gt;" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/interoperability_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface">
+        android:layout_height="0dp"
+        android:contentDescription="@string/interoperability_configuration_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/interoperability_title" />
-
-        <ScrollView
-            android:id="@+id/interoperability_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:contentDescription="@string/interoperability_configuration_title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_24">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:id="@+id/interoperability_illustration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/interoperability_eu_illustration_description"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_interoperability" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/headline4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:accessibilityHeading="true"
                 android:layout_marginHorizontal="@dimen/margin_24"
-                android:paddingBottom="@dimen/padding_24">
+                android:hyphenationFrequency="full"
+                android:text="@string/interoperability_configuration_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/interoperability_illustration" />
 
-                <ImageView
-                    android:id="@+id/interoperability_illustration"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@{@string/interoperability_eu_illustration_description}"
-                    android:scaleType="fitXY"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_illustration_interoperability" />
+            <TextView
+                android:id="@+id/label_interoperability_subtitle"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:text="@string/interoperability_configuration_first_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title" />
 
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/headline4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:accessibilityHeading="true"
-                    android:text="@string/interoperability_configuration_title"
-                    android:hyphenationFrequency="full"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/interoperability_illustration" />
+            <TextView
+                android:id="@+id/label_interoperability_subtitle2"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:text="@string/interoperability_configuration_second_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle" />
 
-                <TextView
-                    android:id="@+id/label_interoperability_subtitle"
-                    style="@style/subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:text="@string/interoperability_configuration_first_section"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title" />
+            <de.rki.coronawarnapp.ui.view.TracingStatusView
+                android:id="@+id/no_countries_riskdetails_infoview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:title="@string/interoperability_onboarding_list_title_riskdetection_no_network"
+                app:tracingStatusBody="@string/interoperability_onboarding_list_subtitle_failrequest_no_network"
+                android:src="@drawable/ic_interop_no_network"
+                app:tracingStatusButton="@string/interoperability_onboarding_list_button_title_no_network"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2" />
 
-                <TextView
-                    android:id="@+id/label_interoperability_subtitle2"
-                    style="@style/subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:layout_marginBottom="@dimen/margin_16"
-                    android:text="@string/interoperability_configuration_second_section"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle" />
+            <TextView
+                android:id="@+id/interoperability_configuration_country_header_description"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:text="@string/interoperability_configuration_list_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2" />
 
-                <include
-                    android:id="@+id/no_countries_riskdetails_infoview"
-                    layout="@layout/include_interop_riskdetails_no_countries_infoview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:visibility="@{FormatterHelper.formatVisibility(countryData.empty)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2"
-                    tools:visibility="gone" />
+            <de.rki.coronawarnapp.ui.view.CountryListView
+                android:id="@+id/interoperability_configuration_country_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/interoperability_configuration_country_header_description" />
 
-                <include
-                    android:id="@+id/country_list_overview"
-                    layout="@layout/include_interop_list_participating_countries_overview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{FormatterHelper.formatVisibilityInverted(countryData.empty)}"
-                    app:countryData="@{countryData}"
-                    app:countryListTitle="@{@string/interoperability_configuration_list_title}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_interoperability_subtitle2" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/country_list_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierAllowsGoneWidgets="false"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="interoperability_configuration_country_list, no_countries_riskdetails_infoview" />
 
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/country_list_barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierAllowsGoneWidgets="false"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="country_list_overview, no_countries_riskdetails_infoview" />
+            <TextView
+                android:id="@+id/label_interoperability_subtitle4"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:text="@string/interoperability_configuration_information"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/country_list_barrier" />
 
-                <TextView
-                    android:id="@+id/label_interoperability_subtitle4"
-                    style="@style/subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:text="@string/interoperability_configuration_information"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/country_list_barrier" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

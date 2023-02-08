@@ -1,89 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/contact_diary_edit_persons_title"
+    tools:context="contactdiary.ui.edit.ContactDiaryEditPersonsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/contact_diary_edit_persons_title"
-        tools:context="contactdiary.ui.edit.ContactDiaryEditPersonsFragment">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/contact_diary_edit_persons_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/contact_diary_edit_persons_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/contact_diary_edit_persons_title" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/contact_diary_person_list_no_items_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="contact_diary_person_list_no_items_image,contact_diary_person_list_no_items_title" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/contact_diary_person_list_no_items_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="contact_diary_person_list_no_items_image,contact_diary_person_list_no_items_title" />
+    <ImageView
+        android:id="@+id/contact_diary_person_list_no_items_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/contact_diary_edit_persons_image_content_description"
+        app:layout_constraintBottom_toTopOf="@id/contact_diary_person_list_no_items_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/ic_illustration_no_people" />
 
-        <ImageView
-            android:id="@+id/contact_diary_person_list_no_items_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/contact_diary_edit_persons_image_content_description"
-            app:layout_constraintBottom_toTopOf="@id/contact_diary_person_list_no_items_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_illustration_no_people" />
+    <TextView
+        android:id="@+id/contact_diary_person_list_no_items_title"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_56"
+        android:layout_marginTop="@dimen/margin_24"
+        android:text="@string/contact_diary_person_list_no_items_title"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contact_diary_person_list_no_items_image" />
 
-        <TextView
-            android:id="@+id/contact_diary_person_list_no_items_title"
-            style="@style/subtitleMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_56"
-            android:layout_marginTop="@dimen/margin_24"
-            android:text="@string/contact_diary_person_list_no_items_title"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contact_diary_person_list_no_items_image" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/persons_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:clipToPadding="false"
+        android:importantForAccessibility="no"
+        android:paddingHorizontal="@dimen/padding_24"
+        android:paddingTop="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/delete_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/contact_diary_edit_list_item" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/persons_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:clipToPadding="false"
-            android:importantForAccessibility="no"
-            android:paddingHorizontal="@dimen/padding_24"
-            android:paddingTop="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/delete_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:listitem="@layout/contact_diary_edit_list_item" />
+    <Button
+        android:id="@+id/delete_button"
+        style="@style/buttonReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/contact_diary_remove_all_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/delete_button"
-            style="@style/buttonReset"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/contact_diary_remove_all_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

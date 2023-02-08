@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.tracing.ui.homecards
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingContentLowViewBinding
 import de.rki.coronawarnapp.tracing.states.LowRisk
@@ -21,7 +22,17 @@ class LowRiskCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
+        item.state.apply {
+            detailsIcon.isGone = isInDetailsMode
+            rowContact.contentDescription = getRiskContactBodyDescription(context)
+            rowContact.setText(getRiskContactBody(context))
+            rowContactLast.isGone = getRiskContactLast(context) == null
+            rowContactLast.setText(getRiskContactLast(context) ?: "")
+            rowDaysSinceInstallation.isGone = appInstalledForOverTwoWeeks()
+            rowDaysSinceInstallation.setText(getDaysSinceInstall(context))
+            rowTimeFetched.setText(getTimeFetched(context))
+            updateAction.isGone = !showUpdateButton
+        }
         itemView.setOnClickListener { item.onCardClick(item) }
         updateAction.setOnClickListener { item.onUpdateClick(item) }
     }

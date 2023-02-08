@@ -1,167 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/settings_title"
+    android:focusable="true">
 
-    <data>
-        <variable
-            name="tracingState"
-            type="de.rki.coronawarnapp.ui.settings.start.SettingsTracingState" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/settings_title" />
 
-        <variable
-            name="notificationState"
-            type="de.rki.coronawarnapp.ui.settings.start.SettingsNotificationState" />
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/margin_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <variable
-            name="backgroundState"
-            type="de.rki.coronawarnapp.ui.settings.start.SettingsBackgroundState" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <variable
-            name="analyticsState"
-            type="de.rki.coronawarnapp.ui.settings.start.SettingsPrivacyPreservingAnalyticsState" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/settings_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/settings_title"
-        android:focusable="true">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/settings_title" />
-
-        <ScrollView
-            android:id="@+id/scrollview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/margin_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <de.rki.coronawarnapp.ui.view.SettingsRowView
+                android:id="@+id/settings_tracing"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:title="@string/settings_tracing_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:settingsBody="@string/settings_tracing_body_description" />
 
-                <include
-                    android:id="@+id/settings_tracing"
-                    layout="@layout/include_setting_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:body="@{@string/settings_tracing_body_description}"
-                    app:color="@{tracingState.getTracingIconColor(context)}"
-                    app:icon="@{tracingState.getTracingIcon(context)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:showDivider="@{true}"
-                    app:statusText="@{tracingState.getTracingStatusText(context)}"
-                    app:subtitle="@{@string/settings_tracing_title}" />
+            <de.rki.coronawarnapp.ui.view.SettingsRowView
+                android:id="@+id/settings_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:title="@string/settings_notifications_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_tracing"
+                app:settingsBody="@string/settings_notifications_body_description" />
 
-                <include
-                    android:id="@+id/settings_notifications"
-                    layout="@layout/include_setting_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:body="@{@string/settings_notifications_body_description}"
-                    app:color="@{notificationState.getNotificationIconColor(context)}"
-                    app:icon="@{notificationState.getNotificationIcon(context)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_tracing"
-                    app:showDivider="@{true}"
-                    app:statusText="@{notificationState.getNotificationStatusText(context)}"
-                    app:subtitle="@{@string/settings_notifications_title}" />
+            <de.rki.coronawarnapp.ui.view.SettingsRowView
+                android:id="@+id/settings_background_priority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:title="@string/settings_background_priority_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_notifications"
+                app:settingsBody="@string/settings_background_priority_body_description" />
 
-                <include
-                    android:id="@+id/settings_background_priority"
-                    layout="@layout/include_setting_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:body="@{@string/settings_background_priority_body_description}"
-                    app:color="@{backgroundState.getBackgroundPriorityIconColor(context)}"
-                    app:gone="@{!backgroundState.showBackgroundPrioritySettings()}"
-                    app:icon="@{backgroundState.getBackgroundPriorityIcon(context)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_notifications"
-                    app:showDivider="@{true}"
-                    app:statusText="@{backgroundState.getBackgroundPriorityText(context)}"
-                    app:subtitle="@{@string/settings_background_priority_title}" />
+            <de.rki.coronawarnapp.ui.view.SettingsRowView
+                android:id="@+id/settings_privacy_preserving_analytics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:title="@string/settings_privacy_preserving_analytics_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_background_priority"
+                app:settingsBody="@string/settings_privacy_preserving_analytics_body_description" />
 
-                <include
-                    android:id="@+id/settings_privacy_preserving_analytics"
-                    layout="@layout/include_setting_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:body="@{@string/settings_privacy_preserving_analytics_body_description}"
-                    app:color="@{analyticsState.getPrivacyPreservingAnalyticsIconColor(context)}"
-                    app:icon="@{analyticsState.getPrivacyPreservingAnalyticsIcon(context)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_background_priority"
-                    app:showDivider="@{true}"
-                    app:statusText="@{analyticsState.getPrivacyPreservingAnalyticsText(context)}"
-                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}" />
+            <de.rki.coronawarnapp.ui.view.SettingsRowView
+                android:id="@+id/settings_reset"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:subtitle="@string/settings_reset_body_description"
+                android:textColor="@color/colorTextSemanticRed"
+                android:title="@string/settings_reset_button_positive"
+                app:layout_constraintTop_toBottomOf="@id/settings_privacy_preserving_analytics" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/settings_reset"
-                    style="@style/row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_privacy_preserving_analytics">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_46"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+    </ScrollView>
 
-                        <TextView
-                            android:id="@+id/settings_reset_subtitle"
-                            style="@style/subtitleSemanticRed"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_reset_button_positive"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/settings_reset_body"
-                            style="@style/body2Medium"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_reset_body_description"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/settings_reset_subtitle" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

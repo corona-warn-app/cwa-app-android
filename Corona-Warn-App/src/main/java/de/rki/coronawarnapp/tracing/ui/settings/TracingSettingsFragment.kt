@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -37,18 +38,39 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loggingPeriod.observe2(this) {
-            binding.loggedPeriod = it
+            with(binding) {
+                riskDetailsPeriodLoggedBodyNotice.text = it.getExposureLoggingPeriod(requireContext())
+                riskDetailsPeriodLoggedDays.text = it.getInstallTimePeriodLogged(requireContext())
+            }
         }
         viewModel.tracingSettingsState.observe2(this) { state ->
-            binding.settingsTracingState = state
+            with(binding) {
+                illustration.apply {
+                    contentDescription = state.getTracingIllustrationText(requireContext())
+                    setImageDrawable(state.getTracingStatusImage(requireContext()))
+                }
 
-            binding.switchRow.apply {
-                when (state) {
-                    TracingSettingsState.BluetoothDisabled,
-                    TracingSettingsState.LocationDisabled -> setOnClickListener(null)
-                    TracingSettingsState.TracingInactive,
-                    TracingSettingsState.TracingActive -> setOnClickListener {
-                        onTracingToggled(!binding.switchRow.isChecked)
+                switchRow.apply {
+                    setChecked(state.isTracingSwitchChecked())
+                    setSubtitle(state.getTracingStatusText(requireContext()))
+                    setSwitchEnabled(state.isTracingSwitchEnabled())
+                }
+                settingsTracingStatusLocation.isVisible = state.isLocationCardVisible()
+                settingsTracingStatusBluetooth.isVisible = state.isBluetoothCardVisible()
+                riskDetailsPeriodLoggedHeadline.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedSubtitle.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedBodyNotice.isVisible = state.isTracingStatusTextVisible()
+                riskDetailsPeriodLoggedDays.isVisible = state.isTracingStatusTextVisible()
+
+                switchRow.apply {
+                    when (state) {
+                        TracingSettingsState.BluetoothDisabled,
+                        TracingSettingsState.LocationDisabled -> setOnClickListener(null)
+
+                        TracingSettingsState.TracingInactive,
+                        TracingSettingsState.TracingActive -> setOnClickListener {
+                            onTracingToggled(!switchRow.isChecked)
+                        }
                     }
                 }
             }
@@ -88,11 +110,11 @@ class TracingSettingsFragment : Fragment(R.layout.fragment_tracing_settings), Au
             popBackStack()
         }
 
-        settingsTracingStatusBluetooth.tracingStatusCardButton.setOnClickListener {
+        settingsTracingStatusBluetooth.setOnClickListener {
             openDeviceSettings()
         }
 
-        settingsTracingStatusLocation.tracingStatusCardButton.setOnClickListener {
+        settingsTracingStatusLocation.setOnClickListener {
             openDeviceSettings()
         }
 

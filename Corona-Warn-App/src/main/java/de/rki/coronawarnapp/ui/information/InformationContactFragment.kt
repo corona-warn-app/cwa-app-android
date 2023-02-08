@@ -33,10 +33,10 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
     private fun setButtonOnClickListener() {
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            informationContactNavigationRowPhone.navigationRow.setOnClickListener {
+            informationContactNavigationRowPhone.setOnClickListener {
                 callPhone(getString(R.string.information_contact_phone_call_number))
             }
-            informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
+            informationContactNavigationRowInternationalPhone.setOnClickListener {
                 callPhone(getString(R.string.information_contact_button_international_phone))
             }
         }

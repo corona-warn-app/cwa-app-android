@@ -49,10 +49,10 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
                 viewModel.onFinishButtonClick()
             }
 
-            submissionDoneContent.submissionDoneContent.submissionDonePcrValidation.root.isVisible =
+            submissionDonePcrValidation.isVisible =
                 (viewModel.testType == BaseCoronaTest.Type.RAPID_ANTIGEN)
 
-            submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible =
+            submissionDoneIllness.isVisible =
                 (viewModel.testType == BaseCoronaTest.Type.PCR)
         }
 

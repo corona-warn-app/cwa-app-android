@@ -41,11 +41,9 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
         binding.submissionConsentHeader.setNavigationOnClickListener { viewModel.onNavigateClose() }
-        binding.submissionConsentMoreInfo.setOnClickListener {
-            viewModel.onDataPrivacyClick()
-        }
+        binding.submissionConsentMoreInfo.setOnClickListener { viewModel.onDataPrivacyClick() }
+        binding.submissionConsentButton.setOnClickListener { viewModel.onConsentButtonClick() }
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -100,7 +98,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
             }
         }
         viewModel.countries.observe2(this) {
-            binding.countries = it
+            binding.countryList.setCountryList(it)
         }
 
         viewModel.qrCodeError.observe2(this) {

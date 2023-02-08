@@ -28,9 +28,9 @@ class InformationLegalFragment : Fragment(R.layout.fragment_information_legal) {
      * Make the links clickable and convert to hyperlink
      */
     private fun setUpContactFormLinks() {
-        binding.informationLegalContactForm.informationLegalContactForm
+        binding.informationLegalContactForm
             .convertToHyperlink(getString(R.string.information_legal_subtitle_contact_url))
-        binding.informationLegalContactForm.informationLegalContactFormNonEnDe
+        binding.informationLegalContactFormNonEnDe
             .movementMethod = LinkMovementMethod.getInstance()
     }
 

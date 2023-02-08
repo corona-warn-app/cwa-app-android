@@ -2,7 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/validation_rules_result_valid_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/padding_16">
 
     <TextView
         android:id="@+id/validation_rules_result_valid_title"
@@ -16,64 +17,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/bulletpoint_one"
-        layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_6"
-        android:layout_height="@dimen/bullet_point_6"
-        app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/validation_rules_result_valid_title" />
-
-    <TextView
-        android:id="@+id/first_bulletpoint_text"
-        style="@style/subtitle"
-        android:layout_width="0dp"
+    <de.rki.coronawarnapp.ui.view.BulletPointTextView
+        android:id="@+id/certificate_validation_result_bulletpoint_one"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_16"
-        android:text="@string/validation_start_note_point_1"
-        app:layout_constraintEnd_toEndOf="@id/validation_rules_result_valid_title"
-        app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
+        android:description="@string/validation_start_note_point_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/validation_rules_result_valid_title" />
 
-    <include
-        android:id="@+id/bulletpoint_two"
-        layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_6"
-        android:layout_height="@dimen/bullet_point_6"
-        app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
-
-    <TextView
-        android:id="@+id/second_bulletpoint_text"
-        style="@style/subtitle"
-        android:layout_width="0dp"
+    <de.rki.coronawarnapp.ui.view.BulletPointTextView
+        android:id="@+id/certificate_validation_result_bulletpoint_two"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_8"
-        android:text="@string/validation_start_note_point_2"
-        app:layout_constraintEnd_toEndOf="@id/first_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
-        app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
+        android:description="@string/validation_start_note_point_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/certificate_validation_result_bulletpoint_one" />
 
-
-    <include
-        android:id="@+id/bulletpoint_four"
-        layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_6"
-        android:layout_height="@dimen/bullet_point_6"
-        app:layout_constraintBaseline_toBaselineOf="@id/fourth_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/validation_rules_result_valid_title" />
-
-    <TextView
-        android:id="@+id/fourth_bulletpoint_text"
-        style="@style/subtitle"
-        android:layout_width="0dp"
+    <de.rki.coronawarnapp.ui.view.BulletPointTextView
+        android:id="@+id/certificate_validation_result_bulletpoint_three"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_8"
-        android:paddingBottom="@dimen/margin_16"
-        android:text="@string/validation_start_note_point_4"
-        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
-        app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
+        android:description="@string/validation_start_note_point_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/certificate_validation_result_bulletpoint_two" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

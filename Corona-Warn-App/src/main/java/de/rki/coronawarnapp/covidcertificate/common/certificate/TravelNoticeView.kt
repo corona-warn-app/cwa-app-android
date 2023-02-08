@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.IncludeTravelNoticeCardBinding
+import de.rki.coronawarnapp.databinding.TravelNoticeLayoutBinding
 import setTextWithUrl
 
 class TravelNoticeView @JvmOverloads constructor(
@@ -15,15 +15,15 @@ class TravelNoticeView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val binding: IncludeTravelNoticeCardBinding
+    private val binding: TravelNoticeLayoutBinding
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.include_travel_notice_card, this, true)
+        LayoutInflater.from(context).inflate(R.layout.travel_notice_layout, this, true)
 
         val outValue = TypedValue()
         getContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
         setBackgroundResource(outValue.resourceId)
-        binding = IncludeTravelNoticeCardBinding.bind(this)
+        binding = TravelNoticeLayoutBinding.bind(this)
 
         binding.apply {
             if (travelNoticeGerman.text ==

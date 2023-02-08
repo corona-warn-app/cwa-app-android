@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.withStyledAttributes
+import androidx.core.view.isVisible
 import com.google.android.material.materialswitch.MaterialSwitch
 import de.rki.coronawarnapp.R
 
@@ -20,6 +22,12 @@ class SwitchRowView @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.switch_row, this, true)
+
+        context.withStyledAttributes(attrs, R.styleable.SwitchRowView) {
+            val titleText = getText(R.styleable.SwitchRowView_android_title) ?: ""
+            title.isVisible = titleText.isNotEmpty()
+            title.text = titleText
+        }
     }
 
     fun setChecked(turnedOn: Boolean?) {

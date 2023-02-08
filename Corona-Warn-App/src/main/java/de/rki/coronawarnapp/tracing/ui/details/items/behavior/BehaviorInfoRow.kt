@@ -16,9 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
-import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
@@ -71,6 +69,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
         when {
             BuildVersionWrap.hasAPILevel(Build.VERSION_CODES.LOLLIPOP_MR1) ->
                 ViewCompat.setBackgroundTintList(iconBackground, ColorStateList.valueOf(color))
+
             else ->
                 iconBackground.background.setColorFilter(color, PorterDuff.Mode.SRC_OVER)
         }
@@ -79,12 +78,10 @@ class BehaviorInfoRow @JvmOverloads constructor(
     fun setForegroundTint(@ColorInt color: Int) {
         ImageViewCompat.setImageTintList(icon, ColorStateList.valueOf(color))
     }
-}
 
-@BindingAdapter("infoButtonCallback")
-fun BehaviorInfoRow.infoButtonCallback(callback: () -> Unit) {
-    findViewById<View>(R.id.info_icon).apply {
-        isVisible = true
-        setOnClickListener { callback() }
+    fun infoButtonCallback(function: () -> Unit) {
+        infoButton.setOnClickListener {
+            function()
+        }
     }
 }

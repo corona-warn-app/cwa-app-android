@@ -1,199 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_24">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/risk_details_behavior_headline"
+        style="@style/headline5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_24">
+        android:accessibilityHeading="true"
+        android:focusable="true"
+        android:text="@string/risk_details_headline_behavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/risk_details_behavior_subtitle"
+        style="@style/body2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:text="@string/risk_details_subtitle_behavior_increased_risk"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_headline" />
+
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/line_hygiene"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="true"
+        android:foregroundTint="@color/colorStableLight"
+        android:icon="@drawable/ic_risk_details_distance"
+        android:text="@string/risk_details_behavior_body_hygiene" />
+
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/line_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="true"
+        android:foregroundTint="@color/colorStableLight"
+        android:icon="@drawable/ic_risk_details_meetings"
+        android:text="@string/risk_details_behavior_body_stay_home" />
+
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_8"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="true"
+        android:foregroundTint="@color/colorStableLight"
+        android:icon="@drawable/ic_thermometer"
+        android:text="@string/risk_details_faq_symptoms_increase" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false">
+
+        <FrameLayout
+            android:id="@+id/erlenmeyer_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/colorSemanticHighRisk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/erlenmeyer_text">
+
+            <ImageView
+                android:id="@+id/icon"
+                style="@style/icon"
+                android:layout_width="@dimen/width_26"
+                android:layout_height="@dimen/height_26"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_8"
+                android:focusable="false"
+                android:importantForAccessibility="no"
+                app:srcCompat="@drawable/ic_faq_information"
+                app:tint="@color/colorStableLight" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="@dimen/width_1"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:background="@color/dividerColor"
+            app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_1_icon"
+            app:layout_constraintEnd_toEndOf="@id/erlenmeyer_icon"
+            app:layout_constraintStart_toStartOf="@id/erlenmeyer_icon"
+            app:layout_constraintTop_toBottomOf="@id/erlenmeyer_icon" />
 
         <TextView
-            android:id="@+id/risk_details_behavior_headline"
-            style="@style/headline5"
-            android:layout_width="match_parent"
+            android:id="@+id/erlenmeyer_text"
+            style="@style/subtitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:accessibilityHeading="true"
+            android:layout_marginTop="@dimen/margin_16"
             android:focusable="true"
-            android:text="@string/risk_details_headline_behavior"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/risk_details_increased_risk_faq_link_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/risk_details_behavior_subtitle"
-            style="@style/body2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:text="@string/risk_details_subtitle_behavior_increased_risk"
+        <ImageView
+            android:id="@+id/risk_details_behavior_bullet_point_1_icon"
+            android:layout_width="@dimen/width_8"
+            android:layout_height="@dimen/height_8"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_4"
+            android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_headline" />
+            app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1"
+            app:srcCompat="@drawable/bullet_point"
+            app:tint="@color/colorSemanticHighRisk" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:id="@+id/line_hygiene"
-            android:layout_width="match_parent"
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="@dimen/width_1"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_24"
+            android:background="@color/dividerColor"
+            app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_2_icon"
+            app:layout_constraintEnd_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
+            app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1_icon"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1_icon" />
+
+        <TextView
+            android:id="@+id/risk_details_behavior_bullet_point_1"
+            style="@style/subtitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_24"
-            android:backgroundTint="@color/colorSemanticHighRisk"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_16"
             android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_risk_details_distance"
-            android:text="@string/risk_details_behavior_body_hygiene" />
+            android:text="@string/risk_details_behavior_increased_body_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
+            app:layout_constraintTop_toBottomOf="@id/erlenmeyer_text" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:id="@+id/line_home"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/risk_details_behavior_bullet_point_2_icon"
+            android:layout_width="@dimen/width_8"
+            android:layout_height="@dimen/height_8"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_4"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2"
+            app:srcCompat="@drawable/bullet_point"
+            app:tint="@color/colorSemanticHighRisk" />
+
+        <TextView
+            android:id="@+id/risk_details_behavior_bullet_point_2"
+            style="@style/subtitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorSemanticHighRisk"
+            android:layout_marginStart="@dimen/margin_32"
+            android:layout_marginTop="@dimen/margin_16"
             android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_risk_details_meetings"
-            android:text="@string/risk_details_behavior_body_stay_home" />
+            android:text="@string/risk_details_behavior_increased_body_2"
+            app:layout_constraintBottom_toBottomOf="@id/risk_details_behavior_bullet_point_2_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_2_icon"
+            app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_8"
-            android:backgroundTint="@color/colorSemanticHighRisk"
-            android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_thermometer"
-            android:text="@string/risk_details_faq_symptoms_increase" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false">
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:id="@+id/risk_details_behavior_bullet_point_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_8"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="true"
+        android:foregroundTint="@color/colorStableLight"
+        android:icon="@drawable/ic_vaccination_arm"
+        android:text="@string/risk_details_increased_risk_faq_vaccination" />
 
-            <FrameLayout
-                android:id="@+id/erlenmeyer_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circle"
-                android:backgroundTint="@color/colorSemanticHighRisk"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/erlenmeyer_text">
+    <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="true"
+        android:foregroundTint="@color/colorStableLight"
+        android:icon="@drawable/ic_risk_details_contact"
+        android:text="@string/risk_details_behavior_body_contact_doctor" />
 
-                <ImageView
-                    android:id="@+id/icon"
-                    style="@style/icon"
-                    android:layout_width="@dimen/width_26"
-                    android:layout_height="@dimen/height_26"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_8"
-                    android:focusable="false"
-                    android:importantForAccessibility="no"
-                    app:srcCompat="@drawable/ic_faq_information"
-                    app:tint="@color/colorStableLight" />
-            </FrameLayout>
-
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="@dimen/width_1"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:background="@color/dividerColor"
-                app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_1_icon"
-                app:layout_constraintEnd_toEndOf="@id/erlenmeyer_icon"
-                app:layout_constraintStart_toStartOf="@id/erlenmeyer_icon"
-                app:layout_constraintTop_toBottomOf="@id/erlenmeyer_icon" />
-
-            <TextView
-                android:id="@+id/erlenmeyer_text"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_16"
-                android:focusable="true"
-                android:text="@string/risk_details_increased_risk_faq_link_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/risk_details_behavior_bullet_point_1_icon"
-                android:layout_width="@dimen/width_8"
-                android:layout_height="@dimen/height_8"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_4"
-                android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1"
-                app:srcCompat="@drawable/bullet_point"
-                app:tint="@color/colorSemanticHighRisk" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="@dimen/width_1"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="@dimen/margin_24"
-                android:background="@color/dividerColor"
-                app:layout_constraintBottom_toTopOf="@id/risk_details_behavior_bullet_point_2_icon"
-                app:layout_constraintEnd_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
-                app:layout_constraintStart_toStartOf="@id/risk_details_behavior_bullet_point_1_icon"
-                app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1_icon" />
-
-            <TextView
-                android:id="@+id/risk_details_behavior_bullet_point_1"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32"
-                android:layout_marginTop="@dimen/margin_16"
-                android:focusable="true"
-                android:text="@string/risk_details_behavior_increased_body_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_1_icon"
-                app:layout_constraintTop_toBottomOf="@id/erlenmeyer_text" />
-
-            <ImageView
-                android:id="@+id/risk_details_behavior_bullet_point_2_icon"
-                android:layout_width="@dimen/width_8"
-                android:layout_height="@dimen/height_8"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_4"
-                android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2"
-                app:srcCompat="@drawable/bullet_point"
-                app:tint="@color/colorSemanticHighRisk" />
-
-            <TextView
-                android:id="@+id/risk_details_behavior_bullet_point_2"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_32"
-                android:layout_marginTop="@dimen/margin_16"
-                android:focusable="true"
-                android:text="@string/risk_details_behavior_increased_body_2"
-                app:layout_constraintBottom_toBottomOf="@id/risk_details_behavior_bullet_point_2_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/risk_details_behavior_bullet_point_2_icon"
-                app:layout_constraintTop_toBottomOf="@id/risk_details_behavior_bullet_point_1"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:id="@+id/risk_details_behavior_bullet_point_3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/margin_8"
-            android:backgroundTint="@color/colorSemanticHighRisk"
-            android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_vaccination_arm"
-            android:text="@string/risk_details_increased_risk_faq_vaccination" />
-
-        <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorSemanticHighRisk"
-            android:focusable="true"
-            android:foregroundTint="@color/colorStableLight"
-            android:icon="@drawable/ic_risk_details_contact"
-            android:text="@string/risk_details_behavior_body_contact_doctor" />
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

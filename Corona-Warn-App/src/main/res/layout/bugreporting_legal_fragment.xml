@@ -36,38 +36,70 @@
                 style="@style/headline4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_36"
                 android:layout_marginTop="@dimen/margin_24"
                 android:accessibilityHeading="true"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_dialog_title"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/debugging_debuglog_legal_dialog_title" />
 
-            <include
-                android:id="@+id/debuglog_legal_privacy_card"
-                layout="@layout/include_debuglog_legal_privacy_card"
+            <TextView
+                android:id="@+id/debug_log_legal_privacy_card_title"
+                style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_12"
+                android:layout_marginHorizontal="@dimen/margin_36"
                 android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
                 android:focusable="true"
+                android:text="@string/debugging_debuglog_legal_privacy_card_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/debuglog_legal_headline" />
+
+            <TextView
+                android:id="@+id/debug_log_legal_privacy_card_first_section"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_36"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/debugging_debuglog_legal_privacy_card_first_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/debug_log_legal_privacy_card_title" />
+
+            <TextView
+                android:id="@+id/debug_log_legal_privacy_card_second_section"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_36"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/debugging_debuglog_legal_privacy_card_second_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/debug_log_legal_privacy_card_first_section" />
 
             <TextView
                 android:id="@+id/debuglog_legal_body_headline"
                 style="@style/subtitleBoldSixteen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_36"
                 android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_section_title"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/debuglog_legal_privacy_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/debug_log_legal_privacy_card_second_section"
                 tools:text="@string/debugging_debuglog_legal_section_title" />
 
             <TextView
@@ -75,30 +107,15 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_36"
                 android:layout_marginTop="@dimen/margin_24"
                 android:focusable="true"
                 android:text="@string/debugging_debuglog_legal_section_body"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/debuglog_legal_body_headline"
                 tools:text="@string/debugging_debuglog_legal_section_body" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_46" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_24" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

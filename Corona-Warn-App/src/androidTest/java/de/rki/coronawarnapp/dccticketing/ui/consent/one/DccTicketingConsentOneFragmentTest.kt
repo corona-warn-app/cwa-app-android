@@ -84,7 +84,7 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
         takeScreenshot<DccTicketingConsentOneFragment>("1")
 
         // Take legal part screenshot
-        onView(ViewMatchers.withId(R.id.legal_second_bulletpoint_text)).perform(betterScrollTo())
+        onView(ViewMatchers.withId(R.id.legal_second_bulletpoint_one)).perform(betterScrollTo())
         takeScreenshot<DccTicketingConsentOneFragment>("2")
 
         // Take description bullet point screenshot

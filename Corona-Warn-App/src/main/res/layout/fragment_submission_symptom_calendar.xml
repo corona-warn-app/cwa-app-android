@@ -1,127 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:fillViewport="true">
 
-    <data>
-        <import type="de.rki.coronawarnapp.submission.Symptoms.StartOf" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/submission_symptom_calendar_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/symptom_button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/scrollView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/submission_symptom_calendar_title" />
+            android:layout_marginStart="@dimen/margin_24"
+            android:layout_marginEnd="@dimen/margin_24"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/symptom_button_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/submission_symptom_calendar_headline"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:fillViewport="true"
-                android:focusable="true"
-                android:orientation="vertical"
-                tools:context=".ui.submission.symptoms.calendar.SubmissionSymptomCalendarFragment">
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_symptom_calendar_headline" />
 
-                <TextView
-                    android:id="@+id/submission_symptom_calendar_headline"
-                    style="@style/headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_symptom_calendar_headline" />
+            <TextView
+                android:id="@+id/submission_symptom_calendar_body"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_symptom_calendar_body" />
 
-                <TextView
-                    android:id="@+id/submission_symptom_calendar_body"
-                    style="@style/body1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_symptom_calendar_body" />
+            <de.rki.coronawarnapp.ui.calendar.CalendarView
+                android:id="@+id/symptom_calendar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24" />
 
-                <de.rki.coronawarnapp.ui.calendar.CalendarView
-                    android:id="@+id/symptom_calendar_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24" />
+            <Button
+                android:id="@+id/calendar_button_seven_days"
+                style="@style/selectionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:enabled="true"
+                android:text="@string/submission_symptom_less_seven" />
 
-                <Button
-                    android:id="@+id/calendar_button_seven_days"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:enabled="true"
-                    android:text="@string/submission_symptom_less_seven" />
+            <Button
+                android:id="@+id/calendar_button_one_two_weeks"
+                style="@style/selectionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:enabled="true"
+                android:text="@string/submission_symptom_one_two_weeks" />
 
-                <Button
-                    android:id="@+id/calendar_button_one_two_weeks"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:enabled="true"
-                    android:text="@string/submission_symptom_one_two_weeks" />
+            <Button
+                android:id="@+id/calendar_button_more_than_two_weeks"
+                style="@style/selectionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:enabled="true"
+                android:text="@string/submission_symptom_more_two_weeks" />
 
-                <Button
-                    android:id="@+id/calendar_button_more_than_two_weeks"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:enabled="true"
-                    android:text="@string/submission_symptom_more_two_weeks" />
+            <Button
+                android:id="@+id/target_button_verify"
+                style="@style/selectionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:enabled="true"
+                android:text="@string/submission_symptom_verify" />
 
-                <Button
-                    android:id="@+id/target_button_verify"
-                    style="@style/selectionButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:layout_marginBottom="@dimen/margin_16"
-                    android:enabled="true"
-                    android:text="@string/submission_symptom_verify" />
+        </LinearLayout>
 
-            </LinearLayout>
+    </ScrollView>
 
-        </ScrollView>
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/symptom_button_next"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        app:buttonText="@string/submission_done_button_done"
+        app:isLoading="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:loadingText="@string/start_validation_rule_check_loading_text" />
 
-        <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
-            android:id="@+id/symptom_button_next"
-            style="@style/buttonPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_16"
-            android:layout_marginBottom="@dimen/margin_16"
-            app:buttonText="@string/submission_done_button_done"
-            app:isLoading="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollView"
-            app:loadingText="@string/start_validation_rule_check_loading_text" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

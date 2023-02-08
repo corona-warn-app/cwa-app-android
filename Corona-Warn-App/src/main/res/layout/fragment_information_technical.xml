@@ -1,51 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_technical_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_technical_title"
+    android:focusable="true"
+    android:orientation="vertical">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/information_technical_title" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.R" />
-
-    </data>
-
-    <LinearLayout
-        android:id="@+id/information_technical_container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_technical_title"
-        android:focusable="true"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
+        <!-- Won't be translated, for that it's hardcoded -->
+        <de.rki.coronawarnapp.ui.view.InformationDetailsView
+            android:id="@+id/information_techincal_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/information_technical_title" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay">
-
-            <!-- Won't be translated, for that it's hardcoded -->
-            <include
-                android:id="@+id/information_technical_header_details"
-                layout="@layout/include_information_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:body='@{FormatterHelper.parseHtmlFromAssets(context, "technical.html")}'
-                app:illustration="@{@drawable/ic_information_illustration_technical}"
-                app:illustrationDescription="@{@string/information_technical_illustration_description}" />
-
-        </ScrollView>
-
-    </LinearLayout>
-
-</layout>
+            android:contentDescription="@string/information_technical_illustration_description"
+            android:src="@drawable/ic_information_illustration_technical"
+            android:subtitle="technical.html" />
+    </ScrollView>
+</LinearLayout>

@@ -21,7 +21,10 @@ class TracingDisabledCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, _ ->
-        state = item.state
+        item.state.apply {
+            riskCardRowSavedRisk.setText(getLastRiskState(context))
+            rowTimeFetched.setText(getTimeFetched(context))
+        }
         itemView.setOnClickListener { item.onCardClick(item) }
         enableTracingAction.setOnClickListener { item.onEnableTracingClick(item) }
     }

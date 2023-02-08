@@ -1,168 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_24"
+    android:fillViewport="true"
     tools:ignore="HardcodedText">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_24"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/environment_container"
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/environment_container"
-                style="@style/Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/fake_windows_title"
-                    style="@style/headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Fake exposure windows" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation." />
-
-                <RadioGroup
-                    android:id="@+id/fake_windows_toggle_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:orientation="vertical" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/button_calculate_risk_level"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:text="Calculate Risk Level" />
             <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
+                android:id="@+id/fake_windows_title"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:text="Start the task that gets the latest exposure windows and calculates a current risk state." />
-
-            <Button
-                android:id="@+id/button_reset_risk_level"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:text="Reset Risk Level" />
+                android:text="Fake exposure windows" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
-                android:text="Delete the all stored calculated risk level results." />
+                android:text="Takes effect the next time `ExposureNotificationClient.exposureWindows` is called, i.e. on risk level calculation." />
 
-            <Button
-                android:id="@+id/button_retrieve_diagnosis_keys"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:text="Download Diagnosis Keys" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
+            <RadioGroup
+                android:id="@+id/fake_windows_toggle_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
-                android:text="Start the task syncs the local diagnosis key cache with the server and submits them to the exposure notification framework for detection (if constraints allow). " />
-
-            <Button
-                android:id="@+id/button_clear_diagnosis_key_cache"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:text="Reset Diagnosis-Keys" />
-            <TextView
-                style="@style/TextAppearance.AppCompat.Caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:text="Restore download task conditions to initial state. Remove cached keys, delete last download logs, reset tracked exposure detections. " />
-
-            <TextView
-                android:id="@+id/label_aggregated_risk_result_title"
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:accessibilityHeading="true"
-                android:text="Aggregated Risk Result" />
-
-            <TextView
-                android:id="@+id/label_aggregated_risk_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/label_risk_additional_info_title"
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="Risk Calculation Additional Information" />
-
-            <TextView
-                android:id="@+id/label_risk_additional_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/label_backend_parameters_title"
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="Backend Parameters" />
-
-            <TextView
-                android:id="@+id/label_exposure_window_title"
-                style="@style/headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:accessibilityHeading="true"
-                android:text="Exposure Windows" />
-
-            <TextView
-                android:id="@+id/label_exposure_window_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-            <Button
-                android:id="@+id/buttonExposureWindowsShare"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24"
-                android:layout_marginBottom="@dimen/margin_24"
-                android:text="Share ExposureWindows" />
-
+                android:orientation="vertical" />
         </LinearLayout>
-    </ScrollView>
 
+        <Button
+            android:id="@+id/button_calculate_risk_level"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:text="Calculate Risk Level" />
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:text="Start the task that gets the latest exposure windows and calculates a current risk state." />
 
-</layout>
+        <Button
+            android:id="@+id/button_reset_risk_level"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:text="Reset Risk Level" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:text="Delete the all stored calculated risk level results." />
+
+        <Button
+            android:id="@+id/button_retrieve_diagnosis_keys"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:text="Download Diagnosis Keys" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:text="Start the task syncs the local diagnosis key cache with the server and submits them to the exposure notification framework for detection (if constraints allow). " />
+
+        <Button
+            android:id="@+id/button_clear_diagnosis_key_cache"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:text="Reset Diagnosis-Keys" />
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:text="Restore download task conditions to initial state. Remove cached keys, delete last download logs, reset tracked exposure detections. " />
+
+        <TextView
+            android:id="@+id/label_aggregated_risk_result_title"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:accessibilityHeading="true"
+            android:text="Aggregated Risk Result" />
+
+        <TextView
+            android:id="@+id/label_aggregated_risk_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/label_risk_additional_info_title"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="Risk Calculation Additional Information" />
+
+        <TextView
+            android:id="@+id/label_risk_additional_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/label_backend_parameters_title"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="Backend Parameters" />
+
+        <TextView
+            android:id="@+id/label_exposure_window_title"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="Exposure Windows" />
+
+        <TextView
+            android:id="@+id/label_exposure_window_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/buttonExposureWindowsShare"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:text="Share ExposureWindows" />
+
+    </LinearLayout>
+</ScrollView>
