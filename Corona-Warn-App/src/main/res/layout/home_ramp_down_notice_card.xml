@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:background="@color/colorRampDownCard"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    android:padding="@dimen/padding_24"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorRampDownCard"
+    android:padding="@dimen/padding_24">
 
     <ImageView
         android:id="@+id/rampdown_card_header_icon"
-        android:importantForAccessibility="no"
-        android:layout_height="@dimen/height_40"
         android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:importantForAccessibility="no"
         app:layout_constraintEnd_toStartOf="@id/rampdown_card_header_headline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,12 +19,12 @@
         app:srcCompat="@drawable/ic_high_risk_alert" />
 
     <TextView
-        style="@style/headline5"
         android:id="@+id/rampdown_card_header_headline"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="@dimen/margin_16"
+        style="@style/headline5"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="8dp"
         android:textColor="@color/colorTitleRampDownCard"
         app:layout_constraintEnd_toStartOf="@+id/rampdown_card_header_icon_end"
         app:layout_constraintStart_toEndOf="@id/rampdown_card_header_icon"
@@ -32,22 +32,22 @@
         tools:text="Betriebsende" />
 
     <ImageView
-        style="@style/icon"
         android:id="@+id/rampdown_card_header_icon_end"
+        style="@style/icon"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
         android:importantForAccessibility="no"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_contact_diary_right_arrow"
-        app:tint="@color/colorArrowRampDownCard" />
+        app:srcCompat="@drawable/ic_forward"
+        app:tint="@color/rampDownArrowColor" />
 
     <TextView
-        style="@style/subtitleMedium"
         android:id="@+id/rampdown_card_content_body"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
-        android:layout_width="0dp"
         android:textColor="@color/colorTextRampDownCard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
