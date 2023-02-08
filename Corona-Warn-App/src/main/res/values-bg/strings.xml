@@ -1153,7 +1153,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Получете резултатите от Вашия тест и тези на членовете от Вашето семейство в приложението и заявете своя сертификат за тест за COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултатите от Вашия тест и тези на членовете от Вашето семейство и заявете своя сертификат за тест за COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1330,7 +1330,7 @@
     <!-- YTXT: Body text for submission status: pending -->
     <string name="submission_status_card_body_pending">"Резултатът от Вашия тест все още не е определен."</string>
     <!-- YTXT: Body text for submission status: invalid -->
-    <string name="submission_status_card_body_invalid">"Не може да бъде определен резултат от Вашия тест."</string>
+    <string name="submission_status_card_body_invalid">"Не може да бъде определен резултат от теста Ви."</string>
     <!-- YTXT: Body text for submission status: positive -->
     <string name="submission_status_card_body_positive">"Потвърден е положителен резултат от теста Ви за SARS-CoV-2."</string>
     <!-- YTXT: Body text for submission status: negative -->
