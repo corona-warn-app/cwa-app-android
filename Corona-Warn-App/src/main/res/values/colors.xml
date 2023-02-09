@@ -131,4 +131,5 @@
     <color name="maskBadgeColor">#505968</color>
     <color name="maskBadgeTextColorRegular">#505968</color>
     <color name="maskBadgeTextColorGreenBg">#FFFFFF</color>
+    <color name="rampDownArrowColor">#8A8787</color>
 </resources>

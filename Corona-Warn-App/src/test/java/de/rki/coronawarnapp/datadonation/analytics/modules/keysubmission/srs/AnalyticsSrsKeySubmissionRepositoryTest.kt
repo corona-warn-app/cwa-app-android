@@ -39,7 +39,7 @@ internal class AnalyticsSrsKeySubmissionRepositoryTest : BaseTest() {
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
     private val now = Instant.now()
-    private val base64 = "CAEgATD///////////8BSAFoAXD///////////8BeAKAAQY="
+    private val base64 = "CAEgAUgBaAFw////////////AXgCgAEG"
 
     @BeforeEach
     fun setup() {
@@ -93,7 +93,7 @@ internal class AnalyticsSrsKeySubmissionRepositoryTest : BaseTest() {
     fun `collectSrsSubmissionAnalytics - checkins`() = runTest {
         instance().collectSrsSubmissionAnalytics(SrsSubmissionType.SRS_RAPID_PCR, true)
         coVerify {
-            storage.saveSrsPpaData("CAEgATD///////////8BSAFoAXD///////////8BeAGAAQY=")
+            storage.saveSrsPpaData("CAEgAUgBaAFw////////////AXgBgAEG")
         }
     }
 
