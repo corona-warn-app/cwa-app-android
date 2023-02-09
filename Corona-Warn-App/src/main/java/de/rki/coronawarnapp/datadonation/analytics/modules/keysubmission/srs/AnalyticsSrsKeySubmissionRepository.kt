@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPAKeySubmissionType
-import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPALastSubmissionFlowScreen.UNRECOGNIZED
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData.PPALastSubmissionFlowScreen.SUBMISSION_FLOW_SCREEN_UNKNOWN
 import de.rki.coronawarnapp.srs.core.model.SrsSubmissionType
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.toLocalDateUtc
@@ -54,7 +54,7 @@ class AnalyticsSrsKeySubmissionRepository @Inject constructor(
             submittedInBackground = false
             submittedAfterCancel = false
             submittedAfterSymptomFlow = true
-            lastSubmissionFlowScreen = UNRECOGNIZED
+            lastSubmissionFlowScreen = SUBMISSION_FLOW_SCREEN_UNKNOWN
             advancedConsentGiven = false
             hoursSinceTestResult = 0
             hoursSinceTestRegistration = 0
