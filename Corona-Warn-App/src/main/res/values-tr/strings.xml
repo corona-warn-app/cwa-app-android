@@ -1171,7 +1171,7 @@
     <!-- XHED: Page title for the positive result additional warning page-->
     <string name="submission_positive_other_warning_title">"Diğer Kullanıcıları Uyarın"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_headline">"Lütfen hepimize yardımcı olun!"</string>
+    <string name="submission_positive_other_warning_headline">"Yardımcı olabilirsiniz!"</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
