@@ -23,7 +23,7 @@ class SrsSubmissionDoneFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SrsSubmissionDoneFragment>()
         takeScreenshot<SrsSubmissionDoneFragment>()
 
-        onView(withId(R.id.further_info_title)).perform(scrollTo())
+        onView(withId(R.id.further_info)).perform(scrollTo())
         takeScreenshot<SrsSubmissionDoneFragment>("1")
     }
 }
