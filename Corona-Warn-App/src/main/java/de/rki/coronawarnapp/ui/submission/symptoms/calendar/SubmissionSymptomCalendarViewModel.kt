@@ -73,21 +73,21 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
         showCancelDialog.postValue(Unit)
     }
 
-    fun onDone() {
+    fun onDone() = launch {
         if (symptomStartInternal.value == null) {
             IllegalStateException("Can't finish symptom indication without symptomStart value.")
                 .reportProblem(tag = TAG, "UI should not allow symptom submission without start date.")
-            return
+            return@launch
         }
         Timber.tag(TAG).d("onDone() clicked on calender screen.")
-        launch {
-            submissionRepository.updateCurrentSymptoms(
-                Symptoms(
-                    symptomIndication = symptomIndication,
-                    startOfSymptoms = symptomStartInternal.value
-                ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
-            )
-        }
+
+        submissionRepository.updateCurrentSymptoms(
+            Symptoms(
+                symptomIndication = symptomIndication,
+                startOfSymptoms = symptomStartInternal.value
+            ).also { Timber.tag(TAG).v("Symptoms updated to %s", it) }
+        )
+
         performSubmission {
             appScope.launch {
                 analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
