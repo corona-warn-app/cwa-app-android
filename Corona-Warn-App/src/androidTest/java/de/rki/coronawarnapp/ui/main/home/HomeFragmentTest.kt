@@ -243,7 +243,6 @@ class HomeFragmentTest : BaseUITest() {
         launchInMainActivity<HomeFragment>(
             testNavHostController = navController
         )
-        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2, additionalY = -25))
         takeScreenshot<HomeFragment>("test_positive_rat")
     }
 
