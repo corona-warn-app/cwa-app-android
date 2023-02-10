@@ -89,7 +89,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
             )
         }
         performSubmission {
-            launch {
+            appScope.launch {
                 analyticsKeySubmissionCollector.reportSubmittedAfterSymptomFlow(testType)
             }
         }
@@ -102,7 +102,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     fun onCancelConfirmed() {
         Timber.d("onCancelConfirmed() clicked on calendar screen.")
         performSubmission {
-            launch {
+            appScope.launch {
                 analyticsKeySubmissionCollector.reportSubmittedAfterCancel(testType)
             }
         }
