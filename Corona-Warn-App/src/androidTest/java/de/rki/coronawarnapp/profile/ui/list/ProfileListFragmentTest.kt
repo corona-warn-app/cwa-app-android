@@ -54,7 +54,6 @@ class ProfileListFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_empty_fragment() {
         launchFragmentInContainer2<ProfileListFragment>()
-        takeScreenshot<ProfileListFragment>("1")
         takeScreenshot<ProfileListFragment>("empty")
     }
 
