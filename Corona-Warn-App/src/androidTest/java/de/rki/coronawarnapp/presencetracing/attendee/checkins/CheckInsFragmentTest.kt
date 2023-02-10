@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragmen
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragmentArgs
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsViewModel
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.ActiveCheckInVH
+import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.PastCheckInVH
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -67,15 +68,15 @@ class CheckInsFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment() {
+    fun capture_active_checkins() {
 
         val checkIns = listOf(
-            checkInItem(
+            activeCheckInItem(
                 checkInId = 1,
                 checkInDescription = "Rock Konzert",
                 checkInAddress = "Sponholzstraße 15, 12159 Berlin"
             ),
-            checkInItem(
+            activeCheckInItem(
                 checkInId = 2,
                 checkInDescription = "Kunstausstellung",
                 checkInAddress = "Albersweilerweg 18, 12349 Berlin"
@@ -88,7 +89,33 @@ class CheckInsFragmentTest : BaseUITest() {
             fragmentArgs = fragmentArgs,
             testNavHostController = navController
         )
-        takeScreenshot<CheckInsFragment>()
+        takeScreenshot<CheckInsFragment>("active")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_past_checkins() {
+
+        val checkIns = listOf(
+            pastCheckInItem(
+                checkInId = 1,
+                checkInDescription = "Rock Konzert",
+                checkInAddress = "Sponholzstraße 15, 12159 Berlin"
+            ),
+            pastCheckInItem(
+                checkInId = 2,
+                checkInDescription = "Kunstausstellung",
+                checkInAddress = "Albersweilerweg 18, 12349 Berlin"
+            )
+        )
+
+        every { viewModel.checkins } returns MutableLiveData(checkIns)
+
+        launchFragmentInContainer2<CheckInsFragment>(
+            fragmentArgs = fragmentArgs,
+            testNavHostController = navController
+        )
+        takeScreenshot<CheckInsFragment>("past")
     }
 
     @Test
@@ -116,7 +143,7 @@ class CheckInsFragmentTest : BaseUITest() {
         every { checkInEnd } returns Instant.parse("2021-01-01T14:00:00.000Z")
     }
 
-    private fun checkInItem(
+    private fun activeCheckInItem(
         checkInId: Long,
         checkInDescription: String,
         checkInAddress: String
@@ -129,6 +156,21 @@ class CheckInsFragmentTest : BaseUITest() {
         onCardClicked = { _, _ -> },
         onRemoveItem = {},
         onCheckout = {},
+        onSwipeItem = { _, _ -> },
+    )
+
+    private fun pastCheckInItem(
+        checkInId: Long,
+        checkInDescription: String,
+        checkInAddress: String
+    ) = PastCheckInVH.Item(
+        checkin = mockCheckIn(
+            checkInId = checkInId,
+            checkInDescription = checkInDescription,
+            checkInAddress = checkInAddress
+        ),
+        onCardClicked = { _, _ -> },
+        onRemoveItem = {},
         onSwipeItem = { _, _ -> },
     )
 }
