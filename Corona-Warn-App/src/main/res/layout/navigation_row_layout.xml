@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navigation_row"
+        style="@style/phoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/navigation_row_icon"
+            android:layout_width="@dimen/width_20"
+            android:layout_height="@dimen/height_20"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/navigation_row_title"
+            app:layout_constraintEnd_toStartOf="@id/navigation_row_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/navigation_row_title"
+            tools:src="@drawable/ic_international_phone" />
+
+        <TextView
+            android:id="@+id/navigation_row_title"
+            style="@style/headline5Tint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/navigation_row_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/information_contact_button_international_phone" />
+
+        <TextView
+            android:id="@+id/navigation_row_subtitle"
+            style="@style/body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/navigation_row_title"
+            app:layout_constraintTop_toBottomOf="@id/navigation_row_title"
+            tools:text="@string/information_contact_button_international_phone_description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

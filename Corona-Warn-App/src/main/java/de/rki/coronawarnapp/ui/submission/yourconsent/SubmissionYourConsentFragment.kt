@@ -36,6 +36,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.submissionYourConsentSwitch.setSwitchEnabled(true)
 
         vm.consent.observe2(this) {
             binding.submissionYourConsentSwitch.setChecked(it)

@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
-    <data>
-        <variable
-            name="state"
-            type="de.rki.coronawarnapp.tracing.states.RiskCalculationFailed" />
-    </data>
+    <TextView
+        style="@style/headline5"
+        android:accessibilityHeading="true"
+        android:focusable="true"
+        android:id="@+id/risk_details_additional_information_headline"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_28"
+        android:layout_width="0dp"
+        android:text="@string/risk_details_additional_info_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        style="@style/body2"
+        android:focusable="true"
+        android:id="@+id/risk_details_additional_information_subtitle"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_width="0dp"
+        android:text="@string/risk_details_additional_info_subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/risk_details_additional_information_headline" />
+
+    <TextView
+        style="@style/body1"
+        android:focusable="true"
+        android:id="@+id/risk_details_additional_information_body"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_24"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:text="@string/risk_details_additional_info_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/risk_details_additional_information_subtitle" />
 
-        <TextView
-            android:id="@+id/risk_details_additional_information_headline"
-            style="@style/headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_28"
-            android:accessibilityHeading="true"
-            android:focusable="true"
-            android:text="@string/risk_details_additional_info_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/risk_details_additional_information_subtitle"
-            style="@style/body2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_8"
-            android:focusable="true"
-            android:text="@string/risk_details_additional_info_subtitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/risk_details_additional_information_headline" />
-
-        <TextView
-            android:id="@+id/risk_details_additional_information_body"
-            style="@style/body1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_24"
-            android:focusable="true"
-            android:text="@string/risk_details_additional_info_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/risk_details_additional_information_subtitle" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

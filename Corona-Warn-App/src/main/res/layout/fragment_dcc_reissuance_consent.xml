@@ -214,74 +214,74 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
                     android:id="@+id/dcc_reissuance_legal_one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_16"
-                    android:text="@string/dcc_reissuance_legal_one"
-                    app:bold="true"
+                    android:description="@string/dcc_reissuance_legal_one"
+                    app:boldBulletPoint="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                <de.rki.coronawarnapp.ui.view.BulletPointTextView
                     android:id="@+id/dcc_reissuance_legal_two"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginBottom="@dimen/margin_24"
-                    android:text="@string/dcc_reissuance_legal_two"
-                    app:bold="true"
+                    android:description="@string/dcc_reissuance_legal_two"
+                    app:boldBulletPoint="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_legal_one" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
                 android:id="@+id/dcc_reissuance_bulletpoint_one"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_32"
                 android:layout_marginTop="@dimen/margin_24"
-                android:text="@string/dcc_reissuance_bulletpoint_one"
+                android:description="@string/dcc_reissuance_bulletpoint_one"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_consent" />
 
 
-            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
                 android:id="@+id/dcc_reissuance_bulletpoint_two"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_32"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/dcc_reissuance_bulletpoint_two"
+                android:description="@string/dcc_reissuance_bulletpoint_two"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_one" />
 
-            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
                 android:id="@+id/dcc_reissuance_bulletpoint_three"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_32"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/dcc_reissuance_bulletpoint_three"
+                android:description="@string/dcc_reissuance_bulletpoint_three"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two" />
 
-            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
                 android:id="@+id/dcc_reissuance_bulletpoint_four"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_32"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/dcc_reissuance_bulletpoint_four"
+                android:description="@string/dcc_reissuance_bulletpoint_four"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_three" />

@@ -1,148 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_contact_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_contact_title"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/information_contact_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_contact_title"
-        android:focusable="true">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/information_contact_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/information_contact_title" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/padding_24"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            android:paddingBottom="@dimen/padding_24"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <de.rki.coronawarnapp.ui.view.InformationDetailsView
+                android:id="@+id/information_contact_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/information_contact_illustration_description"
+                android:src="@drawable/ic_information_illustration_contact"
+                android:subtitle="@string/information_contact_body"
+                android:title="@string/information_contact_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <include
-                    android:id="@+id/information_contact_header_details"
-                    layout="@layout/include_information_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:body="@{@string/information_contact_body}"
-                    app:headline="@{@string/information_contact_headline}"
-                    app:illustration="@{@drawable/ic_information_illustration_contact}"
-                    app:illustrationDescription="@{@string/information_contact_illustration_description}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/information_contact_divider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_32"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_details" />
 
-                <include
-                    android:id="@+id/divider"
-                    layout="@layout/include_divider"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_header_details" />
+            <TextView
+                android:id="@+id/information_contact_subtitle_phone"
+                style="@style/headline6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_16"
+                android:accessibilityHeading="true"
+                android:focusable="true"
+                android:text="@string/information_contact_subtitle_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_divider" />
 
-                <TextView
-                    android:id="@+id/information_contact_subtitle_phone"
-                    style="@style/headline6"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:accessibilityHeading="true"
-                    android:focusable="true"
-                    android:text="@string/information_contact_subtitle_phone"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toEndOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/divider" />
 
-                <include
-                    android:id="@+id/information_contact_navigation_row_phone"
-                    layout="@layout/include_navigation_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:icon="@{@drawable/ic_phone}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/information_contact_subtitle_phone"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_subtitle_phone"
-                    app:subtitle="@{@string/information_contact_button_phone_description}"
-                    app:title="@{@string/information_contact_button_phone}" />
+            <de.rki.coronawarnapp.ui.view.NavigationRowView
+                android:id="@+id/information_contact_navigation_row_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:icon="@drawable/ic_phone"
+                android:title="@string/information_contact_button_phone"
+                android:subtitle="@string/information_contact_button_phone_description"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_subtitle_phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <include
-                    android:id="@+id/information_contact_navigation_row_international_phone"
-                    layout="@layout/include_navigation_row"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:layout_marginEnd="@dimen/margin_24"
-                    app:icon="@{@drawable/ic_international_phone}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/information_contact_subtitle_phone"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_navigation_row_phone"
-                    app:subtitle="@{@string/information_contact_button_international_phone_description}"
-                    app:title="@{@string/information_contact_button_international_phone}" />
+            <de.rki.coronawarnapp.ui.view.NavigationRowView
+                android:id="@+id/information_contact_navigation_row_international_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:icon="@drawable/ic_international_phone"
+                android:title="@string/information_contact_button_international_phone"
+                android:subtitle="@string/information_contact_button_international_phone_description"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_navigation_row_phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <TextView
-                    android:id="@+id/information_contact_body_phone"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/information_contact_body_phone"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_navigation_row_international_phone" />
+            <TextView
+                android:id="@+id/information_contact_body_phone"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/information_contact_body_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_navigation_row_international_phone" />
 
-                <TextView
-                    android:id="@+id/information_contact_body_open"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/information_contact_body_open"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_body_phone" />
+            <TextView
+                android:id="@+id/information_contact_body_open"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/information_contact_body_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_body_phone" />
 
-                <TextView
-                    android:id="@+id/information_contact_body_other"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:focusable="true"
-                    android:text="@string/information_contact_body_other"
-                    android:textColorLink="@color/colorTextTint"
-                    app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_contact_body_open" />
+            <TextView
+                android:id="@+id/information_contact_body_other"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_24"
+                android:focusable="true"
+                android:text="@string/information_contact_body_other"
+                android:textColorLink="@color/colorTextTint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/information_contact_body_open" />
 
-                <include layout="@layout/merge_guidelines_side" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

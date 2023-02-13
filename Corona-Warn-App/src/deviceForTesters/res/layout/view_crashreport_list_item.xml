@@ -1,73 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_8"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding_2">
 
-    <data>
-        <variable
-            name="crashReportTitle"
-            type="String" />
-
-        <variable
-            name="crashReportDateFormatted"
-            type="String" />
-
-        <variable
-            name="message"
-            type="String" />
-    </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/Card"
+        android:layout_width="@dimen/width_390"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_8"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/padding_2">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/Card"
-            android:layout_width="@dimen/width_390"
+        <TextView
+            android:id="@+id/textViewCrashReportTitle"
+            style="@style/body1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_8"
-            android:orientation="vertical">
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textViewCrashReportTitle"
-                style="@style/body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{crashReportTitle}"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textViewCrashReportDate"
+            style="@style/body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCrashReportTitle" />
 
-            <TextView
-                android:id="@+id/textViewCrashReportDate"
-                style="@style/body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_4"
-                android:text="@{crashReportDateFormatted}"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewCrashReportTitle" />
+        <TextView
+            android:id="@+id/textViewCrashReportShortMessage"
+            style="@style/bodySmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:ellipsize="end"
+            android:inputType="none"
+            android:maxLines="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCrashReportDate" />
 
-            <TextView
-                android:id="@+id/textViewCrashReportShortMessage"
-                style="@style/bodySmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_4"
-                android:ellipsize="end"
-                android:inputType="none"
-                android:maxLines="4"
-                android:text="@{message}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewCrashReportDate" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

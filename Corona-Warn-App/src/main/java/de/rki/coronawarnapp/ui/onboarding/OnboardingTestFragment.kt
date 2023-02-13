@@ -28,7 +28,7 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { vm.onBackButtonClick() }
+            onboardingTestToolbar.setNavigationOnClickListener { vm.onBackButtonClick() }
         }
         vm.routeToScreen.observe2(this) {
             when (it) {
@@ -37,6 +37,7 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
                         OnboardingTestFragmentDirections
                             .actionOnboardingTestFragmentToOnboardingNotificationsFragment()
                     )
+
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing -> popBackStack()
 
                 else -> Unit

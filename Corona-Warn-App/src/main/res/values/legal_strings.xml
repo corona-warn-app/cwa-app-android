@@ -116,13 +116,9 @@
     <!-- XTXT: Subtitle for privacy card -->
     <string name="trace_location_privacy_card_subtitle_text" translatable="false">"If you tap on “Next”, you can create a QR code for your guests."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="trace_location_privacy_card_first_bulletpoint_title_text" translatable="false">"Your event or place details will be stored in encoded form in a printable QR code."</string>
-    <!-- XTXT: First bulletpoint subtitle for privacy card -->
-    <string name="trace_location_privacy_card_fist_bulletpoint_subtitle_text" translatable="false">"Your guests can then scan the QR code with the app."</string>
+    <string name="trace_location_privacy_card_first_bulletpoint_title_text" translatable="false"><b>Your event or place details will be stored in encoded form in a printable QR code.</b>\nYour guests can then scan the QR code with the app.</string>
     <!-- XTXT: Second bulleptoint title for privacy card -->
-    <string name="trace_location_privacy_card_second_bulletpoint_title_text" translatable="false">"Please ensure that you are as specific as possible about the name, category and time of your event or place, and the typical length of stay."</string>
-    <!-- XTXT: Second vulletpoint subtitle for privacy card -->
-    <string name="trace_location_pricacy_card_second_bulletpoint_subtitle_text" translatable="false">"The more accurate your information, the more reliably your guests can be warned."</string>
+    <string name="trace_location_privacy_card_second_bulletpoint_title_text" translatable="false"><b>Please ensure that you are as specific as possible about the name, category and time of your event or place, and the typical length of stay.</b>\nThe more accurate your information, the more reliably your guests can be warned.</string>
     <!-- XTXT: Third bulletpoint text for privacy card -->
     <string name="trace_location_privacy_card_third_bulletpoint_text" translatable="false">"Please display the QR code in such a way that all your guests can scan it while observing the social distancing and hygiene rules (at least 1.5 meters)."</string>
     <!-- XTXT: Fourth bulletpoint text for privacy card -->
@@ -134,13 +130,11 @@
     <!-- YMSG: Onboarding trace location bullet points introduction -->
     <string name="trace_location_onboarding_body_intro" translatable="false">By tapping on “Accept”, you consent to the following steps:</string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent2" translatable="false">The app will remember which events or places you’ve checked in at for 16 days.</string>
+    <string name="trace_location_onboarding_body_consent2" translatable="false"><b>The app will remember which events or places you’ve checked in at for 16 days.</b>\nIf you scan a QR code to check in somewhere, this will create a record for the event or place on your smartphone.</string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent3" translatable="false">If you scan a QR code to check in somewhere, this will create a record for the event or place on your smartphone.</string>
+    <string name="trace_location_onboarding_body_consent4" translatable="false"><b>If a user who was checked in at the same time as you later tests positive and uses the warning feature, you will automatically receive a warning based on the event ID – even if your smartphone didn’t receive any random IDs from the user who tested positive.</b></string>
     <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent4" translatable="false">If a user who was checked in at the same time as you later tests positive and uses the warning feature, you will automatically receive a warning based on the event ID – even if your smartphone didn’t receive any random IDs from the user who tested positive.</string>
-    <!-- YMSG: Onboarding trace location bullet points -->
-    <string name="trace_location_onboarding_body_consent5" translatable="false">If you later use the warning feature yourself, all of the other users who were checked in at the same time as you at an event or place listed under “My check-ins” will receive a warning based on the event ID.</string>
+    <string name="trace_location_onboarding_body_consent5" translatable="false"><b>If you later use the warning feature yourself, all of the other users who were checked in at the same time as you at an event or place listed under “My check-ins” will receive a warning based on the event ID.</b></string>
     <!-- YMSG: Onboarding trace location bullet points -->
     <string name="trace_location_onboarding_body_consent6" translatable="false">You can erase a check-in at any time under “My check-ins”. In this case, you will only be warned if your smartphone identifies a possible exposure after receiving the random IDs of the user who tested positive.</string>
 

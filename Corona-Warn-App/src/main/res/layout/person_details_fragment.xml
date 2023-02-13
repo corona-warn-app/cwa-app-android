@@ -117,7 +117,7 @@
             android:paddingBottom="@dimen/padding_8"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/include_certificate_qrcode_card" />
+            tools:listitem="@layout/certificate_details_qr_code_layout" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -7,11 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.ValidationResultAdapter
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.setHeaderForState
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationPassedFragmentBinding
-import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -39,26 +36,13 @@ class DccValidationPassedFragment : Fragment(R.layout.covid_certificate_validati
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             covidCertificateValidationResultFragments.apply {
-                setHeaderForState(args.validation.state, args.validation.acceptanceRules.size)
-                list.apply {
-                    adapter = validationResultAdapter
-                    val padding = R.dimen.standard_16
-                    addItemDecoration(
-                        RecylerViewPaddingDecorator(
-                            topPadding = padding,
-                            leftPadding = padding,
-                            rightPadding = padding
-                        )
-                    )
-                }
-
-                toolbar.setNavigationOnClickListener {
-                    popBackStackTwice()
-                }
-
-                appBarLayout.onOffsetChange { _, subtitleAlpha ->
-                    headerImage.alpha = subtitleAlpha
-                }
+                setHeaderForState(
+                    dccValidationState = args.validation.state,
+                    ruleCount = args.validation.acceptanceRules.size
+                )
+                populateList(validationResultAdapter)
+                setOnClickListener { popBackStackTwice() }
+                offsetChange()
             }
 
             checkAnotherCountryButton.setOnClickListener { popBackStack() }

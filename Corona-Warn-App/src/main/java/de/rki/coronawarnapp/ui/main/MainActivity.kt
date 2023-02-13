@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 }
             )
 
-            fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
+            fabTooltip.setOnClickListener { viewModel.dismissTooltip() }
 
             scannerFab.apply {
                 setShowMotionSpecResource(R.animator.fab_show)
@@ -209,7 +209,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean
     ) {
-        fabTooltip.root.isVisible = bottomAppBar.isVisible && showTooltip
+        fabTooltip.isVisible = bottomAppBar.isVisible && showTooltip
     }
 
     override fun onNewIntent(intent: Intent?) {

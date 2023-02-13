@@ -152,15 +152,51 @@
                 app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/date_info" />
 
-            <include
-                android:id="@+id/validation_notes"
-                layout="@layout/validation_start_fragment_notes"
+            <TextView
+                android:id="@+id/note_subtitle"
+                style="@style/headline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_24"
-                app:layout_constraintEnd_toEndOf="@id/body"
-                app:layout_constraintStart_toStartOf="@id/body"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:text="@string/validation_start_note_subtitle"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/certificate_proof" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/validation_start_bulletpoint_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:description="@string/validation_start_note_point_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/note_subtitle" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/validation_start_bulletpoint_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:description="@string/validation_start_note_point_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/validation_start_bulletpoint_one" />
+
+            <de.rki.coronawarnapp.ui.view.BulletPointTextView
+                android:id="@+id/validation_start_bulletpoint_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                android:layout_marginHorizontal="@dimen/margin_24"
+                android:description="@string/validation_start_note_point_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/validation_start_bulletpoint_two" />
 
             <TextView
                 android:id="@+id/faq"
@@ -171,7 +207,7 @@
                 android:text="@string/validation_start_faq"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
-                app:layout_constraintTop_toBottomOf="@id/validation_notes" />
+                app:layout_constraintTop_toBottomOf="@id/validation_start_bulletpoint_three" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/privacy_card"
@@ -190,12 +226,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_24"
+                    android:layout_marginHorizontal="@dimen/margin_16"
                     android:accessibilityHeading="true"
                     android:focusable="true"
                     android:text="@string/validation_start_privacy_title"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -204,15 +240,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginHorizontal="@dimen/margin_16"
                     android:focusable="true"
                     android:paddingBottom="@dimen/padding_24"
                     android:text="@string/validation_start_privacy_body"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/privacy_card_title" />
-
-                <include layout="@layout/merge_guidelines_side" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -245,7 +279,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollview"
         app:loadingText="@string/start_validation_rule_check_loading_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

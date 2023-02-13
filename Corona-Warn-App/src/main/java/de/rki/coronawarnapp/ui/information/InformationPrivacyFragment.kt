@@ -18,6 +18,7 @@ class InformationPrivacyFragment : Fragment(R.layout.fragment_information_privac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        binding.informationPrivacyDetails.getInformationDetailsHtml()
     }
 
     override fun onResume() {

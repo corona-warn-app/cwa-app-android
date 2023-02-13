@@ -1,174 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:ignore="HardcodedText">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/debug_container"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8">
+
+            <TextView
+                android:id="@+id/debug_container_title"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Debug options"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/new_debuglog_screen_explanation"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_weight="1"
+                android:text="The debuglog option has moved. It's now available for all builds. For test builds it's started automatically on each app start."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/debug_container_title" />
+
+            <Button
+                android:id="@+id/show_debug_log_screen"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:text="Open new debug log screen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_debuglog_screen_explanation" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/environment_container"
+            style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_8"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/debug_container"
-                style="@style/Card"
+            <TextView
+                android:id="@+id/environment_title"
+                style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8">
+                android:text="Server environments" />
 
-                <TextView
-                    android:id="@+id/debug_container_title"
-                    style="@style/headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Debug options"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/new_debuglog_screen_explanation"
-                    style="@style/body2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:layout_weight="1"
-                    android:text="The debuglog option has moved. It's now available for all builds. For test builds it's started automatically on each app start."
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/debug_container_title" />
-
-                <Button
-                    android:id="@+id/show_debug_log_screen"
-                    style="@style/buttonPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="Open new debug log screen"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/new_debuglog_screen_explanation" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/environment_container"
-                style="@style/Card"
+            <TextView
+                android:id="@+id/environment_cdnurl_download"
+                style="@style/bodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/margin_8"
+                tools:text="Download: ?" />
 
-                <TextView
-                    android:id="@+id/environment_title"
-                    style="@style/headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Server environments" />
+            <TextView
+                android:id="@+id/environment_cdnurl_submission"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="Submission: ?" />
 
-                <TextView
-                    android:id="@+id/environment_cdnurl_download"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    tools:text="Download: ?" />
+            <TextView
+                android:id="@+id/environment_cdnurl_verification"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="Verification: ?" />
 
-                <TextView
-                    android:id="@+id/environment_cdnurl_submission"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="Submission: ?" />
+            <TextView
+                android:id="@+id/environment_url_datadonation"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="DataDonation: ?" />
 
-                <TextView
-                    android:id="@+id/environment_cdnurl_verification"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="Verification: ?" />
+            <TextView
+                android:id="@+id/environment_url_log_upload"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="LogUpload: ?" />
 
-                <TextView
-                    android:id="@+id/environment_url_datadonation"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="DataDonation: ?" />
+            <TextView
+                android:id="@+id/environment_dcc_server_url"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="Dcc Server Url: ?" />
 
-                <TextView
-                    android:id="@+id/environment_url_log_upload"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="LogUpload: ?" />
+            <TextView
+                android:id="@+id/environment_dcc_reissuance_server_url"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="Dcc Reissuance Server Url: ?" />
 
-                <TextView
-                    android:id="@+id/environment_dcc_server_url"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="Dcc Server Url: ?" />
+            <TextView
+                android:id="@+id/environment_pubkey_appconfig"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="AppConfigPubKey: ?" />
 
-                <TextView
-                    android:id="@+id/environment_dcc_reissuance_server_url"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="Dcc Reissuance Server Url: ?" />
+            <TextView
+                android:id="@+id/environment_pubkey_crowdnotifier"
+                style="@style/bodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_4"
+                tools:text="CrowdNotifierPubKey: ?" />
 
-                <TextView
-                    android:id="@+id/environment_pubkey_appconfig"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="AppConfigPubKey: ?" />
+            <RadioGroup
+                android:id="@+id/environment_toggle_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:orientation="vertical" />
 
-                <TextView
-                    android:id="@+id/environment_pubkey_crowdnotifier"
-                    style="@style/bodySmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_4"
-                    tools:text="CrowdNotifierPubKey: ?" />
+            <TextView
+                android:id="@+id/overwritten_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:text="The current environment has been overwritten by the launcher parameter"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-                <RadioGroup
-                    android:id="@+id/environment_toggle_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:orientation="vertical" />
-
-                <TextView
-                    android:id="@+id/overwritten_warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    android:text="The current environment has been overwritten by the launcher parameter"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
-                <Button
-                    android:id="@+id/button_clear"
-                    style="@style/buttonPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:text="Clear launcher parameter"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/button_clear"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:text="Clear launcher parameter"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</layout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

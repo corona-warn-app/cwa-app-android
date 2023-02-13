@@ -6,7 +6,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.R
 
 class ConsentStatusView @JvmOverloads constructor(
@@ -35,9 +34,4 @@ class ConsentStatusView @JvmOverloads constructor(
             }.let { titleTextView.setText(it) }
             field = value
         }
-}
-
-@BindingAdapter("consent")
-fun ConsentStatusView.consent(newConsent: Boolean) {
-    consent = newConsent
 }

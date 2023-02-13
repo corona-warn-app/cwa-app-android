@@ -1,127 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_reset_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/settings_reset_title"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/settings_reset_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/settings_reset_title"
-        android:focusable="true">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/settings_reset_title" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/settings_reset_title" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <de.rki.coronawarnapp.ui.view.InformationDetailsView
+                android:id="@+id/settings_reset_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings_illustration_reset"
+                android:subtitle="@string/settings_reset_body"
+                android:title="@string/settings_reset_headline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <include
-                    android:id="@+id/settings_reset_header_details"
-                    layout="@layout/include_information_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:body="@{@string/settings_reset_body}"
-                    app:headline="@{@string/settings_reset_headline}"
-                    app:illustration="@{@drawable/ic_settings_illustration_reset}"
-                    app:illustrationDescription="@{@string/settings_reset_illustration_description}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <de.rki.coronawarnapp.ui.view.TracingStatusView
+                android:id="@+id/settings_reset_keys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_32"
+                android:src="@drawable/ic_settings_reset_circle"
+                android:title="@string/settings_reset_headline_keys"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_reset_details"
+                app:tracingStatusBody="@string/settings_reset_body_keys" />
 
-                <include
-                    android:id="@+id/settings_reset_keys"
-                    layout="@layout/include_tracing_status_card"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    app:body="@{@string/settings_reset_body_keys}"
-                    app:headline="@{@string/settings_reset_headline_keys}"
-                    app:icon="@{@drawable/ic_settings_reset_circle}"
-                    app:layout_constraintEnd_toStartOf="@id/guideline_card_end"
-                    app:layout_constraintStart_toStartOf="@id/guideline_card_start"
-                    app:layout_constraintTop_toBottomOf="@id/settings_reset_header_details" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="@dimen/guideline_24" />
+    </ScrollView>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="@dimen/guideline_24" />
+    <Button
+        android:id="@+id/settings_reset_button_delete"
+        style="@style/buttonReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/settings_reset_button_positive"
+        app:layout_constraintBottom_toTopOf="@id/settings_reset_button_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                <include layout="@layout/merge_guidelines_card" />
+    <Button
+        android:id="@+id/settings_reset_button_cancel"
+        style="@style/buttonLight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:text="@string/settings_reset_button_negative"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </ScrollView>
-
-        <Button
-            android:id="@+id/settings_reset_button_delete"
-            style="@style/buttonReset"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/settings_reset_button_positive"
-            app:layout_constraintBottom_toTopOf="@id/settings_reset_button_cancel"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@id/guideline_start_outer" />
-
-        <Button
-            android:id="@+id/settings_reset_button_cancel"
-            style="@style/buttonLight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_reset_button_negative"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end_outer"
-            app:layout_constraintStart_toStartOf="@id/guideline_start_outer" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start_outer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_24" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end_outer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_24" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="@dimen/guideline_16" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

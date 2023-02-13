@@ -116,10 +116,64 @@
                 app:menu="@menu/menu_person_overview"
                 app:title="@string/certification_screen_title" />
 
-            <include
+            <androidx.cardview.widget.CardView
                 android:id="@+id/admission_container"
-                layout="@layout/admission_scenario_tile"
-                android:visibility="gone" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_12"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+                android:transitionName="admission-scenarios-view"
+                app:cardCornerRadius="@dimen/radius_4"
+                app:cardElevation="@dimen/elevation_0"
+                app:layout_scrollFlags="scroll|enterAlways"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/admissionTileBackground"
+                    android:padding="@dimen/padding_12"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/admission_tile_title"
+                        style="@style/body2Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ccl_admission_state_tile_title"
+                        app:layout_constraintEnd_toStartOf="@+id/arrow_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/admission_tile_subtitle"
+                        style="@style/subtitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:lineSpacingExtra="@dimen/line_spacing_4"
+                        android:text="@string/ccl_admission_state_tile_subtitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/admission_tile_title" />
+
+                    <ImageView
+                        android:id="@+id/arrow_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_person_overview_item_right_arrow"
+                        app:tint="@color/colorTextPrimary2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -135,16 +189,77 @@
             tools:listitem="@layout/person_overview_item"
             tools:visibility="visible" />
 
-        <include
+        <LinearLayout
             android:id="@+id/export_tooltip"
-            layout="@layout/export_tooltip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_32"
             android:layout_marginTop="@dimen/margin_46"
             android:layout_marginEnd="@dimen/margin_16"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/margin_48"
+                android:elevation="@dimen/elevation_4"
+                android:importantForAccessibility="no"
+                android:rotation="180"
+                app:srcCompat="@drawable/ic_tip_arrow"
+                app:tint="@color/tipBackgroundColor" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tip"
+                android:elevation="@dimen/elevation_4">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/titleTooltip"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_6"
+                    android:text="@string/export_all_tooltip_title"
+                    app:layout_constraintEnd_toStartOf="@+id/close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/subtitle"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:lineSpacingExtra="@dimen/line_spacing_4"
+                    android:text="@string/export_all_tooltip_message"
+                    android:textColor="@color/tipSubtitleColor"
+                    android:textSize="@dimen/font_14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                <ImageButton
+                    android:id="@+id/close"
+                    style="@style/closeTooltip"
+                    android:contentDescription="@string/accessibility_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_close"
+                    app:tint="@color/tipTitleColor" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

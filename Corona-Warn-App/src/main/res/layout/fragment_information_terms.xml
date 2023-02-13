@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/information_terms_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/information_terms_title"
+    android:focusable="true"
+    android:orientation="vertical">
 
-    <data>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.BackArrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/information_terms_title" />
 
-        <import type="de.rki.coronawarnapp.util.formatter.FormatterHelper" />
-
-        <import type="de.rki.coronawarnapp.R" />
-
-    </data>
-
-    <LinearLayout
-        android:id="@+id/information_terms_container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/information_terms_title"
-        android:focusable="true"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.BackArrow"
+        <de.rki.coronawarnapp.ui.view.InformationDetailsView
+            android:id="@+id/information_terms_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/information_terms_title" />
+            android:contentDescription="@string/information_terms_illustration_description"
+            android:src="@drawable/ic_information_illustration_terms"
+            android:subtitle="@string/information_terms_html_path" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
-            <include
-                android:id="@+id/information_terms_header_details"
-                layout="@layout/include_information_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:body="@{FormatterHelper.parseHtmlFromAssets(context, @string/information_terms_html_path)}"
-                app:headline="@{@string/information_terms_headline}"
-                app:illustration="@{@drawable/ic_information_illustration_terms}"
-                app:illustrationDescription="@{@string/information_terms_illustration_description}" />
-
-        </ScrollView>
-    </LinearLayout>
-</layout>
+    </ScrollView>
+</LinearLayout>

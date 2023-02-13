@@ -34,7 +34,7 @@ class OnboardingNotificationsFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onboardingButtonNext.setOnClickListener { vm.onNextButtonClick() }
-            onboardingButtonBack.buttonIcon.setOnClickListener { requireActivity().onBackPressed() }
+            onboardingNotificationsToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
         vm.routeToScreen.observe2(this) {
             when (it) {
@@ -43,6 +43,7 @@ class OnboardingNotificationsFragment :
                         OnboardingNotificationsFragmentDirections
                             .actionOnboardingNotificationsFragmentToOnboardingAnalyticsFragment()
                     )
+
                 else -> Unit
             }
         }

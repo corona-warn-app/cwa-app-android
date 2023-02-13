@@ -1,69 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_24"
+    tools:showIn="@layout/home_card_container_layout">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/main_card_header_icon"
+        android:layout_width="@dimen/width_40"
+        android:layout_height="@dimen/height_40"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_high_risk_alert"
+        app:layout_constraintBottom_toTopOf="@id/top_barrier"
+        app:layout_constraintEnd_toStartOf="@id/main_card_header_headline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/main_card_header_icon_end"
+        style="@style/icon"
+        android:layout_width="@dimen/width_18"
+        android:layout_height="@dimen/height_18"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/main_card_header_headline"
+        app:srcCompat="@drawable/ic_link" />
+
+    <TextView
+        android:id="@+id/main_card_header_headline"
+        style="@style/headline5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_24"
-        tools:showIn="@layout/home_card_container_layout">
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:accessibilityHeading="true"
+        android:text="@string/incompatible_headline"
+        app:layout_constraintBottom_toTopOf="@id/top_barrier"
+        app:layout_constraintEnd_toStartOf="@id/main_card_header_icon_end"
+        app:layout_constraintStart_toEndOf="@id/main_card_header_icon"
+        app:layout_constraintTop_toTopOf="@id/main_card_header_icon"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/main_card_header_icon"
-            android:layout_width="@dimen/width_40"
-            android:layout_height="@dimen/height_40"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_high_risk_alert"
-            app:layout_constraintBottom_toTopOf="@id/top_barrier"
-            app:layout_constraintEnd_toStartOf="@id/main_card_header_headline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/top_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="main_card_header_headline, main_card_header_icon" />
 
-        <ImageView
-            android:id="@+id/main_card_header_icon_end"
-            style="@style/icon"
-            android:layout_width="@dimen/width_18"
-            android:layout_height="@dimen/height_18"
-            android:importantForAccessibility="no"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/main_card_header_headline"
-            app:srcCompat="@drawable/ic_link" />
-
-        <TextView
-            android:id="@+id/main_card_header_headline"
-            style="@style/headline5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:accessibilityHeading="true"
-            android:text="@string/incompatible_headline"
-            app:layout_constraintBottom_toTopOf="@id/top_barrier"
-            app:layout_constraintEnd_toStartOf="@id/main_card_header_icon_end"
-            app:layout_constraintStart_toEndOf="@id/main_card_header_icon"
-            app:layout_constraintTop_toTopOf="@id/main_card_header_icon"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/top_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="main_card_header_headline, main_card_header_icon" />
-
-        <TextView
-            android:id="@+id/main_card_content_body"
-            style="@style/subtitleMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            android:text="@string/incompatible_advertising_not_supported"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/top_barrier" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+    <TextView
+        android:id="@+id/main_card_content_body"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/incompatible_advertising_not_supported"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_barrier" />
+</androidx.constraintlayout.widget.ConstraintLayout>

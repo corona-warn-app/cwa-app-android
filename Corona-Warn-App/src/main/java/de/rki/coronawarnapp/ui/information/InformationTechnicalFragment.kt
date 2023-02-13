@@ -22,6 +22,7 @@ class InformationTechnicalFragment : Fragment(R.layout.fragment_information_tech
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        binding.informationTechincalDetails.getInformationDetailsHtml()
     }
 
     override fun onResume() {

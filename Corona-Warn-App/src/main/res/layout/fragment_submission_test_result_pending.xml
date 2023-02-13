@@ -1,189 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/submission_test_result_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:accessibilityLiveRegion="assertive"
+    android:background="@color/colorSurface"
+    android:contentDescription="@string/submission_test_result_headline">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/submission_test_result_container"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/submission_test_result_toolbar_text" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/submission_test_result_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ScrollView
+        android:id="@+id/submission_test_result_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:accessibilityLiveRegion="assertive"
-        android:background="@color/colorSurface"
-        android:contentDescription="@string/submission_test_result_headline">
+        android:importantForAccessibility="yes"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/button_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:visibility="visible">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            style="@style/CWAMaterialToolbar.Close"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/submission_test_result_toolbar_text" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/submission_test_result_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-
-        <ScrollView
-            android:id="@+id/submission_test_result_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:accessibilityLiveRegion="assertive"
-            android:importantForAccessibility="yes"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/button_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            tools:visibility="visible">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"
-                android:paddingBottom="@dimen/padding_32">
-
-                <TextView
-                    android:id="@+id/family_member_name"
-                    style="@style/headline5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/padding_16"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Lara"
-                    tools:visibility="visible" />
-
-                <de.rki.coronawarnapp.ui.view.TestResultSectionView
-                    android:id="@+id/submission_test_result_section"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:importantForAccessibility="yes"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
-                    app:test_result_section_headline="@string/test_result_card_headline" />
-
-                <TextView
-                    android:id="@+id/submission_test_result_subtitle"
-                    style="@style/headline5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_8"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginEnd="@dimen/margin_8"
-                    android:accessibilityHeading="true"
-                    android:text="@string/submission_test_result_subtitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/type_of_pending_test_result"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_24"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
-                    app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/pending_test_result_steps_waiting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/type_of_pending_test_result"
-                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_pcr_body"
-                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_pcr_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_hourglass" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_contact_diary_result"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/pending_test_result_steps_waiting"
-                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_contact_diary_body"
-                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_contact_diary_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_result_pending_contact_diary"
-                    tools:visibility="visible" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_certificate_info"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_contact_diary_result"
-                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_test_certificate_not_supported_body"
-                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_test_certificate_heading"
-                    app:step_entry_final="true"
-                    app:step_entry_icon="@drawable/ic_result_pending_certificate_info"
-                    tools:visibility="visible" />
-
-                <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
-                    android:id="@+id/consent_status"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_certificate_info" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/button_container"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24"
+            android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_24"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:orientation="vertical"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/submission_test_result_content"
-            tools:visibility="visible">
+            android:layout_marginEnd="@dimen/margin_16"
+            android:paddingBottom="@dimen/padding_32">
 
-            <Button
-                android:id="@+id/submission_test_result_button_pending_refresh"
-                style="@style/buttonPrimary"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/family_member_name"
+                style="@style/headline5"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submission_test_result_pending_refresh_button" />
+                android:paddingBottom="@dimen/padding_16"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Lara"
+                tools:visibility="visible" />
 
-            <Button
-                android:id="@+id/submission_test_result_button_pending_remove_test"
-                style="@style/buttonLight"
-                android:layout_width="match_parent"
+            <de.rki.coronawarnapp.ui.view.TestResultSectionView
+                android:id="@+id/submission_test_result_section"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/submission_test_result_pending_remove_test_button" />
+                android:focusable="true"
+                android:importantForAccessibility="yes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/family_member_name"
+                app:test_result_section_headline="@string/test_result_card_headline" />
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            <TextView
+                android:id="@+id/submission_test_result_subtitle"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginTop="@dimen/margin_32"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:accessibilityHeading="true"
+                android:text="@string/submission_test_result_subtitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/type_of_pending_test_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
+                app:simple_step_entry_title="@string/submission_test_result_steps_added_heading"
+                app:step_entry_final="false"
+                app:step_entry_icon="@drawable/ic_test_result_step_done" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/pending_test_result_steps_waiting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/type_of_pending_test_result"
+                app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_pcr_body"
+                app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_pcr_heading"
+                app:step_entry_final="false"
+                app:step_entry_icon="@drawable/ic_hourglass" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/test_result_pending_steps_contact_diary_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/pending_test_result_steps_waiting"
+                app:simple_step_entry_text="@string/submission_test_result_pending_steps_contact_diary_body"
+                app:simple_step_entry_title="@string/submission_test_result_pending_steps_contact_diary_heading"
+                app:step_entry_final="false"
+                app:step_entry_icon="@drawable/ic_result_pending_contact_diary"
+                tools:visibility="visible" />
+
+            <de.rki.coronawarnapp.ui.view.SimpleStepEntry
+                android:id="@+id/test_result_pending_steps_certificate_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_contact_diary_result"
+                app:simple_step_entry_text="@string/submission_test_result_pending_steps_test_certificate_not_supported_body"
+                app:simple_step_entry_title="@string/submission_test_result_pending_steps_test_certificate_heading"
+                app:step_entry_final="true"
+                app:step_entry_icon="@drawable/ic_result_pending_certificate_info"
+                tools:visibility="visible" />
+
+            <de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
+                android:id="@+id/consent_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/test_result_pending_steps_certificate_info" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_24"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_24"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/submission_test_result_content"
+        tools:visibility="visible">
+
+        <Button
+            android:id="@+id/submission_test_result_button_pending_refresh"
+            style="@style/buttonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_test_result_pending_refresh_button" />
+
+        <Button
+            android:id="@+id/submission_test_result_button_pending_remove_test"
+            style="@style/buttonLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:text="@string/submission_test_result_pending_remove_test_button" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
