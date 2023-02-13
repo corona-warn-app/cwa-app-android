@@ -19,8 +19,8 @@ import testhelpers.coroutines.runTest2
 import testhelpers.preferences.FakeDataStore
 
 class AnalyticsTestResultSettingsTest : BaseTest() {
-    lateinit var pcrStorage: AnalyticsPCRTestResultSettings
-    lateinit var raStorage: AnalyticsRATestResultSettings
+    private lateinit var pcrStorage: AnalyticsPCRTestResultSettings
+    private lateinit var raStorage: AnalyticsRATestResultSettings
     @MockK lateinit var analyticsExposureWindow: AnalyticsExposureWindow
     @MockK lateinit var analyticsScanInstance: AnalyticsScanInstance
 
@@ -96,6 +96,176 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
         raStorage.exposureWindowsAtTestRegistration.first() shouldBe null
 
         pcrStorage.updateExposureWindowsUntilTestResult(listOf(analyticsExposureWindow))
+        pcrStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.exposureWindowsUntilTestResult.first() shouldBe null
+    }
+
+    @Test
+    fun `dataMixedRatPcr - clear PCR does not clear RAT`() = runTest2 {
+        pcrStorage.updateTestRegisteredAt(Instant.ofEpochMilli(1000))
+        pcrStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+        raStorage.updateTestRegisteredAt(Instant.ofEpochMilli(1000))
+        raStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+
+        pcrStorage.updateFinalTestResultReceivedAt(Instant.ofEpochMilli(3000))
+        pcrStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+        raStorage.updateFinalTestResultReceivedAt(Instant.ofEpochMilli(3000))
+        raStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+
+        pcrStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        raStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+
+        pcrStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        raStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+
+        pcrStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        pcrStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        pcrStorage.updateEwRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        pcrStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.updateEwRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        raStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        pcrStorage.updatePtRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        pcrStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.updatePtRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        raStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        pcrStorage.updateExposureWindowsAtTestRegistration(listOf(analyticsExposureWindow))
+        pcrStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.updateExposureWindowsAtTestRegistration(listOf(analyticsExposureWindow))
+        raStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+
+        pcrStorage.updateExposureWindowsUntilTestResult(listOf(analyticsExposureWindow))
+        pcrStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.updateExposureWindowsUntilTestResult(listOf(analyticsExposureWindow))
+        raStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+
+        pcrStorage.clear()
+
+        raStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+        pcrStorage.testRegisteredAt.first() shouldBe null
+
+        raStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+        pcrStorage.finalTestResultReceivedAt.first() shouldBe null
+
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe -1
+
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe -1
+
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe -1
+
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe -1
+
+        raStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        pcrStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+
+        raStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        pcrStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+
+        raStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+        pcrStorage.exposureWindowsAtTestRegistration.first() shouldBe null
+
+        raStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+        pcrStorage.exposureWindowsUntilTestResult.first() shouldBe null
+    }
+
+    @Test
+    fun `dataMixedRatPcr - clear RAT does clear PCR`() = runTest2 {
+        pcrStorage.updateTestRegisteredAt(Instant.ofEpochMilli(1000))
+        pcrStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+        raStorage.updateTestRegisteredAt(Instant.ofEpochMilli(1000))
+        raStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+
+        pcrStorage.updateFinalTestResultReceivedAt(Instant.ofEpochMilli(3000))
+        pcrStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+        raStorage.updateFinalTestResultReceivedAt(Instant.ofEpochMilli(3000))
+        raStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+
+        pcrStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        raStorage.updateEwDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(3)
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+
+        pcrStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        raStorage.updatePtDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(2)
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+
+        pcrStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.updateEwHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        pcrStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.updatePtHoursSinceHighRiskWarningAtTestRegistration(10)
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+
+        pcrStorage.updateEwRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        pcrStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.updateEwRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        raStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        pcrStorage.updatePtRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        pcrStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.updatePtRiskLevelAtTestRegistration(PpaData.PPARiskLevel.RISK_LEVEL_HIGH)
+        raStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+
+        pcrStorage.updateExposureWindowsAtTestRegistration(listOf(analyticsExposureWindow))
+        pcrStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.updateExposureWindowsAtTestRegistration(listOf(analyticsExposureWindow))
+        raStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+
+        pcrStorage.updateExposureWindowsUntilTestResult(listOf(analyticsExposureWindow))
+        pcrStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.updateExposureWindowsUntilTestResult(listOf(analyticsExposureWindow))
+        raStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
+
+        raStorage.clear()
+
+        pcrStorage.testRegisteredAt.first() shouldBe Instant.ofEpochMilli(1000)
+        raStorage.testRegisteredAt.first() shouldBe null
+
+        pcrStorage.finalTestResultReceivedAt.first() shouldBe Instant.ofEpochMilli(3000)
+        raStorage.finalTestResultReceivedAt.first() shouldBe null
+
+        pcrStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 3
+        raStorage.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe -1
+
+        pcrStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe 2
+        raStorage.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.first() shouldBe -1
+
+        pcrStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.ewHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe -1
+
+        pcrStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe 10
+        raStorage.ptHoursSinceHighRiskWarningAtTestRegistration.first() shouldBe -1
+
+        pcrStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.ewRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+
+        pcrStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
+        raStorage.ptRiskLevelAtTestRegistration.first() shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
+
+        pcrStorage.exposureWindowsAtTestRegistration.first() shouldBe listOf(analyticsExposureWindow)
+        raStorage.exposureWindowsAtTestRegistration.first() shouldBe null
+
         pcrStorage.exposureWindowsUntilTestResult.first() shouldBe listOf(analyticsExposureWindow)
         raStorage.exposureWindowsUntilTestResult.first() shouldBe null
     }
