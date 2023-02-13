@@ -53,7 +53,6 @@ open class AnalyticsTestResultSettings(
     val testRegisteredAt = dataStore.dataRecovering.distinctUntilChanged(
         key = longPreferencesKey(PREFS_KEY_TEST_REGISTERED_AT + sharedPrefKeySuffix), defaultValue = 0L
     ).map { value ->
-        Timber.d(sharedPrefKeySuffix)
         if (value != 0L) {
             Instant.ofEpochMilli(value)
         } else null
