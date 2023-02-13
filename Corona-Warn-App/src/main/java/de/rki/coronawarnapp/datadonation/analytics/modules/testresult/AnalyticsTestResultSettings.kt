@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -9,13 +10,16 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.datadonation.analytics.common.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsRAKeySubmissionStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
-import de.rki.coronawarnapp.util.datastore.clear
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.datastore.dataRecovering
 import de.rki.coronawarnapp.util.datastore.distinctUntilChanged
 import de.rki.coronawarnapp.util.datastore.trySetValue
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -185,7 +189,17 @@ open class AnalyticsTestResultSettings(
         value = mapper.writeValueAsString(value)
     )
 
-    suspend fun clear() = dataStore.clear()
+    suspend fun clear() {
+        Timber.tag(TAG).d("clear()")
+        val keys = dataStore.data.first().asMap().keys.filter {
+            if (sharedPrefKeySuffix.isEmpty()) {
+                it.name.endsWith(AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix).not()
+            } else {
+                it.name.endsWith(AnalyticsRAKeySubmissionStorage.sharedPrefKeySuffix)
+            }
+        }
+        dataStore.edit { prefs -> keys.forEach { key -> prefs.remove(key) } }
+    }
 
     companion object {
         private const val PREFS_KEY_TEST_RESULT = "testResultDonor.testResultAtRegistration" // wrong name legacy
@@ -214,3 +228,5 @@ open class AnalyticsTestResultSettings(
             "testResultDonor.exposureWindowsUntilTestResult"
     }
 }
+
+private val TAG = tag<AnalyticsTestResultSettings>()
