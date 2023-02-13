@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -56,7 +55,7 @@ class SubmissionTestResultConsentGivenFragment :
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.uiState.observe2(this) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
                 if (it.coronaTest is FamilyCoronaTest) {
@@ -69,9 +68,9 @@ class SubmissionTestResultConsentGivenFragment :
 
         setButtonOnClickListener()
 
-        viewModel.showCancelDialog.observe2(this) { showCancelDialog() }
+        viewModel.showCancelDialog.observe(viewLifecycleOwner) { showCancelDialog() }
 
-        viewModel.routeToScreen.observe2(this) {
+        viewModel.routeToScreen.observe(viewLifecycleOwner) {
             when (it) {
                 is SubmissionNavigationEvents.NavigateToSymptomIntroduction ->
                     findNavController().navigate(
@@ -95,7 +94,7 @@ class SubmissionTestResultConsentGivenFragment :
             }
         }
 
-        viewModel.showUploadDialog.observe2(this) {
+        viewModel.showUploadDialog.observe(viewLifecycleOwner) {
             uploadDialog.setState(it)
         }
     }

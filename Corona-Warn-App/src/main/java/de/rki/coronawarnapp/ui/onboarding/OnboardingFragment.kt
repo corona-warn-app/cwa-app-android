@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -31,9 +30,7 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
             onboardingButtonNext.setOnClickListener { goToOnboardingPrivacyFragment() }
             // only show link for German
             onboardingEasyLanguage.setOnClickListener { openEasyLanguageLink() }
-            viewModel.maxEncounterAgeInDays.observe2(this@OnboardingFragment) {
-                setExposureLoggingPeriod(it)
-            }
+            viewModel.maxEncounterAgeInDays.observe(viewLifecycleOwner) { setExposureLoggingPeriod(it) }
         }
     }
 

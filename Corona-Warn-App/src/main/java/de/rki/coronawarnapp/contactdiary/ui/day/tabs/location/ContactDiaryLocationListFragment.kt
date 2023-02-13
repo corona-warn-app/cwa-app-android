@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -55,12 +54,12 @@ class ContactDiaryLocationListFragment :
             }
         }
 
-        viewModel.uiList.observe2(this) {
+        viewModel.uiList.observe(viewLifecycleOwner) {
             locationListAdapter.update(it)
             binding.contactDiaryLocationListNoItemsGroup.isGone = it.isNotEmpty()
         }
 
-        viewModel.openDialog.observe2(this) {
+        viewModel.openDialog.observe(viewLifecycleOwner) {
             val durationPicker = DurationPicker.Builder()
                 .minutes(step = 10)
                 .duration(it)
@@ -72,7 +71,7 @@ class ContactDiaryLocationListFragment :
             }
         }
 
-        viewModel.openCommentInfo.observe2(this) {
+        viewModel.openCommentInfo.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 ContactDiaryDayFragmentDirections
                     .actionContactDiaryDayFragmentToContactDiaryCommentInfoFragment()

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.AnalyticsPpaUserinfoInputFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -49,13 +48,13 @@ class AnalyticsUserInputFragment : Fragment(R.layout.analytics_ppa_userinfo_inpu
             layoutManager = LinearLayoutManager(requireContext())
             adapter = itemAdapter
         }
-        vm.userInfoItems.observe2(this) {
+        vm.userInfoItems.observe(viewLifecycleOwner) {
             itemAdapter.data = it
         }
         itemAdapter.onItemClickListener = {
             vm.selectUserInfoItem(it)
         }
-        vm.finishEvent.observe2(this) { popBackStack() }
+        vm.finishEvent.observe(viewLifecycleOwner) { popBackStack() }
     }
 
     enum class InputType {

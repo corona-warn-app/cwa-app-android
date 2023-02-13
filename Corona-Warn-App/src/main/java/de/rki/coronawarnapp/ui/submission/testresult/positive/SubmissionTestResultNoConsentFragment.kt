@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -54,7 +53,7 @@ class SubmissionTestResultNoConsentFragment :
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
 
-        viewModel.uiState.observe2(this) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
             if (it.coronaTest is FamilyCoronaTest) {
                 binding.toolbar.title = getText(R.string.submission_test_result_headline)

@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.databinding.FragmentConfirmCheckInBinding
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.durationpicker.DurationPicker
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -71,14 +70,14 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             }
         }
 
-        viewModel.events.observe2(this) { navEvent ->
+        viewModel.events.observe(viewLifecycleOwner) { navEvent ->
             when (navEvent) {
                 ConfirmCheckInNavigation.BackNavigation -> popBackStack()
                 ConfirmCheckInNavigation.ConfirmNavigation -> popBackStack()
             }
         }
 
-        viewModel.uiState.observe2(this) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             with(binding) {
                 confirmCheckinInfoCardHeader.text = getString(uiState.typeRes)
                 confirmCheckinInfoCardTitle.text = uiState.description
@@ -98,7 +97,7 @@ class ConfirmCheckInFragment : Fragment(R.layout.fragment_confirm_check_in), Aut
             }
         }
 
-        viewModel.openDatePickerEvent.observe2(this) { time ->
+        viewModel.openDatePickerEvent.observe(viewLifecycleOwner) { time ->
             showDurationPicker(time) {
                 viewModel.durationUpdated(it)
             }

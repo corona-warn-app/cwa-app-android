@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -63,7 +62,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             }
 
             viewModel.apply {
-                stateLiveData.observe2(this@DccReissuanceConsentFragment) {
+                stateLiveData.observe(viewLifecycleOwner) {
                     reissuanceGroup.isVisible = it.divisionVisible
                     accompanyingCertificatesGroup.isVisible = it.accompanyingCertificatesVisible
                     listTitleText.text = it.listItemsTitle
@@ -82,7 +81,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     dccReissuanceAdapter.update(it.certificateList)
                 }
 
-                event.observe2(this@DccReissuanceConsentFragment) { event ->
+                event.observe(viewLifecycleOwner) { event ->
                     when (event) {
                         is DccReissuanceConsentViewModel.ReissuanceError -> {
                             agreeButton.isLoading = false

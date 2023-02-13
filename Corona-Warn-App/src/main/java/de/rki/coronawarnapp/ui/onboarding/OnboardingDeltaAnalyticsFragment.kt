@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.datadonation.analytics.ui.input.AnalyticsUserInputFragment
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -69,13 +68,13 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
                 )
             }
         }
-        viewModel.completedOnboardingEvent.observe2(this) {
+        viewModel.completedOnboardingEvent.observe(viewLifecycleOwner) {
             (requireActivity() as OnboardingActivity).completeOnboarding()
         }
-        viewModel.ageGroup.observe2(this) {
+        viewModel.ageGroup.observe(viewLifecycleOwner) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
         }
-        viewModel.federalState.observe2(this) {
+        viewModel.federalState.observe(viewLifecycleOwner) {
             binding.districtRow.visibility = if (it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) {
                 View.VISIBLE
             } else {
@@ -83,7 +82,7 @@ class OnboardingDeltaAnalyticsFragment : Fragment(R.layout.fragment_onboarding_d
             }
             binding.federalStateRowBody.text = getString(it.labelStringRes)
         }
-        viewModel.district.observe2(this) {
+        viewModel.district.observe(viewLifecycleOwner) {
             binding.districtRowBody.text = it?.districtName
                 ?: getString(R.string.analytics_userinput_district_unspecified)
         }

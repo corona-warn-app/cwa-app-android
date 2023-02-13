@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -32,9 +31,7 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            viewModel.maxEncounterAgeInDays.observe2(this@MainOverviewFragment) {
-                setExposureLoggingPeriod(it)
-            }
+            viewModel.maxEncounterAgeInDays.observe(viewLifecycleOwner) { setExposureLoggingPeriod(it) }
         }
     }
 

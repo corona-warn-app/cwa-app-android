@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FederalStateSelectionFragmentBinding
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -52,10 +51,10 @@ class FederalStateSelectionFragment : Fragment(R.layout.federal_state_selection_
         }
 
         viewModel.apply {
-            listItems.observe2(this@FederalStateSelectionFragment) {
+            listItems.observe(viewLifecycleOwner) {
                 itemAdapter.data = it
             }
-            event.observe2(this@FederalStateSelectionFragment) {
+            event.observe(viewLifecycleOwner) {
                 when (it) {
                     FederalStateSelectionViewModel.Events.FinishEvent -> findNavController().popBackStack(
                         R.id.mainFragment,

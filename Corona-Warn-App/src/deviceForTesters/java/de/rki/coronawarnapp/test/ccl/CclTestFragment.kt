@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
 import de.rki.coronawarnapp.test.ccl.CclTestViewModel.ForceUpdateUiState.Loading
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -35,7 +34,7 @@ class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
-            viewModel.dccWalletInfoList.observe2(this@CclTestFragment) { infoList ->
+            viewModel.dccWalletInfoList.observe(viewLifecycleOwner) { infoList ->
                 dccWalletInfoList.text = buildSpannedString {
                     infoList.forEachIndexed { index, info ->
                         append("$index: ")

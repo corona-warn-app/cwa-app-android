@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.TraceLocationOrganizerCategoryFragmentBi
 import de.rki.coronawarnapp.ui.presencetracing.organizer.category.adapter.TraceLocationCategoryAdapter
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.addTitleId
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -40,7 +39,7 @@ class TraceLocationCategoryFragment : Fragment(R.layout.trace_location_organizer
             addTitleId(R.id.trace_location_organizer_category_fragment_title_id)
         }
 
-        vm.categoryItems.observe2(this) { categoryItems ->
+        vm.categoryItems.observe(viewLifecycleOwner) { categoryItems ->
             val adapter = TraceLocationCategoryAdapter(categoryItems) {
                 findNavController().navigate(
                     TraceLocationCategoryFragmentDirections

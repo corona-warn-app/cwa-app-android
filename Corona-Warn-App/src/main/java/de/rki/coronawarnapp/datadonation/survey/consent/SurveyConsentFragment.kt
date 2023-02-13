@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.ui.dialog.CwaDialogFragment
 import de.rki.coronawarnapp.ui.dialog.displayDialog
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -42,7 +41,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
             surveyConsentMoreInfo.setOnClickListener { vm.onMoreInformationButtonPressed() }
         }
 
-        vm.routeToScreen.observe2(this) { event ->
+        vm.routeToScreen.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is SurveyConsentNavigationEvents.NavigateBack ->
                     activity?.onBackPressed()
@@ -59,7 +58,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
             }
         }
 
-        vm.showLoadingIndicator.observe2(this) { loading ->
+        vm.showLoadingIndicator.observe(viewLifecycleOwner) { loading ->
             if (loading) showSurveyProgressDialog()
             else {
                 val tag = SurveyConsentFragment::class.java.simpleName + CwaDialogFragment.TAG
@@ -68,7 +67,7 @@ class SurveyConsentFragment : Fragment(R.layout.survey_consent_fragment), AutoIn
             }
         }
 
-        vm.showErrorDialog.observe2(this) {
+        vm.showErrorDialog.observe(viewLifecycleOwner) {
             showErrorDialog(it.errorMessage.get(requireContext()))
         }
     }
